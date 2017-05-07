@@ -1083,14 +1083,28 @@ enum TrinityStrings
     LANG_DEBUG_SCENE_OBJECT_LIST        = 5068,
     LANG_DEBUG_SCENE_OBJECT_DETAIL      = 5069,
 
-    LANG_NPCINFO_UNIT_FIELD_FLAGS_2     = 5070,
-    LANG_NPCINFO_UNIT_FIELD_FLAGS_3     = 5071,
-    LANG_NPCINFO_NPC_FLAGS              = 5072,
-    LANG_NPC_RELOADED                   = 5073,
-    LANG_NPCS_RELOADED                  = 5074,
+    // Strings added for dynamic_spawning
+    LANG_SPAWNINFO_GROUP_ID             = 5070,
+    LANG_SPAWNINFO_COMPATIBILITY_MODE   = 5071,
+    LANG_SPAWNINFO_GUIDINFO             = 5072,
+    LANG_SPAWNINFO_SPAWNID_LOCATION     = 5073,
+    LANG_SPAWNINFO_DISTANCEFROMPLAYER   = 5074,
+    LANG_SPAWNGROUP_BADGROUP            = 5075,
+    LANG_SPAWNGROUP_SPAWNCOUNT          = 5076,
+    LANG_LIST_RESPAWNS_RANGE            = 5077,
+    LANG_LIST_RESPAWNS_ZONE             = 5078,
+    LANG_LIST_RESPAWNS_LISTHEADER       = 5079,
+    LANG_LIST_RESPAWNS_OVERDUE          = 5080,
+    LANG_LIST_RESPAWNS_CREATURES        = 5081,
+    LANG_LIST_RESPAWNS_GAMEOBJECTS      = 5082,
 
-    // Room for more Trinity strings      5073-9999
+    LANG_NPCINFO_UNIT_FIELD_FLAGS_2     = 5084,
+    LANG_NPCINFO_UNIT_FIELD_FLAGS_3     = 5085,
+    LANG_NPCINFO_NPC_FLAGS              = 5086,
+    LANG_NPC_RELOADED                   = 5087,
+    LANG_NPCS_RELOADED                  = 5088,
 
+    // Room for more Trinity strings      5089-6603
     // Level requirement notifications
     LANG_SAY_REQ                        = 6604,
     LANG_WHISPER_REQ                    = 6605,

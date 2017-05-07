@@ -660,7 +660,8 @@ void BossAI::_Reset()
     me->GetScheduler().CancelAll();
     if (instance)
     {
-        instance->SetBossState(_bossId, NOT_STARTED);
+        if (instance->GetBossState(_bossId) != DONE)
+            instance->SetBossState(_bossId, NOT_STARTED);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_INSTANCE_END, me);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_UPDATE_ALLOWING_RELEASE, me, false);
@@ -790,12 +791,12 @@ bool BossAI::CanAIAttack(Unit const* target) const
     return CheckBoundary(target);
 }
 
-void BossAI::_DespawnAtEvade(uint32 delayToRespawn, Creature* who)
+void BossAI::_DespawnAtEvade(Seconds delayToRespawn, Creature* who)
 {
-    if (delayToRespawn < 2)
+    if (delayToRespawn < Seconds(2))
     {
-        TC_LOG_ERROR("scripts", "_DespawnAtEvade called with delay of %u seconds, defaulting to 2.", delayToRespawn);
-        delayToRespawn = 2;
+        TC_LOG_ERROR("scripts", "_DespawnAtEvade called with delay of " SI64FMTD " seconds, defaulting to 2.", delayToRespawn.count());
+        delayToRespawn = Seconds(2);
     }
 
     if (!who)

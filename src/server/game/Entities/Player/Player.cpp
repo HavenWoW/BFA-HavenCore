@@ -7769,6 +7769,8 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
                 oldZoneScript->OnPlayerExit(this);
     }
 
+    GetMap()->UpdatePlayerZoneStats(m_zoneUpdateId, newZone);
+
     // group update
     if (GetGroup())
     {

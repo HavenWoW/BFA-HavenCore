@@ -1839,14 +1839,41 @@ uint32 ScriptMgr::GetDialogStatus(Player* player, Creature* creature)
     return tmpscript->GetDialogStatus(player, creature);
 }
 
-bool ScriptMgr::CanSpawn(ObjectGuid::LowType spawnId, uint32 entry, CreatureTemplate const* actTemplate, CreatureData const* cData, Map const* map)
+bool ScriptMgr::CanSpawn(ObjectGuid::LowType spawnId, uint32 entry, CreatureData const* cData, Map const* map)
 {
-    ASSERT(actTemplate);
-
+    ASSERT(map);
     CreatureTemplate const* baseTemplate = sObjectMgr->GetCreatureTemplate(entry);
-    if (!baseTemplate)
-        baseTemplate = actTemplate;
-    GET_SCRIPT_RET(CreatureScript, (cData ? cData->ScriptId : baseTemplate->ScriptID), tmpscript, true);
+    ASSERT(baseTemplate);
+
+    // find out which template we'd be using
+    CreatureTemplate const* actTemplate = nullptr;
+    DifficultyEntry const* difficultyEntry = sDifficultyStore.LookupEntry(map->GetDifficultyID());
+    while (!actTemplate && difficultyEntry)
+    {
+        int32 idx = CreatureTemplate::DifficultyIDToDifficultyEntryIndex(difficultyEntry->ID);
+        if (idx == -1)
+            break;
+
+        if (baseTemplate->DifficultyEntry[idx])
+        {
+            actTemplate = sObjectMgr->GetCreatureTemplate(baseTemplate->DifficultyEntry[idx]);
+            break;
+        }
+
+        if (!difficultyEntry->FallbackDifficultyID)
+            break;
+
+        difficultyEntry = sDifficultyStore.LookupEntry(difficultyEntry->FallbackDifficultyID);
+    }
+
+    if (!actTemplate)
+        actTemplate = baseTemplate;
+
+    uint32 scriptId = baseTemplate->ScriptID;
+    if (cData && cData->scriptId)
+        scriptId = cData->scriptId;
+
+    GET_SCRIPT_RET(CreatureScript, scriptId, tmpscript, true);
     return tmpscript->CanSpawn(spawnId, entry, baseTemplate, actTemplate, cData, map);
 }
 

@@ -76,7 +76,7 @@ enum
     SPELL_FURY_OF_GOLGANNETH = 246739,
 };
 
-struct SpawnData
+struct ShivarraSpawnData
 {
     uint32 event, npcId;
     float X;
@@ -85,7 +85,7 @@ struct SpawnData
     float orientation;
 };
 
-SpawnData const spawnData[] =
+ShivarraSpawnData const spawnData[] =
 {
 { EVENT_STEP_1, NPC_TORMENT_OF_NORGANNON, -12672.9f, -2809.39f, 2476.12f, 6.22161f },
 { EVENT_STEP_1, NPC_TORMENT_OF_NORGANNON, -12593.7f, -2809.54f, 2476.12f, 3.12464f },
@@ -142,7 +142,7 @@ struct boss_noura_mother_of_flames : public BossAI
       //LoadTalkData(talkData);
     }
 
-    void LoadNPC(uint32 event, const SpawnData* data)
+    void LoadNPC(uint32 event, const ShivarraSpawnData* data)
     {
         while (data->event)
         {

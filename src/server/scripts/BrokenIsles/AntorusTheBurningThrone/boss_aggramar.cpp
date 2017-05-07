@@ -90,7 +90,7 @@ TalkData const talkData[] =
     { EVENT_ON_MOVEINLINEOFSIGHT,       EVENT_TYPE_CONVERSATION, 5745 },
 };
 
-struct SpawnData
+struct AggramarSpawnData
 {
     uint32 event, npcId;
     float X;
@@ -99,7 +99,7 @@ struct SpawnData
     float orientation;
 };
 
-SpawnData const spawnData[] =
+AggramarSpawnData const spawnData[] =
 {
     { EVNET_PHASE_2, NPC_EMBER_OF_TAESHALACH, -12679.456f, -2254.8264f, 2514.2646f, 0.0f },
     { EVNET_PHASE_2, NPC_EMBER_OF_TAESHALACH, -12588.12f,  -2254.8215f, 2514.6276f, 3.101369f },
@@ -117,7 +117,7 @@ struct boss_aggramar : public BossAI
       //  LoadTalkData(talkData);
     }
 
-    void LoadNPC(uint32 event, const SpawnData* data)
+    void LoadNPC(uint32 event, const AggramarSpawnData* data)
     {
         while (data->event)
         {

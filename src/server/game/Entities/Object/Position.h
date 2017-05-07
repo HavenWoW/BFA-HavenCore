@@ -238,15 +238,9 @@ public:
         return GetExactDist2dSq(pos) < dist * dist;
     }
 
-    bool IsInDist(float x, float y, float z, float dist) const
-    {
-        return GetExactDistSq(x, y, z) < dist * dist;
-    }
-
-    bool IsInDist(Position const* pos, float dist) const
-    {
-        return GetExactDistSq(pos) < dist * dist;
-    }
+    bool IsInDist(float x, float y, float z, float dist) const { return GetExactDistSq(x, y, z) < dist * dist; }
+    bool IsInDist(Position const& pos, float dist) const { return GetExactDistSq(pos) < dist * dist; }
+    bool IsInDist(Position const* pos, float dist) const { return GetExactDistSq(pos) < dist * dist; }
 
     bool IsWithinBox(const Position& center, float xradius, float yradius, float zradius) const;
     bool HasInArc(float arcangle, Position const* pos, float border = 2.0f) const;
@@ -273,12 +267,9 @@ public:
     WorldLocation(uint32 mapId, Position const& position)
         : Position(position), m_mapId(mapId) { }
 
-    void WorldRelocate(WorldLocation const& loc)
-    {
-        m_mapId = loc.GetMapId();
-        Relocate(loc);
-    }
-
+    void WorldRelocate(WorldLocation const& loc) { m_mapId = loc.GetMapId(); Relocate(loc); }
+    void WorldRelocate(WorldLocation const* loc) { m_mapId = loc->GetMapId(); Relocate(loc); }
+    void WorldRelocate(uint32 mapId, Position const& pos) { m_mapId = mapId; Relocate(pos); }
     void WorldRelocate(uint32 mapId = MAPID_INVALID, float x = 0.f, float y = 0.f, float z = 0.f, float o = 0.f)
     {
         m_mapId = mapId;

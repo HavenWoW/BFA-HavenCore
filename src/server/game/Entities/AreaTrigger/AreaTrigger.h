@@ -69,7 +69,7 @@ public:
     public:
         static AreaTrigger* CreateAreaTrigger(uint32 spellMiscId, Unit* caster, Unit* target, SpellInfo const* spell, Position const& pos, int32 duration, uint32 spellXSpellVisualId, ObjectGuid const& castId = ObjectGuid::Empty, AuraEffect const* aurEff = nullptr);
         static AreaTrigger* CreateAreaTrigger(uint32 spellMiscId, Unit* caster, uint32 spellId, Position const& pos, int32 duration, float radius, float angle, uint32 timeToTarget, bool canLoop = true, bool counterClockwise = false);
-        bool LoadFromDB(ObjectGuid::LowType guid, Map* map);
+        bool LoadFromDB(ObjectGuid::LowType guid, Map* map, bool = false, bool = true);
 
         void Update(uint32 diff) override;
         void Remove();

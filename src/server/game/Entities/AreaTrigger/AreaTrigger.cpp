@@ -90,7 +90,7 @@ void AreaTrigger::RemoveFromWorld()
     }
 }
 
-bool AreaTrigger::LoadFromDB(ObjectGuid::LowType guidLow, Map* map)
+bool AreaTrigger::LoadFromDB(ObjectGuid::LowType guidLow, Map* map, bool /*addToMap*/, bool /*allowDuplicate*/)
 {
     AreaTriggerDataStore::AreaTriggerDataList const* areaTriggerList = sAreaTriggerDataStore->GetStaticAreaTriggersByMap(map->GetId());
     if (!areaTriggerList)

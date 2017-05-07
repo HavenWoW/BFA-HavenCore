@@ -59,13 +59,13 @@ Position eastern = { -10574.7998f,8024.12f,1873.14f,1.57f };
 //Stage: Deployment
 //Stage: Construction
 
-struct SpawnData
+struct KingarothSpawnData
 {
     uint32 event, npcId;
     Position pos;
 };
 
-SpawnData const spawnData[] =
+KingarothSpawnData const spawnData[] =
 {
     { EVENT_1, NPC_GAROTHI_DEMOLISHER, northwestern },
     { EVENT_1, NPC_GAROTHI_DECIMATOR, southwestern },
@@ -125,7 +125,7 @@ struct boss_kingaroth : public BossAI
         }
     }
 
-    void LoadNPC(uint32 event, const SpawnData* data)
+    void LoadNPC(uint32 event, const KingarothSpawnData* data)
     {
         while (data->event)
         {
