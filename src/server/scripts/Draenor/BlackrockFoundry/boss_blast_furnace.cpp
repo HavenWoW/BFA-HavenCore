@@ -668,7 +668,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                     }
                     case eEvents::EventHeat:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                         {
                             /// Tempered will increase its efficacy when Heat is initially applied to you.
                             if (!l_Target->HasAura(eSpells::Heat))
@@ -2199,8 +2199,8 @@ class npc_foundry_slag_elemental : public CreatureScript
 
                         me->SetInCombatWithZone();
 
-                        me->getThreatManager().clearReferences();
-                        me->getThreatManager().addThreat(p_Target, std::numeric_limits<float>::max());
+                        me->GetThreatManager().clearReferences();
+                        me->GetThreatManager().AddThreat(p_Target, std::numeric_limits<float>::max());
 
                         me->TauntApply(p_Target);
 

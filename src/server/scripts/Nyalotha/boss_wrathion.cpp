@@ -274,7 +274,7 @@ private:
             {
                 Talk(SAY_INCINERATION);
                 UnitList u_li;
-                SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+                SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
                 for (Unit* targets : u_li)
                 {
                     me->CastSpell(targets, SPELL_INCINERATION, true);
@@ -375,7 +375,7 @@ private:
             case SPELL_GALE_BLAST:
             {
                 UnitList u_li;
-                SelectTargetList(u_li, 5, SELECT_TARGET_RANDOM, 100.f, true);
+                SelectTargetList(u_li, 5, SELECT_TARGET_RANDOM, 0, 100.f, true);
                 for (Unit* targets : u_li)
                 {
                     AddTimedDelayedOperation(1000, [this, targets]() -> void

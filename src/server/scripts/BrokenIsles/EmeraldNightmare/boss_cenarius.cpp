@@ -670,8 +670,8 @@ struct npc_cenarius_forces_of_nightmare : public ScriptedAI
         //if (pTarget)
         {
             switchTarget = true;
-            DoResetThreat();
-            //me->AddThreat(pTarget, 10000.0f);
+            ResetThreatList();
+            //me->GetThreatManager().AddThreat(pTarget, 10000.0f);
             //AttackStart();
             events.RescheduleEvent(1, 2000);
         }

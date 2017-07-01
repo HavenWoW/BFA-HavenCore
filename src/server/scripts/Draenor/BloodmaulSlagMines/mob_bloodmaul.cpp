@@ -134,7 +134,7 @@ namespace Instances { namespace Bloodmaul
 
                 void EnterCombat(Unit* target) override
                 {
-                    me->getThreatManager().addThreat(target, 1000.0f);
+                    me->GetThreatManager().AddThreat(target, 1000.0f);
 
                     m_Events.Reset();
 
@@ -655,7 +655,7 @@ namespace Instances { namespace Bloodmaul
                     switch (events.ExecuteEvent())
                     {
                         case uint32(Events::ChainGrip):
-                            if (Unit* l_Plr = SelectTarget(SELECT_TARGET_FARTHEST, 0, 5.0f))
+                            if (Unit* l_Plr = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 5.0f))
                                 me->CastSpell(l_Plr, uint32(Spells::ChainGrip));
                             events.ScheduleEvent(uint32(Events::ChainGrip), urand(16000, 18000));
                             break;
@@ -761,7 +761,7 @@ namespace Instances { namespace Bloodmaul
                             events.ScheduleEvent(uint32(Events::Crush), urand(10000, 11000));
                             break;
                         case uint32(Events::LumberingLeap):
-                            if (Unit* l_Plr = SelectTarget(SELECT_TARGET_FARTHEST, 0, 8.0f))
+                            if (Unit* l_Plr = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 8.0f))
                             {
                                 m_TargetGUID = l_Plr->GetGUID();
                                 me->CastSpell(l_Plr, uint32(Spells::LumberingLeap));

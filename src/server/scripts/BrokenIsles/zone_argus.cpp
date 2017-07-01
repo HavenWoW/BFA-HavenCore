@@ -658,7 +658,7 @@ struct boss_matron_folnuna : public ScriptedAI
         switch (spell->Id)
         {
         case SPELL_GROTESQUE_SPAWN:
-            auto threatlist = me->getThreatManager().getThreatList();
+            auto threatlist = me->GetThreatManager().getThreatList();
             if (!threatlist.empty())
             {
                 auto& itr = Trinity::Containers::SelectRandomContainerElement(threatlist);

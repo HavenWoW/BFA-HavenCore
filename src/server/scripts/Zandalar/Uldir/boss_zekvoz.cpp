@@ -270,7 +270,7 @@ private:
                     titanBunny->GetScheduler().Schedule(100ms, [this](TaskContext context)
                     {
                         UnitList u_li;
-                        SelectTargetList(u_li, 10, SELECT_TARGET_RANDOM, 150.0f, true);
+                        SelectTargetList(u_li, 10, SELECT_TARGET_RANDOM, 0, 150.0f, true);
                         for (Unit* targets : u_li)
                         {
                             me->CastSpell(targets, SPELL_TITAN_SPARK_DAMAGE, true);
@@ -289,7 +289,7 @@ private:
             }
             case EVENT_MIGHT_OF_THE_VOID:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 30.0f, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 30.0f, true))
                 {
                     DoCast(target, SPELL_MIGHT_OF_THE_VOID, false);
                     me->GetScheduler().Schedule(3500ms, [this, target](TaskContext /*context*/)
@@ -337,7 +337,7 @@ private:
                     yoggProjection->AddAura(SPELL_ROILING_DECEIT_TRANSFORM);
 
                 UnitList u_li;
-                SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 150.0f, true);
+                SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 0, 150.0f, true);
                 for (Unit* targets : u_li)
                 {
                     me->CastSpell(targets, SPELL_ROILING_DECEIT_AURA, true);
@@ -427,7 +427,7 @@ struct npc_silithid_warrior : public ScriptedAI
         switch (eventId)
         {
         case EVENT_JAGGED_MANDIBLE:
-            if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 10.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 10.0f, true))
             {
                 me->AddAura(SPELL_JAGGED_MANDIBLE_AURA, target);
             }
@@ -882,7 +882,7 @@ private:
         me->GetMotionMaster()->MovePoint(1, x, y, z, false);
         me->GetScheduler().Schedule(17s, [this](TaskContext context)
         {            
-            if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 25.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 25.0f, true))
             {
                 if (Creature* zekvoz = me->FindNearestCreature(NPC_ZEKVOZ, 150.0f, true))
                 {

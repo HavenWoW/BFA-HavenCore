@@ -948,7 +948,7 @@ public:
                 switch (eventId)
                 {
                 case EVENT_SHOCKING_LIGHTNING:
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, true, 0))
                         me->CastSpell(target, SPELL_SHOCKING_LIGHTNING);
                     events.ScheduleEvent(EVENT_CONDUCTIVE_PULSE, TIMER_CONDUCTIVE_PULSE);
                     break;
@@ -1112,7 +1112,7 @@ public:
                 {
                 case EVENT_AQUA_LANCE:
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, true, 0))
                     {
                         std::ostringstream str;
                         str << target->GetName() << " has been targeted for |cFFF00000|h[Aqua Lance]|h|r";

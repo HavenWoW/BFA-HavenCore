@@ -309,7 +309,7 @@ public:
                     if (me->HasAura(SPELL_PATHOGEN_GLANDS))
                     {
                         std::list<Unit*> targets;
-                        SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                        SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                         if (!targets.empty())
                             if (targets.size() >= 1)
                                 targets.resize(1);
@@ -746,7 +746,7 @@ public:
         {
             me->GetMotionMaster()->MoveChase(summoner);
             //me->AI()->AttackStart(summoner);
-            //me->AddThreat(summoner, 99999999.9f);
+            //me->GetThreatManager().AddThreat(summoner, 99999999.9f);
         }
 
         void JustDied(Unit*)
@@ -946,7 +946,7 @@ public:
                     {
                         me->GetMotionMaster()->MoveChase(primordius);
                         //me->AI()->AttackStart(primordius);
-                        //me->AddThreat(primordius, 99999999.9f);
+                        //me->GetThreatManager().AddThreat(primordius, 99999999.9f);
                     }
                     break;
                 }

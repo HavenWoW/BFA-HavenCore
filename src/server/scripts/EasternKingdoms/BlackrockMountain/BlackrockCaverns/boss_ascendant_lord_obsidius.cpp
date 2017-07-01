@@ -148,8 +148,8 @@ public:
         {
             if (me->GetVictim() != attacker)
             {
-                DoResetThreat();
-                me->AddThreat(attacker, 1000000.0f);
+                ResetThreatList();
+                me->GetThreatManager().AddThreat(attacker, 1000000.0f);
                 me->Attack(attacker, true);
                 me->GetMotionMaster()->MoveChase(attacker);
             }

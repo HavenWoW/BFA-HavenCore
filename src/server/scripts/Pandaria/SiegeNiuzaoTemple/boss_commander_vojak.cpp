@@ -351,7 +351,7 @@ public:
                 case EVENT_LI_LO_CHU_EVADE:
                     me->RemoveAllAuras();
                     Reset();
-                    me->DeleteThreatList();
+                    me->GetThreatManager().ClearAllThreat();
                     me->CombatStop(true);
                     me->GetMotionMaster()->MoveTargetedHome();
                     break;

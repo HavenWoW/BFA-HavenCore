@@ -193,7 +193,7 @@ private:
 			break;
 		
 		case EVENT_NULLYFYING_STRIKE:
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 				me->CastSpell(target, SPELL_NULLYFYING_STRIKE, false);
 			events.Repeat(20s);
 			break;
@@ -208,7 +208,7 @@ private:
 			break;
 
 		case EVENT_DECAYING_STRIKE:
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 			{
 				me->CastSpell(target, SPELL_DECAYING_STRIKE, false);
 				me->AddAura(SPELL_DECAYING_WOUND, target);
@@ -231,7 +231,7 @@ private:
 			if (IsMythic())
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{					
 					me->CastSpell(targets->GetPosition(), SPELL_VOID_ERUPTION_MISSILE, true);
@@ -240,7 +240,7 @@ private:
 			else
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{					
 					me->CastSpell(targets->GetPosition(), SPELL_VOID_ERUPTION_MISSILE, true);
@@ -254,7 +254,7 @@ private:
 			if (IsMythic())
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 4, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 4, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{					
 					me->CastSpell(targets->GetPosition(), SPELL_CHARGED_BONDS, true);
@@ -263,7 +263,7 @@ private:
 			if (IsHeroic())
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->CastSpell(targets->GetPosition(), SPELL_CHARGED_BONDS, true);
@@ -272,7 +272,7 @@ private:
 			else
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->CastSpell(targets->GetPosition(), SPELL_CHARGED_BONDS, true);

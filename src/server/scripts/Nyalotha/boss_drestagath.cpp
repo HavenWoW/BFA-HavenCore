@@ -267,7 +267,7 @@ struct boss_drestagath : public BossAI
 			break;
 
 		case EVENT_VOLATILE_SEED:
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 				me->CastSpell(target, SPELL_VOLATILE_SEED, false);
 			events.Repeat(18s);
 			break;
@@ -459,7 +459,7 @@ struct npc_tentacle_of_drestagath : public ScriptedAI
 		switch (eventId)
 		{
 		case EVENT_CRUSHING_SLAM:
-			if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 5.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 5.0f, true))
 				me->CastSpell(target, SPELL_CRUSHING_SLAM, false);
 			events.Repeat(15s);
 			break;

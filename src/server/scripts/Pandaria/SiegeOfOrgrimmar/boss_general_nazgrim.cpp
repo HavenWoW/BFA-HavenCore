@@ -1013,7 +1013,7 @@ class npc_general_nazgrim_korkron_assassin : public CreatureScript
                 {
                     me->AddAura(SPELL_ASSASSINS_MARK, target);
                     me->AddAura(SPELL_STEALTH, me);
-                    me->AddThreat(target, 1000000.0f);
+                    me->GetThreatManager().AddThreat(target, 1000000.0f);
                     AttackStart(target);
                 }
 
@@ -1504,11 +1504,11 @@ class spell_general_nazgrim_heroic_shockwave_force : public SpellScriptLoader
                 {
                     std::list<Unit*> rangeTargets;
 
-                    pNazgrim->AI()->SelectTargetList(rangeTargets, 2, SELECT_TARGET_RANDOM, -15.0f, true);
+                    pNazgrim->AI()->SelectTargetList(rangeTargets, 2, SELECT_TARGET_RANDOM, 0, -15.0f, true);
 
                     if (rangeTargets.size() < 2)
                     {
-                        pNazgrim->AI()->SelectTargetList(rangeTargets, 2, SELECT_TARGET_RANDOM, 0.0f, true);
+                        pNazgrim->AI()->SelectTargetList(rangeTargets, 2, SELECT_TARGET_RANDOM, 0, 0.0f, true);
                     }
 
                     targets.clear();

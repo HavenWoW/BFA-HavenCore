@@ -183,7 +183,7 @@ struct npc_tank_buster_mk1 : public ScriptedAI
         switch (eventid)
         {
         case EVENT_WRECK:
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
             {
                 DoCast(target, SPELL_WRECK, false);
                 me->GetScheduler().Schedule(2900ms, [target, this] (TaskContext /*context*/)

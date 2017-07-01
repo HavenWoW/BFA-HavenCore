@@ -240,7 +240,7 @@ struct boss_maiden_of_vigilance : BossAI
         case SPELL_MASS_INSTABILITY:
         {
             uint32 spell = isFelNeed ? SPELL_FEL_INFUSION : SPELL_LIGHT_INFUSION;
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0,
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0,
                 [spell](Unit* targett)
             {
                 if (!targett->IsPlayer() || !targett->isAlive() || !targett->ToPlayer()->isInTankSpec())
@@ -356,7 +356,7 @@ struct boss_maiden_of_vigilance : BossAI
         if (me->HasAura(SPELL_WRATH_OF_THE_CREATORS))
         {
             bool needEvade = true;
-            auto list = me->getThreatManager().getThreatList();
+            auto list = me->GetThreatManager().getThreatList();
             for (auto& itr : list)
                 if (Unit* target = itr->getTarget())
                     if (target->IsPlayer() && target->IsAlive())

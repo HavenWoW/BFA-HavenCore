@@ -1147,9 +1147,9 @@ class npc_iron_juggernaut_sawblade_ricochet : public CreatureScript
                     GetPositionUnderJuggernautClaw(pJaggernaut, spawnPos, true);
 
                     std::list<Unit*> targets;
-                    pJaggernaut->AI()->SelectTargetList(targets, RICOCHET_COUNT, SELECT_TARGET_RANDOM, -BOSS_RANGE_TARGETS_DIST, true);
+                    pJaggernaut->AI()->SelectTargetList(targets, RICOCHET_COUNT, SELECT_TARGET_RANDOM, 0, -BOSS_RANGE_TARGETS_DIST, true);
                     if (targets.size() < RICOCHET_COUNT)
-                        pJaggernaut->AI()->SelectTargetList(targets, RICOCHET_COUNT, SELECT_TARGET_RANDOM, 0.0f, true);
+                        pJaggernaut->AI()->SelectTargetList(targets, RICOCHET_COUNT, SELECT_TARGET_RANDOM, 0, 0.0f, true);
 
                     if (targets.size() > RICOCHET_COUNT)
                         Trinity::Containers::RandomResize(targets, RICOCHET_COUNT);
@@ -1292,11 +1292,11 @@ class spell_iron_juggernaut_borer_drill : public SpellScriptLoader
                     if (Creature* pCreature = GetCaster()->ToCreature())
                     {
                          // boss's size is 16.f, so -1.0f is like -17.0f
-                        pCreature->AI()->SelectTargetList(targets, BORER_DRILL_COUNT, SELECT_TARGET_RANDOM, -BOSS_RANGE_TARGETS_DIST, true);
+                        pCreature->AI()->SelectTargetList(targets, BORER_DRILL_COUNT, SELECT_TARGET_RANDOM, 0, -BOSS_RANGE_TARGETS_DIST, true);
 
                         if (targets.size() < BORER_DRILL_COUNT)
                         {
-                            pCreature->AI()->SelectTargetList(targets, BORER_DRILL_COUNT, SELECT_TARGET_RANDOM, 15.0f, true);
+                            pCreature->AI()->SelectTargetList(targets, BORER_DRILL_COUNT, SELECT_TARGET_RANDOM, 0, 15.0f, true);
                         }
                     }
 
@@ -1566,11 +1566,11 @@ class spell_iron_juggernaut_crawler_mine_aoe : public SpellScriptLoader
                 {
                     std::list<Unit*> rangeTargets;
                     // boss's size is 16.f, so -1.0f is like -17.0f
-                    pJaggernaut->AI()->SelectTargetList(rangeTargets, MAX_CRAWLER_MINES, SELECT_TARGET_RANDOM, -BOSS_RANGE_TARGETS_DIST, true);
+                    pJaggernaut->AI()->SelectTargetList(rangeTargets, MAX_CRAWLER_MINES, SELECT_TARGET_RANDOM, 0, -BOSS_RANGE_TARGETS_DIST, true);
 
                     if (rangeTargets.size() < MAX_CRAWLER_MINES)
                     {
-                        pJaggernaut->AI()->SelectTargetList(rangeTargets, MAX_CRAWLER_MINES, SELECT_TARGET_RANDOM, 15.0f, true);
+                        pJaggernaut->AI()->SelectTargetList(rangeTargets, MAX_CRAWLER_MINES, SELECT_TARGET_RANDOM, 0, 15.0f, true);
                     }
 
                     targets.clear();
@@ -1651,11 +1651,11 @@ class spell_iron_juggernaut_demolisher_cannons_aoe : public SpellScriptLoader
 
                 std::list<Unit*> rangeTargets;
                 // boss's size is 16.f, so -1.0f is like -17.0f
-                pJaggernaut->AI()->SelectTargetList(rangeTargets, maxTargetsCount, SELECT_TARGET_RANDOM, -BOSS_RANGE_TARGETS_DIST, true);
+                pJaggernaut->AI()->SelectTargetList(rangeTargets, maxTargetsCount, SELECT_TARGET_RANDOM, 0, -BOSS_RANGE_TARGETS_DIST, true);
 
                 if (rangeTargets.size() < maxTargetsCount)
                 {
-                    pJaggernaut->AI()->SelectTargetList(rangeTargets, maxTargetsCount, SELECT_TARGET_RANDOM, 15.0f, true);
+                    pJaggernaut->AI()->SelectTargetList(rangeTargets, maxTargetsCount, SELECT_TARGET_RANDOM, 0, 15.0f, true);
                 }
 
                 targets.clear();

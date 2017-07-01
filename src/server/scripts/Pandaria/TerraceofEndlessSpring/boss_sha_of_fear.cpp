@@ -828,10 +828,10 @@ public:
                         if (me->GetVictim() && me->GetVictim()->GetGUID() != target->GetGUID())
                         {
                             me->TauntFadeOut(me->GetVictim());
-                            DoResetThreat();
+                            ResetThreatList();
                             AttackStart(target);
                             me->TauntApply(target);
-                            me->AddThreat(target, 5000000.0f);
+                            me->GetThreatManager().AddThreat(target, 5000000.0f);
                         }
                     }
 
@@ -917,7 +917,7 @@ public:
                         if (Creature* trigger = me->SummonCreature(60942, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 5000))
                         {
                             me->SetFacingToObject(trigger);
-                            me->AddThreat(trigger, 9.9999999f);
+                            me->GetThreatManager().AddThreat(trigger, 9.9999999f);
                             me->CastSpell(trigger, SPELL_IMPLACABLE_STRIKE);
                         }
                         events.ScheduleEvent(EVENT_RETURN_TO_COMBAT, 4000, 0, 0);
@@ -1227,7 +1227,7 @@ public:
         void CastHuddleInTerror25()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 5, SELECT_TARGET_FARTHEST, 1000.0f, true);
+            SelectTargetList(targets, 5, SELECT_TARGET_MAXDISTANCE, 0, 1000.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                 {
@@ -1241,7 +1241,7 @@ public:
         void CastHuddleInTerror10()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 3, SELECT_TARGET_FARTHEST, 1000.0f, true);
+            SelectTargetList(targets, 3, SELECT_TARGET_MAXDISTANCE, 0, 1000.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                 {
@@ -1255,7 +1255,7 @@ public:
         void CastWaterspout10()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 1000.0f, true);
+            SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 0, 1000.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     (*itr)->AddAura(SPELL_WATERSPOUT, (*itr));
@@ -1266,7 +1266,7 @@ public:
         void CastWaterspout25()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 3, SELECT_TARGET_RANDOM, 1000.0f, true);
+            SelectTargetList(targets, 3, SELECT_TARGET_RANDOM, 0, 1000.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     (*itr)->AddAura(SPELL_WATERSPOUT, (*itr));
@@ -2130,7 +2130,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread);
-                    me->AddThreat(dread, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread, 9999999999.0f);
                     me->AI()->AttackStart(dread);
                     me->SetOrientation(4.33f);
                     me->SetFacingTo(4.33f);
@@ -2146,7 +2146,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //->SetTarget(0);
                     me->SetFacingToObject(dread1);
-                    me->AddThreat(dread1, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread1, 9999999999.0f);
                     me->AI()->AttackStart(dread1);
                     me->SetOrientation(1.18f);
                     me->SetFacingTo(1.18f);
@@ -2162,7 +2162,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread3);
-                    me->AddThreat(dread3, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread3, 9999999999.0f);
                     me->AI()->AttackStart(dread3);
                     me->SetOrientation(1.18f);
                     me->SetFacingTo(1.18f);
@@ -2178,7 +2178,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread4);
-                    me->AddThreat(dread4, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread4, 9999999999.0f);
                     me->AI()->AttackStart(dread4);
                     me->SetOrientation(4.33f);
                     me->SetFacingTo(4.33f);
@@ -2194,7 +2194,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread5);
-                    me->AddThreat(dread5, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread5, 9999999999.0f);
                     me->AI()->AttackStart(dread5);
                     me->SetOrientation(2.00f);
                     me->SetFacingTo(2.00f);
@@ -2210,7 +2210,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread6);
-                    me->AddThreat(dread6, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread6, 9999999999.0f);
                     me->AI()->AttackStart(dread6);
                     me->SetOrientation(2.00f);
                     me->SetFacingTo(2.00f);
@@ -2226,7 +2226,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     // me->SetTarget(0);
                     me->SetFacingToObject(dread7);
-                    me->AddThreat(dread7, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread7, 9999999999.0f);
                     me->AI()->AttackStart(dread7);
                     me->SetOrientation(2.00f);
                     me->SetFacingTo(2.00f);
@@ -2242,7 +2242,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread8);
-                    me->AddThreat(dread8, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread8, 9999999999.0f);
                     me->AI()->AttackStart(dread8);
                     me->SetOrientation(2.00f);
                     me->SetFacingTo(2.00f);
@@ -2258,7 +2258,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread9);
-                    me->AddThreat(dread9, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread9, 9999999999.0f);
                     me->AI()->AttackStart(dread9);
                     me->SetOrientation(2.72f);
                     me->SetFacingTo(2.72f);
@@ -2274,7 +2274,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     // me->SetTarget(0);
                     me->SetFacingToObject(dread10);
-                    me->AddThreat(dread10, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread10, 9999999999.0f);
                     me->AI()->AttackStart(dread10);
                     me->SetOrientation(2.72f);
                     me->SetFacingTo(2.72f);
@@ -2290,7 +2290,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread11);
-                    me->AddThreat(dread11, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread11, 9999999999.0f);
                     me->AI()->AttackStart(dread11);
                     me->SetOrientation(2.72f);
                     me->SetFacingTo(2.72f);
@@ -2306,7 +2306,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread12);
-                    me->AddThreat(dread12, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread12, 9999999999.0f);
                     me->AI()->AttackStart(dread12);
                     me->SetOrientation(2.72f);
                     me->SetFacingTo(2.72f);
@@ -2321,7 +2321,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dread13 = me->SummonCreature(60942, -1234.26f, -2832.70f, 41.27f, 3.56f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dread13);
-                    me->AddThreat(dread13, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread13, 9999999999.0f);
                     me->AI()->AttackStart(dread13);
                     me->SetOrientation(3.56f);
                     me->SetFacingTo(3.56f);
@@ -2338,7 +2338,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
 
                     me->SetFacingToObject(dread14);
-                    me->AddThreat(dread14, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread14, 9999999999.0f);
                     me->AI()->AttackStart(dread14);
                     me->SetOrientation(0.40f);
                     me->SetFacingTo(0.40f);
@@ -2353,7 +2353,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dread15 = me->SummonCreature(60942, -1194.13f, -2817.33f, 41.27f, 0.40f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dread15);
-                    me->AddThreat(dread15, 9999999999.0f);
+                    me->GetThreatManager().AddThreat(dread15, 9999999999.0f);
                     me->AI()->AttackStart(dread15);
                     me->SetOrientation(0.40f);
                     me->SetFacingTo(0.40f);
@@ -2369,7 +2369,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 {
                     //me->SetTarget(0);
                     me->SetFacingToObject(dread16);
-                    me->AddThreat(dread16, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dread16, 9.9999999f);
                     me->AI()->AttackStart(dread16);
                     me->SetOrientation(3.56f);
                     me->SetFacingTo(3.56f);
@@ -2383,7 +2383,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads1 = me->SummonCreature(60942, -851.40f, -2749.25f, 31.70f, 3.40f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads1);
-                    me->AddThreat(dreads1, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads1, 9.9999999f);
                     me->AI()->AttackStart(dreads1);
                     me->SetOrientation(3.40f);
                     me->SetFacingTo(3.40f);
@@ -2397,7 +2397,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads2 = me->SummonCreature(60942, -849.71f, -2732.63f, 31.70f, 2.52f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads2);
-                    me->AddThreat(dreads2, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads2, 9.9999999f);
                     me->AI()->AttackStart(dreads2);
                     me->SetOrientation(2.52f);
                     me->SetFacingTo(2.52f);
@@ -2411,7 +2411,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads3 = me->SummonCreature(60942, -821.18f, -2729.04f, 31.70f, 0.87f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads3);
-                    me->AddThreat(dreads3, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads3, 9.9999999f);
                     me->AI()->AttackStart(dreads3);
                     me->SetOrientation(0.87f);
                     me->SetFacingTo(0.87f);
@@ -2425,7 +2425,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads4 = me->SummonCreature(60942, -812.44f, -2741.92f, 31.70f, 0.19f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads4);
-                    me->AddThreat(dreads4, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads4, 9.9999999f);
                     me->AI()->AttackStart(dreads4);
                     me->SetOrientation(0.19f);
                     me->SetFacingTo(0.19f);
@@ -2439,7 +2439,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads5 = me->SummonCreature(60942, -836.01f, -2726.12f, 31.70f, 1.75f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads5);
-                    me->AddThreat(dreads5, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads5, 9.9999999f);
                     me->AI()->AttackStart(dreads5);
                     me->SetOrientation(1.75f);
                     me->SetFacingTo(1.75f);
@@ -2453,7 +2453,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads6 = me->SummonCreature(60942, -820.79f, -2729.70f, 31.70f, 0.86f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads6);
-                    me->AddThreat(dreads6, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads6, 9.9999999f);
                     me->AI()->AttackStart(dreads6);
                     me->SetOrientation(0.86f);
                     me->SetFacingTo(0.86f);
@@ -2467,7 +2467,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads7 = me->SummonCreature(60942, -816.08f, -2756.60f, 31.70f, 5.62f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads7);
-                    me->AddThreat(dreads7, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads7, 9.9999999f);
                     me->AI()->AttackStart(dreads7);
                     me->SetOrientation(5.62f);
                     me->SetFacingTo(5.62f);
@@ -2481,7 +2481,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads8 = me->SummonCreature(60942, -828.26f, -2765.74f, 31.70f, 4.86f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads8);
-                    me->AddThreat(dreads8, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads8, 9.9999999f);
                     me->AI()->AttackStart(dreads8);
                     me->SetOrientation(4.86f);
                     me->SetFacingTo(4.86f);
@@ -2495,7 +2495,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads9 = me->SummonCreature(60942, -812.54f, -2741.03f, 31.70f, 0.08f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads9);
-                    me->AddThreat(dreads9, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads9, 9.9999999f);
                     me->AI()->AttackStart(dreads9);
                     me->SetOrientation(0.08f);
                     me->SetFacingTo(0.08f);
@@ -2509,7 +2509,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads10 = me->SummonCreature(60942, -815.97f, -2756.46f, 31.70f, 5.74f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads10);
-                    me->AddThreat(dreads10, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads10, 9.9999999f);
                     me->AI()->AttackStart(dreads10);
                     me->SetOrientation(5.74f);
                     me->SetFacingTo(5.74f);
@@ -2523,7 +2523,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads11 = me->SummonCreature(60942, -843.77f, -2762.26f, 31.70f, 4.08f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads11);
-                    me->AddThreat(dreads11, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads11, 9.9999999f);
                     me->AI()->AttackStart(dreads11);
                     me->SetOrientation(4.08f);
                     me->SetFacingTo(4.08f);
@@ -2537,7 +2537,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads12 = me->SummonCreature(60942, -851.19f, -2748.67f, 31.70f, 3.28f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads12);
-                    me->AddThreat(dreads12, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads12, 9.9999999f);
                     me->AI()->AttackStart(dreads12);
                     me->SetOrientation(3.28f);
                     me->SetFacingTo(3.28f);
@@ -2551,7 +2551,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads13 = me->SummonCreature(60942, -828.93f, -2764.36f, 31.70f, 4.87f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads13);
-                    me->AddThreat(dreads13, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads13, 9.9999999f);
                     me->AI()->AttackStart(dreads13);
                     me->SetOrientation(4.87f);
                     me->SetFacingTo(4.87f);
@@ -2565,7 +2565,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads14 = me->SummonCreature(60942, -842.89f, -2762.34f, 31.70f, 4.10f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads14);
-                    me->AddThreat(dreads14, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads14, 9.9999999f);
                     me->AI()->AttackStart(dreads14);
                     me->SetOrientation(4.10f);
                     me->SetFacingTo(4.10f);
@@ -2579,7 +2579,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads15 = me->SummonCreature(60942, -849.22f, -2733.77f, 31.70f, 2.50f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads15);
-                    me->AddThreat(dreads15, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads15, 9.9999999f);
                     me->AI()->AttackStart(dreads15);
                     me->SetOrientation(2.50f);
                     me->SetFacingTo(2.50f);
@@ -2593,7 +2593,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreads16 = me->SummonCreature(60942, -835.79f, -2723.76f, 31.70f, 1.73f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreads16);
-                    me->AddThreat(dreads16, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreads16, 9.9999999f);
                     me->AI()->AttackStart(dreads16);
                     me->SetOrientation(1.73f);
                     me->SetFacingTo(1.73f);
@@ -2606,7 +2606,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz1 = me->SummonCreature(60942, -1078.83f, -2557.93f, 15.87f, 1.73f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz1);
-                    me->AddThreat(dreadz1, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz1, 9.9999999f);
                     me->AI()->AttackStart(dreadz1);
                     me->SetOrientation(1.73f);
                     me->SetFacingTo(1.73f);
@@ -2620,7 +2620,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz2 = me->SummonCreature(60942, -1058.56f, -2589.18f, 15.87f, 5.69f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz2);
-                    me->AddThreat(dreadz2, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz2, 9.9999999f);
                     me->AI()->AttackStart(dreadz2);
                     me->SetOrientation(5.69f);
                     me->SetFacingTo(5.69f);
@@ -2634,7 +2634,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz3 = me->SummonCreature(60942, -1071.72f, -2598.70f, 15.87f, 4.88f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz3);
-                    me->AddThreat(dreadz3, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz3, 9.9999999f);
                     me->AI()->AttackStart(dreadz3);
                     me->SetOrientation(4.88f);
                     me->SetFacingTo(4.88f);
@@ -2648,7 +2648,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz4 = me->SummonCreature(60942, -1087.81f, -2595.07f, 15.87f, 4.11f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz4);
-                    me->AddThreat(dreadz4, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz4, 9.9999999f);
                     me->AI()->AttackStart(dreadz4);
                     me->SetOrientation(4.11f);
                     me->SetFacingTo(4.11f);
@@ -2662,7 +2662,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz5 = me->SummonCreature(60942, -1055.42f, -2574.16f, 15.88f, 0.10f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz5);
-                    me->AddThreat(dreadz5, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz5, 9.9999999f);
                     me->AI()->AttackStart(dreadz5);
                     me->SetOrientation(0.10f);
                     me->SetFacingTo(0.10f);
@@ -2676,7 +2676,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz6 = me->SummonCreature(60942, -1088.07f, -2595.21f, 15.87f, 4.04f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz6);
-                    me->AddThreat(dreadz6, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz6, 9.9999999f);
                     me->AI()->AttackStart(dreadz6);
                     me->SetOrientation(4.04f);
                     me->SetFacingTo(4.04f);
@@ -2690,7 +2690,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz7 = me->SummonCreature(60942, -1096.06f, -2580.90f, 15.87f, 3.26f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz7);
-                    me->AddThreat(dreadz7, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz7, 9.9999999f);
                     me->AI()->AttackStart(dreadz7);
                     me->SetOrientation(3.26f);
                     me->SetFacingTo(3.26f);
@@ -2704,7 +2704,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz8 = me->SummonCreature(60942, -1092.23f, -2565.01f, 15.87f, 2.59f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz8);
-                    me->AddThreat(dreadz8, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz8, 9.9999999f);
                     me->AI()->AttackStart(dreadz8);
                     me->SetOrientation(2.59f);
                     me->SetFacingTo(2.59f);
@@ -2718,7 +2718,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz9 = me->SummonCreature(60942, -1071.75f, -2599.01f, 15.87f, 4.86f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz9);
-                    me->AddThreat(dreadz9, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz9, 9.9999999f);
                     me->AI()->AttackStart(dreadz9);
                     me->SetOrientation(4.86f);
                     me->SetFacingTo(4.86f);
@@ -2732,7 +2732,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz10 = me->SummonCreature(60942, -1092.18f, -2565.35f, 15.87f, 2.48f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz10);
-                    me->AddThreat(dreadz10, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz10, 9.9999999f);
                     me->AI()->AttackStart(dreadz10);
                     me->SetOrientation(2.48f);
                     me->SetFacingTo(2.48f);
@@ -2746,7 +2746,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz11 = me->SummonCreature(60942, -1079.00f, -2556.97f, 15.87f, 1.72f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz11);
-                    me->AddThreat(dreadz11, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz11, 9.9999999f);
                     me->AI()->AttackStart(dreadz11);
                     me->SetOrientation(1.72f);
                     me->SetFacingTo(1.72f);
@@ -2760,7 +2760,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz12 = me->SummonCreature(60942, -1062.07f, -2561.13f, 15.87f, 0.99f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz12);
-                    me->AddThreat(dreadz12, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz12, 9.9999999f);
                     me->AI()->AttackStart(dreadz12);
                     me->SetOrientation(0.99f);
                     me->SetFacingTo(0.99f);
@@ -2774,7 +2774,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz13 = me->SummonCreature(60942, -1096.55f, -2581.47f, 15.87f, 3.29f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz13);
-                    me->AddThreat(dreadz13, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz13, 9.9999999f);
                     me->AI()->AttackStart(dreadz13);
                     me->SetOrientation(3.29f);
                     me->SetFacingTo(3.29f);
@@ -2788,7 +2788,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz14 = me->SummonCreature(60942, -1063.79f, -2561.32f, 15.87f, 0.89f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz14);
-                    me->AddThreat(dreadz14, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz14, 9.9999999f);
                     me->AI()->AttackStart(dreadz14);
                     me->SetOrientation(0.89f);
                     me->SetFacingTo(0.89f);
@@ -2802,7 +2802,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz15 = me->SummonCreature(60942, -1054.36f, -2574.63f, 15.87f, 0.21f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz15);
-                    me->AddThreat(dreadz15, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz15, 9.9999999f);
                     me->AI()->AttackStart(dreadz15);
                     me->SetOrientation(0.21f);
                     me->SetFacingTo(0.21f);
@@ -2816,7 +2816,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 if (Creature* dreadz16 = me->SummonCreature(60942, -1058.87f, -2589.76f, 15.87f, 5.69f, TEMPSUMMON_TIMED_DESPAWN, 1000))
                 {
                     me->SetFacingToObject(dreadz16);
-                    me->AddThreat(dreadz16, 9.9999999f);
+                    me->GetThreatManager().AddThreat(dreadz16, 9.9999999f);
                     me->AI()->AttackStart(dreadz16);
                     me->SetOrientation(5.69f);
                     me->SetFacingTo(5.69f);
@@ -3219,9 +3219,9 @@ public:
                                 {
                                     if (player == currentTarget)
                                         break;
-                                    me->getThreatManager().clearReferences();
+                                    me->GetThreatManager().clearReferences();
                                     me->SetInCombatWithZone();
-                                    me->AddThreat(player, 99999999.0f);
+                                    me->GetThreatManager().AddThreat(player, 99999999.0f);
                                     me->AI()->AttackStart(player);
                                     break;
                                 }

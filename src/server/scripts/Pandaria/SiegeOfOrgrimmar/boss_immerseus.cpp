@@ -652,7 +652,7 @@ class boss_immerseus : public CreatureScript
                 me->RemoveAllAuras();
                 me->AttackStop();
                 me->SetFaction(35);
-                me->DeleteThreatList();
+                me->GetThreatManager().ClearAllThreat();
                 me->CombatStop(true);
                 me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_IMMUNE_TO_PC));
 

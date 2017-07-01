@@ -253,13 +253,13 @@ private:
 
 			case EVENT_DESPAIR:
 				Talk(SAY_DESPAIR);		
-				if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+				if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 					me->CastSpell(target, SPELL_DESPAIR, true);
 				events.Repeat(30s);
 				break;
 
 			case EVENT_TWILIGHT_BREATH:
-				if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 50.0f, true))
+				if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 50.0f, true))
 					me->CastSpell(target, SPELL_TWILIGHT_BREATH, false);
 				events.Repeat(18s);
 				break;
@@ -271,7 +271,7 @@ private:
 			case EVENT_ENCROACHING_SHADOWS:	
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->CastSpell(targets, SPELL_ENCROACHING_SHADOWS_PERIODIC_TRIGGER, true);
@@ -401,7 +401,7 @@ struct npc_void_ascendant : public ScriptedAI
 		switch (eventId)
 		{
 		case EVENT_ANNIHILATION:
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 				me->CastSpell(target, SPELL_ANNIHILATION, false);
 			events.Repeat(20s);
 			break;

@@ -750,7 +750,7 @@ public:
                                     m_MadDashTargetGUID = ObjectGuid::Empty;
                                     me->StopMoving();
                                     me->CastSpell(me, eBorkaSpells::SpellMadDashHit);
-                                    if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                                    if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                                         me->Attack(l_Victim, true);
 
                                     events.Reset();

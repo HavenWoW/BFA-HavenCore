@@ -517,7 +517,7 @@ public:
             {
                 if (Player* player = me->SelectRandomPlayerInRange(50.0f, true))
                 {
-                    me->AddThreat(player, 10000.0f);
+                    me->GetThreatManager().AddThreat(player, 10000.0f);
                     me->Attack(player, true);
                 }
             }
@@ -600,11 +600,11 @@ public:
                 m_events.ScheduleEvent(uint32(Events::CHANGE_TARGET), 6000);
                 me->CastSpell(me, uint32(Spells::INVISIBILITY_DETECTION), true);
                 me->CastSpell(me->GetVictim(), uint32(Spells::FIXATED), true);
-                me->getThreatManager().resetAllAggro();
+                me->GetThreatManager().resetAllAggro();
 
                 if (Player* player = me->SelectRandomPlayerInRange(30.0f, true))
                 {
-                    me->getThreatManager().addThreat(player, 1000.0f);
+                    me->GetThreatManager().AddThreat(player, 1000.0f);
                     me->Attack(player, true);
                 }
                 break;

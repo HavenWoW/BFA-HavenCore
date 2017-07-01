@@ -944,7 +944,7 @@ public:
                 RemoveSummonFrame(NPC_ARCANE_HEAD);
 
             me->RemoveAllAuras();
-            me->DeleteThreatList();
+            me->GetThreatManager().ClearAllThreat();
             me->CombatStop(true);
             me->GetMotionMaster()->MovementExpired();
             me->GetMotionMaster()->MoveTargetedHome();
@@ -1383,7 +1383,7 @@ public:
                             if (CAST_AI(boss_megaera::boss_megaeraAI, Megaera->AI())->isRampaging == false)
                             {
                                 std::list<Unit*> targets;
-                                SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                                SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                                 if (!targets.empty())
                                     if (targets.size() >= 1)
                                         targets.resize(1);
@@ -1578,7 +1578,7 @@ public:
                             if (CAST_AI(boss_megaera::boss_megaeraAI, Megaera->AI())->isRampaging == false)
                             {
                                 std::list<Unit*> targets;
-                                SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                                SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                                 if (!targets.empty())
                                     if (targets.size() >= 1)
                                         targets.resize(1);
@@ -1597,7 +1597,7 @@ public:
                                         torrent->SetReactState(REACT_PASSIVE);
                                         me->InterruptNonMeleeSpells(true);
                                         me->CastSpell(torrent, SPELL_TORRENT_OF_ICE);
-                                        torrent->AddThreat((*itr), 99999999.9f);
+                                        torrent->GetThreatManager().AddThreat((*itr), 99999999.9f);
                                     }
                                 }
                             }
@@ -1894,7 +1894,7 @@ public:
                             if (CAST_AI(boss_megaera::boss_megaeraAI, Megaera->AI())->isRampaging == false)
                             {
                                 std::list<Unit*> targets;
-                                SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                                SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                                 if (!targets.empty())
                                     if (targets.size() >= 1)
                                         targets.resize(1);

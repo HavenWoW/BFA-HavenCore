@@ -87,7 +87,7 @@ class npc_foundry_iron_flame_binder : public CreatureScript
                     }
                     case eEvents::EventLavaburst:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::Lavaburst, false);
 
                         m_Events.ScheduleEvent(eEvents::EventLavaburst, 4 * TimeConstants::IN_MILLISECONDS);
@@ -198,7 +198,7 @@ class npc_foundry_workshop_guardian : public CreatureScript
                 {
                     case eEvents::EventGrievousMortalWounds:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::GrievousMortalWounds, false);
 
                         m_Events.ScheduleEvent(eEvents::EventGrievousMortalWounds, 10 * TimeConstants::IN_MILLISECONDS);
@@ -324,7 +324,7 @@ class npc_foundry_ogron_hauler : public CreatureScript
                     }
                     case eEvents::EventOverheadSmash:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::OverheadSmash, false);
 
                         m_Events.ScheduleEvent(eEvents::EventOverheadSmash, 15 * TimeConstants::IN_MILLISECONDS);
@@ -649,7 +649,7 @@ class npc_foundry_slagshop_worker : public CreatureScript
                 {
                     case eEvent::EventPunctureWound:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::PunctureWound, true);
 
                         m_Events.ScheduleEvent(eEvent::EventPunctureWound, 5 * TimeConstants::IN_MILLISECONDS);
@@ -802,7 +802,7 @@ class npc_foundry_iron_journeyman : public CreatureScript
                 {
                     case eEvent::EventHeymaker:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpell::Heymaker, false);
 
                         m_Events.ScheduleEvent(eEvent::EventHeymaker, 10 * TimeConstants::IN_MILLISECONDS);
@@ -893,7 +893,7 @@ class npc_foundry_gronnling_laborer : public CreatureScript
                     }
                     case eEvents::EventHeadSmash:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                         {
                             me->CastSpell(l_Target, eSpells::HeadSmashDmg, true);
                             me->CastSpell(me, eSpells::HeadSmashDust, true);
@@ -1534,7 +1534,7 @@ class npc_foundry_darkshard_crystalback : public CreatureScript
                 {
                     case eEvents::EventAcidMaw:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::Acidmaw, true);
 
                         m_Events.ScheduleEvent(eEvents::EventAcidMaw, 10 * TimeConstants::IN_MILLISECONDS);
@@ -1800,7 +1800,7 @@ class npc_foundry_blackrock_enforcer : public CreatureScript
                 {
                     case eEvents::EventClobberingStrike:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::ClobberingStrike, false);
                         m_Events.ScheduleEvent(eEvents::EventClobberingStrike, 15 * TimeConstants::IN_MILLISECONDS);
                         break;
@@ -2013,7 +2013,7 @@ class npc_foundry_iron_taskmaster : public CreatureScript
                 {
                     case eEvents::EventBonk:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::Bonk, false);
 
                         m_Events.ScheduleEvent(eEvents::EventBonk, 15 * TimeConstants::IN_MILLISECONDS);
@@ -2598,7 +2598,7 @@ class npc_foundry_moldana_two_blade : public CreatureScript
                 {
                     case eEvents::EventRisingFlameKick:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::RisingFlameKick, true);
 
                         m_Events.ScheduleEvent(eEvents::EventRisingFlameKick, 25 * TimeConstants::IN_MILLISECONDS);
@@ -2700,7 +2700,7 @@ class npc_foundry_iron_assembly_warden : public CreatureScript
                     }
                     case eEvents::EventShieldSlam:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::ShieldSlamDamage, true);
 
                         m_Events.ScheduleEvent(eEvents::EventShieldSlam, urand(18 * TimeConstants::IN_MILLISECONDS, 20 * TimeConstants::IN_MILLISECONDS));
@@ -2828,7 +2828,7 @@ class npc_foundry_thunderlord_beast_tender : public CreatureScript
                     }
                     case eEvents::EventCallLightning:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::CallLightning, false);
 
                         m_Events.ScheduleEvent(eEvents::EventCallLightning, 3 * TimeConstants::IN_MILLISECONDS);
@@ -2908,7 +2908,7 @@ class npc_foundry_stubborn_ironhoof : public CreatureScript
                 {
                     case eEvents::EventGoringSwipe:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->SetFacingTo(me->GetAngle(l_Target));
 
                       //  AddTimedDelayedOperation(50, [this]() -> void
@@ -2993,7 +2993,7 @@ class npc_foundry_ornery_ironhoof : public CreatureScript
                 {
                     case eEvents::EventGoringSwipe:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->SetFacingTo(me->GetAngle(l_Target));
 
                       //  AddTimedDelayedOperation(50, [this]() -> void
@@ -3204,7 +3204,7 @@ class npc_foundry_markog_abadir : public CreatureScript
                     }
                     case eEvents::EventSlam:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::Slam, false);
 
                         m_Events.ScheduleEvent(eEvents::EventSlam, urand(14 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));

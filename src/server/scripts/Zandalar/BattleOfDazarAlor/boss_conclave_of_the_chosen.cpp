@@ -236,7 +236,7 @@ struct boss_conclave_of_the_chosen : public BossAI
         case EVENT_RAPTOR_FORM:
             Talk(SAY_GONK_RAPTORM_FORM);
             me->SetDisplayId(80358);
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_WILD_MAUL, false);
                 me->SetDisplayId(me->GetNativeDisplayId());
@@ -249,7 +249,7 @@ struct boss_conclave_of_the_chosen : public BossAI
         {
             Talk(SAY_GONK_CRAWLING_HEX);
             UnitList tar_li;
-            SelectTargetList(tar_li, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tar_li, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* target : tar_li)
             {
                 me->CastSpell(target, SPELL_CRAWLING_HEX, true);
@@ -270,7 +270,7 @@ struct boss_conclave_of_the_chosen : public BossAI
 
         case EVENT_LACERATING_CLAWS:
             Talk(SAY_KIMBUL_LACERATING_CLAWS);
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_LACERATING_CLAWS, true);
             }
@@ -292,7 +292,7 @@ struct boss_conclave_of_the_chosen : public BossAI
         case EVENT_MIND_WIPE:
         {
             UnitList tar_li;
-            SelectTargetList(tar_li, 2, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tar_li, 2, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* target : tar_li)
             {
                 me->CastSpell(target, SPELL_MIND_WIPE_SPAWN_EFFECT, true);
@@ -538,7 +538,7 @@ struct npc_kimbul_conclave : public ScriptedAI
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         me->GetScheduler().Schedule(1s, [this] (TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->AddAura(SPELL_BLEEDING_WOUNDS, target);
@@ -546,7 +546,7 @@ struct npc_kimbul_conclave : public ScriptedAI
 
         }).Schedule(2s, [this](TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->AddAura(SPELL_BLEEDING_WOUNDS, target);
@@ -554,14 +554,14 @@ struct npc_kimbul_conclave : public ScriptedAI
 
         }).Schedule(3s, [this](TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->AddAura(SPELL_BLEEDING_WOUNDS, target);
             }
         }).Schedule(4s, [this](TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->AddAura(SPELL_BLEEDING_WOUNDS, target);
@@ -594,7 +594,7 @@ struct npc_akunda_conclave : public ScriptedAI
     {
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);       
         UnitList tar_li;
-        SelectTargetList(tar_li, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+        SelectTargetList(tar_li, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
         for (Unit* targets : tar_li)
         {
             me->CastSpell(targets, SPELL_AKUNDAS_WRATH, true);
@@ -663,7 +663,7 @@ struct npc_kragwa : public ScriptedAI
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         me->GetScheduler().Schedule(1s, [this](TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->CastSpell(target->GetPosition(), SPELL_KRAGWAS_WRATH_MAIN, true);
@@ -671,7 +671,7 @@ struct npc_kragwa : public ScriptedAI
 
         }).Schedule(2s, [this](TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->CastSpell(target->GetPosition(), SPELL_KRAGWAS_WRATH_MAIN, true);
@@ -679,14 +679,14 @@ struct npc_kragwa : public ScriptedAI
 
         }).Schedule(3s, [this](TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->CastSpell(target->GetPosition(), SPELL_KRAGWAS_WRATH_MAIN, true);
             }
         }).Schedule(4s, [this](TaskContext /*context*/)
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->CastSpell(target->GetPosition(), SPELL_KRAGWAS_WRATH_MAIN, true);

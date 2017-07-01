@@ -2152,7 +2152,7 @@ class npc_siegecrafter_blackfuse_laser_target : public CreatureScript
             {
                 ClearTarget();
 
-                if (Unit* l_Target = SelectTarget(SELECT_TARGET_NEAREST, 0, 0.0f, true, -SPELL_ON_CONVEYOR))
+                if (Unit* l_Target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 0.0f, true, true, -SPELL_ON_CONVEYOR))
                 {
                     if (!me->HasAura(Spells::SPELL_LASER_GROUND_EFFECT_PERIODIC))
                         me->AddAura(Spells::SPELL_LASER_GROUND_EFFECT_PERIODIC, me);

@@ -182,7 +182,7 @@ class grimrail_depot_mob_grimrail_bombadier : public CreatureScript
             switch (events.ExecuteEvent())
             {
             case eGrimrailBombadierEvents::EventBlackrockBombs:
-                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 15.0f, true))
+                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 15.0f, true))
                     me->CastSpell(l_Target, eGrimrailBombadierSpells::SpellBlackrockBombTriggerMissile);
                 else
                 {
@@ -391,7 +391,7 @@ class grimrail_depot_mob_grimrail_overseer : public CreatureScript
             switch (events.ExecuteEvent())
             {
             case eGrimrailOverseerEvents::EventDash:
-                if (Unit * l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                if (Unit * l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                 {
                     me->CastSpell(l_Random, eGrimrailOverseerSpells::SpellDashDummy);
                     me->CastSpell(l_Random, eGrimrailOverseerSpells::SpellMadDashAura);

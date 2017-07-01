@@ -252,7 +252,7 @@ class boss_halfus_wyrmbreaker : public CreatureScript
                             {
                                 for (uint8 i = 0; i < RAID_MODE(urand(1, !proto->HasAura(SPELL_TIME_DILATATION) ? 4 : 6), urand(3, !proto->HasAura(SPELL_TIME_DILATATION) ? 8 : 16)); ++i)
                                 {
-                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
+                                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, true, 0))
                                     {
                                         if (proto->HasAura(SPELL_TIME_DILATATION))
                                             proto->CastSpell(target, SPELL_FIREBOLT_BARRAGE_SLOW, true);

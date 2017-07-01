@@ -211,7 +211,7 @@ private:
 			if (IsMythic())
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->CastSpell(targets, SPELL_MENTAL_DECAY, true);
@@ -221,7 +221,7 @@ private:
 			else
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->CastSpell(targets, SPELL_MENTAL_DECAY, true);
@@ -233,7 +233,7 @@ private:
 			if (IsMythic())
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 6, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->CastSpell(targets, SPELL_MADNESS_BOMB_MOD_SIZE, true);
@@ -242,7 +242,7 @@ private:
 			else
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f);
+				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->CastSpell(targets, SPELL_MADNESS_BOMB_MOD_SIZE, true);
@@ -348,7 +348,7 @@ private:
 		}
 		case EVENT_MANDIBLE_SLAM:
 		{
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 				me->CastSpell(target, SPELL_MANDIBLE_SLAM, false);
 			break;
 		}

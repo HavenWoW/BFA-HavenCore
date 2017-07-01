@@ -176,7 +176,7 @@ struct boss_opulence : public BossAI
         case EVENT_LIQUID_GOLD:
         {
             UnitList tarlist;
-            SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* tar : tarlist)
             DoCast(tar, LIQUID_GOLD_AURA);
             events.Repeat(15s);
@@ -185,7 +185,7 @@ struct boss_opulence : public BossAI
         case EVENT_COIN_SHOWER:
         {
             UnitList tarlist;
-            SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* tar : tarlist)
             DoCast(tar, COIN_SHOWER_MISSILE);
             events.Repeat(20s);

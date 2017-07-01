@@ -210,7 +210,7 @@ public:
         void ReturnHomeAfterWorg()
         {
             wolfTarget = ObjectGuid::Empty;
-            me->DeleteThreatList();
+            me->GetThreatManager().ClearAllThreat();
             me->CombatStop(true);
             me->GetMotionMaster()->MoveTargetedHome();
             waitTime = urand(10000, 20000);
@@ -248,7 +248,7 @@ public:
 
             if (me->IsInCombat())
             {
-                me->DeleteThreatList();
+                me->GetThreatManager().ClearAllThreat();
                 me->CombatStop(true);
             }
 
@@ -289,7 +289,7 @@ public:
                         // player takes the worg's threat and drags it away.
                         if (me->GetVictim() != wolf && wolf->IsInCombat())
                         {
-                            me->getThreatManager().addThreat(wolf, 1000000.0f);
+                            me->GetThreatManager().AddThreat(wolf, 1000000.0f);
                             AttackStart(wolf);
                         }
                     }
@@ -392,8 +392,8 @@ public:
                 // A player/pet can kill the worg normally. The owning Infantry
                 // keeps following and attacking its assigned worg.
                 me->SetReactState(REACT_AGGRESSIVE);
-                me->getThreatManager().resetAllAggro();
-                me->getThreatManager().addThreat(attacker, 1000000.0f);
+                me->GetThreatManager().resetAllAggro();
+                me->GetThreatManager().AddThreat(attacker, 1000000.0f);
                 AttackStart(attacker);
                 return;
             }
@@ -422,8 +422,8 @@ public:
                     me->SetFaction(WORG_FIGHTING_FACTION);
                     me->GetMotionMaster()->Clear();
 
-                    me->getThreatManager().addThreat(owner, 1000000.0f);
-                    owner->getThreatManager().addThreat(me, 1000000.0f);
+                    me->GetThreatManager().AddThreat(owner, 1000000.0f);
+                    owner->GetThreatManager().AddThreat(me, 1000000.0f);
 
                     AttackStart(owner);
 
@@ -467,7 +467,7 @@ struct npc_brother_paxton : public ScriptedAI
         // Retail ambient healing is occasional, not continuous.
         _healTimer = urand(15000, 25000);
 
-        me->DeleteThreatList();
+        me->GetThreatManager().ClearAllThreat();
         me->CombatStop(true);
         me->SetReactState(REACT_PASSIVE);
         me->SetWalk(false);

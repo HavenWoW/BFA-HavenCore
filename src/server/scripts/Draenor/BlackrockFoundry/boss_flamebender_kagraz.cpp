@@ -594,7 +594,7 @@ class boss_flamebender_kagraz : public CreatureScript
 
                             me->ClearUnitState(UnitState::UNIT_STATE_ROOT);
 
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                                 AttackStart(l_Target);
                        // });
 
@@ -1535,8 +1535,8 @@ class npc_foundry_cinder_wolf : public CreatureScript
                     {
                         m_Target = p_Target->GetGUID();
 
-                        DoResetThreat();
-                        me->AddThreat(p_Target, 1000000.0f);
+                        ResetThreatList();
+                        me->GetThreatManager().AddThreat(p_Target, 1000000.0f);
 
                         AttackStart(p_Target);
 
@@ -1662,7 +1662,7 @@ class npc_foundry_cinder_wolf : public CreatureScript
 
                 if (m_Events.ExecuteEvent() == eEvent::EventCharringBreath && m_CurrAction == eActions::ActionOverheated)
                 {
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                         me->SetFacingTo(me->GetAngle(l_Target));
 
                    // AddTimedDelayedOperation(50, [this]() -> void

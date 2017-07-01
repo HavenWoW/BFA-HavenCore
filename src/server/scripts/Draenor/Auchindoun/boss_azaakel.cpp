@@ -173,7 +173,7 @@ struct boss_azaakel : public BossAI
             events.ScheduleEvent(eAzzakelEvents::EventClawsOfArgus, 45 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eAzzakelEvents::EventCurtainOfFlame, 14 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eAzzakelEvents::EventMalevolentCrush01, 20 * TimeConstants::IN_MILLISECONDS);
-            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                 AttackStart(l_Target);
             break;
         }
@@ -241,7 +241,7 @@ struct boss_azaakel : public BossAI
             Talk(eAzzakelTalks::AzzakelSpell02);
             me->SetReactState(ReactStates::REACT_AGGRESSIVE);
 
-            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
             {
                 me->GetMotionMaster()->MoveChase(l_Target, 0.0f, 0.0f);
                 me->Attack(l_Target, true);
@@ -747,7 +747,7 @@ public:
                             l_Azzakel->GetAI()->DoAction(eAzzakelActions::ActionMalevolentCrash);
                         else
                         {
-                            if (Unit* l_Target = GetCaster()->GetAI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                            if (Unit* l_Target = GetCaster()->GetAI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                             {
                                 GetCaster()->GetMotionMaster()->MoveChase(l_Target, 0.0f, 0.0f);
                                 GetCaster()->Attack(l_Target, true);

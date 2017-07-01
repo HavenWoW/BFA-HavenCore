@@ -1371,7 +1371,7 @@ class spell_malkorok_displaced_energy : public SpellScriptLoader
                 {
                     uint8 targetsCount = pCreature->GetMap()->Is25ManRaid() ? 4 : 2;
                     std::list<Unit*> newTargets;
-                    pCreature->AI()->SelectTargetList(newTargets, DisplacedEnergyTargetSelector(pCreature), targetsCount, SELECT_TARGET_RANDOM);
+                    pCreature->AI()->SelectTargetList(newTargets, targetsCount, SELECT_TARGET_RANDOM, 0, DisplacedEnergyTargetSelector(pCreature));
 
                     for (auto target : newTargets)
                         targets.push_back(target);

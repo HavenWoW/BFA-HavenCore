@@ -325,7 +325,7 @@ struct boss_wekemara : public BossAI
         case EVENT_SHOCK_BURST:
         {
             UnitList tarlist;
-            SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* targets : tarlist)
             {
                 DoCast(targets, SPELL_SHOCK_BURST_PERIODIC, true);

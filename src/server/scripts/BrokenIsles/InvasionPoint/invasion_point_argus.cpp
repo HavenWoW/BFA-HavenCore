@@ -1510,7 +1510,7 @@ struct npc_mazgoroth : ScriptedAI
             {
             case EVENT_1:
             {
-                auto threatlist = me->getThreatManager().getThreatList();
+                auto threatlist = me->GetThreatManager().getThreatList();
 
                 for (uint8 i = 0; i < 3; ++i)
                 {
@@ -1529,7 +1529,7 @@ struct npc_mazgoroth : ScriptedAI
             case EVENT_2:
                 DoCast(248509);
                 if (auto victim = me->GetVictim())
-                    me->AddThreat(victim, 0.0f);
+                    me->GetThreatManager().AddThreat(victim, 0.0f);
                 events.ScheduleEvent(EVENT_2, 32000);
                 break;
             }
@@ -1694,7 +1694,7 @@ struct npc_malphazel_argus : ScriptedAI
         {
         case 249245:
             if (auto victim = me->GetVictim())
-                me->AddThreat(victim, 0.0f);
+                me->GetThreatManager().AddThreat(victim, 0.0f);
             break;
         }
     }
@@ -2442,7 +2442,7 @@ struct npc_fragment_of_argus : ScriptedAI
 
     bool checkPlayers()
     {
-        std::list<HostileReference*> threatList = me->getThreatManager().getThreatList();
+        std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();
         if (threatList.size() >= 1)
             return true;
 

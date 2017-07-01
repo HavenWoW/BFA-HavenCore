@@ -1088,7 +1088,7 @@ public:
             {
                 crowley->SetInCombatWith(me);
                 me->SetInCombatWith(crowley);
-                crowley->AddThreat(me, 10.0f);
+                crowley->GetThreatManager().AddThreat(me, 10.0f);
                 if (!crowley->GetVictim())
                     crowley->AI()->AttackStart(me);
             }

@@ -322,7 +322,7 @@ public:
                 EnterEvadeMode(EVADE_REASON_NO_HOSTILES);
 
                 me->CombatStop();
-                me->DeleteThreatList();
+                me->GetThreatManager().ClearAllThreat();
                 me->SetFaction(35);
                 me->CastSpell(me, SPELL_LEI_SHI_TRANSFORM, true);
                 me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
@@ -578,7 +578,7 @@ public:
                     break;
                 }
 
-                //if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO))
+                //if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT))
                 if (Unit* target = me->GetVictim())
                 {
                     if (!target)

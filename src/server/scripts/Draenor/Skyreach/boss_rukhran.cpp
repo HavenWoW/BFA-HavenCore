@@ -94,7 +94,7 @@ public:
             if (Player* player = me->SelectRandomPlayerInRange(100.0f, true))
             {
                 m_PlayerTargetGuid = player->GetGUID();
-                me->AddThreat(player, 1000000.0f);
+                me->GetThreatManager().AddThreat(player, 1000000.0f);
                 me->CastSpell(player, uint32(Spells::FIXATE));
                 events.ScheduleEvent(uint32(Events::UPDATE_POSITION), 500);
             }

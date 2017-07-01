@@ -772,8 +772,8 @@ class boss_valiona : public CreatureScript
                                     spTarget->SetFaction(target->getFaction());
                                     spTarget->SetReactState(REACT_AGGRESSIVE);
                                     spTarget->AddUnitFlag(UNIT_FLAG_REMOVE_CLIENT_CONTROL);
-                                    me->AddThreat(spTarget, 100000000.0f, SPELL_SCHOOL_MASK_NORMAL);
-                                    spTarget->AddThreat(me, 100000000.0f, SPELL_SCHOOL_MASK_NORMAL);
+                                    me->GetThreatManager().AddThreat(spTarget, 100000000.0f);
+                                    spTarget->GetThreatManager().AddThreat(me, 100000000.0f);
                                     me->Attack(spTarget, true);
                                     spTarget->Attack(me, true);
                                     me->SetFacingToObject(spTarget);
@@ -815,7 +815,7 @@ class boss_valiona : public CreatureScript
                             // Cast 2 flames per time, 6 total
                             for (uint8 i = 0; i < 2; i++)
                             {
-                                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
+                                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, true, 0))
                                 {
                                     if (Creature* theralion = instance->GetCreature(DATA_THERALION))
                                     {

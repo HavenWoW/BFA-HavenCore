@@ -1092,7 +1092,7 @@ private:
             {
                 defender->SetInCombatWith(raider);
                 raider->SetInCombatWith(defender);
-                defender->AddThreat(raider, 1.0f);
+                defender->GetThreatManager().AddThreat(raider, 1.0f);
             }
         }
     }

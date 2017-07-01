@@ -119,8 +119,8 @@ public:
                 {
                     p_Creature->AddAura(RandomSpells::SUBMERGED, p_Creature);
                     p_Creature->SetReactState(ReactStates::REACT_PASSIVE);
-                    p_Creature->getThreatManager().clearReferences();
-                    p_Creature->getThreatManager().resetAllAggro();
+                    p_Creature->GetThreatManager().clearReferences();
+                    p_Creature->GetThreatManager().resetAllAggro();
                 }
                 break;
             case MobEntries::SKYREACH_RAVEN_WHISPERER:
@@ -300,8 +300,8 @@ public:
                         {
                             l_Constructor->CombatStop();
                             l_Constructor->SetReactState(ReactStates::REACT_PASSIVE);
-                            l_Constructor->getThreatManager().clearReferences();
-                            l_Constructor->getThreatManager().resetAllAggro();
+                            l_Constructor->GetThreatManager().clearReferences();
+                            l_Constructor->GetThreatManager().resetAllAggro();
                         }
                     }
 
@@ -417,7 +417,7 @@ public:
 
                 if (Creature* l_Araknath = instance->GetCreature(m_AraknathGuid))
                 {
-                    l_Araknath->getThreatManager().resetAllAggro();
+                    l_Araknath->GetThreatManager().resetAllAggro();
 
                     if (l_Araknath->GetAI())
                         l_Araknath->GetAI()->Reset();

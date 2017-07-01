@@ -242,7 +242,7 @@ private:
         case SPELL_PLAGUE_OF_FIRE_CAST:
         {
             UnitList tarlist;
-            SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* targets : tarlist)
             {
                 me->CastSpell(targets, SPELL_PLAGUE_OF_FIRE_AURA, true);
@@ -258,7 +258,7 @@ private:
         {
         case SPELL_SCORCHING_DETONATION_DUMMY_DAMAGE_AURA:
             Talk(1);
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.f, true))      
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.f, true))      
             {
                 me->CastSpell(target, SPELL_SCORCHING_DETONATION_DUMMY_DAMAGE_AURA, false);
                 target->GetScheduler().Schedule(5100ms, [this, target](TaskContext /*context*/)
@@ -453,7 +453,7 @@ private:
         switch (spellInfo->Id)
         {
         case SPELL_METEOR_LEAP:
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.f, true))
                 me->CastSpell(target, SPELL_CRUSHING_LEAP_JUMP, true);
             break;
         }
@@ -464,7 +464,7 @@ private:
         switch (eventId)
         {
         case SPELL_METEOR_LEAP:
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.f, true))
                 me->CastSpell(target, SPELL_METEOR_LEAP, false);
             events.Repeat(25s);
             break;
@@ -731,7 +731,7 @@ private:
         case SPELL_CARESS_OF_DEATH:
             if (roll_chance_f(15))
                 Talk(2);
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                 me->CastSpell(target, SPELL_CARESS_OF_DEATH, false);
             events.Repeat(20s);
             break;

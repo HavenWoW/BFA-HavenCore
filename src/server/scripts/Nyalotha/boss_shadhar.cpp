@@ -128,7 +128,7 @@ private:
 				summon->SetWalk(true);
 				summon->GetSpeed(MOVE_WALK);
 				summon->CastSpell(fixateTarget, SPELL_FIXATE_TARGET, true);
-				summon->AddThreat(fixateTarget, 1000.0f, SpellSchoolMask::SPELL_SCHOOL_MASK_NORMAL);
+				summon->GetThreatManager().AddThreat(fixateTarget, 1000.0f);
 			}
 		}
 	}
@@ -234,7 +234,7 @@ private:
 		if (me->GetPower(POWER_ENERGY) == 100 && this->phase == 1)
 		{
 			me->ModifyPower(POWER_ENERGY, -100);
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 			{
 				me->SetFacingToObject(target, true);
 				me->CastSpell(target, SPELL_UMBRAL_BREATH_CAST, false);
@@ -243,7 +243,7 @@ private:
 		if (me->GetPower(POWER_ENERGY) == 100 && this->phase == 2)
 		{
 			me->ModifyPower(POWER_ENERGY, -100);
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 			{
 				me->SetFacingToObject(target, true);
 				me->CastSpell(target, SPELL_ENTROPIC_BREATH_INSTANT, false);
@@ -252,7 +252,7 @@ private:
 		if (me->GetPower(POWER_ENERGY) == 100 && this->phase == 3)
 		{
 			me->ModifyPower(POWER_ENERGY, -100);
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 			{
 				me->SetFacingToObject(target, true);
 				me->CastSpell(target, SPELL_BUBBLING_BREATH_CAST, false);
@@ -289,7 +289,7 @@ private:
 		case EVENT_CRASH_DISSOLVE:
 		{
 			//TODO: Random casts
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 			{
 				me->CastSpell(target, SPELL_CRASH_CAST, false);
 				AddTimedDelayedOperation(2600, [this, target]() -> void

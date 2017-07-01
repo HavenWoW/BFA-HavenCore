@@ -247,7 +247,7 @@ private:
             if (this->phase != 3)
             {
                 UnitList u_li;
-                SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 150.0f, true);
+                SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 0, 150.0f, true);
                 for (Unit* targets : u_li)
                 {
                     me->CastSpell(targets, SPELL_EXPLOSIVE_CORRUPTION, true);
@@ -976,7 +976,7 @@ private:
             if (Is25ManRaid())
             {
                 UnitList u_li;
-                SelectTargetList(u_li, 15, SELECT_TARGET_RANDOM, 150.0f, true);
+                SelectTargetList(u_li, 15, SELECT_TARGET_RANDOM, 0, 150.0f, true);
                 for (Unit* targets : u_li)
                 {
                     me->CastSpell(targets->GetPosition(), SPELL_MALIGNANT_GROWTH_MISSILE, true);
@@ -985,7 +985,7 @@ private:
             else
             {
                 UnitList u_li;
-                SelectTargetList(u_li, 5, SELECT_TARGET_RANDOM, 150.0f, true);
+                SelectTargetList(u_li, 5, SELECT_TARGET_RANDOM, 0, 150.0f, true);
                 for (Unit* targets : u_li)
                 {
                     me->CastSpell(targets->GetPosition(), SPELL_MALIGNANT_GROWTH_MISSILE, true);
@@ -1043,7 +1043,7 @@ struct npc_matrix_surge : public ScriptedAI
             {
                 me->AddAura(SPELL_MATRIX_SURGE);
                 if (matrixHolder->HasAura(SPELL_POWER_MATRIX))
-                    me->AddThreat(matrixHolder, 1000.0f, SpellSchoolMask::SPELL_SCHOOL_MASK_NORMAL);                
+                    me->GetThreatManager().AddThreat(matrixHolder, 1000.0f);                
             }
             me->DespawnOrUnsummon(30s);
         });
@@ -1069,7 +1069,7 @@ struct npc_bursting_boil : public ScriptedAI
         AddTimedDelayedOperation(8100, [this]() -> void
         {
             UnitList u_li;
-            SelectTargetList(u_li, 2, SELECT_TARGET_RANDOM, 15.0f, true);
+            SelectTargetList(u_li, 2, SELECT_TARGET_RANDOM, 0, 15.0f, true);
             for (Unit* targets : u_li)
             {
                 me->CastSpell(targets, SPELL_BURSTING_BOIL_AURA, true);
@@ -1149,7 +1149,7 @@ private:
         if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0 , 100.0f, true))
         {
             me->AddAura(SPELL_DARK_PURPOSE);
-            me->AddThreat(target, 1000.0f, SpellSchoolMask::SPELL_SCHOOL_MASK_NORMAL);
+            me->GetThreatManager().AddThreat(target, 1000.0f);
             me->GetMotionMaster()->MoveChase(target, PET_FOLLOW_DIST, PET_FOLLOW_ANGLE);
         }
     }

@@ -160,7 +160,7 @@ private:
                 cudgel->EnterVehicle(me);
                 cudgel->SetVisible(false);
                 me->SetCurrentEquipmentId(1);
-                if (Unit* tar = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                if (Unit* tar = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                 {
                     me->SetFacingToObject(tar, true);
                     DoCast(tar, SPELL_CUDGEL_OF_GORE_CHARGE);
@@ -180,7 +180,7 @@ private:
         case EVENT_PLASMA_DISCHARGE:
         {            
             UnitList list;
-            SelectTargetList(list, 3, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(list, 3, SELECT_TARGET_RANDOM, 0, 500.0f, true);
             for (Unit* tar : list)
             {
                 Talk(SAY_PLASMA_DISCHARGE);
@@ -217,7 +217,7 @@ private:
         {
             DoCastVictim(SPELL_ENLARGED_HEART);
             UnitList list;
-            SelectTargetList(list, 10, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(list, 10, SELECT_TARGET_RANDOM, 0, 500.0f, true);
             for (Unit* targets : list)
             {  
                 me->AddAura(SPELL_HARDENED_ARTERIES_DEBUFF, targets);

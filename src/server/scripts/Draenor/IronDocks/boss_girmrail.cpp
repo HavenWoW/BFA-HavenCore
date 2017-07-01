@@ -515,7 +515,7 @@ class boss_grimrail_makogg : public CreatureScript
                         {
                             p_Summon->AddAura(eMakoggSpells::SpellLavaWaveCosmetic, p_Summon);
                             p_Summon->AddAura(eMakoggSpells::SpellLavaSweepDamage, p_Summon);
-                            if (Unit* l_Target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0F, true))
+                            if (Unit* l_Target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0F, true))
                                 p_Summon->GetMotionMaster()->MovePoint(0, l_Target->GetPositionX(), l_Target->GetPositionY(), l_Target->GetPositionZ());
                             break;
                         }
@@ -529,7 +529,7 @@ class boss_grimrail_makogg : public CreatureScript
             {
                 AddTimedDelayedOperation(2 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                 {
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 200.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 200.0f, true))
                         me->GetMotionMaster()->MoveChase(l_Target, 0, 0);
                 });
             }
@@ -542,7 +542,7 @@ class boss_grimrail_makogg : public CreatureScript
                     me->RemoveAura(eMakoggSpells::SpellFlamingSlashUnkAura);
                     me->RemoveAura(eMakoggSpells::SpellFlamingSlashDummy);
 
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 40.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 40.0f, true))
                     {
                         me->Attack(l_Target, true);
                         me->GetMotionMaster()->MoveChase(l_Target);

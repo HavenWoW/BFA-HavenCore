@@ -157,7 +157,7 @@ struct boss_council_tribes : public BossAI
              break;
 
         case EVENT_BARREL_THROUGH:
-             if (Unit* tar = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+             if (Unit* tar = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
              {
                 DoCast(tar, SPELL_BARREL_THROUGH);
                 me->GetScheduler().Schedule(8s, [this, tar] (TaskContext /*context*/)

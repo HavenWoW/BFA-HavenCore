@@ -463,7 +463,7 @@ class boss_oshir : public CreatureScript
                         m_Spell = false;
                         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
 
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 1000.0f, true))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 1000.0f, true))
                         {
                             me->Attack(l_Target, true);
                             me->GetMotionMaster()->MoveChase(l_Target);
@@ -655,7 +655,7 @@ class boss_oshir : public CreatureScript
                     }
                     case eOshirEvents::EventPrimalAssault:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
                         {
                             m_CurrentDestTarget = l_Target->GetGUID();
 
@@ -894,7 +894,7 @@ public:
                     events.ScheduleEvent(eThunderWandlerEvents::EventCultTraps, 25 * TimeConstants::IN_MILLISECONDS);
                     break;
                 case eThunderWandlerEvents::EventSpearThrow:
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 50.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 50.0f, true))
                         me->CastSpell(l_Target, eThunderingWandlerSpells::SpellSpearThrow);
 
                     events.ScheduleEvent(eThunderWandlerEvents::EventSpearThrow, 18 * TimeConstants::IN_MILLISECONDS);
@@ -1239,7 +1239,7 @@ class iron_docks_oshir_mob_rylak : public CreatureScript
                 if (me->HasUnitState(UnitState::UNIT_STATE_CASTING))
                     return;
 
-                if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 1000.0f, true))
+                if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 1000.0f, true))
                 {
                     if (!me->IsWithinMeleeRange(l_Victim))
                         me->GetMotionMaster()->MoveChase(l_Victim);
@@ -1309,7 +1309,7 @@ class iron_docks_oshir_mob_wolf : public CreatureScript
                 if (me->HasUnitState(UnitState::UNIT_STATE_CASTING))
                     return;
 
-                if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 1000.0f, true))
+                if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 1000.0f, true))
                 {
                     if (!me->IsWithinMeleeRange(l_Victim))
                         me->GetMotionMaster()->MoveChase(l_Victim);
@@ -1563,7 +1563,7 @@ public:
                             {
                                 l_Oshir->GetAI()->DoAction(eAction::ActionFinishSpell);
 
-                                if (Unit* l_Target = l_Oshir->AI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 1000.0f, true))
+                                if (Unit* l_Target = l_Oshir->AI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 1000.0f, true))
                                 {
                                     l_Oshir->Attack(l_Target, true);
                                     l_Oshir->GetMotionMaster()->MoveChase(l_Target);

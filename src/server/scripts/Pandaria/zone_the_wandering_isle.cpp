@@ -653,7 +653,7 @@ public:
 
         void ClearThreadList()
         {
-            std::list<HostileReference*> threatList = me->getThreatManager().getThreatList();;
+            std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();;
             for (std::list<HostileReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
                 if (Unit* target = (*itr)->getTarget()->ToUnit())
                     target->ClearInCombat();
@@ -1579,7 +1579,7 @@ private:
     void KilledUnit(Unit* who) override
     {
         if (who->IsPlayer())
-            if (me->getThreatManager().getThreatList().empty())
+            if (me->GetThreatManager().getThreatList().empty())
                 me->ForcedDespawn(0, 10s);
     }
 
@@ -1625,7 +1625,7 @@ private:
             {
             case EVENT_LIGHTNING:
             {
-                std::list<HostileReference*> threatList = me->getThreatManager().getThreatList();
+                std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();
                 if (!threatList.empty())
                 {
                     for (HostileReference* ref : threatList)
@@ -2173,7 +2173,7 @@ public:
             if (damage >= me->GetHealth())
             {
                 std::list<HostileReference*> threatList;
-                threatList = me->getThreatManager().getThreatList();
+                threatList = me->GetThreatManager().getThreatList();
                 for (std::list<HostileReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
                     if (Player* target = (*itr)->getTarget()->ToPlayer())
                         if (target->GetQuestStatus(QUEST_AN_ANCIENT_EVIL) == QUEST_STATUS_INCOMPLETE)

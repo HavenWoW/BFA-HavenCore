@@ -1305,9 +1305,9 @@ public:
 
                 case EVENT_TWISTED_FATE:
                     //DoCastAOE(SPELL_TWISTED_FATE); // Automatically handle target selection in the SpellScript
-                    if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
                         target->CastSpell(target, SPELL_TWISTED_FATE_SUMMON_FIRST, true);
-                    if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 30.0f, true))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 30.0f, true))
                         target->CastSpell(target, SPELL_TWISTED_FATE_SUMMON_SECOND);
                     events.ScheduleEvent(EVENT_TWISTED_FATE, 30 * IN_MILLISECONDS);
                     break;
@@ -2287,7 +2287,7 @@ public:
                 {
                     SetTargetGuid(pPlayer->GetGUID());
                     me->AddAura(SPELL_MARKED_SOUL, pPlayer);
-                    me->AddThreat(pPlayer, 9999999999.9f);
+                    me->GetThreatManager().AddThreat(pPlayer, 9999999999.9f);
                     break;
                 }
             }
@@ -2325,7 +2325,7 @@ public:
                         me->AddAura(SPELL_MARKED_SOUL, player);
                         me->AI()->AttackStart(player);
                         //playerGuid = player->GetGUID();
-                        me->AddThreat(player, 999999999.9f);
+                        me->GetThreatManager().AddThreat(player, 999999999.9f);
                         events.ScheduleEvent(EVENT_SHADOWED_GIFT, 20 * IN_MILLISECONDS);
                         events.ScheduleEvent(EVENT_MOVE_TO_PLAYER, 1000, 0, 0);
                         break;
@@ -4257,7 +4257,7 @@ public:
                     {
                         me->SetFacingToObject(secondFate);
                         me->AI()->AttackStart(secondFate);
-                        me->AddThreat(secondFate, 999999999.9f);
+                        me->GetThreatManager().AddThreat(secondFate, 999999999.9f);
                         me->GetMotionMaster()->MoveFollow(secondFate, 0.0f, 0.0f);
                         events.ScheduleEvent(EVENT_CAST_DAMAGE_BOTH, 500, 0, 0);
                         break;
@@ -4353,7 +4353,7 @@ public:
                     {
                         me->SetFacingToObject(fristFate);
                         me->AI()->AttackStart(fristFate);
-                        me->AddThreat(fristFate, 999999999.9f);
+                        me->GetThreatManager().AddThreat(fristFate, 999999999.9f);
                         me->GetMotionMaster()->MoveFollow(fristFate, 0.0f, 0.0f);
                         events.ScheduleEvent(EVENT_CAST_DAMAGE_BOTH, 500, 0, 0);
                         break;

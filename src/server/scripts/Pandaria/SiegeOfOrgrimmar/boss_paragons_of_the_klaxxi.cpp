@@ -1188,8 +1188,8 @@ private:
         me->InterruptNonMeleeSpells(true);
         me->SetFaction(35);
         me->AttackStop();
-        me->DeleteThreatList();
-        me->getThreatManager().clearReferences();
+        me->GetThreatManager().ClearAllThreat();
+        me->GetThreatManager().clearReferences();
 
         DoCast(me, SPELL_DEFEATED, true);
         // FeignDeath auras works only on players now
@@ -2076,7 +2076,7 @@ class npc_iyyokuk_the_lucid : public CreatureScript
             void InsaneCalculationInit()
             {
                 std::list<Unit*> targets;
-                SelectTargetList(targets, 25, SELECT_TARGET_RANDOM, 0.0f, true);
+                SelectTargetList(targets, 25, SELECT_TARGET_RANDOM, 0, 0.0f, true);
 
                 for (std::list<Unit*>::const_iterator itrTarget = targets.begin(); itrTarget != targets.end(); ++itrTarget)
                 {
@@ -4449,7 +4449,7 @@ class spell_paragons_of_the_klaxxi_injection: public SpellScriptLoader
                     if (Creature* pCreature = GetCaster()->ToCreature())
                     {
                         std::list<Unit*> targets;
-                        pCreature->AI()->SelectTargetList(targets, AMBER_PARASITE_COUNT, SELECT_TARGET_RANDOM, 0.0f, true);
+                        pCreature->AI()->SelectTargetList(targets, AMBER_PARASITE_COUNT, SELECT_TARGET_RANDOM, 0, 0.0f, true);
 
                         for (auto target : targets)
                         {

@@ -739,7 +739,7 @@ struct auchindoun_mob_sargerei_defender : public ScriptedAI
         switch (events.ExecuteEvent())
         {
         case eSargereiDefenderEvents::EventAvengersShield:
-            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 50.0f, true))
+            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 50.0f, true))
                 me->CastSpell(l_Random, eSargereiDefenderSpells::SpellAvengersShield);
             events.ScheduleEvent(eSargereiDefenderEvents::EventAvengersShield, urand(10 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));
             break;
@@ -922,7 +922,7 @@ struct auchindoun_mob_soul_priest : public ScriptedAI
         switch (events.ExecuteEvent())
         {
         case eSoulPriestEvents::EventShadowWordPainSoulPriest:
-            if (SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true, -eAuchindounSpells::SpellShadowWordPainPriest))
+            if (SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true, true, -eAuchindounSpells::SpellShadowWordPainPriest))
                 me->CastSpell(me, eSoulPriestSpells::SpellShadowWordPainPriest);
             events.ScheduleEvent(eSoulPriestEvents::EventShadowWordPainSoulPriest, urand(8 * TimeConstants::IN_MILLISECONDS, 12 * TimeConstants::IN_MILLISECONDS));
             break;
@@ -1073,7 +1073,7 @@ struct auchindoun_mob_felborne_abyssal : public ScriptedAI
             if (!m_FixatedTargetGUID)//???
             {
                 if (Unit* l_Target = ObjectAccessor::GetUnit(*me, m_FixatedTargetGUID))
-                    me->AddThreat(l_Target, 500.0f);
+                    me->GetThreatManager().AddThreat(l_Target, 500.0f);
             }
         }
 

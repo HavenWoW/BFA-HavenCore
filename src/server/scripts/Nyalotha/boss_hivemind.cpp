@@ -264,7 +264,7 @@ private:
 			break;
 
 		case EVENT_NULLIFICATION_BLAST:
-			if (Unit* tank = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* tank = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 			{
 				me->SetFacingToObject(tank, true);
 				me->CastSpell(tank, SPELL_NULLIFICATION_BLAST, false);
@@ -527,7 +527,7 @@ struct npc_hivemind : public ScriptedAI
 		case EVENT_FIXATE:
 			if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
 			{
-				me->AddThreat(target, 1000.0f, SpellSchoolMask::SPELL_SCHOOL_MASK_NORMAL);
+				me->GetThreatManager().AddThreat(target, 1000.0f);
 				me->CastSpell(target, SPELL_FIXATE, true);				
 			}
 			break;
@@ -538,7 +538,7 @@ struct npc_hivemind : public ScriptedAI
 			break;
 
 		case EVENT_RAVAGE:
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 				me->CastSpell(target, SPELL_RAVAGE, false);
 			events.Repeat(18s);
 			break;

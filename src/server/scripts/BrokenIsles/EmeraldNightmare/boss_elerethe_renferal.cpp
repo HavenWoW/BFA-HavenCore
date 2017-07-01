@@ -356,7 +356,7 @@ struct boss_elerethe_renferal : public BossAI
     {
         if (spell->Id == SPELL_RAKING_TALONS)
         {
-            if (auto victim = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 15.0f, true))
+            if (auto victim = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 15.0f, true))
                 me->CastSpellDelay(victim, SPELL_RAKING_TALONS_2, false, 100);
         }
     }
@@ -539,7 +539,7 @@ struct boss_elerethe_renferal : public BossAI
                     platformId = 0;
                 break;
             case EVENT_CHECH_PLAYER:
-                if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 30.0f, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 30.0f, true))
                 {
                     me->SetReactState(REACT_AGGRESSIVE);
                     events.RescheduleEvent(EVENT_RAKING_TALONS, 7000);
@@ -803,7 +803,7 @@ struct npc_en_venomous_spider : public ScriptedAI
             case 1:
                 me->SetReactState(REACT_PASSIVE);
                 me->SetReactState(REACT_AGGRESSIVE);
-                if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO))
+                if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT))
                     me->CastSpell(target, 226073, true);
                 events.RescheduleEvent(2, 1500);
                 events.RescheduleEvent(1, urandms(24, 25));
@@ -880,7 +880,7 @@ struct npc_en_nightmother : public ScriptedAI
                 me->SetDisableGravity(true);
                 me->SetCanFly(true);
                // me->GetMotionMaster()->MoveTakeoff(1, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ() + 32.0f);
-                if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO))
+                if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT))
                 {
                     me->CastSpell(target, 223022, true);
                     jumpTimer = 6000;
@@ -939,7 +939,7 @@ struct npc_en_shadowfeather : public ScriptedAI
                 break;
             case 2:
                 DoCastVictim(222996);
-                if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO))
+                if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT))
                 {
                   //  me->CastSpellDelay(target, 222996, false, 4000);
                  //   me->CastSpellDelay(target, 222996, false, 8000);

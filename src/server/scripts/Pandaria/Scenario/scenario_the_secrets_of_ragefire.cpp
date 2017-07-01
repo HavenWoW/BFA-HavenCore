@@ -736,7 +736,7 @@ public:
                 {
                     me->SetInCombatWith(enemy);
                     me->Attack(enemy, true);
-                    me->AddThreat(enemy, 500.0f);
+                    me->GetThreatManager().AddThreat(enemy, 500.0f);
                 }
                 break;
             case 7:

@@ -398,7 +398,7 @@ struct bfa_npc_fracking_totem : public ScriptedAI {
     void SetInCombat(Player* invoker, Unit* earthrager)
     {
         earthrager->SetInCombatWith(invoker);
-        earthrager->getThreatManager().addThreat(invoker, 999999.9f);
+        earthrager->GetThreatManager().AddThreat(invoker, 999999.9f);
         invoker->SetInCombatWith(earthrager);
         me->SetInCombatWithZone();
     }

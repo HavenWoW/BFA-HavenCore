@@ -429,7 +429,7 @@ public:
 					me->TextEmote(str.str().c_str(), 0, true);
 
 					std::list<Unit*> targets;
-					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 
 					if (!targets.empty())
 						for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
@@ -599,7 +599,7 @@ public:
 					for (auto validTarget : targetList)
 					{
 						me->AI()->AttackStart(validTarget);
-						me->AddThreat(validTarget, 999999999.9f);
+						me->GetThreatManager().AddThreat(validTarget, 999999999.9f);
 					}
 
 					break;

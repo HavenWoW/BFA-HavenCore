@@ -618,7 +618,7 @@ public:
                 case EVENT_THROW_SPEAR:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -633,7 +633,7 @@ public:
                 case EVENT_THROW_SPEAR_1:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -648,7 +648,7 @@ public:
                 case EVENT_THROW_SPEAR_2:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1225,7 +1225,7 @@ public:
                 case EVENT_ARCING_LIGHT:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1254,13 +1254,13 @@ public:
                         me->GetMotionMaster()->MoveChase(qon->GetVictim());
                     break;
                 case EVENT_CALL_THE_STORM:
-                    if (Unit* random = SelectTarget(SELECT_TARGET_FARTHEST, 0, 500.0f, true))
+                    if (Unit* random = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 500.0f, true))
                     {
                         if (Creature* winds = me->SummonCreature(41245, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 15000))
                         {
                             winds->GetMotionMaster()->MovePoint(500, random->GetPositionX(), random->GetPositionY(), random->GetPositionZ(), false);
                             //winds->AI()->AttackStart(random);
-                            //winds->AddThreat(random, 99999999.9f);
+                            //winds->GetThreatManager().AddThreat(random, 99999999.9f);
                         }
                     }
                     events.ScheduleEvent(EVENT_CALL_THE_STORM, 30000);
@@ -1510,7 +1510,7 @@ public:
                     if (Creature* trigger = me->SummonCreature(60942, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 6000))
                     {
                         me->SetFacingToObject(trigger);
-                        me->AddThreat(trigger, 9.9999999f);
+                        me->GetThreatManager().AddThreat(trigger, 9.9999999f);
                     }
                     events.ScheduleEvent(EVENT_PHASE_THREE_DAMREN, 12 * IN_MILLISECONDS);
                     events.ScheduleEvent(EVENT_RETURN_TO_COMBAT, 6000);
@@ -1536,7 +1536,7 @@ public:
                     if (Creature* trigger = me->SummonCreature(60942, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 6000))
                     {
                         me->SetFacingToObject(trigger);
-                        me->AddThreat(trigger, 9.9999999f);
+                        me->GetThreatManager().AddThreat(trigger, 9.9999999f);
                     }
                     events.ScheduleEvent(EVENT_RETURN_TO_COMBAT, 6000);
                     events.ScheduleEvent(EVENT_FREEZE, TIMER_FREEZE);
@@ -1548,7 +1548,7 @@ public:
                 case EVENT_FREEZE:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1582,7 +1582,7 @@ public:
         void CastSpikes() // for 10 diffs
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 2, SELECT_TARGET_RANDOM, 1000.0f, true);
+            SelectTargetList(targets, 2, SELECT_TARGET_RANDOM, 0, 1000.0f, true);
             targets.remove_if(notValidSpec()); // in this case, tank specc'ed players
 
             if (!targets.empty())
@@ -1593,7 +1593,7 @@ public:
         void CastSpikes25()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 10000.0f, true);
+            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 10000.0f, true);
             targets.remove_if(notValidSpec()); //tanks
 
             if (!targets.empty())

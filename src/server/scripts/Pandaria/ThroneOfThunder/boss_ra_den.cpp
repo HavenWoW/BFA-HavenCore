@@ -822,7 +822,7 @@ public:
                 {
                     Talk(TALK_UNSTABLE_VITA);
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -836,7 +836,7 @@ public:
                 {
                     Talk(TALK_UNSTABLE_ANIMA);
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -909,7 +909,7 @@ public:
 
         void IsSummonedBy(Unit* summoner)
         {
-            //me->AddThreat(summoner, 999999999.9f);
+            //me->GetThreatManager().AddThreat(summoner, 999999999.9f);
             //me->AI()->AttackStart(summoner);
             me->GetMotionMaster()->MovePoint(0, summoner->GetPositionX(), summoner->GetPositionY(), summoner->GetPositionZ() + 1.0f, false);
             me->GetMotionMaster()->MoveChase(summoner);
@@ -999,7 +999,7 @@ public:
 
         void IsSummonedBy(Unit* summoner)
         {
-            //me->AddThreat(summoner, 999999999.9f);
+            //me->GetThreatManager().AddThreat(summoner, 999999999.9f);
             //me->AI()->AttackStart(summoner);
             me->GetMotionMaster()->MoveChase(summoner);
             events.ScheduleEvent(EVENT_CHECK_IF_BOSS_NEARBY, 1000);

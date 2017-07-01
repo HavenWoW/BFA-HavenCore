@@ -679,7 +679,7 @@ public:
             {
                 if (caster->IsAIEnabled)
                 {
-                    if (Unit* target = caster->GetAI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                    if (Unit* target = caster->GetAI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                     {
                         caster->CastSpell(target, eBoneMawSpells::SpellCorpseBreathDamage);
                     }

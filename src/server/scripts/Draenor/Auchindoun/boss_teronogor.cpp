@@ -391,7 +391,7 @@ struct boss_teronogor : public BossAI
         }
         case eTerongorEvents::EventCorruption:
         {
-            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, -eTerongorSpells::SpellCorruptionDmg))
+            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, true, -eTerongorSpells::SpellCorruptionDmg))
                 me->CastSpell(l_Random, eTerongorSpells::SpellCorruptionDmg);
 
             events.ScheduleEvent(eTerongorEvents::EventCorruption, 9 * TimeConstants::IN_MILLISECONDS);
@@ -407,7 +407,7 @@ struct boss_teronogor : public BossAI
         }
         case eTerongorEvents::EventCurseOfExhaustion:
         {
-            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, -eTerongorSpells::SpellCurseOfExhaustionDebuff))
+            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, true, -eTerongorSpells::SpellCurseOfExhaustionDebuff))
                 me->CastSpell(l_Random, eTerongorSpells::SpellCurseOfExhaustionDebuff);
 
             events.ScheduleEvent(eTerongorEvents::EventCurseOfExhaustion, 13 * TimeConstants::IN_MILLISECONDS);
@@ -423,7 +423,7 @@ struct boss_teronogor : public BossAI
         }
         case eTerongorEvents::EventUnstableAffliction:
         {
-            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, -eTerongorSpells::SpellUnstableAffliction))
+            if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, true, -eTerongorSpells::SpellUnstableAffliction))
                 me->CastSpell(l_Random, eTerongorSpells::SpellUnstableAffliction);
 
             events.ScheduleEvent(eTerongorEvents::EventUnstableAffliction, 20 * TimeConstants::IN_MILLISECONDS);
@@ -540,7 +540,7 @@ struct boss_teronogor : public BossAI
         me->CastSpell(me, spell);
         if (me->IsAIEnabled)
         {
-            if (Unit* l_Victim = me->GetAI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* l_Victim = me->GetAI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                 me->Attack(l_Victim, true);
         }
         me->UpdatePosition(*me);
@@ -638,7 +638,7 @@ public:
                 events.ScheduleEvent(eTeronogorDuragEvents::EventShadowBolt, 6 * TimeConstants::IN_MILLISECONDS);
                 break;
             case eTeronogorDuragEvents::EventCorruption:
-                if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, -eTerongorSpells::SpellCorruptionDmg))
+                if (Unit* l_Random = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true, true, -eTerongorSpells::SpellCorruptionDmg))
                     me->CastSpell(l_Random, eTeronogorDuragSpells::SpellCorruptionDmg);
                 events.ScheduleEvent(eTeronogorDuragEvents::EventCorruption, 9 * TimeConstants::IN_MILLISECONDS);
                 break;

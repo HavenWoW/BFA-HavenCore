@@ -170,7 +170,7 @@ struct boss_god_king_kovald : public BossAI
                     break;
 
                 case EVENT_FELBLAZE_RUSH:
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 5.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 5.0f, true, true, 0))
                         me->CastSpell(target, SPELL_FELBLAZE_RUSH, true);
                     break;
 

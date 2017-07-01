@@ -226,7 +226,7 @@ private:
         {
         case EVENT_ESSENCE_SHEAR:
         {
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
             {
                 me->SetFacingToObject(target);
                 DoCast(SPELL_ESSENCE_SHEAR);
@@ -237,7 +237,7 @@ private:
         case EVENT_IMMINENT_RUIN:
         {             
             UnitList u_li;
-            SelectTargetList(u_li, 4, SELECT_TARGET_RANDOM, 150.0f, true);
+            SelectTargetList(u_li, 4, SELECT_TARGET_RANDOM, 0, 150.0f, true);
             for (Unit* targets : u_li)
             {
                 me->CastSpell(targets, SPELL_IMMINENT_RUIN_AURA, true);
@@ -263,7 +263,7 @@ private:
             Talk(SAY_OBLIVION_SPHERE);
             Talk(SAY_OBLIVION_SPHERE_WHISPER);
             UnitList u_li;
-            SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(u_li, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* targets : u_li)
             {
                 me->CastSpell(targets->GetRandomNearPosition(10.0f), SPELL_OBLIVION_SPHERE_SUMMON, true);
@@ -274,7 +274,7 @@ private:
         case EVENT_VISION_OF_MADNESS:
         {
             UnitList u_li;
-            SelectTargetList(u_li, 5, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(u_li, 5, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* targets : u_li)
             {
                 me->CastSpell(targets->GetPosition(), SPELL_VISION_OF_MADNESS_SUMMON, true);

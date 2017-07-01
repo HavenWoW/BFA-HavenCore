@@ -294,7 +294,7 @@ struct boss_nzoth : public BossAI
             if (this->phase2 == true)
             {
                 UnitList tarlist;
-                SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 100.0f, true);
+                SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 0, 100.0f, true);
                 for (Unit* target : tarlist)
                 {
                     Talk(SAY_CORRUPTING_OF_DEATHWING);
@@ -576,7 +576,7 @@ struct npc_spike_tentacle : public ScriptedAI
     void JustDied(Unit* /*killer*/) override
     {
         UnitList tarlist;
-        SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 100.0f, true);
+        SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 0, 100.0f, true);
         for (Unit* target : tarlist)
         {
             me->CastSpell(target, EVENT_CORRUPTED_VISPERA);

@@ -451,8 +451,8 @@ public:
             {
                 if (pSpellInfo->Id == SPELL_THUNDERING_THROW)
                 {
-                    if (me->getThreatManager().getThreat(pHit))
-                        me->getThreatManager().modifyThreatPercent(pHit, -100);
+                    if (me->GetThreatManager().getThreat(pHit))
+                        me->GetThreatManager().ModifyThreatByPercent(pHit, -100);
                 }
             }
         }
@@ -714,7 +714,7 @@ public:
                     me->RemoveAura(42716); // root aura
                     me->AddUnitState(UNIT_STATE_ROOT);
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -723,7 +723,7 @@ public:
                     {
                         me->AddAura(SPELL_FOCUSED_LIGHTNING_SPEED, me);
                         me->AI()->AttackStart((*itr));
-                        me->AddThreat((*itr), 99999999.9f);
+                        me->GetThreatManager().AddThreat((*itr), 99999999.9f);
                         me->AddAura(137422, (*itr));
                         events.ScheduleEvent(EVENT_MOVE_TO_PLAYERS, 1000, 0, 0);
                         break;

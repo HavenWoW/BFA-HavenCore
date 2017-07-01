@@ -448,7 +448,7 @@ public:
                     case EVENT_ARCANE_BARRAGE:
                         if(Player* player = me->SelectNearestPlayer(55.0f))
                         {
-                            me->AddThreat(player, 55.0f);
+                            me->GetThreatManager().AddThreat(player, 55.0f);
                             me->AI()->AttackStart(player);
                             DoCast(SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true), SPELL_ARCANE_BARRAGE, true);
                         }

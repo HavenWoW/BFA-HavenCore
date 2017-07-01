@@ -184,8 +184,8 @@ private:
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
             {
-                summon->getThreatManager().resetAllAggro();
-                summon->getThreatManager().addThreat(target, 1000000.0f);
+                summon->GetThreatManager().resetAllAggro();
+                summon->GetThreatManager().AddThreat(target, 1000000.0f);
                 summon->GetMotionMaster()->MoveChase(target);
             }
         }
@@ -219,7 +219,7 @@ private:
             }
             case EVENT_EVOLVING_AFFLICTION:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                     me->CastSpell(target, SPELL_EVOLVING_AFFLICTION, true);
                 events.Repeat(9500);
                 break;

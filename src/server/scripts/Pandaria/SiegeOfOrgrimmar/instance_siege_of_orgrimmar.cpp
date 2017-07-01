@@ -136,7 +136,7 @@ void CombatAuraHelper::UpdateCombatAuras(const uint32 diff)
     {
         m_CombatAurasTimer = 10000;
 
-        std::list<HostileReference*> const& threatlist = m_Owner->getThreatManager().getThreatList();
+        std::list<HostileReference*> const& threatlist = m_Owner->GetThreatManager().getThreatList();
         if (threatlist.empty())
             return;
 

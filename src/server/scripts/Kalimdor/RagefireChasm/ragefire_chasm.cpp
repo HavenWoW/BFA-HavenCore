@@ -79,7 +79,7 @@ namespace RagefireChasm
         // location-specific escape route, then despawns.
         prisoner->SetReactState(REACT_PASSIVE);
         prisoner->CombatStop(true);
-        prisoner->DeleteThreatList();
+        prisoner->GetThreatManager().ClearAllThreat();
         prisoner->SetWalk(false);
 
         if (prisoner->AI())

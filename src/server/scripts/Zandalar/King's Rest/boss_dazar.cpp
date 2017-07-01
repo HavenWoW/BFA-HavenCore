@@ -47,7 +47,7 @@ struct boss_dazar : public BossAI
              break;
 
         case EVENT_QUAKING_LEAP:
-             if (Unit* tar = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+             if (Unit* tar = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
              {
                  DoCast(tar, SPELL_QUAKING_LEAP);
              }

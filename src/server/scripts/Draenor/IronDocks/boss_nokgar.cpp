@@ -279,7 +279,7 @@ public:
 
             if (m_Dismounted)
             {
-                if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                 {
                     if (!me->IsWithinMeleeRange(l_Victim))
                         me->GetMotionMaster()->MoveChase(l_Victim);
@@ -321,7 +321,7 @@ public:
                         }
                     }
 
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                     {
                         me->Attack(l_Target, true);
                         me->GetMotionMaster()->MoveChase(l_Target);
@@ -517,7 +517,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
             {
                 if (p_Id == eMovementInformed::MovementInformDreadfangShreddingStrikes)
                 {
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                     {
                         me->Attack(l_Target, true);
                     }
@@ -530,7 +530,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
 
                 if (p_Id == eMovementInformed::MovementInformDreadfangFranticMauling)
                 {
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                     {
                         me->Attack(l_Target, true);
                     }
@@ -577,7 +577,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
 
                 if (m_SavageMaullingDiff <= p_Diff)
                 {
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 50.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 50.0f, true))
                     {
                         me->Attack(l_Target, true);
                         me->GetMotionMaster()->MoveChase(l_Target);
@@ -594,7 +594,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
 
                 if (m_BloodlettingHowlDiff <= p_Diff)
                 {
-                    if ([[maybe_unused]] Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 50.0f, true))
+                    if ([[maybe_unused]] Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 50.0f, true))
                         me->CastSpell(me, eDreadfangSpells::SpellBloodlettingHowl);
 
                     m_BloodlettingHowlDiff = 25 * TimeConstants::IN_MILLISECONDS;
@@ -610,7 +610,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
                     me->SetReactState(ReactStates::REACT_PASSIVE);
                     me->AddAura(eDreadfangSpells::SpellShreddingSwipesAuraRemove, me);
                     me->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_IMMUNE_TO_PC));
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 50.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 50.0f, true))
                         me->GetMotionMaster()->MovePoint(eMovementInformed::MovementInformDreadfangShreddingStrikes, l_Target->GetPositionX(), l_Target->GetPositionY(), l_Target->GetPositionZ());
 
                     m_ShreddingAttackDiff = 50 * TimeConstants::IN_MILLISECONDS;
@@ -624,7 +624,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
                 {
                     case eDreadfangEvents::EventSavageMauling:
                         {
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 50.0f, true))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 50.0f, true))
                             {
                                 me->Attack(l_Target, true);
 
@@ -648,7 +648,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
                             me->SetReactState(ReactStates::REACT_PASSIVE);
                             me->AddAura(eDreadfangSpells::SpellShreddingSwipesAuraRemove, me);
                             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_IMMUNE_TO_PC);    
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 50.0f, true))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 50.0f, true))
                                 me->GetMotionMaster()->MovePoint(eMovementInformed::MovementInformDreadfangShreddingStrikes, l_Target->GetPositionX(), l_Target->GetPositionY(), l_Target->GetPositionZ());
                             events.ScheduleEvent(eDreadfangEvents::EventShreddingSwipes, 50 * TimeConstants::IN_MILLISECONDS);            
                             break;

@@ -183,7 +183,7 @@ public:
         void HandleBender()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 
             if (!targets.empty())
                 if (targets.size() >= 1)
@@ -434,7 +434,7 @@ public:
                 case EVENT_FIXATE:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 
                     if (!targets.empty())
                         if (targets.size() >= 1)
@@ -442,7 +442,7 @@ public:
 
                     for (auto target : targets)
                     {
-                        me->AddThreat(target, 9999999999.9f);
+                        me->GetThreatManager().AddThreat(target, 9999999999.9f);
                         me->CastSpell(target, SPELL_FIXATE, true);
                         me->AI()->AttackStart(target);
                     }

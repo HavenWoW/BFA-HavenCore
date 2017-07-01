@@ -1782,7 +1782,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 else
                 {
                     if (!me->isMoving())
-                        if (Unit* l_Target = SelectTarget(SELECT_TARGET_NEAREST, 0, 0.0f, true))
+                        if (Unit* l_Target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 0.0f, true))
                             me->GetMotionMaster()->MoveFollow(l_Target, 0.0f, 0.0f);
                 }
             }
@@ -1849,7 +1849,7 @@ class boss_garrosh_hellscream : public CreatureScript
 
                 ClumpCheckSelector selector;
                 std::list<Unit*> targets;
-                SelectTargetList(targets, selector, 1, SELECT_TARGET_RANDOM);
+                SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 0, selector);
 
                 if (targets.empty())
                     return;
@@ -3582,7 +3582,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
                 {
                     uint8 targetsCount = pCreature->GetMap()->Is25ManRaid() ? 4 : 2;
                     std::list<Unit*> newTargets;
-                    pCreature->AI()->SelectTargetList(newTargets, TouchOfYshaarjTargetSelector(pCreature), targetsCount, SELECT_TARGET_RANDOM);
+                    pCreature->AI()->SelectTargetList(newTargets, targetsCount, SELECT_TARGET_RANDOM, 0, TouchOfYshaarjTargetSelector(pCreature));
 
                     for (auto target : newTargets)
                         targets.push_back(target);

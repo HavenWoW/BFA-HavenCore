@@ -366,7 +366,7 @@ class boss_koragh : public CreatureScript
 
                                 AddTimedDelayedOperation(2 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                                 {
-                                    if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                                    if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                                     {
                                         me->GetMotionMaster()->Clear();
                                         me->GetMotionMaster()->MoveChase(target);
@@ -425,7 +425,7 @@ class boss_koragh : public CreatureScript
 
                         AddTimedDelayedOperation(2 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                         {
-                            if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                            if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             {
                                 me->GetMotionMaster()->Clear();
                                 me->GetMotionMaster()->MoveChase(target);
@@ -639,7 +639,7 @@ class boss_koragh : public CreatureScript
 
                         me->GetMotionMaster()->Clear();
 
-                        if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->GetMotionMaster()->MoveChase(target);
 
                         if (Creature* l_Grounding = ObjectAccessor::GetCreature(*me, m_FloorRune))
@@ -671,7 +671,7 @@ class boss_koragh : public CreatureScript
                     }
                     case eEvents::EventExpelMagicArcane:
                     {
-                        if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(target, eSpells::ExpelMagicArcaneAura, false);
                         Talk(eTalks::ExpelMagic);
                         m_Events.ScheduleEvent(eEvents::EventExpelMagicArcane, 30 * TimeConstants::IN_MILLISECONDS);
@@ -704,7 +704,7 @@ class boss_koragh : public CreatureScript
                     {
                         Unit* victim;
 
-                        victim = SelectTarget(SELECT_TARGET_FARTHEST, 0, 50.f, true);
+                        victim = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 50.f, true);
                         if (victim == nullptr)
                             victim = SelectTarget(SELECT_TARGET_RANDOM, 0, 50.f, true);
 

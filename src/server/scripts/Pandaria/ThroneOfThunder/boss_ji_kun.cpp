@@ -446,7 +446,7 @@ public:
         {
             me->RemoveAllAuras();
             Reset();
-            me->DeleteThreatList();
+            me->GetThreatManager().ClearAllThreat();
             me->CombatStop(true);
             me->GetMotionMaster()->MoveTargetedHome();
 

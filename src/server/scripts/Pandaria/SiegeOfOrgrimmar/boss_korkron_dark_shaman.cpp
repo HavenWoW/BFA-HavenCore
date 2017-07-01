@@ -725,9 +725,9 @@ class boss_earthbreaker_haromm : public CreatureScript
                         break;
                     case EVENT_FOUL_STREAM:
                     {
-                        Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 20.0f, true, -SPELL_TOXIC_MIST);
+                        Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 20.0f, true, true, -SPELL_TOXIC_MIST);
                         if (!target)
-                            target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0f, true, -SPELL_TOXIC_MIST);
+                            target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0f, true, true, -SPELL_TOXIC_MIST);
                         if (!target)
                             target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0f, true);
 
@@ -1367,7 +1367,7 @@ class spell_korkron_dark_shaman_toxic_mist : public SpellScriptLoader
                 {
                     uint8 targetsCount = pCreature->GetMap()->Is25ManRaid() ? 5 : 2;
                     std::list<Unit*> newTargets;
-                    pCreature->AI()->SelectTargetList(newTargets, targetsCount, SELECT_TARGET_RANDOM, 0.0f, true);
+                    pCreature->AI()->SelectTargetList(newTargets, targetsCount, SELECT_TARGET_RANDOM, 0, 0.0f, true);
 
                     for (auto target : newTargets)
                         targets.push_back(target);

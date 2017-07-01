@@ -297,8 +297,8 @@ struct npc_stalvan : public ScriptedAI
                         tobias->SetReactState(REACT_AGGRESSIVE);
 
                         me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_IMMUNE_TO_PC));
-                        me->AddThreat(tobias, 10.f);
-                        tobias->AddThreat(me, 10.f);
+                        me->GetThreatManager().AddThreat(tobias, 10.f);
+                        tobias->GetThreatManager().AddThreat(me, 10.f);
                         tobias->SetInCombatWith(me);
 
                         if (me->Attack(tobias, true))

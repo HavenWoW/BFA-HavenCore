@@ -136,7 +136,7 @@ struct boss_tusle_tonks : public BossAI
             break;
 
         case EVENT_MAXIMUM_THRUST:
-            if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
             {
                 me->GetScheduler().Schedule(1s, [this, target] (TaskContext context)
                 {
@@ -147,7 +147,7 @@ struct boss_tusle_tonks : public BossAI
             break;
 
         case EVENT_VENT_JETS:
-            if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 100.0f, true))
             {
                 me->AddAura(SPELL_AURA_VENT_JETS);
                 me->GetMotionMaster()->Clear();

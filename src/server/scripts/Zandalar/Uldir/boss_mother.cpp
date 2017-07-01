@@ -143,7 +143,7 @@ struct boss_mother : public BossAI
             me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
             me->SetWalk(true);
             me->SetHealth(me->GetMaxHealth());            
-            me->DeleteThreatList();
+            me->GetThreatManager().ClearAllThreat();
             me->ClearInCombat();
             instance->SendBossKillCredit(MOTHER_ENCOUNTER);
             me->GetScheduler().Schedule(4s, [this](TaskContext /*context*/)
@@ -173,7 +173,7 @@ struct boss_mother : public BossAI
     {
         if (spellInfo->Id == SPELL_SANITIZING_STRIKE)
         {
-            if (Unit* tar = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* tar = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
             {
                 me->AddAura(SPELL_SANITIZING_STRIKE, tar);
             }
@@ -187,7 +187,7 @@ struct boss_mother : public BossAI
         case EVENT_SANITIZING_STRIKE:
         {
             Talk(SAY_SANITIZING_STRIKE);
-            if (Unit* tar = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+            if (Unit* tar = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
             {
                 DoCast(tar, SPELL_SANITIZING_STRIKE, false);
             }            
@@ -223,7 +223,7 @@ struct boss_mother : public BossAI
         {
             Talk(SAY_PURIFYING_FLAME);
             UnitList tarlist;
-            SelectTargetList(tarlist, 100, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tarlist, 100, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* targets : tarlist)
             {
                 targets->SummonCreature(NPC_PURIFYING_FLAME_2, targets->GetPosition(), TEMPSUMMON_MANUAL_DESPAWN);

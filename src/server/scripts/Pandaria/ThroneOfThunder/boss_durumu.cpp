@@ -862,7 +862,7 @@ public:
                 Talk(TALK_DISINTEGRATION);
                 if (Creature* tarMover = me->SummonCreature(NPC_MAZE_BEAM, 5838.92f, 4503.38f, -6.27f, 6.08f, TEMPSUMMON_MANUAL_DESPAWN)) //5841.55f, 4517.23f, -6.27f
                 {
-                    me->AddThreat(tarMover, 99999999.9f);
+                    me->GetThreatManager().AddThreat(tarMover, 99999999.9f);
                     me->AI()->AttackStart(tarMover);
                     me->CastSpell(tarMover, SPELL_DESINTEGRATION_BEAM_PRECAST, true);
                 }
@@ -1221,7 +1221,7 @@ public:
         void CastMark10() // for 10 diffs
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 2, SELECT_TARGET_FARTHEST, 1000.0f, true);
+            SelectTargetList(targets, 2, SELECT_TARGET_MAXDISTANCE, 0, 1000.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     DoCast(*itr, SPELL_LINGERING_GAZE_MARKER, true);
@@ -1230,7 +1230,7 @@ public:
         void CastMark25() // for 25 diffs
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 5, SELECT_TARGET_FARTHEST, 1000.0f, true);
+            SelectTargetList(targets, 5, SELECT_TARGET_MAXDISTANCE, 0, 1000.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     DoCast(*itr, SPELL_LINGERING_GAZE_MARKER, true);
@@ -1314,7 +1314,7 @@ public:
                             str << "|TInterface\\Icons\\Ability_monk_forcesphere.blp:20|t Durumu begins charging up his Evil Eye to cast |cFFF00000|Hspell:136932|h[Force of Will]|h|r on " << (player->GetName()) << "!|TInterface\\Icons\\Ability_monk_forcesphere.blp:20|t";
                             me->TextEmote(str.str().c_str(), 0, true);
                             me->SetFacingToObject(trigger);
-                            me->AddThreat(trigger, 9999999.9f);
+                            me->GetThreatManager().AddThreat(trigger, 9999999.9f);
                             me->AI()->AttackStart(trigger);
                             me->SetFacingToObject(trigger);
                             me->CastSpell(me, SPELL_FORCE_OF_WILL);
@@ -1573,7 +1573,7 @@ public:
                     if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
                     {
                         me->AI()->AttackStart(target);
-                        me->AddThreat(target, 99999999.9f);
+                        me->GetThreatManager().AddThreat(target, 99999999.9f);
                     }
                     events.ScheduleEvent(EVENT_DEVOUR, 2000, 0, 0);
                     break;
@@ -1627,7 +1627,7 @@ public:
                 if (Creature* yellow = me->FindNearestCreature(YELLOW_EYE, 500.0f, true))
                 {
                     yellow->CastSpell(me, SPELL_YELLOW_BEAM, true);
-                    yellow->AddThreat(me, 99999999.9f);
+                    yellow->GetThreatManager().AddThreat(me, 99999999.9f);
                     yellow->AI()->AttackStart(me);
                 }
                 if (roll_chance_f(50))
@@ -1826,7 +1826,7 @@ public:
                 {
                 case EVENT_DAMAGE_PLAYERS:
                     std::list<Unit*> players;
-                    SelectTargetList(players, 1, SELECT_TARGET_RANDOM, 300.0f, true);
+                    SelectTargetList(players, 1, SELECT_TARGET_RANDOM, 0, 300.0f, true);
                     if (!players.empty())
                     {
                         for (auto target : players)
@@ -1889,14 +1889,14 @@ public:
                 case EVENT_RED_EYE:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
 
                     for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     {
-                        me->AddThreat((*itr), 9999999.9f);
+                        me->GetThreatManager().AddThreat((*itr), 9999999.9f);
                         me->AI()->AttackStart((*itr));
                         me->CastSpell((*itr), SPELL_RED_PREBLIND, true);
                         std::ostringstream str;
@@ -1993,14 +1993,14 @@ public:
                 case EVENT_BLUE_EYE:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
 
                     for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     {
-                        me->AddThreat((*itr), 9999999.9f);
+                        me->GetThreatManager().AddThreat((*itr), 9999999.9f);
                         me->AI()->AttackStart((*itr));
                         me->CastSpell((*itr), SPELL_BLUE_PREBLIND, true);
                         std::ostringstream str;
@@ -3080,7 +3080,7 @@ public:
         void CastStern10() // for 10 diffs
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 2, SELECT_TARGET_NEAREST, 200.0f, true);
+            SelectTargetList(targets, 2, SELECT_TARGET_MINDISTANCE, 0, 200.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     DoCast(*itr, 136616, true);
@@ -3089,7 +3089,7 @@ public:
         void CastStern25() // for 25 diffs
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 5, SELECT_TARGET_NEAREST, 200.0f, true);
+            SelectTargetList(targets, 5, SELECT_TARGET_MINDISTANCE, 0, 200.0f, true);
             if (!targets.empty())
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     DoCast(*itr, 136616, true);

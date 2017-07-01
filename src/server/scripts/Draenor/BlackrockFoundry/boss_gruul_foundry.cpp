@@ -424,7 +424,7 @@ class boss_gruul_foundry : public CreatureScript
                         {
                            // AddTimedDelayedOperation(l_CurrentSpell->GetCastTime() + 100, [this]() -> void
                           //  {
-                                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                                 {
                                     AttackStart(l_Target);
 
@@ -435,7 +435,7 @@ class boss_gruul_foundry : public CreatureScript
                         }
                         else
                         {
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             {
                                 AttackStart(l_Target);
 
@@ -475,7 +475,7 @@ class boss_gruul_foundry : public CreatureScript
                     }
                     case eEvents::EventOverwhelmingBlows:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::OverwhelmingBlowsProc, true);
 
                         break;
@@ -548,7 +548,7 @@ class boss_gruul_foundry : public CreatureScript
                         //{
                             me->SetReactState(ReactStates::REACT_PASSIVE);
 
-                            DoResetThreat();
+                            ResetThreatList();
 
                             me->GetMotionMaster()->Clear();
                             me->GetMotionMaster()->MovePoint(eSpells::SpellDestructiveRampage, g_CenterPos);
@@ -860,7 +860,7 @@ class spell_foundry_petrifying_slam_aoe : public SpellScriptLoader
             {
                 if (Unit* l_Caster = GetCaster())
                 {
-                    std::list<HostileReference*> l_ThreatList = l_Caster->getThreatManager().getThreatList();
+                    std::list<HostileReference*> l_ThreatList = l_Caster->GetThreatManager().getThreatList();
                     uint32 l_Count = (uint32)std::count_if(l_ThreatList.begin(), l_ThreatList.end(), [this, l_Caster](HostileReference* p_HostileRef) -> bool
                     {
                         Unit* l_Unit = ObjectAccessor::GetUnit(*l_Caster, p_HostileRef->getUnitGuid());

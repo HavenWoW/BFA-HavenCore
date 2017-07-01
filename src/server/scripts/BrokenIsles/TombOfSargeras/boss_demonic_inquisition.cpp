@@ -316,7 +316,7 @@ public:
                     break;
                 case EVENT_SUFFOCATING_DARK:
                 {
-                    std::list<HostileReference*> threatlist = me->getThreatManager().getThreatList();
+                    std::list<HostileReference*> threatlist = me->GetThreatManager().getThreatList();
 
                     threatlist.remove_if([this](HostileReference* ref)
                     {

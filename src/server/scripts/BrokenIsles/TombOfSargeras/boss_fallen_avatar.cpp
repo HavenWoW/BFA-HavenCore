@@ -654,7 +654,7 @@ struct boss_fallen_avatar : BossAI
                 Talk(SAY_BLADES);
                 DoCast(SPELL_SHADOWY_BLADES);
 
-                auto threatlist = me->getThreatManager().getThreatList();
+                auto threatlist = me->GetThreatManager().getThreatList();
                 threatlist.remove_if([](HostileReference* ref)
                 {
                     return !ref->getTarget()->IsPlayer();

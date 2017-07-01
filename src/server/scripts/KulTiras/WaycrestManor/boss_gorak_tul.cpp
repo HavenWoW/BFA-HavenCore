@@ -142,7 +142,7 @@ struct npc_deathtouched_slaver : public ScriptedAI
 		switch (eventId)
 		{
 		case EVENT_DARK_LEAP:
-			if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
 			{
 				DoCast(target, DARK_LEAP);
 				DoCast(target, DARK_LEAP_2);
@@ -159,7 +159,7 @@ struct npc_deathtouched_slaver : public ScriptedAI
 			break;
 
 		case EVENT_DEATH_LENS:
-			if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 50.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 50.0f, true))
 			{
 				DoCast(target, DEATH_LENS);
 				DoCast(target, DEATH_LENS_PERIODIC);

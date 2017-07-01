@@ -220,8 +220,8 @@ struct npc_irontide_granadier : public ScriptedAI
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0, true))
                 {
                     me->CastSpell(target, HarlanSweeteSpells::BlackPowderBombAura, true);
-                    me->getThreatManager().resetAllAggro();
-                    me->getThreatManager().addThreat(target, 1000000.0f);
+                    me->GetThreatManager().resetAllAggro();
+                    me->GetThreatManager().AddThreat(target, 1000000.0f);
                     me->GetMotionMaster()->MoveChase(target);
                     targetGUID = target->GetGUID();
                 }

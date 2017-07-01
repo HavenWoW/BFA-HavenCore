@@ -367,7 +367,7 @@ struct npc_ataldazar_reanimation_totem : public ScriptedAI
                 me->CallAssistance();
                 boss->SetInCombatWith(attacker);
                 attacker->SetInCombatWith(boss);
-                boss->AddThreat(attacker, 0.1f);
+                boss->GetThreatManager().AddThreat(attacker, 0.1f);
                 boss->Attack(attacker, true);
             }
         }

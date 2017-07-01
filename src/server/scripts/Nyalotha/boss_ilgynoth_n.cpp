@@ -210,7 +210,7 @@ private:
 
 		case EVENT_EYE_OF_NZOTH:
 			Talk(SAY_EYE_OF_NZOTH);
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
 			{
 				if (Player* player = target->ToPlayer())
 				{	
@@ -247,7 +247,7 @@ private:
 		case EVENT_TOUCH_OF_THE_CORRUPTOR:
 		{
 			UnitList tarlist;
-			SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 150.0f);
+			SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 0, 150.0f);
 			for (Unit* targets : tarlist)
 			{
 				me->CastSpell(nullptr, SPELL_TOUCH_OF_THE_CORRUPTOR, false);
@@ -264,7 +264,7 @@ private:
 			if (IsMythic())
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 7, SELECT_TARGET_RANDOM, 150.0f);
+				SelectTargetList(tarlist, 7, SELECT_TARGET_RANDOM, 0, 150.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->AddAura(SPELL_CURSED_BLOOD, targets);
@@ -273,7 +273,7 @@ private:
 			else
 			{
 				UnitList tarlist;
-				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 150.0f);
+				SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 150.0f);
 				for (Unit* targets : tarlist)
 				{
 					me->AddAura(SPELL_CURSED_BLOOD, targets);
@@ -384,7 +384,7 @@ struct npc_blood_of_nyalotha : public ScriptedAI
 		{
 			me->AI()->DoZoneInCombat(nullptr);
 			if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
-				me->AddThreat(target, 1000.0f);
+				me->GetThreatManager().AddThreat(target, 1000.0f);
 		}
 	}
 
@@ -441,7 +441,7 @@ struct npc_clotted_corruption : public ScriptedAI
 		switch (eventId)
 		{
 		case EVENT_ABSORBING_CHARGE:
-			if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 150.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 150.0f, true))
 				me->CastSpell(target, SPELL_ABSORBING_CHARGE, false);
 		}
 	}

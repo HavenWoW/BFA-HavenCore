@@ -211,7 +211,7 @@ private:
 		}
 		case EVENT_WASTING_STRIKE:
 		{
-			if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 5.0f, true)){
+			if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 5.0f, true)){
 				DoCast(target, WASTING_STRIKE);
 			events.Repeat(15s);
 			break;

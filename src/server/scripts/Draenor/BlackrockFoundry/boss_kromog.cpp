@@ -343,7 +343,7 @@ class boss_kromog : public CreatureScript
                             break;
                         }
 
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                         {
                             if (!l_Target->IsWithinMeleeRange(me))
                                 me->CastSpell(me, eSpells::StoneBreathChannel, false);
@@ -371,7 +371,7 @@ class boss_kromog : public CreatureScript
                     }
                     case eEvents::EventWarpedArmor:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::WarpedArmor, true);
                         m_Events.ScheduleEvent(eEvents::EventWarpedArmor, m_FrenzyHealthPct == 0 ? TimerWarpedArmorFrenzied : eTimers::TimerWarpedArmor);
                         break;

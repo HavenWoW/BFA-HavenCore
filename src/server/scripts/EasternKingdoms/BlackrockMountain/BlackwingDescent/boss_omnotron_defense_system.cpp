@@ -315,7 +315,7 @@ public:
                     me->SetFullHealth();
                     me->RemoveAllAuras();
                     me->CombatStop(false);
-                    me->DeleteThreatList();
+                    me->GetThreatManager().ClearAllThreat();
                     eventActive = false;
 
                     DespawnMinions();
@@ -610,7 +610,7 @@ public:
                     { // is First Tron
                         me->SetReactState(REACT_AGGRESSIVE);
                         me->RemoveAllAuras();
-                        me->DeleteThreatList();
+                        me->GetThreatManager().ClearAllThreat();
                         me->CombatStop(true);
                         me->AttackStop();
                         if(instance)
@@ -625,7 +625,7 @@ public:
                 case ACTION_DEACTIVATE:
                     me->SetReactState(REACT_PASSIVE);
                     me->AttackStop();
-                    me->DeleteThreatList();
+                    me->GetThreatManager().ClearAllThreat();
                     me->CombatStop(true);
                     me->RemoveAllAuras();
                     if(instance)
@@ -654,7 +654,7 @@ public:
             {
                 me->SetReactState(REACT_PASSIVE);
                 me->AttackStop();
-                me->DeleteThreatList();
+                me->GetThreatManager().ClearAllThreat();
                 me->CombatStop(true);
                 me->RemoveAllAuras();
                 activated = false;

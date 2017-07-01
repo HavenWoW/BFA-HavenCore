@@ -453,7 +453,7 @@ class boss_oregorger : public CreatureScript
 
                         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
 
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                         {
                             me->GetMotionMaster()->Clear();
 
@@ -676,7 +676,7 @@ class boss_oregorger : public CreatureScript
 
                         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
 
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                         {
                             AttackStart(l_Target);
 
@@ -800,7 +800,7 @@ class boss_oregorger : public CreatureScript
                 {
                     case eEvents::EventAcidMaw:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::AcidMawDoT, true);
 
                         m_Events.ScheduleEvent(eEvents::EventAcidMaw, 6 * TimeConstants::IN_MILLISECONDS);

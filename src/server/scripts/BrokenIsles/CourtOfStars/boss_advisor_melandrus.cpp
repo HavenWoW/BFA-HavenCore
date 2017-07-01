@@ -205,7 +205,7 @@ struct boss_advisor_melandrus : public BossAI
         {
             me->GetSpellHistory()->ResetAllCooldowns();
             Talk(SAY_BLADE_SURGE);
-            Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, NonTankTargetSelector(me, true));
+            Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, NonTankTargetSelector(me, true));
 
             if (target)
                 DoCast(target, SPELL_BLADE_SURGE);

@@ -1762,7 +1762,7 @@ public:
                 switch (eventId)
                 {
                 case EVENT_TENTACLE_SLAM:
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 20.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 20.0f, true, true, 0))
                         me->CastSpell(target, SPELL_TENTACLE_SLAM);
                     events.ScheduleEvent(EVENT_TENTACLE_SLAM, TIMER_TENTACLE_SLAM);
                     break;

@@ -48,7 +48,7 @@ public:
 				        me->AddUnitFlag(UNIT_FLAG_NOT_ATTACKABLE_1);
 				        me->SetFaction(35);
 				        me->CombatStop(true);
-				        me->DeleteThreatList();
+				        me->GetThreatManager().ClearAllThreat();
 				        me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
                         Talk(0);
                     }

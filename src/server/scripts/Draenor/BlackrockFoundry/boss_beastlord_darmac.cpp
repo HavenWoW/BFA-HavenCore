@@ -358,7 +358,7 @@ class boss_beastlord_darmac : public CreatureScript
 
                        // AddTimedDelayedOperation(1 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                         //{
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                                 me->CastSpell(l_Target, eSpells::RendAndTearJumpSecond, true);
                        // });
 
@@ -1102,7 +1102,7 @@ class npc_foundry_cruelfang : public CreatureScript
 
                 if (m_CosmeticEvents.ExecuteEvent() == eEvents::EventRendAndTearSec)
                 {
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                         me->CastSpell(l_Target, eSpells::RendAndTearJumpSecond, true);
                 }
 
@@ -1582,7 +1582,7 @@ class npc_foundry_ironcrusher : public CreatureScript
                     }
                     case eEvents::EventCrushArmor:
                     {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             me->CastSpell(l_Target, eSpells::CrushArmor, true);
 
                         m_Events.ScheduleEvent(eEvents::EventCrushArmor, eTimers::TimerCrushArmor);

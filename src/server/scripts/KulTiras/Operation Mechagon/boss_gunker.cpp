@@ -108,7 +108,7 @@ struct boss_gunker : public BossAI
             break;
 
         case EVENT_SLUDGE_BOLT:
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 10.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 10.0f, true))
             {
                 if (target->GetDistance2d(me) > 5.0f)
                 {

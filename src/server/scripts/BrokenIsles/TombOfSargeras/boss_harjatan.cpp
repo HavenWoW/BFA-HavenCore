@@ -694,7 +694,7 @@ class spell_tos_fixate : public AuraScript
 
         caster->AddAura(234128, caster);
 
-        caster->AddThreat(target, std::numeric_limits<float>::max());
+        caster->GetThreatManager().AddThreat(target, std::numeric_limits<float>::max());
         caster->TauntApply(target);
     }
 

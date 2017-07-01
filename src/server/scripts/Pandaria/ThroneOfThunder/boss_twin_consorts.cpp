@@ -723,7 +723,7 @@ public:
                     events.ScheduleEvent(EVENT_FAN_OF_FLAMES, TIMER_FAN_OF_FLAMES);
                     break;
                 case EVENT_FLAMES_OF_PASSION:
-                    if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 500.0f, true))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 500.0f, true))
                     {
                         me->CastSpell(target, 137414, true); // flames of passion damage
                         me->GetMotionMaster()->MoveJump(target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 35.0f, 30.0f, 0);
@@ -1224,7 +1224,7 @@ public:
                     me->AddAura(SPELL_BEAST_OF_NIGHTMARES, target);
                     if (Creature* beast = me->SummonCreature(NPC_BEAST_OF_NIGHTMARES, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN))
                     {
-                        beast->AddThreat(target, 9999999.9f);
+                        beast->GetThreatManager().AddThreat(target, 9999999.9f);
                         beast->AI()->AttackStart(target);
                     }
                     events.ScheduleEvent(EVENT_BEAST_OF_NIGHTMARES, TIMER_BEAST_OF_NIGHTMARE);
@@ -1530,7 +1530,7 @@ public:
                 case EVENT_STAR_ATTACK:
                 {
                     std::list<Unit*> players;
-                    SelectTargetList(players, Is25ManRaid() ? 8 : 4, SELECT_TARGET_RANDOM, 300.0f, true);
+                    SelectTargetList(players, Is25ManRaid() ? 8 : 4, SELECT_TARGET_RANDOM, 0, 300.0f, true);
                     players.remove_if(notValidSpec());
                     if (!players.empty())
                         for (std::list<Unit*>::iterator itr = players.begin(); itr != players.end(); ++itr)
@@ -1562,7 +1562,7 @@ public:
         void Star10()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 0, 500.0f, true);
             targets.remove_if(notValidSpec()); // in this case, tank specc'ed players
 
             if (!targets.empty())
@@ -1575,7 +1575,7 @@ public:
         void Star25()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 25, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(targets, 25, SELECT_TARGET_RANDOM, 0, 500.0f, true);
             targets.remove_if(notValidSpec()); // in this case, tank specc'ed players
 
             if (!targets.empty())
@@ -1720,7 +1720,7 @@ public:
                 me->SetFacingTo(ori);
                 me->SetFacingToObject(suen);
                 me->AI()->AttackStart(suen);
-                me->AddThreat(suen, 999999999.9f);
+                me->GetThreatManager().AddThreat(suen, 999999999.9f);
             }
 
             while (uint32 eventId = events.ExecuteEvent())

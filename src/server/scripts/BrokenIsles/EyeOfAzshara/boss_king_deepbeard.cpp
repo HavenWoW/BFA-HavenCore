@@ -273,7 +273,7 @@ public:
 				{
 					SelectSoundAndText(me, 3);
 					std::list<Unit*> targets;
-					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 					targets.remove_if(checkSpec());
 
 					if (!targets.empty())

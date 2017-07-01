@@ -196,14 +196,14 @@ private:
             if (!IsHeroic() || !IsMythic())
             {
                 UnitList tarlist;
-                SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 100.0f, true);
+                SelectTargetList(tarlist, 2, SELECT_TARGET_RANDOM, 0, 100.0f, true);
                 for (Unit* target : tarlist)
                 me->CastSpell(target, SPELL_GIGAVOLT_CHARGE, true);
             }
             else
             {
                 UnitList tarlist;
-                SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+                SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
                 for (Unit* target : tarlist)
                 me->CastSpell(target, SPELL_GIGAVOLT_CHARGE, true);
             }
@@ -214,7 +214,7 @@ private:
         case EVENT_SHRINK:
         {
             UnitList tarlist;
-            SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 100.0f, true);
+            SelectTargetList(tarlist, 3, SELECT_TARGET_RANDOM, 0, 100.0f, true);
             for (Unit* target : tarlist)
             me->CastSpell(target, EVENT_SHRINK, false);
             events.Repeat(50s);

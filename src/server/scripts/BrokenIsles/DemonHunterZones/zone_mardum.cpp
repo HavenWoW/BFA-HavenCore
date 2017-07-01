@@ -1597,7 +1597,7 @@ public:
                 // valida, y otorgalo desde JustDied() usando esta lista en
                 // vez de releer la threat list.
                 std::list<HostileReference*> threatList;
-                threatList = me->getThreatManager().getThreatList();
+                threatList = me->GetThreatManager().getThreatList();
                 for (std::list<HostileReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
                     if (Player* target = (*itr)->getTarget()->ToPlayer())
                         if (target->GetQuestStatus(38728) == QUEST_STATUS_INCOMPLETE)

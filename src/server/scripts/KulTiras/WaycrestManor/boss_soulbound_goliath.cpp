@@ -67,7 +67,7 @@ struct boss_soulbound_goliath : public BossAI
 			break;
 
 		case EVENT_CRUSH:
-			if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 8.0f, true))
+			if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 8.0f, true))
 			DoCast(target, CRUSH);
 			events.Repeat(15s);
 			break;

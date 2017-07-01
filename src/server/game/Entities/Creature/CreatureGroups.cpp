@@ -180,7 +180,7 @@ void CreatureGroup::RemoveMember(Creature* member)
     member->SetFormation(nullptr);
 }
 
-void CreatureGroup::MemberAttackStart(Creature* member, Unit* target)
+void CreatureGroup::MemberEngagingTarget(Creature* member, Unit* target)
 {
     FormationInfo* formationInfo = sFormationMgr->CreatureGroupMap[member->GetSpawnId()];
     if (!formationInfo)
@@ -200,11 +200,7 @@ void CreatureGroup::MemberAttackStart(Creature* member, Unit* target)
 
     for (CreatureGroupMemberType::iterator itr = m_members.begin(); itr != m_members.end(); ++itr)
     {
-        if (m_leader) // avoid crash if leader was killed and reset.
-            TC_LOG_DEBUG("entities.unit", "GROUP ATTACK: group instance id %u calls member instid %u", m_leader->GetInstanceId(), member->GetInstanceId());
-
         Creature* other = itr->first;
-
         // Skip self
         if (other == member)
             continue;
@@ -212,11 +208,8 @@ void CreatureGroup::MemberAttackStart(Creature* member, Unit* target)
         if (!other->IsAlive())
             continue;
 
-        if (other->GetVictim())
-            continue;
-
         if (((other != m_leader && (groupAI & FLAG_MEMBERS_ASSIST_LEADER)) || (other == m_leader && (groupAI & FLAG_LEADER_ASSISTS_MEMBER))) && other->IsValidAttackTarget(target))
-            other->AI()->AttackStart(target);
+            other->EngageWithTarget(target);
     }
 }
 

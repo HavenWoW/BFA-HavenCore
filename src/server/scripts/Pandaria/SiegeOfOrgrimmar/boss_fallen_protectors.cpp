@@ -1369,7 +1369,7 @@ struct npc_he_softfoot_embodied_anguish : public ScriptedAI
 
                     if (Player* l_Target = ObjectAccessor::GetPlayer(*me, m_TargetGUID))
                     {
-                        me->AddThreat(l_Target, 10000000.0f);
+                        me->GetThreatManager().AddThreat(l_Target, 10000000.0f);
                         me->GetMotionMaster()->MoveChase(l_Target);
                     }
                     break;
@@ -1379,14 +1379,14 @@ struct npc_he_softfoot_embodied_anguish : public ScriptedAI
                 case Events::EVENT_MARK_OF_ANGUISH_TARGET_CHANGED:
                 {
                     me->CastStop();
-                    DoResetThreat();
+                    ResetThreatList();
                     m_IsCasting = false;
 
                     if (me->GetReactState() != ReactStates::REACT_PASSIVE)
                     {
                         if (Player* l_Target = ObjectAccessor::GetPlayer(*me, m_TargetGUID))
                         {
-                            me->AddThreat(l_Target, 10000000.0f);
+                            me->GetThreatManager().AddThreat(l_Target, 10000000.0f);
                             me->GetMotionMaster()->MoveChase(l_Target);
                         }
                     }
@@ -1403,7 +1403,7 @@ struct npc_he_softfoot_embodied_anguish : public ScriptedAI
                         m_TargetGUID = ObjectGuid::Empty;
 
                         me->CastStop();
-                        DoResetThreat();
+                        ResetThreatList();
 
                         events.ScheduleEvent(Events::EVENT_MARK_OF_ANGUISH, 1000);
                         return;
@@ -1857,8 +1857,8 @@ class spell_he_stonefoot_gouge : public SpellScript
                     return p_Target->IsPlayer() && p_Target != l_Target;
                 }))
                 {
-                    l_HeStoneFoot->getThreatManager().resetAllAggro();
-                    l_HeStoneFoot->AddThreat(l_NewTarget, 10000000.0f);
+                    l_HeStoneFoot->GetThreatManager().resetAllAggro();
+                    l_HeStoneFoot->GetThreatManager().AddThreat(l_NewTarget, 10000000.0f);
                     l_HeStoneFoot->ToCreature()->AI()->AttackStart(l_NewTarget);
 
                     l_HeStoneFoot->CastSpell(l_NewTarget, eSpells::Shadowstep, true);

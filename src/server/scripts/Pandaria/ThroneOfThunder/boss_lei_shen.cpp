@@ -976,7 +976,7 @@ public:
         void CastStaticShockLevel1()
         {
             std::list<Unit*> players;
-            SelectTargetList(players, 1, SELECT_TARGET_RANDOM, 300.0f, true);
+            SelectTargetList(players, 1, SELECT_TARGET_RANDOM, 0, 300.0f, true);
             players.remove_if(notValidSpec());
             if (!players.empty())
                 for (std::list<Unit*>::iterator itr = players.begin(); itr != players.end(); ++itr)
@@ -988,7 +988,7 @@ public:
         void CastStaticShockLevel2()
         {
             std::list<Unit*> players;
-            SelectTargetList(players, 2, SELECT_TARGET_RANDOM, 300.0f, true);
+            SelectTargetList(players, 2, SELECT_TARGET_RANDOM, 0, 300.0f, true);
             players.remove_if(notValidSpec());
             if (!players.empty())
                 for (std::list<Unit*>::iterator itr = players.begin(); itr != players.end(); ++itr)
@@ -1000,7 +1000,7 @@ public:
         void CastStaticShockLevel3()
         {
             std::list<Unit*> players;
-            SelectTargetList(players, 3, SELECT_TARGET_RANDOM, 300.0f, true);
+            SelectTargetList(players, 3, SELECT_TARGET_RANDOM, 0, 300.0f, true);
             players.remove_if(notValidSpec());
             if (!players.empty())
                 for (std::list<Unit*>::iterator itr = players.begin(); itr != players.end(); ++itr)
@@ -1012,7 +1012,7 @@ public:
         void CastOverchargedLevel1()
         {
             std::list<Unit*> players;
-            SelectTargetList(players, 1, SELECT_TARGET_RANDOM, 300.0f, true);
+            SelectTargetList(players, 1, SELECT_TARGET_RANDOM, 0, 300.0f, true);
             players.remove_if(notValidSpec());
             players.remove_if(hasHelmActive());
             if (!players.empty())
@@ -1025,7 +1025,7 @@ public:
         void CastOverchargedLevel2()
         {
             std::list<Unit*> players;
-            SelectTargetList(players, 2, SELECT_TARGET_RANDOM, 300.0f, true);
+            SelectTargetList(players, 2, SELECT_TARGET_RANDOM, 0, 300.0f, true);
             players.remove_if(notValidSpec());
             players.remove_if(hasHelmActive());
             if (!players.empty())
@@ -1039,7 +1039,7 @@ public:
         void CastOverchargedLevel3()
         {
             std::list<Unit*> players;
-            SelectTargetList(players, 3, SELECT_TARGET_RANDOM, 300.0f, true);
+            SelectTargetList(players, 3, SELECT_TARGET_RANDOM, 0, 300.0f, true);
             players.remove_if(notValidSpec());
             players.remove_if(hasHelmActive());
             if (!players.empty())
@@ -1203,7 +1203,7 @@ public:
                 case EVENT_DIFFUSION_CHAIN_PILLAR_EVENT:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1263,7 +1263,7 @@ public:
                 case EVENT_DECAPITATE_SPELL:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1284,7 +1284,7 @@ public:
 
                     {
                         std::list<Unit*> targets;
-                        SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                        SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                         if (!targets.empty())
                             if (targets.size() >= 1)
                                 targets.resize(1);
@@ -1303,7 +1303,7 @@ public:
                                 trigger->SetObjectScale(2.0f);
                                 me->AddAura(123795, trigger);
                                 me->SetFacingToObject(trigger);
-                                me->AddThreat(trigger, 9.9999999f);
+                                me->GetThreatManager().AddThreat(trigger, 9.9999999f);
                                 me->CastSpell(trigger, SPELL_THUNDERSTRUCK);
                             }
                         }
@@ -1315,7 +1315,7 @@ public:
                 case EVENT_CRASHING_THUNDER:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1329,7 +1329,7 @@ public:
                 {
                     Talk(TALK_LIGHTNING_WHIP);
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1345,7 +1345,7 @@ public:
                         if (Creature* trigger = me->SummonCreature(60942, (*itr)->GetPositionX(), (*itr)->GetPositionY(), (*itr)->GetPositionZ(), (*itr)->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 8000))
                         {
                             me->SetFacingToObject(trigger);
-                            me->AddThreat(trigger, 9.9999999f);
+                            me->GetThreatManager().AddThreat(trigger, 9.9999999f);
                             me->CastSpell(trigger, SPELL_LIGHTNING_WHIP);
                         }
                     }
@@ -1359,7 +1359,7 @@ public:
                 case EVENT_SUMMON_BALL_LIGHTNING:
                 {
                     /*freakzUnitList players;
-                    SelectTargetList(players, Is25ManRaid() ? 4 : 8, SELECT_TARGET_RANDOM, 300.0f, true);
+                    SelectTargetList(players, Is25ManRaid() ? 4 : 8, SELECT_TARGET_RANDOM, 0, 300.0f, true);
                     players.remove_if(notValidSpec());
                     if (!players.empty())
                     for (freakzUnitList::iterator itr = players.begin(); itr != players.end(); ++itr)
@@ -1396,7 +1396,7 @@ public:
                 case EVENT_DIFFUSION_CHAIN_DISABLED:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1419,7 +1419,7 @@ public:
                     if (me->GetMap()->IsHeroic())
                     {
                         std::list<Unit*> players;
-                        SelectTargetList(players, Is25ManRaid() ? 3 : 1, SELECT_TARGET_RANDOM, 300.0f, true);
+                        SelectTargetList(players, Is25ManRaid() ? 3 : 1, SELECT_TARGET_RANDOM, 0, 300.0f, true);
                         if (!players.empty())
                             for (std::list<Unit*>::iterator itr = players.begin(); itr != players.end(); ++itr)
                             {
@@ -1435,7 +1435,7 @@ public:
                     if (update > 2)
                         return;
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -3097,7 +3097,7 @@ public:
 
                     for (auto target : players)
                     {
-                        me->AddThreat(target, 9999999999.9f);
+                        me->GetThreatManager().AddThreat(target, 9999999999.9f);
                         me->AI()->AttackStart(target);
                     }
                     break;

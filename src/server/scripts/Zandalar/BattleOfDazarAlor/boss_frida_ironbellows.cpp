@@ -316,7 +316,7 @@ private:
         case EVENT_WAVE_OF_LIGHT:
         {
              Talk(SAY_WAVE_OF_LIGHT);
-             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f))     
+             if (Unit* target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 100.0f))     
              {
                  me->SetFacingToObject(target);
                  me->CastSpell(nullptr, WAVE_OF_LIGHT_CREATE_AT, false);

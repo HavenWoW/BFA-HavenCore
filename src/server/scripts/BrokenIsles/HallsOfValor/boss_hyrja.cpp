@@ -184,7 +184,7 @@ struct boss_hyrja : public BossAI
                 break;
         }
 
-        if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 5.0f, true, 0))
+        if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 5.0f, true, true, 0))
             me->CastSpell(target, spellId, true);
     }
 

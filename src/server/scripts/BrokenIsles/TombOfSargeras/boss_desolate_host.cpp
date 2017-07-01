@@ -662,7 +662,7 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
                 soulsList.clear();
                 bool foundReal = false;
                 bool foundSpirit = false;
-                std::list<HostileReference*> threatList = me->getThreatManager().getThreatList();
+                std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();
                 for ([[maybe_unused]] auto ref : threatList)
                 {
                    // if (auto player = Player::GetPlayer(*me, ref->getUnitGuid()))
@@ -1160,8 +1160,8 @@ struct npc_tos_fallen_priestess : ScriptedAI
             case 1:
                 if (auto target = SelectTarget(SELECT_TARGET_RANDOM, 0, [this](Unit const* t) { return (!mirror && t->HasAura(SPELL_SPIRIT_REALM)) || (mirror && !t->HasAura(SPELL_SPIRIT_REALM)); }))
                 {
-                    DoResetThreat();
-                    me->AddThreat(target, 10000.0f);
+                    ResetThreatList();
+                    me->GetThreatManager().AddThreat(target, 10000.0f);
                     DoCast(target, SPELL_SHATTERING_SCREAM);
                 }
                 events.RescheduleEvent(1, urand(10, 15) * IN_MILLISECONDS);
@@ -1169,8 +1169,8 @@ struct npc_tos_fallen_priestess : ScriptedAI
             case 2:
                 if (auto target = SelectTarget(SELECT_TARGET_RANDOM, 0, [this](Unit const* t) { return (!mirror && t->HasAura(SPELL_SPIRIT_REALM)) || (mirror && !t->HasAura(SPELL_SPIRIT_REALM)); }))
                 {
-                    DoResetThreat();
-                    me->AddThreat(target, 10000.0f);
+                    ResetThreatList();
+                    me->GetThreatManager().AddThreat(target, 10000.0f);
                     DoCast(target, SPELL_SPIRIT_CHAINS);
                 }
                 events.RescheduleEvent(2, 14000);
@@ -1723,7 +1723,7 @@ class spell_tos_spear_of_anguish_filter : public SpellScript
 
         if (targets.size() > 1)
         {
-            if (auto topAggro = GetCaster()->GetAI()->SelectTarget(SELECT_TARGET_TOPAGGRO))
+            if (auto topAggro = GetCaster()->GetAI()->SelectTarget(SELECT_TARGET_MAXTHREAT))
             {
                // if (topAggro->IsPlayer() && topAggro->ToPlayer()->isInTankSpec())
                     targets.remove(topAggro);
@@ -1767,7 +1767,7 @@ class spell_tos_tormented_cries_filter : public SpellScript
 
         if (targets.size() > 1)
         {
-            if (auto topAggro = GetCaster()->GetAI()->SelectTarget(SELECT_TARGET_TOPAGGRO))
+            if (auto topAggro = GetCaster()->GetAI()->SelectTarget(SELECT_TARGET_MAXTHREAT))
             {
               //  if (topAggro->IsPlayer() && topAggro->ToPlayer()->isInTankSpec())
                     targets.remove(topAggro);
@@ -1879,7 +1879,7 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
                             case NPC_FALLEN_PRIESTESS_MIRROR:
                             case NPC_SOUL_RESIDUE_MIRROR:
                                 if (isSpiritRealm)
-                                    creature->getThreatManager().modifyThreatPercent(GetTarget(), -100);
+                                    creature->GetThreatManager().ModifyThreatByPercent(GetTarget(), -100);
                                 break;
                                 //Spirit Realm
                             case NPC_SOUL_QUEEN_DEJAHNA:
@@ -1888,7 +1888,7 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
                             case NPC_REANIMATED_TEMPLAR_MIRROR:
                             case NPC_GHASTLY_BONEWARDEN_MIRROR:
                                 if (!isSpiritRealm)
-                                    creature->getThreatManager().modifyThreatPercent(GetTarget(), -100);
+                                    creature->GetThreatManager().ModifyThreatByPercent(GetTarget(), -100);
                                 break;
                             default:
                                 break;

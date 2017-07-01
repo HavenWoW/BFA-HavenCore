@@ -110,7 +110,7 @@ struct boss_humongris : public ScriptedAI
             break;
 
         case EVENT_YOU_GO_BANG:
-            if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0.0, 100.0f, true))
+            if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0.0, 100.0f, true))
                 DoCast(target, SPELL_YOU_GO_BANG_TARGET, false);
             events.Repeat(24400);
             break;

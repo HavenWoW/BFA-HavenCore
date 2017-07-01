@@ -294,7 +294,7 @@ public:
 				case EVENT_POISON_SPIT:
 				{
 					std::list<Unit*> targets;
-					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 					targets.remove_if(checkSpec());
 
 					if (!targets.empty())
@@ -310,7 +310,7 @@ public:
 				case EVENT_TOXIC_WOUND:
 				{
 					std::list<Unit*> targets;
-					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+					SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 					targets.remove_if(checkSpec());
 
 					if (!targets.empty())

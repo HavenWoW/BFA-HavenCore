@@ -528,7 +528,7 @@ public:
         {
             if (Creature* pHorridon = GetHorridon())
             {
-                return ((pHorridon->IsInCombat() || pHorridon->GetVictim()) && pHorridon->getThreatManager().isThreatListEmpty());
+                return ((pHorridon->IsInCombat() || pHorridon->GetVictim()) && pHorridon->GetThreatManager().isThreatListEmpty());
             }
 
             return true;
@@ -1363,7 +1363,7 @@ public:
                         if (Creature* trigger = me->SummonCreature(60942, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 5000))
                         {
                             me->SetFacingToObject(trigger);
-                            me->AddThreat(trigger, 9.9999999f);
+                            me->GetThreatManager().AddThreat(trigger, 9.9999999f);
                             me->CastSpell(trigger, SPELL_DOUBLE_SWIPE);
                         }
                         events.ScheduleEvent(EVENT_RETURN_TO_COMBAT, 4000);
@@ -1382,7 +1382,7 @@ public:
                         if (Creature* trigger = me->SummonCreature(60942, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), target->GetOrientation(), TEMPSUMMON_TIMED_DESPAWN, 5000))
                         {
                             me->SetFacingToObject(trigger);
-                            me->AddThreat(trigger, 9.9999999f);
+                            me->GetThreatManager().AddThreat(trigger, 9.9999999f);
                             me->CastSpell(trigger, SPELL_DOUBLE_SWIPE);
                         }
                         events.ScheduleEvent(EVENT_RETURN_TO_COMBAT, 4000);
@@ -1580,7 +1580,7 @@ public:
                     if (!playerList.empty() && playerList.front())
                     {
                         Player* pFirst = playerList.front();
-                        me->AddThreat(pFirst, 100000.0f);
+                        me->GetThreatManager().AddThreat(pFirst, 100000.0f);
                         ScriptedAI::AttackStart(pFirst);
                     }
 
@@ -1907,8 +1907,8 @@ public:
                 case EVENT_SWITCH_TARGET:
                     if (Unit* pTarget = SelectTarget(SELECT_TARGET_RANDOM, 1))
                     {
-                        DoResetThreat();
-                        me->AddThreat(pTarget, 100000.0f);
+                        ResetThreatList();
+                        me->GetThreatManager().AddThreat(pTarget, 100000.0f);
                         ScriptedAI::AttackStart(pTarget);
                     }
                     events.ScheduleEvent(EVENT_SWITCH_TARGET, 7 * IN_MILLISECONDS);
@@ -2260,7 +2260,7 @@ public:
                     if (Unit* possibleTarget = horridon->GetVictim())
                     continue;*/
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -2269,7 +2269,7 @@ public:
                     {
                         me->AddAura(SPELL_DIRE_FIXATION, (*itr));
                         me->AI()->AttackStart((*itr));
-                        me->AddThreat((*itr), 999999999.9f);
+                        me->GetThreatManager().AddThreat((*itr), 999999999.9f);
                         events.ScheduleEvent(EVENT_DAMAGE_IF_NEARBY, 2000, 0, 0);
                         break;
                     }

@@ -411,7 +411,7 @@ class boss_skulloc : public CreatureScript
                         {
                             m_BridgeBombardmenet = true;
 
-                            if (Unit* l_Nearest = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                            if (Unit* l_Nearest = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                                 me->SetFacingToObject(l_Nearest);
 
                             me->AddUnitFlag(UnitFlags(UNIT_FLAG2_DISABLE_TURN));
@@ -520,7 +520,7 @@ class boss_skulloc : public CreatureScript
                         me->RemoveUnitFlag(UnitFlags(UNIT_FLAG2_DISABLE_TURN));
                         me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_REMOVE_CLIENT_CONTROL));
 
-                        if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 150.0f, true))
+                        if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 150.0f, true))
                         {
                             me->Attack(l_Victim, true);
                             me->GetMotionMaster()->MoveChase(l_Victim);
@@ -661,7 +661,7 @@ class iron_docks_skulloc_mob_koramar : public CreatureScript
                     me->RemoveAura(eKoramarSpells::SpellBladestorm);
                     me->GetMotionMaster()->Clear();
 
-                    if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 150.0f, true))
+                    if (Unit* l_Victim = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 150.0f, true))
                     {
                         me->Attack(l_Victim, true);
                         me->GetMotionMaster()->MoveChase(l_Victim);
@@ -736,7 +736,7 @@ class iron_docks_skulloc_mob_koramar : public CreatureScript
                 case eKoramarEvents::EventShatteringBlades:
                     me->SetSpeed(UnitMoveType::MOVE_RUN, 1.12f);
 
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 100.0f, true))
+                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 100.0f, true))
                         me->CastSpell(l_Target, eKoramarSpells::SpellShatteringBlades);
                     events.ScheduleEvent(eKoramarEvents::EventShatteringBlades, 12 * TimeConstants::IN_MILLISECONDS);
                     break;
@@ -834,7 +834,7 @@ class iron_docks_skulloc_mob_turret : public CreatureScript
 
                                 if (l_Zoggosh->IsAIEnabled)
                                 {
-                                    if (Unit* l_Target = l_Zoggosh->AI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                                    if (Unit* l_Target = l_Zoggosh->AI()->SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                                     {
                                         l_Zoggosh->Attack(l_Target, true);
                                         l_Zoggosh->GetMotionMaster()->MoveChase(l_Target);

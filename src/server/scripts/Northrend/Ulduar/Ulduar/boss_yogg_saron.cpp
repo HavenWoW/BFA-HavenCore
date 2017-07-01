@@ -3026,7 +3026,7 @@ public:
         {
             if (Unit* target = GetHitUnit())
                 if (target->CanHaveThreatList())
-                    target->getThreatManager().modifyThreatPercent(GetCaster(), -100);
+                    target->GetThreatManager().ModifyThreatByPercent(GetCaster(), -100);
         }
 
         void Register() override

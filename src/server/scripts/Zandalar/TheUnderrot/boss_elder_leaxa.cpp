@@ -254,7 +254,7 @@ public:
             events.DelayEvents(3 * IN_MILLISECONDS);
 
             std::list<Unit*> targets;
-            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
             if (!targets.empty())
                 if (targets.size() >= 1)
                     targets.resize(1);
@@ -288,7 +288,7 @@ public:
             events.DelayEvents(3 * IN_MILLISECONDS);
 
             std::list<Unit*> targets;
-            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
             if (!targets.empty())
                 if (targets.size() >= 1)
                     targets.resize(1);
@@ -437,7 +437,7 @@ public:
         void HandleFeast()
         {
             std::list<Unit*> targets;
-            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+            SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
             if (!targets.empty())
                 if (targets.size() >= 1)
                     targets.resize(1);

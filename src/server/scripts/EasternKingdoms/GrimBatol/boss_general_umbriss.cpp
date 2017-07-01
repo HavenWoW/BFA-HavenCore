@@ -215,7 +215,7 @@ class boss_general_umbriss : public CreatureScript
                     Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0);
                     if (pTarget)
                     {
-                        Summoned->AddThreat(pTarget, 1.0f);
+                        Summoned->GetThreatManager().AddThreat(pTarget, 1.0f);
                         Summoned->AI()->AttackStart(pTarget);
                     }
                 }

@@ -1545,7 +1545,7 @@ public:
                 me->RemoveAura(eClefthoofSpells::SpellClefthoofStampedeVisualMovement);
                 me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_IMMUNE_TO_PC));
 
-                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
+                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 100.0f, true))
                 {
                     me->Attack(l_Target, true);
                     me->GetMotionMaster()->MoveChase(l_Target);
@@ -1608,7 +1608,7 @@ public:
             {
             case eClefthoofEvents::EventClefthoofStampede:
             {
-                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_FARTHEST, 0, 45.0f, true))
+                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXDISTANCE, 0, 45.0f, true))
                 {
                     m_Stampede = true;
                     me->AttackStop();

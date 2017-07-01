@@ -330,7 +330,7 @@ class boss_hansgar : public CreatureScript
                             me->GetMotionMaster()->Clear();
                             me->SetReactState(ReactStates::REACT_PASSIVE);
 
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                                 me->CastSpell(l_Target, eSpells::CripplingSuplexScript, true);
 
                             m_Events.CancelEvent(eEvents::EventBodySlam);
@@ -386,7 +386,7 @@ class boss_hansgar : public CreatureScript
 
                    // AddTimedDelayedOperation(3 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                    // {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 0.0f, true, -VEHICLE_SPELL_RIDE_HARDCODED))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 0.0f, true, true, -VEHICLE_SPELL_RIDE_HARDCODED))
                         {
                             m_ExitTankGuid = l_Target->GetGUID();
                             m_TankHealths[eDatas::DataOffTankHealth] = l_Target->GetMaxHealth();
@@ -889,7 +889,7 @@ class boss_hansgar : public CreatureScript
 
                 me->CastSpell(me, eSpells::NotReady, true);
 
-                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                 {
                     me->CastSpell(l_Target, eSpells::BodySlamRedArrowAura, true);
                     m_BodySlamTarget = l_Target->GetGUID();
@@ -1250,7 +1250,7 @@ class boss_franzok : public CreatureScript
                             me->GetMotionMaster()->Clear();
                             me->SetReactState(ReactStates::REACT_PASSIVE);
 
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                                 me->CastSpell(l_Target, eSpells::CripplingSuplexScript, true);
 
                             m_Events.CancelEvent(eEvents::EventDisruptingRoar);
@@ -1290,7 +1290,7 @@ class boss_franzok : public CreatureScript
 
                             me->CastSpell(me, eSpells::NotReady, true);
 
-                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO))
+                            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT))
                             {
                                 me->CastSpell(l_Target, eSpells::BodySlamRedArrowAura, true);
                                 m_BodySlamTarget = l_Target->GetGUID();
@@ -1330,7 +1330,7 @@ class boss_franzok : public CreatureScript
 
                    // AddTimedDelayedOperation(3 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                    // {
-                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 0.0f, true, -VEHICLE_SPELL_RIDE_HARDCODED))
+                        if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_MAXTHREAT, 0, 0.0f, true, true, -VEHICLE_SPELL_RIDE_HARDCODED))
                         {
                             m_ExitTankGuid = l_Target->GetGUID();
                             m_TankHealths[eDatas::DataOffTankHealth] = l_Target->GetMaxHealth();

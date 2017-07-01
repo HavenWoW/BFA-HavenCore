@@ -595,7 +595,7 @@ public:
                 case EVENT_TENTACLE_SUMMON:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 1, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 
                     if (!targets.empty())
                         if (targets.size() >= 1)
@@ -670,7 +670,7 @@ public:
                 {
                 case EVENT_TENTACLE_SLAM:
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_NEAREST, 0, 100.0f))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 100.0f))
                     {
                         me->CastSpell(target, SPELL_TENTACLE_SLAM_DMG);
                     }

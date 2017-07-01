@@ -157,7 +157,7 @@ struct boss_fenryr : public BossAI
             {
                 case EVENT_CLAW_FRENZY:
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 50.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 50.0f, true, true, 0))
                         me->CastSpell(target, SPELL_CLAW_FRENZY, true);
                     break;
                 }
@@ -173,7 +173,7 @@ struct boss_fenryr : public BossAI
                 }
                 case EVENT_RAVENOUS_LEAP:
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, true, 0))
                         me->CastSpell(target, SPELL_RAVENOUS_LEAP_CAST, true);
 
                     if (!phase2 || me->GetReactState() == REACT_PASSIVE)
@@ -182,7 +182,7 @@ struct boss_fenryr : public BossAI
                 }
                 case EVENT_RAVENOUS_LEAP_2:
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, true, 0))
                         me->CastSpell(target, SPELL_RAVENOUS_LEAP_JUMP, true);
 
                     if (phase2)
@@ -193,7 +193,7 @@ struct boss_fenryr : public BossAI
                 }
                 case EVENT_RAVENOUS_LEAP_3:
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true, true, 0))
                         me->CastSpell(target, SPELL_RAVENOUS_LEAP_JUMP, true);
 
                     events.ScheduleEvent(EVENT_RAVENOUS_LEAP, 22 * IN_MILLISECONDS);
@@ -201,7 +201,7 @@ struct boss_fenryr : public BossAI
                 }
                 case EVENT_SCENT_OF_BLOOD:
                 {
-                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 1, 100.0f, true, 0))
+                    if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 1, 100.0f, true, true, 0))
                     {
                         me->CastSpell(target, SPELL_SCENT_OF_BLOOD_2, true);
                         me->AddAura(SPELL_SCENT_OF_BLOOD, target);

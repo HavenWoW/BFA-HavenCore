@@ -167,7 +167,7 @@ namespace Instances
                             else
                             {
                                 if (Unit* target = me->GetVictim())
-                                    target->AddThreat(target, 10000.0f);
+                                    target->GetThreatManager().AddThreat(target, 10000.0f);
                             }
                         }
                     }

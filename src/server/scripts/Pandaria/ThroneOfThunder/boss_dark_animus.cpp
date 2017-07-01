@@ -468,7 +468,7 @@ public:
                 case EVENT_SELECTION_TARGET:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -476,7 +476,7 @@ public:
                     for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     {
                         me->AddAura(SPELL_CRIMSON_WAKE_FIXATE, (*itr));
-                        me->AddThreat((*itr), 9999999999.9f);
+                        me->GetThreatManager().AddThreat((*itr), 9999999999.9f);
                         me->AI()->AttackStart((*itr));
                     }
                     me->DespawnOrUnsummon(30000);
@@ -1021,7 +1021,7 @@ public:
                 case EVENT_ANIMA_FONT:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
 
                     targets.remove_if(hasTouchAura());
 
@@ -1047,7 +1047,7 @@ public:
                 case EVENT_TOUCH_OF_THE_ANIMUS:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1243,7 +1243,7 @@ public:
                 case EVENT_MOVE_TO_TARGET:
                 {
                     std::list<Unit*> targets;
-                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 500.0f, true);
+                    SelectTargetList(targets, 5, SELECT_TARGET_RANDOM, 0, 500.0f, true);
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
@@ -1251,7 +1251,7 @@ public:
                     for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     {
                         me->GetMotionMaster()->MoveChase((*itr));
-                        me->AddThreat((*itr), 99999999.9f);
+                        me->GetThreatManager().AddThreat((*itr), 99999999.9f);
                         me->AI()->AttackStart((*itr));
                         events.ScheduleEvent(EVENT_UNAURA_AND_AURA, 500);
                     }

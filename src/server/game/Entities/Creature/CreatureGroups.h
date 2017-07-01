@@ -93,7 +93,7 @@ class TC_GAME_API CreatureGroup
         void MoveGroupTo(float x, float y, float z, bool fightMove = false);
 
         void LeaderMoveTo(float x, float y, float z);
-        void MemberAttackStart(Creature* member, Unit* target);
+        void MemberEngagingTarget(Creature* member, Unit* target);
 
         void CheckWipe(Creature* killed);
 };

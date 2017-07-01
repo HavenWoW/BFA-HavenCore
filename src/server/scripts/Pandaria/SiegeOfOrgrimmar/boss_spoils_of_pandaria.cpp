@@ -2181,7 +2181,7 @@ class npc_secured_stockpile_of_pandaren_spoils : public CreatureScript
                 me->RemoveAllAreaTriggers();
 
                 me->CombatStop();
-                me->DeleteThreatList();
+                me->GetThreatManager().ClearAllThreat();
                 me->getHostileRefManager().deleteReferences();
 
                 m_EvadeTimer = TIMER_CHECK_EVADE;
@@ -5777,7 +5777,7 @@ class spell_spoils_of_pandaria_matter_scramble : public SpellScriptLoader
                     const uint32 l_TargetsCount = 2;
 
                     std::list<Unit*> l_Targets;
-                    l_Creature->AI()->SelectTargetList(l_Targets, PlayerInRoomTargetCheck(l_Creature, 0.0f, l_Room), l_TargetsCount, SelectAggroTarget::SELECT_TARGET_RANDOM);
+                    l_Creature->AI()->SelectTargetList(l_Targets, l_TargetsCount, SelectAggroTarget::SELECT_TARGET_RANDOM, 0, PlayerInRoomTargetCheck(l_Creature, 0.0f, l_Room));
 
                     uint32 l_NoTargetsCount = l_Targets.size() >= l_TargetsCount ? 0 : l_TargetsCount - l_Targets.size();
                     if (l_NoTargetsCount > l_TargetsCount)
@@ -5894,7 +5894,7 @@ class spell_spoils_of_pandaria_pheromone_cloud : public SpellScriptLoader
                     const uint32 l_TargetsCount = 25;
 
                     std::list<Unit*> l_Targets;
-                    l_Creature->AI()->SelectTargetList(l_Targets, PlayerInRoomTargetCheck(l_Creature, 0.0f, l_Room), l_TargetsCount, SelectAggroTarget::SELECT_TARGET_RANDOM);
+                    l_Creature->AI()->SelectTargetList(l_Targets, l_TargetsCount, SelectAggroTarget::SELECT_TARGET_RANDOM, 0, PlayerInRoomTargetCheck(l_Creature, 0.0f, l_Room));
 
                     for (auto l_Target : l_Targets)
                     {

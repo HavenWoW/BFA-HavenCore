@@ -921,7 +921,7 @@ class boss_thok_the_bloodthirsty : public CreatureScript
             {
                 BloodiedSelector selector;
                 std::list<Unit*> targets;
-                SelectTargetList(targets, selector, 25, SELECT_TARGET_RANDOM);
+                SelectTargetList(targets, 25, SELECT_TARGET_RANDOM, 0, selector);
 
                 for (Unit* target : targets)
                     me->AddAura(SPELL_BLOODIED, target);
