@@ -640,7 +640,6 @@ class spell_krick_pursuit : public SpellScriptLoader
                             ick->AddAura(GetSpellInfo()->Id, target);
                             ENSURE_AI(boss_ick::boss_ickAI, ick->AI())->SetTempThreat(ick->GetThreatManager().GetThreat(target));
                             ick->GetThreatManager().AddThreat(target, float(GetEffectValue()), GetSpellInfo(), true, true);
-                            target->GetThreatManager().AddThreat(ick, float(GetEffectValue()), GetSpellInfo(), true, true);
                         }
                     }
             }
