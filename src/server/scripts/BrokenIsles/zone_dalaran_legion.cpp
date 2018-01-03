@@ -1136,7 +1136,7 @@ struct npc_wyrmtongue_hoarder_89407 : public ScriptedAI
 
     void UpdateAI(uint32 diff) override
     {
-        if (me->GetThreatManager().isThreatListEmpty())
+        if (me->GetThreatManager().IsThreatListEmpty())
         {
             if (roll_chance_i(25))
                 me->GetMotionMaster()->MoveRandom(10.f);

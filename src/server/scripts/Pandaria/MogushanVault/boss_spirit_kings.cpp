@@ -935,7 +935,7 @@ class boss_spirit_kings : public CreatureScript
                     me->AddUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE|UNIT_FLAG_NOT_SELECTABLE));
                     me->AddAura(SPELL_INACTIVE, me);
                     me->SetReactState(REACT_PASSIVE);
-                    me->GetThreatManager().resetAllAggro();
+                    me->GetThreatManager().ResetAllThreat();
                     me->SetSpeed(MOVE_RUN, 0.0f);
                     me->SetSpeed(MOVE_WALK, 0.0f);
                     me->AddUnitState(UNIT_STATE_NOT_MOVE);

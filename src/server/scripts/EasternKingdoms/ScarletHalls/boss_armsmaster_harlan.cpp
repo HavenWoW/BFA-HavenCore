@@ -85,7 +85,7 @@ private:
             events.ScheduleEvent(EVENT_BLADES, 15000);
             break;
         case EVENT_BLADES:
-            me->GetThreatManager().resetAllAggro();
+            me->GetThreatManager().ResetAllThreat();
             DoCast(me, SPELL_BLADES_OF_LIGHT);
             events.ScheduleEvent(EVENT_MOVE, 7000);
             events.CancelEvent(EVENT_DRAGON);

@@ -1585,21 +1585,21 @@ public:
                 // tratamiento. El item de la quest (objetivo 1) se otorga
                 // aparte en JustDied(), a traves del loot del cadaver -- ver
                 // ahi el por que.
-                // EN: The engine clears the threat list (Unit::DeleteThreatList)
+                // EN: The engine clears the threat list (ThreatManager::ClearAllThreat)
                 // right before calling JustDied(), so it's already empty by
                 // then -- remember who's eligible for the quest item here,
                 // while the threat list is still valid, and grant it from
                 // JustDied() using this list instead of re-reading threat.
-                // ES: El motor vacia la threat list (Unit::DeleteThreatList)
+                // ES: El motor vacia la threat list (ThreatManager::ClearAllThreat)
                 // justo antes de llamar a JustDied(), asi que ya esta vacia
                 // para entonces -- acordate aca quien es elegible para el
                 // item de la quest, mientras la threat list todavia es
                 // valida, y otorgalo desde JustDied() usando esta lista en
                 // vez de releer la threat list.
-                std::list<HostileReference*> threatList;
-                threatList = me->GetThreatManager().getThreatList();
-                for (std::list<HostileReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
-                    if (Player* target = (*itr)->getTarget()->ToPlayer())
+                std::vector<ThreatReference*> threatList;
+                threatList = me->GetThreatManager().GetModifiableThreatList();
+                for (std::vector<ThreatReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+                    if (Player* target = (*itr)->GetVictim()->ToPlayer())
                         if (target->GetQuestStatus(38728) == QUEST_STATUS_INCOMPLETE)
                         {
                             target->KilledMonsterCredit(101760);
@@ -1666,7 +1666,7 @@ public:
             // silently adding it to the bag, so the player picks it up like
             // any other quest item. By this point the engine already ran
             // its own loot fill for creature_loot_template (Unit::Kill,
-            // before DeleteThreatList()/JustDied()), so me->loot is the
+            // before ClearAllThreat()/JustDied()), so me->loot is the
             // real, final loot object for this corpse -- AddItem() here
             // just appends to it, it won't get overwritten afterwards.
             // Uses _keystoneRecipients (captured in DamageTaken, see there)
@@ -1679,7 +1679,7 @@ public:
             // recoja como cualquier otro item de quest. A esta altura el
             // motor ya corrio su propio llenado de loot para
             // creature_loot_template (Unit::Kill, antes de
-            // DeleteThreatList()/JustDied()), asi que me->loot ya es el
+            // ClearAllThreat()/JustDied()), asi que me->loot ya es el
             // objeto de loot real y final de este cadaver -- AddItem() aca
             // solo le suma, no se pisa despues. Usa _keystoneRecipients
             // (capturada en DamageTaken, ver ahi) en vez de la threat list,

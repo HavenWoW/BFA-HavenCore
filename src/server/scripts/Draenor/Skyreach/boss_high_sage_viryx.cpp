@@ -396,10 +396,10 @@ public:
                 me->CastSpell(me, uint32(Spells::CallAdds), false);
                 if (Creature* mobs = me->SummonCreature(76292, Position(1077.0f, 1790.5f, 262.173f, 5.7237f), TEMPSUMMON_MANUAL_DESPAWN))
                     if (Player* player = me->SelectRandomPlayerInRange(80.0f, true))
-                        mobs->CombatStart(player, true);
+                        mobs->AttackedTarget(player, true);
                 if (Creature* mobs = me->SummonCreature(76267, Position(1077.0f, 1790.5f, 262.173f, 5.7237f), TEMPSUMMON_MANUAL_DESPAWN))
                     if (Player* player = me->SelectRandomPlayerInRange(80.0f, true))
-                        mobs->CombatStart(player, true);                
+                        mobs->AttackedTarget(player, true);                
                 events.ScheduleEvent(uint32(Events::CallAdds), 60000);
                 break;
             default:

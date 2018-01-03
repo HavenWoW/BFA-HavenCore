@@ -34,6 +34,7 @@
 #include "SpellScript.h"
 #include "WorldQuestMgr.h"
 #include "GameEventMgr.h"
+#include <algorithm>
 
 enum events
 {
@@ -1510,18 +1511,18 @@ struct npc_mazgoroth : ScriptedAI
             {
             case EVENT_1:
             {
-                auto threatlist = me->GetThreatManager().getThreatList();
+                auto threatlist = me->GetThreatManager().GetModifiableThreatList();
 
                 for (uint8 i = 0; i < 3; ++i)
                 {
                     if (threatlist.empty())
                         break;
 
-                    auto itr = Trinity::Containers::SelectRandomContainerElement(threatlist);
-                    if (Unit* target = itr->getTarget())
+                    ThreatReference* ref = Trinity::Containers::SelectRandomContainerElement(threatlist);
+                    if (Unit* target = ref->GetVictim())
                         DoCast(target, 248501, false);
 
-                    threatlist.remove(itr);
+                    threatlist.erase(std::remove(threatlist.begin(), threatlist.end(), ref), threatlist.end());
                 }
                 events.ScheduleEvent(EVENT_1, 45000);
                 break;
@@ -2442,7 +2443,7 @@ struct npc_fragment_of_argus : ScriptedAI
 
     bool checkPlayers()
     {
-        std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();
+        std::vector<ThreatReference*> threatList = me->GetThreatManager().GetModifiableThreatList();
         if (threatList.size() >= 1)
             return true;
 

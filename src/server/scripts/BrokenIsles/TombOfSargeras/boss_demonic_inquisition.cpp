@@ -22,6 +22,7 @@
 #include "SpellAuras.h"
 #include "SpellScript.h"
 #include "tomb_of_sargeras.h"
+#include <algorithm>
 
 enum Spells
 {
@@ -316,22 +317,22 @@ public:
                     break;
                 case EVENT_SUFFOCATING_DARK:
                 {
-                    std::list<HostileReference*> threatlist = me->GetThreatManager().getThreatList();
+                    std::vector<ThreatReference*> threatlist = me->GetThreatManager().GetModifiableThreatList();
 
-                    threatlist.remove_if([this](HostileReference* ref)
+                    threatlist.erase(std::remove_if(threatlist.begin(), threatlist.end(), [this](ThreatReference* ref)
                     {
-                        if (!ref->getTarget()->IsPlayer())
+                        if (!ref->GetVictim()->IsPlayer())
                             return true;
 
-                        return me->GetDistance(ref->getTarget()) >= 60.0f;
-                    });
+                        return me->GetDistance(ref->GetVictim()) >= 60.0f;
+                    }), threatlist.end());
 
-                    std::list<HostileReference*> threatListTemp = threatlist;
-                    threatListTemp.remove_if([this](HostileReference* ref)
+                    std::vector<ThreatReference*> threatListTemp = threatlist;
+                    threatListTemp.erase(std::remove_if(threatListTemp.begin(), threatListTemp.end(), [this](ThreatReference* ref)
                     {
-                        return ref->getTarget()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_RANGE &&
-                        ref->getTarget()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_HEALER;
-                    });
+                        return ref->GetVictim()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_RANGE &&
+                        ref->GetVictim()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_HEALER;
+                    }), threatListTemp.end());
 
                     uint8 count = std::min(3, int32(ceil(float(threatlist.size()) / 5.0f)));
                     if (threatListTemp.size() >= count)
@@ -339,7 +340,7 @@ public:
 
                     Trinity::Containers::RandomResize(threatlist, count);
                     for (const auto& target : threatlist)
-                        if (Unit* targ = target->getTarget())
+                        if (Unit* targ = target->GetVictim())
                             me->CastSpell(targ->GetPositionX(), targ->GetPositionY(), 3011.62f, SPELL_SUFFOCATING_DARK, true);
 
                     events.RescheduleEvent(EVENT_SUFFOCATING_DARK, 24000);

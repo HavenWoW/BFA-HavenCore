@@ -121,7 +121,7 @@ bool CombatAI::UpdateVictim()
 {
     if (!me->HasReactState(REACT_PASSIVE))
     {
-        if (Unit* victim = me->SelectVictim(false))
+        if (Unit* victim = me->SelectVictim())
         {
             if (!me->IsFocusing(nullptr, true))
                 AttackStart(victim);

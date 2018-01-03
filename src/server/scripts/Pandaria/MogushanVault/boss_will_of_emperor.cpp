@@ -1005,7 +1005,7 @@ class mob_woe_add_generic : public CreatureScript
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM))
                             {
                                 targetGuid = target->GetGUID();
-                                me->GetThreatManager().resetAllAggro();
+                                me->GetThreatManager().ResetAllThreat();
                                 me->GetThreatManager().AddThreat(target, 300.0f);
                                 AttackStart(target);
                                 me->SetInCombatWith(target);

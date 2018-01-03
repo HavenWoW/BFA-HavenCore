@@ -158,10 +158,10 @@ class boss_sha_of_anger : public CreatureScript
             {
                 if (damage >= me->GetHealth())
                 {
-                    std::list<HostileReference*> l_ThreatList = me->GetThreatManager().getThreatList();
-                    for (std::list<HostileReference*>::const_iterator l_Itr = l_ThreatList.begin(); l_Itr != l_ThreatList.end(); ++l_Itr)
+                    std::vector<ThreatReference*> l_ThreatList = me->GetThreatManager().GetModifiableThreatList();
+                    for (std::vector<ThreatReference*>::const_iterator l_Itr = l_ThreatList.begin(); l_Itr != l_ThreatList.end(); ++l_Itr)
                     {
-                        if (Player* player = ObjectAccessor::GetPlayer(*me, (*l_Itr)->getUnitGuid()))
+                        if (Player* player = ObjectAccessor::GetPlayer(*me, (*l_Itr)->GetVictim()->GetGUID()))
                             m_LootersGuids.push_back(player->GetGUID());
                     }
                 }

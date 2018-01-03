@@ -316,11 +316,11 @@ public:
                 }
                 else
                 {
-                    ThreatContainer::StorageType threatList = me->GetThreatManager().getThreatList();
+                    std::vector<ThreatReference*> threatList = me->GetThreatManager().GetModifiableThreatList();
 
-                    for (ThreatContainer::StorageType::const_iterator itr = threatList.cbegin(); itr != threatList.cend(); ++itr)
+                    for (std::vector<ThreatReference*>::const_iterator itr = threatList.cbegin(); itr != threatList.cend(); ++itr)
                     {
-                        if (Unit* target = (*itr)->getTarget())
+                        if (Unit* target = (*itr)->GetVictim())
                         {
                             if (me->IsWithinMeleeRange(target))
                             {
@@ -506,7 +506,7 @@ public:
             if (Creature* pTortos = me->FindNearestCreature(BOSS_TORTOS, 50.0f, true))
             {
                 std::list<Unit*>targetList;
-                std::list<HostileReference*> threatList = pTortos->GetThreatManager().getThreatList();
+                std::vector<ThreatReference*> threatList = pTortos->GetThreatManager().GetModifiableThreatList();
                 uint32 max_size = (pTortos->GetMap()->Is25ManRaid() ? 8 : 3);
 
                 if (threatList.size() > max_size)
@@ -514,7 +514,7 @@ public:
 
                     for (auto itr = threatList.cbegin(); itr != threatList.cend(); ++itr)
                     {
-                        if (Unit* target = (*itr)->getTarget())
+                        if (Unit* target = (*itr)->GetVictim())
                         {
                             if (target && target->ToPlayer() && target->GetExactDist2d(me) > 20.f && !target->HasAura(SPELL_SPINNING_SHELL_DUMMY))//(&DefaultTargetSelector(target, -20.f, true, true, -SPELL_SPINNING_SHELL_DUMMY)))
                                 targetList.push_back(target);
@@ -536,10 +536,10 @@ public:
                         }
                     }
 
-                    std::list<HostileReference*>::iterator find = threatList.begin();
+                    std::vector<ThreatReference*>::iterator find = threatList.begin();
                     std::advance(find, urand(0 /*1*/, threatList.size() - 1));
 
-                    if (Unit* pTarget = (*find)->getTarget())
+                    if (Unit* pTarget = (*find)->GetVictim())
                     {
                         me->GetMotionMaster()->MovementExpired();
                         me->GetMotionMaster()->MovePoint(2, *pTarget);

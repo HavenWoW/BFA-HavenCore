@@ -451,7 +451,7 @@ public:
             {
                 if (pSpellInfo->Id == SPELL_THUNDERING_THROW)
                 {
-                    if (me->GetThreatManager().getThreat(pHit))
+                    if (me->GetThreatManager().GetThreat(pHit))
                         me->GetThreatManager().ModifyThreatByPercent(pHit, -100);
                 }
             }

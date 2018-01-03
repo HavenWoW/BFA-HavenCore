@@ -968,12 +968,12 @@ public:
                     phase = 1;
                     if (ascendant[1]->GetVictim()) //this is to prevent reset if the players are distant from the spawnpoint
                     {
-                        ascendant[2]->CombatStart(ascendant[1]->GetVictim());
+                        ascendant[2]->AttackedTarget(ascendant[1]->GetVictim(), true);
                         ascendant[2]->GetThreatManager().AddThreat(ascendant[1]->GetVictim(), 1);
                     }
                     if (ascendant[0]->GetVictim())                               //read this ^
                     {
-                        ascendant[3]->CombatStart(ascendant[0]->GetVictim());
+                        ascendant[3]->AttackedTarget(ascendant[0]->GetVictim(), true);
                         ascendant[3]->GetThreatManager().AddThreat(ascendant[0]->GetVictim(), 1);
                     }
                     ascendant[2]->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));

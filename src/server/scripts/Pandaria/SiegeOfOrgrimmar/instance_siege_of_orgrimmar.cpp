@@ -136,15 +136,15 @@ void CombatAuraHelper::UpdateCombatAuras(const uint32 diff)
     {
         m_CombatAurasTimer = 10000;
 
-        std::list<HostileReference*> const& threatlist = m_Owner->GetThreatManager().getThreatList();
+        std::vector<ThreatReference*> const& threatlist = m_Owner->GetThreatManager().GetModifiableThreatList();
         if (threatlist.empty())
             return;
 
-        for (std::list<HostileReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
+        for (std::vector<ThreatReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
         {
             for (const auto spellId : m_CombatAuras)
             {
-                Unit* target = (*itr)->getTarget();
+                Unit* target = (*itr)->GetVictim();
                 if (target && !target->HasAura(spellId))
                 {
                     m_Owner->AddAura(spellId, target);

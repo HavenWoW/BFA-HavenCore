@@ -68,7 +68,7 @@ struct boss_viqgoth : public BossAI
 
 	void EnterEvadeMode(EvadeReason why) override
 	{
-		if (me->GetThreatManager().isThreatListEmpty() && this->encountered == 1 && me->HealthAbovePct(1) && instance->GetBossState(DATA_VIQGOTH) == IN_PROGRESS)
+		if (me->GetThreatManager().IsThreatListEmpty() && this->encountered == 1 && me->HealthAbovePct(1) && instance->GetBossState(DATA_VIQGOTH) == IN_PROGRESS)
 		{
 			if (Creature* viqgoth = me->FindNearestCreature(NPC_VIQGOTH, 100.0f, true))
 			{

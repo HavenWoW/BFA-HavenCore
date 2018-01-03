@@ -393,7 +393,7 @@ public:
 
         bool checkPlayers()
         {
-            std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();
+            std::vector<ThreatReference*> threatList = me->GetThreatManager().GetModifiableThreatList();
             if (threatList.size() > 1)
                 return true;
 
@@ -465,12 +465,12 @@ public:
                 case EVENT_BONDS_OF_TERROR:
                 {
                     uint8 freePlayerCount = 0;
-                    std::list<HostileReference*> threatlist = me->GetThreatManager().getThreatList();
+                    std::vector<ThreatReference*> threatlist = me->GetThreatManager().GetModifiableThreatList();
 
                     if (!threatlist.empty())
                     {
-                        for (std::list<HostileReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
-                            if (Player* player = ObjectAccessor::GetPlayer(*me, (*itr)->getUnitGuid()))
+                        for (std::vector<ThreatReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
+                            if (Player* player = ObjectAccessor::GetPlayer(*me, (*itr)->GetVictim()->GetGUID()))
                                 if (!player->HasAura(SPELL_BONDS_OF_TERROR_AURA) && !player->HasAura(SPELL_BONDS_OF_TERROR_AURA_2) &&
                                     (me->GetVictim() && me->GetVictim()->GetGUID() != player->GetGUID()))
                                 {
@@ -573,11 +573,11 @@ public:
         {
             if (Unit* owner = me->GetOwner())
             {
-                std::list<HostileReference*> threatlist = owner->GetThreatManager().getThreatList();
+                std::vector<ThreatReference*> threatlist = owner->GetThreatManager().GetModifiableThreatList();
                 if (!threatlist.empty())
                 {
-                    for (std::list<HostileReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
-                        if (Player* player = ObjectAccessor::GetPlayer(*me, (*itr)->getUnitGuid()))
+                    for (std::vector<ThreatReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
+                        if (Player* player = ObjectAccessor::GetPlayer(*me, (*itr)->GetVictim()->GetGUID()))
                         {
                             if (player->HasAura(SPELL_INSANITY_LEVEL_1)) // anon_me enemy cannot determine friend from foe ignore player if aura activated
                                 return false;

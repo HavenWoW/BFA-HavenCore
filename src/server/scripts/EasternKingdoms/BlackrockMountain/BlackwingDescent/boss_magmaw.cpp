@@ -602,8 +602,10 @@ class npc_drakonid_drudge : public CreatureScript
             {
                 if(Unit * target = SelectTarget(SELECT_TARGET_MAXDISTANCE, 0, 80.0f, true))
                 {
-                    me->GetThreatManager().resetAllAggro();
-                    me->TauntApply(target);
+                    me->GetThreatManager().ResetAllThreat();
+                    // Unit::TauntApply was removed by the threat rewrite; force the retarget it used to do
+                    me->SetInFront(target);
+                    AttackStart(target);
                     me->GetThreatManager().AddThreat(target, 20000.0f);
                     DoCast(target, SPELL_DRAKONID_RUSH, true);
                     whirlwindTimer = 6000;

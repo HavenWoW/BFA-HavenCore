@@ -1189,7 +1189,7 @@ private:
         me->SetFaction(35);
         me->AttackStop();
         me->GetThreatManager().ClearAllThreat();
-        me->GetThreatManager().clearReferences();
+        me->GetThreatManager().ClearAllThreat();
 
         DoCast(me, SPELL_DEFEATED, true);
         // FeignDeath auras works only on players now

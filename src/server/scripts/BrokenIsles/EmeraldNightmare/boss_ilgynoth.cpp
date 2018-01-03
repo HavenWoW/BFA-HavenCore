@@ -371,10 +371,10 @@ struct boss_ilgynoth : public BossAI
                     TeleportPlayer();
 
                 bool closestPlayers = false;
-                std::list<HostileReference*> threatlist = me->GetThreatManager().getThreatList();
+                std::vector<ThreatReference*> threatlist = me->GetThreatManager().GetModifiableThreatList();
                 for (auto ref : threatlist)
                 {
-                  if (auto target = me->GetUnit(*me, ref->getUnitGuid()))
+                  if (auto target = me->GetUnit(*me, ref->GetVictim()->GetGUID()))
                     {
                         if (me->GetDistance(target) < 150.0f)
                         {

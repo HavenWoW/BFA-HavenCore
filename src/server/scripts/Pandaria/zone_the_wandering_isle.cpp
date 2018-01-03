@@ -653,9 +653,9 @@ public:
 
         void ClearThreadList()
         {
-            std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();;
-            for (std::list<HostileReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
-                if (Unit* target = (*itr)->getTarget()->ToUnit())
+            std::vector<ThreatReference*> threatList = me->GetThreatManager().GetModifiableThreatList();;
+            for (std::vector<ThreatReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+                if (Unit* target = (*itr)->GetVictim()->ToUnit())
                     target->ClearInCombat();
         }
 
@@ -1566,7 +1566,7 @@ private:
         if (spell->Id == SPELL_OVERPACKED_FIREWORK)
         {
             if (!me->IsInCombat())
-                me->CombatStart(caster);
+                me->AttackedTarget(caster, true);
         }
    }
 
@@ -1579,7 +1579,7 @@ private:
     void KilledUnit(Unit* who) override
     {
         if (who->IsPlayer())
-            if (me->GetThreatManager().getThreatList().empty())
+            if (me->GetThreatManager().IsThreatListEmpty())
                 me->ForcedDespawn(0, 10s);
     }
 
@@ -1625,12 +1625,12 @@ private:
             {
             case EVENT_LIGHTNING:
             {
-                std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();
+                std::vector<ThreatReference*> threatList = me->GetThreatManager().GetModifiableThreatList();
                 if (!threatList.empty())
                 {
-                    for (HostileReference* ref : threatList)
-                        if (ref->getTarget()->IsPlayer())
-                            DoCast(ref->getTarget(), SPELL_LIGHTNING_POOL);
+                    for (ThreatReference* ref : threatList)
+                        if (ref->GetVictim()->IsPlayer())
+                            DoCast(ref->GetVictim(), SPELL_LIGHTNING_POOL);
 
                     events.ScheduleEvent(EVENT_LIGHTNING, events.IsInPhase(PHASE_FLYING) ? 5000 : 3500);
                     if (!_sweepScheduled && events.IsInPhase(PHASE_STAY_IN_CENTER))
@@ -2172,10 +2172,10 @@ public:
 
             if (damage >= me->GetHealth())
             {
-                std::list<HostileReference*> threatList;
-                threatList = me->GetThreatManager().getThreatList();
-                for (std::list<HostileReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
-                    if (Player* target = (*itr)->getTarget()->ToPlayer())
+                std::vector<ThreatReference*> threatList;
+                threatList = me->GetThreatManager().GetModifiableThreatList();
+                for (std::vector<ThreatReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+                    if (Player* target = (*itr)->GetVictim()->ToPlayer())
                         if (target->GetQuestStatus(QUEST_AN_ANCIENT_EVIL) == QUEST_STATUS_INCOMPLETE)
                             target->KilledMonsterCredit(me->GetEntry());
             }

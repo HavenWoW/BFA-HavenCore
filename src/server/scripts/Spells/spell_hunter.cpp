@@ -513,7 +513,7 @@ public:
             {
                 if (!GetDuration())
                 {
-                    _player->ResetRedirectThreat();
+                    _player->GetThreatManager().UnregisterRedirectThreat(SPELL_HUNTER_MISDIRECTION);
 
                     if (_hasGlyph)
                     {
@@ -551,7 +551,7 @@ public:
 
         void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
-            GetTarget()->ResetRedirectThreat();
+            GetTarget()->GetThreatManager().UnregisterRedirectThreat(SPELL_HUNTER_MISDIRECTION);
         }
 
         void Register() override

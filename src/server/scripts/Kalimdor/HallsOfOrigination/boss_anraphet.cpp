@@ -323,15 +323,15 @@ class npc_whirling_winds_hoo : public CreatureScript
         {
             me->RemoveUnitMovementFlag(MOVEMENTFLAG_WALKING);
 
-            ThreatContainer::StorageType const& m_threatList = summoner->GetThreatManager().getThreatList();
+            std::vector<ThreatReference*> const& m_threatList = summoner->GetThreatManager().GetModifiableThreatList();
             if (m_threatList.empty())
                 return;
 
-            for(ThreatContainer::StorageType::const_iterator itr = m_threatList.begin(); itr != m_threatList.end(); ++itr)
+            for(std::vector<ThreatReference*>::const_iterator itr = m_threatList.begin(); itr != m_threatList.end(); ++itr)
             {
-                Unit * unit = ObjectAccessor::GetUnit(*me, (*itr)->getUnitGuid());
+                Unit * unit = (*itr)->GetVictim();
                 if(unit && unit->IsAlive() && unit->GetTypeId() == TYPEID_PLAYER)
-                    targetGUIDs.push_back((*itr)->getUnitGuid());
+                    targetGUIDs.push_back((*itr)->GetVictim()->GetGUID());
             }
 
             if(!targetGUIDs.empty())

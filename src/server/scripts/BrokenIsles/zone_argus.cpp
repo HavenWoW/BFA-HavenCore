@@ -658,12 +658,12 @@ struct boss_matron_folnuna : public ScriptedAI
         switch (spell->Id)
         {
         case SPELL_GROTESQUE_SPAWN:
-            auto threatlist = me->GetThreatManager().getThreatList();
+            auto threatlist = me->GetThreatManager().GetModifiableThreatList();
             if (!threatlist.empty())
             {
                 auto& itr = Trinity::Containers::SelectRandomContainerElement(threatlist);
 
-                if (Unit* target = itr->getTarget())
+                if (Unit* target = itr->GetVictim())
                     for (uint8 i = 0; i < 4; ++i)
                         target->CastSpell(me, RANDOM_GROTESQUE_SPAWN[urand(0, 1)], false, 0, 0, me->GetGUID());
             }

@@ -695,13 +695,45 @@ class spell_tos_fixate : public AuraScript
         caster->AddAura(234128, caster);
 
         caster->GetThreatManager().AddThreat(target, std::numeric_limits<float>::max());
-        caster->TauntApply(target);
+
+        // Unit::TauntApply was removed by the threat rewrite; force the retarget it used to do
+        if (caster->GetVictim() != target)
+        {
+            caster->SetInFront(target);
+            if (Creature* casterCreature = caster->ToCreature())
+                if (casterCreature->IsAIEnabled)
+                    casterCreature->AI()->AttackStart(target);
+        }
     }
 
     void OnRemove(AuraEffect const* /*auraEffect*/, AuraEffectHandleModes /*mode*/)
     {
-        if (GetCaster() && GetTarget())
-            GetCaster()->TauntFadeOut(GetTarget());
+        Unit* caster = GetCaster();
+        Unit* target = GetTarget();
+        if (!caster || !target || caster->GetVictim() != target)
+            return;
+
+        // Unit::TauntFadeOut was removed by the threat rewrite; re-select and force the retarget it used to do
+        Creature* casterCreature = caster->ToCreature();
+        if (!casterCreature)
+            return;
+
+        if (caster->GetThreatManager().IsThreatListEmpty())
+        {
+            if (casterCreature->IsAIEnabled)
+                casterCreature->AI()->EnterEvadeMode(CreatureAI::EVADE_REASON_NO_HOSTILES);
+            return;
+        }
+
+        if (Unit* newTarget = casterCreature->SelectVictim())
+        {
+            if (newTarget != target)
+            {
+                caster->SetInFront(newTarget);
+                if (casterCreature->IsAIEnabled)
+                    casterCreature->AI()->AttackStart(newTarget);
+            }
+        }
     }
 
     void Register()

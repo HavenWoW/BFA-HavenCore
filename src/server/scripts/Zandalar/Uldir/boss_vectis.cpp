@@ -184,7 +184,7 @@ private:
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
             {
-                summon->GetThreatManager().resetAllAggro();
+                summon->GetThreatManager().ResetAllThreat();
                 summon->GetThreatManager().AddThreat(target, 1000000.0f);
                 summon->GetMotionMaster()->MoveChase(target);
             }

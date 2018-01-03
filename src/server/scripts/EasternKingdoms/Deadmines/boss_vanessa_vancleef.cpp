@@ -1841,7 +1841,7 @@ public:
 
             if (Unit* Calissa = me->GetVehicleKit()->GetPassenger(0))
             {
-                Calissa->CombatStart(me, true);
+                Calissa->AttackedTarget(me, true);
                 Calissa->GetThreatManager().AddThreat(me, 100000.0f);
                 DoZoneInCombat();
             }

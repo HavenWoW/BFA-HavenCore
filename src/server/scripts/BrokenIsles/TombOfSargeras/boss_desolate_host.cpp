@@ -662,10 +662,10 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
                 soulsList.clear();
                 bool foundReal = false;
                 bool foundSpirit = false;
-                std::list<HostileReference*> threatList = me->GetThreatManager().getThreatList();
+                std::vector<ThreatReference*> threatList = me->GetThreatManager().GetModifiableThreatList();
                 for ([[maybe_unused]] auto ref : threatList)
                 {
-                   // if (auto player = Player::GetPlayer(*me, ref->getUnitGuid()))
+                   // if (auto player = Player::GetPlayer(*me, ref->GetVictim()->GetGUID()))
                     {
                      //   if (!player->isInTankSpec() && !player->HasAura(SPELL_SOULBIND_DUMMY))
                         {
@@ -1861,12 +1861,9 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
 
                 bool isSpiritRealm = GetId() == SPELL_SPIRITUAL_BARRIER_SPIRIT_REALM;
 
-                HostileRefManager& refManager = GetTarget()->getHostileRefManager();
-                HostileReference* ref = refManager.getFirst();
-
-                while (ref)
+                for (auto const& pair : GetTarget()->GetThreatManager().GetThreatenedByMeList())
                 {
-                    if (auto unit = ref->GetSource()->GetOwner())
+                    if (auto unit = pair.second->GetOwner())
                         if (auto creature = unit->ToCreature())
                         {
                             switch (creature->GetEntry())
@@ -1894,8 +1891,6 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
                                 break;
                             }
                         }
-
-                    ref = ref->next();
                 }
             }
         }

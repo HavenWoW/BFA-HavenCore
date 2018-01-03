@@ -203,7 +203,7 @@ public:
             case 9: {
               for (uint8 i = 0; i < 4; ++i)
                 if (Creature *thug = GetThug(i))
-                  thug->CombatStart(player, true);
+                  thug->AttackedTarget(player, true);
 
               SummonTimer = 5000;
               Phase++;

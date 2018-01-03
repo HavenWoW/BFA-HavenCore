@@ -366,7 +366,7 @@ class boss_garajal : public CreatureScript
                                         soulCutter->GetThreatManager().AddThreat(target, 10000.0f);
                                     }
 
-                                me->GetThreatManager().resetAllAggro();
+                                me->GetThreatManager().ResetAllThreat();
                             }
 
                             m_Instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_VOODOO_DOLL_VISUAL);

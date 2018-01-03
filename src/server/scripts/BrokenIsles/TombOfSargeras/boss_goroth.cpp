@@ -213,17 +213,17 @@ class spell_infernal_burning : public SpellScript
         CreatureList infernalSpikes;
         caster->GetCreatureListWithEntryInGrid(infernalSpikes, NPC_INFERNAL_SPIKE, 200.0f);
 
-        for (auto reference : caster->GetThreatManager().getThreatList())
+        for (auto reference : caster->GetThreatManager().GetModifiableThreatList())
             for (Creature* spike : infernalSpikes)
-                if (spike->IsInBetween(GetCaster(), reference->getTarget(), 2.0f))
-                    reference->getTarget()->AddAura(SPELL_INFERNAL_SPIKE_PROTECTION);
+                if (spike->IsInBetween(GetCaster(), reference->GetVictim(), 2.0f))
+                    reference->GetVictim()->AddAura(SPELL_INFERNAL_SPIKE_PROTECTION);
     }
 
     void AfterCastHandler()
     {
         if (Creature* caster = GetCaster()->ToCreature())
-            for (auto reference : caster->GetThreatManager().getThreatList())
-                reference->getTarget()->RemoveAurasDueToSpell(SPELL_INFERNAL_SPIKE_PROTECTION);
+            for (auto reference : caster->GetThreatManager().GetModifiableThreatList())
+                reference->GetVictim()->RemoveAurasDueToSpell(SPELL_INFERNAL_SPIKE_PROTECTION);
     }
 
     void Register() override

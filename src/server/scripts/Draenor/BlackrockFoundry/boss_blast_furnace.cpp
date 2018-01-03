@@ -2199,10 +2199,12 @@ class npc_foundry_slag_elemental : public CreatureScript
 
                         me->SetInCombatWithZone();
 
-                        me->GetThreatManager().clearReferences();
+                        me->GetThreatManager().ClearAllThreat();
                         me->GetThreatManager().AddThreat(p_Target, std::numeric_limits<float>::max());
 
-                        me->TauntApply(p_Target);
+                        // Unit::TauntApply was removed by the threat rewrite; force the retarget it used to do
+                        me->SetInFront(p_Target);
+                        AttackStart(p_Target);
 
                         me->ClearUnitState(UnitState::UNIT_STATE_CASTING);
 

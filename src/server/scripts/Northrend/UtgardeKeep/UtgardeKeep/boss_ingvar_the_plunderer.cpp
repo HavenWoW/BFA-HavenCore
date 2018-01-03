@@ -198,7 +198,7 @@ class boss_ingvar_the_plunderer : public CreatureScript
 
             void UpdateAI(uint32 diff) override
             {
-                if (!events.IsInPhase(PHASE_EVENT) && !UpdateVictim())
+                if (!UpdateVictim())
                     return;
 
                 events.Update(diff);
@@ -229,10 +229,9 @@ class boss_ingvar_the_plunderer : public CreatureScript
                             break;
                         case EVENT_JUST_TRANSFORMED:
                             ScheduleSecondPhase();
-                            me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_NOT_SELECTABLE));
-                            if (Unit* target = me->GetThreatManager().SelectVictim())
-                                AttackStart(target);
-                            else
+                            me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
+                            me->SetImmuneToPC(false);
+                            if (!me->IsThreatened())
                             {
                                 EnterEvadeMode(EVADE_REASON_NO_HOSTILES);
                                 return;
