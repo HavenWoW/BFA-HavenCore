@@ -202,14 +202,14 @@ public:
 
         bool playersInThreat()
         {
-            const std::list<HostileReference*>& threatList = me->GetThreatManager().getThreatList();
+            const std::vector<ThreatReference*>& threatList = me->GetThreatManager().GetModifiableThreatList();
             if (threatList.empty())
                 return false;
 
-            for (std::list<HostileReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+            for (std::vector<ThreatReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
             {
-                HostileReference* ref = (*itr);
-                if (Unit* target = ref->getTarget())
+                ThreatReference* ref = (*itr);
+                if (Unit* target = ref->GetVictim())
                 {
                     if (target->IsPlayer())
                         return true;

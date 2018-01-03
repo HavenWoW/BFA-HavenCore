@@ -298,11 +298,11 @@ public:
 
                 if (SpectralBlastTimer <= diff)
                 {
-                    ThreatContainer::StorageType const& m_threatlist = me->GetThreatManager().getThreatList();
+                    std::vector<ThreatReference*> const& m_threatlist = me->GetThreatManager().GetModifiableThreatList();
                     std::list<Unit*> targetList;
-                    for (ThreatContainer::StorageType::const_iterator itr = m_threatlist.begin(); itr!= m_threatlist.end(); ++itr)
+                    for (std::vector<ThreatReference*>::const_iterator itr = m_threatlist.begin(); itr!= m_threatlist.end(); ++itr)
                     {
-                        Unit* target = (*itr)->getTarget();
+                        Unit* target = (*itr)->GetVictim();
                         if (target
                                 && target->GetTypeId() == TYPEID_PLAYER
                                 && (!target->GetVictim() || target->GetGUID() != me->EnsureVictim()->GetGUID())
@@ -634,7 +634,7 @@ public:
             if (Creature* Kalec = me->SummonCreature(NPC_KALEC, me->GetPositionX() + 10, me->GetPositionY() + 5, me->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 0))
             {
                 KalecGUID = Kalec->GetGUID();
-                me->CombatStart(Kalec);
+                me->AttackedTarget(Kalec, true);
                 AddThreat(Kalec, 100.0f);
                 Kalec->setActive(true);
             }
@@ -762,10 +762,10 @@ public:
 
             if (ResetThreat <= diff)
             {
-                ThreatContainer::StorageType threatlist = me->GetThreatManager().getThreatList();
-                for (ThreatContainer::StorageType::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
+                std::vector<ThreatReference*> threatlist = me->GetThreatManager().GetModifiableThreatList();
+                for (std::vector<ThreatReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
                 {
-                    if (Unit* unit = ObjectAccessor::GetUnit(*me, (*itr)->getUnitGuid()))
+                    if (Unit* unit = (*itr)->GetVictim())
                         if (unit->GetPositionZ() > me->GetPositionZ() + 5)
                             me->GetThreatManager().ModifyThreatByPercent(unit, -100);
                 }

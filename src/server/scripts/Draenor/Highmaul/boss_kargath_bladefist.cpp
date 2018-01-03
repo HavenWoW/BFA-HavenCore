@@ -531,7 +531,7 @@ class boss_kargath_bladefist : public CreatureScript
 
                         AddTimedDelayedOperation(1 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                         {
-                            if (Unit* l_NewTarget = me->GetThreatManager().getHostilTarget())
+                            if (Unit* l_NewTarget = me->GetThreatManager().GetCurrentVictim())
                                 AttackStart(l_NewTarget);
                             me->ClearUnitState(UNIT_STATE_STUNNED);
                             me->ClearUnitState(UNIT_STATE_CONFUSED);
@@ -554,7 +554,7 @@ class boss_kargath_bladefist : public CreatureScript
                         if (me->HasUnitState(UnitState::UNIT_STATE_ROOT))
                             me->SetControlled(false, UnitState::UNIT_STATE_ROOT);
 
-                        if (Unit* l_NewTarget = me->GetThreatManager().getHostilTarget())
+                        if (Unit* l_NewTarget = me->GetThreatManager().GetCurrentVictim())
                             AttackStart(l_NewTarget);
 
                         m_ChainHurl = false;
@@ -690,7 +690,9 @@ class boss_kargath_bladefist : public CreatureScript
                         m_BerserkerRushTarget = target->GetGUID();
 
                         me->GetThreatManager().AddThreat(target, std::numeric_limits<float>::max());
-                        me->TauntApply(target);
+                        // Unit::TauntApply was removed by the threat rewrite; force the retarget it used to do
+                        me->SetInFront(target);
+                        AttackStart(target);
                         me->SetReactState(ReactStates::REACT_PASSIVE);
 
                         /// Remove casting state, it prevent the moves
@@ -1037,13 +1039,12 @@ class boss_kargath_bladefist : public CreatureScript
                 me->SetReactState(ReactStates::REACT_AGGRESSIVE);
 
                 me->GetThreatManager().ModifyThreatByPercent(target, -100);
-                me->GetThreatManager().setDirty(true);
 
                 me->GetMotionMaster()->Clear();
 
                 if (p_NewTarget)
                 {
-                    if (Unit* l_NewTarget = me->GetThreatManager().getHostilTarget())
+                    if (Unit* l_NewTarget = me->GetThreatManager().GetCurrentVictim())
                         AttackStart(l_NewTarget);
                 }
             }
@@ -1756,11 +1757,13 @@ class npc_highmaul_ravenous_bloodmaw : public CreatureScript
 
                         me->SetInCombatWithZone();
 
-                        me->GetThreatManager().clearReferences();
+                        me->GetThreatManager().ClearAllThreat();
                         me->GetThreatManager().AddThreat(target, std::numeric_limits<float>::max());
 
                         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
-                        me->TauntApply(target);
+                        // Unit::TauntApply was removed by the threat rewrite; force the retarget it used to do
+                        me->SetInFront(target);
+                        AttackStart(target);
                         me->SetReactState(ReactStates::REACT_PASSIVE);
 
                         me->SetSpeed(UnitMoveType::MOVE_RUN, 0.5f);

@@ -893,7 +893,7 @@ public:
             if (m_TestController.GetPlayerTestsCount() == 0)
                 return false;
 
-            return m_TestController.GetPlayerTestsCount() >= me->GetThreatManager().getThreatList().size();
+            return m_TestController.GetPlayerTestsCount() >= me->GetThreatManager().GetThreatListSize();
         }
 
         void GetNextBlindHatredPos(BlindHatredPosition& nextPos) const

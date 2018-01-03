@@ -1857,7 +1857,7 @@ class spell_he_stonefoot_gouge : public SpellScript
                     return p_Target->IsPlayer() && p_Target != l_Target;
                 }))
                 {
-                    l_HeStoneFoot->GetThreatManager().resetAllAggro();
+                    l_HeStoneFoot->GetThreatManager().ResetAllThreat();
                     l_HeStoneFoot->GetThreatManager().AddThreat(l_NewTarget, 10000000.0f);
                     l_HeStoneFoot->ToCreature()->AI()->AttackStart(l_NewTarget);
 

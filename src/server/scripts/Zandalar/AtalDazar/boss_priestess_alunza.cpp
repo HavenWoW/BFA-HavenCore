@@ -407,7 +407,7 @@ struct npc_spirit_of_gold : public ScriptedAI
         ScriptedAI::UpdateAI(diff);
         if (AreaTrigger* at = me->SelectNearestAreaTrigger(SPELL_TAINTED_BLOOD_CREATE_AT, 100.0f))
         {
-            me->GetThreatManager().resetAllAggro();
+            me->GetThreatManager().ResetAllThreat();
             me->GetMotionMaster()->MovePoint(0, at->GetPosition());
         }
         else

@@ -1113,10 +1113,10 @@ class boss_imperator_margok : public CreatureScript
                     }
                     case eCosmeticEvents::EventCheckPlayerZ:
                     {
-                        std::list<HostileReference*> l_ThreatList = me->GetThreatManager().getThreatList();
-                        for (HostileReference* l_Ref : l_ThreatList)
+                        std::vector<ThreatReference*> l_ThreatList = me->GetThreatManager().GetModifiableThreatList();
+                        for (ThreatReference* l_Ref : l_ThreatList)
                         {
-                            if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->getUnitGuid()))
+                            if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->GetVictim()->GetGUID()))
                             {
                                 if (player->GetPositionZ() <= g_MinAllowedZ)
                                     player->NearTeleportTo(g_CenterPos);
@@ -1351,10 +1351,10 @@ class boss_imperator_margok : public CreatureScript
                     if (l_Trigger != nullptr)
                         l_TriggerGuid = l_Trigger->GetGUID();
 
-                    std::list<HostileReference*> l_ThreatList = me->GetThreatManager().getThreatList();
-                    for (HostileReference* l_Ref : l_ThreatList)
+                    std::vector<ThreatReference*> l_ThreatList = me->GetThreatManager().GetModifiableThreatList();
+                    for (ThreatReference* l_Ref : l_ThreatList)
                     {
-                        if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->getUnitGuid()))
+                        if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->GetVictim()->GetGUID()))
                         {
                             if (player->GetDistance(m_NovaPos) >= (l_MinRadius - l_InnerRange) &&
                                 player->GetDistance(m_NovaPos) <= l_MinRadius)
@@ -1404,10 +1404,10 @@ class boss_imperator_margok : public CreatureScript
 
                             l_MinRadius += (l_YardsPerMs * m_NovaTimePhase3[l_I]);
 
-                            std::list<HostileReference*> l_ThreatList = me->GetThreatManager().getThreatList();
-                            for (HostileReference* l_Ref : l_ThreatList)
+                            std::vector<ThreatReference*> l_ThreatList = me->GetThreatManager().GetModifiableThreatList();
+                            for (ThreatReference* l_Ref : l_ThreatList)
                             {
-                                if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->getUnitGuid()))
+                                if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->GetVictim()->GetGUID()))
                                 {
                                     if (player->GetDistance(m_NovaPosPhase3[l_I]) >= (l_MinRadius - l_InnerRange) &&
                                         player->GetDistance(m_NovaPosPhase3[l_I]) <= l_MinRadius)
@@ -1417,10 +1417,10 @@ class boss_imperator_margok : public CreatureScript
                         }
                     }
 
-                    std::list<HostileReference*> l_ThreatList = me->GetThreatManager().getThreatList();
-                    for (HostileReference* l_Ref : l_ThreatList)
+                    std::vector<ThreatReference*> l_ThreatList = me->GetThreatManager().GetModifiableThreatList();
+                    for (ThreatReference* l_Ref : l_ThreatList)
                     {
-                        if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->getUnitGuid()))
+                        if (Player* player = ObjectAccessor::GetPlayer(*me, l_Ref->GetVictim()->GetGUID()))
                         {
                             if (l_AffectedPlayers.find(player->GetGUID()) != l_AffectedPlayers.end())
                             {

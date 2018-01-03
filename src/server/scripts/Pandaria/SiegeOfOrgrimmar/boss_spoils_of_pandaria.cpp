@@ -2182,7 +2182,7 @@ class npc_secured_stockpile_of_pandaren_spoils : public CreatureScript
 
                 me->CombatStop();
                 me->GetThreatManager().ClearAllThreat();
-                me->getHostileRefManager().deleteReferences();
+                me->GetThreatManager().RemoveMeFromThreatLists();
 
                 m_EvadeTimer = TIMER_CHECK_EVADE;
                 m_Phase = PHASE_ONE;

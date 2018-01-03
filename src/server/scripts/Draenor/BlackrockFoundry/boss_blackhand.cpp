@@ -1,5 +1,6 @@
 #include "boss_blackhand.h"
 #include "SpellAuraEffects.h"
+#include <algorithm>
 
 /// Blackhand <Warlord of the Blackrock> - 77325
 class boss_blackhand : public CreatureScript
@@ -745,21 +746,21 @@ class boss_blackhand : public CreatureScript
                         if (m_PhaseID != ePhases::StorageWarehouse)
                             break;
 
-                        std::list<HostileReference*> l_ThreatList = me->GetThreatManager().getThreatList();
+                        std::vector<ThreatReference*> l_ThreatList = me->GetThreatManager().GetModifiableThreatList();
                         if (!l_ThreatList.empty())
                         {
-                            l_ThreatList.remove_if([this](HostileReference* p_Ref) -> bool
+                            l_ThreatList.erase(std::remove_if(l_ThreatList.begin(), l_ThreatList.end(), [](ThreatReference* p_Ref) -> bool
                             {
-                                if (p_Ref == nullptr || p_Ref->getTarget() == nullptr || !p_Ref->getTarget()->IsPlayer())
+                                if (p_Ref == nullptr || p_Ref->GetVictim() == nullptr || !p_Ref->GetVictim()->IsPlayer())
                                     return true;
 
                                 return false;
-                            });
+                            }), l_ThreatList.end());
                         }
 
-                        for (HostileReference* l_Ref : l_ThreatList)
+                        for (ThreatReference* l_Ref : l_ThreatList)
                         {
-                            if (Unit* l_Unit = l_Ref->getTarget())
+                            if (Unit* l_Unit = l_Ref->GetVictim())
                             {
                                 if (l_Unit->m_positionZ < (g_SecondFloorJumpPos.m_positionZ - 5.0f))
                                     l_Unit->NearTeleportTo(g_SecondFloorJumpPos);

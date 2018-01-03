@@ -408,7 +408,7 @@ public:
 
             if (phase == PHASE_GROUND) // Ground phase
             {
-                ThreatContainer::StorageType m_threatlist = me->GetThreatManager().getThreatList();
+                std::vector<ThreatReference*> m_threatlist = me->GetThreatManager().GetModifiableThreatList();
 
                 while (uint32 eventId = events.ExecuteEvent())
                 {
@@ -430,8 +430,8 @@ public:
 
                         case EVENT_MODULATION:
                             DoCast(me, SPELL_MODULATION);
-                            for (std::list<HostileReference*>::const_iterator i = m_threatlist.begin(); i!= m_threatlist.end(); ++i)
-                                if (Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid()))
+                            for (std::vector<ThreatReference*>::const_iterator i = m_threatlist.begin(); i!= m_threatlist.end(); ++i)
+                                if (Unit* unit = (*i)->GetVictim())
                                     unit->SetPower(POWER_ALTERNATE_POWER, unit->GetPower(POWER_ALTERNATE_POWER) + 7);
 
                             events.ScheduleEvent(EVENT_MODULATION, 20000);
@@ -490,7 +490,7 @@ public:
             else if (phase == PHASE_FLIGHT) // Air phase
             {
                 std::list<Unit*> targets;
-                ThreatContainer::StorageType m_threatlist = me->GetThreatManager().getThreatList();
+                std::vector<ThreatReference*> m_threatlist = me->GetThreatManager().GetModifiableThreatList();
 
                 // if has vertigo, remove all roaring flame npc's wait 8 sec then get player who rang gong.
                 if (me->HasAura(SPELL_VERTIGO))
@@ -501,9 +501,9 @@ public:
                     switch (eventId)
                     {
                         case EVENT_ROARING_FLAME_SUMMON:
-                            for (std::list<HostileReference*>::const_iterator i = m_threatlist.begin(); i!= m_threatlist.end(); ++i)
+                            for (std::vector<ThreatReference*>::const_iterator i = m_threatlist.begin(); i!= m_threatlist.end(); ++i)
                             {
-                                Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid());
+                                Unit* unit = (*i)->GetVictim();
                                 if (unit && unit->HasAura(SPELL_NOISY)) // You rang? :)
                                 {
                                     me->SummonCreature(NPC_ROARING_FLAME_TARGET, unit->GetPositionX(), unit->GetPositionY(), unit->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN, 30000);

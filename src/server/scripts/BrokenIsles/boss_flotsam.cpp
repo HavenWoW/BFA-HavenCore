@@ -385,7 +385,7 @@ public:
             Unit* target = targets.front();
             if (target)
             {
-                me->CombatStart(target);
+                me->AttackedTarget(target, true);
                 me->GetMotionMaster()->MoveFollow(target, 0.0f, 0);
             }
             ApplyBuff();

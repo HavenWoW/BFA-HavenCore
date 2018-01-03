@@ -846,7 +846,7 @@ class iron_docks_skulloc_mob_turret : public CreatureScript
                         me->Kill(me);
                         me->CombatStop();
                         me->SetFaction(FriendlyFaction);
-                        me->getHostileRefManager().clearReferences();
+                        me->GetThreatManager().RemoveMeFromThreatLists();
                         events.CancelEvent(eTurretEvents::EventRapidFire);
 
                         if (m_Vehicle != nullptr)

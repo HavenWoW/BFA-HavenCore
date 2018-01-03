@@ -320,7 +320,7 @@ class boss_zorlok : public CreatureScript
                 isFlying = true;
                 me->AttackStop();
                 me->GetThreatManager().ClearAllThreat();
-                me->GetThreatManager().clearReferences();
+                me->GetThreatManager().ClearAllThreat();
                 me->SetCanFly(true);
                 me->SetReactState(REACT_PASSIVE);
                 me->HandleEmoteCommand(EMOTE_ONESHOT_LIFTOFF);

@@ -154,12 +154,12 @@ struct boss_nithogg : public WorldBossAI
             {
                 case EVENT_TAIL_LASH:
                 {
-                    for (auto itr : me->GetThreatManager().getThreatList())
+                    for (auto itr : me->GetThreatManager().GetModifiableThreatList())
                     {
-                        if (!itr->getTarget())
+                        if (!itr->GetVictim())
                             continue;
 
-                        if (me->isInBack(itr->getTarget(), float(M_PI) / 6))
+                        if (me->isInBack(itr->GetVictim(), float(M_PI) / 6))
                         {
                             DoCastAOE(SPELL_TAIL_LASH);
                             break;

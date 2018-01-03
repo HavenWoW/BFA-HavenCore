@@ -528,7 +528,7 @@ public:
         {
             if (Creature* pHorridon = GetHorridon())
             {
-                return ((pHorridon->IsInCombat() || pHorridon->GetVictim()) && pHorridon->GetThreatManager().isThreatListEmpty());
+                return ((pHorridon->IsInCombat() || pHorridon->GetVictim()) && pHorridon->GetThreatManager().IsThreatListEmpty());
             }
 
             return true;

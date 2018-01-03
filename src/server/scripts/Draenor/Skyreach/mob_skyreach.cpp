@@ -600,7 +600,7 @@ public:
                 m_events.ScheduleEvent(uint32(Events::CHANGE_TARGET), 6000);
                 me->CastSpell(me, uint32(Spells::INVISIBILITY_DETECTION), true);
                 me->CastSpell(me->GetVictim(), uint32(Spells::FIXATED), true);
-                me->GetThreatManager().resetAllAggro();
+                me->GetThreatManager().ResetAllThreat();
 
                 if (Player* player = me->SelectRandomPlayerInRange(30.0f, true))
                 {

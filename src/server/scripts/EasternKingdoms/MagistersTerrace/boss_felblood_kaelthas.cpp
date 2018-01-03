@@ -198,16 +198,11 @@ public:
             if (!summonedUnit)
                 return;
 
-            ThreatContainer::StorageType const& threatlist = me->GetThreatManager().getThreatList();
-            ThreatContainer::StorageType::const_iterator i = threatlist.begin();
-            for (i = threatlist.begin(); i != threatlist.end(); ++i)
+            for (auto* ref : me->GetThreatManager().GetUnsortedThreatList())
             {
-                Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid());
+                Unit* unit = ref->GetVictim();
                 if (unit && unit->IsAlive())
-                {
-                    float threat = me->GetThreatManager().getThreat(unit);
-                    AddThreat(unit, threat, summonedUnit);
-                }
+                    AddThreat(unit, ref->GetThreat(), summonedUnit);
             }
         }
 
@@ -216,12 +211,10 @@ public:
             float x = KaelLocations[0][0];
             float y = KaelLocations[0][1];
             me->SetPosition(x, y, LOCATION_Z, 0.0f);
-            ThreatContainer::StorageType threatlist = me->GetThreatManager().getThreatList();
-            ThreatContainer::StorageType::const_iterator i = threatlist.begin();
-            for (i = threatlist.begin(); i != threatlist.end(); ++i)
+            for (auto const& pair : me->GetCombatManager().GetPvECombatRefs())
             {
-                Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid());
-                if (unit && (unit->GetTypeId() == TYPEID_PLAYER))
+                Unit* unit = pair.second->GetOther(me);
+                if (unit->GetTypeId() == TYPEID_PLAYER)
                     unit->CastSpell(unit, SPELL_TELEPORT_CENTER, true);
             }
             DoCast(me, SPELL_TELEPORT_CENTER, true);
@@ -229,12 +222,10 @@ public:
 
         void CastGravityLapseKnockUp()
         {
-            ThreatContainer::StorageType threatlist = me->GetThreatManager().getThreatList();
-            ThreatContainer::StorageType::const_iterator i = threatlist.begin();
-            for (i = threatlist.begin(); i != threatlist.end(); ++i)
+            for (auto const& pair : me->GetCombatManager().GetPvECombatRefs())
             {
-                Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid());
-                if (unit && (unit->GetTypeId() == TYPEID_PLAYER))
+                Unit* unit = pair.second->GetOther(me);
+                if (unit->GetTypeId() == TYPEID_PLAYER)
                     // Knockback into the air
                     unit->CastSpell(unit, SPELL_GRAVITY_LAPSE_DOT, true, nullptr, nullptr, me->GetGUID());
             }
@@ -242,12 +233,10 @@ public:
 
         void CastGravityLapseFly()                              // Use Fly Packet hack for now as players can't cast "fly" spells unless in map 530. Has to be done a while after they get knocked into the air...
         {
-            ThreatContainer::StorageType threatlist = me->GetThreatManager().getThreatList();
-            ThreatContainer::StorageType::const_iterator i = threatlist.begin();
-            for (i = threatlist.begin(); i != threatlist.end(); ++i)
+            for (auto const& pair : me->GetCombatManager().GetPvECombatRefs())
             {
-                Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid());
-                if (unit && (unit->GetTypeId() == TYPEID_PLAYER))
+                Unit* unit = pair.second->GetOther(me);
+                if (unit->GetTypeId() == TYPEID_PLAYER)
                 {
                     // Also needs an exception in spell system.
                     unit->CastSpell(unit, SPELL_GRAVITY_LAPSE_FLY, true, nullptr, nullptr, me->GetGUID());
@@ -258,12 +247,10 @@ public:
 
         void RemoveGravityLapse()
         {
-            ThreatContainer::StorageType threatlist = me->GetThreatManager().getThreatList();
-            ThreatContainer::StorageType::const_iterator i = threatlist.begin();
-            for (i = threatlist.begin(); i != threatlist.end(); ++i)
+            for (auto const& pair : me->GetCombatManager().GetPvECombatRefs())
             {
-                Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid());
-                if (unit && (unit->GetTypeId() == TYPEID_PLAYER))
+                Unit* unit = pair.second->GetOther(me);
+                if (unit->GetTypeId() == TYPEID_PLAYER)
                 {
                     unit->RemoveAurasDueToSpell(SPELL_GRAVITY_LAPSE_FLY);
                     unit->RemoveAurasDueToSpell(SPELL_GRAVITY_LAPSE_DOT);
@@ -679,8 +666,8 @@ public:
             {
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100, true))
                 {
-                    AddThreat(target, 1.0f);
-                    me->TauntApply(target);
+                    ResetThreatList();
+                    AddThreat(target, 1000000.0f);
                     AttackStart(target);
                 }
 

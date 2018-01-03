@@ -739,11 +739,11 @@ class boss_ragnaros_firelands: public CreatureScript
                             case EVENT_RAGE_OF_RAGNAROS:
                                 if (!IsHeroic()) // Only on normal.
                                 {
-                                    std::list<HostileReference*> m_threatlist = me->GetThreatManager().getThreatList();
-                                    for (std::list<HostileReference*>::const_iterator i = m_threatlist.begin();
+                                    std::vector<ThreatReference*> m_threatlist = me->GetThreatManager().GetModifiableThreatList();
+                                    for (std::vector<ThreatReference*>::const_iterator i = m_threatlist.begin();
                                             i != m_threatlist.end(); ++i)
                                     {
-                                        if (Unit* unit = ObjectAccessor::GetUnit(*me, (*i)->getUnitGuid()))
+                                        if (Unit* unit = (*i)->GetVictim())
                                             if (unit->GetTypeId() == TYPEID_PLAYER)
                                                 if (Player* player = unit->ToPlayer())
                                                     if (player->hasQuest(QUEST_HEART_FLAME))
@@ -1724,7 +1724,7 @@ class npc_living_meteor: public CreatureScript
             void SelectNextFollowTarget(ObjectGuid newTargetGuid = ObjectGuid::Empty)
             {
                 me->GetMotionMaster()->Clear();
-                me->GetThreatManager().resetAllAggro();
+                me->GetThreatManager().ResetAllThreat();
                 me->CastStop();
 
                 DoZoneInCombat();

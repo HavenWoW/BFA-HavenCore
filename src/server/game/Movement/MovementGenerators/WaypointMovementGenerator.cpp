@@ -323,7 +323,6 @@ void FlightPathMovementGenerator::DoFinalize(Player* player)
 
     if (player->m_taxi.empty())
     {
-        player->getHostileRefManager().setOnlineOfflineState(true);
         // update z position to ground and orientation for landing point
         // this prevent cheating with landing  point at lags
         // when client side flight end early in comparison server side
@@ -339,8 +338,8 @@ void FlightPathMovementGenerator::DoFinalize(Player* player)
 
 void FlightPathMovementGenerator::DoReset(Player* player)
 {
-    player->getHostileRefManager().setOnlineOfflineState(false);
     player->AddUnitState(UNIT_STATE_IN_FLIGHT);
+    player->CombatStopWithPets();
     player->AddUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL | UNIT_FLAG_TAXI_FLIGHT));
 
     Movement::MoveSplineInit init(player);

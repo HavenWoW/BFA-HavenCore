@@ -218,8 +218,8 @@ struct npc_hogger : public ScriptedAI
 
     void RewardPlayers()
     {
-        for (auto itr : me->GetThreatManager().getThreatList())
-            if (Player* player = ObjectAccessor::GetPlayer(*me, itr->getUnitGuid()))
+        for (auto itr : me->GetThreatManager().GetModifiableThreatList())
+            if (Player* player = ObjectAccessor::GetPlayer(*me, itr->GetVictim()->GetGUID()))
                 player->RewardPlayerAndGroupAtEvent(NPC_HOGGER, me);
     }
 

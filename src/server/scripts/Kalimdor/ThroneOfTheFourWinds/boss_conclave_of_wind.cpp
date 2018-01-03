@@ -314,7 +314,7 @@ public:
                         if (me->GetDistance2d(me->GetVictim()) > 90)
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 90.0f, true))
                             {
-                                me->GetThreatManager().resetAllAggro();
+                                me->GetThreatManager().ResetAllThreat();
                                 me->GetThreatManager().AddThreat(target, 10);
                             }
                     uiCheckAgroo = 5000;
@@ -450,7 +450,7 @@ public:
                 {
                     if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM))
                     {
-                        me->GetThreatManager().resetAllAggro();
+                        me->GetThreatManager().ResetAllThreat();
                         me->GetThreatManager().AddThreat(target, 10);
                     }
                 }
@@ -658,7 +658,7 @@ public:
                         if (me->GetDistance2d(me->GetVictim()) > 90)
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 90.0f, true))
                             {
-                                me->GetThreatManager().resetAllAggro();
+                                me->GetThreatManager().ResetAllThreat();
                                 me->GetThreatManager().AddThreat(target, 10);
                             }
 
@@ -1072,7 +1072,7 @@ public:
                         {
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 90, true))
                             {
-                                me->GetThreatManager().resetAllAggro();
+                                me->GetThreatManager().ResetAllThreat();
                                 me->GetThreatManager().AddThreat(target, 10);
                             }
                         }

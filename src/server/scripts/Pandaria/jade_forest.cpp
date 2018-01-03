@@ -752,7 +752,7 @@ class mob_pandriarch_windfur : public CreatureScript
                     creature->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
                     creature->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
                     creature->AI()->Reset();
-                    creature->CombatStart(player, true);
+                    creature->AttackedTarget(player, true);
                 }
 
                 CloseGossipMenuFor(player);
@@ -885,7 +885,7 @@ class mob_pandriarch_bramblestaff : public CreatureScript
                     creature->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
                     creature->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
                     creature->AI()->Reset();
-                    creature->CombatStart(player, true);
+                    creature->AttackedTarget(player, true);
                 }
 
                 CloseGossipMenuFor(player);
@@ -1027,7 +1027,7 @@ class mob_pandriarch_goldendraft : public CreatureScript
                     creature->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
                     creature->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
                     creature->AI()->Reset();
-                    creature->CombatStart(player, true);
+                    creature->AttackedTarget(player, true);
                 }
 
                 CloseGossipMenuFor(player);
@@ -1149,7 +1149,7 @@ class mob_big_bao : public CreatureScript
                     creature->SetReactState(REACT_DEFENSIVE);
                     creature->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
                     creature->AI()->Reset();
-                    creature->CombatStart(player, true);
+                    creature->AttackedTarget(player, true);
                 }
                 CloseGossipMenuFor(player);
             }

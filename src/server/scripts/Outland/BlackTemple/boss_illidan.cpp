@@ -597,12 +597,12 @@ public:
 
         void DeleteFromThreatList(ObjectGuid TargetGUID)
         {
-            ThreatContainer::StorageType threatlist = me->GetThreatManager().getThreatList();
-            for (ThreatContainer::StorageType::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
+            std::vector<ThreatReference*> threatlist = me->GetThreatManager().GetModifiableThreatList();
+            for (std::vector<ThreatReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
             {
-                if ((*itr)->getUnitGuid() == TargetGUID)
+                if ((*itr)->GetVictim()->GetGUID() == TargetGUID)
                 {
-                    (*itr)->removeReference();
+                    (*itr)->ClearThreat();
                     break;
                 }
             }
@@ -1455,11 +1455,11 @@ public:
 
         void KillAllElites()
         {
-            ThreatContainer::StorageType const &threatList = me->GetThreatManager().getThreatList();
+            std::vector<ThreatReference*> const &threatList = me->GetThreatManager().GetModifiableThreatList();
             std::vector<Unit*> eliteList;
-            for (ThreatContainer::StorageType::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
+            for (std::vector<ThreatReference*>::const_iterator itr = threatList.begin(); itr != threatList.end(); ++itr)
             {
-                Unit* unit = ObjectAccessor::GetUnit(*me, (*itr)->getUnitGuid());
+                Unit* unit = (*itr)->GetVictim();
                 if (unit && unit->GetEntry() == ILLIDARI_ELITE)
                     eliteList.push_back(unit);
             }

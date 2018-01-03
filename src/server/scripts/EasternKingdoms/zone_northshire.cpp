@@ -392,7 +392,7 @@ public:
                 // A player/pet can kill the worg normally. The owning Infantry
                 // keeps following and attacking its assigned worg.
                 me->SetReactState(REACT_AGGRESSIVE);
-                me->GetThreatManager().resetAllAggro();
+                me->GetThreatManager().ResetAllThreat();
                 me->GetThreatManager().AddThreat(attacker, 1000000.0f);
                 AttackStart(attacker);
                 return;
@@ -781,7 +781,7 @@ public:
             if (!me->IsWithinDistInMap(p_Who, 25.f) && p_Who->IsInCombat())
             {
                 me->RemoveAllAurasByCaster(p_Who->GetGUID());
-                me->getHostileRefManager().deleteReference(p_Who);
+                p_Who->GetThreatManager().ClearThreat(me);
             }
         }
 

@@ -356,9 +356,9 @@ struct boss_maiden_of_vigilance : BossAI
         if (me->HasAura(SPELL_WRATH_OF_THE_CREATORS))
         {
             bool needEvade = true;
-            auto list = me->GetThreatManager().getThreatList();
+            auto list = me->GetThreatManager().GetModifiableThreatList();
             for (auto& itr : list)
-                if (Unit* target = itr->getTarget())
+                if (Unit* target = itr->GetVictim())
                     if (target->IsPlayer() && target->IsAlive())
                     {
                         needEvade = false;

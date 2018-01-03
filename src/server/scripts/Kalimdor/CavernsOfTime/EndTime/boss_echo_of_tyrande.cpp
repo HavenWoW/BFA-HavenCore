@@ -182,10 +182,10 @@ class boss_echo_of_tyrande : public CreatureScript
                         break;
                     case EVENT_STARDUST:
                     {
-                        ThreatContainer::StorageType threatlist = me->GetThreatManager().getThreatList();
-                        for (ThreatContainer::StorageType::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
+                        std::vector<ThreatReference*> threatlist = me->GetThreatManager().GetModifiableThreatList();
+                        for (std::vector<ThreatReference*>::const_iterator itr = threatlist.begin(); itr != threatlist.end(); ++itr)
                         {
-                            if (Unit* unit = ObjectAccessor::GetUnit(*me, (*itr)->getUnitGuid()))
+                            if (Unit* unit = (*itr)->GetVictim())
                                 if (unit->IsPlayer())
                                     me->CastSpell(unit, SPELL_STARDUST, false);
                         }

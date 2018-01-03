@@ -777,7 +777,7 @@ public:
                     if (!alivePlayers)
                     {
                         me->CombatStop();
-                        me->getHostileRefManager().deleteReferences();
+                        me->GetThreatManager().RemoveMeFromThreatLists();
                         EnterEvadeMode(EVADE_REASON_NO_HOSTILES);
                         return;
                     }
@@ -827,10 +827,10 @@ public:
                     {
                         if (me->GetVictim() && me->GetVictim()->GetGUID() != target->GetGUID())
                         {
-                            me->TauntFadeOut(me->GetVictim());
                             ResetThreatList();
                             AttackStart(target);
-                            me->TauntApply(target);
+                            // Unit::TauntApply was removed by the threat rewrite; force the retarget it used to do
+                            me->SetInFront(target);
                             me->GetThreatManager().AddThreat(target, 5000000.0f);
                         }
                     }
@@ -881,7 +881,7 @@ public:
                     if (!rangePlayers)
                     {
                         me->CombatStop();
-                        me->getHostileRefManager().deleteReferences();
+                        me->GetThreatManager().RemoveMeFromThreatLists();
                         EnterEvadeMode(EVADE_REASON_NO_HOSTILES);
                         //sWorld->SendWorldText(3, "No players found alive in 75 yards, wipe.");
                         return;
@@ -3219,7 +3219,7 @@ public:
                                 {
                                     if (player == currentTarget)
                                         break;
-                                    me->GetThreatManager().clearReferences();
+                                    me->GetThreatManager().ClearAllThreat();
                                     me->SetInCombatWithZone();
                                     me->GetThreatManager().AddThreat(player, 99999999.0f);
                                     me->AI()->AttackStart(player);
