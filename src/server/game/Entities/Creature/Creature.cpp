@@ -639,7 +639,7 @@ bool Creature::UpdateEntry(uint32 entry, CreatureData const* data /*= nullptr*/,
 
 void Creature::Update(uint32 diff)
 {
-    if (IsAIEnabled && m_TriggerJustRespawned)
+    if (IsAIEnabled && m_TriggerJustRespawned && m_deathState != DEAD)
     {
         m_TriggerJustRespawned = false;
         AI()->JustRespawned();
