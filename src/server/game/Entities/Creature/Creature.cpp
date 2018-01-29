@@ -1205,31 +1205,8 @@ Unit* Creature::SelectVictim()
 {
     Unit* target = nullptr;
 
-    ThreatManager& mgr = GetThreatManager();
-
-    if (mgr.CanHaveThreatList())
-    {
-        target = mgr.SelectVictim();
-        while (!target)
-        {
-            Unit* newTarget = nullptr;
-            // nothing found to attack - try to find something we're in combat with (but don't have a threat entry for yet) and start attacking it
-            for (auto const& pair : GetCombatManager().GetPvECombatRefs())
-            {
-                newTarget = pair.second->GetOther(this);
-                if (!mgr.IsThreatenedBy(newTarget, true))
-                {
-                    mgr.AddThreat(newTarget, 0.0f, nullptr, true, true);
-                    break;
-                }
-                else
-                    newTarget = nullptr;
-            }
-            if (!newTarget)
-                break;
-            target = mgr.SelectVictim();
-        }
-    }
+    if (CanHaveThreatList())
+        target = GetThreatManager().SelectVictim();
     else if (!HasReactState(REACT_PASSIVE))
     {
         // We're a player pet, probably
@@ -1268,23 +1245,6 @@ Unit* Creature::SelectVictim()
     /// @todo a vehicle may eat some mob, so mob should not evade
     if (GetVehicle())
         return nullptr;
-
-    // search nearby enemy before enter evade mode
-    if (HasReactState(REACT_AGGRESSIVE))
-    {
-        std::vector<Unit*> targets = SelectNearestTargetsInAttackDistance(m_CombatDistance ? m_CombatDistance : ATTACK_DISTANCE);
-
-        if (targets.size())
-        {
-            if (GetVictim() && std::find(targets.begin(), targets.end(), GetVictim()) != targets.end())
-                target = GetVictim();
-            else
-                target = targets.front();
-        }
-
-        if (target && _IsTargetAcceptable(target) && CanCreatureAttack(target))
-            return target;
-    }
 
     Unit::AuraEffectList const& iAuras = GetAuraEffectsByType(SPELL_AURA_MOD_INVISIBILITY);
     if (!iAuras.empty())
