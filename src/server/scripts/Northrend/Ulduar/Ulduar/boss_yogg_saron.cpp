@@ -463,8 +463,8 @@ public:
 
         {
             // TODO: MoveInLineOfSight doesn't work for such a big distance
-            if (who->GetTypeId() == TYPEID_PLAYER && me->GetDistance2d(who) < 99.0f && !me->IsInCombat())
-                me->SetInCombatWithZone();
+            if (who->GetTypeId() == TYPEID_PLAYER && !who->ToPlayer()->IsGameMaster() && me->GetDistance2d(who) < 99.0f && !me->IsInCombat())
+                    DoZoneInCombat();
         }
 
         void EnterEvadeMode(EvadeReason why) override
