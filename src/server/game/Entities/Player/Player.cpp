@@ -2476,7 +2476,6 @@ void Player::SetGameMaster(bool on)
         if (Pet* pet = GetPet())
         {
             pet->SetFaction(getFaction());
-            pet->GetThreatManager().UpdateOnlineStates();
         }
 
         // restore FFA PvP Server state
