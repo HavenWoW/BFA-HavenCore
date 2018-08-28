@@ -33,7 +33,6 @@
 #include "Creature.h"
 #include "CreatureAI.h"
 #include "CreatureAIImpl.h"
-#include "CreatureGroups.h"
 #include "CreatureTextMgr.h"
 #include "Formulas.h"
 #include "GameTime.h"
@@ -8387,10 +8386,6 @@ void Unit::EngageWithTarget(Unit* enemy)
         m_threatManager.AddThreat(enemy, 0.0f, nullptr, true, true);
     else
         SetInCombatWith(enemy);
-
-    if (Creature* creature = ToCreature())
-        if (CreatureGroup* formation = creature->GetFormation())
-            formation->MemberEngagingTarget(creature, enemy);
 }
 
 void Unit::AttackedTarget(Unit* target, bool canInitialAggro)
