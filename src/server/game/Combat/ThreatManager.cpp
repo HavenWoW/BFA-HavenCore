@@ -19,6 +19,7 @@
 #include "Creature.h"
 #include "CombatPackets.h"
 #include "CreatureAI.h"
+#include "CreatureGroups.h"
 #include "MotionMaster.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
@@ -400,6 +401,8 @@ void ThreatManager::AddThreat(Unit* target, float amount, SpellInfo const* spell
         SaveCreatureHomePositionIfNeed(cOwner);
         if (cOwner->IsAIEnabled)
             cOwner->AI()->JustEngagedWith(target);
+        if (CreatureGroup* formation = cOwner->GetFormation())
+            formation->MemberEngagingTarget(cOwner, target);
     }
 }
 
