@@ -117,7 +117,15 @@ enum TrinityStrings
     LANG_GOINFO_SIZE                    = 84,
     LANG_GOINFO_ADDON                   = 85,
     LANG_GOINFO_MODEL                   = 86,
-    // Free 87 - 95
+    LANG_UNKNOWN_ERROR                  = 87,
+    LANG_2FA_COMMANDS_NOT_SETUP         = 88,
+    LANG_2FA_ALREADY_SETUP              = 89,
+    LANG_2FA_INVALID_TOKEN              = 90,
+    LANG_2FA_SECRET_SUGGESTION          = 91,
+    LANG_2FA_SETUP_COMPLETE             = 92,
+    LANG_2FA_NOT_SETUP                  = 93,
+    LANG_2FA_REMOVE_NEED_TOKEN          = 94,
+    LANG_2FA_REMOVE_COMPLETE            = 95,
 
 
     LANG_GUILD_RENAME_ALREADY_EXISTS    = 96,
@@ -223,7 +231,11 @@ enum TrinityStrings
 
     //                                    185 not used
     LANG_TRANSPORT_POSITION             = 186,
-    // Room for more level 1              187-199 not used
+    //                                    187 not used
+    LANG_2FA_SECRET_TOO_LONG            = 188,
+    LANG_2FA_SECRET_INVALID             = 189,
+    LANG_2FA_SECRET_SET_COMPLETE        = 190,
+    // Room for more level 1              191-199 not used
 	
 	 // Battle For Gilneas
     LANG_BG_BG_START_TWO_MINUTES       = 1250,

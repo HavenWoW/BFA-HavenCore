@@ -37,6 +37,7 @@
 #include "MySQLThreading.h"
 #include "ProcessPriority.h"
 #include "RealmList.h"
+#include "SecretMgr.h"
 #include "SessionManager.h"
 #include "SslContext.h"
 #include "Util.h"
@@ -166,6 +167,8 @@ int main(int argc, char** argv)
     // Initialize the database connection
     if (!StartDB())
         return 1;
+
+    sSecretMgr->Initialize(SECRET_OWNER_BNETSERVER);
 
     sSessionMgr.FixLegacyAuthHashes();
 
