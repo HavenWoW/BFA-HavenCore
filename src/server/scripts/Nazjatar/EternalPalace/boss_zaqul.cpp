@@ -142,7 +142,7 @@ enum Timers
 
 const Position centerPos = { 197.69f, 2012.56f, 755.92f };
 
-struct checkSpecsPlayers : public std::unary_function<Unit*, bool>
+struct checkSpecsPlayers
 {
     checkSpecsPlayers() {}
 

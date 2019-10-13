@@ -109,7 +109,7 @@ enum AreaTriggers
 // encounter unit 
 // crashing wave at spawn
 
-struct checkSpec : public std::unary_function<Unit*, bool>
+struct checkSpec
 {
 	checkSpec() {}
 

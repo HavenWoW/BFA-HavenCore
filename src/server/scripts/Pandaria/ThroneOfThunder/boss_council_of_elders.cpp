@@ -658,7 +658,7 @@ protected:
 typedef boss_council_of_elders_base_AI CouncilBaseAI;
 
 
-struct hasFrostbite : public std::unary_function<Unit*, bool>
+struct hasFrostbite
 {
     hasFrostbite() {}
 

@@ -86,7 +86,7 @@ enum DataTypes
     DATA_FRAGMENT_SOUL = 1,
 };
 
-struct NonMeleeTargetSelector : public std::unary_function<Unit*, bool>
+struct NonMeleeTargetSelector
 {
     public:
         NonMeleeTargetSelector(Unit* source, bool playerOnly = true) : _source(source), _playerOnly(playerOnly) { }

@@ -128,7 +128,7 @@ enum Sounds
 
 const Position SurgingWatersCheck = { -3487.26f, 4385.58f, -3.60f }; // also cheaters check
 
-struct checkSpec : public std::unary_function<Unit*, bool>
+struct checkSpec
 {
 	checkSpec() {}
 

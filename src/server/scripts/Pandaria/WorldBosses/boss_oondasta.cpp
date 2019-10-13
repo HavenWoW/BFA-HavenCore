@@ -146,7 +146,7 @@ class boss_oondasta : public CreatureScript
 };
 
 // Tank check for Alpha Male.
-class TankCheck : public std::unary_function<Unit*, bool>
+class TankCheck
 {
     public:
         bool operator()(WorldObject* object)

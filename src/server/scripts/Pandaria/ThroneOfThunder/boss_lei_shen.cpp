@@ -432,7 +432,7 @@ enum Talks
     TALK_P3 = 6,
     TALK_DEATH = 7,
 };
-struct notValidSpec : public std::unary_function<Unit*, bool>
+struct notValidSpec
 {
     notValidSpec() {}
 
@@ -456,7 +456,7 @@ struct notValidSpec : public std::unary_function<Unit*, bool>
     }
 };
 
-struct isDecapitated : public std::unary_function<Unit*, bool>
+struct isDecapitated
 {
     isDecapitated() {}
 
@@ -466,7 +466,7 @@ struct isDecapitated : public std::unary_function<Unit*, bool>
     }
 };
 
-struct alreadyDisable : public std::unary_function<Unit*, bool>
+struct alreadyDisable
 {
     alreadyDisable() {}
 
@@ -476,7 +476,7 @@ struct alreadyDisable : public std::unary_function<Unit*, bool>
     }
 };
 
-struct hasHelmActive : public std::unary_function<Unit*, bool>
+struct hasHelmActive
 {
     hasHelmActive() {}
 
@@ -486,7 +486,7 @@ struct hasHelmActive : public std::unary_function<Unit*, bool>
     }
 };
 
-struct TargetIsGm : public std::unary_function<Unit*, bool>
+struct TargetIsGm
 {
     TargetIsGm() {}
 

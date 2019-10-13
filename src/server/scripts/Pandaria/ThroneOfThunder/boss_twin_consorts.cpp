@@ -335,7 +335,7 @@ enum Points
     POINT_FLAME = 1,
 };
 
-struct IsActive : public std::unary_function<Unit*, bool>
+struct IsActive
 {
     IsActive() {}
 
@@ -361,7 +361,7 @@ enum Talks
     TALK_L_WIPE = 5,
 };
 
-struct isCompleted : public std::unary_function<Unit*, bool>
+struct isCompleted
 {
     isCompleted() {}
 
@@ -1468,7 +1468,7 @@ public:
     }
 };
 
-struct notValidSpec : public std::unary_function<Unit*, bool>
+struct notValidSpec
 {
     notValidSpec() {}
 

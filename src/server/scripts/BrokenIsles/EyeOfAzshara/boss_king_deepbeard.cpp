@@ -64,7 +64,7 @@ enum SoundIds
 #define GASEOUS_BUBBLE_TEXT "Pity you cannot survive without air!"
 #define DEATH_TEXT "I... I've failed... But my queen will not..."
 
-struct checkSpec : public std::unary_function<Unit*, bool>
+struct checkSpec
 {
 	checkSpec() {}
 

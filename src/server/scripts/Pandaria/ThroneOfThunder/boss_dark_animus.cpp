@@ -100,7 +100,7 @@ enum Actions
     ACTION_CHEATERS = 7,
 };
 
-struct isInIdle : public std::unary_function<Unit*, bool>
+struct isInIdle
 {
     isInIdle() {}
 
@@ -111,7 +111,7 @@ struct isInIdle : public std::unary_function<Unit*, bool>
 };
 
 
-struct IsActivating : public std::unary_function<Unit**, bool>
+struct IsActivating
 {
     IsActivating() {}
 
@@ -121,7 +121,7 @@ struct IsActivating : public std::unary_function<Unit**, bool>
     }
 };
 
-struct IsDead : public std::unary_function<Unit*, bool>
+struct IsDead
 {
     IsDead() {}
 
@@ -132,7 +132,7 @@ struct IsDead : public std::unary_function<Unit*, bool>
 };
 
 
-struct IsFullPower : public std::unary_function<Unit*, bool>
+struct IsFullPower
 {
     IsFullPower() {}
 
@@ -501,7 +501,7 @@ public:
     }
 };
 
-struct isTank : public std::unary_function<Unit*, bool>
+struct isTank
 {
     isTank() {}
 
@@ -516,7 +516,7 @@ struct isTank : public std::unary_function<Unit*, bool>
     }
 };
 
-struct isSwapped : public std::unary_function<Unit*, bool>
+struct isSwapped
 {
     isSwapped() {}
 
@@ -526,7 +526,7 @@ struct isSwapped : public std::unary_function<Unit*, bool>
     }
 };
 
-struct isSwapTarget : public std::unary_function<Unit*, bool>
+struct isSwapTarget
 {
     isSwapTarget() {}
 
@@ -662,7 +662,7 @@ public:
     }
 };
 
-struct hasTouchAura : public std::unary_function<Unit*, bool>
+struct hasTouchAura
 {
     hasTouchAura() {}
 
@@ -672,7 +672,7 @@ struct hasTouchAura : public std::unary_function<Unit*, bool>
     }
 };
 
-struct dontHaveTouchAura : public std::unary_function<Unit*, bool>
+struct dontHaveTouchAura
 {
     dontHaveTouchAura() {}
 
@@ -682,7 +682,7 @@ struct dontHaveTouchAura : public std::unary_function<Unit*, bool>
     }
 };
 
-struct isDisable : public std::unary_function<Unit*, bool>
+struct isDisable
 {
     isDisable() {}
 
@@ -692,7 +692,7 @@ struct isDisable : public std::unary_function<Unit*, bool>
     }
 };
 
-struct isDamaged : public std::unary_function<Unit*, bool>
+struct isDamaged
 {
     isDamaged() {}
 
@@ -1086,7 +1086,7 @@ public:
     }
 };
 
-struct hasRingAura : public std::unary_function<Unit*, bool>
+struct hasRingAura
 {
     hasRingAura() {}
 
@@ -1638,7 +1638,7 @@ public:
     }
 };
 
-struct PossibleGMs : public std::unary_function<Unit*, bool>
+struct PossibleGMs
 {
     PossibleGMs() {}
 

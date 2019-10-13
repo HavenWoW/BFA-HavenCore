@@ -168,7 +168,7 @@ Position hatcheryEgg[25] =
     {279.57f, 745.14f, 1060.55f},
 }; //used for swirly pos 2-3 patches on every pos
 
-struct checkIncubation : public std::unary_function<Unit*, bool>
+struct checkIncubation
 {
     checkIncubation() {}
 

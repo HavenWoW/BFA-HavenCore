@@ -1156,7 +1156,7 @@ public:
         return new bfa_spell_materials_of_creation_SpellScript();
     }
 };
-struct PossibleGMs : public std::unary_function<Unit*, bool>
+struct PossibleGMs
 {
     PossibleGMs() {}
 
@@ -1167,7 +1167,7 @@ struct PossibleGMs : public std::unary_function<Unit*, bool>
     }
 };
 
-struct VitaSensitivity : public std::unary_function<Unit*, bool>
+struct VitaSensitivity
 {
     VitaSensitivity() {}
 
@@ -1177,7 +1177,7 @@ struct VitaSensitivity : public std::unary_function<Unit*, bool>
     }
 };
 
-struct DeadTargets : public std::unary_function<Unit*, bool>
+struct DeadTargets
 {
     DeadTargets() {}
 
@@ -1187,7 +1187,7 @@ struct DeadTargets : public std::unary_function<Unit*, bool>
     }
 };
 
-struct AnimaSensitivity : public std::unary_function<Unit*, bool>
+struct AnimaSensitivity
 {
     AnimaSensitivity() {}
 
@@ -1197,7 +1197,7 @@ struct AnimaSensitivity : public std::unary_function<Unit*, bool>
     }
 };
 
-struct TargetsAreDead : public std::unary_function<Unit*, bool>
+struct TargetsAreDead
 {
     TargetsAreDead() {}
 

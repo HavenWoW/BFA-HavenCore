@@ -297,7 +297,7 @@ enum Actions
     ACTION_LAST_PHASE_EJECTION = 16,
 };
 
-struct NotIgnited : public std::unary_function<Unit*, bool>
+struct NotIgnited
 {
     NotIgnited() {}
 
@@ -1277,7 +1277,7 @@ public:
     }
 };
 
-struct notValidSpec : public std::unary_function<Unit*, bool>
+struct notValidSpec
 {
     notValidSpec() {}
 

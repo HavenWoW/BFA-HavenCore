@@ -130,7 +130,7 @@ enum Actions
     ACTION_DEAD_KILL,
 };
 
-struct noTanks : public std::unary_function<Unit*, bool>
+struct noTanks
 {
     noTanks() {}
 

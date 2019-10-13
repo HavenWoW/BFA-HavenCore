@@ -99,7 +99,7 @@ enum Timers
 
 const Position centerPos = { 298.22f, 634.11f, 1284.72f }; //55y checks, 35y for corals
 
-struct noTanks : public std::unary_function<Unit*, bool>
+struct noTanks
 {
     noTanks() {}
 

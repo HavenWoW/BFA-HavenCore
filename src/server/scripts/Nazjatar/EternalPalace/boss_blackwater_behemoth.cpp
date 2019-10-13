@@ -93,7 +93,7 @@ const Position thirdPlatformCheck2 = { -395.65f, 808.48f, 1166.90f }; //20y both
 const Position jellyFishFirstSpawn = { -161.72f, 991.28f, 1242.16f };
 const Position jellyFishSecondSpawn = { -354.09f, 911.11f, 1204.11f };
 
-struct noTanks : public std::unary_function<Unit*, bool>
+struct noTanks
 {
     noTanks() {}
 

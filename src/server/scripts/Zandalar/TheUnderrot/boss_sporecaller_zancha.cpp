@@ -67,7 +67,7 @@ Position volatilePodsPositions[6] =
 
 const Position centerPlatform { 1032.69f, 1058.84f, 33.33f }; // 15 yards min 20 yards max spore spawn, cheaters 30yards
 
-struct checkSpec : public std::unary_function<Unit*, bool>
+struct checkSpec
 {
     checkSpec() {}
 

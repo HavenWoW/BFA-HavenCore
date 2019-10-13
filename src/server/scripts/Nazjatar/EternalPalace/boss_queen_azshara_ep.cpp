@@ -249,7 +249,7 @@ enum Actions
     ACTION_SPECIAL_EVENT,
 };
 
-struct noTanks : public std::unary_function<Unit*, bool>
+struct noTanks
 {
     noTanks() {}
 
@@ -266,7 +266,7 @@ struct noTanks : public std::unary_function<Unit*, bool>
     }
 };
 
-struct checkShield : public std::unary_function<Unit*, bool>
+struct checkShield
 {
     checkShield() {}
 

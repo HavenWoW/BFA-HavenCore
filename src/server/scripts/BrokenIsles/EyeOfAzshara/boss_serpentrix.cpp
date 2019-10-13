@@ -77,7 +77,7 @@ const Position mainHole[1] =
 	{ -3253.82f, 4428.95f, -1.74f }, // cheaters 95yards check also while reseting 
 };
 
-struct checkSpec : public std::unary_function<Unit*, bool>
+struct checkSpec
 {
 	checkSpec() {}
 

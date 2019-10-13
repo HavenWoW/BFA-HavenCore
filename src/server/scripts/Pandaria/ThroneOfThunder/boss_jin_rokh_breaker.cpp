@@ -221,7 +221,7 @@ static const Position aWaterPos[4] =
 
 static const Position aCenterPos = { 5892.16f, 6263.58f, 124.7f, 0.0f };
 
-class FocusedLightningSelection : public std::unary_function<Unit*, bool>
+class FocusedLightningSelection
 {
 public:
     FocusedLightningSelection() { }
