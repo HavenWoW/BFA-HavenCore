@@ -14,7 +14,7 @@
 #pragma warning(disable:4311)
 #include <windows.h>
 #include <tlhelp32.h>
-#include <stdio.h>
+#include <cstdio>
 #include <tchar.h>
 #define _NO_CVCONST_H
 #include <dbghelp.h>
@@ -594,7 +594,7 @@ PEXCEPTION_POINTERS pExceptionInfo)
 // Given an exception code, returns a pointer to a static string with a
 // description of the exception
 //======================================================================
-LPTSTR WheatyExceptionReport::GetExceptionString(DWORD dwCode)
+LPCTSTR WheatyExceptionReport::GetExceptionString(DWORD dwCode)
 {
     #define EXCEPTION(x) case EXCEPTION_##x: return _T(#x);
 
@@ -931,7 +931,7 @@ DWORD dwTypeIndex,
 DWORD_PTR offset,
 bool & bHandled,
 const char* Name,
-char* /*suffix*/,
+char const* /*suffix*/,
 bool newSymbol,
 bool logChildren)
 {
