@@ -62,16 +62,15 @@ target_include_directories(boost
 
 target_compile_definitions(boost
   INTERFACE
+    -DBOOST_ALL_NO_LIB
+    -DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE
+    -DBOOST_ASIO_NO_DEPRECATED
+    -DBOOST_BIND_NO_PLACEHOLDERS
+    -DBOOST_SYSTEM_USE_UTF8
     -DBOOST_DATE_TIME_NO_LIB
     -DBOOST_REGEX_NO_LIB
     -DBOOST_CHRONO_NO_LIB
-	# Due to MSVC linking error boost::none" already defined in scripts_...
-    # May be removed when the requirement is raised to boost 1.61 on windows.
-    -DBOOST_OPTIONAL_USE_OLD_DEFINITION_OF_NONE
-    -DBOOST_SERIALIZATION_NO_LIB
-    -DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE
-    -DBOOST_ASIO_NO_DEPRECATED
-    -DBOOST_BIND_NO_PLACEHOLDERS)
+    -DBOOST_SERIALIZATION_NO_LIB)
 
 if (NOT boost_filesystem_copy_links_without_NO_SCOPED_ENUM)
   target_compile_definitions(boost
