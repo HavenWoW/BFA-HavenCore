@@ -17,13 +17,10 @@
 
 #include "PacketUtilities.h"
 #include "Errors.h"
-#include <sstream>
 
 WorldPackets::PacketArrayMaxCapacityException::PacketArrayMaxCapacityException(std::size_t requestedSize, std::size_t sizeLimit)
 {
-    std::ostringstream builder;
-    builder << "Attempted to read more array elements from packet " << requestedSize << " than allowed " << sizeLimit;
-    message().assign(builder.str());
+    message().assign("Attempted to read more array elements from packet " + std::to_string(requestedSize) + " than allowed " + std::to_string(sizeLimit));
 }
 
 void WorldPackets::CheckCompactArrayMaskOverflow(std::size_t index, std::size_t limit)
