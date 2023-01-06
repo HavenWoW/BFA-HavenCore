@@ -23,8 +23,7 @@
 #include "Util.h"
 #include "Object.h"
 #include "SpellAuraDefines.h"
-
-#include <boost/container/flat_set.hpp>
+#include "FlatSet.h"
 
 class Unit;
 class Player;
@@ -324,8 +323,8 @@ struct TC_GAME_API ImmunityInfo
     uint32 DispelImmune = 0;
     uint32 DamageSchoolMask = 0;
 
-    boost::container::flat_set<AuraType> AuraTypeImmune;
-    boost::container::flat_set<SpellEffectName> SpellEffectImmune;
+    Trinity::Containers::FlatSet<AuraType> AuraTypeImmune;
+    Trinity::Containers::FlatSet<SpellEffectName> SpellEffectImmune;
 };
 
 class TC_GAME_API SpellEffectInfo

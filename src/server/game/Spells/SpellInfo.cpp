@@ -20,6 +20,7 @@
 #include "ConditionMgr.h"
 #include "Corpse.h"
 #include "DB2Stores.h"
+#include "FlatSet.h"
 #include "GameTables.h"
 #include "InstanceScript.h"
 #include "Item.h"
@@ -3714,7 +3715,7 @@ bool SpellInfo::CanSpellProvideImmunityAgainstAura(SpellInfo const* auraSpellInf
                 continue;
 
             auto spellImmuneItr = immuneInfo->SpellEffectImmune.find(static_cast<SpellEffectName>(effectName));
-            if (spellImmuneItr == immuneInfo->SpellEffectImmune.cend())
+            if (spellImmuneItr == immuneInfo->SpellEffectImmune.end())
             {
                 immuneToAllEffects = false;
                 break;
@@ -3735,7 +3736,7 @@ bool SpellInfo::CanSpellProvideImmunityAgainstAura(SpellInfo const* auraSpellInf
                 {
                     bool isImmuneToAuraEffectApply = false;
                     auto auraImmuneItr = immuneInfo->AuraTypeImmune.find(static_cast<AuraType>(auraName));
-                    if (auraImmuneItr != immuneInfo->AuraTypeImmune.cend())
+                    if (auraImmuneItr != immuneInfo->AuraTypeImmune.end())
                         isImmuneToAuraEffectApply = true;
 
                     if (!isImmuneToAuraEffectApply && !auraSpellInfo->IsPositiveEffect(auraSpellEffectInfo->EffectIndex) && !auraSpellInfo->HasAttribute(SPELL_ATTR2_UNAFFECTED_BY_AURA_SCHOOL_IMMUNE))
