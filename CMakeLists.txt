@@ -24,6 +24,10 @@ cmake_policy(SET CMP0043 NEW)
 cmake_policy(SET CMP0054 NEW)
 cmake_policy(SET CMP0074 NEW)
 
+if(POLICY CMP0153)
+  cmake_policy(SET CMP0153 NEW) # The exec_program() command should not be called
+endif()
+
 # Set RPATH-handing (CMake parameters)
 set(CMAKE_SKIP_BUILD_RPATH 0)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH 0)
