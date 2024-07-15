@@ -1,6 +1,8 @@
-add_definitions(-D_WIN32_WINNT=0x0601)
-add_definitions(-DWIN32_LEAN_AND_MEAN)
-add_definitions(-DNOMINMAX)
+target_compile_definitions(trinity-compile-option-interface
+  INTERFACE
+    _WIN32_WINNT=0x0601
+    WIN32_LEAN_AND_MEAN
+    NOMINMAX)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   include(${CMAKE_SOURCE_DIR}/cmake/compiler/msvc/settings.cmake)

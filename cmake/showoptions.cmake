@@ -1,7 +1,8 @@
 # output generic information about the core and buildtype chosen
 message("")
 message("* BfaCore revision   : ${rev_hash} ${rev_date} (${rev_branch} branch)")
-if(NOT "${CMAKE_MAKE_PROGRAM}" MATCHES "MSBuild")
+get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(NOT IS_MULTI_CONFIG)
   message("* BfaCore buildtype  : ${CMAKE_BUILD_TYPE}")
 endif()
 message("")
@@ -61,7 +62,9 @@ if( WITH_COREDEBUG )
   message(" *** -DCMAKE_BUILD_TYPE=RelWithDebug")
   message(" *** DO NOT ENABLE IT UNLESS YOU KNOW WHAT YOU'RE DOING!")
   message("* Use coreside debug     : Yes")
-  add_definitions(-DTRINITY_DEBUG)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      TRINITY_DEBUG)
 else()
   message("* Use coreside debug     : No  (default)")
 endif()
@@ -100,38 +103,48 @@ if ( HELGRIND )
   message(" *** HELGRIND - WARNING!")
   message(" *** Please specify the valgrind include directory in VALGRIND_INCLUDE_DIR option if you get build errors")
   message(" *** Please note that this is for DEBUGGING WITH HELGRIND only!")
-  add_definitions(-DHELGRIND)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      HELGRIND)
 endif()
 
 if ( ASAN )
   message("")
   message(" *** ASAN - WARNING!")
   message(" *** Please note that this is for DEBUGGING WITH ADDRESS SANITIZER only!")
-  add_definitions(-DASAN)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      ASAN)
 endif()
 
 if(MSAN)
   message("")
   message(" *** MSAN - WARNING!")
   message(" *** Please note that this is for DEBUGGING WITH MEMORY SANITIZER only!")
-  add_definitions(-DMSAN)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      MSAN)
 endif()
 
 if(UBSAN)
   message("")
   message(" *** UBSAN - WARNING!")
   message(" *** Please note that this is for DEBUGGING WITH UNDEFINED BEHAVIOR SANITIZER only!")
-  add_definitions(-DUBSAN)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      UBSAN)
 endif()
 
 if(TSAN)
   message("")
   message(" *** TSAN - WARNING!")
   message(" *** Please note that this is for DEBUGGING WITH THREAD SANITIZER only!")
-  add_definitions(-DTSAN -DNO_BUFFERPOOL)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      TSAN)
 endif()
 
-if (BUILD_SHARED_LIBS)
+if(BUILD_SHARED_LIBS)
   message("")
   message(" *** WITH_DYNAMIC_LINKING - INFO!")
   message(" *** Will link against shared libraries!")
@@ -140,7 +153,9 @@ if (BUILD_SHARED_LIBS)
     message("")
     message(" *** Dynamic linking was enforced through a dynamic script module!")
   endif()
-  add_definitions(-DTRINITY_API_USE_DYNAMIC_LINKING)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      TRINITY_API_USE_DYNAMIC_LINKING)
 
   WarnAboutSpacesInBuildPath()
 endif()

@@ -4,6 +4,10 @@ if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS GCC_EXPECTED_VERSION)
   message(FATAL_ERROR "GCC: BfaCore requires version ${GCC_EXPECTED_VERSION} to build but found ${CMAKE_CXX_COMPILER_VERSION}")
 endif()
 
+target_compile_options(trinity-compile-option-interface
+  INTERFACE
+    -fno-delete-null-pointer-checks)
+
 if(PLATFORM EQUAL 32)
   # Required on 32-bit systems to enable SSE2 (standard on x64)
   target_compile_options(trinity-compile-option-interface
@@ -11,10 +15,11 @@ if(PLATFORM EQUAL 32)
       -msse2
       -mfpmath=sse)
 endif()
+
 target_compile_definitions(trinity-compile-option-interface
   INTERFACE
-    -DHAVE_SSE2
-    -D__SSE2__)
+    HAVE_SSE2
+    __SSE2__)
 message(STATUS "GCC: SFMT enabled, SSE2 flags forced")
 
 if( WITH_WARNINGS )

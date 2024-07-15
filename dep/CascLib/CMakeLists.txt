@@ -61,7 +61,7 @@ target_include_directories(casc
     PRIVATE
       ${CMAKE_SOURCE_DIR}/dep)
 
-target_compile_definitions(casc PUBLIC -D__SYS_ZLIB -DCASCLIB_NO_AUTO_LINK_LIBRARY)
+target_compile_definitions(casc PUBLIC __SYS_ZLIB CASCLIB_NO_AUTO_LINK_LIBRARY)
 
 target_link_libraries(casc
   PRIVATE
