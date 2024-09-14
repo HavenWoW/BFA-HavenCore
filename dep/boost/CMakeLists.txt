@@ -27,7 +27,7 @@ if(POLICY CMP0167)
   cmake_policy(SET CMP0167 OLD)
 endif()
 
-find_package(Boost ${BOOST_REQUIRED_VERSION} REQUIRED system filesystem program_options iostreams regex)
+find_package(Boost ${BOOST_REQUIRED_VERSION} REQUIRED system filesystem program_options regex)
 
 add_library(boost INTERFACE)
 
