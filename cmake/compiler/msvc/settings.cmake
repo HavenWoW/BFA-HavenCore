@@ -24,7 +24,8 @@ target_compile_options(trinity-warning-interface
 # disable permissive mode to make msvc more eager to reject code that other compilers don't already accept
 target_compile_options(trinity-compile-option-interface
   INTERFACE
-    /permissive-)
+    /permissive-
+    /utf-8)
 
 # set up output paths ofr static libraries etc (commented out - shown here as an example only)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
