@@ -3,3 +3,5 @@ sql/base/*.rar
 client-data/**
 .claude/
 TODO.md
+/.vs
+/build
