@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 2026 BFA-HavenCore
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -1700,7 +1700,7 @@ public:
     }
 };
 
-#define GOSSIP_MASTER_MATHIAS_SHAW "Tell me What Happend。"
+#define GOSSIP_MASTER_MATHIAS_SHAW "Tell me What Happend."
 struct npc_master_mathias_shaw_132255 : public ScriptedAI
 {
     npc_master_mathias_shaw_132255(Creature* creature) : ScriptedAI(creature) { Initialize(); }
@@ -1803,8 +1803,8 @@ enum
     AURA_TIME_TRAVELLING = 255152, ///262016 
     SPELL_BLACK = 129809,
 };
-#define GOSSIP_ZIDORMI_1 "Can you show me what Silithus was like before becoming traumatized in the world？"
-#define GOSSIP_ZIDORMI_2 "Can you take me back now？"
+#define GOSSIP_ZIDORMI_1 "Can you show me what Silithus was like before becoming traumatized in the world?"
+#define GOSSIP_ZIDORMI_2 "Can you take me back now?"
 struct npc_zidormi_128607 : public ScriptedAI
 {
     npc_zidormi_128607(Creature* creature) : ScriptedAI(creature) { Initialize(); }

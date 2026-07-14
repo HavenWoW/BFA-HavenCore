@@ -27503,7 +27503,8 @@ void Player::ApplyOnItems(uint8 type, std::function<bool(Player*, Item*, uint8, 
     {
     case 1:
     {
-        for (uint32 i = INVENTORY_SLOT_ITEM_START; i < INVENTORY_SLOT_ITEM_START + GetInventorySlotCount(); i++)
+        uint8 inventoryEnd = INVENTORY_SLOT_ITEM_START + GetInventorySlotCount();
+        for (uint8 i = INVENTORY_SLOT_ITEM_START; i < inventoryEnd; ++i)
             if (Item* item = GetItemByPos(INVENTORY_SLOT_BAG_0, i))
                 if (!function(this, item, INVENTORY_SLOT_BAG_0, i))
                     return;

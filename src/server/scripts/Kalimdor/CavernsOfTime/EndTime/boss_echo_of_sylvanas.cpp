@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 2026 BFA-HavenCore
  *
  * Copyright (C) 2008-2014 Forgotten Lands <http://www.forgottenlands.eu/>
