@@ -49,7 +49,7 @@ If you want to contribute to the project feel free to join us on our Discord ser
 
 Join our **Discord** to collaborate with other developers and contributors.
 
-- https://discord.gg/nh9bYyKkZ
+- https://discord.gg/sQYue7Qpqx
  
 ## Requirements
  
