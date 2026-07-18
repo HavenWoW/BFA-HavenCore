@@ -31,6 +31,17 @@ else()
       ERROR_QUIET
     )
 
+    # If there is no 'init' tag (or no tags at all), fall back to the current commit hash
+    if(NOT rev_info)
+      execute_process(
+        COMMAND "${GIT_EXECUTABLE}" rev-parse --short=12 HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE rev_info
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+      )
+    endif()
+
     # And grab the commits timestamp
     execute_process(
       COMMAND "${GIT_EXECUTABLE}" show -s --format=%ci

@@ -46,47 +46,6 @@ namespace boost
 
             typedef basic_endpoint<tcp> tcp_endpoint;
         }
-#if BOOST_VERSION >= 107400
-        // Boost 1.74+ uses any_io_executor instead of the deprecated executor class
-        class any_io_executor;
-
-        namespace ip
-        {
-            template <typename InternetProtocol, typename Executor>
-            class basic_resolver;
-
-            typedef basic_resolver<tcp, any_io_executor> tcp_resolver;
-        }
-#elif BOOST_VERSION >= 107000
-        class executor;
-
-        namespace ip
-        {
-            template <typename InternetProtocol, typename Executor>
-            class basic_resolver;
-
-            typedef basic_resolver<tcp, executor> tcp_resolver;
-        }
-#elif BOOST_VERSION >= 106600
-        namespace ip
-        {
-            template <typename InternetProtocol>
-            class basic_resolver;
-
-            typedef basic_resolver<tcp> tcp_resolver;
-        }
-#else
-        namespace ip
-        {
-            template <typename InternetProtocol>
-            class resolver_service;
-
-            template <typename InternetProtocol, typename ResolverService>
-            class basic_resolver;
-
-            typedef basic_resolver<tcp, resolver_service<tcp>> tcp_resolver;
-        }
-#endif
     }
 }
 
@@ -94,6 +53,9 @@ namespace Trinity
 {
     namespace Asio
     {
+        class DeadlineTimer;
+        class IoContext;
+        class Resolver;
         class Strand;
     }
 }
