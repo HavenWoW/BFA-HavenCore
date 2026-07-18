@@ -28,9 +28,14 @@ endif()
 
 include (CheckCXXSourceCompiles)
 
-set(BOOST_REQUIRED_VERSION 1.72)
-
-cmake_policy(SET CMP0167 OLD)
+if (WIN32)
+  # On windows the requirements are higher according to the wiki.
+  set(BOOST_REQUIRED_VERSION 1.78)
+else()
+  set(BOOST_REQUIRED_VERSION 1.72)
+  
+  cmake_policy(SET CMP0167 OLD)
+endif()
 
 find_package(Boost ${BOOST_REQUIRED_VERSION} REQUIRED system filesystem thread program_options iostreams regex)
 
