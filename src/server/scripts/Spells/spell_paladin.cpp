@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 2026 BFA-HavenCore
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -75,8 +75,11 @@ enum PaladinSpells
     SPELL_PALADIN_DIVINE_STEED_BLOODELF         = 221886,
     SPELL_PALADIN_DIVINE_STEED_DRAENEI          = 221887,
     SPELL_PALADIN_DIVINE_STEED_HUMAN            = 221883,
+    SPELL_PALADIN_DIVINE_STEED_DWARF            = 276111,
     SPELL_PALADIN_DIVINE_STEED_SPEED            = 220509,
+    SPELL_PALADIN_DIVINE_STEED_DARK_IRON_DWARF  = 276112,
     SPELL_PALADIN_DIVINE_STEED_TAUREN           = 221885,
+    SPELL_PALADIN_DIVINE_STEED_ZANDALARI_TROLL  = 294133,
     SPELL_PALADIN_DIVINE_STORM                  = 53385,
     SPELL_PALADIN_DIVINE_STORM_DAMAGE           = 224239,
     SPELL_PALADIN_EYE_FOR_AN_EYE_DAMAGE         = 205202,
@@ -757,33 +760,37 @@ class spell_pal_divine_steed : public SpellScript
 
     bool Validate(SpellInfo const* /*spellInfo*/) override
     {
-        return ValidateSpellInfo
-        ({
-            SPELL_PALADIN_DIVINE_STEED_SPEED,
+        return ValidateSpellInfo(
+        {
             SPELL_PALADIN_DIVINE_STEED_HUMAN,
+            SPELL_PALADIN_DIVINE_STEED_DWARF,
             SPELL_PALADIN_DIVINE_STEED_DRAENEI,
+            SPELL_PALADIN_DIVINE_STEED_DARK_IRON_DWARF,
             SPELL_PALADIN_DIVINE_STEED_BLOODELF,
-            SPELL_PALADIN_DIVINE_STEED_TAUREN
+            SPELL_PALADIN_DIVINE_STEED_TAUREN,
+            SPELL_PALADIN_DIVINE_STEED_ZANDALARI_TROLL
         });
     }
 
-    void HandleOnHit()
+    void HandleOnCast()
     {
-        if (Player* target = GetHitPlayer())
+        Unit* caster = GetCaster();
+
+        uint32 spellId = SPELL_PALADIN_DIVINE_STEED_HUMAN;
+        switch (caster->getRace())
         {
-            uint32 spellId = SPELL_PALADIN_DIVINE_STEED_HUMAN;
-            switch (target->getRace())
-            {
             case RACE_HUMAN:
                 spellId = SPELL_PALADIN_DIVINE_STEED_HUMAN;
                 break;
             case RACE_DWARF:
-            case RACE_DARK_IRON_DWARF:
-                spellId = SPELL_PALADIN_DIVINE_STEED_HUMAN;
+                spellId = SPELL_PALADIN_DIVINE_STEED_DWARF;
                 break;
             case RACE_DRAENEI:
             case RACE_LIGHTFORGED_DRAENEI:
                 spellId = SPELL_PALADIN_DIVINE_STEED_DRAENEI;
+                break;
+            case RACE_DARK_IRON_DWARF:
+                spellId = SPELL_PALADIN_DIVINE_STEED_DARK_IRON_DWARF;
                 break;
             case RACE_BLOODELF:
                 spellId = SPELL_PALADIN_DIVINE_STEED_BLOODELF;
@@ -791,17 +798,19 @@ class spell_pal_divine_steed : public SpellScript
             case RACE_TAUREN:
                 spellId = SPELL_PALADIN_DIVINE_STEED_TAUREN;
                 break;
+            case RACE_ZANDALARI_TROLL:
+                spellId = SPELL_PALADIN_DIVINE_STEED_ZANDALARI_TROLL;
+                break;
             default:
                 break;
-            }
-            target->CastSpell(target, spellId, true);
-            target->CastSpell(target, SPELL_PALADIN_DIVINE_STEED_SPEED, false);
         }
+
+        caster->CastSpell(caster, spellId, true);
     }
 
     void Register() override
     {
-        OnHit += SpellHitFn(spell_pal_divine_steed::HandleOnHit);
+        OnCast += SpellCastFn(spell_pal_divine_steed::HandleOnCast);
     }
 };
 
