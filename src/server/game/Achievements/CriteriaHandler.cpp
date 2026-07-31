@@ -514,10 +514,15 @@ void CriteriaHandler::UpdateCriteria(CriteriaTypes type, uint64 miscValue1 /*= 0
             case CRITERIA_TYPE_WIN_ARENA: // This also behaves like CRITERIA_TYPE_WIN_RATED_ARENA
             case CRITERIA_TYPE_ON_LOGIN:
             case CRITERIA_TYPE_PLACE_GARRISON_BUILDING:
-            case CRITERIA_TYPE_COLLECT_BATTLEPET:
             case CRITERIA_TYPE_HONOR_LEVEL_REACHED:
             case CRITERIA_TYPE_PRESTIGE_REACHED:
                 SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_COLLECT_BATTLEPET:
+                if (miscValue1)
+                    SetCriteriaProgress(criteria, miscValue1, referencePlayer, PROGRESS_ACCUMULATE);
+                else
+                    SetCriteriaProgress(criteria, referencePlayer->GetBattlePets()->size(), referencePlayer, PROGRESS_SET);
                 break;
             // std case: increment at miscValue1
             case CRITERIA_TYPE_MONEY_FROM_VENDORS:
@@ -2784,7 +2789,7 @@ bool CriteriaHandler::ModifierSatisfied(ModifierTreeEntry const* modifier, uint6
             break;
         }
         default:
-            break;
+            return false;
     }
     return true;
 }
