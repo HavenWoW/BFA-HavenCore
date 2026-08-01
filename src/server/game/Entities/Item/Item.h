@@ -24,6 +24,7 @@
 #include "ItemDefines.h"
 #include "ItemEnchantmentMgr.h"
 #include "ItemTemplate.h"
+#include "IteratorPair.h"
 #include "Loot.h"
 
 class SpellInfo;
@@ -66,6 +67,11 @@ enum ItemUpdateState
 
 #define MAX_ITEM_SPELLS 5
 
+// Caps the template effects plus bonus-granted ones (ITEM_BONUS_ITEM_EFFECT_ID). Far
+// above anything a live item reaches; it exists only so malformed hotfix data cannot
+// grow the set without limit.
+#define MAX_BONUS_ITEM_EFFECTS 16
+
 bool ItemCanGoIntoBag(ItemTemplate const* proto, ItemTemplate const* pBagProto);
 extern ItemModifier const AppearanceModifierSlotBySpec[MAX_SPECIALIZATIONS];
 extern ItemModifier const IllusionModifierSlotBySpec[MAX_SPECIALIZATIONS];
@@ -96,6 +102,8 @@ struct BonusData
     bool CanDisenchant;
     bool CanScrap;
     bool HasFixedLevel;
+    ItemEffectEntry const* Effects[MAX_BONUS_ITEM_EFFECTS];
+    uint32 EffectCount;
 
     void Initialize(ItemTemplate const* proto);
     void Initialize(WorldPackets::Item::ItemInstance const& itemInstance);
@@ -184,6 +192,16 @@ public:
 
     ItemTemplate const* GetTemplate() const;
     BonusData const* GetBonus() const { return &_bonusData; }
+
+    // Template effects plus bonus-granted ones, in that order. Prefer this over
+    // GetTemplate()->Effects wherever an Item instance is in hand - the template
+    // alone does not know about bonus-granted effects.
+    Trinity::IteratorPair<ItemEffectEntry const* const*> GetEffects() const
+    {
+        return { { _bonusData.Effects, _bonusData.Effects + _bonusData.EffectCount } };
+    }
+
+    uint32 GetEffectCount() const { return _bonusData.EffectCount; }
 
     ObjectGuid GetOwnerGUID()    const { return m_itemData->Owner; }
     void SetOwnerGUID(ObjectGuid guid) { SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::Owner), guid); }
@@ -425,6 +443,7 @@ public:
 
     protected:
         void ApplyBonusList(uint32 itemBonusListId);
+        void SeedSpellCharges(uint32 firstEffect);
         BonusData _bonusData;
 
     private:

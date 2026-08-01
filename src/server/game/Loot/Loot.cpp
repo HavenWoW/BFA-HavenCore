@@ -81,7 +81,8 @@ bool LootItem::AllowedForPlayer(Player const* player) const
             return false;
 
         // not show loot for players without profession or those who already know the recipe
-        if ((pProto->GetFlags() & ITEM_FLAG_HIDE_UNUSABLE_RECIPE) && (!player->HasSkill(pProto->GetRequiredSkill()) || player->HasSpell(pProto->Effects[1]->SpellID)))
+        // Template effects only: loot is filtered before any Item is created.
+        if ((pProto->GetFlags() & ITEM_FLAG_HIDE_UNUSABLE_RECIPE) && (!player->HasSkill(pProto->GetRequiredSkill()) || (pProto->Effects.size() > 1 && player->HasSpell(pProto->Effects[1]->SpellID))))
             return false;
 
         // not show loot for not own team

@@ -61,6 +61,8 @@ void WorldSession::HandleUseToy(WorldPackets::Toy::UseToy& packet)
     if (!_collectionMgr->HasToy(itemId))
         return;
 
+    // Template effects only: a toy is used from the collection by item entry - the
+    // player need not own an instance of it.
     auto effect = std::find_if(item->Effects.begin(), item->Effects.end(), [&packet](ItemEffectEntry const* effect)
     {
         return packet.Cast.SpellID == effect->SpellID;

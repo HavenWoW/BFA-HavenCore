@@ -467,9 +467,14 @@ bool Item::Create(ObjectGuid::LowType guidlow, uint32 itemId, ItemContext contex
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::MaxDurability), itemProto->MaxDurability);
     SetDurability(itemProto->MaxDurability);
 
-    for (std::size_t i = 0; i < itemProto->Effects.size(); ++i)
-        if (i < 5)
-            SetSpellCharges(i, itemProto->Effects[i]->Charges);
+    uint8 chargeSlot = 0;
+    for (ItemEffectEntry const* itemEffect : GetEffects())
+    {
+        if (chargeSlot >= MAX_ITEM_SPELLS)
+            break;
+
+        SetSpellCharges(chargeSlot++, itemEffect->Charges);
+    }
 
     SetExpiration(itemProto->GetDuration());
     SetCreatePlayedTime(0);
@@ -558,10 +563,12 @@ void Item::SaveToDB(CharacterDatabaseTransaction& trans)
             stmt->setUInt32(++index, GetCount());
             stmt->setUInt32(++index, m_itemData->Expiration);
 
+            // Charge slots are keyed by effect index and the update field holds only
+            // MAX_ITEM_SPELLS of them. LoadFromDB reads back at the same clamped width.
             std::ostringstream ssSpells;
-            if (ItemTemplate const* itemProto = sObjectMgr->GetItemTemplate(GetEntry()))
-                for (uint8 i = 0; i < itemProto->Effects.size(); ++i)
-                    ssSpells << GetSpellCharges(i) << ' ';
+            uint8 const chargeSlots = uint8(std::min<uint32>(_bonusData.EffectCount, MAX_ITEM_SPELLS));
+            for (uint8 i = 0; i < chargeSlots; ++i)
+                ssSpells << GetSpellCharges(i) << ' ';
             stmt->setString(++index, ssSpells.str());
 
             stmt->setUInt32(++index, m_itemData->DynamicFlags);
@@ -848,11 +855,6 @@ bool Item::LoadFromDB(ObjectGuid::LowType guid, ObjectGuid ownerGuid, Field* fie
         need_save = true;
     }
 
-    Tokenizer tokens(fields[6].GetString(), ' ', proto->Effects.size());
-    if (tokens.size() == proto->Effects.size())
-        for (uint8 i = 0; i < proto->Effects.size(); ++i)
-            SetSpellCharges(i, atoi(tokens[i]));
-
     SetItemFlags(ItemFieldFlags(itemFlags));
 
     /*SetUInt32Value(ITEM_FIELD_CONTEXT, fields[19].GetUInt8());
@@ -890,6 +892,14 @@ bool Item::LoadFromDB(ObjectGuid::LowType guid, ObjectGuid ownerGuid, Field* fie
     for (char const* token : bonusListString)
         bonusListIDs.push_back(atoi(token));
     SetBonuses(std::move(bonusListIDs));
+
+    // Must run after SetBonuses: before it only the template effects are known. An item
+    // stored before its bonus list changed legitimately has fewer tokens than effects,
+    // so read what is there rather than discarding every charge on a count mismatch.
+    Tokenizer tokens(fields[6].GetString(), ' ', _bonusData.EffectCount);
+    uint8 const chargeSlots = uint8(std::min({ uint32(tokens.size()), _bonusData.EffectCount, uint32(MAX_ITEM_SPELLS) }));
+    for (uint8 i = 0; i < chargeSlots; ++i)
+        SetSpellCharges(i, atoi(tokens[i]));
 
     SetModifier(ITEM_MODIFIER_TRANSMOG_APPEARANCE_ALL_SPECS, fields[19].GetUInt32());
     SetModifier(ITEM_MODIFIER_TRANSMOG_APPEARANCE_SPEC_1, fields[20].GetUInt32());
@@ -2414,8 +2424,10 @@ void Item::AddBonuses(uint32 bonusListID)
         std::vector<int32> bonusListIDs = m_itemData->BonusListIDs;
         bonusListIDs.push_back(bonusListID);
         SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::BonusListIDs), std::move(bonusListIDs));
+        uint32 const oldEffectCount = _bonusData.EffectCount;
         for (ItemBonusEntry const* bonus : *bonuses)
             _bonusData.AddBonus(bonus->Type, bonus->Value);
+        SeedSpellCharges(oldEffectCount);
         SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::ItemAppearanceModID), _bonusData.AppearanceModID);
     }
 }
@@ -2424,9 +2436,11 @@ void Item::SetBonuses(std::vector<int32> bonusListIDs)
 {
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::BonusListIDs), std::move(bonusListIDs));
 
+    uint32 const oldEffectCount = _bonusData.EffectCount;
     for (int32 bonusListID : *m_itemData->BonusListIDs)
         _bonusData.AddBonusList(bonusListID);
 
+    SeedSpellCharges(oldEffectCount);
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::ItemAppearanceModID), _bonusData.AppearanceModID);
 }
 
@@ -2435,6 +2449,17 @@ void Item::ClearBonuses()
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::BonusListIDs), std::vector<int32>());
     _bonusData.Initialize(GetTemplate());
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::ItemAppearanceModID), _bonusData.AppearanceModID);
+}
+
+// Create seeds charges from the template effects alone and every caller applies bonus
+// lists afterwards, so an effect arriving through ITEM_BONUS_ITEM_EFFECT_ID would keep a
+// charge slot of 0 and Spell::CheckItems would reject every cast. Slots below firstEffect
+// are left alone - a live item's charges are spent over time and must not reset.
+void Item::SeedSpellCharges(uint32 firstEffect)
+{
+    uint8 const chargeSlots = uint8(std::min<uint32>(_bonusData.EffectCount, MAX_ITEM_SPELLS));
+    for (uint8 i = uint8(std::min<uint32>(firstEffect, MAX_ITEM_SPELLS)); i < chargeSlots; ++i)
+        SetSpellCharges(i, _bonusData.Effects[i]->Charges);
 }
 
 bool Item::IsArtifactDisabled() const
@@ -2708,6 +2733,18 @@ void BonusData::Initialize(ItemTemplate const* proto)
     CanDisenchant = (proto->GetFlags() & ITEM_FLAG_NO_DISENCHANT) == 0;
     CanScrap = (proto->GetFlags4() & ITEM_FLAG4_SCRAPABLE) != 0;
 
+    EffectCount = 0;
+    for (ItemEffectEntry const* itemEffect : proto->Effects)
+    {
+        if (EffectCount >= MAX_BONUS_ITEM_EFFECTS)
+            break;
+
+        Effects[EffectCount++] = itemEffect;
+    }
+
+    for (uint32 i = EffectCount; i < MAX_BONUS_ITEM_EFFECTS; ++i)
+        Effects[i] = nullptr;
+
     _state.SuffixPriority = std::numeric_limits<int32>::max();
     _state.AppearanceModPriority = std::numeric_limits<int32>::max();
     _state.ScalingStatDistributionPriority = std::numeric_limits<int32>::max();
@@ -2829,6 +2866,13 @@ void BonusData::AddBonus(uint32 type, int32 const (&values)[3])
             break;
         case ITEM_BONUS_OVERRIDE_CAN_SCRAP:
             CanScrap = values[0] != 0;
+            break;
+        case ITEM_BONUS_ITEM_EFFECT_ID:
+            // Skip unknown ids silently: bad hotfix data must not crash, and logging
+            // here would fire once per item instance.
+            if (ItemEffectEntry const* itemEffect = sItemEffectStore.LookupEntry(uint32(values[0])))
+                if (EffectCount < MAX_BONUS_ITEM_EFFECTS)
+                    Effects[EffectCount++] = itemEffect;
             break;
     }
 }
