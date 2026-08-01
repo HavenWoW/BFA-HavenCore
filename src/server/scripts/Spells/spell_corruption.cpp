@@ -28,12 +28,16 @@
 #include "AreaTrigger.h"
 #include "AreaTriggerAI.h"
 #include "Log.h"
+#include "MotionMaster.h"
+#include "ObjectAccessor.h"
 #include "Player.h"
+#include "ScriptedCreature.h"
 #include "ScriptMgr.h"
 #include "SpellAuraEffects.h"
 #include "SpellInfo.h"
 #include "SpellMgr.h"
 #include "SpellScript.h"
+#include "Unit.h"
 #include "Util.h"
 
 #include <algorithm>
@@ -42,7 +46,8 @@
 enum CorruptionSpells
 {
     SPELL_EYE_OF_CORRUPTION_SUMMON = 315154,
-    SPELL_EYE_OF_CORRUPTION_DAMAGE = 315161
+    SPELL_EYE_OF_CORRUPTION_DAMAGE = 315161,
+    SPELL_GRAND_DELUSIONS_SUMMON   = 315186
 };
 
 // Grasping Tendrils, 1+ Corruption. Container 315175 procs on damage taken and triggers
@@ -200,9 +205,160 @@ class spell_corruption_eye_of_corruption : public SpellScript
     }
 };
 
+// Grand Delusions, 40+ Corruption. Container 315184 procs on damage taken and triggers
+// 315186, whose single effect summons creature 161895, the Thing From Beyond.
+//
+// The client carries the summon itself: 315186 has DurationIndex 31 for an 8 second life,
+// radius index 9 so the Thing appears up to 20 yards away, and SummonProperties 4793 for
+// Control NONE, faction 14 over the template's friendly 35, and a personal spawn. What it
+// does not carry is the pursuit speed or the damage - the tooltip promises the speed rises
+// with corruption but gives no numbers, and no movement-speed aura exists anywhere in the
+// corruption block. Both constants below are approximations, isolated for retuning.
+namespace GrandDelusions
+{
+    constexpr uint32 ContainerSpell   = 315184; // the debuff the player carries
+    constexpr uint32 CloneCasterSpell = 60352;  // generic Clone Caster, see IsSummonedBy
+    constexpr float Threshold         = 40.0f;  // CorruptionEffects.db2 MinCorruption
+
+    constexpr float SpeedRateAtThreshold = 0.75f;   // 5.25 yd/s against a player's 7.0
+    constexpr float SpeedRatePerPoint    = 0.0125f; // reaches parity at 60, overtakes above
+    constexpr float SpeedRateMax         = 2.0f;
+
+    // "About your health" is what a whole pursuit costs, not what one swing does, so the
+    // total is divided across the strikes the Thing has time to land.
+    constexpr float TotalDamagePctOfMaxHealth = 90.0f;
+}
+
+// Thing From Beyond - creature 161895, summoned by 315186
+struct npc_corruption_thing_from_beyond : ScriptedAI
+{
+    npc_corruption_thing_from_beyond(Creature* creature) : ScriptedAI(creature),
+        _strikeCooldown(0), _damagePctPerStrike(GrandDelusions::TotalDamagePctOfMaxHealth) { }
+
+    void IsSummonedBy(Unit* summoner) override
+    {
+        Player* player = summoner ? summoner->ToPlayer() : nullptr;
+        if (!player)
+        {
+            me->DespawnOrUnsummon();
+            return;
+        }
+
+        _summonerGuid = player->GetGUID();
+
+        // Retail's Thing From Beyond is a copy of the player it chases, so its appearance
+        // was never meant to come from the template - 161895's only model is the invisible
+        // stalker 11686. The clone must be a real aura: HandleMirrorImageDataRequest answers
+        // the client's request for the copy's gear only if the unit carries
+        // SPELL_AURA_CLONE_CASTER, and reads the appearance off that aura's caster.
+        //
+        // Applied rather than cast, because Clone Caster is positive and this summon is
+        // hostile, so CheckCast answers SPELL_FAILED_BAD_TARGETS. Forgiving that needs
+        // TRIGGERED_IGNORE_TARGET_CHECK, which sits outside TRIGGERED_FULL_MASK and so is
+        // unreachable from CastSpell(..., true). AddAura skips CheckCast and screens only
+        // for immunity, which 161895 has none of.
+        player->AddAura(GrandDelusions::CloneCasterSpell, me);
+
+        // GetEffectiveResistChance adds (victim level - attacker level) * 5 resistance, so
+        // a Thing below its target's level has much of its damage resisted before it lands.
+        // A mirror of the player should be the player's level at any level.
+        me->SetLevel(player->getLevel());
+
+        // Both figures are the summon's own: the creature's swing timer, and TempSummon's
+        // remaining life, still the full duration here because InitSummon runs immediately
+        // after InitStats set it.
+        uint32 const swingTime = me->GetBaseAttackTime(BASE_ATTACK);
+        uint32 const pursuitTime = me->ToTempSummon() ? me->ToTempSummon()->GetTimer() : 0;
+        uint32 const strikes = (swingTime && pursuitTime) ? std::max(1u, pursuitTime / swingTime) : 1;
+
+        _damagePctPerStrike = GrandDelusions::TotalDamagePctOfMaxHealth / float(strikes);
+
+        // The Thing is a movement puzzle, not a fight. Passive keeps the core's own melee
+        // out of it, which would otherwise land ordinary swings alongside the scripted ones
+        // and drag the Thing into normal combat and evade handling.
+        me->SetReactState(REACT_PASSIVE);
+
+        float const corruption = player->GetEffectiveCorruption();
+        float const rate = std::min(GrandDelusions::SpeedRateMax,
+            GrandDelusions::SpeedRateAtThreshold
+                + std::max(0.0f, corruption - GrandDelusions::Threshold) * GrandDelusions::SpeedRatePerPoint);
+
+        TC_LOG_DEBUG("scripts.corruption", "Thing From Beyond: spawned for %s at corruption %.1f, speed rate %.2f, clone %s",
+            _summonerGuid.ToString().c_str(), corruption, rate,
+            me->HasAuraType(SPELL_AURA_CLONE_CASTER) ? "applied" : "MISSING");
+
+        me->SetSpeedRate(MOVE_RUN, rate);
+        me->GetMotionMaster()->MoveChase(player);
+    }
+
+    void UpdateAI(uint32 diff) override
+    {
+        if (_summonerGuid.IsEmpty())
+            return;
+
+        Player* player = ObjectAccessor::GetPlayer(*me, _summonerGuid);
+        if (!player || !player->IsAlive())
+        {
+            me->DespawnOrUnsummon();
+            return;
+        }
+
+        if (_strikeCooldown > diff)
+        {
+            _strikeCooldown -= diff;
+            return;
+        }
+
+        // Measure the way the chase generator measures. IsWithinMeleeRange squares the
+        // height difference into the distance while ChaseMovementGenerator stops on a 2d
+        // test, so on uneven ground the pursuit arrives and then fails its own strike check
+        // forever - one observed pursuit ended at 2d 5.72 with dz -1.34, which is 5.88 in
+        // three dimensions against a melee range of 5.08.
+        if (me->GetExactDist2d(player) > me->GetMeleeRange(player))
+            return;
+
+        // No spell exists for this hit: 315186 has one effect, neither creature carries a
+        // spell in creature_template.spell1-8 or creature_template_spell, and nothing in
+        // the surrounding id range is a plausible contact hit. Retail drove it from creature
+        // data the client never shipped, so the magnitude stays a script constant.
+        //
+        // It is still reported as 315184 rather than dealt anonymously. DealDamage writes
+        // health and sends nothing, so the player was killed by an attack that never
+        // appeared in their combat log - and it bypassed absorbs, resistances and every
+        // damage-taken modifier, making the hit an unconditional execute.
+        SpellInfo const* damageSpell = sSpellMgr->GetSpellInfo(GrandDelusions::ContainerSpell);
+        if (!damageSpell)
+        {
+            me->DespawnOrUnsummon();
+            return;
+        }
+
+        uint32 const damage = CalculatePct(player->GetMaxHealth(), _damagePctPerStrike);
+
+        SpellNonMeleeDamage damageInfo(me, player, damageSpell->Id,
+            damageSpell->GetSpellXSpellVisualId(me), SPELL_SCHOOL_MASK_SHADOW);
+        me->CalculateSpellDamageTaken(&damageInfo, int32(damage), damageSpell);
+        me->SendSpellNonMeleeDamageLog(&damageInfo);
+        me->DealSpellDamage(&damageInfo, false);
+
+        // Connecting does not spend the Thing. Cascading Disaster settles it: "if you are
+        // struck by the Thing From Beyond, you will be immediately afflicted by Grasping
+        // Tendrils and Eye of Corruption" - a snare applied by a pursuer that vanished on
+        // contact would do nothing. The 8 seconds are the escape window, not a countdown to
+        // one guaranteed hit.
+        _strikeCooldown = me->GetBaseAttackTime(BASE_ATTACK);
+    }
+
+private:
+    ObjectGuid _summonerGuid;
+    uint32 _strikeCooldown;
+    float _damagePctPerStrike;
+};
+
 void AddSC_corruption_spell_scripts()
 {
     RegisterAuraScript(spell_corruption_grasping_tendrils);
     RegisterSpellScript(spell_corruption_eye_of_corruption);
     RegisterAreaTriggerAI(at_corruption_eye_of_corruption);
+    RegisterCreatureAI(npc_corruption_thing_from_beyond);
 }
