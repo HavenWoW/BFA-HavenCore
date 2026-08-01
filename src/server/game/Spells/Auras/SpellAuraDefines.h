@@ -360,7 +360,7 @@ enum AuraType : uint32
     SPELL_AURA_MOD_BASE_HEALTH_PCT                          = 282,
     SPELL_AURA_MOD_HEALING_RECEIVED                         = 283,  // Possibly only for some spell family class spells
     SPELL_AURA_LINKED                                       = 284,
-    SPELL_AURA_MOD_ATTACK_POWER_OF_ARMOR                    = 285,
+    SPELL_AURA_LINKED_2                                     = 285,
     SPELL_AURA_ABILITY_PERIODIC_CRIT                        = 286,
     SPELL_AURA_DEFLECT_SPELLS                               = 287,
     SPELL_AURA_IGNORE_HIT_DIRECTION                         = 288,

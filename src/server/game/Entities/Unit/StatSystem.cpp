@@ -210,7 +210,7 @@ bool Player::UpdateAllStats()
     }
 
     UpdateArmor();
-    // calls UpdateAttackPowerAndDamage() in UpdateArmor for SPELL_AURA_MOD_ATTACK_POWER_OF_ARMOR
+    // UpdateArmor refreshes melee attack power on its way out, so only ranged is needed here
     UpdateAttackPowerAndDamage(true);
     UpdateMaxHealth();
 
@@ -288,7 +288,7 @@ void Player::UpdateArmor()
     if (Guardian* guardian = GetGuardianPet())
         guardian->UpdateArmor();
 
-    UpdateAttackPowerAndDamage();                           // armor dependent auras update for SPELL_AURA_MOD_ATTACK_POWER_OF_ARMOR
+    UpdateAttackPowerAndDamage();                           // melee attack power refresh
 }
 
 float Player::GetHealthBonusFromStamina()
@@ -389,17 +389,6 @@ void Player::UpdateAttackPowerAndDamage(bool ranged)
     float base_attPower  = GetModifierValue(unitMod, BASE_VALUE) * GetModifierValue(unitMod, BASE_PCT);
     float attPowerMod = GetModifierValue(unitMod, TOTAL_VALUE);
     float attPowerMultiplier = GetModifierValue(unitMod, TOTAL_PCT) - 1.0f;
-
-    //add dynamic flat mods
-    if (!ranged)
-    {
-        AuraEffectList const& mAPbyArmor = GetAuraEffectsByType(SPELL_AURA_MOD_ATTACK_POWER_OF_ARMOR);
-        for (AuraEffectList::const_iterator iter = mAPbyArmor.begin(); iter != mAPbyArmor.end(); ++iter)
-        {
-            attPowerMod += int32(GetArmor());
-            (*iter)->GetAmount();
-        }
-    }
 
     if (ranged)
     {
