@@ -4071,6 +4071,21 @@ void SpellMgr::LoadSpellInfoCorrections()
         const_cast<SpellEffectInfo*>(spellInfo->GetEffect(EFFECT_1))->Effect = 0;
     });
 
+    // Corruption: stat payloads whose entire magnitude is supplied at runtime by their
+    // aura-285 container via HandleAuraLinked -> CastCustomSpell. Their own DB2 base
+    // points are 0, so without AFLAG_SCALABLE the client renders 0 while the server
+    // holds the real value. See AuraApplication::BuildUpdatePacket.
+    ApplySpellFix({
+        320249, // Strikethrough
+        320253, // Masterful
+        320257, // Expedient
+        320259, // Versatile
+        320261  // Severe
+    }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->AttributesEx8 |= SPELL_ATTR8_AURA_SEND_AMOUNT;
+    });
+
     SpellInfo* spellInfo = nullptr;
     for (uint32 i = 0; i < GetSpellInfoStoreSize(); ++i)
     {
