@@ -4086,6 +4086,14 @@ void SpellMgr::LoadSpellInfoCorrections()
         spellInfo->AttributesEx8 |= SPELL_ATTR8_AURA_SEND_AMOUNT;
     });
 
+    // Corruption: the Grasping Tendrils snare is computed from effective corruption by
+    // spell_corruption_grasping_tendrils. Its DB2 base points are 0 like the payloads
+    // above, so the client needs the runtime amount to render anything but "0%".
+    ApplySpellFix({ 315176 }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->AttributesEx8 |= SPELL_ATTR8_AURA_SEND_AMOUNT;
+    });
+
     SpellInfo* spellInfo = nullptr;
     for (uint32 i = 0; i < GetSpellInfoStoreSize(); ++i)
     {
