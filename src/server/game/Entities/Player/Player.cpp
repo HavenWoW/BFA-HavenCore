@@ -685,6 +685,7 @@ bool Player::Create(ObjectGuid::LowType guidlow, WorldPackets::Character::Charac
                 // special amount for food/drink
                 if (iProto->GetClass() == ITEM_CLASS_CONSUMABLE && iProto->GetSubClass() == ITEM_SUBCLASS_FOOD_DRINK)
                 {
+                    // Template effects only: this walks stored item ids, not instances.
                     if (iProto->Effects.size() >= 1)
                     {
                         switch (iProto->Effects[0]->SpellCategoryID)
@@ -1087,6 +1088,12 @@ void Player::Update(uint32 p_time)
 {
     if (!IsInWorld())
         return;
+
+    if (m_corruptionNeedsUpdate)
+    {
+        m_corruptionNeedsUpdate = false;
+        UpdateCorruption();
+    }
 
     // undelivered mail
     if (m_nextMailDelivereTime && m_nextMailDelivereTime <= time(nullptr))
@@ -4635,6 +4642,11 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
 
     setDeathState(ALIVE);
 
+    // RemoveAllAurasOnDeath stripped the corruption penalties and nothing puts them back:
+    // the sync is driven by a rating change or an area transition, and resurrecting is
+    // neither. Reviving where you fell otherwise leaves the player uncorrupted.
+    ScheduleCorruptionUpdate();
+
     // add the flag to make sure opcode is always sent
     AddUnitMovementFlag(MOVEMENTFLAG_WATERWALKING);
     SetWaterWalking(false);
@@ -5526,7 +5538,11 @@ void Player::UpdateRating(CombatRating cr)
             break;
         case CR_CORRUPTION:
         case CR_CORRUPTION_RESISTANCE:
-            UpdateCorruption();
+            // Bulk rebuilds strip every item's corruption before re-applying it, so syncing per
+            // mutation would walk the total down to zero and tear down each tier's aura on the
+            // way. Callers that clear this flag are responsible for one sync when they finish.
+            if (affectStats)
+                ScheduleCorruptionUpdate();
             break;
         case CR_SPEED:
         case CR_RESILIENCE_PLAYER_DAMAGE:
@@ -7689,6 +7705,11 @@ void Player::UpdateArea(uint32 newArea)
                 if (garrison.second->IsAllowedArea(newArea))
                     garrison.second->Enter();
         }
+
+        // A corruption penalty can be gated on a PlayerConditionID that reads the player's
+        // location, and nothing else re-evaluates those conditions when only the area
+        // changes. Safe on every transition: the sync casts only what is missing.
+        ScheduleCorruptionUpdate();
     }
 }
 
@@ -8335,13 +8356,12 @@ void Player::CastAllObtainSpells()
 
 void Player::ApplyItemObtainSpells(Item* item, bool apply)
 {
-    ItemTemplate const* itemTemplate = item->GetTemplate();
-    for (uint8 i = 0; i < itemTemplate->Effects.size(); ++i)
+    for (ItemEffectEntry const* effectData : item->GetEffects())
     {
-        if (itemTemplate->Effects[i]->TriggerType != ITEM_SPELLTRIGGER_ON_OBTAIN) // On obtain trigger
+        if (effectData->TriggerType != ITEM_SPELLTRIGGER_ON_OBTAIN) // On obtain trigger
             continue;
 
-        int32 const spellId = itemTemplate->Effects[i]->SpellID;
+        int32 const spellId = effectData->SpellID;
         if (spellId <= 0)
             continue;
 
@@ -8382,14 +8402,11 @@ void Player::ApplyItemEquipSpell(Item* item, bool apply, bool formChange /*= fal
     if (!item)
         return;
 
-    ItemTemplate const* proto = item->GetTemplate();
-    if (!proto)
+    if (!item->GetTemplate())
         return;
 
-    for (uint8 i = 0; i < proto->Effects.size(); ++i)
+    for (ItemEffectEntry const* effectData : item->GetEffects())
     {
-        ItemEffectEntry const* effectData = proto->Effects[i];
-
         // wrong triggering type
         if (apply && effectData->TriggerType != ITEM_SPELLTRIGGER_ON_EQUIP)
             continue;
@@ -8727,10 +8744,8 @@ void Player::CastItemCombatSpell(DamageInfo const& damageInfo, Item* item, ItemT
     bool canTrigger = (damageInfo.GetHitMask() & (PROC_HIT_NORMAL | PROC_HIT_CRITICAL | PROC_HIT_ABSORB)) != 0;
     if (canTrigger)
     {
-        for (uint8 i = 0; i < proto->Effects.size(); ++i)
+        for (ItemEffectEntry const* effectData : item->GetEffects())
         {
-            ItemEffectEntry const* effectData = proto->Effects[i];
-
             // wrong triggering type
             if (effectData->TriggerType != ITEM_SPELLTRIGGER_CHANCE_ON_HIT)
                 continue;
@@ -8857,6 +8872,8 @@ void Player::CastItemUseSpell(Item* item, SpellCastTargets const& targets, Objec
 {
     ItemTemplate const* proto = item->GetTemplate();
     // special learning case
+    // Template effects only: the learn-spell special case is keyed to the two fixed
+    // template effect slots, which bonus-granted effects are appended after.
     if (proto->Effects.size() >= 2)
     {
         if (proto->Effects[0]->SpellID == 483 || proto->Effects[0]->SpellID == 55884)
@@ -8888,10 +8905,8 @@ void Player::CastItemUseSpell(Item* item, SpellCastTargets const& targets, Objec
     }
 
     // item spells cast at use
-    for (uint8 i = 0; i < proto->Effects.size(); ++i)
+    for (ItemEffectEntry const* effectData : item->GetEffects())
     {
-        ItemEffectEntry const* effectData = proto->Effects[i];
-
         // wrong triggering type
         if (effectData->TriggerType != ITEM_SPELLTRIGGER_ON_USE)
             continue;
@@ -12709,6 +12724,7 @@ InventoryResult Player::CanUseItem(ItemTemplate const* proto, bool skipRequiredL
         return EQUIP_ERR_CANT_EQUIP_REPUTATION;
 
     // learning (recipes, mounts, pets, etc.)
+    // Template effects only: same fixed learn-spell slots as CastItemUseSpell.
     if (proto->Effects.size() >= 2)
         if (proto->Effects[0]->SpellID == 483 || proto->Effects[0]->SpellID == 55884)
             if (HasSpell(proto->Effects[1]->SpellID))
@@ -24598,6 +24614,8 @@ void Player::UpdatePotionCooldown(Spell* spell)
     {
         // spell/item pair let set proper cooldown (except non-existing charged spell cooldown spellmods for potions)
         if (ItemTemplate const* proto = sObjectMgr->GetItemTemplate(m_lastPotionId))
+            // Template effects only: UpdatePotionCooldown is keyed off m_lastPotionId,
+            // an item id kept after the Item itself is gone.
             for (uint8 idx = 0; idx < proto->Effects.size(); ++idx)
                 if (proto->Effects[idx]->TriggerType == ITEM_SPELLTRIGGER_ON_USE)
                     if (SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(proto->Effects[idx]->SpellID))
@@ -25555,10 +25573,8 @@ void Player::ApplyEquipCooldown(Item* pItem)
         return;
 
     std::chrono::steady_clock::time_point now = GameTime::GetGameTimeSteadyPoint();
-    for (uint8 i = 0; i < proto->Effects.size(); ++i)
+    for (ItemEffectEntry const* effectData : pItem->GetEffects())
     {
-        ItemEffectEntry const* effectData = proto->Effects[i];
-
         // apply proc cooldown to equip auras if we have any
         if (effectData->TriggerType == ITEM_SPELLTRIGGER_ON_EQUIP)
         {
@@ -30832,12 +30848,15 @@ void Player::CreateChallengeKey(Item* item)
 void Player::SetEffectiveLevelAndMaxItemLevel(uint32 effectiveLevel, uint32 maxItemLevel)
 {
     float healthPct = GetHealthPct();
+    SetCanModifyStats(false);
     _RemoveAllItemMods();
 
     SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::EffectiveLevel), effectiveLevel);
     SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::MaxItemLevel), maxItemLevel);
 
     _ApplyAllItemMods();
+    SetCanModifyStats(true);
+
     UpdateAverageItemLevel();
 
     uint32 basemana = 0;
@@ -30865,9 +30884,15 @@ void Player::UpdateItemLevelAreaBasedScaling()
     if (_usePvpItemLevels != pvpActivity)
     {
         float healthPct = GetHealthPct();
+        SetCanModifyStats(false);
         _RemoveAllItemMods();
         ActivatePvpItemLevels(pvpActivity);
         _ApplyAllItemMods();
+        SetCanModifyStats(true);
+        // The bracket defers every derived stat, not only corruption, and neither item-mod
+        // pass recomputes on its own - so settle them all once here, as _ApplyAllStatBonuses
+        // does, leaving the max health scaled below freshly computed rather than stale.
+        UpdateAllStats();
         SetHealth(CalculatePct(GetMaxHealth(), healthPct));
     }
     // @todo other types of power scaling

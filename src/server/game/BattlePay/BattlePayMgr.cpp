@@ -266,6 +266,7 @@ bool BattlepayManager::AlreadyOwnProduct(uint32 itemId) const
         if (!itemTemplate)
             return true;
 
+        // Template effects only: the shop entry names an item id, not an instance.
         for (auto itr : itemTemplate->Effects)
             if (itr->TriggerType == ITEM_SPELLTRIGGER_LEARN_SPELL_ID && player->HasSpell(itr->SpellID))
                 return true;
@@ -384,6 +385,7 @@ auto BattlepayManager::ProductFilter(Product product) -> bool
                 return false;
             }
 
+            // Template effects only: the shop entry names an item id, not an instance.
             for (auto effectData : itemTemplate->Effects)
             {
                 if (effectData->SpellID != 0 && effectData->TriggerType == ITEM_SPELLTRIGGER_LEARN_SPELL_ID)

@@ -1269,6 +1269,8 @@ void AuctionHouseObject::BuildListBuckets(WorldPackets::AuctionHouse::AuctionLis
             else if (bucketData->ItemClass == ITEM_CLASS_CONSUMABLE || bucketData->ItemClass == ITEM_CLASS_RECIPE || bucketData->ItemClass == ITEM_CLASS_MISCELLANEOUS)
             {
                 ItemTemplate const* itemTemplate = ASSERT_NOTNULL(sObjectMgr->GetItemTemplate(bucket.first.ItemId));
+                // Template effects only: an auction listing is described by item entry and
+                // bonus list ids, with no Item instance to ask for bonus-granted effects.
                 if (itemTemplate->Effects.size() >= 2 && (itemTemplate->Effects[0]->SpellID == 483 || itemTemplate->Effects[0]->SpellID == 55884))
                 {
                     if (player->HasSpell(itemTemplate->Effects[1]->SpellID))

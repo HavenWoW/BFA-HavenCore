@@ -84,6 +84,12 @@ public:
         uint32 GetTimeToTargetScale() const { return m_areaTriggerData->TimeToTargetScale; }
         void SetTimeToTargetScale(uint32 timeToTargetScale) { SetUpdateFieldValue(m_values.ModifyValue(&AreaTrigger::m_areaTriggerData).ModifyValue(&UF::AreaTriggerData::TimeToTargetScale), timeToTargetScale); }
 
+        // Resize the graphic the client draws, as a multiple of the template's size. The
+        // server-side shape is untouched - a script that scales the visual is responsible
+        // for scaling whatever range test it runs against it by the same factor.
+        void SetOverrideScaleCurve(float overrideScale);
+        void ClearOverrideScaleCurve();
+
         void UpdateTimeToTarget(uint32 timeToTarget);
         int32 GetDuration() const { return _duration; }
         int32 GetTotalDuration() const { return _totalDuration; }

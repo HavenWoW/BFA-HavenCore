@@ -5777,9 +5777,15 @@ void Spell::EffectRechargeItem(SpellEffIndex /*effIndex*/)
 
     if (Item* item = player->GetItemByEntry(effectInfo->ItemType))
     {
-        ItemTemplate const* proto = item->GetTemplate();
-        for (size_t x = 0; x < proto->Effects.size() && x < 5; ++x)
-            item->SetSpellCharges(x, proto->Effects[x]->Charges);
+        uint8 x = 0;
+        for (ItemEffectEntry const* itemEffect : item->GetEffects())
+        {
+            if (x >= MAX_ITEM_SPELLS)
+                break;
+
+            item->SetSpellCharges(x++, itemEffect->Charges);
+        }
+
         item->SetState(ITEM_CHANGED, player);
     }
 }

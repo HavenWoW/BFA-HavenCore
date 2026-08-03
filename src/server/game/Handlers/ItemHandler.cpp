@@ -1190,7 +1190,7 @@ void WorldSession::HandleUseCritterItem(WorldPackets::Item::UseCritterItem& useC
     if (!item)
         return;
 
-    if (item->GetTemplate()->Effects.size() < 2)
+    if (item->GetEffectCount() < 2)
         return;
 
     _player->DestroyItem(item->GetBagSlot(), item->GetSlot(), true);
