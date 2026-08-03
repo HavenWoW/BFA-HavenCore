@@ -67,6 +67,7 @@ RUN --mount=type=cache,target=/build \
       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
       -DCMAKE_INSTALL_PREFIX=/opt/bfacore \
+      -DCMAKE_CXX_FLAGS="-D__cdecl=" \
     && cmake --build /build -j"$JOBS" \
     && cmake --build /build --target install \
     && ccache --show-stats
