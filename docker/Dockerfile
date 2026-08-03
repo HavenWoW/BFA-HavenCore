@@ -6,6 +6,16 @@ FROM ubuntu:24.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates gpg wget \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
+    | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+
+RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' \
+    | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential gcc-13 g++-13 cmake ninja-build git ca-certificates pkg-config ccache \
     libboost-all-dev libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
