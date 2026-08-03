@@ -16,7 +16,7 @@ RUN echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https:
     | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential gcc-13 g++-13 cmake ninja-build git ca-certificates pkg-config ccache \
+    build-essential clang cmake ninja-build git ca-certificates pkg-config ccache \
     libboost-all-dev libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
