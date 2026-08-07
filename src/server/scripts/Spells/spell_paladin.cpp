@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 2026 BFA-HavenCore
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -1531,6 +1531,9 @@ public:
         void OnTick(AuraEffect const* /*aurEff*/)
         {
             leftAbsorbAmount = maxAbsorbAmount;
+
+            if (AuraEffect* effect = GetAura()->GetEffect(EFFECT_0))
+                effect->ChangeAmount(leftAbsorbAmount);
         }
 
         void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
@@ -1538,15 +1541,24 @@ public:
             amount = -1;
         }
 
+        void CalculateDummy(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
+        {
+            amount = maxAbsorbAmount;
+        }
+
         void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& absorbAmount)
         {
             absorbAmount = std::min(dmgInfo.GetDamage(), leftAbsorbAmount);
             leftAbsorbAmount -= absorbAmount;
+
+            if (AuraEffect* effect = GetAura()->GetEffect(EFFECT_0))
+                effect->ChangeAmount(leftAbsorbAmount);
         }
 
         void Register() override
         {
             OnEffectPeriodic += AuraEffectPeriodicFn(spell_pal_greater_blessing_of_kings_AuraScript::OnTick, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
+            DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_pal_greater_blessing_of_kings_AuraScript::CalculateDummy, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
             DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_pal_greater_blessing_of_kings_AuraScript::CalculateAmount, EFFECT_1, SPELL_AURA_SCHOOL_ABSORB);
             OnEffectAbsorb += AuraEffectAbsorbFn(spell_pal_greater_blessing_of_kings_AuraScript::Absorb, EFFECT_1);
         }
