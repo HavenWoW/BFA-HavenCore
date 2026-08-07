@@ -30,7 +30,11 @@ include (CheckCXXSourceCompiles)
 
 set(BOOST_REQUIRED_VERSION 1.72)
 
-cmake_policy(SET CMP0167 OLD)
+# CMP0167 only exists from CMake 3.30 on; setting it unguarded is a hard error
+# on older CMake, which breaks every distro still shipping 3.28 (Ubuntu 24.04).
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 OLD)
+endif()
 
 find_package(Boost ${BOOST_REQUIRED_VERSION} REQUIRED system filesystem thread program_options iostreams regex)
 
