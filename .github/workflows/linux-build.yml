@@ -1,0 +1,73 @@
+name: Build HavenCore (Linux)
+
+on:
+  push:
+    branches: [ "main", "corruption-system", "feature/**", "pr/**" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+# Supersede in-flight runs of the same ref: a full core build is expensive and
+# only the tip of a branch is worth the runner time.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [RelWithDebInfo]
+
+    env:
+      # Precompiled headers are on by default (USE_COREPCH/USE_SCRIPTPCH) and
+      # ccache misses on PCH timestamps without this. Same set as docker/Dockerfile.
+      CCACHE_SLOPPINESS: pch_defines,time_macros,include_file_mtime,include_file_ctime
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      # Only the six Boost components dep/boost/CMakeLists.txt asks for --
+      # libboost-all-dev is roughly a gigabyte of packages we never link.
+      # libreadline-dev and zlib1g-dev are hard requirements: dep/readline and
+      # dep/zlib both abort configure without them.
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends \
+          build-essential cmake ninja-build pkg-config ccache \
+          libssl-dev libmysqlclient-dev libreadline-dev zlib1g-dev \
+          libboost-system-dev libboost-filesystem-dev libboost-thread-dev \
+          libboost-program-options-dev libboost-iostreams-dev libboost-regex-dev
+
+    - name: Restore ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: linux-${{ matrix.build_type }}
+        # One clean RelWithDebInfo build writes ~2G of objects, so anything
+        # smaller evicts itself before the next run can hit.
+        max-size: 5G
+        verbose: 1
+
+    - name: Configure CMake
+      # Flags mirror docker/Dockerfile, which is the known-good Linux recipe.
+      # TOOLS=0 because the extractors need client data no runner has, and
+      # enabling them drags in bzip2/CascLib for no benefit here.
+      run: >
+        cmake -S . -B build -G Ninja
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DTOOLS=0
+        -DSCRIPTS=static
+        -DCMAKE_C_COMPILER_LAUNCHER=ccache
+        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+    - name: Build HavenCore
+      run: cmake --build build --parallel
+
+    - name: ccache statistics
+      if: always()
+      run: ccache --show-stats
