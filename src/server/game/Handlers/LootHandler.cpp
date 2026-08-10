@@ -337,7 +337,7 @@ void WorldSession::DoLootRelease(ObjectGuid lguid)
             // locked doors are opened with spelleffect openlock, prevent remove its as looted
             go->UseDoorOrButton();
         }
-        else if (loot->isLooted() || go->GetGoType() == GAMEOBJECT_TYPE_FISHINGNODE)
+        else if (loot->isLooted(player) || go->GetGoType() == GAMEOBJECT_TYPE_FISHINGNODE)
         {
             if (go->GetGoType() == GAMEOBJECT_TYPE_FISHINGHOLE)
             {                                               // The fishing hole used once more
