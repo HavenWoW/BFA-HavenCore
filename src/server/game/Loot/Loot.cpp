@@ -140,9 +140,6 @@ uint32 Loot::GetUnlootedCount(Player const* player /*= nullptr*/) const
             for (LootItem const& item : itr->second)
             {
                 // Match the visibility rules used by BuildLootResponse().
-                // Hidden/ineligible loot (for example quest-required items for
-                // a player without the quest) must not keep a personal loot
-                // container in an unlooted state.
                 if (!item.is_looted && item.conditions.empty() && item.AllowedForPlayer(player))
                     ++unlootedCount;
             }
