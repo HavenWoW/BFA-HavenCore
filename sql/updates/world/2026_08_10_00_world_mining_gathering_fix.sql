@@ -20,3 +20,11 @@ WHERE `entry` = 103713;
 DELETE FROM `gameobject_loot_template`
 WHERE `Entry` = 1732
   AND `Item` = 3819;
+-- --------------------------------------------------------
+-- Issue #171 - Silver Vein (1733)
+-- Remove erroneous Stranglekelp (3820) from Silver Vein loot.
+-- --------------------------------------------------------
+
+DELETE FROM `gameobject_loot_template`
+WHERE `Entry` = 1733
+  AND `Item` = 3820;
