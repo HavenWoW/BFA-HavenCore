@@ -81,8 +81,7 @@ bool LootItem::AllowedForPlayer(Player const* player) const
             return false;
 
         // not show loot for players without profession or those who already know the recipe
-        // Template effects only: loot is filtered before any Item is created.
-        if ((pProto->GetFlags() & ITEM_FLAG_HIDE_UNUSABLE_RECIPE) && (!player->HasSkill(pProto->GetRequiredSkill()) || (pProto->Effects.size() > 1 && player->HasSpell(pProto->Effects[1]->SpellID))))
+        if ((pProto->GetFlags() & ITEM_FLAG_HIDE_UNUSABLE_RECIPE) && (!player->HasSkill(pProto->GetRequiredSkill()) || player->HasSpell(pProto->Effects[1]->SpellID)))
             return false;
 
         // not show loot for not own team
@@ -137,12 +136,22 @@ uint32 Loot::GetUnlootedCount(Player const* player /*= nullptr*/) const
     {
         auto itr = items.find(player->GetGUID());
         if (itr != items.end())
+        {
             for (LootItem const& item : itr->second)
-                if (!item.is_looted)
+            {
+                // Match the visibility rules used by BuildLootResponse().
+                // Hidden/ineligible loot (for example quest-required items for
+                // a player without the quest) must not keep a personal loot
+                // container in an unlooted state.
+                if (!item.is_looted && item.conditions.empty() && item.AllowedForPlayer(player))
                     ++unlootedCount;
+            }
+        }
     }
     else
     {
+        // Preserve the original global behavior for callers that do not
+        // request a player-specific loot state.
         for (auto const& itemItr : items)
             for (LootItem const& item : itemItr.second)
                 if (!item.is_looted)
