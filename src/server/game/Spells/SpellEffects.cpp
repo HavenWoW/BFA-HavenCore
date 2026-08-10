@@ -1891,8 +1891,6 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
     if (goInfo->type == GAMEOBJECT_TYPE_GATHERING_NODE || goInfo->type == GAMEOBJECT_TYPE_CHEST)
     {
         // CanOpenLock() already resolves the profession skill from the lock type.
-        // Do not rely on IconName strings, which are not consistently populated
-        // for BFA gathering nodes.
         if (skillId != SKILL_NONE)
         {
             if (uint32 pureSkillValue = player->GetPureSkillValue(skillId))
