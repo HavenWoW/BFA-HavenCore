@@ -4545,8 +4545,18 @@ void Spell::EffectSkinning(SpellEffIndex /*effIndex*/)
         // new db field?
         // tied to one of existing expansion fields in creature_template?
 
-        // Double chances for elites
-        m_caster->ToPlayer()->UpdateGatherSkill(skill, damage, reqValue, creature->isElite() ? 2 : 1);
+        // BFA uses expansion-specific profession skill lines. Creature templates
+        // still expose the generic Skinning loot skill for Classic creatures, so
+        // award progression to the Classic Skinning skill using its actual value.
+        uint32 const skinningSkill = SKILL_SKINNING_2;
+        uint32 const skinningSkillValue = m_caster->ToPlayer()->GetPureSkillValue(skinningSkill);
+
+        if (skinningSkillValue)
+            m_caster->ToPlayer()->UpdateGatherSkill(
+                skinningSkill,
+                skinningSkillValue,
+                reqValue,
+                creature->isElite() ? 2 : 1);
     }
 }
 
@@ -4685,6 +4695,17 @@ void Spell::EffectLeapBack(SpellEffIndex /*effIndex*/)
 
     float speedxy = effectInfo->MiscValue / 10.f;
     float speedz = damage / 10.f;
+
+    bool forward = false;
+    switch (GetSpellInfo()->Id)
+    {
+        case 67175:
+        case 69070:
+        case 102417:
+        case 192063:
+            forward = true;
+            break;
+    }
 
     // Disengage
     unitTarget->JumpTo(speedxy, speedz, m_spellInfo->IconFileDataId != 132572);
