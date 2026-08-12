@@ -6847,7 +6847,7 @@ SpellCastResult Spell::CheckItems(uint32* param1 /*= nullptr*/, uint32* param2 /
                     return SPELL_FAILED_CANT_BE_PROSPECTED;
                 //Check for enough skill in jewelcrafting
                 uint32 item_prospectingskilllevel = item->GetTemplate()->GetRequiredSkillRank();
-                if (item_prospectingskilllevel > player->GetSkillValue(SKILL_JEWELCRAFTING))
+                if (item_prospectingskilllevel > player->GetSkillValue(SKILL_JEWELCRAFTING_2))
                     return SPELL_FAILED_LOW_CASTLEVEL;
                 //make sure the player has the required ores in inventory
                 if (item->GetCount() < 5)
