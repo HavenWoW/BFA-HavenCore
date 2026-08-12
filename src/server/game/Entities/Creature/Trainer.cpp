@@ -127,8 +127,6 @@ namespace Trainer
         if (!player->IsSpellFitByClassAndRace(trainerSpell->SpellId))
             return SpellState::Unavailable;
 
-        // BFA uses expansion-specific profession skill lines. Classic Jewelcrafting
-        // trainer data can still reference the generic Jewelcrafting parent skill.
         uint32 const reqSkillLine = trainerSpell->ReqSkillLine == SKILL_JEWELCRAFTING
             ? SKILL_JEWELCRAFTING_2
             : trainerSpell->ReqSkillLine;
