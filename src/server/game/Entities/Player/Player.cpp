@@ -5683,6 +5683,7 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue, uint32 RedLeve
         case SKILL_LEGION_HERBALISM:
         case SKILL_KUL_TIRAN_HERBALISM:
         case SKILL_JEWELCRAFTING:
+        case SKILL_JEWELCRAFTING_2:
         case SKILL_INSCRIPTION:
             return UpdateSkillPro(SkillId, SkillGainChance(SkillValue, RedLevel+100, RedLevel+50, RedLevel+25)*Multiplicator, gathering_skill_gain);
         case SKILL_SKINNING:
@@ -30316,8 +30317,14 @@ TrainerSpellState Player::GetTrainerSpellState(TrainerSpell const* trainer_spell
     if (hasSpell)
         return TRAINER_SPELL_GRAY;
 
+    // BFA uses expansion-specific profession skill lines. Classic Jewelcrafting
+    // trainer data can still reference the generic Jewelcrafting parent skill.
+    uint32 const reqSkillLine = trainer_spell->ReqSkillLine == SKILL_JEWELCRAFTING
+        ? SKILL_JEWELCRAFTING_2
+        : trainer_spell->ReqSkillLine;
+
     // check skill requirement
-    if (trainer_spell->ReqSkillLine && GetBaseSkillValue(trainer_spell->ReqSkillLine) < trainer_spell->ReqSkillRank)
+    if (reqSkillLine && GetBaseSkillValue(reqSkillLine) < trainer_spell->ReqSkillRank)
         return TRAINER_SPELL_RED;
 
     // check level requirement
