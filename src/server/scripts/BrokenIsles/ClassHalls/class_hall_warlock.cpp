@@ -917,7 +917,7 @@ struct npc_allaris_narassin_110556 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         me->Say(117588);
         std::list<Player*> _list = me->SelectNearestPlayers(50.f, true);

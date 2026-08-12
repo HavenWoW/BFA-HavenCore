@@ -268,7 +268,7 @@ struct boss_trixie_naeno : public BossAI
         }
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         switch (me->GetEntry())
         {

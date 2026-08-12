@@ -1494,6 +1494,7 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                 }
             }
         }
+        /* fallthrough */
         case 115192: // Subterfuge
         case 185313: // Shadowdance (Shapeshift)
         {

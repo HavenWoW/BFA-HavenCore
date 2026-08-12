@@ -314,7 +314,7 @@ class boss_malkorok : public CreatureScript
                 me->SetReactState(REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -334,7 +334,7 @@ class boss_malkorok : public CreatureScript
                 instance->SetBossState(DATA_MALKOROK, IN_PROGRESS);
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 Talk(SAY_DEATH);
 

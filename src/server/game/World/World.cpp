@@ -1412,10 +1412,10 @@ void World::LoadConfigSettings(bool reload)
     }
 
     // Autorestarter
-    m_int_configs[CONFIG_AUTORESTART_TIMER] = sConfigMgr->GetIntDefault("Autorestart.Timer", 0);
-
-    if (m_int_configs[CONFIG_AUTORESTART_TIMER] < 0)
-        m_int_configs[CONFIG_AUTORESTART_TIMER] = 0;
+    int32 autorestartTimer = sConfigMgr->GetIntDefault("Autorestart.Timer", 0);
+    if (autorestartTimer < 0)
+        autorestartTimer = 0;
+    m_int_configs[CONFIG_AUTORESTART_TIMER] = static_cast<uint32>(autorestartTimer);
 
     // MySQL ping time interval
     m_int_configs[CONFIG_DB_PING_INTERVAL] = sConfigMgr->GetIntDefault("MaxPingTime", 30);

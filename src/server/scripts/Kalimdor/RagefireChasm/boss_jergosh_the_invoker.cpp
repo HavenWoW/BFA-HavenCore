@@ -55,7 +55,7 @@ public:
         {
         }
 
-        void JustDied(Unit* Killer)
+        void JustDied(Unit* /*killer*/)
         {
             instance->SetData(BOSS_JERGOSH_THE_INVOKER, DONE);
         }

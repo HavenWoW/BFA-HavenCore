@@ -46,7 +46,7 @@ struct boss_merektha : public BossAI
         me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         events.SetPhase(PHASE_1);
@@ -54,7 +54,7 @@ struct boss_merektha : public BossAI
         events.ScheduleEvent(EVENT_BLINDING_SAND, 8s);
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         me->NearTeleportTo(me->GetHomePosition());

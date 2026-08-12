@@ -169,7 +169,7 @@ class boss_skylord_torva : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* p_Who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (m_Instance != nullptr)
                 m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);

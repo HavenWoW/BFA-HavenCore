@@ -710,10 +710,12 @@ float SpellEffectInfo::CalcRadius(Unit* caster, Spell* spell) const
     }
 
     if (HasMaxRadius())
+    {
         if (TargetB.GetTarget() != TARGET_DEST_DEST_RANDOM)
             radius = std::max(std::min(radius, MaxRadiusEntry->RadiusMax), MaxRadiusEntry->RadiusMin);
         else
             radius = frand(std::min(radius, MaxRadiusEntry->RadiusMax), MaxRadiusEntry->RadiusMax);
+    }
 
     return radius;
 }

@@ -1313,7 +1313,7 @@ public:
                 trigger2->Kill(trigger2);
         }
 
-        void EnterCombat(Unit* pVictim)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_TRIPLE_PUNCTURE, 10 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_DOUBLE_SWIPE, 15 * IN_MILLISECONDS);
@@ -1471,7 +1471,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             pInstance->SetBossState(DATA_HORRIDON, DONE);
             if (Creature* pController = GetHorridonHelper())
@@ -1651,7 +1651,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* pVictim)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_BESTIAL_CRY, 10 * IN_MILLISECONDS);
         }
@@ -1691,7 +1691,7 @@ public:
             Talk(TALK_ON_JALAK_KILLED_UNIT);
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             if (GetHorridon() && GetHorridon()->isDead())
             {
@@ -2020,7 +2020,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void JustDied(Unit* pKiller) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (me->GetEntry() == MOB_AMANI_WARBEAR)
             {
@@ -2357,7 +2357,7 @@ public:
             }
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             if (Unit* player = me->GetVictim())
             {
@@ -2596,7 +2596,7 @@ public:
             }*/
         }
 
-        void JustDied(Unit* pKiller) override
+        void JustDied(Unit* /*killer*/) override
         {
             me->SummonCreature(MOB_AMANI_SHI_BEAST_SHAMAN, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
         }

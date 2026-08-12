@@ -90,8 +90,6 @@ public:
         {
             events.Update(diff);
 
-            Map::PlayerList const& PlayerList = me->GetMap()->GetPlayers();
-
             while (uint32 eventId = events.ExecuteEvent())
             {
                 switch (eventId)

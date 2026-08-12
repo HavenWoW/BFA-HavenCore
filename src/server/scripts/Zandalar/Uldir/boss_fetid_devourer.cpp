@@ -88,7 +88,7 @@ struct boss_fetid_devourer : public BossAI
         IsLock = true;
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);
@@ -111,7 +111,7 @@ struct boss_fetid_devourer : public BossAI
         me->DespawnCreaturesInArea(NPC_CORRUPTION_CORPUSCLE, 125.0f);
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         me->RemoveAllAreaTriggers();

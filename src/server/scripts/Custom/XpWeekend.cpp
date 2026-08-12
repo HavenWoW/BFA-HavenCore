@@ -9,7 +9,7 @@
     {
     public:
         XpWeekend() : PlayerScript("XpWeekend") { }
-        void OnGiveXP(Player* player, uint32& amount, Unit* victim)override
+        void OnGiveXP(Player* /*player*/, uint32& amount, Unit* /*victim*/) override
         {
             if (sConfigMgr->GetBoolDefault("DynamicXP.Enable", true))
             {
@@ -22,7 +22,7 @@
                 }
             }
         }
-        void OnLogin(Player* player, bool firstLogin)
+        void OnLogin(Player* player, bool /*firstLogin*/) override
         {
             if (sConfigMgr->GetBoolDefault("DynamicXP.Enable", true))
             {

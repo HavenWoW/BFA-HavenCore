@@ -3029,7 +3029,7 @@ private:
         Timer = 0;
     }
 
-    void IsSummonedBy(Spell const* summonSpell) override
+    void IsSummonedBySpell(Spell const* /*summonSpell*/) override
     {
         me->SetReactState(REACT_PASSIVE);
         me->GetOwnerGUID();

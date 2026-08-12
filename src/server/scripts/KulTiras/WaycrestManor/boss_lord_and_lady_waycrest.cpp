@@ -161,7 +161,7 @@ private:
 		}
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		switch (me->GetEntry())
 		{
@@ -247,7 +247,7 @@ private:
 		}
 	}
 
-	void JustDied(Unit* victim) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		switch (me->GetEntry())
 		{

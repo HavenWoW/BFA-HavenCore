@@ -736,13 +736,13 @@ class npc_siege_of_orgrimmar_dragonmaw_bonecrusher : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_FRACTURE, urand(8000, 12000));
                 events.ScheduleEvent(EVENT_SHATTERING_ROAR, urand(2000, 4000));
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -803,14 +803,14 @@ class npc_siege_of_orgrimmar_dragonmaw_tidal_shaman : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_CHAIN_HEAL, urand(5000, 12000));
                 events.ScheduleEvent(EVENT_HEALING_TIDE_TOTEM, urand(10000, 20000));
                 events.ScheduleEvent(EVENT_TIDAL_WAVE, 1000);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -910,12 +910,12 @@ class npc_siege_of_orgrimmar_dragonmaw_elite_grunt : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_THROW_AXE, 1000);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -1486,7 +1486,7 @@ class npc_siege_of_orgrimmar_blind_blademaster : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_BLIND_CLEAVE, urand(8000, 15000));
                 events.ScheduleEvent(EVENT_SWIFT_STRIKE, urand(1000, 3000));
@@ -1494,7 +1494,7 @@ class npc_siege_of_orgrimmar_blind_blademaster : public CreatureScript
                 SendAysaStart();
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -1933,7 +1933,7 @@ class npc_siege_of_orgrimmar_ji_firepaw : public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
             }
 
@@ -1974,12 +1974,12 @@ class npc_siege_of_orgrimmar_overseer_komak : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim) override
+            void EnterCombat(Unit* /*unit*/) override
             {
 
             }
 
-            void JustDied(Unit* killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 events.Reset();
 
@@ -2056,12 +2056,12 @@ class npc_siege_of_orgrimmar_overlord_runthak : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_BONECRACKER, urand(8000, 12000));
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -2141,13 +2141,13 @@ class npc_siege_of_orgrimmar_hellscream_demolisher : public CreatureScript
                 m_State = ATTACK_STATE_MELEE;
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_HURL_BOULDER, 1000);
                 events.ScheduleEvent(EVENT_UPDATE_ATTACK_STATE, 1000);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -2273,13 +2273,13 @@ class npc_siege_of_orgrimmar_korkron_shadowmage : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_MIND_SPIKE, 1);
                 events.ScheduleEvent(EVENT_SHADOWFLAME, urand(8000, 12000));
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -2360,7 +2360,7 @@ class npc_siege_of_orgrimmar_korkron_arcweaver : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_ARCANE_SHOCK, 1);
                 events.ScheduleEvent(EVENT_MAGICSTRIKE, urand(5000, 10000));
@@ -2369,7 +2369,7 @@ class npc_siege_of_orgrimmar_korkron_arcweaver : public CreatureScript
                 // events.ScheduleEvent(EVENT_UNSTABLE_BLINK, urand(20000, 25000));
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -2461,7 +2461,7 @@ class npc_siege_of_orgrimmar_korkron_assassin : public CreatureScript
                 events.ScheduleEvent(EVENT_BACKSTAB, 2000);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }

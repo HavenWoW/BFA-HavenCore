@@ -1047,7 +1047,7 @@ struct paragon_of_klaxxiAI : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* who) override
+    void JustDied(Unit* /*killer*/) override
     {
         m_IsDefeated = true;
         m_IsInCombat = false;
@@ -3016,7 +3016,7 @@ class npc_paragons_of_the_klaxxi_amber : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 InterruptEncase();
                 me->DespawnOrUnsummon(100);
@@ -3124,7 +3124,7 @@ class npc_paragons_of_the_klaxxi_blood : public CreatureScript
                 events.ScheduleEvent(EVENT_CHANGE_TARGET, 1000);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 me->DespawnOrUnsummon(100);
             }
@@ -3264,7 +3264,7 @@ class npc_paragons_of_the_klaxxi_amber_parasite : public CreatureScript
                 events.ScheduleEvent(EVENT_HUNGER, TIMER_HUNGER);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 me->DespawnOrUnsummon(100);
             }

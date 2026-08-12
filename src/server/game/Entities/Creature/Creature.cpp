@@ -3182,8 +3182,6 @@ void Creature::UpdateMovementFlags()
 
     // Set the movement flags if the creature is in that mode. (Only fly if actually in air, only swim if in water, etc)
 
-    float ground = GetFloorZ();
-
     bool isInAir = IsInAir(); // Can be underground too, prevent the falling
 
     if (CanFly() && !IsFalling())

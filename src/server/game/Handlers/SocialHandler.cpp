@@ -136,6 +136,6 @@ void WorldSession::HandleSetContactNotesOpcode(WorldPackets::Social::SetContactN
     _player->GetSocial()->SetFriendNote(packet.Player.Guid, packet.Notes);
 }
 
-void WorldSession::HandleQuickJoinAutoAcceptRequests(WorldPackets::Social::QuickJoinAutoAcceptRequests& packet)
+void WorldSession::HandleQuickJoinAutoAcceptRequests(WorldPackets::Social::QuickJoinAutoAcceptRequests& /*packet*/)
 { }
 

@@ -353,7 +353,7 @@ struct boss_drestagath : public BossAI
 		_DespawnAtEvade();
 	}
 
-	void JustDied(Unit* unit) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		_JustDied();
 		CleanupEncounter(instance, me);

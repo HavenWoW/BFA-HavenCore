@@ -207,7 +207,7 @@ class npc_siege_of_orgrimmar_tormented_initiate : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 me->CastStop();
 
@@ -309,7 +309,7 @@ class npc_siege_of_orgrimmar_fallen_pool_tender : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 me->RemoveAura(SPELL_BOOBLE_SHIELD_2);
 
@@ -387,7 +387,7 @@ class npc_siege_of_orgrimmar_aqueous_defender : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_RUSHING_WATERS, urand(8000, 15000));
             }
@@ -435,7 +435,7 @@ class npc_siege_of_orgrimmar_lesser_sha_puddle : public CreatureScript
                 me->setActive(true);
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 DoCastAOE(SPELL_LESSER_SHA_RESIDUE, true);
             }
@@ -657,7 +657,7 @@ class npc_siege_of_orgrimmar_amalgamated_hubris : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_SHA_NOVA, urand(5000, 10000));
             }
@@ -734,7 +734,7 @@ class npc_siege_of_orgrimmar_vanity : public CreatureScript
                 SendVanityAlive(true);
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_SELF_ABSORBED, urand(3000, 7000));
             }

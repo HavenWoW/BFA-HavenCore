@@ -109,7 +109,7 @@ struct npc_tank_buster_mk1 : public ScriptedAI
         init_stage_two = false;        
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         if (instance)
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);

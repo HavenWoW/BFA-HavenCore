@@ -823,6 +823,7 @@ void CriteriaHandler::UpdateCriteria(CriteriaTypes type, uint64 miscValue1 /*= 0
             case CRITERIA_TYPE_EARN_HONOR_XP:
             case CRITERIA_TYPE_RELIC_TALENT_UNLOCKED:
             case CRITERIA_TYPE_REACH_ACCOUNT_HONOR_LEVEL:
+            case CRITERIA_TYPE_UNK159:
                 break;                                   // Not implemented yet :(
         }
 
@@ -1678,7 +1679,6 @@ bool CriteriaHandler::ModifierSatisfied(ModifierTreeEntry const* modifier, uint6
 {
     uint32 reqValue = modifier->Asset;
     uint32 secondaryAsset = modifier->SecondaryAsset;
-    uint32 tertiaryAsset = modifier->TertiaryAsset;
 
     switch (CriteriaAdditionalCondition(modifier->Type))
     {
@@ -2813,6 +2813,8 @@ char const* CriteriaMgr::GetCriteriaTypeString(CriteriaTypes type)
             return "TYPE_WIN_BG";
         case CRITERIA_TYPE_COMPLETE_ARCHAEOLOGY_PROJECTS:
             return "COMPLETE_RESEARCH";
+        case CRITERIA_TYPE_UNK159:
+            return "TYPE_UNK159";
         case CRITERIA_TYPE_SURVEY_GAMEOBJECT:
             return "SURVEY_GAMEOBJECT";
         case CRITERIA_TYPE_REACH_LEVEL:

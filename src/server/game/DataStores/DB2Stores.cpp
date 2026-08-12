@@ -1209,9 +1209,13 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
         _battlePetSpeciesContainer[bps->ID] = bps;
         _spellToSpeciesContainer[bps->SummonSpellID] = bps;
 
-        if (bps->CreatureID >= _creatureToSpeciesContainer.size())
-            _creatureToSpeciesContainer.resize(bps->CreatureID + 1, nullptr);
-        _creatureToSpeciesContainer[bps->CreatureID] = bps;
+        if (bps->CreatureID < 0)
+            continue;
+
+        uint32 creatureId = static_cast<uint32>(bps->CreatureID);
+        if (static_cast<size_t>(creatureId) >= _creatureToSpeciesContainer.size())
+            _creatureToSpeciesContainer.resize(creatureId + 1, nullptr);
+        _creatureToSpeciesContainer[creatureId] = bps;
     }
 
     for (PowerTypeEntry const* powerType : sPowerTypeStore)

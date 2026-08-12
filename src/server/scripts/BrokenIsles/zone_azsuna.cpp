@@ -843,8 +843,8 @@ public:
             player->CastSpell(player, 210554, true);
     }
 
-    void OnUpdateArea(Player* player, Area* newArea, Area* /*oldArea*///)
-   /*{
+    void OnUpdateArea(Player* player, Area* newArea, Area* /*oldArea*/)
+    {
         switch (newArea->GetId())
         {
         case 7357:
@@ -1870,13 +1870,13 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             ResummonAdds = false;
             events.RescheduleEvent(1, 3000); // 234497
         }
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
            // if (Player* pl = me->FindNearestPlayer(50.0f))
             {
@@ -1962,7 +1962,7 @@ public:
            // });
         }*/
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             _introDone = true;
             DoCast(237716);

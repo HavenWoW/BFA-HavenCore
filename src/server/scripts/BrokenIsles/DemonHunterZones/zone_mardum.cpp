@@ -885,7 +885,7 @@ public:
                 killer->ToPlayer()->KilledMonsterCredit(NPC_FEL_LORD_CAZA_CREDIT, ObjectGuid::Empty);
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             Talk(0);
         }
@@ -1940,7 +1940,7 @@ public:
                 gob->DestroyForNearbyPlayers();
         }
 
-        void EnterCombat(Unit* victim) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             Talk(0);
 

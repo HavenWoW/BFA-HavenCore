@@ -828,7 +828,7 @@ public:
             RPevents.ScheduleEvent(EVENT_START_HEADS, 10000);
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             // Just Berserk scheduled here, the other events are handled by the specific heads / through happenings (ex. a head dies -> Rampage, etc).
             events.ScheduleEvent(EVENT_BERSERK, (me->GetMap()->IsHeroic() ? TIMER_BERSERK_H : TIMER_BERSERK));
@@ -1052,7 +1052,7 @@ public:
             }
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             if (isDead)
                 return;

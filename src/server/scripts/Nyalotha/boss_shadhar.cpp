@@ -104,7 +104,7 @@ private:
 		me->SetReactState(REACT_AGGRESSIVE);
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		_EnterCombat();
 		this->phase = 1;

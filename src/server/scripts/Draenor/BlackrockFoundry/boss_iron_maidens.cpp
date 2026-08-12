@@ -3146,7 +3146,7 @@ class npc_foundry_gorak : public CreatureScript
                 m_Engaged = false;
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 if (!m_Engaged)
                     return;
@@ -3166,7 +3166,7 @@ class npc_foundry_gorak : public CreatureScript
                 EnterCombat(p_Attacker);
             }
 
-            void JustDied(Unit* p_Killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 if (m_Instance == nullptr)
                     return;

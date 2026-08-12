@@ -51,6 +51,6 @@ void CharacterService::Boost(Player* /*player*/)
 {
 }
 
-void CharacterService::RestoreDeletedCharacter(WorldSession* session)
+void CharacterService::RestoreDeletedCharacter(WorldSession* /*session*/)
 {
 }

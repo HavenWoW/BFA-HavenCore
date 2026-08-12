@@ -54,7 +54,7 @@ public:
 		{
             //Store all future Allied races cinematics on first login here, not in CharacterHandler, it will create camera bugs and some other issues
             /* Cinematic - Pandaren death knight */
-			if (player->getRace() == RACE_PANDAREN_HORDE || RACE_PANDAREN_ALLIANCE && player->GetMapId() == MAP_ALLIED_DK_ICECROWN && player->getClass() == CLASS_DEATH_KNIGHT)
+			if ((player->getRace() == RACE_PANDAREN_HORDE || player->getRace() == RACE_PANDAREN_ALLIANCE) && player->GetMapId() == MAP_ALLIED_DK_ICECROWN && player->getClass() == CLASS_DEATH_KNIGHT)
             {
                 player->GetSceneMgr().PlaySceneByPackageId(2780);		
 				player->SetLevel(58); // todo: get level from worldserver conf (dk start level)

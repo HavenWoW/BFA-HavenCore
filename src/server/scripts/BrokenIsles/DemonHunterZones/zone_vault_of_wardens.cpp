@@ -96,7 +96,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 92782)
                 events.RescheduleEvent(1, 15000);
@@ -203,7 +203,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 92990)
                 events.RescheduleEvent(1, 20000);
@@ -928,7 +928,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* victim) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             //Talk(0);
             events.RescheduleEvent(1, 15000);
@@ -1203,7 +1203,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* victim) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             //Talk(0);
             events.RescheduleEvent(1, 45000);

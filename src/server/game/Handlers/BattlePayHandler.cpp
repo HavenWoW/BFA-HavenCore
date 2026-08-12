@@ -66,8 +66,6 @@ auto SendPurchaseUpdate = [](WorldSession* session, Battlepay::Purchase const& p
 void WorldSession::HandleGetPurchaseListQuery(WorldPackets::BattlePay::GetPurchaseListQuery& /*packet*/)
 {
     WorldPackets::BattlePay::PurchaseListResponse packet;
-    uint32 Result = 0;
-    std::vector<WorldPackets::BattlePay::BattlePayPurchase> Purchase;
     SendPacket(packet.Write());
 }
 

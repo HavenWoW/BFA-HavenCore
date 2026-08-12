@@ -97,7 +97,7 @@ private:
         me->SetCurrentEquipmentId(2);
     };
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {        
         _EnterCombat();
         Talk(SAY_AGGRO);
@@ -250,7 +250,7 @@ private:
         me->RemoveAllAreaTriggers();
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         Talk(SAY_DEATH);

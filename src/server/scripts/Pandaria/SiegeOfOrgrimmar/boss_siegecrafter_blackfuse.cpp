@@ -896,7 +896,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 me->SetReactState(ReactStates::REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -926,7 +926,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 Talk(SAY_DEATH_1);
 
@@ -1484,7 +1484,7 @@ class npc_siegecrafter_blackfuse_automated_shredder : public CreatureScript
                 me->AddAura(SPELL_REACTIVE_ARMOR, me);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(EVENT_OVERLOAD, TIMER_OVERLOAD);
                 events.ScheduleEvent(EVENT_DEATH_FROM_ABOVE, TIMER_DEATH_FROM_ABOVE_FIRST);
@@ -1499,7 +1499,7 @@ class npc_siegecrafter_blackfuse_automated_shredder : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 // We handle it at 'SummonedCreatureDies'
                 //DoCast(me, SPELL_AUTOMATED_SHREDDER_DEATH_NOTIFY, true);
@@ -1695,7 +1695,7 @@ class npc_siegecrafter_blackfuse_siege_deactivated_weapon : public CreatureScrip
 
             }
 
-            void JustDied(Unit* killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 HandleWeaponDestroyed();
             }
@@ -2247,7 +2247,7 @@ class npc_siegecrafter_blackfuse_crawler_mine : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 if (IsOvercharged())
                     CreateNewCrawlerMines(2);

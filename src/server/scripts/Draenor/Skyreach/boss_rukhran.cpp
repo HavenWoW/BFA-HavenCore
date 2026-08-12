@@ -382,7 +382,7 @@ public:
         }
 
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             _EnterCombat();
 

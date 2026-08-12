@@ -155,7 +155,7 @@ void UnitAI::DoCast(uint32 spellId)
         me->CastSpell(target, spellId, false);
 }
 
-void UnitAI::DoCastAI(uint32 spellId)
+void UnitAI::DoCastAI(uint32 /*spellId*/)
 {
 }
 

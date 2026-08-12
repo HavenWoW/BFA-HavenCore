@@ -6169,11 +6169,15 @@ void Unit::ValidateAttackersAndOwnTarget()
 
     // remove our own victim
     if (Unit* victim = GetVictim())
+    {
         if (!IsValidAttackTarget(victim))
+        {
             if (Creature* thisCreature = ToCreature())
                 thisCreature->AI()->EnterEvadeMode(CreatureAI::EVADE_REASON_NO_HOSTILES);
             else
                 AttackStop();
+        }
+    }
 }
 
 void Unit::CombatStop(bool includingCast)
@@ -10133,7 +10137,7 @@ bool Unit::IsAlliedRace()
     if (Player* player = ToPlayer())
     {
         /* pandaren death knight (basically same thing as allied death knight) */
-        if ( (player->getRace() == RACE_PANDAREN_ALLIANCE) || (player->getRace() == RACE_PANDAREN_HORDE) || (player->getRace() == RACE_PANDAREN_NEUTRAL) && (player->getClass() == CLASS_DEATH_KNIGHT))
+        if ((player->getRace() == RACE_PANDAREN_ALLIANCE) || (player->getRace() == RACE_PANDAREN_HORDE) || ((player->getRace() == RACE_PANDAREN_NEUTRAL) && (player->getClass() == CLASS_DEATH_KNIGHT)))
         {
             return true;
         }

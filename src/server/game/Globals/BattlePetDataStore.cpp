@@ -89,7 +89,7 @@ void BattlePetDataStoreMgr::LoadBattlePetTemplate()
 
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %u battlepet template in %u ms.", _battlePetTemplateStore.size(), GetMSTimeDiffToNow(oldMSTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %zu battlepet template in %u ms.", _battlePetTemplateStore.size(), GetMSTimeDiffToNow(oldMSTime));
 }
 
 void BattlePetDataStoreMgr::LoadBattlePetNpcTeamMember()
@@ -195,7 +195,6 @@ void BattlePetDataStoreMgr::ComputeBattlePetSpawns()
             continue;
         }
 
-        auto mapEntry = sMapMgr->CreateBaseMap(mapID);
         auto zPos = MAX_HEIGHT + 0.5f;
 
         std::string query = "INSERT INTO creature(id, map, zoneID, spawnMask, phaseMask, position_x, position_y, position_z, spawntimesecs) VALUES (";

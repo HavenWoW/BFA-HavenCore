@@ -246,7 +246,7 @@ void TempSummon::InitSummon(Spell const* summonSpell /*= nullptr*/)
             AI()->IsSummonedBy(owner);
 
             if (summonSpell)
-                AI()->IsSummonedBy(summonSpell);
+                AI()->IsSummonedBySpell(summonSpell);
         }
     }
 }

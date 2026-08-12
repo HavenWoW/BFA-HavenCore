@@ -877,13 +877,9 @@ void Garrison::CalculateMissonBonusRoll(uint32 garrMissionId)
 
 void Garrison::RewardMission(Mission* mission, bool withOvermaxReward)
 {
-    auto rewardLists = { mission->Rewards };
-    if (withOvermaxReward)
-        rewardLists = { mission->Rewards, mission->BonusRewards };
-
-    for (auto rewards : rewardLists)
+    auto processRewards = [this, mission](std::vector<WorldPackets::Garrison::GarrisonMissionReward> const& rewards)
     {
-        for (WorldPackets::Garrison::GarrisonMissionReward reward : rewards)
+        for (WorldPackets::Garrison::GarrisonMissionReward const& reward : rewards)
         {
             if (reward.ItemID)
                 GetOwner()->AddItem(reward.ItemID, reward.ItemQuantity);
@@ -907,7 +903,12 @@ void Garrison::RewardMission(Mission* mission, bool withOvermaxReward)
             //if (reward.Unknown)
                 // TODO
         }
-    }
+    };
+
+    processRewards(mission->Rewards);
+
+    if (withOvermaxReward)
+        processRewards(mission->BonusRewards);
 }
 
 Map* Garrison::FindMap() const

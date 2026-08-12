@@ -241,7 +241,7 @@ public:
             CreatureAI::MoveInLineOfSight(pWho);
         }
 
-        void EnterCombat(Unit* pWho) override
+        void EnterCombat(Unit* /*unit*/) override
         {
 
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);

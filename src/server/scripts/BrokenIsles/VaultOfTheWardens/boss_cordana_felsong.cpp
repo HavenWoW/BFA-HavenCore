@@ -167,7 +167,7 @@ public:
             instance->SetData(DATA_CORDANA_ACTIONS, 2); // clear centry
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             Talk(SAY_AGGRO);
 

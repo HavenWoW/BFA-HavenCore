@@ -84,7 +84,7 @@ void SceneActionForceCast::DoAction()
 
 void SceneActionKillCreditMonster::DoAction()
 {
-    if (Creature* actor = GetActor())
+    if (GetActor())
     {
         if (target)
         {
