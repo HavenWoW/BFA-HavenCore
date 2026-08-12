@@ -2400,7 +2400,7 @@ class npc_spoils_of_pandaria_unstable_spark : public CreatureScript
                 DoCast(me, SPELL_SUPERNOVA);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* who) override
             {
                 me->DespawnOrUnsummon(2000);
             }
@@ -2498,7 +2498,7 @@ struct npc_spoils_of_pandaria_mobAI : public ScriptedAI
             return 0;
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* who) override
         {
             events.Reset();
             summons.DespawnAll();
@@ -2787,7 +2787,7 @@ class npc_spoils_of_pandaria_spark_of_life : public CreatureScript
                 me->AddAura(Spells::SPELL_PULSATION, me);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* p_Who) override
             {
                 DoCast(me, Spells::SPELL_NOVA, true);
 
@@ -3751,12 +3751,12 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* p_Attacker) override
             {
                 events.ScheduleEvent(eEvents::EVENT_ANIMATED_STRIKE, urand(eTimers::TIMER_ANIMATED_STRIKE_FIRST_MIN, eTimers::TIMER_ANIMATED_STRIKE_FIRST_MAX));
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* p_Killer) override
             {
                 events.Reset();
 

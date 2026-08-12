@@ -32,7 +32,7 @@ struct boss_dazar : public BossAI
         hp60 = false;
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         _EnterCombat();
     };
@@ -78,7 +78,7 @@ struct boss_dazar : public BossAI
         }
     };
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
 
         switch (me->GetEntry())
@@ -131,7 +131,7 @@ struct npc_dazar_minions : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         switch (me->GetEntry())
         {

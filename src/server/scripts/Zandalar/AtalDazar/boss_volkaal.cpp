@@ -284,7 +284,7 @@ struct boss_ataldazar_volkaal : public BossAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* killer) override
     {
         Talk(TALK_DEATH);
         _JustDied();

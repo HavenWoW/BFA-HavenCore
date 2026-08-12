@@ -130,7 +130,7 @@ private:
         me->AddAura(AURA_OVERRIDE_POWER_COLOR_ENTROPIC);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* u) override
 	{
         me->RemoveAura(OBSIDIAN_SKIN_VISUAL);
 		_EnterCombat();

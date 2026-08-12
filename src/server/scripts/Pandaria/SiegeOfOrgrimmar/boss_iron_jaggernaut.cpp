@@ -257,7 +257,7 @@ class boss_iron_juggernaut : public CreatureScript
                 m_CurrentPhase = PHASE_NONE;
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void EnterCombat(Unit* who)
             {
                 SendIronJuggernautStart();
 
@@ -303,7 +303,7 @@ class boss_iron_juggernaut : public CreatureScript
                 BossAI::SummonedCreatureDespawn(summon);
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* who)
             {
                 SendIronJuggernautDead();
 

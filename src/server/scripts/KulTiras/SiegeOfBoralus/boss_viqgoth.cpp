@@ -94,7 +94,7 @@ struct boss_viqgoth : public BossAI
 		}		
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* u) override
 	{
 		_EnterCombat();
 		//events.ScheduleEvent(EVENT_ERADICATION, 3s);
@@ -132,7 +132,7 @@ struct boss_viqgoth : public BossAI
 		}
 	}
 
-	void JustDied(Unit* /*killer*/) override
+	void JustDied(Unit* u) override
 	{	
 		_JustDied();
 	};
@@ -164,7 +164,7 @@ struct npc_demolishing_terror : public ScriptedAI
 		events.ScheduleEvent(EVENT_HULLCRACKER, 1s);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* u) override
 	{
 		instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 		events.ScheduleEvent(EVENT_SLAM, 1s);
@@ -214,7 +214,7 @@ struct npc_demolishing_terror : public ScriptedAI
 		}
 	}
 
-	void JustDied(Unit* /*killer*/) override
+	void JustDied(Unit* u) override
 	{		
 		instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 	}

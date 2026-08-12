@@ -149,7 +149,7 @@ struct boss_mistress_alluradel : public ScriptedAI
         events.RescheduleEvent(EVENT_PHANTASM, 33000);
     }
 
-    void EnterEvadeMode(EvadeReason /*why*/) override
+    void EnterEvadeMode(EvadeReason why) override
     {
         ScriptedAI::EnterEvadeMode();
     }

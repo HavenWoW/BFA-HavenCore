@@ -350,7 +350,7 @@ struct npc_apetagonizer_3000 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         Talk(1);
         DoCastAOE(LIGHTNING_DETONATION);

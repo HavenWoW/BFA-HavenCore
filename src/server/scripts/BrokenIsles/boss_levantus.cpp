@@ -67,7 +67,7 @@ public:
             _events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void EnterCombat(Unit* who) override
         {
             _events.ScheduleEvent(1, 5000);
             _events.ScheduleEvent(2, 8000);
@@ -85,7 +85,7 @@ public:
             _EnterEvadeMode();
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* killer) override
         {
         }
 

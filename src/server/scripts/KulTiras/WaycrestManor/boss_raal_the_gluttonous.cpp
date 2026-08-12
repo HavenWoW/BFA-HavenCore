@@ -53,7 +53,7 @@ struct boss_raal_the_gluttonous : public BossAI
 		SetCombatMovement(false);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* target) override
 	{
 		Talk(SAY_AGGRO);
 		_EnterCombat();
@@ -159,7 +159,7 @@ struct boss_raal_the_gluttonous : public BossAI
 		me->SummonCreature(NPC_BILE_OOZELING, bile_oozeling_pos, TEMPSUMMON_MANUAL_DESPAWN);
 	}
 
-	void JustDied(Unit* /*killer*/) override
+	void JustDied(Unit* u) override
 	{
 		Talk(SAY_DEATH);
 		_JustDied();

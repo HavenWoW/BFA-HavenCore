@@ -302,7 +302,7 @@ struct korkron_dark_shaman_AI : public BossAI
         m_IsBerserkDone = false;
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* who) override
     {
         ChangeHomePositions();
 
@@ -319,7 +319,7 @@ struct korkron_dark_shaman_AI : public BossAI
         SummonMount();
     }
 
-    void JustDied(Unit* /*killer*/)
+    void JustDied(Unit* killer)
     {
         _JustDied();
 
@@ -965,7 +965,7 @@ class npc_korkron_dark_shaman_wolf : public CreatureScript
                 me->SetReactState(REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void EnterCombat(Unit* who)
             {
                 events.ScheduleEvent(EVENT_SWIPE, TIMER_SWIPE_FIRST);
                 events.ScheduleEvent(EVENT_REND, TIMER_REND_FIRST);
@@ -980,7 +980,7 @@ class npc_korkron_dark_shaman_wolf : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* who)
             {
                 events.Reset();
                 summons.DespawnAll();
@@ -1048,7 +1048,7 @@ class npc_korkron_dark_shaman_ash_elemental : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* who)
             {
                 events.Reset();
                 summons.DespawnAll();

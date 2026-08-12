@@ -57,7 +57,7 @@ public:
             _events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void EnterCombat(Unit* who) override
         {
             _events.ScheduleEvent(1, 10000);
             _events.ScheduleEvent(3, 15000);
@@ -72,6 +72,11 @@ public:
             Reset();
 
             _EnterEvadeMode();
+        }
+
+        void JustDied(Unit* killer) override
+        {
+
         }
 
         void MovementInform(uint32 type, uint32 id)

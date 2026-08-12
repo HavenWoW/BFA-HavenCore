@@ -471,7 +471,7 @@ public:
 
         void Reset() override {}
 
-        void EnterCombat(Unit* /*unit*/) override {}
+        void EnterCombat(Unit* who) override {}
 
         void IsSummonedBy(Unit* summoner) override
         {

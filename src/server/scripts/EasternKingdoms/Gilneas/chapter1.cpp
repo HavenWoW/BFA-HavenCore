@@ -3827,7 +3827,7 @@ struct npc_dark_ranger_thyala_36312 : public ScriptedAI
 {
     npc_dark_ranger_thyala_36312(Creature* c) : ScriptedAI(c) { }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* target) override
     {
         std::list<Player*> playerList;
         me->GetPlayerListInGrid(playerList, 50.0f);

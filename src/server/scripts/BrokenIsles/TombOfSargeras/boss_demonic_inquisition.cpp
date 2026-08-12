@@ -203,7 +203,7 @@ public:
 
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* killer) override
         {
             //Talk(SAY_DEATH);
             if (me->GetEntry() == NPC_ATRIGAN)

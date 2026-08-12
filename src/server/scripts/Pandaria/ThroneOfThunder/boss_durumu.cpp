@@ -652,7 +652,7 @@ public:
             me->SetCanFly(IsFlying);
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* killer)
         {
             Talk(TALK_DEATH);
             RemoveAdds();
@@ -717,7 +717,7 @@ public:
                     (*itr)->SetGoState(GO_STATE_ACTIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void EnterCombat(Unit* attacker)
         {
             DeactivateObjects();
             Talk(TALK_AGGRO);

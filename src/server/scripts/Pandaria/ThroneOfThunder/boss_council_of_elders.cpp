@@ -432,7 +432,7 @@ public:
     }
 
     // Override EnterCombat to send the DoAction to the helper
-    void EnterCombat(Unit* /*unit*/)
+    void EnterCombat(Unit* pAttacker)
     {
         pInstance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -512,7 +512,7 @@ public:
     {
     }
 
-    void JustDied(Unit* /*killer*/)
+    void JustDied(Unit* pKiller)
     {
         pInstance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
@@ -2407,7 +2407,7 @@ public:
 
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* pKiller) override
         {
             if (Player* player = ObjectAccessor::FindPlayer(playerGuid))
             {
@@ -2613,7 +2613,7 @@ public:
                 uiOtherTwistedFateGuid = uiGuid;
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* pKiller) override
         {
             // Do not do something wierd when the other is dead => free memory
             // of the helper.

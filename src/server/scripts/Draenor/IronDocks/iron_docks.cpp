@@ -93,7 +93,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Attacker) override
         {
             me->RemoveAllAuras();
             events.ScheduleEvent(eGromkarEvents::EventBladestorm, urand(20 * TimeConstants::IN_MILLISECONDS, 25 * TimeConstants::IN_MILLISECONDS));
@@ -177,7 +177,7 @@ public:
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL));
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Attacker) override
         {
             events.ScheduleEvent(eDeadeyeEvents::EventIronShot, urand(5 * TimeConstants::IN_MILLISECONDS, 8 * TimeConstants::IN_MILLISECONDS));
             events.ScheduleEvent(eDeadeyeEvents::EventLegShot, urand(20 * TimeConstants::IN_MILLISECONDS, 25 * TimeConstants::IN_MILLISECONDS));
@@ -275,7 +275,7 @@ public:
             me->SetReactState(ReactStates::REACT_AGGRESSIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             me->RemoveAllAuras();
             events.ScheduleEvent(eFootSoldierEvents::EventTacticalKick, urand(10 * TimeConstants::IN_MILLISECONDS, 15 * TimeConstants::IN_MILLISECONDS));
@@ -367,7 +367,7 @@ public:
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL));
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             events.ScheduleEvent(eIncineratorEvents::EventIncendinarySlug, urand(15 * TimeConstants::IN_MILLISECONDS, 18 * TimeConstants::IN_MILLISECONDS));
         }
@@ -456,7 +456,7 @@ public:
             me->CastSpell(me, eTechnicianSpells::SpellArmedWithExplosives);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             me->RemoveAura(eSpells::SpellEmoteWork);
           //  me->SetUInt32Value(UNIT_NPC_EMOTESTATE, 0);
@@ -577,7 +577,7 @@ public:
             m_VisualTimer = 16 * TimeConstants::IN_MILLISECONDS;
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             /// I don't think Darona actually shot barber arrows, wowhead is stupid. Icy veins says it aswell.
             events.ScheduleEvent(eOlugarEvents::EventShatteringStrike, urand(6 * TimeConstants::IN_MILLISECONDS, 9 * TimeConstants::IN_MILLISECONDS));
@@ -739,7 +739,7 @@ public:
             me->CastSpell(me, eDorunaSpells::SpellChampionsPresence);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             events.ScheduleEvent(eDorunaEvents::EventBurningArrow, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eDorunaEvents::EventBarbedArrow, 11 * TimeConstants::IN_MILLISECONDS);
@@ -831,7 +831,7 @@ public:
             me->SetReactState(ReactStates::REACT_DEFENSIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             events.ScheduleEvent(eGwarnokEvents::EventChargingSlash, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGwarnokEvents::EventChainDrag, 15 * TimeConstants::IN_MILLISECONDS);
@@ -1083,7 +1083,7 @@ public:
             me->SetReactState(ReactStates::REACT_AGGRESSIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Attacker) override
         {
             me->SetStandState(UnitStandStateType::UNIT_STAND_STATE_STAND);
             me->SetAIAnimKitId(0);
@@ -1180,7 +1180,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             // Removes to non following units.
             me->RemoveAura(eSpells::SpellEmoteWork);
@@ -1253,7 +1253,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             events.ScheduleEvent(eChainMasterEvents::EventIronWarCry, 10 * TimeConstants::IN_MILLISECONDS);
         }
@@ -1326,7 +1326,7 @@ public:
             me->SetSpeed(UnitMoveType::MOVE_RUN, 0.5f);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Attacker) override
         {
             me->RemoveAura(eSpells::SpellEmoteWork);
             events.ScheduleEvent(eTechnicianEvents::EventGreaseVial, urand(5 * TimeConstants::IN_MILLISECONDS, 9 * TimeConstants::IN_MILLISECONDS));
@@ -1521,7 +1521,7 @@ public:
             me->AddAura(eClefthoofSpells::SpellClefthoofSpinyHorns, me);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Attacker) override
         {
             events.ScheduleEvent(eClefthoofEvents::EventClefthoofStampede, 12 * TimeConstants::IN_MILLISECONDS);
         }
@@ -1670,7 +1670,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Attacker) override
         {
             events.ScheduleEvent(eIronwingFlamespitterEvents::EventLavaBlast, 10 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eIronwingFlamespitterEvents::EventLavaBarrage, urand(15 * TimeConstants::IN_MILLISECONDS, 20 * TimeConstants::IN_MILLISECONDS));

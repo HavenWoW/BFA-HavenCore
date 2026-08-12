@@ -57,14 +57,14 @@ struct boss_hadal_darkfathom : public BossAI
 		me->SetPower(POWER_MAELSTROM, 0);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* u) override
 	{
 		_EnterCombat();
 		Talk(SAY_AGGRO);
 		events.ScheduleEvent(EVENT_BREAK_WATER, 5s);
 	}
 
-	void JustDied(Unit* /*killer*/) override
+	void JustDied(Unit* u) override
 	{
 		_JustDied();
 		Talk(SAY_DEATH);

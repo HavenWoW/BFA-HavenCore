@@ -62,7 +62,7 @@ struct boss_king_gobbamak : public BossAI
         events.ScheduleEvent(EVENT_GETEM, 17s);
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* killer) override
     {
         _JustDied();
         Talk(SAY_DEATH);

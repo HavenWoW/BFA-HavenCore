@@ -51,14 +51,14 @@ public:
             DoCast(SPELL_REMOVE_CHARM);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* unit) override
         {
             events.RescheduleEvent(1, 4000); // SPELL_FEL_GEYZER
             events.RescheduleEvent(3, 7000); // SPELL_GASEOUS_BREATH
             events.RescheduleEvent(4, 31000); // SPELL_MOTHERS_EMBRACE
         }
 
-        void JustDied(Unit* /*who*/) override
+        void JustDied(Unit* who) override
         {
             summons.DespawnAll();
             DoCast(SPELL_REMOVE_CHARM);

@@ -26,7 +26,7 @@
 
 @TRINITY_SCRIPTS_FORWARD_DECL@
 #ifdef TRINITY_IS_DYNAMIC_SCRIPTLOADER
-#  include "src/genrev/CMakeFiles/revision_data.h"
+#  include "revision_data.h"
 #  define TC_SCRIPT_API TC_API_EXPORT
 extern "C" {
 

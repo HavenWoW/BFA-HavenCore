@@ -590,7 +590,7 @@ class boss_thok_the_bloodthirsty : public CreatureScript
                 m_IsBatsReleased = false;
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 m_Phase = PHASE_NORMAL;
 
@@ -683,7 +683,7 @@ class boss_thok_the_bloodthirsty : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* who) override
             {
                 _JustDied();
 
@@ -1335,7 +1335,7 @@ struct npc_thok_the_bloodthirsty_captive_beastAI : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* killer) override
     {
         events.Reset();
     }
@@ -1418,7 +1418,7 @@ class npc_thok_the_bloodthirsty_starved_yeti : public CreatureScript
                 m_NextWreckingBallPos = wreckingBallPos[0];
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* victim) override
             {
                 events.ScheduleEvent(EVENT_WRECKING_BALL, TIMER_WRECKING_BALL_FIRST);
             }

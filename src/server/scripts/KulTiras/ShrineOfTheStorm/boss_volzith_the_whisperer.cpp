@@ -454,7 +454,7 @@ public:
             SelectSoundAndText(me, 4);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void EnterCombat(Unit* w)
         {
             SelectSoundAndText(me, 2);
 
@@ -649,7 +649,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void EnterCombat(Unit* w)
         {
             events.ScheduleEvent(EVENT_TENTACLE_SLAM, TIMER_TENTACLE_SLAM);
         }

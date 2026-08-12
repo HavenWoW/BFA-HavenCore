@@ -718,7 +718,7 @@ public:
             }
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* at)
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }

@@ -201,7 +201,7 @@ public:
             me->SetPower(POWER_ENERGY, 0);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* target) override
         {
             _EnterCombat();
             Talk(0);            
@@ -209,7 +209,7 @@ public:
             SwitchPhases(1);
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* target) override
         {
             Talk(1);
             _JustDied();
@@ -1742,7 +1742,7 @@ public:
             me->SetObjectScale(0.1f);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* target) override
         {
             events.ScheduleEvent(EVENT_TENTACLE_SLAM, TIMER_TENTACLE_SLAM);
         }
@@ -1866,7 +1866,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* target) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             events.ScheduleEvent(EVENT_DREAD_SCREAM, TIMER_DREAD_SCREAM);
@@ -1939,7 +1939,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* target) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             events.ScheduleEvent(EVENT_VOID_SLAM, TIMER_VOID_SLAM);
@@ -2007,7 +2007,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* target) override
         {
             events.ScheduleEvent(EVENT_FEAR_GATE, TIMER_FEAR_GATE);
         }

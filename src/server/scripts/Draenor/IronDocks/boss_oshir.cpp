@@ -865,7 +865,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Attacker) override
         {
             events.ScheduleEvent(eThunderWandlerEvents::EventCultTraps, 18 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eThunderWandlerEvents::EventSpearThrow, 18 * TimeConstants::IN_MILLISECONDS);

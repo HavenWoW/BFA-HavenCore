@@ -70,7 +70,7 @@ struct boss_humongris : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void EnterCombat(Unit* who) override
     {
         events.ScheduleEvent(EVENT_FIRE_BOOM, 14000s);
         events.ScheduleEvent(EVENT_EARTHSHAKE_STOMP, 28800);

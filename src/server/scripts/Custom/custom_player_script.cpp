@@ -405,7 +405,7 @@ class PlayerSavingOnLogoutFix : public PlayerScript
 public:
     PlayerSavingOnLogoutFix() : PlayerScript("PlayerSavingOnLogoutFix") { }
 
-    void OnLogout(Player* /*player*/) override
+    void OnLogout(Player* player) override
     {
         ObjectAccessor::SaveAllPlayers();
     }

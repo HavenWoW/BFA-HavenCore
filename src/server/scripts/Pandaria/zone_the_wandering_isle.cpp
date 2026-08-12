@@ -2760,7 +2760,7 @@ public:
             events.RescheduleEvent(EVENT_2, 5000);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void EnterCombat(Unit* unit)
         {
             events.RescheduleEvent(EVENT_1, 5000);
             events.CancelEvent(EVENT_2);
@@ -2920,7 +2920,7 @@ public:
         bool isInFalcon;
         bool fightEnd;
 
-        void EnterCombat(Unit* /*unit*/)
+        void EnterCombat(Unit* unit)
         {
             events.RescheduleEvent(EVENT_JAOMIN_JUMP, 1000);
             events.RescheduleEvent(EVENT_HIT_CIRCLE, 2000);

@@ -124,13 +124,13 @@ class npc_siege_of_orgrimmar_gatecrusher_savah : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_ENRAGE, TIMER_ENRAGE);
                 events.ScheduleEvent(EVENT_BRUTAL_HEMORRHAGE, TIMER_BRUTAL_HEMORRHAGE_FIRST);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
             }
@@ -218,12 +218,12 @@ class npc_siege_of_orgrimmar_grandmaster_alchemist_kixen : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_ALCHEMICAL_MASTERY, TIMER_ALCHEMICAL_MASTERY_FIRST);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
             }
@@ -310,13 +310,13 @@ class npc_siege_of_orgrimmar_korthik_honor_guard : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_PIERCE, TIMER_PIERCE_FIRST);
                 events.ScheduleEvent(EVENT_FRENZIED_ASSAULT, TIMER_FRENZIED_ASSAULT_FIRST);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
             }
@@ -394,7 +394,7 @@ class npc_siege_of_orgrimmar_klaxxi_skirmisher : public CreatureScript
                 events.Reset();
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* killer)
             {
                 events.Reset();
             }
@@ -451,7 +451,7 @@ class npc_siege_of_orgrimmar_srathik_amber_master : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_AMBER_BLAST, TIMER_AMBER_BLAST_FIRST);
                 events.ScheduleEvent(EVENT_RESONATING_AMBER, TIMER_RESONATING_AMBER_FIRST);
@@ -478,7 +478,7 @@ class npc_siege_of_orgrimmar_srathik_amber_master : public CreatureScript
                 summons.Despawn(summon);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
                 summons.DespawnAll();
@@ -612,14 +612,14 @@ class npc_siege_of_orgrimmar_kovok : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_GROUND_SLAM, TIMER_GROUND_SLAM_FIRST);
                 events.ScheduleEvent(EVENT_MIGHTY_CLEAVE, TIMER_MIGHTY_CLEAVE_FIRST);
                 events.ScheduleEvent(EVENT_POISON_BLAST, TIMER_POISON_BLAST_FIRST);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
             }
@@ -720,13 +720,13 @@ class npc_siege_of_orgrimmar_korkron_reaper : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_CHARGE_1, TIMER_CHARGE_FIRST);
                 events.ScheduleEvent(EVENT_REAPER, TIMER_REAPER_FIRST);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
             }
@@ -827,12 +827,12 @@ class npc_siege_of_orgrimmar_ichor_of_yshaarj : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_EMPOWERING_CORRUPTION, urand(TIMER_EMPOWERING_CORRUPTION_MIN, TIMER_EMPOWERING_CORRUPTION_MAX));
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
             }
@@ -916,7 +916,7 @@ class npc_siege_of_orgrimmar_harbringer_of_yshaarj : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 events.ScheduleEvent(EVENT_GRASP_OF_YSHAARJ, TIMER_GRASP_OF_YSHAARJ_FIRST);
                 events.ScheduleEvent(EVENT_YSHAARJ_TOUCHED, TIMER_YSHAARJ_TOUCHED);
@@ -932,7 +932,7 @@ class npc_siege_of_orgrimmar_harbringer_of_yshaarj : public CreatureScript
                 summons.Despawn(summon);
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* killer) override
             {
                 events.Reset();
                 summons.DespawnAll();

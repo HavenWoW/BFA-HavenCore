@@ -143,7 +143,7 @@ struct boss_nzoth : public BossAI
         }
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         Talk(SAY_AGGRO);
         _EnterCombat();
@@ -361,7 +361,7 @@ struct npc_psychus : public ScriptedAI
         me->SetPower(POWER_ENERGY, 0);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* unit) override
     {
         me->AddAura(SPELL_PERIODIC_ENERGY_GAIN);
         events.ScheduleEvent(EVENT_MINDWRACK, 3s);
@@ -397,7 +397,7 @@ struct npc_psychus : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         if (Creature* nzoth = instance->GetCreature(NPC_NZOTH))
@@ -445,7 +445,7 @@ struct npc_exposed_synapse : public ScriptedAI
         me->SetDisplayId(76612);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         events.ScheduleEvent(EVENT_PROBE_MIND, 3s);
     }
@@ -461,7 +461,7 @@ struct npc_exposed_synapse : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         if (Creature* psychus = me->FindNearestCreature(NPC_PSYCHUS, 8.0f, true))
         {
@@ -498,7 +498,7 @@ struct npc_basher_tentacle : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         events.ScheduleEvent(EVENT_TUMULTUOUS_BURST, 1s);
         events.ScheduleEvent(EVENT_VOID_LASH, 3s);
@@ -532,7 +532,7 @@ struct npc_basher_tentacle : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
@@ -573,7 +573,7 @@ struct npc_spike_tentacle : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         UnitList tarlist;
         SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 100.0f, true);

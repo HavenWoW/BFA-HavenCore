@@ -260,7 +260,7 @@ struct boss_ataldazar_rezan : public BossAI
         DoMeleeAttackIfReady();
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* killer) override
     {
         _JustDied();
         instance->SetBossState(DATA_REZAN, DONE);

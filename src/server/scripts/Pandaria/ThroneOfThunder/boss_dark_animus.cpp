@@ -1124,7 +1124,7 @@ public:
             _y = me->GetPositionY();
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void EnterCombat(Unit* unit)
         {
             events.RescheduleEvent(EVENT_SUMMON_ANIMA, 3000);
             me->DespawnOrUnsummon(20000);

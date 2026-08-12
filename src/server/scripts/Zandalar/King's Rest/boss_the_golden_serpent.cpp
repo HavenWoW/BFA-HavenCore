@@ -29,7 +29,7 @@ struct boss_golden_serpent : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         _EnterCombat();
         events.ScheduleEvent(EVENT_SPIRIT_OF_GOLD, 5s);
@@ -69,7 +69,7 @@ struct boss_golden_serpent : public BossAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         _JustDied();
     }

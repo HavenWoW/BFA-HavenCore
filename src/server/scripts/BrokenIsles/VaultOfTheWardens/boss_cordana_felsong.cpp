@@ -167,7 +167,7 @@ public:
             instance->SetData(DATA_CORDANA_ACTIONS, 2); // clear centry
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* who) override
         {
             Talk(SAY_AGGRO);
 
@@ -416,7 +416,7 @@ public:
             if (CheckHomeDistToEvade(diff, 38.0f, 4049.90f, -297.42f, -281.59f))
                 return;
 
-            if (uint32 eventId = events.ExecuteEvent())
+        */  /*  if (uint32 eventId = events.ExecuteEvent())
             {
                 switch (eventId)
                 {

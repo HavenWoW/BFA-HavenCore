@@ -219,7 +219,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* who) override
         {
             me->AddAura(SPELL_KICK_SHELL_A, me);
             me->AddAura(SPELL_ROCKFALL_AURA, me);
@@ -340,7 +340,7 @@ public:
             }
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* killer) override
         {
             summons.DespawnAll();
 

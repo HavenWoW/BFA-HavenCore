@@ -97,7 +97,7 @@ private:
         me->AddAura(AURA_OVERRIDE_POWER_COLOR_DEMONIC);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         _EnterCombat();
         Talk(SAY_AGGRO);
@@ -168,7 +168,7 @@ private:
         _DespawnAtEvade();
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         _JustDied();
         me->RemoveAllAreaTriggers();
@@ -305,7 +305,7 @@ struct npc_prophet_skitra_projection : public ScriptedAI
         me->AddUnitState(UNIT_STATE_CASTING);
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         DoCastAOE(SPELL_MINDQUAKE, false);
     }

@@ -418,7 +418,7 @@ struct npc_darkforged_crusader_145903 : public ScriptedAI
         ScriptedAI::Reset();        
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit * u) override
     {  
         events.ScheduleEvent(EVENT_CRUSADER_STRIKE, 3s);
         events.ScheduleEvent(EVENT_CONSECRATION, 8s);
@@ -446,7 +446,7 @@ struct npc_darkforged_crusader_145903 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         if (Creature* frida = me->FindNearestCreature(NPC_FRIDA_IRONBELLOWS, 100.0f, true))
@@ -503,7 +503,7 @@ struct npc_antoined_disciple_145898 : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* u) override
     {
         events.ScheduleEvent(EVENT_DIVINE_BURST, 3s);
         events.ScheduleEvent(EVENT_HEAL, 8s);
@@ -535,7 +535,7 @@ struct npc_antoined_disciple_145898 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* u) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         if (Creature* frida = me->FindNearestCreature(NPC_FRIDA_IRONBELLOWS, 100.0f, true))

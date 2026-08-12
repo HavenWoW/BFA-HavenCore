@@ -91,7 +91,7 @@ struct boss_dread_captain_lockwood : public BossAI
 		}
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* u) override
 	{
 		_EnterCombat();
 		Talk(SAY_AGGRO);
@@ -103,7 +103,7 @@ struct boss_dread_captain_lockwood : public BossAI
 		events.ScheduleEvent(EVENT_WITHDRAW, 30s);	
 	}
 
-	void JustDied(Unit* /*killer*/) override
+	void JustDied(Unit* u) override
 	{		
 		_JustDied();
 		Talk(SAY_DEATH);

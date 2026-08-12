@@ -460,7 +460,7 @@ struct auchindoun_nyami_mob_malefic_defender : public ScriptedAI
         me->AddAura(eNyamiSpells::SpellSpiritVisual, me);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* p_Attacker) override
     {
         events.ScheduleEvent(eMaleficDefenderEvents::EventCrusaderStirke, 5 * TimeConstants::IN_MILLISECONDS);
     }
@@ -516,7 +516,7 @@ struct auchindoun_nyami_mob_spiteful_arbitrer : public ScriptedAI
         m_RadiantDiff = 1 * TimeConstants::IN_MILLISECONDS;
     }
 
-    void EnterCombat(Unit* /*unit*/)
+    void EnterCombat(Unit* p_Attacker)
     {
         events.ScheduleEvent(eNyamiEvents::EventRadiantFury, 8 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eNyamiEvents::EventArbitrerHammer, 14 * TimeConstants::IN_MILLISECONDS);
@@ -620,7 +620,7 @@ struct auchindoun_nyami_mob_twisted_magus : public ScriptedAI
         me->AddAura(eNyamiSpells::SpellSpiritVisual, me);
     }
 
-    void EnterCombat(Unit* /*unit*/)
+    void EnterCombat(Unit* p_Attacker)
     {
         events.ScheduleEvent(eTwistedMagusEvents::EventArcaneBolt, 4 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eTwistedMagusEvents::EventArcaneBomb, 12 * TimeConstants::IN_MILLISECONDS);

@@ -1243,7 +1243,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 m_EnergyRegenerator.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 Talk(SAY_GARROSH_AGGRO);
 
@@ -1374,7 +1374,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 BossAI::EnterEvadeMode();
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* who) override
             {
                 _JustDied();
 
@@ -2106,7 +2106,7 @@ class npc_garrosh_hellscream_desecrated_weapon : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* who) override
             {
                 me->DespawnOrUnsummon(100);
             }
@@ -2240,7 +2240,7 @@ struct npc_garrosh_hellscream_orcsAI : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* who) override
     {
         events.Reset();
         summons.DespawnAll();
@@ -2573,7 +2573,7 @@ class npc_garrosh_hellscream_korkron_iron_star : public CreatureScript
                     HandleExplode();
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* who) override
             {
                 m_IsPowered = false;
 
@@ -2734,7 +2734,7 @@ class npc_garrosh_hellscream_embodied : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* who) override
             {
                 switch (me->GetEntry())
                 {
@@ -2758,7 +2758,7 @@ class npc_garrosh_hellscream_embodied : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* /*killer*/) override
+            void JustDied(Unit* who) override
             {
                 events.Reset();
 

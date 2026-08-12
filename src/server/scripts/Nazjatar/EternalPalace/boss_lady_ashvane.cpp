@@ -1115,7 +1115,7 @@ public:
             creature->AddUnitState(UNIT_STATE_ROOT);
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* unit) override
         {
             if (auto owner = me->GetOwner())
             {

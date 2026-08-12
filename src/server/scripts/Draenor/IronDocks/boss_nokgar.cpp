@@ -203,7 +203,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void EnterCombat(Unit* p_Who) override
         {
             _EnterCombat();
             StopArchers();

@@ -185,7 +185,7 @@ struct boss_dragon_ysondre : public BossAI
         DespawnTrash();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* who) override
     {
         _EnterCombat();
         Talk(SAY_AGGRO);
@@ -346,7 +346,7 @@ struct boss_dragon_taerar : public ScriptedAI
         DoCast(me, SPELL_EMPTY_ENERGY, true);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* who) override
     {
         DoCast(me, SPELL_ENERGIZE_UP, true);
         Talk(SAY_AGGRO);
@@ -487,7 +487,7 @@ struct boss_dragon_lethon : public ScriptedAI
         DoCast(me, SPELL_EMPTY_ENERGY, true);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* who) override
     {
         DoCast(me, SPELL_ENERGIZE_UP, true);
         Talk(SAY_AGGRO);
@@ -627,7 +627,7 @@ struct boss_dragon_emeriss : public ScriptedAI
         DoCast(me, SPELL_NIGHTMARE_ENERGY, true);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void EnterCombat(Unit* who) override
     {
         DoCast(me, SPELL_ENERGIZE_UP, true);
         Talk(SAY_AGGRO);

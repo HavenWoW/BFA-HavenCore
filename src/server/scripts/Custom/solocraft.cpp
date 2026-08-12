@@ -62,7 +62,7 @@ namespace {
 		const float D40 = sConfigMgr->GetFloatDefault("Solocraft.Raid30", 40.0);
 
         // Set the instance difficulty
-        float CalculateDifficulty(Map *map, Player* /*player*/)
+        float CalculateDifficulty(Map *map, Player *player)
         {
             float difficulty = 1.0;
             if (map)

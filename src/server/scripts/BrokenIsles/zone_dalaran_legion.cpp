@@ -538,7 +538,7 @@ public:
         if (player->GetAreaId() == 7502)
         {
             //horde            
-            if (player->CheckQuestStatus(39864, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED) || player->CheckQuestStatus(44701, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED))
+         /*   if (player->CheckQuestStatus(39864, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED) || player->CheckQuestStatus(44701, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED))
                 PhasingHandler::AddPhase(player, PHASE_STORMHEIM_HORDE);
             if (player->CheckQuestStatus(39801, CHECK_QUEST_REWARDED))
                 PhasingHandler::RemovePhase(player, PHASE_STORMHEIM_HORDE);
@@ -549,6 +549,7 @@ public:
                 PhasingHandler::RemovePhase(player, PHASE_STORMHEIM_ALLIANCE);
         }
     }
+    */
     void OnSpellCast(Player* player, Spell* spell, bool /*skipCheck*/)
     {
         if (spell->GetSpellInfo()->Id == 220513)

@@ -47,7 +47,7 @@ struct boss_gorak_tul : public BossAI
 		me->SetPower(POWER_LUNAR_POWER, 1);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* u) override
 	{	
 		_EnterCombat();
 		Talk(SAY_AGGRO);
@@ -56,7 +56,7 @@ struct boss_gorak_tul : public BossAI
 		events.ScheduleEvent(EVENT_DREAD_ESSENCE, 24s);
 	}
 
-	void JustDied(Unit* /*killer*/) override
+	void JustDied(Unit* u) override
 	{
 		Talk(SAY_DEATH);
 		_JustDied();
@@ -129,7 +129,7 @@ struct npc_deathtouched_slaver : public ScriptedAI
 		me->AI()->DoZoneInCombat();
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void EnterCombat(Unit* u) override
 	{
 		events.ScheduleEvent(EVENT_DARK_LEAP, 3s);
 		events.ScheduleEvent(EVENT_DREAD_BOLT, 6s);

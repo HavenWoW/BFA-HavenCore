@@ -323,7 +323,7 @@ class boss_immerseus : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void EnterCombat(Unit* attacker) override
             {
                 events.ScheduleEvent(EVENT_SHA_BOLT, urand(6000, 20000));
                 events.ScheduleEvent(EVENT_CORROSIVE_BLAST, 10000);
@@ -704,7 +704,7 @@ struct npc_immerseus_puddleAI : public ScriptedAI
         CheckDestination(diff);
     }
 
-    void JustDied(Unit* /*killer*/) override
+    void JustDied(Unit* who) override
     {
         me->DespawnOrUnsummon(1000);
     }

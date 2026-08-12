@@ -928,7 +928,7 @@ struct npc_nightmare_blight_103246 : public ScriptedAI
 
     }
 
-    void EnterCombat(Unit* /*unit*/)
+    void EnterCombat(Unit* victim)
     {
         ///
     }

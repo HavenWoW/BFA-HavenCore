@@ -54,7 +54,7 @@ public:
         {
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* Killer)
         {
             instance->SetData(BOSS_TARAGAMAN_THE_HUNGERER, DONE);
         }

@@ -422,7 +422,7 @@ public:
             RemoveFeathers();
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void EnterCombat(Unit* who)
         {
             nests = 0; // just to be sure its reseted
             DoCast(me, SPELL_INFECTED_TALONS_AURA);
@@ -494,7 +494,7 @@ public:
                 }
         }
 
-        void JustDied(Unit* /*killer*/) override
+        void JustDied(Unit* pKiller) override
         {
             RemoveScreech();
             RemoveAllAurasAndDespawnSummons();
@@ -1119,7 +1119,7 @@ public:
             DoCast(SPELL_DROP_FEATHER); // additional AI for object
         }
 
-        /*void JustDied(Unit* /*killer*/)
+        /*void JustDied(Unit* killer)
         {
             std::list<Player*> PlayerList;
             GetPlayerListInGrid(PlayerList, me, 10.0f);

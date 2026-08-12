@@ -417,7 +417,7 @@ public:
 			events.Reset();
 		}
 
-		void EnterCombat(Unit* /*unit*/)
+		void EnterCombat(Unit* who)
 		{
 			events.ScheduleEvent(EVENT_BELLOWING_ROAR, TIMER_BELLOWING_ROAR);
 		}
@@ -467,7 +467,7 @@ public:
 
 		EventMap events;
 
-		void EnterCombat(Unit* /*unit*/)
+		void EnterCombat(Unit* who)
 		{
 			events.ScheduleEvent(EVENT_LIGHTING_STRIKE, TIMER_LIGHTING_STRIKE);
 			events.ScheduleEvent(EVENT_RESTORATION, TIMER_RESTORATION);
