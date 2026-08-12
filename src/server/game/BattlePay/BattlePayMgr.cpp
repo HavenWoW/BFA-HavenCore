@@ -118,7 +118,7 @@ std::string Product::Serialize() const
     return res;
 }
 
-void BattlepayManager::SavePurchase(Purchase * purchase)
+void BattlepayManager::SavePurchase(Purchase* /*purchase*/)
 {
     /*auto const& product = sBattlePayDataStore->GetProduct(purchase->ProductID);
     auto stm = CharacterDatabase.GetPreparedStatement(CHAR_INS_PURCHASE);
@@ -375,7 +375,7 @@ auto BattlepayManager::ProductFilter(Product product) -> bool
 
             if (itemTemplate->GetAllowableRace() && player->getRaceMask())
             {
-                TC_LOG_ERROR("network.BattlePay", "BattlePay : The item : %u is not available to race : %u !", itemTemplate->GetAllowableClass(), player->getRaceMask());
+                TC_LOG_ERROR("network.BattlePay", "BattlePay : The item : %u is not available to race : " UI64FMTD " !", itemTemplate->GetAllowableClass(), player->getRaceMask());
                 return false;
             }
 
@@ -603,7 +603,7 @@ std::tuple<bool, WorldPackets::BattlePay::ProductDisplayInfo> BattlepayManager::
     if (displayInfo->CreatureDisplayInfoID != 0)
         info.CreatureDisplayInfoID = displayInfo->CreatureDisplayInfoID;
 
-    if (auto visualsId = displayInfo->VisualsId)
+    if (displayInfo->VisualsId)
     {
         if (auto visuals = sBattlePayDataStore->GetDisplayInfoVisuals(displayInfoID))
         {
@@ -632,13 +632,13 @@ std::tuple<bool, WorldPackets::BattlePay::ProductDisplayInfo> BattlepayManager::
 
 void BattlepayManager::SendPointsBalance()
 {
-    auto sessionId = _session->GetAccountId();
+    //auto sessionId = _session->GetAccountId();
 
     /*auto stm = CharacterDatabase.GetPreparedStatement(WEB_SEL_ACCOUNT_POINTS);
     stm->setUInt32(0, _session->GetAccountId());
     stm->setUInt32(1, _session->GetAccountId());*/
 
-    auto AsyncQuery = [sessionId](PreparedQueryResult result) -> void
+    /*auto AsyncQuery = [sessionId](PreparedQueryResult result) -> void
     {
         auto sSession = sWorld->FindSession(sessionId);
         if (!sSession)
@@ -663,7 +663,7 @@ void BattlepayManager::SendPointsBalance()
         player->SendCustomMessage(GetCustomMessage(CustomMessage::StoreBalance), data);
         player->SendCustomMessage("Puntos", data1);
 
-    };
+    };*/
 
     //_session->_queryProcessor.AddQuery(CharacterDatabase.AsyncQuery(stm).WithPreparedCallback(AsyncQuery));
 
@@ -744,7 +744,7 @@ void BattlepayManager::SendBattlePayDistribution(uint32 productId, uint8 status,
     _session->SendPacket(distributionBattlePay.Write());
 }
 
-void BattlepayManager::AssignDistributionToCharacter(ObjectGuid const& targetCharGuid, uint64 distributionId, uint32 productId, uint16 specId, uint16 choiceId)
+void BattlepayManager::AssignDistributionToCharacter(ObjectGuid const& targetCharGuid, uint64 distributionId, uint32 productId, uint16 /*specId*/, uint16 /*choiceId*/)
 {
     WorldPackets::BattlePay::UpgradeStarted upgrade;
     upgrade.CharacterGUID = targetCharGuid;
@@ -762,7 +762,7 @@ void BattlepayManager::AssignDistributionToCharacter(ObjectGuid const& targetCha
     SendBattlePayDistribution(productId, purchase->Status, distributionId, targetCharGuid);
 }
 
-void BattlepayManager::Update(uint32 diff)
+void BattlepayManager::Update(uint32 /*diff*/)
 {
     auto& data = _actualTransaction;
     auto& product = sBattlePayDataStore->GetProduct(data.ProductID);

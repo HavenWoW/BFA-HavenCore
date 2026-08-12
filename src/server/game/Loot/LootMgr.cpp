@@ -1445,7 +1445,7 @@ void LoadLootTables()
 //    }
 //}
 
-void LootTemplate::FillAutoAssignationLoot(std::unordered_map<uint32, std::vector<int32>>& itemList, Player* player, bool isBGReward /*= false*/) const
+void LootTemplate::FillAutoAssignationLoot(std::unordered_map<uint32, std::vector<int32>>& itemList, Player* /*player*/, bool /*isBGReward*/ /*= false*/) const
 {
     for (LootStoreItemList::const_iterator itra = Entries.begin(); itra != Entries.end(); ++itra)
     {
@@ -1455,7 +1455,7 @@ void LootTemplate::FillAutoAssignationLoot(std::unordered_map<uint32, std::vecto
 
         if (!itema->reference)
         {
-            if (ItemTemplate const* itemTemplate = sObjectMgr->GetItemTemplate(itema->itemid))
+            if (sObjectMgr->GetItemTemplate(itema->itemid))
                 itemList[itema->itemid] = itema->bonus;
         }
         else
@@ -1471,7 +1471,7 @@ void LootTemplate::FillAutoAssignationLoot(std::unordered_map<uint32, std::vecto
                     LootStoreItem* itemb = *itrb;
                     if (!itemb)
                         continue;
-                    if (ItemTemplate const* itemTemplate = sObjectMgr->GetItemTemplate(itemb->itemid))
+                    if (sObjectMgr->GetItemTemplate(itemb->itemid))
                         itemList[itemb->itemid] = itemb->bonus;
                 }
             }
@@ -1493,7 +1493,7 @@ void LootTemplate::FillAutoAssignationLoot(std::unordered_map<uint32, std::vecto
                                 if (!itemc)
                                     continue;
 
-                                if (ItemTemplate const* itemTemplate = sObjectMgr->GetItemTemplate(itemc->itemid))
+                                if (sObjectMgr->GetItemTemplate(itemc->itemid))
                                     itemList[itemc->itemid] = itemc->bonus;
                             }
                         }
@@ -1507,7 +1507,7 @@ void LootTemplate::FillAutoAssignationLoot(std::unordered_map<uint32, std::vecto
                                 if (!itemd)
                                     continue;
 
-                                if (ItemTemplate const* itemTemplate = sObjectMgr->GetItemTemplate(itemd->itemid))
+                                if (sObjectMgr->GetItemTemplate(itemd->itemid))
                                     itemList[itemd->itemid] = itemd->bonus;
                             }
                         }

@@ -233,7 +233,7 @@ void InstanceScript::OnPlayerEnter(Player* player)
 
 void InstanceScript::GetPlayersCount()
 {
-    uint64 playersCount = instance->GetPlayers().getSize();
+    instance->GetPlayers().getSize();
 }
 
 void InstanceScript::SendChallengeModeStart(Player* player/* = nullptr*/) const
@@ -1147,7 +1147,7 @@ void InstanceScript::CompleteScenario()
     if (InstanceScenario* inScenario = instance->GetInstanceScenario())
         inScenario->CompleteScenario();
     else
-        TC_LOG_ERROR("scripts", "InstanceScript::CompleteScenario() fail", "");
+        TC_LOG_ERROR("scripts", "InstanceScript::CompleteScenario() fail");
 }
 
 void InstanceScript::CompleteCurrStep()
@@ -1155,10 +1155,10 @@ void InstanceScript::CompleteCurrStep()
     if (InstanceScenario* inScenario = instance->GetInstanceScenario())
         inScenario->CompleteCurrStep();
     else
-        TC_LOG_ERROR("scripts", "InstanceScript::CompleteCurrStep() fail", "");
+        TC_LOG_ERROR("scripts", "InstanceScript::CompleteCurrStep() fail");
 }
 
-void InstanceScript::GetScenarioByID(Player* p_Player, uint32 p_ScenarioId)
+void InstanceScript::GetScenarioByID(Player* /*p_Player*/, uint32 p_ScenarioId)
 {
     InstanceMap* map = instance->ToInstanceMap();
 
@@ -1861,14 +1861,6 @@ void InstanceScript::SpawnFontOfPower()
 
 void InstanceScript::AfterChallengeModeStarted()
 {
-    if (_challengeModeScenario.is_initialized())
-    {
-        uint32 scenarioId = *_challengeModeScenario;
-      //  DoOnPlayers([this, scenarioId](Player* player)
-       //     {
-        //        GetScenarioByID(player, scenarioId);
-         //   });
-    }
 }
 
 bool InstanceHasScript(WorldObject const* obj, char const* scriptName)

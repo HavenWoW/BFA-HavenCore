@@ -683,8 +683,6 @@ void WorldSession::HandleRequestWorldQuestUpdate(WorldPackets::Quest::RequestWor
 
 void WorldSession::HandleQueryTreasurePicker(WorldPackets::Quest::QueryTreasurePicker& packet)
 {
-    auto quest = sObjectMgr->GetQuestTemplate(packet.QuestID);
-
     WorldPackets::Quest::QueryQuestRewardResponse response;
     response.QuestID = packet.QuestID;
     response.QuestRewardID = packet.QuestRewardID;

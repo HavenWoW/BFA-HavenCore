@@ -2975,9 +2975,6 @@ void SmartScript::ProcessAction(SmartScriptHolder& e, Unit* unit, uint32 var0, u
         }
         case SMART_ACTION_GET_SCENARIO:
         {
-            if (InstanceScript* instance = me->GetInstanceScript())
-                if (e.action.scenario.scenarioId)
-                   // instance->GetScenarioByID(nullptr, e.action.scenario.scenarioId); neeed fix
             break;
         }
         case SMART_ACTION_COMPLETE_SCENARIO_STEP:
@@ -4716,6 +4713,7 @@ void SmartScript::FillScript(SmartAIEventList e, WorldObject* obj, AreaTriggerEn
                     case DIFFICULTY_MYTHIC:
                         if (i->event.event_flags & SMART_EVENT_FLAG_DIFFICULTY_4)
                             mEvents.emplace_back(std::move(*i));
+                        /* fallthrough */
                     case DIFFICULTY_MYTHIC_KEYSTONE:
                         if (i->event.event_flags & SMART_EVENT_FLAG_DIFFICULTY_5)
                             mEvents.emplace_back(std::move(*i));

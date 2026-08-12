@@ -245,7 +245,7 @@ void WodGarrison::Enter()
         {
             if (_owner->GetMotionMaster()->GetCurrentMovementGeneratorType() == FLIGHT_MOTION_TYPE)
             {
-                _owner->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+                _owner->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
                     {
                         _owner->SeamlessTeleportToMap(_siteLevel->MapID);
                     });
@@ -261,8 +261,6 @@ void WodGarrison::Leave()
     {
         if (_owner->GetMapId() == _siteLevel->MapID)
         {
-            uint32 futureAreaId = sMapMgr->GetAreaId(_owner->GetPhaseShift(), map->ParentMapID, _owner->GetPositionX(), _owner->GetPositionY(), _owner->GetPositionZ());
-
             // This check prevent infinite teleport if new map don't exactly overlap current map area
             /*if (AreaTableEntry const* futureArea = sAreaTableStore.LookupEntry(futureAreaId))
                 if (IsAllowedArea(futureArea))

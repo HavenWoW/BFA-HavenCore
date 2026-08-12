@@ -322,13 +322,13 @@ class TC_GAME_API SceneHelper
 {
 public:
 
-    SceneHelper(ObjectGuid actorGuid, Map* actionMap) : defaultActorGuid(actorGuid), actionMap(actionMap),
-        isActive(false), sceneTimer(1000)
+    SceneHelper(ObjectGuid actorGuid, Map* actionMap) : isActive(false), defaultActorGuid(actorGuid), actionMap(actionMap),
+        sceneTimer(1000)
     {
     }
 
-    SceneHelper(Map* actionMap) : defaultActorGuid(ObjectGuid::Empty), actionMap(actionMap),
-        isActive(false), sceneTimer(1000)
+    SceneHelper(Map* actionMap) : isActive(false), defaultActorGuid(ObjectGuid::Empty), actionMap(actionMap),
+        sceneTimer(1000)
     {
     }
 

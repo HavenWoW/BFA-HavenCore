@@ -244,7 +244,7 @@ void Loot::GenerateJournalEncounterLoot(Player* looter, uint32 journalEncounterI
 }
 
 // Calls processor of corresponding LootTemplate (which handles everything including references)
-bool Loot::FillLoot(uint32 lootId, LootStore const& store, Player* lootOwner, bool personal, bool noEmptyError, uint16 lootMode /*= LOOT_MODE_DEFAULT*/, ItemContext context /*= ItemContext::NONE*/, bool specOnly /*= false*/)
+bool Loot::FillLoot(uint32 lootId, LootStore const& store, Player* lootOwner, bool /*personal*/, bool noEmptyError, uint16 lootMode /*= LOOT_MODE_DEFAULT*/, ItemContext context /*= ItemContext::NONE*/, bool specOnly /*= false*/)
 {
     // Must be provided
     if (!lootOwner)

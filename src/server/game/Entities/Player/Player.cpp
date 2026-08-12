@@ -1914,7 +1914,7 @@ void Player::ProcessDelayedOperations()
             uint8 teamID = battle->Teams[PET_BATTLE_TEAM_1]->OwnerGuid == GetGUID() ? PET_BATTLE_TEAM_1 : PET_BATTLE_TEAM_2;
 
             PetBattleRequest request;
-            memcpy(&request, &battle->PvPMatchMakingRequest, sizeof(PetBattleRequest)); //@TODO check that
+            request = battle->PvPMatchMakingRequest;
 
             auto& matchMakingRequest = battle->PvPMatchMakingRequest;
 
@@ -6082,13 +6082,15 @@ SetSkill(skillEntry->ParentSkillLineID, skillEntry->ParentTierIndex, std::max<ui
             // permanent bonuses
             for (AuraEffect* effect : GetAuraEffectsByType(SPELL_AURA_MOD_SKILL_TALENT))
                 if (effect->GetMiscValue() == int32(id))
+                {
                     effect->HandleEffect(this, AURA_EFFECT_HANDLE_SKILL, true);
+                }
 
-                    if (id == SKILL_ARCHAEOLOGY)
-                    {
-                        sArchaeologyMgr->AddDigsitesToMap(this, 0);
-                        sArchaeologyMgr->AddDigsitesToMap(this, 1);
-                    }
+            if (id == SKILL_ARCHAEOLOGY)
+            {
+                sArchaeologyMgr->AddDigsitesToMap(this, 0);
+                sArchaeologyMgr->AddDigsitesToMap(this, 1);
+            }
 
             // Learn all spells for skill
             LearnSkillRewardedSpells(id, newVal);
@@ -12499,8 +12501,8 @@ InventoryResult Player::CanBankItem(uint8 bag, uint8 slot, ItemPosCountVec &dest
 
     // not specific slot or have space for partly store only in specific slot
 
-    uint8 slotItemStart = reagentBank ? REAGENT_SLOT_START : BANK_SLOT_ITEM_START;
-    uint8 slotItemEnd   = reagentBank ? REAGENT_SLOT_END   : BANK_SLOT_ITEM_END;
+    uint8 slotItemStart = reagentBank ? static_cast<uint8>(REAGENT_SLOT_START) : static_cast<uint8>(BANK_SLOT_ITEM_START);
+    uint8 slotItemEnd   = reagentBank ? static_cast<uint8>(REAGENT_SLOT_END) : static_cast<uint8>(BANK_SLOT_ITEM_END);
 
     // in specific bag
     if (bag != NULL_BAG)
@@ -29681,7 +29683,7 @@ void Player::AddGarrisonMission(uint32 garrMissionId)
             garrison->AddMission(garrMissionId);
 }
 
-void Player::AddGarrisonShipment(uint32 garrShipmentId)
+void Player::AddGarrisonShipment(uint32 /*garrShipmentId*/)
 {
     /*
     if (CharShipmentEntry const* charshipmentEntry = sCharShipmentStore.LookupEntry(garrShipmentId))

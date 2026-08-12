@@ -171,7 +171,7 @@ uint32 ChallengeModeMgr::GetCAForLoot(ChallengeModeMgr* const challenge, uint32 
     return 0;
 }
 
-uint32 ChallengeModeMgr::GetBigCAForLoot(ChallengeModeMgr* const challenge, uint32 goEntry, uint32& count)
+uint32 ChallengeModeMgr::GetBigCAForLoot(ChallengeModeMgr* const challenge, uint32 /*goEntry*/, uint32& count)
 {
     if (!challenge || challenge->GetChallengeLevel() <= 10)
         return 0;
@@ -576,6 +576,7 @@ uint32 ChallengeModeMgr::GetRandomChallengeId(uint32 flags/* = 4*/)
     std::vector<uint32> challenges;
 
     for (uint32 i = 0; i < sMapChallengeModeStore.GetNumRows(); ++i)
+    {
         if (MapChallengeModeEntry const* challengeModeEntry = sMapChallengeModeStore.LookupEntry(i))
             if (challengeModeEntry->Flags & flags &&
                 (challengeModeEntry->ID == 244 || 
@@ -587,12 +588,13 @@ uint32 ChallengeModeMgr::GetRandomChallengeId(uint32 flags/* = 4*/)
 				 challengeModeEntry->ID == 247 ||
 				 challengeModeEntry->ID == 248 ||
 				 challengeModeEntry->ID == 246  )) // Temp fix, only doable dungeons here
-                        challenges.push_back(challengeModeEntry->ID);
+                challenges.push_back(challengeModeEntry->ID);
+    }
 
-        if (challenges.empty())
-            return 0;
-   
-        return Trinity::Containers::SelectRandomContainerElement(challenges);
+    if (challenges.empty())
+        return 0;
+
+    return Trinity::Containers::SelectRandomContainerElement(challenges);
 }
 
 std::vector<int32> ChallengeModeMgr::GetBonusListIdsForRewards(uint32 baseItemIlevel, uint8 challengeLevel)

@@ -1095,6 +1095,7 @@ void Guardian::UpdateArmor()
                     break;
                 case ENTRY_NIUZAO:
                     pctFromOwnerArmor = 400.f;
+                    break;
                 case ENTRY_XUEN:
                     pctFromOwnerArmor = 100.f;
                 default:
