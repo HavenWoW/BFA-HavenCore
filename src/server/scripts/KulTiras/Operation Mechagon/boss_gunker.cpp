@@ -68,7 +68,7 @@ struct boss_gunker : public BossAI
         }
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);        
@@ -136,7 +136,7 @@ struct boss_gunker : public BossAI
         }
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {       
         _JustDied();
         me->DespawnCreaturesInArea(NPC_SQUIRT_BOT, 125.0f);

@@ -1858,7 +1858,7 @@ TempSummon* Map::SummonCreature(uint32 entry, Position const& pos, SummonPropert
         if (Player* player = summoner ? summoner->ToPlayer() : nullptr)
             if (std::shared_ptr<BattlePet> battlePet = player->GetBattlePet(player->GetSummonedBattlePetGUID()))
                 if (BattlePetSpeciesEntry const* species = sBattlePetSpeciesStore.LookupEntry(battlePet->Species))
-                    if (spellId == 118301 || spellId == species->SummonSpellID)
+                    if (spellId == 118301u || (species->SummonSpellID > 0 && spellId == uint32(species->SummonSpellID)))
                     {
                         summon->m_battlePetInstance.reset();
                         summon->RemoveNpcFlag(UNIT_NPC_FLAG_WILD_BATTLE_PET);

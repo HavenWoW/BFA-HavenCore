@@ -42,7 +42,7 @@ struct npc_shadow_of_zul : public ScriptedAI
         me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_SHADOW_BARRAGE, 5s);
         events.ScheduleEvent(EVENT_DARK_REVELATION, 10s);

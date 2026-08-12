@@ -53,14 +53,14 @@ public:
             summons.DespawnAll();
         }
 
-        void EnterCombat(Unit* unit) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.RescheduleEvent(1, 23000);
             events.RescheduleEvent(2, 42000);
             events.RescheduleEvent(3, 57000);
         }
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*who*/) override
         {
             summons.DespawnAll();
         }

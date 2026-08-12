@@ -40,7 +40,7 @@ struct boss_mchimba : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {        
         _EnterCombat();
         Talk(SAY_AGGRO);
@@ -82,7 +82,7 @@ struct boss_mchimba : public BossAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         Talk(SAY_DEATH);

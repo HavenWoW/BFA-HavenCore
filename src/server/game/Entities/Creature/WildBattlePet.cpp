@@ -68,7 +68,6 @@ void WildBattlePetMgr::Load()
         Field* fields = result->Fetch();
 
         uint32 zoneID = fields[0].GetUInt32();
-        uint32 BattlePetEntry = fields[2].GetUInt32();
         uint32 CreatureEntry = fields[7].GetUInt32();
         int32 mapID = 0;
 

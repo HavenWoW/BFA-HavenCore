@@ -1025,7 +1025,7 @@ public:
         {
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
         }
 
@@ -1161,7 +1161,7 @@ public:
         {
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             me->DespawnOrUnsummon();
         }
@@ -1234,7 +1234,7 @@ public:
         {
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
         }
 

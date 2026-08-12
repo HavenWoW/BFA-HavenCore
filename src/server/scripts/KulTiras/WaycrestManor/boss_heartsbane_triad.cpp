@@ -181,7 +181,7 @@ struct boss_heartsbane_triad : public BossAI
 		}
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		switch (me->GetEntry())
 		{
@@ -374,7 +374,7 @@ struct boss_heartsbane_triad : public BossAI
 		}
 	}
 
-	void JustDied(Unit* u) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		switch (me->GetEntry())
 		{

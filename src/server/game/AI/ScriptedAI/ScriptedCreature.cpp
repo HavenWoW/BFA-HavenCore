@@ -124,17 +124,19 @@ void SummonList::DoActionImpl(int32 action, StorageType const& summons)
 
 ScriptedAI::ScriptedAI(Creature* creature) : CreatureAI(creature),
     IsFleeing(false),
-	_checkHomeTimer(5000),
     summons(creature),
     damageEvents(creature),
     instance(creature->GetInstanceScript()),
-    _isCombatMovementAllowed(true),
-    IsLock(false),
+    eventslist(nullptr),
+    talkslist(nullptr),
     haseventdata(false),
-    hastalkdata(false)
+    hastalkdata(false),
+    IsLock(false),
+    _difficulty(me->GetMap()->GetDifficultyID()),
+    _isCombatMovementAllowed(true),
+    _checkHomeTimer(5000),
+    _isHeroic(me->GetMap()->IsHeroic())
 {
-    _isHeroic = me->GetMap()->IsHeroic();
-    _difficulty = me->GetMap()->GetDifficultyID();
 }
 
 void ScriptedAI::AttackStartNoMove(Unit* who)

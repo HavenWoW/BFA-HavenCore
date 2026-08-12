@@ -551,7 +551,7 @@ void WorldSession::HandleSetLootSpecialization(WorldPackets::Loot::SetLootSpecia
     else
         GetPlayer()->SetLootSpecId(0);
 }
-void WorldSession::HandleMasterLootItem(WorldPackets::Loot::MasterLootItem& packet)
+void WorldSession::HandleMasterLootItem(WorldPackets::Loot::MasterLootItem& /*packet*/)
 {
     Group* group = _player->GetGroup();
     if (!group || group->isLFGGroup() || group->GetLooterGuid() != _player->GetGUID())
@@ -643,7 +643,7 @@ void WorldSession::HandleMasterLootItem(WorldPackets::Loot::MasterLootItem& pack
 void WorldSession::HandleCancelMasterLootRoll(WorldPackets::Loot::CancelMasterLootRoll& /*packet*/)
 { }
 
-void WorldSession::HandleDoMasterLootRoll(WorldPackets::Loot::DoMasterLootRoll& packet)
+void WorldSession::HandleDoMasterLootRoll(WorldPackets::Loot::DoMasterLootRoll& /*packet*/)
 {
     //if (!_player->GetGroup() || _player->GetGroup()->GetLooterGuid() != _player->GetGUID())
     //{

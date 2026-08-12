@@ -59,12 +59,12 @@ class npc_siege_of_orgrimmar_enraged_mushan_beast : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
 
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
 
@@ -132,12 +132,12 @@ class npc_siege_of_orgrimmar_pterrordax : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
 
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }
@@ -200,12 +200,12 @@ class npc_siege_of_orgrimmar_starved_yetti : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
 
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
 
@@ -283,12 +283,12 @@ class npc_siege_of_orgrimmar_korkron_jailer : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* victim)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_ENRAGE, TIMER_ENRAGE_FIRST);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
             }

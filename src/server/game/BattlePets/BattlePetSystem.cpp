@@ -182,9 +182,8 @@ void PetBattleSystem::LeaveQueue(Player* player)
             if (auto opponent = ObjectAccessor::FindPlayer(ticket->MatchingOpponent->RequesterGUID))
                 opponent->GetSession()->SendPetBattleQueueStatus(ticket->MatchingOpponent->JoinTime, ticket->MatchingOpponent->TicketID, LFBUpdateStatus::LFB_JOIN_QUEUE, _LFBAvgWaitTime);
         }
-
-        /// Continue to other case handlers
     }
+    /* fallthrough */
     case LFBState::LFB_STATE_FINISHED:
     case LFBState::LFB_STATE_IN_COMBAT:
     case LFBState::LFB_STATE_QUEUED:
@@ -528,9 +527,8 @@ void PetBattleSystem::Update(uint32 diff)
                     if (auto opponent = ObjectAccessor::FindPlayer(ticket->MatchingOpponent->RequesterGUID))
                         opponent->GetSession()->SendPetBattleQueueStatus(ticket->MatchingOpponent->JoinTime, ticket->MatchingOpponent->TicketID, LFBUpdateStatus::LFB_JOIN_QUEUE, _LFBAvgWaitTime);
                 }
-
-                /// Continue to other case handlers
             }
+            /* fallthrough */
             case LFBState::LFB_STATE_FINISHED:
             case LFBState::LFB_STATE_IN_COMBAT:
             case LFBState::LFB_STATE_QUEUED:

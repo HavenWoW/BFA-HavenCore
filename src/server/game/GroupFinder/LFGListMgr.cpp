@@ -243,7 +243,7 @@ LFGListEntry* LFGListMgr::GetEntryByApplicant(WorldPackets::LFG::RideTicket appl
 {
     for (const auto& pair : _lfgListQueue)
         if (auto result = pair.second->GetApplicant(applicant.Id))
-            if (result->ApplicationTime == applicant.Time)
+            if (applicant.Time >= 0 && result->ApplicationTime == uint32(applicant.Time))
                 return  pair.second;
 
     return nullptr;
@@ -311,8 +311,9 @@ void LFGListMgr::ChangeApplicantStatus(LFGListEntry::LFGListApplicationEntry* ap
     switch (status)
     {
     case LFGListApplicationStatus::Invited:
-        if (!listEntry->ApplicationGroup->isRaidGroup() && GetMemeberCountInGroupIncludingInvite(listEntry) >= 5 || player && CanQueueFor(listEntry, player) != LFGListStatus::None)
+        if ((!listEntry->ApplicationGroup->isRaidGroup() && GetMemeberCountInGroupIncludingInvite(listEntry) >= 5) || (player && CanQueueFor(listEntry, player) != LFGListStatus::None))
             break;
+        /* fallthrough */
     case LFGListApplicationStatus::Applied:
         application->ResetTimeout();
         listEntry->ResetTimeout();
@@ -331,7 +332,7 @@ void LFGListMgr::ChangeApplicantStatus(LFGListEntry::LFGListApplicationEntry* ap
         remove = true;
         break;
     case LFGListApplicationStatus::InviteAccepted:
-        if (!listEntry->ApplicationGroup->isRaidGroup() && GetMemeberCountInGroupIncludingInvite(listEntry) >= 5 || CanQueueFor(listEntry, player) != LFGListStatus::None)
+        if ((!listEntry->ApplicationGroup->isRaidGroup() && GetMemeberCountInGroupIncludingInvite(listEntry) >= 5) || CanQueueFor(listEntry, player) != LFGListStatus::None)
             break;
 
         application->Listed = false;
@@ -559,10 +560,7 @@ void LFGListMgr::SendLfgListApplyForGroupResult(LFGListEntry const* lfgEntry, LF
     responce.SearchResult.JoinRequest.QuestID = lfgEntry->QuestID;
 
     for (auto const& member : group->GetMemberSlots())
-    {
-        uint8 role = member.roles >= 2 ? std::log2(member.roles) - 1 : member.roles;
         responce.SearchResult.Members.emplace_back(member._class, member.roles);
-    }
     for (auto const& member : lfgEntry->ApplicationsContainer)
         if (auto applicant = member.second.GetPlayer())
             responce.SearchResult.Members.emplace_back(applicant->getClass(), member.second.RoleMask);

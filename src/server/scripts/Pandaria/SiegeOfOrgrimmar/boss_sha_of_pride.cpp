@@ -1109,7 +1109,7 @@ class boss_sha_of_pride : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -1176,7 +1176,7 @@ class boss_sha_of_pride : public CreatureScript
                 m_PrisonController.FreePlayer(victim->GetGUID());
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 _JustDied();
 
@@ -1735,7 +1735,7 @@ class npc_sha_of_pride_lingering_corruption : public CreatureScript
 
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 DoCastAOE(SPELL_CORRUPTED_TOUCH, true);
 
@@ -1801,12 +1801,12 @@ class npc_sha_of_pride_manifestation_of_pride : public CreatureScript
                 DoCast(me, SPELL_MANIFESTATION_SPAWN, true);
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_GET_READY, 3000);
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 DoCastAOE(SPELL_LAST_WORD, true);
 
@@ -1881,13 +1881,13 @@ class npc_sha_of_pride_reflection : public CreatureScript
                 DoCast(me, SPELL_SELF_REFLECTION_SPAWN, true);
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_REFLECTION_DMG, 3000);
                 events.ScheduleEvent(EVENT_MOVE, 4000);
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 me->DespawnOrUnsummon(2000);
             }

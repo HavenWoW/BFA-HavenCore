@@ -499,7 +499,7 @@ struct npc_unleashed_arcano_fiend : public ScriptedAI
         me->DespawnCreaturesInArea(153307);
     }
 
-    void EnterCombat(Unit* unit) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_ARCANE_BLAST, 1s);
         events.ScheduleEvent(EVENT_ARCANE_BOLT, 5s);
@@ -561,7 +561,7 @@ struct npc_urduu : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* unit) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_ANGRY_STOMP, 3s);
         events.ScheduleEvent(EVENT_CORAL_GROWTH, 5s);
@@ -595,7 +595,7 @@ struct npc_urduu : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* unit) override
+    void JustDied(Unit* /*killer*/) override
     {
         std::list<Player*> p_list;
         me->GetPlayerListInGrid(p_list, 100.0f);

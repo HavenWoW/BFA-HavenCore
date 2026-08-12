@@ -475,14 +475,6 @@ public:
                 me->SummonCreature(115637, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation());
                 me->SummonCreature(115637, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation());
 
-                if (me->GetOwner() && me->GetOwner()->IsPlayer())
-                {
-                    if (Player* player = me->GetOwner()->ToPlayer())
-                    {
-                        Position* pos = player->GetTeamId() == TEAM_ALLIANCE ? a_atPos : h_atPos;
-                        uint8 count = player->GetTeamId() == TEAM_ALLIANCE ? 42 : 93;
-                    }
-                }
                 phase_of_sphere = 1;
 
                 me->AddDelayedEvent(3000, [this]() -> void

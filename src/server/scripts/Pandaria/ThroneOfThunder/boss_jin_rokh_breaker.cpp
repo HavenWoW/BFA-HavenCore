@@ -325,7 +325,7 @@ public:
             MakeStatuesPassive();
         }
 
-        void EnterCombat(Unit* pWho)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_STATIC_BURST, 24000);
             events.ScheduleEvent(EVENT_CHECK_PLAYERS_DISTANCE, 500, 0, 0);
@@ -403,7 +403,7 @@ public:
                 }
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             _JustDied();
             UnsummonFissure();

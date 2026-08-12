@@ -43,7 +43,7 @@ private:
         this->energyCore = 0;
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         events.ScheduleEvent(EVENT_ENERGY_CORE, 15s);
@@ -73,7 +73,7 @@ private:
         me->DespawnCreaturesInArea(NPC_ENERGY_CORE, 125.0f);
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         me->DespawnCreaturesInArea(NPC_ENERGY_CORE, 125.0f);

@@ -107,7 +107,7 @@ void WorldSession::HandleGarrisonOpenMissionNpc(WorldPackets::Garrison::Garrison
     }
     else
     {
-        if (Garrison const* garrison = _player->GetGarrison(GARRISON_TYPE_GARRISON))
+        if (Garrison const* garrison = _player->GetGarrison(garType))
         {
             WorldPackets::Garrison::GarrisonOpenMissionNpc garrisonOpenMissionNpc;
             for (auto const& p : garrison->GetMissions())
@@ -233,7 +233,7 @@ void WorldSession::HandleGarrisonStartMission(WorldPackets::Garrison::GarrisonSt
     garrison->StartMission(startMission.MissionID, startMission.Followers);
 }
 
-void WorldSession::HandleGarrisonSwapBuildings(WorldPackets::Garrison::GarrisonSwapBuildings& packet)
+void WorldSession::HandleGarrisonSwapBuildings(WorldPackets::Garrison::GarrisonSwapBuildings& /*packet*/)
 {
 }
 
@@ -307,7 +307,7 @@ void WorldSession::HandleRequestLandingPageShipmentInfoOpcode(WorldPacket& /*p_R
    // SendPacket(&l_Data);
 }
 
-void WorldSession::HandleGarrisonGenerateRecruits(WorldPackets::Garrison::GarrisonGenerateRecruits& generateRecruits)
+void WorldSession::HandleGarrisonGenerateRecruits(WorldPackets::Garrison::GarrisonGenerateRecruits& /*generateRecruits*/)
 {
     if (!_player)
         return;
@@ -370,7 +370,7 @@ void WorldSession::HandleGarrisonSetFollowerInactive(WorldPackets::Garrison::Gar
     garrison->ChangeFollowerActivationState(garrisonSetFollowerInactive.followerDBID, !garrisonSetFollowerInactive.desActivate);
 }
 
-void WorldSession::HandleGarrisonGetShipmentInfo(WorldPackets::Garrison::GarrisonRequestShipmentInfo& garrisonRequestShipmentInfo)
+void WorldSession::HandleGarrisonGetShipmentInfo(WorldPackets::Garrison::GarrisonRequestShipmentInfo& /*garrisonRequestShipmentInfo*/)
 {
     if (!_player)
         return;

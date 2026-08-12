@@ -458,7 +458,7 @@ public:
     void SendProductList();
     void SendPointsBalance();
     void SendBattlePayDistribution(uint32 productId, uint8 status, uint64 distributionId, ObjectGuid targetGuid = ObjectGuid::Empty);
-    void AssignDistributionToCharacter(ObjectGuid const& targetCharGuid, uint64 distributionId, uint32 productId, uint16 specialization_id, uint16 choice_id);
+    void AssignDistributionToCharacter(ObjectGuid const& targetCharGuid, uint64 distributionId, uint32 productId, uint16 /*specialization_id*/, uint16 /*choice_id*/);
     void Update(uint32 diff);
 };
 

@@ -383,7 +383,7 @@ void PetBattleTeam::DoCasts(uint32 turn0ProcCond)
             PetBattleInstance->Cast(ActivePetID, ActiveAbilityId, 0, turn0ProcCond, PET_BATTLE_CAST_TRIGGER_ALL);
 
         for (auto& aura : PetBattleInstance->PetAuras)
-            if (!aura->Expired && aura->CasterPetID == int32(ActivePetID))
+            if (!aura->Expired && ActivePetID >= 0 && aura->CasterPetID == static_cast<uint32>(ActivePetID))
                 PetBattleInstance->Cast(aura->CasterPetID, aura->AbilityID, 0, PET_BATTLE_ABILITY_TURN_PROC_ON_ABILITY, PET_BATTLE_CAST_TRIGGER_ALL);
     }
 }
@@ -573,7 +573,7 @@ PetBattle::~PetBattle()
 {
     for (size_t i = 0; i < MAX_PET_BATTLE_TEAM; ++i)
     {
-        if (BattleType == PET_BATTLE_TYPE_PVE && i != PET_BATTLE_PVE_TEAM_ID || BattleType != PET_BATTLE_TYPE_PVE)
+        if ((BattleType == PET_BATTLE_TYPE_PVE && i != PET_BATTLE_PVE_TEAM_ID) || BattleType != PET_BATTLE_TYPE_PVE)
             for (uint32 petID = 0; petID < MAX_PET_BATTLE_SLOTS; petID++)
                 if (Pets[petID])
                     Pets[petID] = std::shared_ptr<BattlePetInstance>();
@@ -922,7 +922,7 @@ void PetBattle::Finish(uint32 winnerTeamID, bool aborted, bool ignoreAbandonPena
                     player->QuestObjectiveSatisfy(speciesInfo->ID, 1, QUEST_OBJECTIVE_DEFEATBATTLEPET, InitialWildPetGUID);*/
             }
 
-            if (BattleType == PET_BATTLE_TYPE_PVE && PveBattleType == PVE_PET_BATTLE_WILD)
+            if (BattleType == PET_BATTLE_TYPE_PVE && PveBattleType == PVE_BATTLE_PET_WILD)
             {
                 /// Quest progress for 12 x Learning the Ropes
                 player->KilledMonsterCredit(65355);
@@ -989,7 +989,7 @@ void PetBattle::Finish(uint32 winnerTeamID, bool aborted, bool ignoreAbandonPena
             continue;
         }
 
-        if (BattleType == PET_BATTLE_TYPE_PVE && PveBattleType == PVE_PET_BATTLE_WILD)
+        if (BattleType == PET_BATTLE_TYPE_PVE && PveBattleType == PVE_BATTLE_PET_WILD)
         {
             for (size_t i = 0; i < Teams[currentTeamID]->TeamPetCount; ++i)
             {
@@ -1328,7 +1328,7 @@ void PetBattle::Kill(int8 killer, int8 target, uint32 killerAbibilityEffectID, b
     }
 
     for (auto& aura : PetAuras)
-        if (aura->TargetPetID == target)
+        if (aura->TargetPetID == static_cast<uint32>(target))
             aura->Expire(this);
 
     // TC_LOG_DEBUG(LOG_FILTER_BATTLEPET, "PetBattle::Kill BATTLEPET_STATE_Special_ConsumedCorpse");

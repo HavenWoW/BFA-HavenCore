@@ -188,8 +188,6 @@ public:
 
         switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How do I play the Ring Toss?";
             GOSSIP_BUTTON_2 = "Ready to play! |cFF0000FF(Darkmoon Game Token)|r";
@@ -213,8 +211,6 @@ public:
 
         switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How do I play the Ring Toss?";
             GOSSIP_BUTTON_2 = "Ready to play! |cFF0000FF(Darkmoon Game Token)|r";
@@ -386,8 +382,6 @@ public:
 
         switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "Darkmoon adventurer guide?";
             GOSSIP_BUTTON_2 = "What can I buy?";
@@ -425,8 +419,6 @@ public:
 
         switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "Darkmoon adventurer guide?";
             GOSSIP_BUTTON_2 = "What can I buy?";
@@ -621,8 +613,6 @@ public:
 
         switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How does the shooting gallery work? ";
             GOSSIP_BUTTON_2 = "I'm ready to shoot! |cFF0000FF(Darkmoon Game Token)|r";
@@ -646,8 +636,6 @@ public:
 
         switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How does the shooting gallery work? ";
             GOSSIP_BUTTON_2 = "I'm ready to shoot! |cFF0000FF(Darkmoon Game Token)|r";

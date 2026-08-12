@@ -637,7 +637,7 @@ class iron_docks_skulloc_mob_koramar : public CreatureScript
                 events.ScheduleEvent(eKoramarEvents::EventBerserkerLeap, 20 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void JustDied(Unit* p_Killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 if (m_Instance != nullptr)
                 {

@@ -694,7 +694,7 @@ public:
                 DoStartNoMovement(who);
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_BERSERK, 7 * MINUTE * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_UNCHECKED_CORRUPTION, 5000);
@@ -796,7 +796,7 @@ public:
             BossAI::SummonedCreatureDespawn(summon);
         }
 
-        void JustDied(Unit* who)
+        void JustDied(Unit* /*killer*/)
         {
             ClearCreatures();
 
@@ -1553,7 +1553,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1671,7 +1671,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1789,7 +1789,7 @@ public:
             DoCast(me, SPELL_UNLEASHED_1, true);
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1804,7 +1804,7 @@ public:
             }
         }*/
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
@@ -1892,7 +1892,7 @@ public:
             return ObjectGuid::Empty;
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1907,7 +1907,7 @@ public:
             }
         }*/
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
             me->DespawnOrUnsummon(2000);
         }
@@ -1997,7 +1997,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -2106,7 +2106,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }

@@ -46,7 +46,7 @@ struct boss_soulbound_goliath : public BossAI
 		me->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		Talk(SAY_AGGRO);
 		_EnterCombat();
@@ -111,7 +111,7 @@ struct boss_soulbound_goliath : public BossAI
 		me->DespawnCreaturesInArea(NPC_SOUL_THORNS, 125.0f);
 	}
 
-	void JustDied(Unit* u) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		Talk(SAY_DEATH);
 		_JustDied();
@@ -133,7 +133,7 @@ struct npc_soul_thorns : public ScriptedAI
 		me->CastSpell(me, SOUL_THORNS_SPAWN_EFECT);
 	}
 
-	void JustDied(Unit* u) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		std::list<Player*> p_list;
 		me->GetPlayerListInGrid(p_list, 3.0f);

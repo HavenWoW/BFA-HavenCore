@@ -196,7 +196,7 @@ struct boss_the_desolate_host_generic : BossAI
         _Reset();
     }
 
-    void JustDied(Unit* who) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
 
@@ -442,7 +442,7 @@ struct npc_tos_engine_of_souls : ScriptedAI
         DoCast(me, SPELL_SHARED_HEALTH, true);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         Talk(SAY_ENGINE_AGGRO);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -473,7 +473,7 @@ struct npc_tos_engine_of_souls : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
@@ -559,7 +559,7 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
         DoCast(me, SPELL_SHARED_HEALTH, true);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         Talk(SAY_QUEEN_AGGRO);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -589,7 +589,7 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(SAY_QUEEN_DEATH);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -732,7 +732,7 @@ struct npc_tos_desolate_host : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -752,7 +752,7 @@ struct npc_tos_desolate_host : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(SAY_HOST_DEATH);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -907,7 +907,7 @@ struct npc_tos_reanimated_templar : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.RescheduleEvent(1, 12000);
 
@@ -1012,7 +1012,7 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.RescheduleEvent(1, 4000);
 
@@ -1125,7 +1125,7 @@ struct npc_tos_fallen_priestess : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.RescheduleEvent(1, 4000);
         events.RescheduleEvent(2, 14000);
@@ -1230,7 +1230,7 @@ struct npc_tos_soul_residue : ScriptedAI
 
     void Reset() override {}
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         rotTimer = 2000;
         fixateTimer = 1000;

@@ -156,7 +156,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (guardsDiedCount < 3)
                 Talk(SAY_AGGRO_BAD);
@@ -259,7 +259,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 104275)
                 events.RescheduleEvent(1, 3000); // 209378 17

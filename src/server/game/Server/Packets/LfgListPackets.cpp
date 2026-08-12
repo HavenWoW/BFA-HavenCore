@@ -316,7 +316,9 @@ WorldPacket const* WorldPackets::LfgList::LfgListApplicationUpdate::Write()
 
         _worldPacket.WriteBits(v.ApplicationStatus, 4);
         _worldPacket.WriteBit(v.Listed);
-        _worldPacket << (v.Comment, 8);
+        _worldPacket.WriteBits(v.Comment.length(), 8);
+        _worldPacket.FlushBits();
+        _worldPacket.WriteString(v.Comment);
     }
 
     return &_worldPacket;

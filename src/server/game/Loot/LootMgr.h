@@ -118,7 +118,7 @@ class TC_GAME_API LootTemplate
       //  void ProcessChallengeChest(Loot& loot, uint32 lootId, ChallengeModeMgr* _challenge) const;
         void CopyConditions(const ConditionContainer& conditions);
         void CopyConditions(LootItem* li) const;
-        void FillAutoAssignationLoot(std::unordered_map<uint32, std::vector<int32>>& itemList, Player* player = nullptr, bool isBGReward = false) const;
+        void FillAutoAssignationLoot(std::unordered_map<uint32, std::vector<int32>>& itemList, Player* /*player*/ = nullptr, bool /*isBGReward*/ = false) const;
 
         // True if template includes at least 1 quest drop entry
         bool HasQuestDrop(LootTemplateMap const& store, uint8 groupId = 0) const;

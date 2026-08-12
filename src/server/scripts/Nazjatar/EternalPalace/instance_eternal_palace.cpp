@@ -116,7 +116,7 @@ struct npc_generic_ashvane : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         switch (me->GetEntry())
         {
@@ -174,7 +174,7 @@ struct npc_generic_ashvane : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         switch (me->GetEntry())
         {

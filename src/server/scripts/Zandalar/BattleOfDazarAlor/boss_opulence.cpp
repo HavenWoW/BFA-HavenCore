@@ -137,7 +137,7 @@ struct boss_opulence : public BossAI
                     gallywix->AI()->Talk(SAY_GALLYWIX_KILL);
     }
 
-    void JustDied(Unit* unit) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         me->DespawnCreaturesInArea(NPC_SPIRIT_OF_GOLD, 125.0f);

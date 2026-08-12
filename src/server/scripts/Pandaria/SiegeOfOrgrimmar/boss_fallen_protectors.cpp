@@ -263,7 +263,7 @@ struct fallen_protectorAI : public BossAI
         m_evadeTimer = TIMER_EVADE_CHECK;
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         bool isFirstAggro = true;
 
@@ -359,7 +359,7 @@ struct fallen_protectorAI : public BossAI
         }
     }
 
-    void JustDied(Unit* who) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
     }
@@ -581,7 +581,7 @@ class boss_rook_stonetoe : public CreatureScript
                 fallen_protectorAI::Reset();
             }
 
-            void EnterCombat(Unit* attacker) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 _EnterCombat();
                 events.ScheduleEvent(EVENT_VENGEFUL_STRIKES, 8000);
@@ -604,7 +604,7 @@ class boss_rook_stonetoe : public CreatureScript
                     events.RescheduleEvent(EVENT_VENGEFUL_STRIKES, urand(3000, 5000));
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
                 Talk(SAY_ROOK_DEATH);
@@ -776,7 +776,7 @@ class boss_he_softfoot : public CreatureScript
                 me->RemoveAllAreaTriggers();
             }
 
-            void EnterCombat(Unit* attacker) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 _EnterCombat();
                 events.ScheduleEvent(EVENT_GOUGE, 25000);
@@ -801,7 +801,7 @@ class boss_he_softfoot : public CreatureScript
                     m_FixateTargetGUID = p_Guid;
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
             }
@@ -997,7 +997,7 @@ class boss_sun_tenderheart : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* attacker) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 _EnterCombat();
                 events.ScheduleEvent(EVENT_SHA_SEAR, urand(500, 2000));
@@ -1017,7 +1017,7 @@ class boss_sun_tenderheart : public CreatureScript
                     Talk(SAY_SUN_KILL);
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
                 Talk(SAY_SUN_DEATH);

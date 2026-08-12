@@ -295,7 +295,7 @@ struct boss_council_captain : public BossAI
         Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         if (instance)
         {
@@ -375,7 +375,7 @@ struct boss_council_captain : public BossAI
         return me->FindNearestCreature(NpcCaptainsController, 500.0f);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         switch (me->GetEntry())
         {

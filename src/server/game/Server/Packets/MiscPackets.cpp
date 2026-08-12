@@ -764,7 +764,7 @@ void WorldPackets::Misc::AdventureJournalStartQuest::Read()
 
 void WorldPackets::Misc::QueryCountdownTimer::Read()
 {
-    uint32(Type) = _worldPacket.read<uint32>();
+    Type = static_cast<TimerType>(_worldPacket.read<uint32>());
 }
 
 WorldPacket const* WorldPackets::Misc::StartTimer::Write()
