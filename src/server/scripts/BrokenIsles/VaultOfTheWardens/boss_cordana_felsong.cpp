@@ -416,7 +416,7 @@ public:
             if (CheckHomeDistToEvade(diff, 38.0f, 4049.90f, -297.42f, -281.59f))
                 return;
 
-        */  /*  if (uint32 eventId = events.ExecuteEvent())
+            if (uint32 eventId = events.ExecuteEvent())
             {
                 switch (eventId)
                 {
