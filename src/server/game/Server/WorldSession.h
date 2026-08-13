@@ -23,6 +23,7 @@
 #define __WORLDSESSION_H
 
 #include "Common.h"
+#include "AnticheatData.h"
 #include "AsyncCallbackProcessor.h"
 #include "AuthDefines.h"
 #include "DatabaseEnvFwd.h"
@@ -2079,8 +2080,12 @@ class TC_GAME_API WorldSession
         QueryCallbackProcessor& GetQueryProcessor() { return _queryProcessor; }
         TransactionCallback& AddTransactionCallback(TransactionCallback&& callback);
 
+        AnticheatData& GetAnticheatData() { return _anticheatData; }
+
     private:
         void ProcessQueryCallbacks();
+
+        AnticheatData _anticheatData;
 
         QueryResultHolderFuture _realmAccountLoginCallback;
         QueryResultHolderFuture _accountLoginCallback;

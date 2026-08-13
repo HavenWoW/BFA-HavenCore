@@ -19,114 +19,125 @@
 
 AnticheatData::AnticheatData()
 {
-    lastOpcode = 0;
-    totalReports = 0;
-    for (uint8 i = 0; i < MAX_REPORT_TYPES; i++)
-    {
-        typeReports[i] = 0;
-        tempReports[i] = 0;
-        tempReportsTimer[i] = 0;
-    }
-    average = 0;
-    creationTime = 0;
-    hasDailyReport = false;
+    Reset();
 }
 
 AnticheatData::~AnticheatData()
 {
 }
 
-void AnticheatData::SetDailyReportState(bool b)
+void AnticheatData::Reset()
 {
-    hasDailyReport = b;
+    ResetReports();
+    _lastOpcode = 0;
+    _lastMovementInfo = MovementInfo();
+    _hasDailyReport = false;
 }
 
-bool AnticheatData::GetDailyReportState()
+void AnticheatData::ResetReports()
 {
-    return hasDailyReport;
+    _totalReports = 0;
+    _average = 0;
+    _creationTime = 0;
+    for (uint8 i = 0; i < MAX_REPORT_TYPES; i++)
+    {
+        _typeReports[i] = 0;
+        _tempReports[i] = 0;
+        _tempReportsTimer[i] = 0;
+    }
+}
+
+void AnticheatData::SetDailyReportState(bool b)
+{
+    _hasDailyReport = b;
+}
+
+bool AnticheatData::GetDailyReportState() const
+{
+    return _hasDailyReport;
 }
 
 void AnticheatData::SetLastOpcode(uint32 opcode)
 {
-    lastOpcode = opcode;
+    _lastOpcode = opcode;
 }
 
 void AnticheatData::SetPosition(float x, float y, float z, float o)
 {
-    lastMovementInfo.pos = { x, y, z, o };
+    _lastMovementInfo.pos = { x, y, z, o };
 }
 
 uint32 AnticheatData::GetLastOpcode() const
 {
-    return lastOpcode;
+    return _lastOpcode;
 }
 
-const MovementInfo& AnticheatData::GetLastMovementInfo() const
+MovementInfo const& AnticheatData::GetLastMovementInfo() const
 {
-    return lastMovementInfo;
+    return _lastMovementInfo;
 }
 
-void AnticheatData::SetLastMovementInfo(MovementInfo& moveInfo)
+void AnticheatData::SetLastMovementInfo(MovementInfo const& moveInfo)
 {
-    lastMovementInfo = moveInfo;
+    _lastMovementInfo = moveInfo;
 }
 
 uint32 AnticheatData::GetTotalReports() const
 {
-    return totalReports;
+    return _totalReports;
 }
 
-void AnticheatData::SetTotalReports(uint32 _totalReports)
+void AnticheatData::SetTotalReports(uint32 totalReports)
 {
-    totalReports = _totalReports;
+    _totalReports = totalReports;
 }
 
 void AnticheatData::SetTypeReports(uint32 type, uint32 amount)
 {
-    typeReports[type] = amount;
+    _typeReports[type] = amount;
 }
 
 uint32 AnticheatData::GetTypeReports(uint32 type) const
 {
-    return typeReports[type];
+    return _typeReports[type];
 }
 
 float AnticheatData::GetAverage() const
 {
-    return average;
+    return _average;
 }
 
-void AnticheatData::SetAverage(float _average)
+void AnticheatData::SetAverage(float average)
 {
-    average = _average;
+    _average = average;
 }
 
 uint32 AnticheatData::GetCreationTime() const
 {
-    return creationTime;
+    return _creationTime;
 }
 
-void AnticheatData::SetCreationTime(uint32 _creationTime)
+void AnticheatData::SetCreationTime(uint32 creationTime)
 {
-    creationTime = _creationTime;
+    _creationTime = creationTime;
 }
 
 void AnticheatData::SetTempReports(uint32 amount, uint8 type)
 {
-    tempReports[type] = amount;
+    _tempReports[type] = amount;
 }
 
-uint32 AnticheatData::GetTempReports(uint8 type)
+uint32 AnticheatData::GetTempReports(uint8 type) const
 {
-    return tempReports[type];
+    return _tempReports[type];
 }
 
 void AnticheatData::SetTempReportsTimer(uint32 time, uint8 type)
 {
-    tempReportsTimer[type] = time;
+    _tempReportsTimer[type] = time;
 }
 
-uint32 AnticheatData::GetTempReportsTimer(uint8 type)
+uint32 AnticheatData::GetTempReportsTimer(uint8 type) const
 {
-    return tempReportsTimer[type];
+    return _tempReportsTimer[type];
 }
