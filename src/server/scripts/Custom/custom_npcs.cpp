@@ -18,9 +18,11 @@
 #include "DatabaseEnv.h"
 #include "WorldSession.h"
 #include "ObjectMgr.h"
+#include "Bag.h"
 #include "Creature.h"
 #include "GameEventMgr.h"
 #include "Player.h"
+#include "Random.h"
 #include "Language.h"
 #include "ScriptedGossip.h"
 #include "ScriptedCreature.h"
@@ -29,6 +31,7 @@
 #include "CollectionMgr.h"
 #include "WorldSession.h"
 #include "Chat.h"
+#include <iterator>
 
 class npc_rate_xp_modifier : public CreatureScript
 {
@@ -207,7 +210,7 @@ public:
                 return false;
 
             ItemPosCountVec dest;
-            uint8 msg = player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, 49661, 1);
+            uint8 msg = player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, 69238, 1);
             if (msg == EQUIP_ERR_OK)
             {
                 Item* item = player->StoreNewItem(dest, 69238, true);
@@ -458,15 +461,21 @@ public:
             return false;
         }
         // Bags
-        for (int slot = INVENTORY_SLOT_BAG_START; slot < INVENTORY_SLOT_BAG_END; slot++)
-            if (Item* bag = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot))
+        for (uint8 slot = INVENTORY_SLOT_BAG_START; slot < INVENTORY_SLOT_BAG_END; slot++)
+        {
+            if (Item* equipped = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot))
+            {
+                Bag* bag = equipped->ToBag();
+                if (!bag || !bag->IsEmpty())
+                    continue;
+
                 player->DestroyItem(INVENTORY_SLOT_BAG_0, slot, true);
+            }
 
-        for (int slot = INVENTORY_SLOT_BAG_START; slot < INVENTORY_SLOT_BAG_END; slot++)
             player->EquipNewItem(slot, 142075, ItemContext::NONE, true);
+        }
 
-        player->GiveLevel(sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL));
-        player->InitTalentForLevel();
+        player->GiveLevel(lvlup);
         player->ModifyMoney(200000000);
         player->LearnSpell(71810, true); // Montura vermis
         player->EquipNewItem(EQUIPMENT_SLOT_NECK, 131736, ItemContext::NONE, true); // Cuello
@@ -484,28 +493,8 @@ public:
         player->LearnSpell(110406, true);
         player->LearnSpell(104381, true);
 
-        //   add end - level quests
-        bool IsPandarenNeutral = player->getRace() == RACE_PANDAREN_NEUTRAL;
-        std::vector<uint32> questsToAdd;
-        if (player->GetTeam() == HORDE || IsPandarenNeutral)
-        {
-            // quests for Pandaria map
-            questsToAdd.push_back(29611);   // The Art of War
-            questsToAdd.push_back(31853);   // All Aboard!
-            questsToAdd.push_back(29690);   // Into the Mists
-            if (player->getClass() == CLASS_DEATH_KNIGHT)
-                questsToAdd.push_back(13189);
-        }
-        if (player->GetTeam() == ALLIANCE || IsPandarenNeutral)
-        {
-            // quests for Pandaria map
-            questsToAdd.push_back(29547);   // The King's Command
-            questsToAdd.push_back(29548);   // The Mission
-            if (player->getClass() == CLASS_DEATH_KNIGHT)
-                questsToAdd.push_back(13188);
-        }
         // pandarens
-        if (IsPandarenNeutral)
+        if (player->getRace() == RACE_PANDAREN_NEUTRAL)
         {
             // add "A New Fate" quest
             if (Quest const* quest = sObjectMgr->GetQuestTemplate(31450))
@@ -719,26 +708,45 @@ public:
             player->EquipNewItem(EQUIPMENT_SLOT_TRINKET2, 139334, ItemContext::NONE, true); // Trinket - Abalario Dps Agilidad
 
         }
-        if (player->getRace() == RACE_GOBLIN || RACE_ORC || RACE_UNDEAD_PLAYER || RACE_TAUREN || RACE_TROLL || RACE_BLOODELF || RACE_NIGHTBORNE || RACE_HIGHMOUNTAIN_TAUREN || RACE_ZANDALARI_TROLL || RACE_VULPERA || RACE_MAGHAR_ORC)
+        switch (player->getRace())
         {
-            player->TeleportTo(1, 1569.97f, -4397.41f, 16.0472f, 0.503f);
-        }
-        else
-        if (player->getRace() == RACE_DRAENEI || RACE_DWARF || RACE_HUMAN || RACE_NIGHTELF || RACE_GNOME || RACE_WORGEN || RACE_VOID_ELF || RACE_LIGHTFORGED_DRAENEI || RACE_DARK_IRON_DWARF || RACE_MECHAGNOME || RACE_KUL_TIRAN)
-        {
+            case RACE_GOBLIN:
+            case RACE_ORC:
+            case RACE_UNDEAD_PLAYER:
+            case RACE_TAUREN:
+            case RACE_TROLL:
+            case RACE_BLOODELF:
+            case RACE_NIGHTBORNE:
+            case RACE_HIGHMOUNTAIN_TAUREN:
+            case RACE_ZANDALARI_TROLL:
+            case RACE_VULPERA:
+            case RACE_MAGHAR_ORC:
+                player->TeleportTo(1, 1569.97f, -4397.41f, 16.0472f, 0.503f);
+                break;
+            case RACE_DRAENEI:
+            case RACE_DWARF:
+            case RACE_HUMAN:
+            case RACE_NIGHTELF:
+            case RACE_GNOME:
+            case RACE_WORGEN:
+            case RACE_VOID_ELF:
+            case RACE_LIGHTFORGED_DRAENEI:
+            case RACE_DARK_IRON_DWARF:
+            case RACE_MECHAGNOME:
+            case RACE_KUL_TIRAN:
                 player->TeleportTo(0, -8833.68f, 621.302f, 93.8017f, 0.733f);
-        }
-        else
-
-            if (player->getRace() == RACE_PANDAREN_NEUTRAL || RACE_PANDAREN_ALLIANCE || RACE_PANDAREN_HORDE)
-            {
+                break;
+            case RACE_PANDAREN_NEUTRAL:
+            case RACE_PANDAREN_ALLIANCE:
+            case RACE_PANDAREN_HORDE:
                 player->TeleportTo(860, 1466.09f, 3465.98f, 181.86f, 2.733f);
-            }
-       
-        player->SaveToDB();
-        player->SetLevel(lvlup);
-        player->InitTalentForLevel();
+                break;
+            default:
+                break;
+        }
+
         player->DestroyItemCount(item_id, 1, true);
+        player->SaveToDB();
 
         return true;
 
@@ -766,15 +774,21 @@ public:
         }
 
         // Bags
-        for (int slot = INVENTORY_SLOT_BAG_START; slot < INVENTORY_SLOT_BAG_END; slot++)
-            if (Item* bag = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot))
+        for (uint8 slot = INVENTORY_SLOT_BAG_START; slot < INVENTORY_SLOT_BAG_END; slot++)
+        {
+            if (Item* equipped = player->GetItemByPos(INVENTORY_SLOT_BAG_0, slot))
+            {
+                Bag* bag = equipped->ToBag();
+                if (!bag || !bag->IsEmpty())
+                    continue;
+
                 player->DestroyItem(INVENTORY_SLOT_BAG_0, slot, true);
+            }
 
-        for (int slot = INVENTORY_SLOT_BAG_START; slot < INVENTORY_SLOT_BAG_END; slot++)
             player->EquipNewItem(slot, 142075, ItemContext::NONE, true);
+        }
 
-        player->GiveLevel(sWorld->getIntConfig(CONFIG_MAX_PLAYER_LEVEL));
-        player->InitTalentForLevel();
+        player->GiveLevel(lvlup);
         player->ModifyMoney(200000000);
         player->LearnSpell(88331, true); // Montura Riendas del draco de piedra volcnico
         player->LearnSpell(33388, true); // Equitacion
@@ -788,28 +802,8 @@ public:
         player->LearnSpell(110406, true);
         player->LearnSpell(104381, true);
 
-        //   add end - level quests
-        bool IsPandarenNeutral = player->getRace() == RACE_PANDAREN_NEUTRAL;
-        std::vector<uint32> questsToAdd;
-        if (player->GetTeam() == HORDE || IsPandarenNeutral)
-        {
-            // quests for Pandaria map
-            questsToAdd.push_back(29611);   // The Art of War
-            questsToAdd.push_back(31853);   // All Aboard!
-            questsToAdd.push_back(29690);   // Into the Mists
-            if (player->getClass() == CLASS_DEATH_KNIGHT)
-                questsToAdd.push_back(13189);
-        }
-        if (player->GetTeam() == ALLIANCE || IsPandarenNeutral)
-        {
-            // quests for Pandaria map
-            questsToAdd.push_back(29547);   // The King's Command
-            questsToAdd.push_back(29548);   // The Mission
-            if (player->getClass() == CLASS_DEATH_KNIGHT)
-                questsToAdd.push_back(13188);
-        }
         // pandarens
-        if (IsPandarenNeutral)
+        if (player->getRace() == RACE_PANDAREN_NEUTRAL)
         {
             // add "A New Fate" quest
             if (Quest const* quest = sObjectMgr->GetQuestTemplate(31450))
@@ -1083,10 +1077,8 @@ public:
             player->AddItem(159625, 1);  // abalorio dps
             player->AddItem(159616, 1);  // abalorio dps 1
         }
-        player->SaveToDB();
-        player->SetLevel(lvlup);
-        player->InitTalentForLevel();
         player->DestroyItemCount(item_id, 1, true);
+        player->SaveToDB();
         return true;
 
     }
@@ -1353,7 +1345,7 @@ public:
                 80382  // Skycap'n Kragg
             };
 
-            int randomIdModel = rand() % (sizeof(list) / sizeof(list[0])); // random model
+            uint32 randomIdModel = urand(0, uint32(std::size(list)) - 1); // random model
             int value = list[randomIdModel]; // a random model taken from that list
 
             CloseGossipMenuFor(player);
