@@ -29,6 +29,7 @@
 #include "Chat.h"
 #include "SharedDefines.h"
 #include "GameEventMgr.h"
+#include <memory>
 
 
 class playerscript_recruiter : public PlayerScript
@@ -36,53 +37,81 @@ class playerscript_recruiter : public PlayerScript
 public:
     playerscript_recruiter() : PlayerScript("playerscript_recruiter") {}
 
+    struct RecruiterReward
+    {
+        uint32 AccountId = 0;
+        uint32 RecruiterAccountId = 0;
+        uint64 RecruiterCharacterGUID = 0;
+    };
+
     void OnLevelChanged(Player* player, uint8 /*oldLevel*/) override
     {
         if (player->getLevel() != MAX_LEVEL)
             return;
 
-        QueryResult result = LoginDatabase.PQuery("SELECT recruiter, recruiter_rewarded FROM account WHERE id = %u", player->GetSession()->GetAccountId());
-        if (!result)
-            return;
+        std::shared_ptr<RecruiterReward> reward = std::make_shared<RecruiterReward>();
+        reward->AccountId = player->GetSession()->GetAccountId();
 
-        Field* fields           = result->Fetch();
-        uint32 recruiter        = fields[0].GetUInt32();
-        bool recruiterRewarded  = fields[1].GetBool();
+        LoginDatabasePreparedStatement* stmt = LoginDatabase.GetPreparedStatement(LOGIN_SEL_ACCOUNT_RECRUITER);
+        stmt->setUInt32(0, reward->AccountId);
 
-        if (recruiterRewarded)
-            return;
-
-        result = CharacterDatabase.PQuery("SELECT guid, NAME FROM characters WHERE account = %u ORDER BY totaltime DESC LIMIT 1", recruiter);
-        if (!result)
-            return;
-
-        fields = result->Fetch();
-        uint64 recruiterCharacterGUID = fields[0].GetUInt64();
-
-        if (!recruiterCharacterGUID)
-            return;
-
-        result = LoginDatabase.PQuery("SELECT COUNT(*) FROM account WHERE recruiter = %u AND recruiter_rewarded = 1", recruiter);
-        if (!result)
-            return;
-
-        fields = result->Fetch();
-        uint32 recruiterRewardCount = fields[0].GetUInt32();
-        uint32 rewardItem = 0;
-
-        switch (++recruiterRewardCount)
+        player->GetSession()->GetQueryProcessor().AddCallback(LoginDatabase.AsyncQuery(stmt)
+            .WithChainingPreparedCallback([reward](QueryCallback& callback, PreparedQueryResult result)
         {
-            case 1: rewardItem = 54860;     break; // X-53 Touring Rocket
-            case 2: rewardItem = 37719;     break; // Swift Zhevra
-            case 5: rewardItem = 106246;    break; // Emerald Hippogryph
-            default: break;
-        }
+            if (!result)
+                return;
 
-        if (rewardItem)
+            Field* fields = result->Fetch();
+            if (fields[1].GetBool())
+                return;
+
+            reward->RecruiterAccountId = fields[0].GetUInt32();
+            if (!reward->RecruiterAccountId)
+                return;
+
+            CharacterDatabasePreparedStatement* recruiterCharacter = CharacterDatabase.GetPreparedStatement(CHAR_SEL_RECRUITER_CHARACTER);
+            recruiterCharacter->setUInt32(0, reward->RecruiterAccountId);
+            callback.SetNextQuery(CharacterDatabase.AsyncQuery(recruiterCharacter));
+        })
+            .WithChainingPreparedCallback([reward](QueryCallback& callback, PreparedQueryResult result)
         {
-            CharacterDatabase.PExecute("INSERT INTO character_shop (guid, type, itemId, itemCount) VALUES (" UI64FMTD ", 0, %u, 1)", recruiterCharacterGUID, rewardItem);
-            LoginDatabase.PExecute("UPDATE account SET recruiter_rewarded = 1 WHERE id = %u", player->GetSession()->GetAccountId());
-        }
+            if (!result)
+                return;
+
+            reward->RecruiterCharacterGUID = result->Fetch()[0].GetUInt64();
+            if (!reward->RecruiterCharacterGUID)
+                return;
+
+            LoginDatabasePreparedStatement* rewardCount = LoginDatabase.GetPreparedStatement(LOGIN_SEL_ACCOUNT_RECRUITER_REWARD_COUNT);
+            rewardCount->setUInt32(0, reward->RecruiterAccountId);
+            callback.SetNextQuery(LoginDatabase.AsyncQuery(rewardCount));
+        })
+            .WithPreparedCallback([reward](PreparedQueryResult result)
+        {
+            if (!result)
+                return;
+
+            uint32 rewardItem = 0;
+            switch (result->Fetch()[0].GetUInt32() + 1)
+            {
+                case 1: rewardItem = 54860;     break; // X-53 Touring Rocket
+                case 2: rewardItem = 37719;     break; // Swift Zhevra
+                case 5: rewardItem = 106246;    break; // Emerald Hippogryph
+                default: break;
+            }
+
+            if (!rewardItem)
+                return;
+
+            CharacterDatabasePreparedStatement* shopItem = CharacterDatabase.GetPreparedStatement(CHAR_INS_SHOP_ITEM);
+            shopItem->setUInt64(0, reward->RecruiterCharacterGUID);
+            shopItem->setUInt32(1, rewardItem);
+            CharacterDatabase.Execute(shopItem);
+
+            LoginDatabasePreparedStatement* rewarded = LoginDatabase.GetPreparedStatement(LOGIN_UPD_ACCOUNT_RECRUITER_REWARDED);
+            rewarded->setUInt32(0, reward->AccountId);
+            LoginDatabase.Execute(rewarded);
+        }));
     }
 };
 

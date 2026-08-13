@@ -19,6 +19,7 @@
 #define SC_ACMGR_H
 
 #include "Common.h"
+#include "DatabaseEnvFwd.h"
 #include "SharedDefines.h"
 #include "ScriptMgr.h"
 #include "AnticheatData.h"
@@ -85,6 +86,7 @@ class TC_GAME_API AnticheatMgr
         void ClimbHackDetection(Player* player, AnticheatData& data, MovementInfo const& movementInfo, uint32 opcode);
 
         void BuildReport(Player* player, AnticheatData& data, uint8 reportType);
+        void BindReportStatus(CharacterDatabasePreparedStatement* stmt, Player* player, AnticheatData const& data);
 
         bool MustCheckTempReports(uint8 type);
 };

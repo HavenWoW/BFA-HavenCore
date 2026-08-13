@@ -199,6 +199,10 @@ void LoginDatabaseConnection::DoPrepareStatements()
     PrepareStatement(LOGIN_SEL_ACCOUNT_CHARACTER_TEMPLATE, "SELECT `id`, `level`, `iLevel`, `money`, `artifact`, `transferId`, `templateId` FROM account_character_template WHERE account = ? AND realm = ? AND charGuid = 0", CONNECTION_ASYNC);
     PrepareStatement(LOGIN_UPD_ACCOUNT_CHARACTER_TEMPLATE, "UPDATE `account_character_template` SET charGuid = ? WHERE id = ?;", CONNECTION_ASYNC);
     PrepareStatement(LOGIN_UPD_TRANSFER_REQUESTS, "UPDATE `transfer_requests` SET guid = ?, `status` = '0', `char_class` = ?, `char_faction` = ? WHERE id = ?", CONNECTION_ASYNC);
+
+    PrepareStatement(LOGIN_SEL_ACCOUNT_RECRUITER, "SELECT recruiter, recruiter_rewarded FROM account WHERE id = ?", CONNECTION_ASYNC);
+    PrepareStatement(LOGIN_SEL_ACCOUNT_RECRUITER_REWARD_COUNT, "SELECT COUNT(*) FROM account WHERE recruiter = ? AND recruiter_rewarded = 1", CONNECTION_ASYNC);
+    PrepareStatement(LOGIN_UPD_ACCOUNT_RECRUITER_REWARDED, "UPDATE account SET recruiter_rewarded = 1 WHERE id = ?", CONNECTION_ASYNC);
 }
 
 LoginDatabaseConnection::LoginDatabaseConnection(MySQLConnectionInfo& connInfo) : MySQLConnection(connInfo)

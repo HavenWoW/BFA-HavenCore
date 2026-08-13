@@ -861,6 +861,21 @@ void CharacterDatabaseConnection::DoPrepareStatements()
 
     PrepareStatement(CHAR_SEL_RECOVERY, "SELECT id, race, class, level, skill1, skill1_value, skill2, skill2_value, items, spells, at_login FROM character_recovery WHERE account = ? and delivered = 0", CONNECTION_SYNCH);
     PrepareStatement(CHAR_UPD_RECOVERY_DELIVERED, "UPDATE character_recovery SET delivered = 1 WHERE id = ?", CONNECTION_ASYNC);
+
+    // Recruit a friend
+    PrepareStatement(CHAR_SEL_RECRUITER_CHARACTER, "SELECT guid FROM characters WHERE account = ? ORDER BY totaltime DESC LIMIT 1", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_INS_SHOP_ITEM, "INSERT INTO character_shop (guid, type, itemId, itemCount) VALUES (?, 0, ?, 1)", CONNECTION_ASYNC);
+
+    // Anticheat
+    PrepareStatement(CHAR_SEL_ANTICHEAT_DAILY_REPORT, "SELECT 1 FROM daily_players_reports WHERE guid = ? LIMIT 1", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_SEL_ANTICHEAT_LOWEST_AVERAGES, "SELECT guid, average, total_reports FROM players_reports_status WHERE total_reports != 0 ORDER BY average ASC LIMIT 3", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_ANTICHEAT_MOST_REPORTS, "SELECT guid, average, total_reports FROM players_reports_status WHERE total_reports != 0 ORDER BY total_reports DESC LIMIT 3", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_REP_ANTICHEAT_REPORT_STATUS, "REPLACE INTO players_reports_status (guid, average, total_reports, speed_reports, fly_reports, jump_reports, waterwalk_reports, teleportplane_reports, climb_reports, creation_time) "
+                                                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_REP_ANTICHEAT_DAILY_REPORT, "REPLACE INTO daily_players_reports (guid, average, total_reports, speed_reports, fly_reports, jump_reports, waterwalk_reports, teleportplane_reports, climb_reports, creation_time) "
+                                                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_ANTICHEAT_REPORT_STATUS, "DELETE FROM players_reports_status WHERE guid = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_ANTICHEAT_REPORT_STATUS_ALL, "DELETE FROM players_reports_status", CONNECTION_ASYNC);
 }
 
 CharacterDatabaseConnection::CharacterDatabaseConnection(MySQLConnectionInfo& connInfo) : MySQLConnection(connInfo)

@@ -418,10 +418,6 @@ struct npc_kalecgos_for_teracgosa : ScriptedAI
                     hallegosa->NearTeleportTo(hallegosa->GetHomePosition().GetPositionX(), hallegosa->GetHomePosition().GetPositionY(), hallegosa->GetHomePosition().GetPositionZ(), hallegosa->GetHomePosition().GetOrientation());
                     hallegosa->DespawnOrUnsummon();
                 }
-                if (me->GetMapId() == 1)
-                    WorldDatabase.PExecute("UPDATE game_event SET start_time=NOW() WHERE eventEntry = 88");
-                else if (me->GetMapId() == 0)
-                    WorldDatabase.PExecute("UPDATE game_event SET start_time=NOW() WHERE eventEntry = 89");
                 events.ScheduleEvent(EVENT_START_EVENT, 4000);
                 break;
             case EVENT_START_EVENT:

@@ -26,7 +26,6 @@
 #include "Optional.h"
 #include "PacketUtilities.h"
 #include "Player.h"
-#include "StringFormat.h"
 #include "World.h"
 #include "WorldSession.h"
 #include <cmath>
@@ -239,16 +238,21 @@ void AnticheatMgr::HandlePlayerLogin(Player* player)
     AnticheatData& data = player->GetSession()->GetAnticheatData();
     data.Reset();
 
+    ObjectGuid guid = player->GetGUID();
+
     // we must delete this to prevent errors in case of crash
-    CharacterDatabase.PExecute("DELETE FROM players_reports_status WHERE guid=%u", player->GetGUID().GetCounter());
+    CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_ANTICHEAT_REPORT_STATUS);
+    stmt->setUInt64(0, guid.GetCounter());
+    CharacterDatabase.Execute(stmt);
+
     // we initialize the pos of lastMovementPosition var.
     data.SetPosition(player->GetPositionX(), player->GetPositionY(), player->GetPositionZ(), player->GetOrientation());
 
-    ObjectGuid guid = player->GetGUID();
-    std::string query = Trinity::StringFormat("SELECT guid FROM daily_players_reports WHERE guid=%u", guid.GetCounter());
+    stmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_ANTICHEAT_DAILY_REPORT);
+    stmt->setUInt64(0, guid.GetCounter());
 
     player->GetSession()->GetQueryProcessor().AddCallback(
-        CharacterDatabase.AsyncQuery(query.c_str()).WithCallback([guid](QueryResult result)
+        CharacterDatabase.AsyncQuery(stmt).WithPreparedCallback([guid](PreparedQueryResult result)
     {
         if (!result)
             return;
@@ -263,7 +267,9 @@ void AnticheatMgr::HandlePlayerLogout(Player* player)
     // TO-DO Make a table that stores the cheaters of the day, with more detailed information.
 
     // We must also delete it at logout to prevent have data of offline players in the db when we query the database (IE: The GM Command)
-    CharacterDatabase.PExecute("DELETE FROM players_reports_status WHERE guid=%u", player->GetGUID().GetCounter());
+    CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_ANTICHEAT_REPORT_STATUS);
+    stmt->setUInt64(0, player->GetGUID().GetCounter());
+    CharacterDatabase.Execute(stmt);
 
     player->GetSession()->GetAnticheatData().Reset();
 }
@@ -272,17 +278,23 @@ void AnticheatMgr::SavePlayerData(Player* player)
 {
     AnticheatData const& data = player->GetSession()->GetAnticheatData();
 
-    CharacterDatabase.PExecute("REPLACE INTO players_reports_status (guid,average,total_reports,speed_reports,fly_reports,jump_reports,waterwalk_reports,teleportplane_reports,climb_reports,creation_time) VALUES (%u,%f,%u,%u,%u,%u,%u,%u,%u,%u);",
-        player->GetGUID().GetCounter(),
-        data.GetAverage(),
-        data.GetTotalReports(),
-        data.GetTypeReports(SPEED_HACK_REPORT),
-        data.GetTypeReports(FLY_HACK_REPORT),
-        data.GetTypeReports(JUMP_HACK_REPORT),
-        data.GetTypeReports(WALK_WATER_HACK_REPORT),
-        data.GetTypeReports(TELEPORT_PLANE_HACK_REPORT),
-        data.GetTypeReports(CLIMB_HACK_REPORT),
-        data.GetCreationTime());
+    CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_ANTICHEAT_REPORT_STATUS);
+    BindReportStatus(stmt, player, data);
+    CharacterDatabase.Execute(stmt);
+}
+
+void AnticheatMgr::BindReportStatus(CharacterDatabasePreparedStatement* stmt, Player* player, AnticheatData const& data)
+{
+    stmt->setUInt64(0, player->GetGUID().GetCounter());
+    stmt->setFloat(1, data.GetAverage());
+    stmt->setUInt32(2, data.GetTotalReports());
+    stmt->setUInt32(3, data.GetTypeReports(SPEED_HACK_REPORT));
+    stmt->setUInt32(4, data.GetTypeReports(FLY_HACK_REPORT));
+    stmt->setUInt32(5, data.GetTypeReports(JUMP_HACK_REPORT));
+    stmt->setUInt32(6, data.GetTypeReports(WALK_WATER_HACK_REPORT));
+    stmt->setUInt32(7, data.GetTypeReports(TELEPORT_PLANE_HACK_REPORT));
+    stmt->setUInt32(8, data.GetTypeReports(CLIMB_HACK_REPORT));
+    stmt->setUInt32(9, data.GetCreationTime());
 }
 
 uint32 AnticheatMgr::GetTotalReports(Player* player)
@@ -355,17 +367,9 @@ void AnticheatMgr::BuildReport(Player* player, AnticheatData& data, uint8 report
     {
         if (!data.GetDailyReportState())
         {
-            CharacterDatabase.PExecute("REPLACE INTO daily_players_reports (guid,average,total_reports,speed_reports,fly_reports,jump_reports,waterwalk_reports,teleportplane_reports,climb_reports,creation_time) VALUES (%u,%f,%u,%u,%u,%u,%u,%u,%u,%u);",
-                player->GetGUID().GetCounter(),
-                data.GetAverage(),
-                data.GetTotalReports(),
-                data.GetTypeReports(SPEED_HACK_REPORT),
-                data.GetTypeReports(FLY_HACK_REPORT),
-                data.GetTypeReports(JUMP_HACK_REPORT),
-                data.GetTypeReports(WALK_WATER_HACK_REPORT),
-                data.GetTypeReports(TELEPORT_PLANE_HACK_REPORT),
-                data.GetTypeReports(CLIMB_HACK_REPORT),
-                data.GetCreationTime());
+            CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_ANTICHEAT_DAILY_REPORT);
+            BindReportStatus(stmt, player, data);
+            CharacterDatabase.Execute(stmt);
             data.SetDailyReportState(true);
         }
     }
@@ -383,7 +387,7 @@ void AnticheatMgr::AnticheatGlobalCommand(ChatHandler* handler)
     // MySQL will sort all for us, anyway this is not the best way we must only save the anticheat data not whole player's data!.
     ObjectAccessor::SaveAllPlayers();
 
-    QueryResult resultDB = CharacterDatabase.Query("SELECT guid,average,total_reports FROM players_reports_status WHERE total_reports != 0 ORDER BY average ASC LIMIT 3;");
+    PreparedQueryResult resultDB = CharacterDatabase.Query(CharacterDatabase.GetPreparedStatement(CHAR_SEL_ANTICHEAT_LOWEST_AVERAGES));
     if (!resultDB)
     {
         handler->PSendSysMessage("No players found.");
@@ -406,7 +410,7 @@ void AnticheatMgr::AnticheatGlobalCommand(ChatHandler* handler)
         } while (resultDB->NextRow());
     }
 
-    resultDB = CharacterDatabase.Query("SELECT guid,average,total_reports FROM players_reports_status WHERE total_reports != 0 ORDER BY total_reports DESC LIMIT 3;");
+    resultDB = CharacterDatabase.Query(CharacterDatabase.GetPreparedStatement(CHAR_SEL_ANTICHEAT_MOST_REPORTS));
 
     // this should never happen
     if (!resultDB)
@@ -436,7 +440,9 @@ void AnticheatMgr::AnticheatDeleteCommand(Player* player)
 {
     player->GetSession()->GetAnticheatData().ResetReports();
 
-    CharacterDatabase.PExecute("DELETE FROM players_reports_status WHERE guid=%u;", player->GetGUID().GetCounter());
+    CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_ANTICHEAT_REPORT_STATUS);
+    stmt->setUInt64(0, player->GetGUID().GetCounter());
+    CharacterDatabase.Execute(stmt);
 }
 
 void AnticheatMgr::AnticheatDeleteAllCommand()
@@ -444,7 +450,7 @@ void AnticheatMgr::AnticheatDeleteAllCommand()
     for (auto const& sessionPair : sWorld->GetAllSessions())
         sessionPair.second->GetAnticheatData().ResetReports();
 
-    CharacterDatabase.PExecute("DELETE FROM players_reports_status;");
+    CharacterDatabase.Execute(CharacterDatabase.GetPreparedStatement(CHAR_DEL_ANTICHEAT_REPORT_STATUS_ALL));
 }
 
 void AnticheatMgr::ResetDailyReportStates()
