@@ -22,7 +22,7 @@
 #include <boost/property_tree/ini_parser.hpp>
 #include <algorithm>
 #include <memory>
-#include <mutex>
+#include <shared_mutex>
 
 namespace bpt = boost::property_tree;
 
@@ -31,13 +31,13 @@ namespace
     std::string _filename;
     std::vector<std::string> _args;
     bpt::ptree _config;
-    std::mutex _configLock;
+    std::shared_mutex _configLock;
 }
 
 bool ConfigMgr::LoadInitial(std::string const& file, std::vector<std::string> args,
                             std::string& error)
 {
-    std::lock_guard<std::mutex> lock(_configLock);
+    std::unique_lock<std::shared_mutex> lock(_configLock);
 
     _filename = file;
     _args = args;
@@ -76,7 +76,16 @@ ConfigMgr* ConfigMgr::instance()
 
 bool ConfigMgr::Reload(std::string& error)
 {
-    return LoadInitial(_filename, std::move(_args), error);
+    std::string filename;
+    std::vector<std::string> args;
+
+    {
+        std::shared_lock<std::shared_mutex> lock(_configLock);
+        filename = _filename;
+        args = _args;
+    }
+
+    return LoadInitial(filename, std::move(args), error);
 }
 
 template<class T>
@@ -84,17 +93,18 @@ T ConfigMgr::GetValueDefault(std::string const& name, T def) const
 {
     try
     {
+        std::shared_lock<std::shared_mutex> lock(_configLock);
         return _config.get<T>(bpt::ptree::path_type(name, '/'));
     }
     catch (bpt::ptree_bad_path const&)
     {
         TC_LOG_WARN("server.loading", "Missing name %s in config file %s, add \"%s = %s\" to this file",
-            name.c_str(), _filename.c_str(), name.c_str(), std::to_string(def).c_str());
+            name.c_str(), GetFilename().c_str(), name.c_str(), std::to_string(def).c_str());
     }
     catch (bpt::ptree_bad_data const&)
     {
         TC_LOG_ERROR("server.loading", "Bad value defined for name %s in config file %s, going to use %s instead",
-            name.c_str(), _filename.c_str(), std::to_string(def).c_str());
+            name.c_str(), GetFilename().c_str(), std::to_string(def).c_str());
     }
 
     return def;
@@ -105,17 +115,18 @@ std::string ConfigMgr::GetValueDefault<std::string>(std::string const& name, std
 {
     try
     {
+        std::shared_lock<std::shared_mutex> lock(_configLock);
         return _config.get<std::string>(bpt::ptree::path_type(name, '/'));
     }
     catch (bpt::ptree_bad_path const&)
     {
         TC_LOG_WARN("server.loading", "Missing name %s in config file %s, add \"%s = %s\" to this file",
-            name.c_str(), _filename.c_str(), name.c_str(), def.c_str());
+            name.c_str(), GetFilename().c_str(), name.c_str(), def.c_str());
     }
     catch (bpt::ptree_bad_data const&)
     {
         TC_LOG_ERROR("server.loading", "Bad value defined for name %s in config file %s, going to use %s instead",
-            name.c_str(), _filename.c_str(), def.c_str());
+            name.c_str(), GetFilename().c_str(), def.c_str());
     }
 
     return def;
@@ -150,20 +161,21 @@ float ConfigMgr::GetFloatDefault(std::string const& name, float def) const
     return GetValueDefault(name, def);
 }
 
-std::string const& ConfigMgr::GetFilename()
+std::string ConfigMgr::GetFilename() const
 {
-    std::lock_guard<std::mutex> lock(_configLock);
+    std::shared_lock<std::shared_mutex> lock(_configLock);
     return _filename;
 }
 
-std::vector<std::string> const& ConfigMgr::GetArguments() const
+std::vector<std::string> ConfigMgr::GetArguments() const
 {
+    std::shared_lock<std::shared_mutex> lock(_configLock);
     return _args;
 }
 
 std::vector<std::string> ConfigMgr::GetKeysByString(std::string const& name)
 {
-    std::lock_guard<std::mutex> lock(_configLock);
+    std::shared_lock<std::shared_mutex> lock(_configLock);
 
     std::vector<std::string> keys;
 

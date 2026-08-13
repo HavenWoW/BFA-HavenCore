@@ -43,8 +43,8 @@ public:
     int64 GetInt64Default(std::string const& name, int64 def) const;
     float GetFloatDefault(std::string const& name, float def) const;
 
-    std::string const& GetFilename();
-    std::vector<std::string> const& GetArguments() const;
+    std::string GetFilename() const;
+    std::vector<std::string> GetArguments() const;
     std::vector<std::string> GetKeysByString(std::string const& name);
 
 private:
