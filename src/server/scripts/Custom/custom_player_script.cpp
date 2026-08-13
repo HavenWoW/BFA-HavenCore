@@ -398,19 +398,6 @@ public:
     }
 };
 
-/* Save all players on logout */
-// fixes bug where players are rolled back to previous level on logout
-class PlayerSavingOnLogoutFix : public PlayerScript
-{
-public:
-    PlayerSavingOnLogoutFix() : PlayerScript("PlayerSavingOnLogoutFix") { }
-
-    void OnLogout(Player* player) override
-    {
-        ObjectAccessor::SaveAllPlayers();
-    }
-};
-
 class PlayerScript_Weekly_Spells : public PlayerScript
 {
 public:
@@ -559,7 +546,6 @@ void AddSC_custom_player_script()
     RegisterPlayerScript(OnBfaArrival);             // TEMP FIX! remove it when lordaeron battle is properly fixed.
     RegisterPlayerScript(On120Arrival);             // TEMP FIX! remove it when bfa starting is properly fixed.
     RegisterPlayerScript(WorgenRunningWild);
-    RegisterPlayerScript(PlayerSavingOnLogoutFix);
 	new PlayerScript_Weekly_Spells();
 	RegisterPlayerScript(player_level_rewards);
 
