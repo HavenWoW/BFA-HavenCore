@@ -447,7 +447,7 @@ public:
             uint32 mEvents[3] = { EVENT_HUDDLE_IN_TERROR, EVENT_WATERSPOUT, EVENT_IMPLACABLE_STRIKE };
 
             std::iota(std::begin(mEvents), std::end(mEvents), 0);
-            std::random_shuffle(std::begin(mEvents), std::end(mEvents));
+            Trinity::Containers::RandomShuffle(mEvents);
 
             for (uint8 i = 0; i < 3; ++i)
             {
