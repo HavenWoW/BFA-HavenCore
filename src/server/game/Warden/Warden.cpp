@@ -27,8 +27,8 @@
 #include "Warden.h"
 #include "AccountMgr.h"
 #include "WardenPackets.h"
-
-#include <openssl/sha.h>
+#include "CryptoHash.h"
+#include <array>
 
 Warden::Warden() : _session(nullptr), _checkTimer(10000/*10 sec*/), _clientResponseTimer(0),
                    _dataSent(false), _previousTimestamp(0), _module(nullptr), _initialized(false)
@@ -155,28 +155,19 @@ bool Warden::IsValidCheckSum(uint32 checksum, const uint8* data, const uint16 le
     }
 }
 
-struct keyData {
-    union
-    {
-        struct
-        {
-            uint8 bytes[20];
-        } bytes;
-
-        struct
-        {
-            uint32 ints[5];
-        } ints;
-    };
+union keyData
+{
+    std::array<uint8, 20> bytes;
+    std::array<uint32, 5> ints;
 };
 
 uint32 Warden::BuildChecksum(const uint8* data, uint32 length)
 {
     keyData hash;
-    SHA1(data, length, hash.bytes.bytes);
+    hash.bytes = Trinity::Crypto::SHA1::GetDigestOf(data, size_t(length));
     uint32 checkSum = 0;
     for (uint8 i = 0; i < 5; ++i)
-        checkSum = checkSum ^ hash.ints.ints[i];
+        checkSum = checkSum ^ hash.ints[i];
 
     return checkSum;
 }

@@ -18,6 +18,7 @@
 #include "WardenWin.h"
 #include "Common.h"
 #include "ByteBuffer.h"
+#include "CryptoHash.h"
 #include "CryptoRandom.h"
 #include "DatabaseEnv.h"
 #include "GameTime.h"
@@ -35,7 +36,6 @@
 #include "WorldSession.h"
 #include <boost/thread/locks.hpp>
 #include <boost/thread/shared_mutex.hpp>
-#include <openssl/md5.h>
 
 WardenWin::WardenWin() : Warden(), _serverTicks(0) {}
 
@@ -79,10 +79,8 @@ ClientWardenModule* WardenWin::GetModuleForClient()
     memcpy(mod->Key, Module.ModuleKey, 16);
 
     // md5 hash
-    MD5_CTX ctx;
-    MD5_Init(&ctx);
-    MD5_Update(&ctx, mod->CompressedData, length);
-    MD5_Final((uint8*)&mod->Id, &ctx);
+    Trinity::Crypto::MD5::Digest id = Trinity::Crypto::MD5::GetDigestOf(mod->CompressedData, size_t(length));
+    memcpy(mod->Id, id.data(), id.size());
 
     return mod;
 }

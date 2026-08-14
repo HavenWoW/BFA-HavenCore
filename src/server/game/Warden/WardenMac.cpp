@@ -18,6 +18,7 @@
 #include "WardenMac.h"
 #include "ByteBuffer.h"
 #include "Common.h"
+#include "CryptoHash.h"
 #include "GameTime.h"
 #include "Log.h"
 #include "Opcodes.h"
@@ -27,8 +28,6 @@
 #include "WardenModuleMac.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
-
-#include <openssl/md5.h>
 
 WardenMac::WardenMac() : Warden() { }
 
@@ -80,10 +79,8 @@ ClientWardenModule* WardenMac::GetModuleForClient()
     memcpy(mod->Key, Module_0DBBF209A27B1E279A9FEC5C168A15F7_Key, 16);
 
     // md5 hash
-    MD5_CTX ctx;
-    MD5_Init(&ctx);
-    MD5_Update(&ctx, mod->CompressedData, len);
-    MD5_Final((uint8*)&mod->Id, &ctx);
+    Trinity::Crypto::MD5::Digest id = Trinity::Crypto::MD5::GetDigestOf(mod->CompressedData, size_t(len));
+    memcpy(mod->Id, id.data(), id.size());
 
     return mod;
 }
@@ -250,16 +247,11 @@ void WardenMac::HandleData(ByteBuffer &buff)
         //found = true;
     }
 
-    MD5_CTX ctx;
-    MD5_Init(&ctx);
-    MD5_Update(&ctx, str.c_str(), str.size());
-    uint8 ourMD5Hash[16];
-    MD5_Final(ourMD5Hash, &ctx);
+    Trinity::Crypto::MD5::Digest ourMD5Hash = Trinity::Crypto::MD5::GetDigestOf(str);
+    Trinity::Crypto::MD5::Digest theirsMD5Hash;
+    buff.read(theirsMD5Hash.data(), theirsMD5Hash.size());
 
-    uint8 theirsMD5Hash[16];
-    buff.read(theirsMD5Hash, 16);
-
-    if (memcmp(ourMD5Hash, theirsMD5Hash, 16) != 0)
+    if (ourMD5Hash != theirsMD5Hash)
     {
         TC_LOG_DEBUG("warden", "Handle data failed: MD5 hash is wrong!");
         //found = true;

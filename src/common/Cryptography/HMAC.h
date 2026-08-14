@@ -19,29 +19,19 @@
 #define TRINITY_HMAC_H
 
 #include "CryptoConstants.h"
+#include "CryptoHash.h"
 #include "Define.h"
 #include "Errors.h"
 #include <array>
 #include <string>
 #include <string_view>
-#ifndef OPENSSL_SUPPRESS_DEPRECATED
-#define OPENSSL_SUPPRESS_DEPRECATED
-#endif
-#include <openssl/hmac.h>
+#include <utility>
 
 class BigNumber;
 
 namespace Trinity::Impl
 {
-    struct HMACImpl
-    {
-        typedef EVP_MD const* (*HashCreator)();
-
-        static HMAC_CTX* MakeCTX() { return HMAC_CTX_new(); }
-        static void DestroyCTX(HMAC_CTX* ctx) { HMAC_CTX_free(ctx); }
-    };
-
-    template <HMACImpl::HashCreator HashCreator, size_t DigestLength>
+    template <GenericHashImpl::HashCreator HashCreator, size_t DigestLength>
     class GenericHMAC
     {
         public:
@@ -66,28 +56,75 @@ namespace Trinity::Impl
                 return hash.GetDigest();
             }
 
-            GenericHMAC(GenericHMAC const&) = delete;
-            GenericHMAC& operator=(GenericHMAC const&) = delete;
-
-            GenericHMAC(uint8 const* seed, size_t len) : _ctx(HMACImpl::MakeCTX())
+// EVP_PKEY_new_mac_key is deprecated in OpenSSL 3.0 in favour of the EVP_MAC api, which does not exist in 1.1 - keep the 1.1 compatible call
+#if TRINITY_COMPILER == TRINITY_COMPILER_GNU
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#else
+#pragma warning(push)
+#pragma warning(disable: 4996)
+#endif
+            GenericHMAC(uint8 const* seed, size_t len) : _ctx(GenericHashImpl::MakeCTX()), _key(EVP_PKEY_new_mac_key(EVP_PKEY_HMAC, nullptr, seed, int(len)))
             {
-                int result = HMAC_Init_ex(_ctx, seed, len, HashCreator(), nullptr);
+                int result = EVP_DigestSignInit(_ctx, nullptr, HashCreator(), nullptr, _key);
                 ASSERT(result == 1);
             }
+#if TRINITY_COMPILER == TRINITY_COMPILER_GNU
+#pragma GCC diagnostic pop
+#else
+#pragma warning(pop)
+#endif
+
             template <typename Container>
             GenericHMAC(Container const& container) : GenericHMAC(std::data(container), std::size(container)) {}
 
+            GenericHMAC(GenericHMAC const& right) : _ctx(GenericHashImpl::MakeCTX())
+            {
+                *this = right;
+            }
+
+            GenericHMAC(GenericHMAC&& right) noexcept
+            {
+                *this = std::move(right);
+            }
+
             ~GenericHMAC()
             {
-                if (!_ctx)
-                    return;
-                HMACImpl::DestroyCTX(_ctx);
+                GenericHashImpl::DestroyCTX(_ctx);
                 _ctx = nullptr;
+                EVP_PKEY_free(_key);
+                _key = nullptr;
+            }
+
+            GenericHMAC& operator=(GenericHMAC const& right)
+            {
+                if (this == &right)
+                    return *this;
+
+                int result = EVP_MD_CTX_copy(_ctx, right._ctx);
+                ASSERT(result == 1);
+                // EVP_PKEY is reference counted internally - share the key instead of duplicating it
+                EVP_PKEY_up_ref(right._key);
+                EVP_PKEY_free(_key);
+                _key = right._key;
+                _digest = right._digest;
+                return *this;
+            }
+
+            GenericHMAC& operator=(GenericHMAC&& right) noexcept
+            {
+                if (this == &right)
+                    return *this;
+
+                std::swap(_ctx, right._ctx);
+                std::swap(_key, right._key);
+                _digest = std::exchange(right._digest, Digest{});
+                return *this;
             }
 
             void UpdateData(uint8 const* data, size_t len)
             {
-                int result = HMAC_Update(_ctx, data, len);
+                int result = EVP_DigestSignUpdate(_ctx, data, len);
                 ASSERT(result == 1);
             }
             void UpdateData(std::string_view str) { UpdateData(reinterpret_cast<uint8 const*>(str.data()), str.size()); }
@@ -98,17 +135,16 @@ namespace Trinity::Impl
 
             void Finalize()
             {
-                uint32 length = 0;
-                int result = HMAC_Final(_ctx, _digest.data(), &length);
+                size_t length = 0;
+                int result = EVP_DigestSignFinal(_ctx, _digest.data(), &length);
                 ASSERT(result == 1);
                 ASSERT(length == DIGEST_LENGTH);
-                HMACImpl::DestroyCTX(_ctx);
-                _ctx = nullptr;
             }
 
             Digest const& GetDigest() const { return _digest; }
         private:
-            HMAC_CTX* _ctx;
+            EVP_MD_CTX* _ctx = nullptr;
+            EVP_PKEY* _key = nullptr;
             Digest _digest = { };
     };
 }

@@ -24,9 +24,7 @@
 #include <array>
 #include <string>
 #include <string_view>
-#ifndef OPENSSL_SUPPRESS_DEPRECATED
-#define OPENSSL_SUPPRESS_DEPRECATED
-#endif
+#include <utility>
 #include <openssl/evp.h>
 #include <cstring>
 
@@ -38,7 +36,7 @@ namespace Trinity::Impl
     {
         typedef EVP_MD const* (*HashCreator)();
 
-        static EVP_MD_CTX* MakeCTX() { return EVP_MD_CTX_new(); }
+        static EVP_MD_CTX* MakeCTX() noexcept { return EVP_MD_CTX_new(); }
         static void DestroyCTX(EVP_MD_CTX* ctx) { EVP_MD_CTX_free(ctx); }
     };
 
@@ -66,13 +64,20 @@ namespace Trinity::Impl
                 return hash.GetDigest();
             }
 
-            GenericHash(GenericHash const&) = delete;
-            GenericHash& operator=(GenericHash const&) = delete;
-
             GenericHash() : _ctx(GenericHashImpl::MakeCTX())
             {
                 int result = EVP_DigestInit_ex(_ctx, HashCreator(), nullptr);
                 ASSERT(result == 1);
+            }
+
+            GenericHash(GenericHash const& right) : _ctx(GenericHashImpl::MakeCTX())
+            {
+                *this = right;
+            }
+
+            GenericHash(GenericHash&& right) noexcept
+            {
+                *this = std::move(right);
             }
 
             ~GenericHash()
@@ -81,6 +86,27 @@ namespace Trinity::Impl
                     return;
                 GenericHashImpl::DestroyCTX(_ctx);
                 _ctx = nullptr;
+            }
+
+            GenericHash& operator=(GenericHash const& right)
+            {
+                if (this == &right)
+                    return *this;
+
+                int result = EVP_MD_CTX_copy(_ctx, right._ctx);
+                ASSERT(result == 1);
+                _digest = right._digest;
+                return *this;
+            }
+
+            GenericHash& operator=(GenericHash&& right) noexcept
+            {
+                if (this == &right)
+                    return *this;
+
+                std::swap(_ctx, right._ctx);
+                _digest = std::exchange(right._digest, Digest{});
+                return *this;
             }
 
             void UpdateData(uint8 const* data, size_t len)
@@ -100,20 +126,19 @@ namespace Trinity::Impl
                 int result = EVP_DigestFinal_ex(_ctx, _digest.data(), &length);
                 ASSERT(result == 1);
                 ASSERT(length == DIGEST_LENGTH);
-                GenericHashImpl::DestroyCTX(_ctx);
-                _ctx = nullptr;
             }
 
             Digest const& GetDigest() const { return _digest; }
 
         private:
-            EVP_MD_CTX* _ctx;
+            EVP_MD_CTX* _ctx = nullptr;
             Digest _digest = { };
     };
 }
 
 namespace Trinity::Crypto
 {
+    using MD5 = Trinity::Impl::GenericHash<EVP_md5, Constants::MD5_DIGEST_LENGTH_BYTES>;
     using SHA1 = Trinity::Impl::GenericHash<EVP_sha1, Constants::SHA1_DIGEST_LENGTH_BYTES>;
     using SHA256 = Trinity::Impl::GenericHash<EVP_sha256, Constants::SHA256_DIGEST_LENGTH_BYTES>;
 }
