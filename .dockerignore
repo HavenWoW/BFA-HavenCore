@@ -1,4 +1,5 @@
 .git
+build/
 docker/build*.log
 sql/base/*.sql
 sql/base/*.rar
