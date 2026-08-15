@@ -55,7 +55,7 @@ public:
             countclons = 0;
         }
 
-        void EnterCombat(Unit* unit) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.RescheduleEvent(1, 18000);
             events.RescheduleEvent(2, 24000);
@@ -76,7 +76,7 @@ public:
                 summon->DespawnOrUnsummon(9000);
         }
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
             summons.DespawnAll();
         }
@@ -157,7 +157,7 @@ public:
     {
         PrepareAuraScript(spell_resonance_AuraScript);
 
-        void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
         {
             PreventDefaultAction();
 

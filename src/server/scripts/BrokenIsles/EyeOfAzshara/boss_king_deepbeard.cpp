@@ -156,7 +156,7 @@ public:
 			}
 		}
 
-		void KilledUnit(Unit* victim)
+		void KilledUnit(Unit* /*victim*/)
 		{
 			SelectSoundAndText(me, 6);
 		}
@@ -183,7 +183,7 @@ public:
 			}
 		}
 
-		void EnterEvadeMode(EvadeReason reason)
+		void EnterEvadeMode(EvadeReason /*reason*/)
 		{
 			me->RemoveAllAreaTriggers();
 			summons.DespawnAll();
@@ -370,7 +370,7 @@ public:
 			}
 		}
 
-		void UpdateAI(uint32 diff) override
+		void UpdateAI(uint32 /*diff*/) override
 		{
 			if (!_targets.empty())
 			{
@@ -452,7 +452,7 @@ public:
 
 			if (removeMode == AURA_REMOVE_BY_EXPIRE)
 			{
-				if (owner->GetMap() && owner->GetMap()->IsHeroic() || owner->GetMap()->IsMythic())
+				if (owner->GetMap() && (owner->GetMap()->IsHeroic() || owner->GetMap()->IsMythic()))
 					owner->CastCustomSpell(SPELL_GASEOUS_EXPLOSION, SPELLVALUE_BASE_POINT0, aurEff->GetBaseAmount() - _amountAbsorbed, owner, true);
 				else
 					owner->CastSpell(owner, SPELL_GASEOUS_EXPLOSION, true);

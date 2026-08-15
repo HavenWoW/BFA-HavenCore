@@ -6,26 +6,26 @@
 
 DoorData const g_DoorData[] =
 {
-    { eFoundryGameObjects::GruulSpikeDoor,              eFoundryDatas::DataGruul,               DoorType::DOOR_TYPE_ROOM },
-    { eFoundryGameObjects::BKFoundrySpikeTrapGate,      eFoundryDatas::DataOregorger,           DoorType::DOOR_TYPE_ROOM},
-    { eFoundryGameObjects::FurnacePortcullis,           eFoundryDatas::DataOregorger,           DoorType::DOOR_TYPE_PASSAGE},
-    { eFoundryGameObjects::BlastFurnaceEncounterDoor,   eFoundryDatas::DataBlastFurnace,        DoorType::DOOR_TYPE_ROOM},
-    { eFoundryGameObjects::HansgarAndFranzokEntrance,   eFoundryDatas::DataHansgarAndFranzok,   DoorType::DOOR_TYPE_ROOM },
-    { eFoundryGameObjects::HansgarAndFranzokExit,       eFoundryDatas::DataHansgarAndFranzok,   DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::FirewallDoor,                eFoundryDatas::DataFlamebenderKagraz,   DoorType::DOOR_TYPE_ROOM },
-    { eFoundryGameObjects::BurningFrontDoor,            eFoundryDatas::DataFlamebenderKagraz,   DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::KromogsDoorSouth,            eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_ROOM },
-    { eFoundryGameObjects::KromogsDoorEast,             eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::BlackForgePortcullis,        eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::BlackForgeGate,              eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::KromogDoor,                  eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::TheBeastGate,                eFoundryDatas::DataBeastlordDarmac,     DoorType::DOOR_TYPE_ROOM },
-    { eFoundryGameObjects::TerminusDoor,                eFoundryDatas::DataBeastlordDarmac,     DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::FreightElevatorDoor,         eFoundryDatas::DataOperatorThogar,      DoorType::DOOR_TYPE_PASSAGE },
-    { eFoundryGameObjects::IronMaidensRampDoor,         eFoundryDatas::DataIronMaidens,         DoorType::DOOR_TYPE_ROOM },
-    { eFoundryGameObjects::IronMaidensExitDoor,         eFoundryDatas::DataIronMaidens,         DoorType::DOOR_TYPE_ROOM },
-    { eFoundryGameObjects::BlackhandsGate,              eFoundryDatas::DataBlackhand,           DoorType::DOOR_TYPE_ROOM },
-    { 0,                                                0,                                      DoorType::DOOR_TYPE_ROOM } ///< End
+    { eFoundryGameObjects::GruulSpikeDoor,              eFoundryDatas::DataGruul,               DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::BKFoundrySpikeTrapGate,      eFoundryDatas::DataOregorger,           DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::FurnacePortcullis,           eFoundryDatas::DataOregorger,           DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::BlastFurnaceEncounterDoor,   eFoundryDatas::DataBlastFurnace,        DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::HansgarAndFranzokEntrance,   eFoundryDatas::DataHansgarAndFranzok,   DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::HansgarAndFranzokExit,       eFoundryDatas::DataHansgarAndFranzok,   DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::FirewallDoor,                eFoundryDatas::DataFlamebenderKagraz,   DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::BurningFrontDoor,            eFoundryDatas::DataFlamebenderKagraz,   DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::KromogsDoorSouth,            eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::KromogsDoorEast,             eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::BlackForgePortcullis,        eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::BlackForgeGate,              eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::KromogDoor,                  eFoundryDatas::DataKromog,              DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::TheBeastGate,                eFoundryDatas::DataBeastlordDarmac,     DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::TerminusDoor,                eFoundryDatas::DataBeastlordDarmac,     DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::FreightElevatorDoor,         eFoundryDatas::DataOperatorThogar,      DoorType::DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { eFoundryGameObjects::IronMaidensRampDoor,         eFoundryDatas::DataIronMaidens,         DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::IronMaidensExitDoor,         eFoundryDatas::DataIronMaidens,         DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { eFoundryGameObjects::BlackhandsGate,              eFoundryDatas::DataBlackhand,           DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { 0,                                                0,                                      DoorType::DOOR_TYPE_ROOM,    BOUNDARY_NONE } ///< End
 };
 
 struct instance_blackrock_foundry : public InstanceScript
@@ -837,7 +837,7 @@ struct instance_blackrock_foundry : public InstanceScript
             {
                 // if (m_WouldYouGiveMeAHand && !instance->IsLFR())
                 //  {
-                if (Creature* l_Kromog = instance->GetCreature(m_KromogGuid))
+                if (instance->GetCreature(m_KromogGuid))
                 {
                     // if (!sObjectMgr->IsDisabledEncounter(GetEncounterIDForBoss(l_Kromog), instance->GetDifficultyID()))
                     //    DoCompleteAchievement(eFoundryAchievements::WouldYouGiveMeAHand);
@@ -1049,9 +1049,8 @@ struct instance_blackrock_foundry : public InstanceScript
                         l_Blackhand->AI()->Talk(13, 0);   ///< KromogKilled
                 }
                 // });
-
-                /* fallthrough */
             }
+            /* fallthrough */
             case EncounterState::FAIL:
             case EncounterState::NOT_STARTED:
             {
@@ -1488,11 +1487,6 @@ struct instance_blackrock_foundry : public InstanceScript
                 break;
             }
 
-            for (ObjectGuid l_Guid : m_DisabledGoBs)
-            {
-                // if (GameObject* l_Door = ObjectAccessor::GetGameObject(*l_Door,l_Guid))
-                //   l_Door->SetGoState(GOState::GO_STATE_READY);
-            }
         }
     }
 

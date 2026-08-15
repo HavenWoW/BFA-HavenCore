@@ -493,7 +493,6 @@ struct boss_kaathar : public BossAI
                 l_Nyami->AI()->Talk(eAuchindounTalks::NYAMITALK7);
 
                 /// Cosmetic crystal projectiles flies toward the middle
-                if (Creature* l_Teronoger = instance->GetCreature(eAuchindounDatas::DataBossTeronogor)){}
 
                 if (Unit* l_Caster = l_Nyami->FindNearestCreature(eAuchindounCreatures::CreatureLeftCrystalTrigger, 1000.0f))
                 {
@@ -516,8 +515,6 @@ struct boss_kaathar : public BossAI
             {
                 //????
                 /// Cosmetic crystal projectiles flies toward the middle
-                if (Creature* l_Teronoger = instance->GetCreature(eAuchindounDatas::DataBossTeronogor)){ }
-
                 if (Unit* l_Caster = l_Nyami->FindNearestCreature(eAuchindounCreatures::CreatureLeftCrystalTrigger, 1000.0f, true))
                 {
                     for (uint8 l_I = 0; l_I < 20; l_I++)
@@ -613,9 +610,6 @@ struct boss_kaathar : public BossAI
         {
             if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 50.0f, true))
             {
-                float l_X = l_Target->m_positionX + 10 /** cos(l_Target->m_orientation)*/;
-                float l_Y = l_Target->m_positionY + 10/* * sin(l_Target->m_orientation)*/;
-
                 Talk(eKaatharTalks::VigilantKaatherSpell2);
                 me->CastSpell(l_Target, eKaatharSpells::SpellHolyShieldThrow);
                 if (me->HasAura(eKaatharSpells::SpellHolyShieldOffHandDisarm))
@@ -805,7 +799,7 @@ struct auchindoun_kaathar_mob_teleport_players : public ScriptedAI
         me->AddUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UnitFlags::UNIT_FLAG_NOT_SELECTABLE | UnitFlags::UNIT_FLAG_REMOVE_CLIENT_CONTROL | UnitFlags::UNIT_FLAG_IMMUNE_TO_NPC));
     }
 
-    void UpdateAI(uint32 p_Diff) override
+    void UpdateAI(uint32 /*p_Diff*/) override
     {
         if (instance)
             if (Creature* l_Kaathar = instance->GetCreature(eAuchindounDatas::DataBossKathaar))
@@ -861,7 +855,7 @@ public:
         {
             if (GetCaster())
             {
-                if (InstanceScript* m_Instance = GetCaster()->GetInstanceScript())
+                if (GetCaster()->GetInstanceScript())
                 {
                     std::list<Player*> l_ListPlayers;
                     GetCaster()->GetPlayerListInGrid(l_ListPlayers, 200.0f);
@@ -942,7 +936,7 @@ public:
     {
         PrepareAuraScript(auchindoun_kaathar_spell_sanctified_ground_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* p_AurEff)
+        void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
         {
             PreventDefaultAction();
 
@@ -975,9 +969,9 @@ public:
     {
         PrepareSpellScript(auchindoun_kaathar_spell_fate_SpellScript);
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
-            if (Unit* l_Caster = GetCaster())
+            if (GetCaster())
             {
                 std::list<Creature*> l_HallowedGroundCreatures;
                 GetCaster()->GetCreatureListWithEntryInGrid(l_HallowedGroundCreatures, eKaatharCreatures::TriggerHallowedGround, 150.0f);
@@ -1102,7 +1096,7 @@ public:
             m_Diff -= p_Time;
     }
 
-    void OnRemove(AreaTrigger* p_AreaTrigger, uint32 p_Time)
+    void OnRemove(AreaTrigger* p_AreaTrigger, uint32 /*p_Time*/)
     {
         if (!m_Targets.empty())
         {

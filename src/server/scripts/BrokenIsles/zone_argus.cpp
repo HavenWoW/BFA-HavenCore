@@ -149,7 +149,7 @@ struct boss_mistress_alluradel : public ScriptedAI
         events.RescheduleEvent(EVENT_PHANTASM, 33000);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
     }
@@ -229,7 +229,7 @@ struct boss_pit_lor_vilemus : public ScriptedAI
         events.RescheduleEvent(EVENT_DRAIN, 22000);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
     }
@@ -294,7 +294,7 @@ struct boss_occularus : public ScriptedAI
         events.RescheduleEvent(EVENT_PHANTASM, 27000);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
     }
@@ -341,6 +341,7 @@ struct boss_occularus : public ScriptedAI
                 if (auto target = me->GetVictim())
                     DoCast(target, SPELL_GUSHING_WOUND, false);
                 events.RescheduleEvent(EVENT_GUSHING_WOUND, 11000);
+                break;
             case EVENT_LASH:
                 if (auto target = me->GetVictim())
                     DoCast(target, SPELL_LASH, false);
@@ -374,7 +375,7 @@ struct boss_inquisitor_meto : public ScriptedAI
         me->RemoveAllAreaTriggers();
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
     }
@@ -461,7 +462,7 @@ struct boss_sotanathor : public ScriptedAI
         me->RemoveAllAreaTriggers();
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
     }
@@ -579,7 +580,7 @@ struct boss_matron_folnuna : public ScriptedAI
         StartEvents(PHASE_1);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
     }
@@ -751,7 +752,7 @@ class spell_sadist : public AuraScript
 {
     PrepareAuraScript(spell_sadist);
 
-    void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+    void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
     {
         Unit* caster = GetCaster();
 
@@ -840,7 +841,7 @@ class spell_argus_seed_of_destruction : public AuraScript
 {
     PrepareAuraScript(spell_argus_seed_of_destruction);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (!GetCaster() || !GetTarget() || !GetCaster()->IsInCombat() || GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_EXPIRE)
             return;
@@ -868,7 +869,7 @@ class spell_infected_claws : public AuraScript
 {
     PrepareAuraScript(spell_infected_claws);
 
-    void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+    void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
     {
         Unit* caster = GetCaster();
         if (!caster)
@@ -991,7 +992,7 @@ class spell_folnuna_nausea : public AuraScript
     std::vector<uint32> energy = { 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 1 };
     uint32 i = 0;
 
-    void Tick(AuraEffect const* aurEff)
+    void Tick(AuraEffect const* /*aurEff*/)
     {
         if (auto folnuna = GetCaster()->ToCreature())
         {

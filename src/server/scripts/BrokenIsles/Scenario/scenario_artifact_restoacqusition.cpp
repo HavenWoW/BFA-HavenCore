@@ -249,11 +249,11 @@ struct scenario_artifact_restoacqusition : public InstanceScript
             NextStep();
             if (Creature* lyessa = instance->GetCreature(_lyessaGUID))
             {
-                lyessa->GetScheduler().Schedule(Milliseconds(2000), [lyessa](TaskContext context)
+                lyessa->GetScheduler().Schedule(Milliseconds(2000), [lyessa](TaskContext /*context*/)
                 {
                     lyessa->Say(108566);
                 });
-                lyessa->GetScheduler().Schedule(Milliseconds(4000), [lyessa](TaskContext context)
+                lyessa->GetScheduler().Schedule(Milliseconds(4000), [lyessa](TaskContext /*context*/)
                 {
                     lyessa->Say(108567);
                 });
@@ -298,11 +298,11 @@ struct scenario_artifact_restoacqusition : public InstanceScript
 
             if (Creature* hamuul = instance->GetCreature(_hamuulGUID))
             {
-                hamuul->GetScheduler().Schedule(Milliseconds(2000), [hamuul](TaskContext context)
+                hamuul->GetScheduler().Schedule(Milliseconds(2000), [hamuul](TaskContext /*context*/)
                 {
                     hamuul->Say(107310);
                 });
-                hamuul->GetScheduler().Schedule(Milliseconds(4000), [hamuul](TaskContext context)
+                hamuul->GetScheduler().Schedule(Milliseconds(4000), [hamuul](TaskContext /*context*/)
                 {
                     hamuul->Say(107311);
                 });
@@ -337,12 +337,12 @@ struct npc_skylord_omnuron_104620 : public ScriptedAI
             me->RemoveAura(68442);
             me->Say(107102);//"The gates of hell descended upon us. They were everywhere..."
 
-            me->GetScheduler().Schedule(Milliseconds(2000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(2000), [this](TaskContext /*context*/)
             {
                 me->Say(107103);//"The other's wounds are more severe than my own. They are in dire need of aid."
             });
             ///delay 2s next step
-            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext /*context*/)
             {
                 instance->SetData(DATA_STAGE_1, DONE);
             });
@@ -569,17 +569,17 @@ struct npc_lyessa_bloomwatcher_104628 : public ScriptedAI
         case 1:
             me->Say(107104);
             me->GetMotionMaster()->MovePoint(1, Position(5475.65f, -3488.561f, 1555.676f), true);
-            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
             {
                 me->Say(107129);
             });
             break;
         case 2:
-            me->GetScheduler().Schedule(Milliseconds(2000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(2000), [this](TaskContext /*context*/)
             {
                 me->Say(107147);//"I will use the well's power to absorb G'Hair's corruption into my body."
             });
-            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext /*context*/)
             {
                 me->CastSpell(me, 115790, true);
                 me->GetMotionMaster()->MovePoint(2, Position(5474.202f, -3500.13f, 1554.453f));
@@ -608,11 +608,11 @@ struct npc_lyessa_bloomwatcher_104628 : public ScriptedAI
                 instance->SetData(DATA_STAGE_3, DONE);
                 ///ID - 28892 Nature Channeling ID - 207215 Ritual of Cleansing
                 me->CastSpell(me, 207215, true);
-                me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
                 {
                     me->Say(107148);///"You must restore my body while I fight the darkness within my soul. Only then will theritual complete!."
                 });
-                me->GetScheduler().Schedule(Milliseconds(180000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(180000), [this](TaskContext /*context*/)
                 {
                     instance->SetData(DATA_STAGE_4, DONE);
                     //add spellclick

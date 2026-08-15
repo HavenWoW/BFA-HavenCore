@@ -307,7 +307,7 @@ struct npc_kathra_natir_102785 : public ScriptedAI
                     player->CastSpell(player, SPELL_CONVERSATION_KATHRA_FIGHT1, true);
                 break;
             case EVENT_ATTACK_1:
-                if (Player* player = ObjectAccessor::GetPlayer(*me, m_playerGUID))
+                if (ObjectAccessor::GetPlayer(*me, m_playerGUID))
                 {
                     DoSpellAttackIfReady(SPELL_ATTACK_KATHRA_DRAIN_LIFE);
                     events.Repeat(7500, 12500);
@@ -432,7 +432,6 @@ struct npc_meryl_felstorm_102850 : public ScriptedAI
             if (!FirstMove)
             {
                 FirstMove = true;
-                Position fistpos = { 1303.22f, -264.677f, 44.3579f, 0.1396263f };
                 //me->GetMotionMaster()->MovePoint(1, fistpos);
                 /*if (InstanceScript* l_InstanceScript = me->GetInstanceScript())
                 {
@@ -543,7 +542,7 @@ struct npc_meryl_felstorm_102850 : public ScriptedAI
                 }
                 else
                 {
-                    if(Creature* alodime=me->FindNearestCreature(NPC_ALODI, 50.0f, true))
+                    if (me->FindNearestCreature(NPC_ALODI, 50.0f, true))
                     {
 
                     }

@@ -130,13 +130,13 @@ public:
 			DespawnCreature(NPC_MONSOON);
 		}
 
-		void EnterEvadeMode(EvadeReason reason) 
+		void EnterEvadeMode(EvadeReason /*reason*/) 
 		{
 			me->NearTeleportTo(me->GetHomePosition());
 			Reset();
 		}
 
-		void KilledUnit(Unit* target) 
+		void KilledUnit(Unit* /*target*/) 
 		{
 			SelectSoundAndText(me, 6);
 		}
@@ -489,7 +489,7 @@ public:
 			DoCast(me, SPELL_WATERY_SPLASH, true);
 		}
 
-		void UpdateAI(uint32 diff)
+		void UpdateAI(uint32 /*diff*/)
 		{
 			if (!me->IsInCombat())
 				me->SetInCombatWithZone();

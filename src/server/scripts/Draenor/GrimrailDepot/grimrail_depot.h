@@ -1,5 +1,5 @@
 
-static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
+[[maybe_unused]] static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
 {
     std::list<Creature*> l_CreaturesList;
     GetCreatureListWithEntryInGrid(l_CreaturesList, p_Object, p_Entry, 2000.0f);

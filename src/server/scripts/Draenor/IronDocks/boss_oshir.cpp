@@ -331,7 +331,7 @@ class boss_oshir : public CreatureScript
                 me->RemoveAura(eOshirSpells::SpellRendingSlashVisual);
             }
 
-            void DamageTaken(Unit* p_Attacker, uint32& p_Damage) override
+            void DamageTaken(Unit* /*p_Attacker*/, uint32& p_Damage) override
             {
                 if (p_Damage && p_Damage > 0)
                 {
@@ -865,7 +865,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eThunderWandlerEvents::EventCultTraps, 18 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eThunderWandlerEvents::EventSpearThrow, 18 * TimeConstants::IN_MILLISECONDS);
@@ -974,7 +974,7 @@ class iron_docks_oshir_mob_wolf_dest : public CreatureScript
                 {
                     case eAction::ActionRelease:
                     {
-                        if (Creature* l_Oshir = m_Instance->instance->GetCreature(m_Instance->GetGuidData(eIronDocksDatas::DataOshir)))
+                        if (m_Instance->instance->GetCreature(m_Instance->GetGuidData(eIronDocksDatas::DataOshir)))
                         {
                             if (!m_Released)
                             {
@@ -1097,7 +1097,7 @@ class iron_docks_oshir_mob_rylak_dest : public CreatureScript
                 {
                     case eAction::ActionRelease:
                     {
-                        if (Creature* l_Oshir = m_Instance->instance->GetCreature(m_Instance->GetGuidData(eIronDocksDatas::DataOshir)))
+                        if (m_Instance->instance->GetCreature(m_Instance->GetGuidData(eIronDocksDatas::DataOshir)))
                         {
                             if (!m_Released)
                             {

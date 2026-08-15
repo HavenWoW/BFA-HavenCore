@@ -177,8 +177,8 @@ public:
                         break;
                     case EVENT_SCORNFUL_GAZE:
                         Talk(SAY_SCORNFUL);
-                         if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM))
-                        DoCast(SPELL_SCORNFUL_GAZE);
+                         if (SelectTarget(SELECT_TARGET_RANDOM))
+                            DoCast(SPELL_SCORNFUL_GAZE);
                         events.RescheduleEvent(EVENT_SCORNFUL_GAZE, 36000);
                         events.DelayEvents(1000);
                         break;
@@ -249,7 +249,7 @@ class spell_coen_scornful_gaze : public SpellScriptLoader
         {
             PrepareAuraScript(spell_coen_scornful_gaze_AuraScript);
 
-            void AfterRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+            void AfterRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_EXPIRE)
                     return;

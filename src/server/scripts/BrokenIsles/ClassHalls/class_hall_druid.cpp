@@ -273,7 +273,7 @@ struct npc_archdruid_hamuul_runetotem_101064 : public ScriptedAI
             m_playerGUID = player->GetGUID();
             me->GetMotionMaster()->MovePoint(1, Position(8001.76f, -2680.266f, 516.2501f), true);///reched point cast 199439 ->conversation 927
 
-            me->GetScheduler().Schedule(Milliseconds(15000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(15000), [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(2, Position(7558.831f, -2879.167f, 460.8212f), true);
             });
@@ -328,7 +328,7 @@ struct npc_zentabra_103135 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_CALL_OF_THE_WILDS))
@@ -443,7 +443,7 @@ struct npc_zentabra_103136 : public ScriptedAI
     }
 
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_CALL_OF_THE_WILDS))
@@ -747,6 +747,7 @@ struct npc_keeper_remulos_103489 : public ScriptedAI
                 PhasingHandler::AddPhase(player, 5953, true);
                 //PhasingHandler::RemovePhase(player, 5954, true);
             }
+            break;
         case 4:
             me->DespawnOrUnsummon(2000);
             break;
@@ -928,7 +929,7 @@ struct npc_nightmare_blight_103246 : public ScriptedAI
 
     }
 
-    void EnterCombat(Unit* victim)
+    void EnterCombat(Unit* /*unit*/)
     {
         ///
     }
@@ -1199,7 +1200,7 @@ struct npc_rensar_greathoof_101195 : public ScriptedAI
                 player->CompletedAchievement(11063);
             else if (!player->HasAchieved(11174))
                 player->CompletedAchievement(11174);
-            if (player->GetQuestStatus(QUEST_SOWING_THE_SEED) == QUEST_STATE_NONE)
+            if (player->GetQuestStatus(QUEST_SOWING_THE_SEED) == QUEST_STATUS_NONE)
                 if (const Quest* quest = sObjectMgr->GetQuestTemplate(QUEST_SOWING_THE_SEED))
                     player->AddQuest(quest, me);
         }

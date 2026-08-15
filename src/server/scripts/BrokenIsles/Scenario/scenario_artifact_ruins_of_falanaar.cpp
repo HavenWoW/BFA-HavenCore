@@ -274,7 +274,7 @@ class go_ruined_switch : public GameObjectScript
 public:
     go_ruined_switch() : GameObjectScript("go_ruined_switch") { isused = false; }
 
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* /*player*/, GameObject* go) override
     {
         TC_LOG_ERROR("server.worldserver", "====================go_ruined_switch  OnGossipHello  ========= ");
         if (InstanceScript * instance = go->GetInstanceScript())
@@ -331,7 +331,7 @@ struct npc_clear_platform_107937 : public ScriptedAI
 
     void MoveInLineOfSight(Unit* who) override
     {
-        if (Player* player = who->ToPlayer())
+        if (who->ToPlayer())
             if (me->IsWithinDist(who, 10.0f, false))
                 if (instance->GetData(DATA_STAGE_3) == NOT_STARTED)
                     instance->SetData(DATA_STAGE_3, DONE);
@@ -490,7 +490,7 @@ struct npc_webmistress_shinaris_108027 : public ScriptedAI
 
     void MoveInLineOfSight(Unit* who) override
     {
-        if (Player* player = who->ToPlayer())
+        if (who->ToPlayer())
             if (me->IsWithinDist(who, 60.0f, false))
                 if ((instance->GetData(DATA_STAGE_4) == DONE) && (instance->GetData(DATA_STAGE_5) == NOT_STARTED))
                     instance->SetData(DATA_STAGE_5, DONE);

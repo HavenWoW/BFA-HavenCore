@@ -202,7 +202,7 @@ struct boss_ursoc : public BossAI
                 DoCast(me, SPELL_B_MOMENTUM_AOE, true);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(31) && !lowHp)
         {
@@ -231,7 +231,7 @@ struct boss_ursoc : public BossAI
         return 0;
     }
 
-    void SetData(uint32 type, uint32 data) override
+    void SetData(uint32 type, uint32 /*data*/) override
     {
         switch (type)
         {

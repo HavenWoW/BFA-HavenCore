@@ -246,7 +246,7 @@ public:
         DATA_START_ANIM = 56,
     };
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest) override
+    bool OnQuestAccept(Player* /*player*/, Creature* creature, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_UNBRIDLED_POWER)
             creature->AI()->Talk(TEXT_1);
@@ -588,7 +588,7 @@ class go_mardum_empowered_nether_crusible : public GameObjectScript
 public:
     go_mardum_empowered_nether_crusible() : GameObjectScript("go_mardum_empowered_nether_crusible") { }
 
-    bool OnGossipSelect(Player* player, GameObject* go, uint32 /*sender*/, uint32 /*action*/) override
+    bool OnGossipSelect(Player* player, GameObject* /*go*/, uint32 /*sender*/, uint32 /*action*/) override
     {
         if (player->GetQuestStatus(QUEST_THE_HUNTERS_GAZE) == QUEST_STATUS_INCOMPLETE)
         {

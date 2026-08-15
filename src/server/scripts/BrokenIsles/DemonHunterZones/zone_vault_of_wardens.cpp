@@ -96,7 +96,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 92782)
                 events.RescheduleEvent(1, 15000);
@@ -203,7 +203,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 92990)
                 events.RescheduleEvent(1, 20000);
@@ -214,7 +214,7 @@ public:
             events.RescheduleEvent(3, 42000);
         }
 
-        void DamageTaken(Unit* attacker, uint32 &damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32 &damage) override
         {
             if (Creature* oAdd = GetOtherAdd())
             {
@@ -386,7 +386,7 @@ class npc_96675 : public CreatureScript
 public:
     npc_96675() : CreatureScript("npc_96675") {}
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest) override
+    bool OnQuestAccept(Player* player, Creature* /*creature*/, Quest const* quest) override
     {
         // EN: Quest 40254 is a hidden duplicate of 39683 ("Forged in Fire") used only to
         // grant the off-spec artifact unlock spell (see npc_96682::JustDied below). Silently
@@ -928,7 +928,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* victim) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             //Talk(0);
             events.RescheduleEvent(1, 15000);
@@ -1203,7 +1203,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* victim) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             //Talk(0);
             events.RescheduleEvent(1, 45000);

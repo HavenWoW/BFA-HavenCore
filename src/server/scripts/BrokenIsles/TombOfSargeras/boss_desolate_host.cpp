@@ -196,7 +196,7 @@ struct boss_the_desolate_host_generic : BossAI
         _Reset();
     }
 
-    void JustDied(Unit* who) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
 
@@ -234,7 +234,7 @@ struct boss_the_desolate_host_generic : BossAI
                 if (auto summon = me->SummonCreature(bossEntry[i], BossPos[i]))
                     bossVector.push_back(summon->GetGUID());
             }
-         //   me->SummonCreatureGroup(CREATURE_SUMMON_GROUP_RESET);
+            //me->SummonCreatureGroup(CREATURE_SUMMON_GROUP_RESET);
             break;
         }
         case 2: //Despawn after evade 
@@ -243,28 +243,28 @@ struct boss_the_desolate_host_generic : BossAI
             {
                 instance->SetBossState(DATA_THE_DESOLATE_HOST, NOT_STARTED);
 
-             //   if (auto host = Creature::GetCreature(*me, bossVector[2]))
-                //    instance->SendEncounterUnit(ENCOUNTER_FRAME_INSTANCE_END, host);
+                //if (auto host = Creature::GetCreature(*me, bossVector[2]))
+                    //instance->SendEncounterUnit(ENCOUNTER_FRAME_INSTANCE_END, host);
 
                 RemoveDebuff();
-             //   me->SummonCreatureGroupDespawn(CREATURE_SUMMON_GROUP_RESET);
+                // me->SummonCreatureGroupDespawn(CREATURE_SUMMON_GROUP_RESET);
                 me->RemoveAllAuras();
-             //   me->RemoveAllAreaObjects();
+                //me->RemoveAllAreaObjects();
                 summons.DespawnAll();
                 phaseTwo = false;
                 summonEngineTimer = 0;
                 summonDejahnaTimer = 0;
                 berserkTimer = 0;
 
-                for (auto const& guid : bossVector)
+                for ([[maybe_unused]] auto const& guid : bossVector)
                 {
                   //  if (auto boss = Creature::GetCreature(*me, guid))
                     {
                         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE);
-                      //  boss->AI()->DoAction(2); //Despawn summons
+                        //boss->AI()->DoAction(2); //Despawn summons
                         //boss->SetReactState(REACT_PASSIVE);
-                       // boss->SetUnitFlags(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
-                       // boss->DespawnOrUnsummon(200);
+                        //boss->SetUnitFlags(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
+                        //boss->DespawnOrUnsummon(200);
                     }
                 }
               //  AddDelayedEvent(15000, [=]() -> void { DoAction(ACTION_1); });
@@ -277,16 +277,16 @@ struct boss_the_desolate_host_generic : BossAI
             {
                 instance->SetBossState(DATA_THE_DESOLATE_HOST, IN_PROGRESS);
 
-                for (auto const& guid : bossVector)
+                /*for ([[maybe_unused]] auto const& guid : bossVector)
                 {
-                   // if (auto boss = Creature::GetCreature(*me, guid))
+                    if (auto boss = Creature::GetCreature(*me, guid))
                     {
-                     //   if (boss->GetEntry() == NPC_DESOLATE_HOST)
-                       //     instance->SendEncounterUnit(ENCOUNTER_FRAME_INSTANCE_START, boss);
-                      //  else
-                       //     boss->AI()->DoZoneInCombat(boss, 100.0f);
+                        if (boss->GetEntry() == NPC_DESOLATE_HOST)
+                            instance->SendEncounterUnit(ENCOUNTER_FRAME_INSTANCE_START, boss);
+                        else
+                            boss->AI()->DoZoneInCombat(boss, 100.0f);
                     }
-                }
+                }*/
 
                 summons.DoZoneInCombat();
                 summonEngineTimer = 60000;
@@ -305,8 +305,8 @@ struct boss_the_desolate_host_generic : BossAI
                 summonEngineTimer = 0;
                 summonDejahnaTimer = 0;
                 DoCast(me, SPELL_SWIRLING_SOULS_VISUAL, true);
-              //  if (auto host = Creature::GetCreature(*me, bossVector[2]))
-               //     host->GetAI()->DoAction(ACTION_1);
+                //if (auto host = Creature::GetCreature(*me, bossVector[2]))
+                    //host->GetAI()->DoAction(ACTION_1);
                 if (IsMythic())
                     summons.DespawnEntry(NPC_SPIRITUAL_FONT);
                 Talk(SAY_PHASE_2);
@@ -330,14 +330,14 @@ struct boss_the_desolate_host_generic : BossAI
                 {
                     instance->SetBossState(DATA_THE_DESOLATE_HOST, DONE);
 
-                 //   if (auto host = Creature::GetCreature(*me, bossVector[2]))
-                   //     instance->SendEncounterUnit(ENCOUNTER_FRAME_INSTANCE_END, host);
+                    //if (auto host = Creature::GetCreature(*me, bossVector[2]))
+                        //instance->SendEncounterUnit(ENCOUNTER_FRAME_INSTANCE_END, host);
 
-                  //  if (auto engine = Creature::GetCreature(*me, bossVector[0]))
+                    /*if (auto engine = Creature::GetCreature(*me, bossVector[0]))
                     {
-                      //  if (auto player = killer->GetCharmerOrOwnerPlayerOrPlayerItself())
-                       //     engine->GeneratePersonalLoot(engine, player);
-                    }
+                        if (auto player = killer->GetCharmerOrOwnerPlayerOrPlayerItself())
+                            engine->GeneratePersonalLoot(engine, player);
+                    }*/
                 }
                 RemoveDebuff();
                 summons.DespawnAll();
@@ -380,7 +380,7 @@ struct boss_the_desolate_host_generic : BossAI
                 Position pos;
                 for (auto entry : { NPC_REANIMATED_TEMPLAR, NPC_GHASTLY_BONEWARDEN, NPC_GHASTLY_BONEWARDEN })
                 {
-                   // centrPos.SimplePosXYRelocationByAngle(pos, frand(15.0f, 25.0f), frand(0.0f, 6.28f));
+                    //centrPos.SimplePosXYRelocationByAngle(pos, frand(15.0f, 25.0f), frand(0.0f, 6.28f));
                     me->SummonCreature(entry, pos);
                 }
             }
@@ -397,7 +397,7 @@ struct boss_the_desolate_host_generic : BossAI
                 Position pos;
                 for (auto entry : { NPC_FALLEN_PRIESTESS, NPC_FALLEN_PRIESTESS, NPC_SOUL_RESIDUE, NPC_SOUL_RESIDUE, NPC_SOUL_RESIDUE, NPC_SOUL_RESIDUE })
                 {
-                   // centrPos.SimplePosXYRelocationByAngle(pos, frand(15.0f, 25.0f), frand(0.0f, 6.28f));
+                    //centrPos.SimplePosXYRelocationByAngle(pos, frand(15.0f, 25.0f), frand(0.0f, 6.28f));
                     me->SummonCreature(entry, pos);
                 }
             }
@@ -411,11 +411,11 @@ struct boss_the_desolate_host_generic : BossAI
             {
                 berserkTimer = 0;
 
-                for (auto const& guid : bossVector)
+                /*for ([[maybe_unused]] auto const& guid : bossVector)
                 {
-                 //   if (auto boss = Creature::GetCreature(*me, guid))
-                    //    boss->CastSpell(boss, SPELL_BERSERK, true);
-                }
+                    //if (auto boss = Creature::GetCreature(*me, guid))
+                        //boss->CastSpell(boss, SPELL_BERSERK, true);
+                }*/
             }
             else
                 berserkTimer -= diff;
@@ -442,7 +442,7 @@ struct npc_tos_engine_of_souls : ScriptedAI
         DoCast(me, SPELL_SHARED_HEALTH, true);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         Talk(SAY_ENGINE_AGGRO);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -473,15 +473,10 @@ struct npc_tos_engine_of_souls : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
-
- //   bool IsDisableGenerateLoot() override
-  //  {
-   //     return true;
- //   }
 
     void DamageTaken(Unit* /*attacker*/, uint32& damage) override
     {
@@ -514,8 +509,8 @@ struct npc_tos_engine_of_souls : ScriptedAI
         if (me->HasUnitState(UNIT_STATE_CASTING))
             return;
 
-       // if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
-         //   return;
+        //if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
+            //return;
 
         if (uint32 eventId = events.ExecuteEvent())
         {
@@ -559,7 +554,7 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
         DoCast(me, SPELL_SHARED_HEALTH, true);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         Talk(SAY_QUEEN_AGGRO);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -589,16 +584,11 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(SAY_QUEEN_DEATH);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
-
-   // bool IsDisableGenerateLoot() override
- //   {
-  //      return true;
-  //  }
 
     void DamageTaken(Unit* /*attacker*/, uint32& damage) override
     {
@@ -654,8 +644,8 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
         if (me->HasUnitState(UNIT_STATE_CASTING))
             return;
 
-     //   if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
-         //   return;
+        //if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
+            //return;
 
         if (uint32 eventId = events.ExecuteEvent())
         {
@@ -673,7 +663,7 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
                 bool foundReal = false;
                 bool foundSpirit = false;
                 std::list<HostileReference*> threatList = me->getThreatManager().getThreatList();
-                for (auto ref : threatList)
+                for ([[maybe_unused]] auto ref : threatList)
                 {
                    // if (auto player = Player::GetPlayer(*me, ref->getUnitGuid()))
                     {
@@ -732,7 +722,7 @@ struct npc_tos_desolate_host : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -752,38 +742,35 @@ struct npc_tos_desolate_host : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(SAY_HOST_DEATH);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-  //  bool IsDisableGenerateLoot() override
-   // {
-  //      return true;
-  //  }
-
     void DoAction(int32 const action) override
     {
         if (action == 1)
-      //  {
-         //   me->AddDelayedEvent(4000, [this]() -> void
-        //    {
-                if (me)
-             //   {
-                    me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
-                    me->SetVisible(true);
-                    Talk(SAY_HOST_AGGRO);
-                    DoCast(me, SPELL_SHARED_HEALTH, true);
-                    //me->SendPlaySpellVisualKit(0, VISUAL_KIT_1);
-                    me->HandleEmoteCommand(EMOTE_ONESHOT_BATTLE_ROAR);
-                    me->SetReactState(REACT_AGGRESSIVE);
-                    DoZoneInCombat(me, 100.0f);
-                    tormentTimer = 30000;
-                }
-          //  });
-    //    }
-  //  }
+        {
+        //me->AddDelayedEvent(4000, [this]() -> void
+        if (me)
+        {
+            me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
+        
+            me->SetVisible(true);
+        }
+
+        Talk(SAY_HOST_AGGRO);
+        DoCast(me, SPELL_SHARED_HEALTH, true);
+        //me->SendPlaySpellVisualKit(0, VISUAL_KIT_1);
+        me->HandleEmoteCommand(EMOTE_ONESHOT_BATTLE_ROAR);
+        me->SetReactState(REACT_AGGRESSIVE);
+
+        DoZoneInCombat(me, 100.0f);
+
+        tormentTimer = 30000;
+        }
+    }
 
     void UpdateAI(uint32 diff) override
     {
@@ -806,8 +793,8 @@ struct npc_tos_desolate_host : ScriptedAI
         if (me->HasUnitState(UNIT_STATE_CASTING))
             return;
 
-       // if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
-     //       return;
+        //if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
+            //return;
 
         if (uint32 eventId = events.ExecuteEvent())
         {
@@ -891,7 +878,7 @@ struct npc_tos_reanimated_templar : ScriptedAI
         {
             if (instance->GetBossState(DATA_THE_DESOLATE_HOST) == IN_PROGRESS)
                // me->SendPlaySpellVisualKit(0, VISUAL_KIT_2);
-           // else
+           //else
                 me->SetStandState(UNIT_STAND_STATE_KNEEL);
 
             if (IsMythic())
@@ -907,7 +894,7 @@ struct npc_tos_reanimated_templar : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.RescheduleEvent(1, 12000);
 
@@ -995,8 +982,8 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
         if (!mirror)
         {
             if (instance->GetBossState(DATA_THE_DESOLATE_HOST) == IN_PROGRESS)
-              //  me->SendPlaySpellVisualKit(0, VISUAL_KIT_2);
-          //  else
+                //me->SendPlaySpellVisualKit(0, VISUAL_KIT_2);
+            //else
                 DoCast(me, SPELL_SHADOW_CHANNELLING, true);
 
             if (IsMythic())
@@ -1012,7 +999,7 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.RescheduleEvent(1, 4000);
 
@@ -1064,8 +1051,8 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
         if (me->HasUnitState(UNIT_STATE_CASTING))
             return;
 
-       // if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
-        //    return;
+        //if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
+            //return;
 
         if (uint32 eventId = events.ExecuteEvent())
         {
@@ -1108,7 +1095,7 @@ struct npc_tos_fallen_priestess : ScriptedAI
         if (!mirror)
         {
             if (instance->GetBossState(DATA_THE_DESOLATE_HOST) == IN_PROGRESS)
-              //  me->SendPlaySpellVisualKit(0, VISUAL_KIT_2);
+                //me->SendPlaySpellVisualKit(0, VISUAL_KIT_2);
             //else
                 DoCast(me, SPELL_SOUL_REND, true);
 
@@ -1125,7 +1112,7 @@ struct npc_tos_fallen_priestess : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.RescheduleEvent(1, 4000);
         events.RescheduleEvent(2, 14000);
@@ -1163,8 +1150,8 @@ struct npc_tos_fallen_priestess : ScriptedAI
         if (me->HasUnitState(UNIT_STATE_CASTING))
             return;
 
-      //  if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
-        //    return;
+        //if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
+            //return;
 
         if (uint32 eventId = events.ExecuteEvent())
         {
@@ -1218,7 +1205,7 @@ struct npc_tos_soul_residue : ScriptedAI
         if (!mirror)
         {
             if (instance->GetBossState(DATA_THE_DESOLATE_HOST) == IN_PROGRESS)
-             //   me->SendPlaySpellVisualKit(0, VISUAL_KIT_2);
+                //me->SendPlaySpellVisualKit(0, VISUAL_KIT_2);
 
             if (IsMythic())
                 DoCast(me, SPELL_BOUND_ESSENCE_AURA, true);
@@ -1230,7 +1217,7 @@ struct npc_tos_soul_residue : ScriptedAI
 
     void Reset() override {}
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         rotTimer = 2000;
         fixateTimer = 1000;
@@ -1268,7 +1255,7 @@ struct npc_tos_soul_residue : ScriptedAI
                     if (summoner->IsCreature())
                         summoner->ToCreature()->AI()->SummonedCreatureDies(me, nullptr);
 
-              //  me->AddDelayedEvent(5000, [=]() -> void { me->DespawnOrUnsummon(); });
+                //me->AddDelayedEvent(5000, [=]() -> void { me->DespawnOrUnsummon(); });
             }
         }
     }
@@ -1278,8 +1265,8 @@ struct npc_tos_soul_residue : ScriptedAI
         if (!UpdateVictim())
             return;
 
-      //  if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
-      //      return;
+        //if (CheckHomeDistToEvade(diff, 45.0f, 6438.27f, -1089.73f, 2881.52f))
+            //return;
 
         if (rotTimer)
         {
@@ -1313,8 +1300,8 @@ struct npc_tos_soul_residue : ScriptedAI
 
                 if (!targetGUID.IsEmpty())
                 {
-                  //  auto player = Player::GetPlayer(*me, targetGUID);
-                 //   if (!player || !player->isAlive() || (!mirror && !player->HasAura(SPELL_SPIRIT_REALM)) || (mirror && player->HasAura(SPELL_SPIRIT_REALM)))
+                    //auto player = Player::GetPlayer(*me, targetGUID);
+                    //if (!player || !player->isAlive() || (!mirror && !player->HasAura(SPELL_SPIRIT_REALM)) || (mirror && player->HasAura(SPELL_SPIRIT_REALM)))
                     {
                         targetGUID.Clear();
                         me->SetReactState(REACT_PASSIVE);
@@ -1352,14 +1339,14 @@ struct npc_tos_tormented_cries : ScriptedAI
     void IsSummonedBy(Unit* summoner) override
     {
         Talk(SAY_TORMENTED_CRIES);
-       // me->CastSpellDelay(me, SPELL_TORMENTED_CRIES_FILTER, true, 100);
+        //me->CastSpellDelay(me, SPELL_TORMENTED_CRIES_FILTER, true, 100);
     }
 
     void SpellHitTarget(Unit* target, SpellInfo const* spell) override
     {
         if (spell->Id == SPELL_TORMENTED_CRIES_FILTER)
         {
-          //  me->SetFacingTo(target);
+            //me->SetFacingTo(target);
             DoCast(target, SPELL_TORMENTED_CRIES_MARK, true);
         }
     }
@@ -1491,8 +1478,8 @@ class spell_tos_sundering_doom : public SpellScript
         {
             if (auto aura = GetCaster()->GetAura(SPELL_TORMENT))
                 aura->ModStackAmount(5);
-          //  else
-             //   GetCaster()->CastSpellDuration(GetCaster(), SPELL_TORMENT, true, 0, 5);
+            //else
+                //GetCaster()->CastSpellDuration(GetCaster(), SPELL_TORMENT, true, 0, 5);
         }
     }
 
@@ -1638,8 +1625,8 @@ class spell_tos_spear_of_anguish : public SpellScript
             if (object == nullptr)
                 return true;
 
-           // if (object->ToUnit()->IsImmunedToSpell(GetSpellInfo()))
-           //     return true;
+            //if (object->ToUnit()->IsImmunedToSpell(GetSpellInfo()))
+                //return true;
 
             return false;
         });
@@ -1914,16 +1901,16 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
         }
     }
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
-    {
-        if (GetTarget())
-        {
-           // GetTarget()->RemoveFlag(OBJECT_FIELD_DYNAMIC_FLAGS, UNIT_DYNFLAG_NOT_SELECTABLE_MODEL);
+    //void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    //{
+        //if (GetTarget())
+        //{
+            //GetTarget()->RemoveFlag(OBJECT_FIELD_DYNAMIC_FLAGS, UNIT_DYNFLAG_NOT_SELECTABLE_MODEL);
 
-           // if (GetTarget()->IsPlayer())
-          //      GetTarget()->ToPlayer()->UpdateCustomField();
-        }
-    }
+            //if (GetTarget()->IsPlayer())
+                //GetTarget()->ToPlayer()->UpdateCustomField();
+        //}
+    //}
 
     void OnUpdate(uint32 diff, AuraEffect* auraEffect)
     {
@@ -1957,26 +1944,27 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
         OnEffectApply += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnApply, EFFECT_0, SPELL_AURA_PHASE, AURA_EFFECT_HANDLE_REAL);
         OnEffectApply += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnApply, EFFECT_1, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
         OnEffectApply += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnApply, EFFECT_1, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
-        OnEffectRemove += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnRemove, EFFECT_0, SPELL_AURA_PHASE, AURA_EFFECT_HANDLE_REAL);
-        OnEffectRemove += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnRemove, EFFECT_1, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
-        OnEffectRemove += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnRemove, EFFECT_1, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
+        //OnEffectRemove += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnRemove, EFFECT_0, SPELL_AURA_PHASE, AURA_EFFECT_HANDLE_REAL);
+        //OnEffectRemove += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnRemove, EFFECT_1, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+        //OnEffectRemove += AuraEffectRemoveFn(spell_tos_spiritual_barrier_dissonance::OnRemove, EFFECT_1, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
         //OnEffectUpdate += AuraEffectUpdateFn(spell_tos_spiritual_barrier_dissonance::OnUpdate, EFFECT_0, SPELL_AURA_PHASE);
-      //  OnEffectUpdate += AuraEffectUpdateFn(spell_tos_spiritual_barrier_dissonance::OnUpdate, EFFECT_1, SPELL_AURA_PERIODIC_DUMMY);
+        //OnEffectUpdate += AuraEffectUpdateFn(spell_tos_spiritual_barrier_dissonance::OnUpdate, EFFECT_1, SPELL_AURA_PERIODIC_DUMMY);
     }
 };
+
 /*
 //966000
 struct at_tos_spirit_presence : AreaTriggerAI
 {
     at_tos_spirit_presence(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) {}
 
-   // bool IsValidTarget(Unit* caster, Unit* target, AreaTriggerActionMoment actionM) override
-//    {
-//        if (!target)
-         //   return false;
+   bool IsValidTarget(Unit* caster, Unit* target, AreaTriggerActionMoment actionM) override
+    {
+        if (!target)
+            return false;
 
-    //    if (actionM & (AT_ACTION_MOMENT_ENTER | AT_ACTION_MOMENT_UPDATE_TARGET))
-//        {
+        if (actionM & (AT_ACTION_MOMENT_ENTER | AT_ACTION_MOMENT_UPDATE_TARGET))
+        {
             if (target->IsPlayer())
             {
                 if (target->HasAura(SPELL_SPIRIT_REALM) && !target->HasAura(SPELL_SPIRITUAL_BARRIER_SPIRIT_REALM))
@@ -2020,7 +2008,7 @@ struct at_tos_spirit_presence : AreaTriggerAI
                     break;
                 }
 
-              //  if (auto owner = target->GetAnyOwner())
+            if (auto owner = target->GetAnyOwner())
                 {
                     if (owner->IsPlayer())
                     {
@@ -2046,16 +2034,17 @@ struct at_tos_spirit_presence : AreaTriggerAI
                 }
             }
         }
-//        else
-       // {
-         //   target->RemoveAurasDueToSpell(SPELL_SPIRITUAL_BARRIER_SPIRIT_REALM);
-        //    target->RemoveAurasDueToSpell(SPELL_SPIRITUAL_BARRIER_REAL_REALM);
-        //    target->RemoveAurasDueToSpell(SPELL_SPIRIT_REALM);
-     //   }
+        else
+        {
+            target->RemoveAurasDueToSpell(SPELL_SPIRITUAL_BARRIER_SPIRIT_REALM);
+            target->RemoveAurasDueToSpell(SPELL_SPIRITUAL_BARRIER_REAL_REALM);
+            target->RemoveAurasDueToSpell(SPELL_SPIRIT_REALM);
+        }
 
-     //   return true;
- //   }
+        return true;
+    }
 };*/
+
 void AddSC_boss_desolate_host()
 {
     RegisterCreatureAI(boss_the_desolate_host_generic);

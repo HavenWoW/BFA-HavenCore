@@ -252,7 +252,7 @@ struct boss_mistress_sasszine : BossAI
         DoCast(me, 240056, true);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         BossAI::EnterEvadeMode();
         me->InterruptNonMeleeSpells(false);
@@ -370,7 +370,7 @@ struct boss_mistress_sasszine : BossAI
         }
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (phase < 3 && me->HealthBelowPct(healthPct))
         {
@@ -453,7 +453,6 @@ struct boss_mistress_sasszine : BossAI
         case SPELL_CONSUMING_HUNGER_FILTER:
             if (auto summon = me->SummonCreature(NPC_RAZORJAW_WAVERUNNER, target->GetPosition()))
             {
-                ObjectGuid targetGuid = target->GetGUID();
                // summon->AddDelayedEvent(200, [summon, targetGuid]() -> void
               //  {
                   //  if (summon)

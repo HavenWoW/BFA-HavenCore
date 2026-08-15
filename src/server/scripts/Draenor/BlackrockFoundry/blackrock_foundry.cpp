@@ -1217,7 +1217,7 @@ class npc_foundry_iron_laborer : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -2082,7 +2082,7 @@ class npc_foundry_iron_flametwister : public CreatureScript
                // {
                     for (uint32 l_Entry = eFoundryGameObjects::ConveyorBelt006; l_Entry <= eFoundryGameObjects::ConveyorBelt008; ++l_Entry)
                     {
-                        if (GameObject* l_Belt = me->FindNearestGameObject(l_Entry, 13.0f))
+                        if (me->FindNearestGameObject(l_Entry, 13.0f))
                         {
                             if (!me->FindNearestCreature(eCreatures::EnchantedArmament, 20.0f) &&
                                 !me->FindNearestCreature(eCreatures::EnchantedArmament2, 20.0f))
@@ -2147,7 +2147,7 @@ class npc_foundry_iron_flametwister : public CreatureScript
                // {
                     for (uint32 l_Entry = eFoundryGameObjects::ConveyorBelt006; l_Entry <= eFoundryGameObjects::ConveyorBelt008; ++l_Entry)
                     {
-                        if (GameObject* l_Belt = me->FindNearestGameObject(l_Entry, 13.0f))
+                        if (me->FindNearestGameObject(l_Entry, 13.0f))
                         {
                             if (!me->FindNearestCreature(eCreatures::EnchantedArmament, 20.0f) &&
                                 !me->FindNearestCreature(eCreatures::EnchantedArmament2, 20.0f))
@@ -2408,9 +2408,8 @@ class npc_foundry_flame_vents : public CreatureScript
 
             void JustSummoned(Creature* p_Summon) override
             {
-                if (npc_foundry_enchanted_armament::npc_foundry_enchanted_armamentAI* l_AI = CAST_AI(npc_foundry_enchanted_armament::npc_foundry_enchanted_armamentAI, p_Summon->GetAI()))
+                if (CAST_AI(npc_foundry_enchanted_armament::npc_foundry_enchanted_armamentAI, p_Summon->GetAI()))
                 {
-                    float l_O = me->GetOrientation();
                   //  l_AI->AddTimedDelayedOperation(50, [l_AI, l_O]() -> void
                   //  {
                       //  l_AI->me->SetFacingTo(l_O);
@@ -2418,7 +2417,7 @@ class npc_foundry_flame_vents : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
              //   UpdateOperations(p_Diff);
 
@@ -2429,16 +2428,11 @@ class npc_foundry_flame_vents : public CreatureScript
                 float l_MaxDist = 70.0f;
                 float l_O = 0.0f;
 
-                bool l_Negative = true;
-
-                if (GameObject* l_Belt = me->FindNearestGameObject(eFoundryGameObjects::ConveyorBelt006, 40.0f))
+                if (me->FindNearestGameObject(eFoundryGameObjects::ConveyorBelt006, 40.0f))
                     l_O = float (M_PI);
-                else if (GameObject* l_Belt = me->FindNearestGameObject(eFoundryGameObjects::ConveyorBelt007, 40.0f))
-                {
-                    l_Negative = false;
+                else if (me->FindNearestGameObject(eFoundryGameObjects::ConveyorBelt007, 40.0f))
                     l_O = 0.0f;
-                }
-                else if (GameObject* l_Belt = me->FindNearestGameObject(eFoundryGameObjects::ConveyorBelt008, 45.0f))
+                else if (me->FindNearestGameObject(eFoundryGameObjects::ConveyorBelt008, 45.0f))
                     l_O = float(M_PI);
                 else
                     return;
@@ -2479,7 +2473,7 @@ class npc_foundry_flame_vents : public CreatureScript
 
                 for (ObjectGuid l_Guid : l_Targets)
                 {
-                    if (Player* l_Player = ObjectAccessor::GetPlayer(*me, l_Guid))
+                    if ([[maybe_unused]] Player* l_Player = ObjectAccessor::GetPlayer(*me, l_Guid))
                     {
                        // if (!l_Player->HasMovementForce(me->GetGUID()))
                        // {
@@ -3381,7 +3375,7 @@ class npc_foundry_gromkar_man_at_arms : public CreatureScript
                 }
             }
 
-            void MovementInform(uint32 p_Type, uint32 p_ID) override
+            void MovementInform(uint32 /*p_Type*/, uint32 p_ID) override
             {
                 if (p_ID == eSpells::SpellRecklessSlashCharge)
                     me->CastSpell(me, eSpells::SpellRecklessSlashDmg, true);
@@ -3824,7 +3818,7 @@ class npc_foundry_iron_dockworker : public CreatureScript
                 me->SetWalk(false);
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
 
@@ -3839,7 +3833,7 @@ class npc_foundry_iron_dockworker : public CreatureScript
                 float l_MaxDistance = 100000.0f;
                 Position l_MovePos  = Position();
 
-                for (Position const l_Pos : g_IronDockworkerCarryCratePos)
+                for (Position const& l_Pos : g_IronDockworkerCarryCratePos)
                 {
                     float l_Distance = me->GetDistance(l_Pos);
                     if (l_MaxDistance > l_Distance)
@@ -3852,7 +3846,7 @@ class npc_foundry_iron_dockworker : public CreatureScript
                 return l_MovePos;
             }
 
-            uint32 const GetFreeLoadingChain() const
+            uint32 GetFreeLoadingChain() const
             {
                 for (ObjectGuid l_Guid : m_LoadingChains)
                 {
@@ -4178,7 +4172,7 @@ class npc_foundry_iron_cleaver : public CreatureScript
                 m_Events.ScheduleEvent(eEvent::EventReapingWhirl, 7 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void MovementInform(uint32 p_Type, uint32 p_ID) override
+            void MovementInform(uint32 p_Type, uint32 /*p_ID*/) override
             {
                 if (p_Type != MovementGeneratorType::POINT_MOTION_TYPE)
                     return;

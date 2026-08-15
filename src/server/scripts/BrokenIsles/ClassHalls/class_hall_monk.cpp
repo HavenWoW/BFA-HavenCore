@@ -84,10 +84,10 @@ struct npc_initiate_da_nel : public ScriptedAI
         if (Unit* owner = ObjectAccessor::GetUnit(*me, charmerOrOwnerGuid))
         {
             me->GetMotionMaster()->MoveFollow(owner, PET_FOLLOW_DIST, me->GetFollowAngle());
-            if (owner->ToPlayer()->GetQuestStatus(QUEST_DA_NEL) == QUEST_STATE_NONE)
+            if (owner->ToPlayer()->GetQuestStatus(QUEST_DA_NEL) == QUEST_STATUS_NONE)
             {
                 me->Say(100246, owner);
-                me->GetScheduler().Schedule(Milliseconds(4000), [this, owner](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(4000), [this, owner](TaskContext /*context*/)
                 {
                     if (const Quest* quest = sObjectMgr->GetQuestTemplate(QUEST_DA_NEL))
                     {
@@ -96,7 +96,7 @@ struct npc_initiate_da_nel : public ScriptedAI
                         owner->CastSpell(owner, 194004, true);
                     }
                 });
-                me->GetScheduler().Schedule(Milliseconds(8000), [this, owner](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(8000), [this, owner](TaskContext /*context*/)
                 {
                     owner->ToPlayer()->KilledMonsterCredit(98514);
                     owner->ToPlayer()->TeleportTo(1014, Position(3819.2f, 1793.27f, 950.35f, 3.4429f));
@@ -121,7 +121,7 @@ struct npc_iron_body_ponshu_100438 : public ScriptedAI
 {
     npc_iron_body_ponshu_100438(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -302,20 +302,20 @@ struct npc_fearsome_jang_99181 : public ScriptedAI
         switch (id)
         {
         case 1:
-            _scheduler.Schedule(Milliseconds(2000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(2000), [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(2, Position(854.333f, 3606.5f, 173.9349f, 6.2423f), false);
             });
             break;
         case 2:
-            _scheduler.Schedule(Milliseconds(2000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(2000), [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(3, Position(879.543f, 3605.854f, 191.633f, 0.02589f), true);
             });
             break;
         case 3:
             Talk(1);
-            _scheduler.Schedule(Milliseconds(2000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(2000), [this](TaskContext /*context*/)
             {
                 if (Creature* jiu = me->FindNearestCreature(100355, 25.0f))
                     jiu->AI()->Talk(0);
@@ -325,7 +325,7 @@ struct npc_fearsome_jang_99181 : public ScriptedAI
                     player->KilledMonsterCredit(99181);
                 }
             });
-            _scheduler.Schedule(Milliseconds(6000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(6000), [this](TaskContext /*context*/)
             {
                 if (Creature* jiu = me->FindNearestCreature(100355, 25.0f))
                     jiu->GetMotionMaster()->MovePoint(1, Position(924.6812f, 3602.7133f, 196.33f, 3.1274f), true);
@@ -339,7 +339,7 @@ struct npc_fearsome_jang_99181 : public ScriptedAI
             });
             break;
         case 4:
-            _scheduler.Schedule(Milliseconds(4000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(4000), [this](TaskContext /*context*/)
             {
                 if (Player* player = ObjectAccessor::GetPlayer(*me, m_playGUID))
                 {
@@ -354,32 +354,32 @@ struct npc_fearsome_jang_99181 : public ScriptedAI
                         lian->SetFacingToObject(player);
                 }
             });
-            _scheduler.Schedule(Milliseconds(8000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(8000), [this](TaskContext /*context*/)
             {
                 if (Creature* jiu = me->FindNearestCreature(100355, 125.0f))
                     jiu->AI()->Talk(1);
             });
-            _scheduler.Schedule(Milliseconds(18000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(18000), [this](TaskContext /*context*/)
             {
                 if (Creature* jiu = me->FindNearestCreature(100355, 125.0f))
                     jiu->AI()->Talk(2);
             });
-            _scheduler.Schedule(Milliseconds(38000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(38000), [this](TaskContext /*context*/)
             {
                 if (Player* player = ObjectAccessor::GetPlayer(*me, m_playGUID))
                     Talk(2, player);
             });
-            _scheduler.Schedule(Milliseconds(48000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(48000), [this](TaskContext /*context*/)
             {
                 if (Player* player = ObjectAccessor::GetPlayer(*me, m_playGUID))
                     Talk(3, player);
             });
-            _scheduler.Schedule(Milliseconds(58000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(58000), [this](TaskContext /*context*/)
             {
                 if (Player* player = ObjectAccessor::GetPlayer(*me, m_playGUID))
                     Talk(4, player);
             });
-            _scheduler.Schedule(Milliseconds(68000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(68000), [this](TaskContext /*context*/)
             {
                 if (Creature* jiu = me->FindNearestCreature(100355, 125.0f))
                 {
@@ -390,7 +390,7 @@ struct npc_fearsome_jang_99181 : public ScriptedAI
                     }
                 }
             });
-            _scheduler.Schedule(Milliseconds(78000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(78000), [this](TaskContext /*context*/)
             {
                 if (Creature* jiu = me->FindNearestCreature(100355, 125.0f))
                     jiu->AI()->Talk(4);
@@ -406,7 +406,7 @@ struct npc_fearsome_jang_99181 : public ScriptedAI
                         lian->CastSpell(player, 197434, true);
                 }
             });
-            _scheduler.Schedule(Milliseconds(88000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(88000), [this](TaskContext /*context*/)
             {
                 if (Player* player = ObjectAccessor::GetPlayer(*me, m_playGUID))
                     player->RemoveAura(197607);
@@ -458,23 +458,23 @@ struct npc_li_li_stormstout_100475 : public ScriptedAI
             Talk(0);
             if (Creature* papa = me->FindNearestCreature(100481, 25.0f))
             {
-                _scheduler.Schedule(Milliseconds(4000), [papa](TaskContext context)
+                _scheduler.Schedule(Milliseconds(4000), [papa](TaskContext /*context*/)
                 {
                     papa->AI()->Talk(0);
                 });
-                _scheduler.Schedule(Milliseconds(8000), [papa](TaskContext context)
+                _scheduler.Schedule(Milliseconds(8000), [papa](TaskContext /*context*/)
                 {
                     papa->AI()->Talk(1);
                 });
-                _scheduler.Schedule(Milliseconds(12000), [this](TaskContext context)
+                _scheduler.Schedule(Milliseconds(12000), [this](TaskContext /*context*/)
                 {
                     Talk(1);
                 });
-                _scheduler.Schedule(Milliseconds(20000), [papa](TaskContext context)
+                _scheduler.Schedule(Milliseconds(20000), [papa](TaskContext /*context*/)
                 {
                     papa->AI()->Talk(2);
                 });
-                _scheduler.Schedule(Milliseconds(28000), [this, player](TaskContext context)
+                _scheduler.Schedule(Milliseconds(28000), [this, player](TaskContext /*context*/)
                 {
                     Talk(2, player);
                     me->GetMotionMaster()->MovePoint(1, Position(745.349f, 3664.7365f, 143.2642f), true);
@@ -505,7 +505,7 @@ struct npc_li_li_stormstout_100475 : public ScriptedAI
             _scheduler.Schedule(8s, [this](TaskContext /*context*/)
             {
                 if (Player* player = ObjectAccessor::GetPlayer(*me, m_player))
-                    if (Creature* he = me->GetSummonedCreatureByEntry(100972))
+                    if (me->GetSummonedCreatureByEntry(100972))
                         Talk(4, player);
             });
             break;

@@ -344,7 +344,6 @@ class spell_ivanyr_nether_link : public SpellScriptLoader
                             continue;
                             
                         GetCaster()->AddAura(SPELL_NETHER_LINK_VISUAL, ptr);
-                        G3D::Vector3 pos = { ptr->GetPositionX(), ptr->GetPositionY(), ptr->GetPositionZ() };
                         //ptr->SendPlaySpellVisual(pos, 39597, 0, 0, 34, false);
 
                         switch (_playerCounter++)

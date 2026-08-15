@@ -186,10 +186,8 @@ public:
         char const* GOSSIP_BUTTON_1;
         char const* GOSSIP_BUTTON_2;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How do I play the Ring Toss?";
             GOSSIP_BUTTON_2 = "Ready to play! |cFF0000FF(Darkmoon Game Token)|r";
@@ -205,16 +203,14 @@ public:
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 action)
     {
         char const* GOSSIP_BUTTON_1;
         char const* GOSSIP_BUTTON_2;
         char const* GOSSIP_BUTTON_3;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How do I play the Ring Toss?";
             GOSSIP_BUTTON_2 = "Ready to play! |cFF0000FF(Darkmoon Game Token)|r";
@@ -384,10 +380,8 @@ public:
         char const* GOSSIP_BUTTON_4;
         char const* GOSSIP_BUTTON_5;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "Darkmoon adventurer guide?";
             GOSSIP_BUTTON_2 = "What can I buy?";
@@ -407,13 +401,8 @@ public:
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 action)
     {
-        char const* GOSSIP_BUTTON_1;
-        char const* GOSSIP_BUTTON_2;
-        char const* GOSSIP_BUTTON_3;
-        char const* GOSSIP_BUTTON_4;
-        char const* GOSSIP_BUTTON_5;
         char const* GOSSIP_BUTTON_6;
         char const* GOSSIP_BUTTON_7;
         char const* GOSSIP_BUTTON_8;
@@ -423,16 +412,9 @@ public:
         char const* GOSSIP_BUTTON_12;
         char const* GOSSIP_BUTTON_13;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
-            GOSSIP_BUTTON_1 = "Darkmoon adventurer guide?";
-            GOSSIP_BUTTON_2 = "What can I buy?";
-            GOSSIP_BUTTON_3 = "Do you qualify for the Darkmoon Faire?";
-            GOSSIP_BUTTON_4 = "Letters from the Darkmoon?";
-            GOSSIP_BUTTON_5 = "Attractions?";
             GOSSIP_BUTTON_6 = "Can you give me a guide to the Darkmoon adventurer?";
             GOSSIP_BUTTON_7 = "Tell me more.";
             GOSSIP_BUTTON_8 = "Tonk Battle?";
@@ -567,7 +549,7 @@ public:
         {
             events.Update(diff);
 
-            Map::PlayerList const& PlayerList = me->GetMap()->GetPlayers();
+            [[maybe_unused]] Map::PlayerList const& PlayerList = me->GetMap()->GetPlayers();
 
             while (uint32 eventId = events.ExecuteEvent())
             {
@@ -619,10 +601,8 @@ public:
         char const* GOSSIP_BUTTON_1;
         char const* GOSSIP_BUTTON_2;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How does the shooting gallery work? ";
             GOSSIP_BUTTON_2 = "I'm ready to shoot! |cFF0000FF(Darkmoon Game Token)|r";
@@ -638,16 +618,14 @@ public:
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 action)
     {
         char const* GOSSIP_BUTTON_1;
         char const* GOSSIP_BUTTON_2;
         char const* GOSSIP_BUTTON_3;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How does the shooting gallery work? ";
             GOSSIP_BUTTON_2 = "I'm ready to shoot! |cFF0000FF(Darkmoon Game Token)|r";

@@ -124,7 +124,7 @@ struct npc_cyrille_107350 : public ScriptedAI
 {
     npc_cyrille_107350(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(MAKE_YOUR_MARK))
         {
@@ -154,7 +154,7 @@ struct npc_lorin_107349 : public ScriptedAI
 {
     npc_lorin_107349(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(MAKE_YOUR_MARK))
         {
@@ -184,7 +184,7 @@ struct npc_sylessa_107348 : public ScriptedAI
 {
     npc_sylessa_107348(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(MAKE_YOUR_MARK))
         {
@@ -215,7 +215,7 @@ struct npc_gondolier_107225 : public ScriptedAI
 {
     npc_gondolier_107225(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(The_Gondolier))
         {
@@ -318,7 +318,7 @@ class npc_gossip_102600 : public CreatureScript
 public:
     npc_gossip_102600() : CreatureScript("npc_gossip_102600") { }
 
-    bool OnGossipHello(Player* player, Creature* creature) override
+    bool OnGossipHello(Player* player, Creature* /*creature*/) override
     {
         if (player->GetQuestStatus(40010) == QUEST_STATUS_INCOMPLETE)
         {
@@ -332,7 +332,7 @@ struct npc_astoril : public ScriptedAI
 {
     npc_astoril(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(QUEST_A_Way_Back_In))
         {

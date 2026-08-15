@@ -498,7 +498,7 @@ class boss_oregorger : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 m_Events.Reset();
                 m_CosmeticEvents.Reset();
@@ -1556,7 +1556,7 @@ class areatrigger_foundry_explosive_shard : public AreaTriggerEntityScript
             ExplosiveShardAoE = 156374
         };
 
-        void OnRemove(AreaTrigger* p_AreaTrigger, uint32 /*p_Time*/)
+        void OnRemove(AreaTrigger* /*p_AreaTrigger*/, uint32 /*p_Time*/)
         {
            // if (Unit* l_Caster = p_AreaTrigger->GetCaster())
                // l_Caster->CastSpell(*p_AreaTrigger, eSpell::ExplosiveShardAoE, true);

@@ -462,7 +462,7 @@ struct npc_tos_essences : ScriptedAI
     bool justDoIt = false;
     uint32 updateTimer = 200;
 
-    void IsSummonedBy(Unit* cre) override
+    void IsSummonedBy(Unit* /*cre*/) override
     {
       //  if (me->GetTargetGUID().IsEmpty())
      //       return;
@@ -642,7 +642,7 @@ class spell_tos_blowback : public AuraScript
 {
     PrepareAuraScript(spell_tos_blowback);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (!GetCaster() || !GetTarget())
             return;
@@ -688,7 +688,7 @@ class spell_tos_unstable_soul : public AuraScript
 {
     PrepareAuraScript(spell_tos_unstable_soul);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (!GetTarget())
             return;
@@ -760,7 +760,7 @@ class spell_egvin_levitation : public AuraScript
 {
     PrepareAuraScript(spell_egvin_levitation);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (!GetTarget())
             return;

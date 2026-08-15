@@ -116,7 +116,7 @@ struct npc_lightforged_teleport_pod_130137 : public ScriptedAI
 
     void OnSpellClick(Unit* clicker, bool& /*result*/)
     {
-        if (Player* player = clicker->ToPlayer())
+        if (clicker->ToPlayer())
         {
         }
     }
@@ -143,8 +143,10 @@ struct npc_clobex_127732 : public ScriptedAI
     void UpdateAI(uint32 diff) override
     {
         events.Update(diff);
+
         if (!UpdateVictim())
             return;
+
         while (uint32 eventId = events.ExecuteEvent())
         {
             switch (eventId)
@@ -263,7 +265,7 @@ struct npc_lightforged_beacon_128303 : public ScriptedAI
 {
     npc_lightforged_beacon_128303(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->AddDelayedConversation(5000, 5743);
@@ -295,7 +297,7 @@ struct npc_lightforged_beacon_129449 : public ScriptedAI
     };
     using Path01Size = std::extent<decltype(Path01)>;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
     }
@@ -314,7 +316,7 @@ struct npc_lightforged_beacon_125720 : public ScriptedAI
 {
     npc_lightforged_beacon_125720(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->RemoveAurasDueToSpell(253936);
@@ -337,17 +339,17 @@ struct npc_lightforged_warframe_127963 : public ScriptedAI
     };
     using Path01Size = std::extent<decltype(Path01)>;
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, 253936, true);
         float speed = player->GetSpeed(UnitMoveType::MOVE_RUN);
         player->SetSpeed(UnitMoveType::MOVE_RUN, 25.0f);
-        me->GetScheduler().Schedule(Milliseconds(2000), [this, player](TaskContext context)
+        me->GetScheduler().Schedule(Milliseconds(2000), [this, player](TaskContext /*context*/)
         {
             player->GetMotionMaster()->MoveSmoothPath(1, Path01, Path01Size::value, false, true);
         });
-        me->GetScheduler().Schedule(Milliseconds(15000), [this, player, speed](TaskContext context)
+        me->GetScheduler().Schedule(Milliseconds(15000), [this, player, speed](TaskContext /*context*/)
         {
             player->RemoveAurasDueToSpell(253936);
             player->SetSpeed(UnitMoveType::MOVE_RUN, speed);

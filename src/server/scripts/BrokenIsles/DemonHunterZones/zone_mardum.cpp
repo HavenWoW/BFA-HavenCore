@@ -190,12 +190,12 @@ public:
         if (quest->GetQuestId() == QUEST_INVASION_BEGIN)
         {
             creature->AI()->Talk(0);
-            creature->GetScheduler().Schedule(Milliseconds(5000), [creature](TaskContext context)
+            creature->GetScheduler().Schedule(Milliseconds(5000), [creature](TaskContext /*context*/)
             {
                 creature->AI()->Talk(1);
             });
 
-            player->GetScheduler().Schedule(Milliseconds(30000), [player](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(30000), [player](TaskContext /*context*/)
             {
                 player->Variables.Set("PHASE_2_WELCOMING_ACTIVE", false);
             });
@@ -448,7 +448,7 @@ struct npc_inquisitor_baleful : public ScriptedAI
 
             Talk(SAY_60_HP_PCT_INQUISITOR_BALEFUL);
 
-            if (Unit* target = me->GetVictim())
+            if (me->GetVictim())
                 me->CastSpell(me, SPELL_LEGION_AEGIS, true);
 
             me->AttackStop();
@@ -885,7 +885,7 @@ public:
                 killer->ToPlayer()->KilledMonsterCredit(NPC_FEL_LORD_CAZA_CREDIT, ObjectGuid::Empty);
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             Talk(0);
         }
@@ -1940,7 +1940,7 @@ public:
                 gob->DestroyForNearbyPlayers();
         }
 
-        void EnterCombat(Unit* victim) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             Talk(0);
 

@@ -495,7 +495,7 @@ struct npc_torment_of_norgannon_123503 : public ScriptedAI
         me->GetMotionMaster()->MoveAwayAndDespawn(250.0f, 60000);
     }
 
-    void UpdateAI(uint32 diff) override { }
+    void UpdateAI(uint32 /*diff*/) override { }
 };
 
 //SPELL_MACHINATIONS_OF_AMANTHUL 
@@ -532,7 +532,7 @@ struct npc_torment_of_khazgoroth_124166 : public ScriptedAI
         me->CastSpell(me, SPELL_FLAMES_OF_KHAZGOROTH, true);
     }
 
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 
 };
 //SPELL_FURY_OF_GOLGANNETH
@@ -573,7 +573,7 @@ struct npc_whirling_saber_123348 : public ScriptedAI
         me->DespawnOrUnsummon(5000);
     }
 
-    void UpdateAI(uint32 diff) override { }
+    void UpdateAI(uint32 /*diff*/) override { }
 };
 
 struct npc_shadow_blade_123086 : public ScriptedAI
@@ -603,7 +603,7 @@ struct npc_shadow_blade_123086 : public ScriptedAI
             who->RemoveAurasDueToSpell(245290);
     }
 
-    void UpdateAI(uint32 diff) override { }
+    void UpdateAI(uint32 /*diff*/) override { }
 };
 
 void AddSC_boss_coven_shivarres()

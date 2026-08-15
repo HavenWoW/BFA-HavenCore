@@ -274,7 +274,7 @@ struct auchindoun_mob_sargerei_soulbinder : public ScriptedAI
             me->CastSpell(target, SpellVoidBeam, true);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eSargereiSoulbinderEvents::EventMindShear, 8 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eSargereiSoulbinderEvents::EventBendWill, 18 * TimeConstants::IN_MILLISECONDS);
@@ -350,7 +350,7 @@ struct auchindoun_mob_sargerei_cleric : public ScriptedAI
             me->CastSpell(target, SpellVoidBeam, true);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eSargereiClericEvents::EventVoidShell, 15 * TimeConstants::IN_MILLISECONDS);
     }
@@ -424,7 +424,7 @@ struct auchindoun_mob_sargerei_ritualist : public ScriptedAI
         me->AddAura(eSargereiRitualistSpells::SpellDarkFire, me);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         me->CastStop();
         me->RemoveAllAuras();
@@ -492,7 +492,7 @@ struct auchindoun_mob_sargerei_zealot : public ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eAuchindounEvents::EventSeverTendom, 5 * TimeConstants::IN_MILLISECONDS);
     }
@@ -564,7 +564,7 @@ struct auchindoun_mob_sargerei_spirit_tender : public ScriptedAI
             me->CastSpell(target, SpellVoidBeam, true);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eSpiritTenderEvents::EventVoidMending, 10 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eSpiritTenderEvents::EventVoidShift, 16 * TimeConstants::IN_MILLISECONDS);
@@ -639,7 +639,7 @@ struct auchindoun_mob_sargerei_hopilite : public ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eSargereiHopiliteEvents::EventShieldBash, urand(8 * TimeConstants::IN_MILLISECONDS, 12 * TimeConstants::IN_MILLISECONDS));
         events.ScheduleEvent(eSargereiHopiliteEvents::EventVoidStrikes, 18 * TimeConstants::IN_MILLISECONDS);
@@ -720,7 +720,7 @@ struct auchindoun_mob_sargerei_defender : public ScriptedAI
             m_False = false;
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eSargereiDefenderEvents::EventAvengersShield, urand(10 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));
         events.ScheduleEvent(eSargereiDefenderEvents::EventCrusaderStirke, urand(5 * TimeConstants::IN_MILLISECONDS, 9 * TimeConstants::IN_MILLISECONDS));
@@ -819,7 +819,7 @@ struct auchindoun_mob_sargerei_magus : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         me->RemoveAura(eSargereiMagusSpells::SpellArcaneChanneling);
         events.ScheduleEvent(eSargereiMagusEvents::EventArcaneBomb, 13 * TimeConstants::IN_MILLISECONDS);
@@ -903,7 +903,7 @@ struct auchindoun_mob_soul_priest : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eSoulPriestEvents::EventPsychicTerrors, 15 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eSoulPriestEvents::EventShadowWordPainSoulPriest, urand(8 * TimeConstants::IN_MILLISECONDS, 10 * TimeConstants::IN_MILLISECONDS));
@@ -922,7 +922,7 @@ struct auchindoun_mob_soul_priest : public ScriptedAI
         switch (events.ExecuteEvent())
         {
         case eSoulPriestEvents::EventShadowWordPainSoulPriest:
-            if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true, -eAuchindounSpells::SpellShadowWordPainPriest))
+            if (SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true, -eAuchindounSpells::SpellShadowWordPainPriest))
                 me->CastSpell(me, eSoulPriestSpells::SpellShadowWordPainPriest);
             events.ScheduleEvent(eSoulPriestEvents::EventShadowWordPainSoulPriest, urand(8 * TimeConstants::IN_MILLISECONDS, 12 * TimeConstants::IN_MILLISECONDS));
             break;
@@ -972,7 +972,7 @@ struct auchindoun_mob_sargeri_warden : public ScriptedAI
             m_False = false;
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eWardenEvents::EventWardenChain, 5 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eWardenEvents::EventWardenHammer, urand(12 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));
@@ -1039,7 +1039,7 @@ struct auchindoun_mob_felborne_abyssal : public ScriptedAI
         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eFelborneAbyssalEvents::EventFixate, urand(16 * TimeConstants::IN_MILLISECONDS, 20 * TimeConstants::IN_MILLISECONDS));
     }
@@ -1056,7 +1056,7 @@ struct auchindoun_mob_felborne_abyssal : public ScriptedAI
         }
     }
 
-    void OnAddThreat(Unit* p_Victim, float& p_fThreat, SpellSchoolMask /*p_SchoolMask*/, SpellInfo const /*p_ThreatSpell*/)
+    void OnAddThreat(Unit* /*p_Victim*/, float& p_fThreat, SpellSchoolMask /*p_SchoolMask*/, SpellInfo const /*p_ThreatSpell*/)
     {
         if (m_Fixated)
             p_fThreat = 0;
@@ -1130,7 +1130,7 @@ struct auchindoun_mob_cackling_pyromaniac : public ScriptedAI
         me->CastSpell(me, eCacklingPyromaniacSpells::SpellAbyssalVisual);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eCacklingPyromaniacEvents::EventFelBlast, 6 * TimeConstants::IN_MILLISECONDS);
     }
@@ -1267,7 +1267,7 @@ struct auchindoun_mob_felguard : public ScriptedAI
         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eFelguardEvents::EventFelStomp, 10 * TimeConstants::IN_MILLISECONDS);
     }
@@ -1391,7 +1391,7 @@ class auchindoun_spell_psychic_terror : public SpellScript
     {
         if (Unit* l_Caster = GetCaster())
         {
-            if (Unit* l_Target = GetHitUnit())
+            if (GetHitUnit())
             {
                 std::list<Player*> l_ListPlayers;
                 l_Caster->GetPlayerListInGrid(l_ListPlayers, 4.0f);
@@ -1451,7 +1451,7 @@ class auchindoun_warden_chain_aura : public AuraScript
         SpellWardenChainRoot = 154263
     };
 
-    void HandlePeriodic(AuraEffect const* p_AurEff)
+    void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
     {
         if (Unit* l_Target = GetTarget())
             l_Target->AddAura(eWardenChainAuras::SpellWardenChainRoot, l_Target);
@@ -1468,7 +1468,7 @@ class auchindoun_spell_void_shift : public SpellScript
 {
     PrepareSpellScript(auchindoun_spell_void_shift);
 
-    void HandleDummy(SpellEffIndex effIndex)
+    void HandleDummy(SpellEffIndex /*effIndex*/)
     {
         if (!GetCaster())
             return;
@@ -1589,7 +1589,7 @@ class auchindoun_spell_arcane_bolt : public AuraScript
         SpellArcaneBoltProje = 157931
     };
 
-    void HandlePeriodic(AuraEffect const* p_AurEff)
+    void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
     {
         if (Unit* l_Caster = GetCaster())
         {
@@ -1658,7 +1658,7 @@ public:
 
     auchindoun_gob_talador_portal() : GameObjectScript("auchindoun_gob_talador_portal") { }
 
-    bool OnGossipHello(Player* p_Player, GameObject* p_Gameobject) override
+    bool OnGossipHello(Player* p_Player, GameObject* /*p_Gameobject*/) override
     {
         p_Player->TeleportTo(1116, 1488.52f, 3077.65f, 108.920f, 4.653427f);
         return true;

@@ -154,9 +154,9 @@ public:
                 if (me->ToTempSummon() && me->ToTempSummon()->GetSummoner())
                     me->ToTempSummon()->GetSummoner()->EnterVehicle(me, 0);
 
-                int l_ClosestPoint = 0;
+                size_t l_ClosestPoint = 0;
                 float l_ClosestDistance = k_FallPoints[0].GetExactDist2d(me);
-                for (int i = 1; i < k_NumFallPoints; i++)
+                for (size_t i = 1; i < k_NumFallPoints; ++i)
                 {
                     if (k_FallPoints[i].GetExactDist2d(me) < l_ClosestDistance)
                     {

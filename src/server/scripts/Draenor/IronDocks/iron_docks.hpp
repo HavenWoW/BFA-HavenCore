@@ -64,7 +64,7 @@ Position const g_TrainMovePos[2]  =
 #define HostileFaction 16
 #define InvisibleDisplay 11686
 
-static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
+[[maybe_unused]] static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
 {
     std::list<Creature*> l_CreaturesList;
     GetCreatureListWithEntryInGrid(l_CreaturesList, p_Object, p_Entry, 2000.0f);

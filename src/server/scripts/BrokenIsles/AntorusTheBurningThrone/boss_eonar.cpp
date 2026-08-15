@@ -148,7 +148,7 @@ struct boss_essence_of_eonar : public BossAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, 240796, true);
@@ -188,7 +188,7 @@ struct boss_essence_of_eonar : public BossAI
     void UpdateAI(uint32 diff) override
     {
         events.Update(diff);
-        switch (uint32 eventId = events.ExecuteEvent())
+        switch (events.ExecuteEvent())
         {
         case PHASE_01:
         {

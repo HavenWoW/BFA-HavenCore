@@ -128,7 +128,7 @@ public:
             _JustDied();
         }
 
-        void SpellHit(Unit* caster, const SpellInfo* spell) override
+        void SpellHit(Unit* /*caster*/, const SpellInfo* spell) override
         {
             switch (spell->Id)
             {
@@ -272,7 +272,7 @@ public:
 
         void Reset() override {}
 
-        void MovementInform(uint32 type, uint32 id) override
+        void MovementInform(uint32 type, uint32 /*id*/) override
         {
             if (type != POINT_MOTION_TYPE)
                 return;
@@ -469,10 +469,12 @@ public:
             if (!caster)
                 return;
 
-            if (Aura* aura = caster->GetAura(195034))
+            if (caster->GetAura(195034))
+            {
                // stack = aura->GetStackAmount();
 
-            damage = CalculatePct(GetHitDamage(), stack);
+                damage = CalculatePct(GetHitDamage(), stack);
+            }
             SetHitDamage(GetHitDamage() + damage);
         }
 

@@ -182,8 +182,8 @@ struct npc_baldrazar : ScriptedAI
         else if (me->GetZoneId() == 9128)
             me->AddDelayedEvent(9000, [=]() -> void { DoCast(251005); });
         else if (me->GetZoneId() == 9127)
-            me->AddDelayedEvent(9000, [=]() -> void { DoCast(251003); });*/
-     /*   else if (me->GetZoneId() == 9102)
+            me->AddDelayedEvent(9000, [=]() -> void { DoCast(251003); });
+        else if (me->GetZoneId() == 9102)
         {
             DoCast(252113);
             me->AddDelayedEvent(9000, [=]() -> void { DoCast(251004); });
@@ -198,7 +198,7 @@ struct npc_baldrazar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -208,7 +208,7 @@ struct npc_baldrazar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -218,7 +218,7 @@ struct npc_baldrazar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -228,7 +228,7 @@ struct npc_baldrazar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -238,7 +238,7 @@ struct npc_baldrazar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -248,7 +248,7 @@ struct npc_baldrazar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -394,7 +394,7 @@ struct npc_dreadbringer_valus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -404,7 +404,7 @@ struct npc_dreadbringer_valus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -414,7 +414,7 @@ struct npc_dreadbringer_valus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -424,7 +424,7 @@ struct npc_dreadbringer_valus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -434,7 +434,7 @@ struct npc_dreadbringer_valus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -444,7 +444,7 @@ struct npc_dreadbringer_valus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -567,7 +567,7 @@ struct npc_vogrethar_the_defiled : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -577,7 +577,7 @@ struct npc_vogrethar_the_defiled : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -587,7 +587,7 @@ struct npc_vogrethar_the_defiled : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -597,7 +597,7 @@ struct npc_vogrethar_the_defiled : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -607,7 +607,7 @@ struct npc_vogrethar_the_defiled : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -617,7 +617,7 @@ struct npc_vogrethar_the_defiled : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -741,7 +741,7 @@ struct npc_flamebringer_azrothel : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -751,7 +751,7 @@ struct npc_flamebringer_azrothel : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -761,7 +761,7 @@ struct npc_flamebringer_azrothel : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -771,7 +771,7 @@ struct npc_flamebringer_azrothel : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -781,7 +781,7 @@ struct npc_flamebringer_azrothel : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -791,7 +791,7 @@ struct npc_flamebringer_azrothel : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -906,7 +906,7 @@ struct npc_gorgoloth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -916,7 +916,7 @@ struct npc_gorgoloth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -926,7 +926,7 @@ struct npc_gorgoloth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -936,7 +936,7 @@ struct npc_gorgoloth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -946,7 +946,7 @@ struct npc_gorgoloth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -956,7 +956,7 @@ struct npc_gorgoloth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1075,7 +1075,7 @@ struct npc_flameweaver_verathix : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1085,7 +1085,7 @@ struct npc_flameweaver_verathix : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1095,7 +1095,7 @@ struct npc_flameweaver_verathix : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1105,7 +1105,7 @@ struct npc_flameweaver_verathix : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1115,7 +1115,7 @@ struct npc_flameweaver_verathix : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1125,7 +1125,7 @@ struct npc_flameweaver_verathix : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1236,7 +1236,7 @@ struct npc_velthrak_the_punisher : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1246,7 +1246,7 @@ struct npc_velthrak_the_punisher : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1256,7 +1256,7 @@ struct npc_velthrak_the_punisher : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1266,7 +1266,7 @@ struct npc_velthrak_the_punisher : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1276,7 +1276,7 @@ struct npc_velthrak_the_punisher : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1286,7 +1286,7 @@ struct npc_velthrak_the_punisher : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1429,7 +1429,7 @@ struct npc_mazgoroth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1439,7 +1439,7 @@ struct npc_mazgoroth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1449,7 +1449,7 @@ struct npc_mazgoroth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1459,7 +1459,7 @@ struct npc_mazgoroth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1469,7 +1469,7 @@ struct npc_mazgoroth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1479,7 +1479,7 @@ struct npc_mazgoroth : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1630,7 +1630,7 @@ struct npc_malphazel_argus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1640,7 +1640,7 @@ struct npc_malphazel_argus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1650,7 +1650,7 @@ struct npc_malphazel_argus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1660,7 +1660,7 @@ struct npc_malphazel_argus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1670,7 +1670,7 @@ struct npc_malphazel_argus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1680,7 +1680,7 @@ struct npc_malphazel_argus : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1818,7 +1818,7 @@ struct npc_fel_lord_kazral : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1828,7 +1828,7 @@ struct npc_fel_lord_kazral : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1838,7 +1838,7 @@ struct npc_fel_lord_kazral : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1848,7 +1848,7 @@ struct npc_fel_lord_kazral : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1858,7 +1858,7 @@ struct npc_fel_lord_kazral : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1868,7 +1868,7 @@ struct npc_fel_lord_kazral : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1976,7 +1976,7 @@ struct npc_harbinger_drelnathar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1986,7 +1986,7 @@ struct npc_harbinger_drelnathar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -1996,7 +1996,7 @@ struct npc_harbinger_drelnathar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2006,7 +2006,7 @@ struct npc_harbinger_drelnathar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2016,7 +2016,7 @@ struct npc_harbinger_drelnathar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2026,7 +2026,7 @@ struct npc_harbinger_drelnathar : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2137,7 +2137,7 @@ struct npc_flamecaller_vezrah : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2147,7 +2147,7 @@ struct npc_flamecaller_vezrah : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2157,7 +2157,7 @@ struct npc_flamecaller_vezrah : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2167,7 +2167,7 @@ struct npc_flamecaller_vezrah : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2177,7 +2177,7 @@ struct npc_flamecaller_vezrah : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2187,7 +2187,7 @@ struct npc_flamecaller_vezrah : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2305,7 +2305,7 @@ struct npc_dread_knight_zakgal : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterBonich[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsBonich[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -3724.07f, -7999.76f, 3.26834f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2315,7 +2315,7 @@ struct npc_dread_knight_zakgal : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterAurinor[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsAurinor[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4066.52f, -4659.22f, 80.5446f, 1.61817f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2325,7 +2325,7 @@ struct npc_dread_knight_zakgal : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterCengar[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsCengar[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, 654.082f, 596.453f, 40.4031f, 4.22246f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2335,7 +2335,7 @@ struct npc_dread_knight_zakgal : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterVal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsVal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -4033.44f, 568.951f, 0.531898f, 5.59048f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2345,7 +2345,7 @@ struct npc_dread_knight_zakgal : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterNaigtal[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsNaigtal[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1833.56f, -1603.79f, 0.902228f, 4.73205f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2355,7 +2355,7 @@ struct npc_dread_knight_zakgal : ScriptedAI
         {
             for (uint8 i = 0; i < 5; ++i)
                 me->SummonCreature(127108, DemonHunterSangua[i], TEMPSUMMON_TIMED_DESPAWN, 20000);
-            for (uint8 i = 0; i < 2; ++i)
+            //for (uint8 i = 0; i < 2; ++i)
                 //me->SummonGameObject(276221, GameObjectsFlagsSangua[i], 0, 0, 0, 0, 0, 20);
             me->SummonCreature(124884, -1390.74f, 761.028f, 62.5843f, 5.47791f, TEMPSUMMON_TIMED_DESPAWN, 20000);
 
@@ -2456,38 +2456,39 @@ struct npc_fragment_of_argus : ScriptedAI
 
         events.Update(diff);
 
-        //while (uint32 eventId = events.ExecuteEvent())
-        //{
-            //switch (eventId)
-            //{
-          /*  case EVENT_1:
+        /*while (uint32 eventId = events.ExecuteEvent())
+        {
+            switch (eventId)
             {
-           //     Unit* player = Unit::GetUnit(*me, playerGuid);
-         //       if (!player || !player->IsAlive() || !player->HasAura(218368))
-         /*       {
+            case EVENT_1:
+            {
+                Unit* player = Unit::GetUnit(*me, playerGuid);
+                if (!player || !player->IsAlive() || !player->HasAura(218368))
+                {
                     if (me->GetAnyOwner())
-                    {*/
-                  //      if (Creature* summoner = me->GetAnyOwner()->ToCreature())*/
-                    //    {
-                    //        if (Unit* pTarget = summoner->AI()->SelectTarget(SELECT_TARGET_RANDOM, checkPlayers(), 200.0f, true))
-                         //   {
-                        //        playerGuid.Clear();
-                        //        me->AttackStop();
-                            //    me->CastSpell(pTarget, 218368, TriggerCastFlags(TRIGGERED_IGNORE_CAST_IN_PROGRESS | TRIGGERED_IGNORE_AURA_INTERRUPT_FLAGS));
-                     /*       }
+                    {
+                       if (Creature* summoner = me->GetAnyOwner()->ToCreature())
+                        {
+                            if (Unit* pTarget = summoner->AI()->SelectTarget(SELECT_TARGET_RANDOM, checkPlayers(), 200.0f, true))
+                            {
+                                playerGuid.Clear();
+                                me->AttackStop();
+                                me->CastSpell(pTarget, 218368, TriggerCastFlags(TRIGGERED_IGNORE_CAST_IN_PROGRESS | TRIGGERED_IGNORE_AURA_INTERRUPT_FLAGS));
+                           }
                         }
                     }
-                }*/
-             //   else
-             //       me->AI()->AttackStart(player);
-           //     events.ScheduleEvent(EVENT_1, 2000);
-             //   break;
-         //   }
-         //   default:
-         //       break;
-         //   }
-        //}
-      //  DoMeleeAttackIfReady();
+                }
+               else
+                    me->AI()->AttackStart(player);
+                events.ScheduleEvent(EVENT_1, 2000);
+                break;
+            }
+            default:
+                break;
+            }
+        }
+        DoMeleeAttackIfReady();
+        */
     }
 };
 
@@ -2516,7 +2517,7 @@ struct npc_explosive_orb : ScriptedAI
     void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, 219464, true);
-     //   me->AddDelayedEvent(1000, [=]() -> void { DoCast(249447); });
+            //me->AddDelayedEvent(1000, [=]() -> void { DoCast(249447); });
         me->DespawnOrUnsummon(13000);
     }
 };
@@ -3930,7 +3931,7 @@ public:
             break;
         }
 
-      /*  if (questId && player->WorldQuestCompleted(questId) && !player->IsGameMaster())
+      / *  if (questId && player->WorldQuestCompleted(questId) && !player->IsGameMaster())
             player->CastSpell(player, 247069, false);
 
         if (eventid1 && eventid2)
@@ -4192,7 +4193,7 @@ public:
         if (m_players.find(zone) == m_players.end())
             return;
 
-        /*for (auto& guid : m_players[zone])
+        / *for (auto& guid : m_players[zone])
             if (Player* player = ObjectAccessor::GetObjectInMap(guid, m_map, (Player*)nullptr))
                 function(player);
     }
@@ -4201,7 +4202,7 @@ public:
     {
         if (step == 100)
         {
-            /*for (auto& guid : m_creatures[zone])
+            / *for (auto& guid : m_creatures[zone])
                 if (Creature* cre = ObjectAccessor::GetObjectInMap(guid, m_map, (Creature*)nullptr))
                     cre->DespawnOrUnsummon();
 

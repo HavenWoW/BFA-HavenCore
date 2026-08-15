@@ -90,8 +90,6 @@ public:
         {
             events.Update(diff);
 
-            Map::PlayerList const& PlayerList = me->GetMap()->GetPlayers();
-
             while (uint32 eventId = events.ExecuteEvent())
             {
                 switch (eventId)
@@ -286,10 +284,8 @@ public:
         char const* GOSSIP_BUTTON_1;
         char const* GOSSIP_BUTTON_2;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How do I play the Tonk Challenge?";
             GOSSIP_BUTTON_2 = "Ready to play! |cFF0000FF(Darkmoon Game Token)|r";
@@ -305,16 +301,14 @@ public:
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 uiSender, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 action)
     {
         char const* GOSSIP_BUTTON_1;
         char const* GOSSIP_BUTTON_2;
         char const* GOSSIP_BUTTON_3;
 
-        switch (LocaleConstant currentlocale = player->GetSession()->GetSessionDbcLocale())
+        switch (player->GetSession()->GetSessionDbcLocale())
         {
-        case 20:    // locales end on 11, case 20 is impossible case, this is just to fix compile warnings.
-            break;
         default:
             GOSSIP_BUTTON_1 = "How do I play the Tonk Challenge?";
             GOSSIP_BUTTON_2 = "Ready to play! |cFF0000FF(Darkmoon Game Token)|r";

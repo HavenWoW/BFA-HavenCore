@@ -64,14 +64,14 @@ class npc_rate_xp_modifier : public CreatureScript
             }
 
             SendGossipMenuFor(player, player->GetGossipTextId(creature), creature->GetGUID());
-            return ItemContext::NONE, true;
+            return true;
         }
 
         bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*uiSender*/, uint32 uiAction) override
         {
             CloseGossipMenuFor(player);
             player->SetPersonnalXpRate(float(std::min(MAX_RATE, uiAction)));
-            return ItemContext::NONE, true;
+            return true;
         }
 };
 
@@ -194,11 +194,12 @@ public:
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, GOSSIP_A_WRINKIE_IN_TIME, GOSSIP_SENDER_MAIN, ACTION_A_WRINKIE_IN_TIME);
         else if (player->GetQuestStatus(29193) == QUEST_STATUS_INCOMPLETE)
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, GOSSIP_ON_A_WING_AND_A_PRAYER, GOSSIP_SENDER_MAIN, ACTION_ON_A_WING_AND_A_PRAYER);
-            SendGossipMenuFor(player, player->GetGossipTextId(creature), creature->GetGUID());
-        return ItemContext::NONE, true;
+
+        SendGossipMenuFor(player, player->GetGossipTextId(creature), creature->GetGUID());
+        return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*sender*/, uint32 action)
     {
         player->PlayerTalkClass->ClearMenus();
         if (action == ACTION_A_WRINKIE_IN_TIME)
@@ -219,7 +220,7 @@ public:
             else
                 return false;
         }
-        return ItemContext::NONE, true;
+        return true;
     }
 };
 
@@ -243,7 +244,7 @@ public:
 
         creature->SetWalk(true);
         creature->GetMotionMaster()->MovePoint(POINT_HALLEGOSA_1, ((creature->GetMapId() == 1) ? Pos2[0] : Pos1[0]));
-        return ItemContext::NONE, true;
+        return true;
     }
 
     struct npc_hallegosaAI : ScriptedAI
@@ -253,7 +254,7 @@ public:
         EventMap events;
         uint8 curPoint;
 
-        void OnQuestAccept(Player* player, const Quest quest)
+        void OnQuestAccept(Player* /*player*/, const Quest /*quest*/)
         {
             me->AddUnitFlag(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
         }
@@ -443,17 +444,17 @@ public:
         lvlup = 110, //Sets level
     };
 
-        bool OnUse(Player* player, Item* item, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+        bool OnUse(Player* player, Item* /*item*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (player->IsInCombat() || player->InArena() || player->InBattleground()) //Item is not usable in combat, arenas and battlegrounds. This can be modified to your taste.
         {
-            player->GetSession()->SendNotification(sObjectMgr->GetTrinityStringForDBCLocale(789000));
+            player->GetSession()->SendNotification("%s", sObjectMgr->GetTrinityStringForDBCLocale(789000));
             return false;
         }
         else if (player->getLevel() == max_lvl)
 
         {
-            player->GetSession()->SendNotification(sObjectMgr->GetTrinityStringForDBCLocale(789001)); //Item is not usable if character is server maxlevel
+            player->GetSession()->SendNotification("%s", sObjectMgr->GetTrinityStringForDBCLocale(789001)); //Item is not usable if character is server maxlevel
             return false;
         }
         // Bags
@@ -761,11 +762,11 @@ public:
         lvlup = 120, //Sets level
     };
 
-    bool OnUse(Player* player, Item* item, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+    bool OnUse(Player* player, Item* /*item*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (player->IsInCombat() || player->InArena() || player->InBattleground()) //Item is not usable in combat, arenas and battlegrounds. This can be modified to your taste.
         {
-            player->GetSession()->SendNotification(sObjectMgr->GetTrinityStringForDBCLocale(789000));
+            player->GetSession()->SendNotification("%s", sObjectMgr->GetTrinityStringForDBCLocale(789000));
             return false;
         }
 
@@ -1090,11 +1091,11 @@ public:
         item_id = 789003, //Item Entry
     };
 
-    bool OnUse(Player* player, Item* item, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+    bool OnUse(Player* player, Item* /*item*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (player->IsInCombat() || player->InArena() || player->InBattleground()) //Item is not usable in combat, arenas and battlegrounds. This can be modified to your taste.
         {
-            player->GetSession()->SendNotification(sObjectMgr->GetTrinityStringForDBCLocale(789000));
+            player->GetSession()->SendNotification("%s", sObjectMgr->GetTrinityStringForDBCLocale(789000));
             return false;
         }
 
@@ -1117,11 +1118,11 @@ public:
         item_id = 789004, //Item Entry
     };
 
-    bool OnUse(Player* player, Item* item, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+    bool OnUse(Player* player, Item* /*item*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (player->IsInCombat() || player->InArena() || player->InBattleground()) //Item is not usable in combat, arenas and battlegrounds. This can be modified to your taste.
         {
-            player->GetSession()->SendNotification(sObjectMgr->GetTrinityStringForDBCLocale(789000));
+            player->GetSession()->SendNotification("%s", sObjectMgr->GetTrinityStringForDBCLocale(789000));
             return false;
         }
 
@@ -1145,11 +1146,11 @@ public:
         item_id = 789005, //Item Entry
     };
 
-    bool OnUse(Player* player, Item* item, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+    bool OnUse(Player* player, Item* /*item*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (player->IsInCombat() || player->InArena() || player->InBattleground()) //Item is not usable in combat, arenas and battlegrounds. This can be modified to your taste.
         {
-            player->GetSession()->SendNotification(sObjectMgr->GetTrinityStringForDBCLocale(789000));
+            player->GetSession()->SendNotification("%s", sObjectMgr->GetTrinityStringForDBCLocale(789000));
             return false;
         }
 
@@ -1223,18 +1224,18 @@ public:
         if (player->IsInCombat() || player->InArena() || player->InBattleground())
         {
             CloseGossipMenuFor(player);
-            player->GetSession()->SendNotification(sObjectMgr->GetTrinityStringForDBCLocale(789000));
+            player->GetSession()->SendNotification("%s", sObjectMgr->GetTrinityStringForDBCLocale(789000));
             return false;
         } else {
             AddGossipItemFor(player, GOSSIP_ICON_TRANSMOGRIFIER, "Random morph", GOSSIP_SENDER_MAIN, ACTION_RANDOM_MORPH);
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Demorph", GOSSIP_SENDER_MAIN, ACTION_DEMORPH);
 
             SendGossipMenuFor(player, player->GetGossipTextId(creature), creature->GetGUID());
-            return ItemContext::NONE, true;
+            return true;
         }
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*sender*/, uint32 action)
     {
         player->PlayerTalkClass->ClearMenus();
         if (action == ACTION_RANDOM_MORPH)
@@ -1355,7 +1356,7 @@ public:
             player->DeMorph();
         }
 
-        return ItemContext::NONE, true;
+        return true;
     }
 };
 

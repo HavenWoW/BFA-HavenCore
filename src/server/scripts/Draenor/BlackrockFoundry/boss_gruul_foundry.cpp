@@ -235,7 +235,7 @@ class boss_gruul_foundry : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 me->RemoveAllAuras();
 
@@ -420,7 +420,7 @@ class boss_gruul_foundry : public CreatureScript
                         me->ClearUnitState(UnitState::UNIT_STATE_CANNOT_TURN);
                         me->SetReactState(ReactStates::REACT_PASSIVE);
 
-                        if (Spell* l_CurrentSpell = me->GetCurrentSpell(CurrentSpellTypes::CURRENT_GENERIC_SPELL))
+                        if (me->GetCurrentSpell(CurrentSpellTypes::CURRENT_GENERIC_SPELL))
                         {
                            // AddTimedDelayedOperation(l_CurrentSpell->GetCastTime() + 100, [this]() -> void
                           //  {
@@ -894,7 +894,6 @@ class spell_foundry_petrifying_slam_aoe : public SpellScriptLoader
                     if (p_Object == nullptr || !p_Object->IsPlayer())
                         return true;
 
-                    Player* l_Player = p_Object->ToPlayer();
                     //if (l_Player->GetRoleForGroup() == Roles::ROLE_TANK)
                        // return true;
 
@@ -998,11 +997,10 @@ class spell_foundry_overhead_smash : public SpellScriptLoader
 
             void HandleKnockBack(SpellEffIndex /*p_EffIndex*/)
             {
-                if (Unit* l_Boss = GetCaster())
+                if (GetCaster())
                 {
-                    if (Unit* l_Target = GetHitUnit())
+                    if (GetHitUnit())
                     {
-                        float l_Distance = l_Target->GetDistance(l_Boss);
                       //  int32 l_Damage = GetSpell()->CalculateDamage() * int32(l_Distance / 5.0f);
 
                       //  GetSpell()->SetDamage(l_Damage);

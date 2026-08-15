@@ -31,8 +31,8 @@ namespace Instances
         {
             //{ GameObjects::RoltallBridge,       BossIds::BossForgemasterGogduh, DoorType::DOOR_TYPE_PASSAGE   },
             //{ GameObjects::RoltallEntranceWall, BossIds::BossForgemasterGogduh, DoorType::DOOR_TYPE_PASSAGE   },
-            { GameObjects::RoltallExitWall,     BossIds::BossRoltall,           DoorType::DOOR_TYPE_PASSAGE },
-            { 0,                                0,                              DoorType::DOOR_TYPE_ROOM    }  // EOF
+            { GameObjects::RoltallExitWall,     BossIds::BossRoltall,           DoorType::DOOR_TYPE_PASSAGE, BoundaryType::BOUNDARY_NONE },
+            { 0,                                0,                              DoorType::DOOR_TYPE_ROOM, BoundaryType::BOUNDARY_NONE    }  // EOF
         };
 
         /*static const uint32 g_MinerEntry[] =

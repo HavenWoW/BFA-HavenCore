@@ -201,7 +201,7 @@ struct boss_teronogor : public BossAI
             instance->SetBossState(eAuchindounDatas::DataBossTeronogor, EncounterState::FAIL);
     }
 
-    void DamageTaken(Unit* p_Attacker, uint32 &p_Damage) override
+    void DamageTaken(Unit* /*p_Attacker*/, uint32 &p_Damage) override
     {
         if(me->HealthWillBeBelowPctDamaged(75, p_Damage) && !m_SecondPhase)
         {
@@ -308,7 +308,7 @@ struct boss_teronogor : public BossAI
             Talk(eTerongorTalks::TERONGOR_KILL_01);
     }
 
-    void MovementInform(uint32 p_Type, uint32 p_Id)
+    void MovementInform(uint32 /*p_Type*/, uint32 p_Id)
     {
         Position pos;
         switch (p_Id)
@@ -440,7 +440,7 @@ struct boss_teronogor : public BossAI
         case eTerongorEvents::EventChaosBolt:
         {
             if (Unit* l_Target = me->GetVictim())
-                me->CastSpell(me->GetVictim(), eTerongorSpells::SpellChaosBolt);
+                me->CastSpell(l_Target, eTerongorSpells::SpellChaosBolt);
 
             events.ScheduleEvent(eTerongorEvents::EventChaosBolt, 20 * TimeConstants::IN_MILLISECONDS);
             break;
@@ -610,7 +610,7 @@ public:
             me->SetReactState(ReactStates::REACT_DEFENSIVE);
         }
 
-        void EnterCombat(Unit* p_Attacker)
+        void EnterCombat(Unit* /*unit*/)
         {
             me->CastStop();
             me->RemoveAllAuras();
@@ -709,7 +709,7 @@ public:
             me->SetReactState(ReactStates::REACT_DEFENSIVE);
         }
 
-        void EnterCombat(Unit* p_Attacker)
+        void EnterCombat(Unit* /*unit*/)
         {
             me->CastStop();
             me->RemoveAllAuras();
@@ -801,7 +801,7 @@ public:
             me->SetReactState(ReactStates::REACT_AGGRESSIVE);
         }
 
-        void EnterCombat(Unit* p_Attacker)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(eTerongorEvents::EventWrathcleave, 10 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eTerongorEvents::EventWrathstorm, urand(14 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));
@@ -896,7 +896,7 @@ public:
                 me->CastSpell(l_Teronogor, eAuchindounSpells::SpellDrainSoulVisual);
         }
 
-        void EnterCombat(Unit* p_Attacker)
+        void EnterCombat(Unit* /*unit*/)
         {
             me->CastStop();
             me->RemoveAllAuras();
@@ -907,7 +907,7 @@ public:
                 me->CastSpell(l_Zashoo, eGromkashSpells::SpellGrimoireOfSacrifice);
         }
 
-        void JustDied(Unit* p_Killer)
+        void JustDied(Unit* /*killer*/)
         {
             if (Creature* l_Teronogor = me->FindNearestCreature(NPC_TERONOGOR, 1000.0f, true))
                 l_Teronogor->RemoveAura(eTerongorSpells::SpellTeronogorShield);
@@ -1040,7 +1040,7 @@ public:
             // }
         }
 
-        void UpdateAI(uint32 p_Diff) override
+        void UpdateAI(uint32 /*p_Diff*/) override
         {
             me->SetSpeed(UnitMoveType::MOVE_RUN, 0.3f);
 
@@ -1117,7 +1117,7 @@ public:
             SpellChaosWaveDmg = 157002
         };
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (!GetCaster() && !GetExplTargetUnit())
                 return;
@@ -1218,7 +1218,7 @@ public:
             SpellDemonicLeapJump = 157039
         };
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (!GetCaster() && !GetExplTargetUnit())
                 return;
@@ -1245,7 +1245,7 @@ public:
 
     auchindoun_teronogor_gameobject_soul_transporter_01() : GameObjectScript("auchindoun_teronogor_gameobject_soul_transporter_01") { }
 
-    bool OnGossipHello(Player* p_Player, GameObject* p_Gobject)
+    bool OnGossipHello(Player* p_Player, GameObject* /*p_Gobject*/)
     {
         p_Player->AddAura(eTerongorSpells::SpellTranscend, p_Player);
         //p_Player->AddUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);
@@ -1253,13 +1253,13 @@ public:
         //p_Player->SetFlag(UnitFields::UNIT_FIELD_FLAGS, UnitFlags::UNIT_FLAG_REMOVE_CLIENT_CONTROL | UnitFlags::UNIT_FLAG_IMMUNE_TO_NPC);
 
         p_Player->GetMotionMaster()->MoveCharge(g_PositionFirstPlatformFirstMove.GetPositionX(), g_PositionFirstPlatformFirstMove.GetPositionY(), g_PositionFirstPlatformFirstMove.GetPositionZ(), 60.0f);
-        p_Player->GetScheduler().Schedule(Milliseconds(3000), [p_Player](TaskContext context)
+        p_Player->GetScheduler().Schedule(Milliseconds(3000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionFirstPlatormSecondMove.GetPositionX(), g_PositionFirstPlatormSecondMove.GetPositionY(), g_PositionFirstPlatormSecondMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(6000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(6000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionFirstPlatformThirdMove.GetPositionX(), g_PositionFirstPlatformThirdMove.GetPositionY(), g_PositionFirstPlatformThirdMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(11000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(11000), [p_Player](TaskContext /*context*/)
         {
             p_Player->RemoveAura(eTerongorSpells::SpellTranscend);
             p_Player->RemoveUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);
@@ -1277,22 +1277,22 @@ public:
 
     auchindoun_teronogor_gameobject_soul_transporter_02() : GameObjectScript("auchindoun_teronogor_gameobject_soul_transporter_02") { }
 
-    bool OnGossipHello(Player* p_Player, GameObject* p_Gobject)
+    bool OnGossipHello(Player* p_Player, GameObject* /*p_Gobject*/)
     {
         p_Player->AddAura(eTerongorSpells::SpellTranscend, p_Player);
         //p_Player->AddUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);
         //p_Player->SetFlag(UnitFields::UNIT_FIELD_FLAGS_2, UnitFlags2::UNIT_FLAG2_DISABLE_TURN);
         //p_Player->SetFlag(UnitFields::UNIT_FIELD_FLAGS, UnitFlags::UNIT_FLAG_REMOVE_CLIENT_CONTROL | UnitFlags::UNIT_FLAG_IMMUNE_TO_NPC);
-        p_Player->GetScheduler().Schedule(Milliseconds(1000), [p_Player](TaskContext context)
+        p_Player->GetScheduler().Schedule(Milliseconds(1000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionSecondPlatformFirstMove.GetPositionX(), g_PositionSecondPlatformFirstMove.GetPositionY(), g_PositionSecondPlatformFirstMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(4000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(4000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionSecondPlatformSecondMove.GetPositionX(), g_PositionSecondPlatformSecondMove.GetPositionY(), g_PositionSecondPlatformSecondMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(7000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(7000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionSecondPlatformThirdMove.GetPositionX(), g_PositionSecondPlatformThirdMove.GetPositionY(), g_PositionSecondPlatformThirdMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(12000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(12000), [p_Player](TaskContext /*context*/)
         {
             p_Player->RemoveAura(eTerongorSpells::SpellTranscend);
             p_Player->RemoveUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);
@@ -1310,22 +1310,22 @@ public:
 
     auchindoun_teronogor_gameobject_soul_transporter_03() : GameObjectScript("auchindoun_teronogor_gameobject_soul_transporter_03") { }
 
-    bool OnGossipHello(Player* p_Player, GameObject* p_Gobject)
+    bool OnGossipHello(Player* p_Player, GameObject* /*p_Gobject*/)
     {
         p_Player->AddAura(eTerongorSpells::SpellTranscend, p_Player);
         //p_Player->AddUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);
         //p_Player->SetFlag(UnitFields::UNIT_FIELD_FLAGS_2, UnitFlags2::UNIT_FLAG2_DISABLE_TURN);
         //p_Player->SetFlag(UnitFields::UNIT_FIELD_FLAGS, UnitFlags::UNIT_FLAG_REMOVE_CLIENT_CONTROL | UnitFlags::UNIT_FLAG_IMMUNE_TO_NPC);
-        p_Player->GetScheduler().Schedule(Milliseconds(1000), [p_Player](TaskContext context)
+        p_Player->GetScheduler().Schedule(Milliseconds(1000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionThirdPlatformFirstMove.GetPositionX(), g_PositionThirdPlatformFirstMove.GetPositionY(), g_PositionThirdPlatformFirstMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(4000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(4000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionThirdPlatformsSecondMove.GetPositionX(), g_PositionThirdPlatformsSecondMove.GetPositionY(), g_PositionThirdPlatformsSecondMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(7000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(7000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionThirdPlatformThirdMove.GetPositionX(), g_PositionThirdPlatformThirdMove.GetPositionY(), g_PositionThirdPlatformThirdMove.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(12000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(12000), [p_Player](TaskContext /*context*/)
         {
             p_Player->RemoveAura(eTerongorSpells::SpellTranscend);
             p_Player->RemoveUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);
@@ -1343,16 +1343,16 @@ public:
 
     auchindoun_teronogor_gameobject_soul_transporter_04() : GameObjectScript("auchindoun_teronogor_gameobject_soul_transporter_04") { }
 
-    bool OnGossipHello(Player* p_Player, GameObject* p_Gobject)
+    bool OnGossipHello(Player* p_Player, GameObject* /*p_Gobject*/)
     {
         p_Player->AddAura(eTerongorSpells::SpellTranscend, p_Player);
         //p_Player->AddUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);
         //p_Player->SetFlag(UnitFields::UNIT_FIELD_FLAGS_2, UnitFlags2::UNIT_FLAG2_DISABLE_TURN);
         //p_Player->SetFlag(UnitFields::UNIT_FIELD_FLAGS, UnitFlags::UNIT_FLAG_REMOVE_CLIENT_CONTROL | UnitFlags::UNIT_FLAG_IMMUNE_TO_NPC);
-        p_Player->GetScheduler().Schedule(Milliseconds(1000), [p_Player](TaskContext context)
+        p_Player->GetScheduler().Schedule(Milliseconds(1000), [p_Player](TaskContext /*context*/)
         {
             p_Player->GetMotionMaster()->MoveCharge(g_PositionFourthMovement.GetPositionX(), g_PositionFourthMovement.GetPositionY(), g_PositionFourthMovement.GetPositionZ(), 60.0f);
-        }).Schedule(Milliseconds(6000), [p_Player](TaskContext context)
+        }).Schedule(Milliseconds(6000), [p_Player](TaskContext /*context*/)
         {
             p_Player->RemoveAura(eTerongorSpells::SpellTranscend);
             p_Player->RemoveUnitMovementFlag(MovementFlags::MOVEMENTFLAG_ROOT);

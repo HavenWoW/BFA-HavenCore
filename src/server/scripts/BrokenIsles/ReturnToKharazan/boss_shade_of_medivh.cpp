@@ -286,7 +286,7 @@ class boss_shade_of_medivh : public CreatureScript
                         ScheduleTasks();
                         events.ScheduleEvent(EVENT_REGEN_ENERGY, IN_MILLISECONDS);
                     }
-
+                    /* fallthrough */
                     case EVENT_REGEN_ENERGY:
                     {
                         int32 power = me->GetMaxPower(POWER_MANA) * 0.03f;

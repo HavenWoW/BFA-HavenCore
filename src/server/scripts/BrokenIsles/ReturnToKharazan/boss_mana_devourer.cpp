@@ -135,6 +135,7 @@ class boss_mana_devourer : public CreatureScript
                     {
                         DoCast(me, SPELL_COALESCE_POWER);
                         events.ScheduleEvent(EVENT_COALESCE_POWER, Seconds(30));
+                        break;
                     }
 
                     case EVENT_ENERGY_DISCHARGE:

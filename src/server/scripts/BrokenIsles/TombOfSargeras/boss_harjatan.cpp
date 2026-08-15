@@ -216,7 +216,7 @@ public:
                 break;
             case NPC_TADPOLE_3:
             {
-                if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0, true))
+                if (SelectTarget(SELECT_TARGET_RANDOM, 0, 0, true))
                 {
                     //creature->SetTargetGUID(target->GetGUID());
                     creature->AI()->DoAction(true);
@@ -454,7 +454,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff) override {}
+        void UpdateAI(uint32 /*diff*/) override {}
     };
 
     CreatureAI* GetAI(Creature* creature) const override
@@ -569,7 +569,7 @@ public:
 
         void UpdateAI(uint32 diff) override
         {
-            if ((!me->IsInCombat()) && (instance->GetBossState(DATA_HARJATAN) == FAIL) || (!me->IsInCombat()) && (instance->GetBossState(DATA_HARJATAN) == NOT_STARTED))
+            if (((!me->IsInCombat()) && (instance->GetBossState(DATA_HARJATAN) == FAIL)) || ((!me->IsInCombat()) && (instance->GetBossState(DATA_HARJATAN) == NOT_STARTED)))
             {
                 if (EvadeTimer <= diff)
                 {

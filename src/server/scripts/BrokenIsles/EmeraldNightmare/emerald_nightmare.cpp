@@ -57,7 +57,7 @@ public:
             return true;
         }
 
-        void OnUpdate(uint32 diff, AuraEffect* aurEff)
+        void OnUpdate(uint32 diff, AuraEffect* /*aurEff*/)
         {
             Unit* player = GetCaster();
             if (!player)

@@ -1072,7 +1072,10 @@ namespace Instances { namespace Bloodmaul
                     {
                         case Events::EventArmorDent:
                             me->CastSpell(me->GetVictim(), Spells::SpellArmorDent, false);
-                            m_Events.ScheduleEvent(m_IsHC ? urand(Events::EventArmorDent, Events::EventCinderSplash) : Events::EventArmorDent, 6000);
+                            if (m_IsHC)
+                                m_Events.ScheduleEvent(urand(Events::EventArmorDent, Events::EventCinderSplash), 6000);
+                            else
+                                m_Events.ScheduleEvent(Events::EventArmorDent, 6000);
                             break;
                         case Events::EventCinderSplash:
                             me->CastSpell(me->GetVictim(), Spells::SpellCinderSplash, false);

@@ -110,14 +110,14 @@ public:
             instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_ECHOING_ANGUISH);
             instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_BELAC_PRISONER);
             instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_SOUL_CORRUPTION);
-           // me->KillAllDelayedEvents();
-           // me->RemoveAllAreaObjects();
+            me->KillAllDelayedEvents();
+            me->RemoveAllAreaObjects();
 
             if (me->IsAlive())
                 instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_DEBUFF_UNBEAR_TOR);
         }
 
-       /* void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* who) override
         {
             _EnterCombat();
             events.Reset();
@@ -134,17 +134,17 @@ public:
                 Talk(0);
                 events.RescheduleEvent(EVENT_SUMMON_ADD, 1000);
                 break;
-          //  case NPC_BELAK:
-            ////    DoCast(me, SPELL_GET_ENERGY);
-            //    events.RescheduleEvent(EVENT_PANGS_OF_GUILT, 100);
-            //    events.RescheduleEvent(EVENT_ECHOING_ANGUISH, 5000);
-            //    events.RescheduleEvent(EVENT_TORMENTING_BURST, 9000);
-            /*    if (IsHeroic() || IsMythic())
+            case NPC_BELAK:
+                DoCast(me, SPELL_GET_ENERGY);
+                events.RescheduleEvent(EVENT_PANGS_OF_GUILT, 100);
+                events.RescheduleEvent(EVENT_ECHOING_ANGUISH, 5000);
+                events.RescheduleEvent(EVENT_TORMENTING_BURST, 9000);
+                if (IsHeroic() || IsMythic())
                     events.RescheduleEvent(EVENT_SUFFOCATING_DARK, 10000);
-              //  me->AddDelayedEvent(6500, [this]() -> void
+                me->AddDelayedEvent(6500, [this]() -> void
                 {
                     Talk(0);
-             //   });
+                });
                 break;
             }
 
@@ -156,15 +156,15 @@ public:
 
             if (Creature* other = instance->instance->GetCreature(instance->GetGuidData(me->GetEntry() == NPC_BELAK ? NPC_ATRIGAN : NPC_BELAK)))
             {
-              //  other->AddDelayedEvent(100, [other, who]() -> void
+                other->AddDelayedEvent(100, [other, who]() -> void
                 {
                     if (who)
                         if (!other->IsInCombat())
                             other->AI()->EnterCombat(who);
-               // });*/
-           // }
-       // }
-         /*   
+                });
+            }
+        }
+  
         void EnterEvadeMode() override
         {
             BossAI::EnterEvadeMode();
@@ -180,8 +180,8 @@ public:
                 });
             }
         }
-        */
-     /*   void DamageTaken(Unit* attacker, uint32& damage) override
+
+        void DamageTaken(Unit* attacker, uint32& damage) override
         {
             if (attacker == me)
                 return;
@@ -194,7 +194,7 @@ public:
                     other->DealDamage(other, damage);
             }
 
-           // if (dmgType != DIRECT_DAMAGE && dmgType != SPELL_DIRECT_DAMAGE)
+            if (dmgType != DIRECT_DAMAGE && dmgType != SPELL_DIRECT_DAMAGE)
                 return;
 
             for (const auto& pair : hitSpells)
@@ -228,18 +228,18 @@ public:
             Reset();
         }
 
-       // bool GetObjectData(ObjectGuid const& guid, uint32 type) override
-    //    {
-     //       if (calcifiedQuilsTargets[guid][type])
-    //            return true;
+        bool GetObjectData(ObjectGuid const& guid, uint32 type) override
+        {
+        if (calcifiedQuilsTargets[guid][type])
+            return true;
 
-      //      calcifiedQuilsTargets[guid][type] = true;
-       //     return false;
-     //   }
+        calcifiedQuilsTargets[guid][type] = true;
+        return false;
+        }
 
         void UpdateAI(uint32 diff) override
         {
-           // if (CheckHomeDistToEvade(diff, 50.0f))
+            if (CheckHomeDistToEvade(diff, 50.0f))
                 return;
 
             if (!UpdateVictim())
@@ -267,7 +267,7 @@ public:
 
                     events.RescheduleEvent(EVENT_CHECK_ENERGY, 100);
                     break;
-              /*  case EVENT_CALCIFIED_QUILS:
+                case EVENT_CALCIFIED_QUILS:
                     if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0, true))
                     {
                         calcifiedQuilsTargets.clear();
@@ -299,9 +299,8 @@ public:
                                 }
                             }
 
-                      //  });
-                    }*/
-           /*         events.RescheduleEvent(EVENT_CALCIFIED_QUILS, 20000);
+                    }
+                    events.RescheduleEvent(EVENT_CALCIFIED_QUILS, 20000);
                     break;
                 case EVENT_PANGS_OF_GUILT:
                     DoCast(SPELL_PANGS_OF_GUILT);
@@ -330,8 +329,8 @@ public:
                     std::list<HostileReference*> threatListTemp = threatlist;
                     threatListTemp.remove_if([this](HostileReference* ref)
                     {
-                      //  return ref->getTarget()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_RANGE &&
-                        //    ref->getTarget()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_HEALER;
+                        return ref->getTarget()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_RANGE &&
+                        ref->getTarget()->ToPlayer()->GetRoleForSoloQ() != SOLOQ_ROLE_HEALER;
                     });
 
                     uint8 count = std::min(3, int32(ceil(float(threatlist.size()) / 5.0f)));
@@ -365,7 +364,7 @@ public:
         return new boss_demonic_inquisitionAI(creature);
     }
 };
-/*
+
 // 117957
 class npc_tos_tormented_soul : public CreatureScript
 {

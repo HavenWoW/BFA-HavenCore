@@ -379,7 +379,6 @@ class spell_coen_fel_strike : public SpellScriptLoader
                 if (caster && target)
                 {
                     Position pos;
-                    float angle = caster->GetRelativeAngle(target);
                     uint32 hit_range = 0;
                     for (uint8 i = 0; i < 11; i++)
                     {
@@ -424,7 +423,6 @@ public:
             if (caster && target)
             {
                 Position pos;
-                float angle = caster->GetRelativeAngle(target);
                 uint32 hit_range = 0;
                 for (uint8 i = 0; i < 11; i++)
                 {

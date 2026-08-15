@@ -177,7 +177,7 @@ public:
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*sender*/, uint32 action) override
     {
         player->PlayerTalkClass->ClearMenus();
 
@@ -256,7 +256,7 @@ public:
             me->SummonGameObject(260526, 2428.83f, 528.594f, 748.995f, 0.0f, QuaternionData(), 300000000);
         }
 
-        void KilledUnit(Unit* victim) override
+        void KilledUnit(Unit* /*victim*/) override
         {
             //if (victim->GetTypeId() == TYPEID_PLAYER)
             //    Talk(SAY_KILL);
@@ -748,7 +748,7 @@ public:
 
         void OnUnitEnter(Unit* unit) override
         {
-            if (Unit* caster = at->GetCaster())
+            if (at->GetCaster())
             {
                 if (unit->GetTypeId() != TYPEID_PLAYER)
                     return;
@@ -759,7 +759,7 @@ public:
 
         void OnUnitExit(Unit* unit) override
         {
-            if (Unit* caster = at->GetCaster())
+            if (at->GetCaster())
             {
                 if (unit->GetTypeId() != TYPEID_PLAYER)
                     return;
@@ -875,7 +875,7 @@ public:
 
         void OnUnitEnter(Unit* unit) override
         {
-            if (Unit* caster = at->GetCaster())
+            if (at->GetCaster())
             {
                 if (unit->GetTypeId() != TYPEID_PLAYER)
                     return;
@@ -887,7 +887,7 @@ public:
 
         void OnUnitExit(Unit* unit) override
         {
-            if (Unit* caster = at->GetCaster())
+            if (at->GetCaster())
             {
                 if (unit->GetTypeId() != TYPEID_PLAYER)
                     return;

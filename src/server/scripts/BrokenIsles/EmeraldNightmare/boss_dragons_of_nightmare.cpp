@@ -158,9 +158,13 @@ struct boss_dragon_ysondre : public BossAI
         me->GetMotionMaster()->MoveIdle();
         me->NearTeleportTo(me->GetHomePosition());
 
-        if (auto dragon = me->SummonCreature(helpersList[0], dragonPos[0]))
-            if (CreatureGroup* f = me->GetFormation())
+        /*if (auto dragon = me->SummonCreature(helpersList[0], dragonPos[0]))
+        {
+            if (me->GetFormation())
+            {
                // f->AddMember(dragon, group_member);
+            }
+        }*/
 
         if (IsMythic())
         {
@@ -185,7 +189,7 @@ struct boss_dragon_ysondre : public BossAI
         DespawnTrash();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         Talk(SAY_AGGRO);
@@ -346,7 +350,7 @@ struct boss_dragon_taerar : public ScriptedAI
         DoCast(me, SPELL_EMPTY_ENERGY, true);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         DoCast(me, SPELL_ENERGIZE_UP, true);
         Talk(SAY_AGGRO);
@@ -487,7 +491,7 @@ struct boss_dragon_lethon : public ScriptedAI
         DoCast(me, SPELL_EMPTY_ENERGY, true);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         DoCast(me, SPELL_ENERGIZE_UP, true);
         Talk(SAY_AGGRO);
@@ -627,7 +631,7 @@ struct boss_dragon_emeriss : public ScriptedAI
         DoCast(me, SPELL_NIGHTMARE_ENERGY, true);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         DoCast(me, SPELL_ENERGIZE_UP, true);
         Talk(SAY_AGGRO);
@@ -753,7 +757,7 @@ struct npc_ysondre_nightmare_bloom : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_NIGHTMARE_BLOOM_VISUAL, true);
         DoCast(me, SPELL_NIGHTMARE_BLOOM_DUMMY, true);
@@ -797,7 +801,7 @@ struct npc_ysondre_defiled_druid_spirit : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         explodeTimer = 500;
         DoCast(me, SPELL_DEFILED_SPIRIT_ROOT, true);
@@ -937,7 +941,7 @@ struct npc_ysondre_spirit_shade : public ScriptedAI
                     me->DespawnOrUnsummon();
                     return;
                 }
-                if (auto lethon = instance->instance->GetCreature(instance->GetGuidData(NPC_LETHON)))
+                if (instance->instance->GetCreature(instance->GetGuidData(NPC_LETHON)))
                 {
                     //if (lethon->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_ATTACKABLE_1))
                     {

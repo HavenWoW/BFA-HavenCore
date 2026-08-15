@@ -72,17 +72,17 @@ static std::array<Position const, eBlackhandDatas::MaxCosmeticMoves> g_Blackhand
 };
 
 /// Regens every second, 3 power, then 3 power, then 4 power, 10 power every 3 seconds
-static std::array<int32, eBlackhandDatas::MaxRegenCyclesP1> g_BlackhandRegenCyclesP1 =
+[[maybe_unused]] static std::array<int32, eBlackhandDatas::MaxRegenCyclesP1> g_BlackhandRegenCyclesP1 =
 {
     3, 3, 4
 };
 
-static std::array<int32, eBlackhandDatas::MaxRegenCyclesP2> g_BlackhandRegenCyclesP2 =
+[[maybe_unused]] static std::array<int32, eBlackhandDatas::MaxRegenCyclesP2> g_BlackhandRegenCyclesP2 =
 {
     2, 2, 2, 3
 };
 
-static std::array<int32, eBlackhandDatas::MaxPhases> g_BlackhandPhaseSwitchPcts =
+[[maybe_unused]] static std::array<int32, eBlackhandDatas::MaxPhases> g_BlackhandPhaseSwitchPcts =
 {
     70, 30, 0
 };

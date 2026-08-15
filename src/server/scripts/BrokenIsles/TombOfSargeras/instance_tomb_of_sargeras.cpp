@@ -27,26 +27,26 @@
 DoorData const doorData[] =
 {
     //{269164,                    DATA_GOROTH,                DOOR_TYPE_PASSAGE,      BOUNDARY_NONE},
-    {268514,                    DATA_GOROTH,                DOOR_TYPE_PASSAGE},
-    {268580,                    DATA_GOROTH,                DOOR_TYPE_PASSAGE},
-    {GO_GOROTH_GATES,           DATA_GOROTH,                DOOR_TYPE_PASSAGE},
-    {269975,                    DATA_GOROTH,                DOOR_TYPE_ROOM},
-    {269974,                    DATA_GOROTH,                DOOR_TYPE_ROOM},
-    {269973,                    DATA_GOROTH,                DOOR_TYPE_ROOM},
-    { GO_INTRODESTROY_2,        DATA_GOROTH,                DOOR_TYPE_PASSAGE},
-    {269120,                    DATA_HARJATAN,              DOOR_TYPE_PASSAGE},
-    {269192,                    DATA_HARJATAN,              DOOR_TYPE_ROOM},
-    {GO_SASSZINE_DOOR,          DATA_MISTRESS_SASSZINE,     DOOR_TYPE_ROOM},
-    {GO_INQUISITION_DOOR,       DATA_DEMONIC_INQUISITION,   DOOR_TYPE_ROOM},
-    {GO_HAMMER_THRONE,          DATA_DEMONIC_INQUISITION,   DOOR_TYPE_PASSAGE},
-    {GO_ELUNES_THRONE,          DATA_THE_DESOLATE_HOST,     DOOR_TYPE_PASSAGE},
-    {GO_GOLGANETH_THRONE,       DATA_MISTRESS_SASSZINE,     DOOR_TYPE_PASSAGE},
-    {GO_MAIDEN_DOOR,            DATA_MAIDEN_OF_VIGILANCE,   DOOR_TYPE_ROOM},
-    {GO_SISTERS_MOON_DOOR,      DATA_SISTERS_OF_THEMOON,    DOOR_TYPE_ROOM},
-    {GO_AVATARA_DOOR,           DATA_FALLEN_AVATAR,         DOOR_TYPE_ROOM},
-    {GO_DESOLATE_HOST_DOOR_1,   DATA_THE_DESOLATE_HOST,     DOOR_TYPE_ROOM},
-    {GO_DESOLATE_HOST_DOOR_2,   DATA_THE_DESOLATE_HOST,     DOOR_TYPE_ROOM},
-    {0,                         0,                          DOOR_TYPE_ROOM} // END
+    {268514,                    DATA_GOROTH,                DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {268580,                    DATA_GOROTH,                DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_GOROTH_GATES,           DATA_GOROTH,                DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {269975,                    DATA_GOROTH,                DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {269974,                    DATA_GOROTH,                DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {269973,                    DATA_GOROTH,                DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    { GO_INTRODESTROY_2,        DATA_GOROTH,                DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {269120,                    DATA_HARJATAN,              DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {269192,                    DATA_HARJATAN,              DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_SASSZINE_DOOR,          DATA_MISTRESS_SASSZINE,     DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_INQUISITION_DOOR,       DATA_DEMONIC_INQUISITION,   DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_HAMMER_THRONE,          DATA_DEMONIC_INQUISITION,   DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_ELUNES_THRONE,          DATA_THE_DESOLATE_HOST,     DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_GOLGANETH_THRONE,       DATA_MISTRESS_SASSZINE,     DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MAIDEN_DOOR,            DATA_MAIDEN_OF_VIGILANCE,   DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_SISTERS_MOON_DOOR,      DATA_SISTERS_OF_THEMOON,    DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_AVATARA_DOOR,           DATA_FALLEN_AVATAR,         DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_DESOLATE_HOST_DOOR_1,   DATA_THE_DESOLATE_HOST,     DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_DESOLATE_HOST_DOOR_2,   DATA_THE_DESOLATE_HOST,     DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {0,                         0,                          DOOR_TYPE_ROOM, BOUNDARY_NONE } // END
 };
 
 ObjectData const creatureData[] =
@@ -165,7 +165,7 @@ public:
             LoadObjectData(creatureData, gobjectData);
         }
 
-        void OnPlayerEnter(Player* player) override {}
+        void OnPlayerEnter(Player* /*player*/) override {}
 
         void OnCreatureCreate(Creature* creature) override
         {
@@ -250,9 +250,9 @@ public:
             switch (go->GetEntry())
             {
             case GO_ELEVATOR:
-                if (GetBossState(DATA_MAIDEN_OF_VIGILANCE) != DONE)
-                  //  go->SetPhaseMask(2, true);
-                break;
+                //if (GetBossState(DATA_MAIDEN_OF_VIGILANCE) != DONE)
+                    //go->SetPhaseMask(2, true);
+                //break;
             case 267700:
             case 267701:
             case 267702:
@@ -337,10 +337,10 @@ public:
                         if (auto hammer = instance->GetCreature(GetGuidData(id)))
                             hammer->SetVisible(true);
                     break;
-                case DATA_HARJATAN:
-                    if (auto sivash = instance->GetCreature(GetGuidData(NPC_SASSZINE_NPC_OUTRO)))
+                //case DATA_HARJATAN:
+                    //if (auto sivash = instance->GetCreature(GetGuidData(NPC_SASSZINE_NPC_OUTRO)))
                        // sivash->AddDelayedEvent(2000, [sivash] {sivash->AI()->ZoneTalk(0); });
-                    break;
+                    //break;
                 case DATA_THE_DESOLATE_HOST:
                     for (auto id : { NPC_ELUNES_1, NPC_ELUNES_2 })
                         if (auto elunes = instance->GetCreature(GetGuidData(id)))

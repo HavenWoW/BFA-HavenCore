@@ -36,7 +36,7 @@ class go_volatile_barrel_stormheim : public GameObjectScript
 public:
     go_volatile_barrel_stormheim() : GameObjectScript("go_volatile_barrel_stormheim") { }
 
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* player, GameObject* /*go*/) override
     {
         SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(181981);
 
@@ -139,7 +139,7 @@ public:
     {
         PrepareAuraScript(spell_transponder_pack_180645_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -187,7 +187,7 @@ struct npc_titan_console_96139 : public ScriptedAI
                 {
                     IsLock = true;
                     Talk(0);
-                    me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext /*context*/)
                     {
                         Talk(1);
                     });
@@ -203,7 +203,7 @@ class go_powered_console_stormheim_243802 : public GameObjectScript
 {
 public:
     go_powered_console_stormheim_243802() : GameObjectScript("go_powered_console_stormheim_243802") { }
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* player, GameObject* /*go*/) override
     {
         if (Creature* drugen = player->SummonCreature(96067, Position(3333.486f, 2230.95f, 315.7818f, 4.712389f), TEMPSUMMON_MANUAL_DESPAWN))
         {
@@ -219,23 +219,23 @@ public:
         }
 
         player->CastSpell(player, 197658, true);
-        player->GetScheduler().Schedule(Milliseconds(5000), [player](TaskContext context)
+        player->GetScheduler().Schedule(Milliseconds(5000), [player](TaskContext /*context*/)
         {
             player->CastSpell(player, 197659, true);
         });
-        player->GetScheduler().Schedule(Milliseconds(10000), [player](TaskContext context)
+        player->GetScheduler().Schedule(Milliseconds(10000), [player](TaskContext /*context*/)
         {
             player->CastSpell(player, 197660, true);
         });
-        player->GetScheduler().Schedule(Milliseconds(15000), [player](TaskContext context)
+        player->GetScheduler().Schedule(Milliseconds(15000), [player](TaskContext /*context*/)
         {
             player->CastSpell(player, 197661, true);
         });
-        player->GetScheduler().Schedule(Milliseconds(20000), [player](TaskContext context)
+        player->GetScheduler().Schedule(Milliseconds(20000), [player](TaskContext /*context*/)
         {
             player->CastSpell(player, 197662, true);
         });
-        player->GetScheduler().Schedule(Milliseconds(25000), [player](TaskContext context)
+        player->GetScheduler().Schedule(Milliseconds(25000), [player](TaskContext /*context*/)
         {
             player->CastSpell(player, 197663, true);
         });
@@ -247,7 +247,7 @@ class go_powered_console_stormheim_243817 : public GameObjectScript
 {
 public:
     go_powered_console_stormheim_243817() : GameObjectScript("go_powered_console_stormheim_243817") { }
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* player, GameObject* /*go*/) override
     {
         if (Creature* npc = player->SummonCreature(96176, Position(3546.223f, 2163.617f, 233.61f, 3.11f), TEMPSUMMON_MANUAL_DESPAWN))
         {
@@ -256,15 +256,15 @@ public:
         }
         if (Creature* yotnar = player->FindNearestCreature(96175, 100.0f, true))
         {
-            player->GetScheduler().Schedule(Milliseconds(5000), [yotnar](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(5000), [yotnar](TaskContext /*context*/)
             {
                 yotnar->AI()->Talk(0);
             });
-            player->GetScheduler().Schedule(Milliseconds(10000), [yotnar](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(10000), [yotnar](TaskContext /*context*/)
             {
                 yotnar->AI()->Talk(1);
             });
-            player->GetScheduler().Schedule(Milliseconds(15000), [yotnar, player](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(15000), [yotnar, player](TaskContext /*context*/)
             {
                 yotnar->AI()->Talk(2);
                 player->CastSpell(player, 190908, true);
@@ -281,7 +281,7 @@ struct npc_yotnar_96258 : public ScriptedAI
 {
     npc_yotnar_96258(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
@@ -290,7 +290,7 @@ struct npc_yotnar_96258 : public ScriptedAI
         {
             player->KilledMonsterCredit(96285);
             Talk(2);
-            player->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
             {
                 Talk(3);
             });
@@ -307,7 +307,7 @@ struct npc_yotnar_96258 : public ScriptedAI
                 {
                     IsLock = true;
                     Talk(0);
-                    player->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+                    player->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
                     {
                         Talk(1);
                     });
@@ -334,7 +334,7 @@ struct npc_yotnar_96175 : public ScriptedAI
         me->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC));
     }
 
-    void DamageTaken(Unit* done_by, uint32 &damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32 &damage) override
     {
         if (me->HealthWillBeBelowPctDamaged(10, damage))
         {
@@ -346,11 +346,11 @@ struct npc_yotnar_96175 : public ScriptedAI
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC));
             Talk(3);
             me->GetMotionMaster()->MoveTargetedHome();
-            me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
             {
                 Talk(4);
             });
-            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
             {
                 Talk(5);
             });
@@ -413,7 +413,7 @@ class stormheimOnCastSpellByPlayers : public PlayerScript
 public:
     stormheimOnCastSpellByPlayers() : PlayerScript("stormheimOnCastSpellByPlayers") { }
 
-    void OnSpellCast(Player* player, Spell* spell, bool /*skipCheck*/) override
+    void OnSpellCast(Player* /*player*/, Spell* /*spell*/, bool /*skipCheck*/) override
     {
         //printf("spell = %d\n", spell->GetSpellInfo()->Id);
     }
@@ -446,7 +446,7 @@ struct npc_grapple_point_92017 : public ScriptedAI
             if (player->HasQuest(38618) || player->HasQuest(38412))
                 player->KilledMonsterCredit(91728);
             player->CastSpell(player, 182546, true);
-            me->GetScheduler().Schedule(Milliseconds(2000), [this, player](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(2000), [this, player](TaskContext /*context*/)
             {
                 player->CastSpell(me, 182549, true);
                 player->GetMotionMaster()->MoveJump(me->GetPosition(), 20.0f, 20.0f);
@@ -505,14 +505,14 @@ struct npc_vethir_96465 : public ScriptedAI
     };
     using Path01Size = std::extent<decltype(Path01)>;
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
         if (player->HasQuest(39652) || player->GetQuestStatus(39652) == QUEST_STATUS_REWARDED)
         {
             player->SummonCreature(96465, me->GetPosition());
-            player->GetScheduler().Schedule(Milliseconds(18000), [this, player](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(18000), [this, player](TaskContext /*context*/)
             {
                 player->RemoveAurasDueToSpell(46598);
                 player->KilledMonsterCredit(96466);
@@ -521,7 +521,7 @@ struct npc_vethir_96465 : public ScriptedAI
         }
     }
 
-    void PassengerBoarded(Unit* who, int8 seatId, bool apply) override
+    void PassengerBoarded(Unit* /*who*/, int8 /*seatId*/, bool apply) override
     {
         if (apply)
         {
@@ -545,18 +545,18 @@ struct npc_thrymjaris_97061 : public ScriptedAI
 {
     npc_thrymjaris_97061(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
         if (player->HasQuest(39652))
         {
             Talk(0);
-            me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext /*context*/)
             {
                 Talk(1);
             });
-            me->GetScheduler().Schedule(Milliseconds(10000), [this, player](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(10000), [this, player](TaskContext /*context*/)
             {
                 Talk(2);
                 player->KilledMonsterCredit(96467);
@@ -569,7 +569,7 @@ struct npc_thrymjaris_92218 : public ScriptedAI
 {
     npc_thrymjaris_92218(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == 38624)
             Talk(0);
@@ -701,7 +701,7 @@ struct npc_vethir_92302 : public ScriptedAI
 
     void MoveInLineOfSight(Unit* who) override
     {
-        if (Player* player1 = who->ToPlayer())
+        if (who->ToPlayer())
         {
             if (Player* player = ObjectAccessor::GetPlayer(*me, _playerGuid))
             {
@@ -754,20 +754,20 @@ struct npc_havi_92539 : public ScriptedAI
 {
     npc_havi_92539(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == 39804)
         {
             Talk(0);
-            me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
             {
                 Talk(1);
             });
-            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
             {
                 Talk(2);
             });
-            me->GetScheduler().Schedule(Milliseconds(15000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(15000), [this](TaskContext /*context*/)
             {
                 Talk(3);
             });
@@ -775,18 +775,18 @@ struct npc_havi_92539 : public ScriptedAI
         if (quest->GetQuestId() == 40078)
         {
             Talk(4);
-            me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
             {
                 Talk(5);
             });
-            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
             {
                 Talk(6);
             });
         }
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)  override
+    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/)  override
     {
         if (quest->GetQuestId() == 40078)
             Talk(7);
@@ -802,15 +802,15 @@ struct npc_havi_92539 : public ScriptedAI
                 {
                     IsLock = true;
                     me->Say(98439);
-                    me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
                     {
                         me->Say(98440);
                     });
-                    me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
                     {
                         me->Say(98441);
                     });
-                    me->GetScheduler().Schedule(Milliseconds(15000), [this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(15000), [this](TaskContext /*context*/)
                     {
                         me->Say(98442);
                     });
@@ -947,11 +947,11 @@ struct npc_lady_sylvanas_windrunner_97695 : public ScriptedAI
                     IsLock = true;
                     player->KilledMonsterCredit(97696);
                     Talk(0);
-                    me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext /*context*/)
                     {
                         Talk(1);
                     });
-                    me->GetScheduler().Schedule(Milliseconds(10000), [this, player](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(10000), [this, player](TaskContext /*context*/)
                     {
                         Talk(2);
                     });
@@ -998,24 +998,24 @@ public:
             if (Creature* ashildir = player->FindNearestCreature(97664, 200.0f, true))
             {
                 ashildir->AI()->Talk(0);
-                ashildir->GetScheduler().Schedule(Milliseconds(5000), [this, player, ashildir](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(5000), [this, player, ashildir](TaskContext /*context*/)
                 {
                     ashildir->AI()->Talk(1);
                 });
-                ashildir->GetScheduler().Schedule(Milliseconds(10000), [this, player, ashildir](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(10000), [this, player, ashildir](TaskContext /*context*/)
                 {
                     ashildir->AI()->Talk(2);
                 });
-                ashildir->GetScheduler().Schedule(Milliseconds(15000), [this, player](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(15000), [this, player](TaskContext /*context*/)
                 {
                     player->CastSpell(player, 212919, true);
                     player->KilledMonsterCredit(97487);
                 });
-                ashildir->GetScheduler().Schedule(Milliseconds(17000), [this, player](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(17000), [this, player](TaskContext /*context*/)
                 {
                     player->CastSpell(player, 192669, true);
                 });
-                ashildir->GetScheduler().Schedule(Milliseconds(18000), [this, player](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(18000), [this, player](TaskContext /*context*/)
                 {
                     player->CastSpell(player, 192670, true);
                 });
@@ -1038,7 +1038,7 @@ struct npc_ashildir_97480 : public ScriptedAI
 {
     npc_ashildir_97480(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)  override
+    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/)  override
     {
         if (quest->GetQuestId() == 39853)
             me->Say(98494);
@@ -1081,11 +1081,11 @@ struct npc_drowning_valkyra_97469 : public ScriptedAI
                 player->KilledMonsterCredit(97472);
 
                 Talk(0);
-                me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
                 {
                     Talk(1);
                 });
-                me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
                 {
                     Talk(2);
                     me->GetMotionMaster()->MoveAwayAndDespawn(20.0f, 10000);
@@ -1127,15 +1127,15 @@ struct npc_lady_sylvanas_windrunner_94227 : public ScriptedAI
                     if (Creature* areiel = player->FindNearestCreature(92803, 50.0f, true))
                     {
                         me->Say(97224);
-                        me->GetScheduler().Schedule(Milliseconds(5000), [this, areiel](TaskContext context)
+                        me->GetScheduler().Schedule(Milliseconds(5000), [this, areiel](TaskContext /*context*/)
                         {
                             areiel->Say(97225);
                         });
-                        me->GetScheduler().Schedule(Milliseconds(10000), [this, areiel](TaskContext context)
+                        me->GetScheduler().Schedule(Milliseconds(10000), [this, areiel](TaskContext /*context*/)
                         {
                             me->Say(97226);
                         });
-                        me->GetScheduler().Schedule(Milliseconds(15000), [this, areiel](TaskContext context)
+                        me->GetScheduler().Schedule(Milliseconds(15000), [this, areiel](TaskContext /*context*/)
                         {
                             areiel->Say(97227);
                         });
@@ -1153,7 +1153,7 @@ class go_engraved_shield_quest_38878 : public GameObjectScript
 public:
     go_engraved_shield_quest_38878() : GameObjectScript("go_engraved_shield_quest_38878") { }
 
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* player, GameObject* /*go*/) override
     {
         if (player->HasQuest(38878))
             player->KilledMonsterCredit(109346);
@@ -1165,7 +1165,7 @@ struct npc_statue_94393 : public ScriptedAI
 {
     npc_statue_94393(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
@@ -1177,20 +1177,20 @@ struct npc_statue_94393 : public ScriptedAI
             if (Creature* ashildir = player->FindNearestCreature(94764, 50.0f, true))
             {
                 ashildir->AI()->Talk(0, player);
-                ashildir->GetScheduler().Schedule(Milliseconds(5000), [this, player, ashildir](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(5000), [this, player, ashildir](TaskContext /*context*/)
                 {
                     ashildir->AI()->Talk(1, player);
                 });
-                ashildir->GetScheduler().Schedule(Milliseconds(10000), [this, player, ashildir](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(10000), [this, player, ashildir](TaskContext /*context*/)
                 {
                     ashildir->AI()->Talk(2, player);
                 });
-                ashildir->GetScheduler().Schedule(Milliseconds(15000), [this, player, ashildir](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(15000), [this, player, ashildir](TaskContext /*context*/)
                 {
                     ashildir->AI()->Talk(3, player);
                     player->KilledMonsterCredit(94477);
                 });
-                ashildir->GetScheduler().Schedule(Milliseconds(20000), [this, player, ashildir](TaskContext context)
+                ashildir->GetScheduler().Schedule(Milliseconds(20000), [this, player, ashildir](TaskContext /*context*/)
                 {
                     ashildir->DespawnOrUnsummon();
                 });
@@ -1217,7 +1217,7 @@ struct npc_vethir_97986 : public ScriptedAI
 {
     npc_vethir_97986(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
@@ -1229,7 +1229,7 @@ struct npc_vethir_98190 : public ScriptedAI
 {
     npc_vethir_98190(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());

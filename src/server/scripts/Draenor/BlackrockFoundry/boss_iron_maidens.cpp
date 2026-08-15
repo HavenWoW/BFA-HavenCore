@@ -208,7 +208,7 @@ class boss_admiral_garan : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 p_ID /*= 0*/)
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/)
             {
                 m_TrashesGuids.erase(p_Guid);
 
@@ -313,7 +313,7 @@ class boss_admiral_garan : public CreatureScript
                 EnterEvadeMode(EVADE_REASON_OTHER);
             }
 
-            void EnterEvadeMode(EvadeReason why) override
+            void EnterEvadeMode(EvadeReason /*why*/) override
             {
                 me->ExitVehicle();
 
@@ -514,7 +514,7 @@ class boss_admiral_garan : public CreatureScript
                 p_Value = 0;
             }
 
-            void SetPower(Powers p_Power, int32 p_Value)
+            void SetPower(Powers /*p_Power*/, int32 p_Value)
             {
                 if (p_Value >= eIronMaidensDatas::FirstIronFuryAbility)
                 {
@@ -570,7 +570,7 @@ class boss_admiral_garan : public CreatureScript
                 }
             }
 
-            void SpellHit(Unit* p_Caster, SpellInfo const* p_SpellInfo) override
+            void SpellHit(Unit* /*p_Caster*/, SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -1045,7 +1045,7 @@ class boss_enforcer_sorka : public CreatureScript
                 EnterEvadeMode(EVADE_REASON_OTHER);
             }
 
-            void EnterEvadeMode(EvadeReason why) override
+            void EnterEvadeMode(EvadeReason /*why*/) override
             {
                 me->ExitVehicle();
 
@@ -1164,7 +1164,7 @@ class boss_enforcer_sorka : public CreatureScript
                 p_Value = 0;
             }
 
-            void SetPower(Powers p_Power, int32 p_Value)
+            void SetPower(Powers /*p_Power*/, int32 p_Value)
             {
                 if (p_Value >= eIronMaidensDatas::FirstIronFuryAbility)
                 {
@@ -1682,7 +1682,7 @@ class boss_marak_the_blooded : public CreatureScript
                 EnterEvadeMode(EVADE_REASON_OTHER);
             }
 
-            void EnterEvadeMode(EvadeReason why) override
+            void EnterEvadeMode(EvadeReason /*why*/) override
             {
                 me->ExitVehicle();
 
@@ -1827,7 +1827,7 @@ class boss_marak_the_blooded : public CreatureScript
                 p_Value = 0;
             }
 
-            void SetPower(Powers p_Power, int32 p_Value) 
+            void SetPower(Powers /*p_Power*/, int32 p_Value) 
             {
                 if (p_Value >= eIronMaidensDatas::FirstIronFuryAbility)
                 {
@@ -2153,7 +2153,7 @@ class npc_foundry_loading_chain : public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UnitFlags::UNIT_FLAG_IMMUNE_TO_NPC));
 
                 /// Init chain ID
-                for (Position const l_Pos : g_LoadingChainsSpawnPos)
+                for ([[maybe_unused]] Position const& l_Pos : g_LoadingChainsSpawnPos)
                 {
                    // if (me->IsNearPosition(&l_Pos, 0.5f))
                    //     break;
@@ -2162,7 +2162,7 @@ class npc_foundry_loading_chain : public CreatureScript
                 }
             }
 
-            void SpellHit(Unit* p_Attacker, SpellInfo const* p_SpellInfo) override
+            void SpellHit(Unit* /*p_Attacker*/, SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::LoadCrate && m_ChainID < eIronMaidensDatas::MaxLoadingChains)
                     me->GetMotionMaster()->MoveSmoothPath(eMoves::MoveBoat, g_LoadingChainsMoveBoatPos, g_LoadingChainsMoveBoatPosSize);
@@ -2282,7 +2282,7 @@ class npc_foundry_loading_chain : public CreatureScript
                 }
             }
 
-            void PassengerBoarded(Unit* p_Passenger, int8 p_SeatID, bool p_Apply) override
+            void PassengerBoarded(Unit* p_Passenger, int8 /*p_SeatID*/, bool p_Apply) override
             {
                 if (p_Apply && m_Instance != nullptr)
                 {
@@ -2322,7 +2322,7 @@ class npc_foundry_loading_chain : public CreatureScript
                 p_Damage = 0;
             }
 
-            void UpdateAI(uint32 p_Diff)override
+            void UpdateAI(uint32 /*p_Diff*/)override
             {
                // UpdateOperations(p_Diff);
             }
@@ -2406,7 +2406,7 @@ class npc_foundry_ukurogg : public CreatureScript
                 m_Events.ScheduleEvent(eEvent::EventCorruptedBlood, 2 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void SpellHit(Unit* p_Attacker, SpellInfo const* p_SpellInfo)
+            void SpellHit(Unit* /*p_Attacker*/, SpellInfo const* p_SpellInfo)
             {
                 if (p_SpellInfo->Id == eSpells::CarryingCrate)
                 {
@@ -2554,8 +2554,6 @@ class npc_foundry_zipline_stalker : public CreatureScript
 
                 me->CastSpell(me, eSpell::ZiplineStalkerVisual, true);
 
-                Position const l_Pos = me->GetHomePosition();
-
                 //if (!me->IsNearPosition(&l_Pos, 1.0f))
                     me->NearTeleportTo(me->GetHomePosition());
 
@@ -2598,7 +2596,7 @@ class npc_foundry_zipline_stalker : public CreatureScript
                 }
             }
 
-            void PassengerBoarded(Unit* p_Passenger, int8 p_SeatID, bool p_Apply) override
+            void PassengerBoarded(Unit* p_Passenger, int8 /*p_SeatID*/, bool p_Apply) override
             {
                 if (p_Apply)
                 {
@@ -2645,7 +2643,7 @@ class npc_foundry_zipline_stalker : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -2669,7 +2667,7 @@ class npc_foundry_rapid_fire_stalker : public CreatureScript
 
             ObjectGuid m_TargetGUID;
 
-            void SetGUID(ObjectGuid p_Guid, int32 p_ID /*= 0*/)
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/)
             {
                 m_TargetGUID = p_Guid;
             }
@@ -2718,7 +2716,7 @@ class npc_foundry_dominator_turret : public CreatureScript
                 me->CastSpell(me, eSpells::DominatorTurretDeathVisual, true);
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                 me->SetFacingTo(/*me->m_orientation + */float(M_PI / 32.0f));
             }
@@ -2773,7 +2771,7 @@ class npc_foundry_iron_cannon : public CreatureScript
                 m_ObliterateTimer   = 0;
             }
 
-            void PassengerBoarded(Unit* p_Passenger, int8 p_SeatID, bool p_Apply) override
+            void PassengerBoarded(Unit* p_Passenger, int8 /*p_SeatID*/, bool p_Apply) override
             {
                 if (p_Apply)
                 {
@@ -2830,7 +2828,7 @@ class npc_foundry_iron_cannon : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 p_ID /*= 0*/) override
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/) override
             {
                 m_SummonedBombs.erase(p_Guid);
 
@@ -3146,7 +3144,7 @@ class npc_foundry_gorak : public CreatureScript
                 m_Engaged = false;
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 if (!m_Engaged)
                     return;
@@ -3166,7 +3164,7 @@ class npc_foundry_gorak : public CreatureScript
                 EnterCombat(p_Attacker);
             }
 
-            void JustDied(Unit* p_Killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 if (m_Instance == nullptr)
                     return;
@@ -3394,7 +3392,7 @@ class npc_foundry_cluster_bomb_alpha : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
               //  UpdateOperations(p_Diff);
             }
@@ -3506,7 +3504,7 @@ class spell_foundry_penetrating_shot_damage : public SpellScriptLoader
                 m_TargetCount = uint32(p_Targets.size());
             }
 
-            void HandleDamage(SpellEffIndex p_EffIndex)
+            void HandleDamage(SpellEffIndex /*p_EffIndex*/)
             {
                 if (!m_TargetCount)
                     return;
@@ -3567,7 +3565,7 @@ class spell_foundry_convulsive_shadows : public SpellScriptLoader
         {
             PrepareAuraScript(spell_foundry_convulsive_shadows_AuraScript);
 
-            void AfterTick(AuraEffect const* p_AurEff)
+            void AfterTick(AuraEffect const* /*p_AurEff*/)
             {
               //  p_AurEff->GetBase()->DropStack();
             }
@@ -3661,7 +3659,7 @@ class spell_foundry_bloodsoaked_heartseeker_damage : public SpellScriptLoader
         {
             PrepareSpellScript(spell_foundry_bloodsoaked_heartseeker_damage_SpellScript);
 
-            void HandleDamage(SpellEffIndex p_EffIndex)
+            void HandleDamage(SpellEffIndex /*p_EffIndex*/)
             {
                 Unit* l_Caster = GetCaster();
                 Unit* l_Target = GetHitUnit();
@@ -3669,9 +3667,9 @@ class spell_foundry_bloodsoaked_heartseeker_damage : public SpellScriptLoader
                 if (l_Caster == nullptr || l_Target == nullptr)
                     return;
 
-                float l_ReducedDamage   = 1.6f;
+                //float l_ReducedDamage   = 1.6f;
                 //float l_Damage          = float(GetSpell()->GetDamage());
-                float l_Distance        = l_Caster->GetDistance(l_Target);
+                //float l_Distance        = l_Caster->GetDistance(l_Target);
                 //float l_NewDamages      = std::max(1.0f, l_Damage - (l_Damage * l_Distance * l_ReducedDamage / 100.0f));
 
                 //GetSpell()->SetDamage(uint32(l_NewDamages));
@@ -3747,7 +3745,7 @@ class spell_foundry_sabotage : public SpellScriptLoader
         {
             PrepareSpellScript(spell_foundry_sabotage_SpellScript);
 
-            void HandleOpenLock(SpellEffIndex p_EffIndex)
+            void HandleOpenLock(SpellEffIndex /*p_EffIndex*/)
             {
                 Unit* l_Caster = GetCaster();
                 if (l_Caster == nullptr)
@@ -3827,7 +3825,7 @@ class spell_foundry_warming_up : public SpellScriptLoader
         {
             PrepareAuraScript(spell_foundry_warming_up_AuraScript);
 
-            void OnTick(AuraEffect const* p_AurEff)
+            void OnTick(AuraEffect const* /*p_AurEff*/)
             {
                 if (Unit* l_Caster = GetCaster())
                     l_Caster->EnergizeBySpell(l_Caster, GetSpellInfo()->Id, 1, Powers::POWER_ALTERNATE_POWER);
@@ -3861,7 +3859,7 @@ class spell_foundry_bombardment_pattern_alpha : public SpellScriptLoader
         {
             PrepareAuraScript(spell_foundry_bombardment_pattern_alpha_AuraScript);
 
-            void OnTick(AuraEffect const* p_AurEff)
+            void OnTick(AuraEffect const* /*p_AurEff*/)
             {
                 if (GetCaster() == nullptr)
                     return;
@@ -3873,7 +3871,7 @@ class spell_foundry_bombardment_pattern_alpha : public SpellScriptLoader
                 }
             }
 
-            void AfterRemove(AuraEffect const* p_AurEff, AuraEffectHandleModes p_Mode)
+            void AfterRemove(AuraEffect const* /*p_AurEff*/, AuraEffectHandleModes /*p_Mode*/)
             {
                 if (GetCaster() == nullptr)
                     return;
@@ -3913,7 +3911,7 @@ class spell_foundry_detonation_sequence : public SpellScriptLoader
         {
             PrepareAuraScript(spell_foundry_detonation_sequence_AuraScript);
 
-            void AfterRemove(AuraEffect const* p_AurEff, AuraEffectHandleModes p_Mode)
+            void AfterRemove(AuraEffect const* /*p_AurEff*/, AuraEffectHandleModes /*p_Mode*/)
             {
                 if (Unit* l_Caster = GetCaster())
                     l_Caster->CastSpell(l_Caster, eSpell::DetonationSequenceTriggered, true);
@@ -3946,7 +3944,7 @@ class spell_foundry_rapid_fire_periodic : public SpellScriptLoader
         {
             PrepareAuraScript(spell_foundry_rapid_fire_periodic_AuraScript);
 
-            void OnTick(AuraEffect const* p_AurEff)
+            void OnTick(AuraEffect const* /*p_AurEff*/)
             {
                 Unit* l_Target = GetTarget();
                 Unit* l_Caster = GetCaster();
@@ -4021,7 +4019,7 @@ class areatrigger_foundry_dominator_blast : public AreaTriggerEntityScript
 
         int32 m_DamageCooldown;
 
-        void OnSetCreatePosition(AreaTrigger* p_AreaTrigger, Unit* p_Caster, Position& /*p_SourcePosition*/, Position& p_DestinationPosition, std::list<Position>& /*p_PathToLinearDestination*/)
+        void OnSetCreatePosition(AreaTrigger* /*p_AreaTrigger*/, Unit* p_Caster, Position& /*p_SourcePosition*/, Position& p_DestinationPosition, std::list<Position>& /*p_PathToLinearDestination*/)
         {
            // p_AreaTrigger->SetTimeToTarget(15 * TimeConstants::IN_MILLISECONDS);
 
@@ -4031,7 +4029,7 @@ class areatrigger_foundry_dominator_blast : public AreaTriggerEntityScript
 
         void OnUpdate(AreaTrigger* p_AreaTrigger, uint32 p_Time)
         {
-            if (Unit* l_Caster = p_AreaTrigger->GetCaster())
+            if ([[maybe_unused]] Unit* l_Caster = p_AreaTrigger->GetCaster())
             {
                 if (m_DamageCooldown > 0)
                     m_DamageCooldown -= p_Time;
@@ -4069,7 +4067,7 @@ class areatrigger_foundry_protective_earth : public AreaTriggerEntityScript
             SpellEarthenBarrier = 158708
         };
 
-        void OnUpdate(AreaTrigger* p_AreaTrigger, uint32 p_Time)
+        void OnUpdate(AreaTrigger* p_AreaTrigger, uint32 /*p_Time*/)
         {
             if (Unit* l_Caster = p_AreaTrigger->GetCaster())
             {
@@ -4108,7 +4106,7 @@ class areatrigger_foundry_corrupted_blood : public AreaTriggerEntityScript
 
         std::set<ObjectGuid> m_AffectedPlayers;
 
-        void OnUpdate(AreaTrigger* p_AreaTrigger, uint32 p_Time)
+        void OnUpdate(AreaTrigger* p_AreaTrigger, uint32 /*p_Time*/)
         {
             if (Unit* l_Caster = p_AreaTrigger->GetCaster())
             {

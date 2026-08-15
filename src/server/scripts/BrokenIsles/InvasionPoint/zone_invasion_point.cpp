@@ -294,7 +294,7 @@ public:
                 return;
             if (player->GetMapId() == MAP_INVASION_POINT)
             {
-                switch (uint32 zoneID = player->GetZoneId())
+                switch (player->GetZoneId())
                 {
                     
                     case   AREA_AURINOR: //???:??? 

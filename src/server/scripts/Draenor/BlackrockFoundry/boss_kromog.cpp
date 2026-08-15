@@ -221,7 +221,7 @@ class boss_kromog : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventCrushingEarth, eTimers::TimerCrushingEarth);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 if (m_Instance != nullptr)
                 {
@@ -420,7 +420,7 @@ class boss_kromog : public CreatureScript
                         me->SetFacingTo(2.92434f);
                         me->AddUnitFlag(UnitFlags(UNIT_FLAG2_DISABLE_TURN));
 
-                        for (Position const l_SpawnPos : g_GraspingEarthSpawnPos)
+                        for (Position const& l_SpawnPos : g_GraspingEarthSpawnPos)
                             me->SummonCreature(eCreatures::GraspingEarthTrigger, l_SpawnPos);
 
                        // AddTimedDelayedOperation(50, [this]() -> void
@@ -609,7 +609,7 @@ class npc_foundry_rippling_smash : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32  p_Diff) override 
+            void UpdateAI(uint32 /*p_Diff*/) override
             { 
                 //UpdateOperations(p_Diff);
             }
@@ -734,7 +734,7 @@ class npc_foundry_grasping_earth : public CreatureScript
                 me->DespawnOrUnsummon(5 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -873,7 +873,7 @@ class npc_foundry_rune_of_crushing_earth : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -1000,7 +1000,7 @@ class npc_foundry_reverberation : public CreatureScript
                 me->DespawnOrUnsummon();
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -1024,12 +1024,12 @@ class spell_foundry_slam : public SpellScriptLoader
 
             void HandleDamage(SpellEffIndex /*p_EffIndex*/)
             {
-                if (Unit* l_Boss = GetCaster())
+                if (GetCaster())
                 {
                     if (GetHitUnit() == nullptr)
                         return;
 
-                    if (Player* l_Player = GetHitUnit()->ToPlayer())
+                    if (GetHitUnit()->ToPlayer())
                     {
                         /// Kromog strikes the ground beneath his primary target, dealing up to X Physical damage to all players, reduced based on their distance from the impact point.
                         /// Damages will be reduced by 1.6% per yard between player and boss, with a cap at 60 yards.

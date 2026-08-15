@@ -183,10 +183,12 @@ public:
             case uint32(Events::PIERCING_RUSH):
                 events.ScheduleEvent(uint32(Events::PIERCING_RUSH), urand(13000, 16000));
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, NonTankTargetSelector(me)))
+                {
                     if (target->IsPlayer())
                         me->CastSpell(target, uint32(Spells::PIERCING_RUSH));
                     else if (Player* player = me->SelectRandomPlayerInRange(40.0f, true))
                         me->CastSpell(player, uint32(Spells::PIERCING_RUSH));
+                }
                 break;
             case uint32(Events::LENS_FLARE):
                 if (Player* player = me->SelectRandomPlayerInRange(80.0f, true))

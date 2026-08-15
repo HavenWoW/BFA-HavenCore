@@ -243,8 +243,8 @@ struct boss_tos_kiljaeden : BossAI
         Trinity::Containers::RandomResize(randList, 2);
     }
 
-   // void EnterCombat(Unit* /*who/) override
-   /* {
+   // void EnterCombat(Unit* who/) override
+   / * {
         Talk(SAY_AGGRO);
         _EnterCombat();
 
@@ -540,7 +540,7 @@ struct boss_tos_kiljaeden : BossAI
         }
     }
 
-   /* void SpellFinishCast(const SpellInfo* spell) override
+    void SpellFinishCast(const SpellInfo* spell) override
     {
         switch (spell->Id)
         {
@@ -570,7 +570,7 @@ struct boss_tos_kiljaeden : BossAI
         }
     }
 
-  /*  void OnRemoveAuraTarget(Unit* target, uint32 spellId, AuraRemoveMode mode) override
+      void OnRemoveAuraTarget(Unit* target, uint32 spellId, AuraRemoveMode mode) override
     {
         if (!me->isInCombat() || mode != AURA_REMOVE_BY_EXPIRE)
             return;
@@ -1297,7 +1297,7 @@ struct npc_tos_flaming_orb : public ScriptedAI
             targetGUID = target->GetGUID();
     }
 
-  /*  void SpellFinishCast(const SpellInfo* spell) override
+      void SpellFinishCast(const SpellInfo* spell) override
     {
         if (spell->Id == SPELL_FLAMING_DETONATION)
         {
@@ -1608,7 +1608,7 @@ struct at_tos_armageddon : AreaTriggerAI
     uint32 scaleTimer = 2000;
     float scale = 1.0f;
 
-  /*  bool IsValidTarget(Unit* caster, Unit* target, AreaTriggerActionMoment actionM) override
+      bool IsValidTarget(Unit* caster, Unit* target, AreaTriggerActionMoment actionM) override
     {
         if (!caster)
             return false;
@@ -1651,7 +1651,7 @@ struct at_tos_flaming_detonation : AreaTriggerAI
     uint32 scaleTimer = 0;
     Position finalPos;
 
-  /*  void OnCreate() override
+      void OnCreate() override
     {
         createScale = CalculatePct(30.0f, at->GetSpellValue()->EffectBasePoints[0] * 100.0f);
         createScaleTimer = 200;

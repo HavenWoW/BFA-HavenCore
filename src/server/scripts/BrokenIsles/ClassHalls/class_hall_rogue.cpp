@@ -90,7 +90,7 @@ struct npc_ravenholdt_courier_102018 : public ScriptedAI
             me->RemoveAurasDueToSpell(SPELL_DELIVER_MESSAGE);
             Talk(RAVENHOLDT_COURIER_TEXT_01, player);
 
-            _scheduler.Schedule(Milliseconds(1000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(1000), [this](TaskContext /*context*/)
             {
                 me->DisappearAndDie();
             });
@@ -225,13 +225,13 @@ struct npc_lord_jorach_ravenholdt_101513 : public ScriptedAI
         case ACTION_QUEST_THE_FINAL_SHADOW_TALK_1:
             if (Creature* valeera_sanguinar = me->FindNearestCreature(NPC_VALEERA_SANGUINAR_98102, 15.0f))
             {
-                _scheduler.Schedule(Milliseconds(1000), [valeera_sanguinar](TaskContext context)
+                _scheduler.Schedule(Milliseconds(1000), [valeera_sanguinar](TaskContext /*context*/)
                 {
                     valeera_sanguinar->Say(VALEERA_SANGUINAR_BCT_00);
                 });
             }
 
-            _scheduler.Schedule(Milliseconds(3000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
             {
                 me->Say(LORD_JORACH_RAVENHOLDT_BCT_00);
             });
@@ -259,7 +259,7 @@ struct npc_lord_jorach_ravenholdt_101513 : public ScriptedAI
 
             if (Creature* fleet_admiral_tethys = me->FindNearestCreature(NPC_FLEET_ADMIRAL_TETHYS_94159, 25.0f))
             {
-                _scheduler.Schedule(Milliseconds(2000), [fleet_admiral_tethys, player](TaskContext context)
+                _scheduler.Schedule(Milliseconds(2000), [fleet_admiral_tethys, player](TaskContext /*context*/)
                 {
                     fleet_admiral_tethys->Say(FLEET_ADMIRAL_TETHYS_BCT_00, player);
                 });
@@ -267,7 +267,7 @@ struct npc_lord_jorach_ravenholdt_101513 : public ScriptedAI
 
             if (Creature* valeera_sanguinar = me->FindNearestCreature(NPC_VALEERA_SANGUINAR_98102, 15.0f))
             {
-                _scheduler.Schedule(Milliseconds(4000), [valeera_sanguinar, player](TaskContext context)
+                _scheduler.Schedule(Milliseconds(4000), [valeera_sanguinar, player](TaskContext /*context*/)
                 {
                     valeera_sanguinar->Say(VALEERA_SANGUINAR_BCT_01, player);
                 });
@@ -275,7 +275,7 @@ struct npc_lord_jorach_ravenholdt_101513 : public ScriptedAI
         }
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)  override
+    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/)  override
     {
         if (quest->GetQuestId() == QUEST_THE_FINAL_SHADOW) {}
     }
@@ -308,7 +308,7 @@ struct npc_valeera_sanguinar_98102 : public ScriptedAI
 {
     npc_valeera_sanguinar_98102(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 /*param*/)
     {
         /*switch (param)
         {

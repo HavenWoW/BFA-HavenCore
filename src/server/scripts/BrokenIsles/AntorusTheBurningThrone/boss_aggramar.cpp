@@ -101,9 +101,9 @@ struct SpawnData
 
 SpawnData const spawnData[] =
 {
-    { EVNET_PHASE_2, NPC_EMBER_OF_TAESHALACH, -12679.456f, -2254.8264f, 2514.2646f },
+    { EVNET_PHASE_2, NPC_EMBER_OF_TAESHALACH, -12679.456f, -2254.8264f, 2514.2646f, 0.0f },
     { EVNET_PHASE_2, NPC_EMBER_OF_TAESHALACH, -12588.12f,  -2254.8215f, 2514.6276f, 3.101369f },
-    { EVNET_PHASE_3, NPC_EMBER_OF_TAESHALACH, -12679.456f, -2254.8264f, 2514.2646f },
+    { EVNET_PHASE_3, NPC_EMBER_OF_TAESHALACH, -12679.456f, -2254.8264f, 2514.2646f, 0.0f },
     { EVNET_PHASE_3, NPC_EMBER_OF_TAESHALACH, -12588.12f,  -2254.8215f, 2514.6276f, 3.101369f },
 };
 ///.go creature id 
@@ -402,7 +402,7 @@ struct npc_magni_bronzebeard_128169 : public ScriptedAI
 {
     npc_magni_bronzebeard_128169(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_TITANS_ASSEMBLE_MOVIE, true);

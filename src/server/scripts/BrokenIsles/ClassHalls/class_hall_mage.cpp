@@ -275,6 +275,7 @@ struct npc_meryl_felstorm_102700 : public ScriptedAI
                 if (Player* player = ObjectAccessor::GetPlayer(*me, m_playerGUID))
                     DoCast(player, 130, true);///SPELL_TELE_TO_THE_DREADLORDS_PRIZE
             }
+            /* fallthrough */
             case EVENT_BACK_HOME_1:
             {
                 TC_LOG_ERROR("server.worldserver", "EVENT_BACK_HOME_1");

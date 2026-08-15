@@ -129,7 +129,7 @@ public:
                     if (Unit* target = ObjectAccessor::GetUnit(*summon, summon->GetTarget()))
                     {
                         target->CastSpell(summon, SPELL_CHOKING_VINES_JUMP);
-                        summon->GetScheduler().Schedule(Milliseconds(1000), [summon, target](TaskContext context)
+                        summon->GetScheduler().Schedule(Milliseconds(1000), [summon, target](TaskContext /*context*/)
                         {
                             summon->CastSpell(target, SPELL_CHOKING_VINES_DMG);
                         });

@@ -247,8 +247,8 @@ struct scenario_artifact_brokenshore : public InstanceScript
 
     void SummonFelsoulPortals()
     {
-        GameObject* felsoulPortal1 = instance->SummonGameObject(GO_FELSOUL_PORTAL_1, Position(-2648.52f, 19.5848f, 48.6442f, 0.85781f), QuaternionData(-0.0f, -0.0f, -0.415875f, -0.909422f), 300);
-        GameObject* felsoulPortal2 = instance->SummonGameObject(GO_FELSOUL_PORTAL_2, Position(-2618.59f, 78.8602f, 38.1285f, 6.15595f), QuaternionData(-0.0f, -0.0f, -0.0635752f, 0.997977f), 300);
+        instance->SummonGameObject(GO_FELSOUL_PORTAL_1, Position(-2648.52f, 19.5848f, 48.6442f, 0.85781f), QuaternionData(-0.0f, -0.0f, -0.415875f, -0.909422f), 300);
+        instance->SummonGameObject(GO_FELSOUL_PORTAL_2, Position(-2618.59f, 78.8602f, 38.1285f, 6.15595f), QuaternionData(-0.0f, -0.0f, -0.0635752f, 0.997977f), 300);
 
         /*TempSummon* portalController1 = instance->SummonCreature(105204, Position(-2620.5f, 78.9889f, 38.6922f, 6.24634f));
         TempSummon* portalController2 = instance->SummonCreature(105204, Position(-2650.28f, 17.2548f, 49.1346f, 0.858508f));*/
@@ -275,33 +275,33 @@ struct scenario_artifact_brokenshore : public InstanceScript
 
     void SummonDemonTwins()
     {
-        TempSummon* doomheralSaera = instance->SummonCreature(NPC_DOOMHERALD_SAERA, Position(-2751.16f, -69.521f, 46.6362f, 4.99993f));
-        TempSummon* doomheralTaraar = instance->SummonCreature(NPC_DOOMHERALD_TARAAR, Position(-2746.54f, -84.4343f, 46.6362f, 1.93767f));
+        instance->SummonCreature(NPC_DOOMHERALD_SAERA, Position(-2751.16f, -69.521f, 46.6362f, 4.99993f));
+        instance->SummonCreature(NPC_DOOMHERALD_TARAAR, Position(-2746.54f, -84.4343f, 46.6362f, 1.93767f));
     }
 
     void SummonAldrachiRevenant()
     {
-        TempSummon* revenant = instance->SummonCreature(NPC_ALDRACHI_REVENANT, Position(-2810.06f, -243.924f, 38.6361f, 1.92589f));
+        instance->SummonCreature(NPC_ALDRACHI_REVENANT, Position(-2810.06f, -243.924f, 38.6361f, 1.92589f));
     }
 
     void SummonCariaFelsoul()
     {
-        TempSummon* caria = instance->SummonCreature(NPC_CARIA_FELSOUL, Position(-2749.17f, -330.338f, 38.7842f, 1.88583f));
+        instance->SummonCreature(NPC_CARIA_FELSOUL, Position(-2749.17f, -330.338f, 38.7842f, 1.88583f));
     }
 
     void SummonAldrachiWarblades()
     {
-        TempSummon* aldrachiWb = instance->SummonCreature(NPC_ALDRACHI_WARBLADES, Position(-2746.991f, -328.47f, 38.4056f, 2.2876f));
-        GameObject* aldrachiWbLoot = instance->SummonGameObject(GO_ALDRACHI_WARBLADES, Position(-2747.71f, -328.3544f, 38.4344f, 2.28768f), QuaternionData(), 300);
+        instance->SummonCreature(NPC_ALDRACHI_WARBLADES, Position(-2746.991f, -328.47f, 38.4056f, 2.2876f));
+        instance->SummonGameObject(GO_ALDRACHI_WARBLADES, Position(-2747.71f, -328.3544f, 38.4344f, 2.28768f), QuaternionData(), 300);
     }
 
     void SummonFelBat()
     {
-        TempSummon* felbat = instance->SummonCreature(99227, Position(-2757.063f, -302.964f, 31.9154f, 4.57486f));
+        instance->SummonCreature(99227, Position(-2757.063f, -302.964f, 31.9154f, 4.57486f));
     }
 
     void SummonCollapsedRocks() {
-        GameObject* aldrachiWbLoot = instance->SummonGameObject(GO_STONE_WALL, Position(-2740.67f, -149.12f, 48.4044f, 1.5051f), QuaternionData(), 300);
+        instance->SummonGameObject(GO_STONE_WALL, Position(-2740.67f, -149.12f, 48.4044f, 1.5051f), QuaternionData(), 300);
     }
 
 private:

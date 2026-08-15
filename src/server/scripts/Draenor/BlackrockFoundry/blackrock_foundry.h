@@ -27,7 +27,7 @@ float const g_SouthOrientation = float(M_PI);
 float const g_WestOrientation = float(M_PI / 2.0f);
 float const g_EastOrientation = float(3.0f * M_PI / 2.0f);
 
-static void CastSpellToPlayers(Map* p_Map, Unit* p_Caster, uint32 p_SpellID, bool p_Triggered)
+inline void CastSpellToPlayers(Map* p_Map, Unit* p_Caster, uint32 p_SpellID, bool p_Triggered)
 {
     if (p_Map == nullptr)
         return;
@@ -45,7 +45,7 @@ static void CastSpellToPlayers(Map* p_Map, Unit* p_Caster, uint32 p_SpellID, boo
     }
 }
 
-static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_WorldObject)
+inline void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_WorldObject)
 {
     std::list<Creature*> l_Creatures;
     GetCreatureListWithEntryInGrid(l_Creatures, p_WorldObject, p_Entry, p_WorldObject->GetMap()->GetVisibilityRange());
@@ -307,7 +307,7 @@ enum eFoundryDungeons
     BlackhandsCrucible  = 823
 };
 
-static std::array<uint32, eFoundryDatas::IronMaidensCount> g_IronMaidensEntries =
+inline std::array<uint32, eFoundryDatas::IronMaidensCount> g_IronMaidensEntries =
 {
     eFoundryCreatures::BossAdmiralGaran,
     eFoundryCreatures::BossEnforcerSorka,

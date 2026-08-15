@@ -350,18 +350,18 @@ public:
             say = false;
         }
 
-        void MoveInLineOfSight(Unit* who) override
+        void MoveInLineOfSight(Unit* /*who*/) override
         {
             if (Creature* Thrall = me->FindNearestCreature(NPC_THRALL_RING, 10.0f, true))
             {
                 if (!say)
                 {
                     say = true;
-                    Thrall->GetScheduler().Schedule(2s, [Thrall](TaskContext context)
+                    Thrall->GetScheduler().Schedule(2s, [Thrall](TaskContext /*context*/)
                     {
                         Thrall->AI()->Talk(0);
                     });
-                    Thrall->GetScheduler().Schedule(7s, [Thrall](TaskContext context)
+                    Thrall->GetScheduler().Schedule(7s, [Thrall](TaskContext /*context*/)
                     {
                         Thrall->AI()->Talk(1);
                     });
@@ -398,18 +398,18 @@ public:
             say = false;
         }
 
-        void MoveInLineOfSight(Unit* who) override
+        void MoveInLineOfSight(Unit* /*who*/) override
         {
             if (Creature* Milra = me->FindNearestCreature(NPC_MILRA_STORMCALLER, 7.0f, true))
             {
                 if (!say)
                 {
                     say = true;
-                    Milra->GetScheduler().Schedule(2s, [Milra](TaskContext context)
+                    Milra->GetScheduler().Schedule(2s, [Milra](TaskContext /*context*/)
                     {
                         Milra->AI()->Talk(0);
                     });
-                    Milra->GetScheduler().Schedule(7s, [Milra](TaskContext context)
+                    Milra->GetScheduler().Schedule(7s, [Milra](TaskContext /*context*/)
                     {
                         Milra->AI()->Talk(1);
                     });
@@ -453,11 +453,11 @@ public:
                 if (!say)
                 {
                     say = true;
-                    Thralls->GetScheduler().Schedule(2s, [Thralls](TaskContext context)
+                    Thralls->GetScheduler().Schedule(2s, [Thralls](TaskContext /*context*/)
                     {
                         Thralls->AI()->Talk(0);
                     });
-                    Thralls->GetScheduler().Schedule(6s, [Thralls](TaskContext context)
+                    Thralls->GetScheduler().Schedule(6s, [Thralls](TaskContext /*context*/)
                     {
                         Thralls->AI()->Talk(1);
                     });
@@ -541,7 +541,7 @@ public:
                     //209743
 
                     //192191 DISCOVER_TAXI 1774
-                    uint32 nodeid = 1774;
+                    //uint32 nodeid = 1774;
                     //if (sTaxiNodesStore.LookupEntry(nodeid))
                         //if (Player* player = unit->ToPlayer())
                             //player->GetSession()->SendDiscoverNewTaxiNode(nodeid);
@@ -721,15 +721,15 @@ public:
                 if (!say)
                 {
                     say = true;
-                    Eranak->GetScheduler().Schedule(2s, [Eranak](TaskContext context)
+                    Eranak->GetScheduler().Schedule(2s, [Eranak](TaskContext /*context*/)
                     {
                         Eranak->AI()->Talk(0);
                     });
-                    Eranak->GetScheduler().Schedule(7s, [Eranak](TaskContext context)
+                    Eranak->GetScheduler().Schedule(7s, [Eranak](TaskContext /*context*/)
                     {
                         Eranak->AI()->Talk(1);
                     });
-                    Eranak->GetScheduler().Schedule(8s, [Eranak](TaskContext context)
+                    Eranak->GetScheduler().Schedule(8s, [Eranak](TaskContext /*context*/)
                     {
                         Eranak->SummonCreature(1121423, Position(-214.111f, 807.373f, 264.208f, 3.12209f), TEMPSUMMON_MANUAL_DESPAWN);
                     });
@@ -924,11 +924,11 @@ public:
                         if (!say)
                         {
                             say = true;
-                            Regal->GetScheduler().Schedule(2s, [Regal](TaskContext context)
+                            Regal->GetScheduler().Schedule(2s, [Regal](TaskContext /*context*/)
                             {
                                 Regal->AI()->Talk(0);
                             });
-                            Regal->GetScheduler().Schedule(7s, [Regal](TaskContext context)
+                            Regal->GetScheduler().Schedule(7s, [Regal](TaskContext /*context*/)
                             {
                                 Regal->AI()->Talk(1);
                             });

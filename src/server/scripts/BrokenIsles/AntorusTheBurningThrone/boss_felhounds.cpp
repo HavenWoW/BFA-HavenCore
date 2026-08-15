@@ -105,13 +105,6 @@ struct boss_shatug_fhargAI : public BossAI
         return  IAmShatug() ? me->FindNearestCreature(NPC_FHARG, 500.0f) : me->FindNearestCreature(NPC_SHATUG, 500.0f);
     }
 
-    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
-    {
-       // if (Unit* pOtherBoss = GetOtherBoss())
-         /*   if (me->GetDistance(pOtherBoss->GetPosition()) <= 40.0f)
-                me->CopyDamage(pOtherBoss, damage);*/
-    }
-
     void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
@@ -123,8 +116,8 @@ struct boss_shatug_fhargAI : public BossAI
             pOtherBoss->AddDynamicFlag(UNIT_DYNFLAG_LOOTABLE);
         }
         me->SummonCreature(128289, Position(-3224.603f, 10388.73f, -155.3857f, 1.190612f), TEMPSUMMON_MANUAL_DESPAWN);
-     /*   if (instance)
-            instance->DoConversation(5523);*/
+        //if (instance)
+            //instance->DoConversation(5523);
     }
 
     void EnterCombat(Unit* who) override
@@ -332,7 +325,7 @@ struct npc_lightforged_teleport_pod_128289 : public ScriptedAI
     };
     using Path01Size = std::extent<decltype(Path01)>;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
     }
@@ -348,8 +341,8 @@ struct npc_lightforged_teleport_pod_128289 : public ScriptedAI
                 if (context.GetRepeatCounter() < 4)
                     context.Repeat(4s);
             });
-           /* if (instance)
-                instance->DoDelayedConversation(8000, 5524);*/
+            //if (instance)
+                //instance->DoDelayedConversation(8000, 5524);
         }
     }
 };

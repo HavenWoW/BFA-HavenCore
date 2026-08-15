@@ -38,7 +38,7 @@ struct garrison_level_3 : public GarrisonAI
         return false;
     }
 
-    void OnUpgrade(Player* player) override
+    void OnUpgrade(Player* /*player*/) override
     {
         if (garrison->GetOwner()->HasQuest(QUEST_MY_VERY_OWN_FORTRESS))
             garrison->GetOwner()->ForceCompleteQuest(QUEST_MY_VERY_OWN_FORTRESS);

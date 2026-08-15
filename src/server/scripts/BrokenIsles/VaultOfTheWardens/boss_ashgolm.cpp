@@ -143,7 +143,7 @@ public:
 
         }
 
-        void SpellHit(Unit* caster, const SpellInfo* spell) override
+        void SpellHit(Unit* /*caster*/, const SpellInfo* spell) override
         {
             if (spell->Id == SPELL_HEAT_UP)
                 DoCast(me, SPELL_SMOLDERING, true);
@@ -172,7 +172,6 @@ public:
             if (spell->Id == SPELL_FISSURE)
             {
                 Position pos;
-                float angle = centrPos.GetRelativeAngle(target);
                 for (uint8 i = 0; i < 5; i++)
                 {
                   //  centrPos.SimplePosXYRelocationByAngle(pos, i * 6, angle);
@@ -215,7 +214,7 @@ public:
                     events.RescheduleEvent(EVENT_FISSURE, 46000);
                     break;
                 case EVENT_SUM_EMBER:
-                    if (GameObject* volcano = me->FindNearestGameObject(GO_ASHGOLM_VOLCANO, 60.0f))
+                    //if (GameObject* volcano = me->FindNearestGameObject(GO_ASHGOLM_VOLCANO, 60.0f))
                        // me->CastSpell(volcano->GetPositionX(), volcano->GetPositionY(), volcano->GetPositionZ(), SPELL_SUM_EMBER, true);
                     events.RescheduleEvent(EVENT_SUM_EMBER, 15000);
                     break;

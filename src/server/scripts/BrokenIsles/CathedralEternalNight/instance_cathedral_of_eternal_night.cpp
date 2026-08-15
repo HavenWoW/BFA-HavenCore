@@ -25,11 +25,11 @@
 
 DoorData const doorData[] =
 {
-    {GO_AGRONOX_DOOR,       DATA_AGRONOX,         DOOR_TYPE_PASSAGE},
-    {GO_THRASHBITE_DOOR,       DATA_THRASHBITE,         DOOR_TYPE_PASSAGE},
-    {GO_THRASHBITE_DOOR_ENTER,       DATA_THRASHBITE,         DOOR_TYPE_ROOM},
-    {GO_LAST_DOORS,       DATA_DOMATRAX,         DOOR_TYPE_ROOM},
-    {GO_LAST_DOORS,       DATA_MEPHISTROTH,         DOOR_TYPE_ROOM},
+    { GO_AGRONOX_DOOR,         DATA_AGRONOX,      DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { GO_THRASHBITE_DOOR,      DATA_THRASHBITE,   DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { GO_THRASHBITE_DOOR_ENTER, DATA_THRASHBITE,  DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { GO_LAST_DOORS,           DATA_DOMATRAX,     DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    { GO_LAST_DOORS,           DATA_MEPHISTROTH,  DOOR_TYPE_ROOM,    BOUNDARY_NONE },
 };
 
 class instance_cathedral_of_eternal_night : public InstanceMapScript
@@ -109,8 +109,10 @@ public:
                 case 118717:
                     if (creature->GetPositionX() >= -487.09f && creature->GetPositionX() <= -467.62f &&
                         creature->GetPositionZ() >= 434.00f && creature->GetPositionZ() <= 443.39f)
+                    {
                         outroSecondBossAdds.push_back(creature->GetGUID());
-                        break;
+                    }
+                    break;
                 case NPC_EGIDA_GIVE_BUFF:
                     if (GetBossState(DATA_DOMATRAX) != DONE)
                         creature->SetVisible(false);
@@ -244,7 +246,6 @@ public:
                     else
                     {
                         bool justSay = false;
-                        uint8 i = 0;
                         for (auto guid : outroSecondBossAdds)
                             if (Creature* add = instance->GetCreature(guid))
                             {
@@ -303,9 +304,11 @@ public:
                                 
                             if (Creature* egida = instance->GetCreature(EgidaMephistrothBuffGuid))
                                 egida->SetVisible(true);
-                            
+
                             break;
                         }
+                        default:
+                            break;
                     }
                     break;
                 case DATA_MEPHISTROTH:
@@ -400,7 +403,7 @@ public:
             return ObjectGuid::Empty;
         }
         
-        uint32 GetData(uint32 type) const override
+        uint32 GetData(uint32 /*type*/) const override
         {
             return 0;
         }

@@ -899,7 +899,7 @@ class npc_foundry_train_controller : public CreatureScript
 
                                                   //  AddTimedDelayedOperation(100, [this, l_Guid]() -> void
                                                    // {
-                                                        if (Creature* l_Passenger = ObjectAccessor::GetCreature(*me, l_Guid))
+                                                        if (ObjectAccessor::GetCreature(*me, l_Guid))
                                                         {
                                                             if (Creature* l_Thogar = ObjectAccessor::GetCreature(*me, m_SummonerGUID[0]))
                                                             {
@@ -1077,7 +1077,6 @@ class npc_foundry_train_controller : public CreatureScript
 
             void RemovePassengers(Creature* p_Source)
             {
-                Position const l_SourcePos = p_Source->GetHomePosition();
                // bool l_IsLeft = l_SourcePos.IsNearPosition(&g_GromkarManAtArmsIntroLeftPos, 5.0f);
 
                 if (Unit* l_TroopTransport = m_Vehicle->GetPassenger(/*l_IsLeft ? 1 : */3))

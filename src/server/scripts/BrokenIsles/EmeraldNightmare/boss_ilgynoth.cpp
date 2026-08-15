@@ -163,7 +163,7 @@ struct boss_ilgynoth : public BossAI
         DoCast(me, SPELL_KNOCKBACK_AT, true);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         BossAI::EnterEvadeMode();
         TeleportPlayer();
@@ -219,7 +219,7 @@ struct boss_ilgynoth : public BossAI
         {
         case NPC_EYE_OF_ILGYNOTH:
         case NPC_DOMINATOR_TENTACLE:
-            if (CreatureGroup* f = me->GetFormation())
+            if (me->GetFormation())
               //  f->AddMember(summon, group_member);
             break;
         }
@@ -263,20 +263,20 @@ struct boss_ilgynoth : public BossAI
         for (uint8 i = 0; i < count; ++i)
         {
             uint8 rand = urand(1, 2);
-//            float angle = frand(0.f, M_PI * 2.f);
-         //   float x = sumPos[rand].GetPositionX() + (5.0f * std::cos(angle));
-        //    float y = sumPos[rand].GetPositionY() + (5.0f * std::sin(angle));
-         //   me->SummonCreature(entry, x, y, sumPos[rand].GetPositionZ());
+            float angle = frand(0.f, M_PI * 2.f);
+            float x = sumPos[rand].GetPositionX() + (5.0f * std::cos(angle));
+            float y = sumPos[rand].GetPositionY() + (5.0f * std::sin(angle));
+            me->SummonCreature(entry, x, y, sumPos[rand].GetPositionZ());
         }
     }
 
-  //  void TalkWhisper(uint8 text)
-  //  {
-        //instance->instance->ApplyOnEveryPlayer([&](Player* player)
-      //  {
-      //      Talk(text, player->GetGUID());
-    //    });
- //   }
+    /*void TalkWhisper(uint8 text)
+    {
+        instance->instance->ApplyOnEveryPlayer([&](Player* player)
+        {
+            Talk(text, player->GetGUID());
+        });
+    }*/
 
     void UpdateAI(uint32 diff) override
     {
@@ -365,7 +365,7 @@ struct boss_ilgynoth : public BossAI
                     events.RescheduleEvent(EVENT_ANNOUNCE, 20000);
                 }
                 break;
-            case EVENT_CHECK_TARGET_DISTANCE:
+            /*case EVENT_CHECK_TARGET_DISTANCE:
             {
                 if (!specialPhase)
                     TeleportPlayer();
@@ -374,25 +374,26 @@ struct boss_ilgynoth : public BossAI
                 std::list<HostileReference*> threatlist = me->getThreatManager().getThreatList();
                 for (auto ref : threatlist)
                 {
-                  //  if (auto target = me->GetUnit(*me, ref->getUnitGuid()))
-                  //  {
-                    //    if (me->GetDistance(target) < 150.0f)
-                      //  {
+                  if (auto target = me->GetUnit(*me, ref->getUnitGuid()))
+                    {
+                        if (me->GetDistance(target) < 150.0f)
+                        {
                             closestPlayers = true;
                             break;
                         }
                     }
                 }
-              //  if (!closestPlayers)
-             //   {
-               //     EnterEvadeMode();
-                 //   return;
-              //  }
-              //  events.RescheduleEvent(EVENT_CHECK_TARGET_DISTANCE, 2000);
-               // break;
-         //   }
-         //   }
+                if (!closestPlayers)
+                {
+                    EnterEvadeMode();
+                    return;
+                }
+                events.RescheduleEvent(EVENT_CHECK_TARGET_DISTANCE, 2000);
+                break;
+            }
+            */
         }
+    }
     }
 };
 
@@ -438,9 +439,9 @@ struct npc_eye_of_ilgynoth : public ScriptedAI
         if (!introDone && me->IsWithinDistInMap(who, 250.0f))
         {
             introDone = true;
-           // Conversation* conversation = new Conversation;
-          //  if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 3617, who, nullptr, who->GetPosition()))
-           //     delete conversation;
+            //Conversation* conversation = new Conversation;
+            //if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 3617, who, nullptr, who->GetPosition()))
+                //delete conversation;
         }
         ScriptedAI::MoveInLineOfSight(who);
     }

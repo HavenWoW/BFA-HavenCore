@@ -1065,7 +1065,7 @@ static void ApplyPassengerFlags(Creature* p_Passenger, bool p_IsTrain = true)
         p_Passenger->CastSpell(p_Passenger, eThogarSpells::StoppedFrontAura, true);
 }
 
-static ObjectGuid SummonTrain(Creature* p_Summoner, uint8 p_TrainID, eThogarActions p_Action = eThogarActions::ActionNone, bool p_Talk = true)
+static ObjectGuid SummonTrain(Creature* p_Summoner, uint8 p_TrainID, eThogarActions /*p_Action*/ = eThogarActions::ActionNone, bool /*p_Talk*/ = true)
 {
     if (p_Summoner == nullptr || p_TrainID >= eThogarTrains::MaxTrains)
         return ObjectGuid::Empty;
@@ -1090,7 +1090,6 @@ static ObjectGuid SummonTrain(Creature* p_Summoner, uint8 p_TrainID, eThogarActi
         ApplyPassengerFlags(l_Wheels, false);
 
         l_TrainGuid             = l_Wheels->GetGUID();
-        ObjectGuid l_SummonerGuid   = p_Summoner->GetGUID();
         /*l_InstanceScript->AddTimedDelayedOperation(10, [l_InstanceScript, l_TrainDatas, l_Pos, l_SummonerGuid, l_TrainGuid]() -> void
         {
             Creature* l_Summoner = sObjectAccessor->FindCreature(l_SummonerGuid);

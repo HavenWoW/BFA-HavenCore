@@ -489,8 +489,10 @@ public:
             if (type != POINT_MOTION_TYPE)
                 return;
             if (Creature * tree = me->GetMap()->GetCreature(treeGUID))
+            {
                 me->SetFacingToObject(tree);
                 me->HandleEmoteCommand(EMOTE_STATE_WORK_CHOPWOOD_2);
+            }
         }
 
         void IsSummonedBy(Unit* summoner)

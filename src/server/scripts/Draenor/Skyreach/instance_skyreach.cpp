@@ -12,16 +12,16 @@ enum MaxEncounter
 
 static const DoorData k_DoorData[] =
 {
-    { DOOR_RANJIT_ENTRANCE,             Data::Ranjit,           DOOR_TYPE_ROOM,      },
-    { DOOR_RANJIT_EXIT,                 Data::Ranjit,           DOOR_TYPE_PASSAGE,   },
-    { DOOR_ARAKNATH_ENTRANCE_1,         Data::Araknath,         DOOR_TYPE_ROOM,      },
-    { DOOR_ARAKNATH_ENTRANCE_2,         Data::Araknath,         DOOR_TYPE_ROOM,      },
-    { DOOR_ARAKNATH_EXIT_1,             Data::Araknath,         DOOR_TYPE_PASSAGE,   },
-    { DOOR_ARAKNATH_EXIT_2,             Data::Araknath,         DOOR_TYPE_PASSAGE,   },
-    { DOOR_RUKHRAN_ENTRANCE,            Data::Rukhran,          DOOR_TYPE_ROOM,      },
-    { DOOR_RUKHRAN_EXIT,                Data::Rukhran,          DOOR_TYPE_PASSAGE,   },
-    { DOOR_HIGH_SAVE_VIRYX_ENTRANCE,    Data::HighSageViryx,    DOOR_TYPE_ROOM,      },
-    { 0,                                0,                      DOOR_TYPE_ROOM,      }  // EOF
+    { DOOR_RANJIT_ENTRANCE,             Data::Ranjit,           DOOR_TYPE_ROOM, BOUNDARY_NONE      },
+    { DOOR_RANJIT_EXIT,                 Data::Ranjit,           DOOR_TYPE_PASSAGE, BOUNDARY_NONE   },
+    { DOOR_ARAKNATH_ENTRANCE_1,         Data::Araknath,         DOOR_TYPE_ROOM, BOUNDARY_NONE      },
+    { DOOR_ARAKNATH_ENTRANCE_2,         Data::Araknath,         DOOR_TYPE_ROOM, BOUNDARY_NONE      },
+    { DOOR_ARAKNATH_EXIT_1,             Data::Araknath,         DOOR_TYPE_PASSAGE, BOUNDARY_NONE   },
+    { DOOR_ARAKNATH_EXIT_2,             Data::Araknath,         DOOR_TYPE_PASSAGE, BOUNDARY_NONE   },
+    { DOOR_RUKHRAN_ENTRANCE,            Data::Rukhran,          DOOR_TYPE_ROOM, BOUNDARY_NONE      },
+    { DOOR_RUKHRAN_EXIT,                Data::Rukhran,          DOOR_TYPE_PASSAGE, BOUNDARY_NONE   },
+    { DOOR_HIGH_SAVE_VIRYX_ENTRANCE,    Data::HighSageViryx,    DOOR_TYPE_ROOM, BOUNDARY_NONE      },
+    { 0,                                0,                      DOOR_TYPE_ROOM, BOUNDARY_NONE      }  // EOF
 };
 
 class instance_skyreach : public InstanceMapScript
@@ -478,6 +478,7 @@ public:
 
                     m_SelectedSolarConstructorGuid = ObjectGuid::Empty;
                 }
+                /* fallthrough */
             case Data::StartingLensFlare:
             {
                 if (m_MagnifyingGlassFocusGuids.empty())

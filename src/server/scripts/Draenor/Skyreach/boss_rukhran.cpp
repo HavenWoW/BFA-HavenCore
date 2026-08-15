@@ -337,7 +337,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason why) override
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             me->ClearInCombat();
             me->CombatStop();
@@ -354,7 +354,7 @@ public:
             _JustReachedHome();
         }
 
-        void JustDied(Unit* p_Killer)
+        void JustDied(Unit* /*p_Killer*/)
         {
             _JustDied();
 
@@ -382,7 +382,7 @@ public:
         }
 
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             _EnterCombat();
 

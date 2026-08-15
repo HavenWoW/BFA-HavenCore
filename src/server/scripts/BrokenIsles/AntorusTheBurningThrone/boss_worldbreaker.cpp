@@ -334,7 +334,7 @@ struct boss_garothi_worldbreaker : public BossAI
         {
             if (Creature* npc = me->SummonCreature(NPC_DECIMATOR, pos2, TEMPSUMMON_MANUAL_DESPAWN, WEEK, 5430, false))
             {
-                npc->GetScheduler().Schedule(Milliseconds(500), [this, npc](TaskContext context)
+                npc->GetScheduler().Schedule(Milliseconds(500), [this, npc](TaskContext /*context*/)
                 {
                     npc->CastSpell(me, SPELL_RIDE_SPELL, true);
                 });
@@ -905,7 +905,7 @@ class spell_garothi_annihilation_selector : public SpellScript
 {
     PrepareSpellScript(spell_garothi_annihilation_selector);
 
-    bool Validate(SpellInfo const* spellInfo) override
+    bool Validate(SpellInfo const* /*spellInfo*/) override
     {
         return ValidateSpellInfo({ SPELL_ANNIHILATION_SUMMON });
     }

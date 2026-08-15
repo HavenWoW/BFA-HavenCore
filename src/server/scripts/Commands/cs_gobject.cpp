@@ -561,7 +561,6 @@ public:
                 float x = fields[2].GetFloat();
                 float y = fields[3].GetFloat();
                 float z = fields[4].GetFloat();
-                float o = fields[5].GetFloat();
                 uint16 mapId = fields[6].GetUInt16();
 
                 GameObjectTemplate const* gameObjectInfo = sObjectMgr->GetGameObjectTemplate(entry);

@@ -169,7 +169,7 @@ class boss_skylord_torva : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* p_Who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (m_Instance != nullptr)
                 m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);
@@ -254,7 +254,7 @@ class boss_skylord_torva : public CreatureScript
 
                 if (InstanceScript* m_Instance = me->GetInstanceScript())
                 {
-                  //  m_Instance->CompleteScenario(); toca añadir la funcion
+                  //  m_Instance->CompleteScenario(); toca aï¿½adir la funcion
                     m_Instance->DoPlaySceneOnPlayers(GrimrailDepotScenes::SceneEscapeTheTrain);
                     if (Creature* l_Dragon = m_Instance->instance->GetCreature(m_Instance->GetGuidData(GrimrailDepotData::DataSkyLordTovraDragon)))
                         l_Dragon->DespawnOrUnsummon();

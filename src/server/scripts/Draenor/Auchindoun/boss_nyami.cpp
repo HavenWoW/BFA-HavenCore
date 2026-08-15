@@ -460,7 +460,7 @@ struct auchindoun_nyami_mob_malefic_defender : public ScriptedAI
         me->AddAura(eNyamiSpells::SpellSpiritVisual, me);
     }
 
-    void EnterCombat(Unit* p_Attacker) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eMaleficDefenderEvents::EventCrusaderStirke, 5 * TimeConstants::IN_MILLISECONDS);
     }
@@ -516,7 +516,7 @@ struct auchindoun_nyami_mob_spiteful_arbitrer : public ScriptedAI
         m_RadiantDiff = 1 * TimeConstants::IN_MILLISECONDS;
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eNyamiEvents::EventRadiantFury, 8 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eNyamiEvents::EventArbitrerHammer, 14 * TimeConstants::IN_MILLISECONDS);
@@ -620,7 +620,7 @@ struct auchindoun_nyami_mob_twisted_magus : public ScriptedAI
         me->AddAura(eNyamiSpells::SpellSpiritVisual, me);
     }
 
-    void EnterCombat(Unit* p_Attacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(eTwistedMagusEvents::EventArcaneBolt, 4 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eTwistedMagusEvents::EventArcaneBomb, 12 * TimeConstants::IN_MILLISECONDS);
@@ -659,7 +659,7 @@ class auchindoun_nyami_spell_torn_spirits : public SpellScript
 {
     PrepareSpellScript(auchindoun_nyami_spell_torn_spirits);
 
-    void HandleDummy(SpellEffIndex effIndex)
+    void HandleDummy(SpellEffIndex /*effIndex*/)
     {
         uint32 l_Entries[3] = { eNyamiCreatures::CreatureMaleficDefender, eNyamiCreatures::CreatureTwistedMagus, eNyamiCreatures::CreatureSpitefulArbitrer };
 
@@ -688,7 +688,7 @@ class auchindoun_nyami_spell_soul_vessel : public SpellScript
 {
     PrepareSpellScript(auchindoun_nyami_spell_soul_vessel);
 
-    void RecalculateDamage(SpellEffIndex p_EffIndex)
+    void RecalculateDamage(SpellEffIndex /*p_EffIndex*/)
     {
         if (GetHitUnit() && GetHitUnit()->HasAura(eNyamiSpells::SpellSoulBubbleBuff))
             SetHitDamage(0);
@@ -705,7 +705,7 @@ class auchindoun_nyami_spell_soul_vessel_dummy : public AuraScript
 {
     PrepareAuraScript(auchindoun_nyami_spell_soul_vessel_dummy);
 
-    void HandlePeriodic(AuraEffect const* p_AurEff)
+    void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
     {
         if (Unit* l_Caster = GetCaster())
         {
@@ -721,7 +721,7 @@ class auchindoun_nyami_spell_soul_vessel_dummy : public AuraScript
             }
 
             /// Cosmetic
-            if (Creature* l_Bubble = l_Caster->FindNearestCreature(eNyamiCreatures::CreatureSoulVesselHackBubbleEffect, 150.0f))
+            if (l_Caster->FindNearestCreature(eNyamiCreatures::CreatureSoulVesselHackBubbleEffect, 150.0f))
             {
                 //G3D::Vector3 l_Source(l_Bubble->m_positionX, l_Bubble->m_positionY, l_Bubble->m_positionZ);
                 //G3D::Vector3 l_Dest(1759.477f, 2947.181f, 36.79123f);
@@ -732,7 +732,7 @@ class auchindoun_nyami_spell_soul_vessel_dummy : public AuraScript
         }
     }
 
-    void OnRemove(AuraEffect const* p_AurEff, AuraEffectHandleModes /*p_Mode*/)
+    void OnRemove(AuraEffect const* /*p_AurEff*/, AuraEffectHandleModes /*p_Mode*/)
     {
         if (Unit* l_Caster = GetCaster())
         {

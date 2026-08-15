@@ -213,7 +213,7 @@ class boss_flamebender_kagraz : public CreatureScript
                     m_Events.ScheduleEvent(eEvents::EventBerserker, eTimers::TimerBerserker);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 m_Firestorm = false;
 
@@ -333,7 +333,7 @@ class boss_flamebender_kagraz : public CreatureScript
                     {
                         if (m_Instance != nullptr)
                         {
-                            if (Creature* l_LavaStalker = ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::LavaStalker)))
+                            if (ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::LavaStalker)))
                             {
                                 if (Creature* l_MoltenTorrent = ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::MoltenTorrentStalker)))
                                 {
@@ -727,7 +727,7 @@ class npc_foundry_aknor_steelbringer : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 me->InterruptNonMeleeSpells(true);
 
@@ -905,7 +905,7 @@ class npc_foundry_flamebender_kagraz_trigger : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
               //  UpdateOperations(p_Diff);
             }
@@ -962,13 +962,13 @@ class npc_foundry_kagraz_enchanted_armament : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/=0)
+            void SetGUID(ObjectGuid /*p_Guid*/, int32 /*p_ID*/=0)
             {
-              //  AddTimedDelayedOperation(50, [this, p_Guid]() -> void
-               // {
-                  //  if (Player* l_Player = l_Target.m_positionZ = l_Z::GetPlayer(*me, p_Guid))
+                //AddTimedDelayedOperation(50, [this, p_Guid]() -> void
+                //{
+                    //if (Player* l_Player = l_Target.m_positionZ = l_Z::GetPlayer(*me, p_Guid))
                         me->CastSpell(me, eSpells::EnchantArmamentJump, true);
-               // });
+                //});
             }
 
             void DamageTaken(Unit* /*p_Attacker*/, uint32& p_Damage) override
@@ -976,7 +976,7 @@ class npc_foundry_kagraz_enchanted_armament : public CreatureScript
                 p_Damage = 0;
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
               //  UpdateOperations(p_Diff);
             }
@@ -1111,7 +1111,7 @@ class npc_foundry_lava_stalker : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -1788,7 +1788,7 @@ class spell_foundry_allow_molten_torrent_cast : public SpellScriptLoader
                 {
                     if (l_Wolf->IsAIEnabled)
                     {
-                        if (boss_flamebender_kagraz::boss_flamebender_kagrazAI* l_AI = CAST_AI(boss_flamebender_kagraz::boss_flamebender_kagrazAI, l_Wolf->GetAI()))
+                        if (CAST_AI(boss_flamebender_kagraz::boss_flamebender_kagrazAI, l_Wolf->GetAI()))
                         {
                           //  l_AI->AddTimedDelayedOperation(50, [this, l_AI]() -> void
                            // {
@@ -1932,14 +1932,14 @@ class spell_foundry_fixate : public SpellScriptLoader
             {
                 p_Targets.clear();
 
-                if (Creature* l_Wolf = GetCaster()->ToCreature())
+                /*if (Creature* l_Wolf = GetCaster()->ToCreature())
                 {
-                    if (npc_foundry_cinder_wolf::npc_foundry_cinder_wolfAI* l_AI = CAST_AI(npc_foundry_cinder_wolf::npc_foundry_cinder_wolfAI, l_Wolf->GetAI()))
+                    if (CAST_AI(npc_foundry_cinder_wolf::npc_foundry_cinder_wolfAI, l_Wolf->GetAI()))
                     {
-                       // if (Player* l_Target = l_AI->SelectRangedTarget())
-                           // p_Targets.push_back(l_Target);
+                        if (Player* l_Target = l_AI->SelectRangedTarget())
+                            p_Targets.push_back(l_Target);
                     }
-                }
+                }*/
             }
 
             void Register() override
@@ -2192,8 +2192,8 @@ class spell_foundry_blazing_radiance : public SpellScriptLoader
                     if (p_Object == nullptr || !p_Object->IsPlayer())
                         return true;
 
-                    Player* l_Player = p_Object->ToPlayer();
-                  //  if (l_Player->GetRoleForGroup() == Roles::ROLE_TANK)
+                    //Player* l_Player = p_Object->ToPlayer();
+                    //if (l_Player->GetRoleForGroup() == Roles::ROLE_TANK)
                     //    return true;
 
                     return false;
@@ -2299,10 +2299,10 @@ class areatrigger_foundry_molten_torrent_ball : public AreaTriggerEntityScript
             OverrideScaleCurve = 32516
         };
 
-        void OnCreate(AreaTrigger* p_AreaTrigger) 
+        /*void OnCreate(AreaTrigger* p_AreaTrigger) 
         {
          //   p_AreaTrigger->SetUInt32Value(AreaTriggerFields::AREATRIGGER_OVERRIDE_SCALE_CURVE, eVisuals::OverrideScaleCurve);
-        }
+        }*/
         /*
         AreaTriggerEntityScript* GetAI()
         {

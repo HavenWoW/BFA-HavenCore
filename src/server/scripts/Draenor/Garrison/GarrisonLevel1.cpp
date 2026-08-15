@@ -39,7 +39,7 @@ struct garrison_level_1 : public GarrisonAI
                garrison->GetOwner()->HasQuest(QUEST_BIGGER_IS_BETTER_A);
     }
 
-    void OnUpgrade(Player* player) override
+    void OnUpgrade(Player* /*player*/) override
     {
 
     }

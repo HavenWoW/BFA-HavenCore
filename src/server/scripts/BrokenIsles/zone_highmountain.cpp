@@ -82,7 +82,7 @@ struct npc_94973 : public ScriptedAI
 {
     npc_94973(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(40244))
         {
@@ -126,7 +126,7 @@ struct npc_warbrave_oro_97666 : public ScriptedAI
         {
             me->Say(99459);
             player->KilledMonsterCredit(96813);
-            me->GetScheduler().Schedule(Milliseconds(4000), [player](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(4000), [player](TaskContext /*context*/)
             {
                 if (Creature* kadej = player->FindNearestCreature(91172, 50.f))
                     kadej->Say(99460, player);
@@ -210,7 +210,7 @@ struct npc_jale_rivermane_93833 : public ScriptedAI
 {
     npc_jale_rivermane_93833(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_THE_FLOW_OF_THE_RIVER)
             me->Say(102688);
@@ -415,13 +415,13 @@ struct npc_spiritwalker_ebonhorn_98825 : public ScriptedAI
 {
     npc_spiritwalker_ebonhorn_98825(Creature* creature) : ScriptedAI(creature) { }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_SECRETS_OF_HIGHMOUNTAIN)
             Talk(0);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
 
@@ -463,11 +463,11 @@ public:
             Creature* Warbrave01 = player->SummonCreature(98788, Position(3551.889f, 4382.259f, 663.932f, 3.94186f), TEMPSUMMON_MANUAL_DESPAWN, 0, 0, true);
             Creature* Warbrave02 = player->SummonCreature(98788, Position(3555.33f, 4380.189f, 663.773f, 3.5473f), TEMPSUMMON_MANUAL_DESPAWN, 0, 0, true);
             Igrul->Say(100465);
-            player->GetScheduler().Schedule(Milliseconds(10000), [Huln](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(10000), [Huln](TaskContext /*context*/)
             {
                 Huln->Say(100467);
             });
-            player->GetScheduler().Schedule(Milliseconds(20000), [Igrul](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(20000), [Igrul](TaskContext /*context*/)
             {
                 Igrul->Say(100468);
             });
@@ -475,7 +475,7 @@ public:
             Huln->DespawnOrUnsummon(25000);
             Warbrave01->DespawnOrUnsummon(25000);
             Warbrave02->DespawnOrUnsummon(25000);
-            player->GetScheduler().Schedule(Milliseconds(24000), [player](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(24000), [player](TaskContext /*context*/)
             {
                 player->RemoveAurasDueToSpell(194669);
             });
@@ -486,7 +486,7 @@ public:
             Creature* Igrul = player->SummonCreature(96387, Position(3649.409f, 4265.33f, 665.0189f, 1.53473f), TEMPSUMMON_MANUAL_DESPAWN, 0, 0, true);
             Creature* Huln = player->SummonCreature(96318, Position(3644.1f, 4270.6f, 665.405f, 0.4333f), TEMPSUMMON_MANUAL_DESPAWN, 0, 0, true);
             player->CastSpell(player, 195111, true);
-            player->GetScheduler().Schedule(Milliseconds(20000), [player](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(20000), [player](TaskContext /*context*/)
             {
                 player->RemoveAurasDueToSpell(194669);
             });
@@ -501,11 +501,11 @@ public:
             Creature* Warbrave01 = player->SummonCreature(98788, Position(3507.429f, 4288.99f, 681.276f, 1.34693f), TEMPSUMMON_MANUAL_DESPAWN, 0, 0, true);
             Creature* Warbrave02 = player->SummonCreature(98788, Position(3519.07f, 4295.7f, 680.42f, 2.621f), TEMPSUMMON_MANUAL_DESPAWN, 0, 0, true);
             Igrul->Say(100831);
-            player->GetScheduler().Schedule(Milliseconds(10000), [Huln](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(10000), [Huln](TaskContext /*context*/)
             {
                 Huln->Say(100832);
             });
-            player->GetScheduler().Schedule(Milliseconds(20000), [player](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(20000), [player](TaskContext /*context*/)
             {
                 player->RemoveAurasDueToSpell(194669);
             });
@@ -537,12 +537,12 @@ public:
             Creature* Deathwing = player->SummonCreature(97056, Position(3427.34f, 4272.229f, 704.005f, 1.57f), TEMPSUMMON_MANUAL_DESPAWN, 0, 0, true);
             Deathwing->Say(98359);
             //ID - 191254 Exilio de Alamuerte
-            player->GetScheduler().Schedule(Milliseconds(5000), [Deathwing, player](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(5000), [Deathwing, player](TaskContext /*context*/)
             {
                 Deathwing->CastSpell(Deathwing, 191254, true);
                 player->KilledMonsterCredit(97056);
             });
-            player->GetScheduler().Schedule(Milliseconds(10000), [Deathwing](TaskContext context)
+            player->GetScheduler().Schedule(Milliseconds(10000), [Deathwing](TaskContext /*context*/)
             {
                 Deathwing->DespawnOrUnsummon();
             });
@@ -633,7 +633,7 @@ struct npc_quest_evacuate_snowmane_42088 : public ScriptedAI
 {
     npc_quest_evacuate_snowmane_42088(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
 
@@ -730,7 +730,7 @@ struct npc_windmaster_julan_95403 : public ScriptedAI
         me->RemoveAurasDueToSpell(130966);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_NURSING_THE_WOUNDS))

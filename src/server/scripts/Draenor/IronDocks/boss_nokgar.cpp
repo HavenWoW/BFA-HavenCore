@@ -67,7 +67,7 @@ class basicevent_nokgar_death : public BasicEvent
                 {
                     if (Creature* l_Koramar = l_Instance->instance->GetCreature(l_Instance->GetGuidData(eIronDocksDatas::DataKoramar)))
                     {
-                        if (Creature* l_Skulloc = l_Instance->instance->GetCreature(l_Instance->GetGuidData(eIronDocksDatas::DataSkulloc)))
+                        if (l_Instance->instance->GetCreature(l_Instance->GetGuidData(eIronDocksDatas::DataSkulloc)))
                         {                  
                             if (l_Zoggosh->IsAIEnabled && l_Koramar->IsAIEnabled)
                             {
@@ -203,7 +203,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* p_Who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             _EnterCombat();
             StopArchers();
@@ -333,6 +333,7 @@ public:
                         break;
                     }
                 }
+                /* fallthrough */
                 case eNokgarEvents::EventRecklessProvocation:
                 {
                     Talk(eTalks::SaySpell03);
@@ -463,7 +464,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
                     Talk(eTalks::SaySlay);
             }
 
-            void DamageTaken(Unit* p_Attacker, uint32& p_Damage) override
+            void DamageTaken(Unit* /*p_Attacker*/, uint32& /*p_Damage*/) override
             {
                 /*
                 if (p_Damage && p_Damage > 0)

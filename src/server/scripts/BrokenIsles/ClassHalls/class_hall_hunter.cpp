@@ -115,7 +115,7 @@ struct npc_emmarel_shadewarden_102478 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -140,7 +140,7 @@ class hunter_playerchoice : public PlayerScript
 public:
     hunter_playerchoice() : PlayerScript("hunter_playerchoice") { }
 
-    void OnQuestStatusChange(Player* player, uint32 /*questId*/)
+    void OnQuestStatusChange(Player* /*player*/, uint32 /*questId*/)
     {
         //if (player->getClass() == CLASS_HUNTER || player->getLevel() >= 98)
            // OnCheckPhase(player);
@@ -182,7 +182,7 @@ struct npc_grif_wildheart_104381 : public ScriptedAI
 {
     npc_grif_wildheart_104381(Creature* creature) : ScriptedAI(creature) { }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_STOLEN_THUNDER)
         {
@@ -313,6 +313,7 @@ struct npc_emmarel_shadewarden_102578 : public ScriptedAI
                     if (Player* player = me->SelectNearestPlayer(15.0f))
                         player->KilledMonsterCredit(102688);
                 });
+            break;
         case 10:
             me->Say(105146);
             _scheduler.Schedule(2s, [this](TaskContext /*context*/)

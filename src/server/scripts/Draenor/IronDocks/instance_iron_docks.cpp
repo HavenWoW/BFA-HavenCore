@@ -160,7 +160,7 @@ class instance_iron_docks : public InstanceMapScript
                 }
             }
 
-            void OnCreatureKilled(Creature* p_Creature, Player* p_Player)
+                void OnCreatureKilled(Creature* p_Creature, Player* /*p_Player*/)
             {
                // if (!instance->IsChallengeMode() || !IsChallengeModeStarted() || m_CreatureKilled >= eIronDocksScenario::IronDocksKillCount)
                 //    return;

@@ -113,7 +113,7 @@ public:
                 drelanim->AI()->DoAction(2);
         }
 
-        void EnterEvadeMode(EvadeReason why) override
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             BossAI::EnterEvadeMode();
             Talk(SAY_EVADE);
@@ -148,7 +148,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
         {
             if (me->HealthBelowPct(51) && !phaseSecond)
             {
@@ -369,9 +369,9 @@ public:
                 events.RescheduleEvent(2, 0);
                 if (Creature* conv = me->SummonCreature(950003, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ() - 10.0f, me->GetOrientation()))
                 {
-                  //  Conversation* conversation = new Conversation;
-                  //  if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 866, attacker, NULL, *attacker))
-                   //     delete conversation;
+                    //Conversation* conversation = new Conversation;
+                    //if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 866, attacker, NULL, *attacker))
+                        //delete conversation;
                     conv->DespawnOrUnsummon();
                 }
             }
@@ -386,9 +386,9 @@ public:
         {
             if (Creature* conv = me->SummonCreature(950002, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ() - 10.0f, me->GetOrientation()))
             {
-              //  Conversation* conversation = new Conversation;
-               // if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 867, killer, NULL, *killer))
-               //     delete conversation;
+                //Conversation* conversation = new Conversation;
+                //if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 867, killer, NULL, *killer))
+                    //delete conversation;
                 conv->DespawnOrUnsummon();
             }
         }
@@ -403,8 +403,8 @@ public:
                 if (Creature* conv = me->SummonCreature(950002, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ() - 10.0f, me->GetOrientation()))
                 {
                     //Conversation* conversation = new Conversation;
-                   // if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 559, who, NULL, *who))
-                   //     delete conversation;
+                    //if (!conversation->CreateConversation(sObjectMgr->GetGenerator<HighGuid::Conversation>()->Generate(), 559, who, NULL, *who))
+                        //delete conversation;
                     introDone = true;
                     conv->DespawnOrUnsummon();
                 }
@@ -574,7 +574,7 @@ class spell_tirathon_darkstrikes : public AuraScript
 
     void Register() override
     {
-       // OnEffectProc += AuraEffectProcFn(spell_tirathon_darkstrikes::OnProc, EFFECT_0, SPELL_AURA_PROC_MELEE_TRIGGER_SPELL);
+        //OnEffectProc += AuraEffectProcFn(spell_tirathon_darkstrikes::OnProc, EFFECT_0, SPELL_AURA_PROC_MELEE_TRIGGER_SPELL);
         //OnEffectUpdate += AuraEffectUpdateFn(spell_tirathon_darkstrikes::OnUpdate, EFFECT_0, SPELL_AURA_PROC_MELEE_TRIGGER_SPELL);
     }
 };
@@ -586,18 +586,18 @@ class spell_tirathon_darkstrike : public SpellScript
 
     void HandleDamage(SpellEffIndex /*effectIndex*/)
     {
-     //   if (!GetCaster() || !GetHitUnit() || GetHitUnit()->IsActiveMitigation())
-        //    return;
+        //if (!GetCaster() || !GetHitUnit() || GetHitUnit()->IsActiveMitigation())
+            //return;
 
         float damage = GetHitDamage();
 
-        if (auto auraEff = GetCaster()->GetAuraEffect(SPELL_DARK_ENERGIES_ABSORB, EFFECT_0))
+        /*if (GetCaster()->GetAuraEffect(SPELL_DARK_ENERGIES_ABSORB, EFFECT_0))
         {
-        //    auraEff->ChangeAmount(auraEff->GetAmount() + damage);
-        //    auraEff->GetBase()->SetDuration(auraEff->GetBase()->GetMaxDuration());
+            auraEff->ChangeAmount(auraEff->GetAmount() + damage);
+            auraEff->GetBase()->SetDuration(auraEff->GetBase()->GetMaxDuration());
         }
-        //else
-         //   GetCaster()->CastCustomSpell(GetCaster(), SPELL_DARK_ENERGIES_ABSORB, &damage, NULL, NULL, true);
+        else
+            GetCaster()->CastCustomSpell(GetCaster(), SPELL_DARK_ENERGIES_ABSORB, &damage, NULL, NULL, true);*/
     }
 
     void Register() override

@@ -39,13 +39,13 @@ static BossBoundaryData const boundaries =
 
 static DoorData const doorData[] =
 {
-    { GO_SKORPYRON_DOOR_01,                    BOSS_SKORPYRON,                    DOOR_TYPE_ROOM    },
-    { GO_SKORPYRON_DOOR_02,                    BOSS_SKORPYRON,                    DOOR_TYPE_PASSAGE },
-    { GO_CHRONOMATIC_ANOMALY_01,               BOSS_CHRONOMATIC_ANOMALY,          DOOR_TYPE_ROOM    },
-    { GO_CHRONOMATIC_ANOMALY_02,               BOSS_CHRONOMATIC_ANOMALY,          DOOR_TYPE_PASSAGE },
-    { GO_TRILLIAX_DOOR_01,                     BOSS_TRILLIAX,                     DOOR_TYPE_ROOM },
-    { GO_TRILLIAX_DOOR_02,                     BOSS_TRILLIAX,                     DOOR_TYPE_PASSAGE },
-    { 0,                                       0,                                 DOOR_TYPE_ROOM    }
+    { GO_SKORPYRON_DOOR_01,                    BOSS_SKORPYRON,                    DOOR_TYPE_ROOM    , BOUNDARY_NONE },
+    { GO_SKORPYRON_DOOR_02,                    BOSS_SKORPYRON,                    DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_CHRONOMATIC_ANOMALY_01,               BOSS_CHRONOMATIC_ANOMALY,          DOOR_TYPE_ROOM    , BOUNDARY_NONE },
+    { GO_CHRONOMATIC_ANOMALY_02,               BOSS_CHRONOMATIC_ANOMALY,          DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_TRILLIAX_DOOR_01,                     BOSS_TRILLIAX,                     DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { GO_TRILLIAX_DOOR_02,                     BOSS_TRILLIAX,                     DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { 0,                                       0,                                 DOOR_TYPE_ROOM    , BOUNDARY_NONE }
 };
 
 class instance_the_nighthold : public InstanceMapScript

@@ -8,8 +8,8 @@
 
 DoorData const doorData[] =
 {
-    { GO_DOOR_1,                    DATA_KAATHAR,   DOOR_TYPE_PASSAGE },
-    { GameobjectHolyBarrier,        DATA_KAATHAR,   DOOR_TYPE_ROOM },
+    { GO_DOOR_1,                    DATA_KAATHAR,   DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    { GameobjectHolyBarrier,        DATA_KAATHAR,   DOOR_TYPE_ROOM, BOUNDARY_NONE },
     
 };
 
@@ -150,17 +150,17 @@ struct instance_auchindoun : public InstanceScript
                 break;
             case eAuchindounObjects::GameobjectSoulTransport1:
                 if (instance)
-                    if (Creature* l_Teronogor = instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
+                    if (instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
                         m_SoulTransport01Guid = go->GetGUID();
                 break;
             case eAuchindounObjects::GameobjectSoulTransport2:
                 if (instance)
-                    if (Creature* l_Teronogor = instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
+                    if (instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
                         m_SoulTransport02Guid = go->GetGUID();
                 break;
             case eAuchindounObjects::GameobjectSoulTransport3:
                 if (instance)
-                    if (Creature* l_Teronogor = instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
+                    if (instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
                         m_SoulTransport03Guid = go->GetGUID();
 
                 break;
@@ -195,7 +195,7 @@ struct instance_auchindoun : public InstanceScript
             if (GameObject* l_Felbarrier = instance->GetGameObject(GetGuidData(eAuchindounDatas::DataFelBarrier)))
                 l_Felbarrier->Delete();
 
-            if (GameObject* l_SoulTransport = instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransportStart)))
+            if (instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransportStart)))
             {
                 if (Creature* l_Teronogor = instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
                 {
@@ -207,7 +207,7 @@ struct instance_auchindoun : public InstanceScript
         }
         /// Soul Transport
         case eAuchindounCreatures::CreatureGromtashTheDestructor:
-            if (GameObject* l_SoulTransport = instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransport3)))
+            if (instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransport3)))
             {
                 if (Creature* l_Teronogor = instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
                 {
@@ -217,7 +217,7 @@ struct instance_auchindoun : public InstanceScript
             }
             break;
         case eAuchindounCreatures::CreatureGulkosh:
-            if (GameObject* l_SoulTransport = instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransport2)))
+            if (instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransport2)))
             {
                 if (Creature* l_Teronogor = instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
                 {
@@ -230,7 +230,7 @@ struct instance_auchindoun : public InstanceScript
         {
             if (instance != nullptr)
             {
-                if (GameObject* l_SoulTransport = instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransport1)))
+                if (instance->GetGameObject(GetGuidData(eAuchindounDatas::DataSoulTransport1)))
                 {
                     if (Creature* l_Teronogor = instance->GetCreature(GetGuidData(eAuchindounDatas::DataBossTeronogor)))
                     {

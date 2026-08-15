@@ -341,22 +341,20 @@ public:
             }
         }
 
-        void SpellHit(Unit* caster, const SpellInfo* spell) override
+        void SpellHit(Unit* /*caster*/, const SpellInfo* spell) override
         {
             if (spell->Id == SPELL_CALL_OF_NIGHTMARES)
             {
                 Position pos;
-                float angle = 0.0f;
                 for (uint8 i = 0; i < 6; i++)
                 {
-                    angle = frand(0, 6.0f);
                     //centrPos.SimplePosXYRelocationByAngle(pos, 55.0f, angle);
                     me->CastSpell(pos, SPELL_TAINTED_DISCHARGE_SUM, true);
                 }
             }
         }
 
-        void SpellHitTarget(Unit* target, const SpellInfo* spell) override
+        void SpellHitTarget(Unit* /*target*/, const SpellInfo* spell) override
         {
             if (spell->Id == SPELL_NIGHTMARE_BLADES_MARK)
             {

@@ -254,10 +254,10 @@ struct boss_advisor_melandrus : public BossAI
             IsLock = true;
 
             DoAction(ACTION_INTRO);
-            me->GetScheduler().Schedule(Milliseconds(14000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(14000), [this](TaskContext /*context*/)
             {
                 DoAction(SAY_INTRO_ACHIEVEMENT);
-            }).Schedule(Milliseconds(10000), [this](TaskContext context)
+            }).Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
             {
                 DoAction(SAY_PLAYERS_LOCATED);
                 me->RemoveUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
@@ -309,7 +309,7 @@ public:
                 DoCast(me, SPELL_SLICING_MAELSTROM_IMAGE_AURA);
         }
 
-        void EnterEvadeMode(EvadeReason reason) override
+        void EnterEvadeMode(EvadeReason /*reason*/) override
         {
 
         }

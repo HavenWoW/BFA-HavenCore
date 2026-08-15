@@ -115,7 +115,7 @@ public:
             _JustDied();
         }
 
-        void SpellHitTarget(Unit*target, SpellInfo const* spell) override
+        void SpellHitTarget(Unit* /*target*/, SpellInfo const* /*spell*/) override
         {
             //if (spell->Id == SPELL_SAP_SOUL && target->GetTypeId() == TYPEID_PLAYER)
                // Talk(SAY_EMOTE, target->ToPlayer()->GetGUID());
@@ -291,7 +291,7 @@ public:
         {
             if (!GetCaster() || !GetHitGObj())
                 return;
-/*
+
            // switch (GetHitGObj()->GetEntry())
             {
             case GO_CAGE_2:

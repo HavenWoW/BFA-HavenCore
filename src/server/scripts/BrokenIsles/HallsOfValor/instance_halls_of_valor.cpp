@@ -22,16 +22,16 @@
 
 DoorData const doorData[] =
 {
-    { GOB_DOOR_HYMDALL_ENTRANCE,    DATA_HYMDALL,           DOOR_TYPE_ROOM      },
-    { GOB_DOOR_HYMDALL_EXIT,        DATA_HYMDALL,           DOOR_TYPE_PASSAGE   },
+    { GOB_DOOR_HYMDALL_ENTRANCE,    DATA_HYMDALL,           DOOR_TYPE_ROOM, BOUNDARY_NONE      },
+    { GOB_DOOR_HYMDALL_EXIT,        DATA_HYMDALL,           DOOR_TYPE_PASSAGE, BOUNDARY_NONE   },
 
-    { GOB_DOOR_HYRJA_ROOM,          DATA_HYRJA,             DOOR_TYPE_ROOM      },
+    { GOB_DOOR_HYRJA_ROOM,          DATA_HYRJA,             DOOR_TYPE_ROOM, BOUNDARY_NONE      },
 
-    { GOB_DOOR_ODYN_PASSAGE,        DATA_HYRJA,             DOOR_TYPE_PASSAGE   },
-    { GOB_DOOR_ODYN_BRIDGE,         DATA_HYRJA,             DOOR_TYPE_PASSAGE   },
+    { GOB_DOOR_ODYN_PASSAGE,        DATA_HYRJA,             DOOR_TYPE_PASSAGE, BOUNDARY_NONE   },
+    { GOB_DOOR_ODYN_BRIDGE,         DATA_HYRJA,             DOOR_TYPE_PASSAGE, BOUNDARY_NONE   },
 
-    { GOB_DOOR_ODYN_ROOM,           DATA_GODKING_SKOVALD,   DOOR_TYPE_ROOM      },
-    { GOB_DOOR_ODYN_ROOM,           DATA_ODYN,              DOOR_TYPE_ROOM      },
+    { GOB_DOOR_ODYN_ROOM,           DATA_GODKING_SKOVALD,   DOOR_TYPE_ROOM, BOUNDARY_NONE      },
+    { GOB_DOOR_ODYN_ROOM,           DATA_ODYN,              DOOR_TYPE_ROOM, BOUNDARY_NONE      },
 };
 
 struct instance_halls_of_valor : public InstanceScript

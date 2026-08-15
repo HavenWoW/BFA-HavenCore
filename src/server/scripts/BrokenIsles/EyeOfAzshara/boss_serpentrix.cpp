@@ -252,7 +252,7 @@ public:
 			}
 		}
 
-		void EnterEvadeMode(EvadeReason why)
+		void EnterEvadeMode(EvadeReason /*why*/)
 		{
 			Reset();
 		}
@@ -377,7 +377,7 @@ public:
 			}
 		}
 
-		void DamageTaken(Unit* attacker, uint32& damage)
+		void DamageTaken(Unit* /*attacker*/, uint32& damage)
 		{
 			uint32 damageToDeal = damage;
 

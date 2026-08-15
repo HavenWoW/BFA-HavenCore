@@ -63,7 +63,7 @@ struct npc_duke_lankral_101441 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -96,7 +96,7 @@ class dk_playerchoice : public PlayerScript
 public:
     dk_playerchoice() : PlayerScript("dk_playerchoice") { }
 
-    void OnQuestStatusChange(Player* player, uint32 /*questId*/)
+    void OnQuestStatusChange(Player* /*player*/, uint32 /*questId*/)
     {
         //if (player->getClass() == CLASS_DEATH_KNIGHT || player->getLevel() >= 98)
            // OnCheckPhase(player);

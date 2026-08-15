@@ -402,13 +402,13 @@ class StampingPressActivation : public BasicEvent
 
         virtual bool Execute(uint64 /*p_EndTime*/, uint32 /*p_Time*/)
         {
-            if (GameObject* l_GameObject = HashMapHolder<GameObject>::Find(m_Guid))
-            {
-              //  l_GameObject->SendGameObjectActivateAnimKit(m_AnimID, m_Maintain);
+            //if (GameObject* l_GameObject = HashMapHolder<GameObject>::Find(m_Guid))
+            //{
+                // l_GameObject->SendGameObjectActivateAnimKit(m_AnimID, m_Maintain);
 
-                /// Register AnimKitID to send it in UpdateObject
-              //  l_GameObject->SetAIAnimKitId(m_AnimID, false);
-            }
+                // Register AnimKitID to send it in UpdateObject
+                // l_GameObject->SetAIAnimKitId(m_AnimID, false);
+            //}
 
             return true;
         }

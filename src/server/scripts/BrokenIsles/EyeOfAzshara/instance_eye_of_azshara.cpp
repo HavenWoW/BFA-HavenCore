@@ -23,8 +23,8 @@
 
 DoorData const doorData[] =
 {
-	{ GO_WATER_DOOR, DATA_KING_DEEPBEARD, DOOR_TYPE_ROOM },
-{ 0, 0, DOOR_TYPE_ROOM }
+	{ GO_WATER_DOOR, DATA_KING_DEEPBEARD, DOOR_TYPE_ROOM, BOUNDARY_NONE },
+{ 0, 0, DOOR_TYPE_ROOM, BOUNDARY_NONE }
 };
 
 class instance_eye_of_azshara : public InstanceMapScript

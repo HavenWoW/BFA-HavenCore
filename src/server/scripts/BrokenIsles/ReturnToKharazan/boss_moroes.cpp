@@ -324,6 +324,7 @@ class npc_kara_moroes_guest : public CreatureScript
                         {
                             _events.ScheduleEvent(EVENT_ARCANE_BLAST, Seconds(5));
                             _events.ScheduleEvent(EVENT_MANA_DRAIN, Seconds(15));
+                            break;
                         }
 
                         case NPC_RAFE_DREUGER:

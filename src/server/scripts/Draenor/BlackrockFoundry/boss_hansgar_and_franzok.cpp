@@ -186,7 +186,7 @@ class boss_hansgar : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventBodySlam, 20 * TimeConstants::IN_MILLISECONDS + 500);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 m_Vehicle->RemoveAllPassengers();
 
@@ -600,12 +600,6 @@ class boss_hansgar : public CreatureScript
                             std::list<Creature*> l_StampingPresses;
                             me->GetCreatureListWithEntryInGrid(l_StampingPresses, eCreatures::MobStampingPresses, 150.0f);
 
-                            for (Creature* l_Press : l_StampingPresses)
-                            {
-                               // if (GameObject* l_StampingPress = l_Press->FindNearestGameObject(2.0f))
-                                  //  m_StampingPresses.push_back(StampingPressData(l_Press->GetGUID(), l_StampingPress->GetGUID()));
-                            }
-
                             /// Shouldn't happens
                             if (m_StampingPresses.empty() || (int)m_StampingPresses.size() < eDatas::MaxStampingPresses)
                                 break;
@@ -765,7 +759,7 @@ class boss_hansgar : public CreatureScript
                         {
                             for (uint32 l_BeltEntry : g_SearingPlatesCycles[l_I])
                             {
-                                if (GameObject* l_Belt = me->FindNearestGameObject(l_BeltEntry, 100.0f))
+                                if (me->FindNearestGameObject(l_BeltEntry, 100.0f))
                                 {
                                     std::list<Creature*> l_TempList = l_BurnList;
 
@@ -776,15 +770,8 @@ class boss_hansgar : public CreatureScript
                                         if (p_Creature == nullptr)
                                             return true;
 
-                                        if (p_Creature->GetPositionY() != l_BurnsDatas->second)
-                                        {
-                                            Position l_Pos = *p_Creature;
-                                            l_Pos.m_positionX = g_ScorchingBurnsXPos;
-                                            l_Pos.m_positionY = l_BurnsDatas->second;
-
-                                           // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
-                                              //  return true;
-                                        }
+                                       // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
+                                          //  return true;
 
                                         return false;
                                     });
@@ -864,7 +851,7 @@ class boss_hansgar : public CreatureScript
                 {
                     for (uint32 l_BeltEntry : g_SearingPlatesCycles[l_I])
                     {
-                        if (GameObject* l_Belt = me->FindNearestGameObject(l_BeltEntry, 100.0f))
+                        if (me->FindNearestGameObject(l_BeltEntry, 100.0f))
                         {
                             std::list<Creature*> l_TempList = l_BurnList;
 
@@ -875,15 +862,8 @@ class boss_hansgar : public CreatureScript
                                 if (p_Creature == nullptr)
                                     return true;
 
-                                if (p_Creature->GetPositionY() != l_BurnsDatas->second)
-                                {
-                                    Position l_Pos = *p_Creature;
-                                    l_Pos.m_positionX = g_ScorchingBurnsXPos;
-                                    l_Pos.m_positionY = l_BurnsDatas->second;
-
-                                   // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
-                                   //     return true;
-                                }
+                               // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
+                               //     return true;
 
                                 return false;
                             });
@@ -948,7 +928,7 @@ class boss_hansgar : public CreatureScript
                 {
                     for (uint32 l_BeltEntry : g_SearingPlatesCycles[l_I])
                     {
-                        if (GameObject* l_Belt = me->FindNearestGameObject(l_BeltEntry, 100.0f))
+                        if (me->FindNearestGameObject(l_BeltEntry, 100.0f))
                         {
                             std::list<Creature*> l_TempList = l_BurnList;
 
@@ -959,15 +939,8 @@ class boss_hansgar : public CreatureScript
                                 if (p_Creature == nullptr)
                                     return true;
 
-                                if (p_Creature->GetPositionY() != l_BurnsDatas->second)
-                                {
-                                    Position l_Pos = *p_Creature;
-                                    l_Pos.m_positionX = g_ScorchingBurnsXPos;
-                                    l_Pos.m_positionY = l_BurnsDatas->second;
-
-                                   // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
-                                   //     return true;
-                                }
+                               // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
+                               //     return true;
 
                                 return false;
                             });
@@ -1126,12 +1099,12 @@ class boss_franzok : public CreatureScript
                         std::list<Creature*> l_StampingPresses;
                         me->GetCreatureListWithEntryInGrid(l_StampingPresses, eCreatures::MobStampingPresses, 150.0f);
 
-                        for (Creature* l_Press : l_StampingPresses)
-                        {
-                           // if (GameObject* l_StampingPress = l_Press->FindNearestGameObject(2.0f))
-                               // m_StampingPresses.push_back(StampingPressData(l_Press->GetGUID(), l_StampingPress->GetGUID()));
-                        }
-                  //  });
+                        //for (Creature* /*l_Press*/ : l_StampingPresses)
+                        //{
+                            //if (GameObject* l_StampingPress = l_Press->FindNearestGameObject(2.0f))
+                                //m_StampingPresses.push_back(StampingPressData(l_Press->GetGUID(), l_StampingPress->GetGUID()));
+                        //}
+                   // });
                 }
                 else
                     DeactivatePress();
@@ -1163,7 +1136,7 @@ class boss_franzok : public CreatureScript
                     me->AddAura(eSpells::BoundByBlood, l_Other);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 m_Vehicle->RemoveAllPassengers();
 
@@ -1602,7 +1575,7 @@ class boss_franzok : public CreatureScript
                 {
                     for (uint32 l_BeltEntry : g_SearingPlatesCycles[l_I])
                     {
-                        if (GameObject* l_Belt = me->FindNearestGameObject(l_BeltEntry, 100.0f))
+                        if (me->FindNearestGameObject(l_BeltEntry, 100.0f))
                         {
                             std::list<Creature*> l_TempList = l_BurnList;
 
@@ -1613,15 +1586,8 @@ class boss_franzok : public CreatureScript
                                 if (p_Creature == nullptr)
                                     return true;
 
-                                if (p_Creature->GetPositionY() != l_BurnsDatas->second)
-                                {
-                                    Position l_Pos = *p_Creature;
-                                    l_Pos.m_positionX = g_ScorchingBurnsXPos;
-                                    l_Pos.m_positionY = l_BurnsDatas->second;
-
-                                   // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
-                                    //    return true;
-                                }
+                               // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
+                                //    return true;
 
                                 return false;
                             });
@@ -1660,7 +1626,7 @@ class boss_franzok : public CreatureScript
                 {
                     for (uint32 l_BeltEntry : g_SearingPlatesCycles[l_I])
                     {
-                        if (GameObject* l_Belt = me->FindNearestGameObject(l_BeltEntry, 100.0f))
+                        if (me->FindNearestGameObject(l_BeltEntry, 100.0f))
                         {
                             std::list<Creature*> l_TempList = l_BurnList;
 
@@ -1671,15 +1637,8 @@ class boss_franzok : public CreatureScript
                                 if (p_Creature == nullptr)
                                     return true;
 
-                                if (p_Creature->GetPositionY() != l_BurnsDatas->second)
-                                {
-                                    Position l_Pos = *p_Creature;
-                                    l_Pos.m_positionX = g_ScorchingBurnsXPos;
-                                    l_Pos.m_positionY = l_BurnsDatas->second;
-
-                                   // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
-                                   //     return true;
-                                }
+                               // if (!p_Creature->IsNearPosition(&l_Pos, 2.0f))
+                               //     return true;
 
                                 return false;
                             });
@@ -1842,7 +1801,7 @@ class npc_foundry_forge_overdrive : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
 
@@ -1949,11 +1908,8 @@ class npc_foundry_scorching_burns : public CreatureScript
 
                 summons.DespawnAll();
 
-                for (ObjectGuid l_Guid : m_AffectedPlayers)
-                {
-                   // if (Player* l_Player = Player::GetPlayer(*me, l_Guid))
-                        //l_Player->SendApplyMovementForce(me->GetGUID(), false, Position());
-                }
+               // if (Player* l_Player = Player::GetPlayer(*me, l_Guid))
+                    //l_Player->SendApplyMovementForce(me->GetGUID(), false, Position());
 
                 m_AffectedPlayers.clear();
 
@@ -2019,7 +1975,7 @@ class npc_foundry_scorching_burns : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
 
@@ -2080,7 +2036,7 @@ class npc_foundry_scorching_burns : public CreatureScript
 
                     for (ObjectGuid l_Guid : l_Targets)
                     {
-                        if (Player* l_Player = ObjectAccessor::GetPlayer(*me, l_Guid))
+                        if ([[maybe_unused]] Player* l_Player = ObjectAccessor::GetPlayer(*me, l_Guid))
                         {
                            // if (!l_Player->HasMovementForce(me->GetGUID()))
                            // {
@@ -2199,7 +2155,7 @@ class npc_foundry_stamping_presses : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }

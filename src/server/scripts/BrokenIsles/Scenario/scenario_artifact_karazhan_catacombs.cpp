@@ -390,7 +390,7 @@ struct npc_the_conservator_101257 : public ScriptedAI
         islow = false;
     }
 
-    void EnterCombat(Unit* victim)
+    void EnterCombat(Unit* /*unit*/)
     {
         events.ScheduleEvent(SPELL_HATEFUL_BOLT, 2 * IN_MILLISECONDS);
     }
@@ -503,7 +503,7 @@ struct npc_ariden_100850 : public ScriptedAI
                     GetContextCreature()->Say(103609);
                 });
 
-                revil->GetScheduler().Schedule(Milliseconds(5000), [this, revil](TaskContext context)
+                revil->GetScheduler().Schedule(Milliseconds(5000), [this, revil](TaskContext /*context*/)
                 {
                     me->CastSpell(revil, 199735, true);
                 });
@@ -581,7 +581,7 @@ struct npc_ariden_102200 : public ScriptedAI
             instance->SetData(DATA_STAGE_6, DONE);
     }
 
-    void EnterCombat(Unit* victim)
+    void EnterCombat(Unit* /*unit*/)
     {
         Talk(0);
         me->GetScheduler().Schedule(Milliseconds(1000), [](TaskContext context)

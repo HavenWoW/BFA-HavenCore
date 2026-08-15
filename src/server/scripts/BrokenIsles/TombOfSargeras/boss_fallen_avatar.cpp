@@ -408,11 +408,11 @@ struct boss_fallen_avatar : BossAI
                 }
         //});
 
-        /*  instance->instance->ApplyOnEveryPlayer([&](Player* player)
-          {
-              if (me->GetThreatTarget(player->GetGUID()))
-                  me->CastSpell(player, SPELL_BONUS, true);
-           });*/
+        instance->instance->ApplyOnEveryPlayer([&](Player* player)
+        {
+            if (me->GetThreatTarget(player->GetGUID()))
+                me->CastSpell(player, SPELL_BONUS, true);
+        });
   //  }
 
    /* void SetGUID(const ObjectGuid& guid, int32 id) override
@@ -855,7 +855,7 @@ struct npc_avatara_maiden : public ScriptedAI
         events.Reset();
         me->SetPower(me->GetPowerType(), 0);
     }
-/*
+
     void EnterCombat(Unit* who) override
     {
         me->SetReactState(REACT_DEFENSIVE);
@@ -863,33 +863,32 @@ struct npc_avatara_maiden : public ScriptedAI
 
         events.RescheduleEvent(1, 1000);
 
-       // if (who)
-            //me->AddDelayedCombat(500, [&]() -> void
-        {
-         //   if (Unit* owner = me->GetOwner())
-          //      if (!owner->IsInCombat())
-          //          DoZoneInCombat(owner->ToCreature());
-      //  });
+        if (who)
+            me->AddDelayedCombat(500, [&]() -> void {
+            if (Unit* owner = me->GetOwner())
+                if (!owner->IsInCombat())
+                    DoZoneInCombat(owner->ToCreature());
+        });
 
       //  me->AddUnitState(UNIT_STATE_MOVE_IN_CASTING);
     }
-    */
-   // void IsSummonedBy(Unit*) override
-//   {
- //       me->SetReactState(REACT_PASSIVE);
- //   }
 
-   // void OnApplyOrRemoveAura(uint32 spellId, AuraRemoveMode /*mode*/, bool apply) override
-  /*  {
+    void IsSummonedBy(Unit*) override
+    {
+        me->SetReactState(REACT_PASSIVE);
+    }
+
+   void OnApplyOrRemoveAura(uint32 spellId, AuraRemoveMode //*mode*///, bool apply) override
+ /*{
         if (spellId == SPELL_CLEANING_PROTOCOL_ABSORB && !apply)
         {
             me->SetPower(me->getPowerType(), 0);
             DoCast(me, SPELL_MALFUNCTION, true);
             me->DealDamage(me, me->GetMaxHealth()*0.25);
         }
-    }
-    */
- /*   void UpdateAI(uint32 diff) override
+    }*/
+
+ /* void UpdateAI(uint32 diff) override
     {
         if (!UpdateVictim())
             return;
@@ -919,6 +918,7 @@ struct npc_avatara_maiden : public ScriptedAI
     }
 };
 */
+
 /*
 // 117279
 struct npc_avatara_pilones : public ScriptedAI
@@ -932,9 +932,10 @@ struct npc_avatara_pilones : public ScriptedAI
     {
         events.Reset();
     }
+*/
 
- //   void OnApplyOrRemoveAura(uint32 spellId, AuraRemoveMode //*mode*///, bool apply) override
-/*    {
+//  void OnApplyOrRemoveAura(uint32 spellId, AuraRemoveMode //*mode*///, bool apply) override
+/*  {
         if (spellId == SPELL_PILONE_ACTIVATE)
         {
             if (apply)
@@ -968,7 +969,7 @@ struct npc_avatara_pilones : public ScriptedAI
         }
     }
     */
-  /*  void UpdateAI(uint32 diff) override
+/*  void UpdateAI(uint32 diff) override
     {
         events.Update(diff);
 
@@ -1176,7 +1177,6 @@ struct npc_tos_rain_of_destroyer : public ScriptedAI
     }
 };
 
-
 // 239132 235572
 class spell_tos_rupture_realistic : public SpellScript
 {
@@ -1224,6 +1224,7 @@ class spell_tos_dark_mark : public SpellScript
         OnEffectHitTarget += SpellEffectFn(spell_tos_dark_mark::HandleDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
     }
 };
+
 /*
 // 234873
 class spell_tos_avatara_energy : public AuraScript
@@ -1247,14 +1248,15 @@ class spell_tos_avatara_energy : public AuraScript
         OnEffectPeriodic += AuraEffectPeriodicFn(spell_tos_avatara_energy::OnTick, EFFECT_0, SPELL_AURA_PERIODIC_ENERGIZE);
     }
 };*/
+
 /*
 // 238460
 class spell_tos_shadow_blades : public SpellScript
 {
     PrepareSpellScript(spell_tos_shadow_blades);
 
-//  */ //void HandleDummy(SpellEffIndex /*effectIndex*/)
- /*   {
+    //void HandleDummy(SpellEffIndex //*effectIndex*///)
+    /*{
         auto* caster = GetCaster();
         auto* target = GetHitUnit();
         if (!caster || !target)
@@ -1265,18 +1267,18 @@ class spell_tos_shadow_blades : public SpellScript
 
     void Register() override
     {
-   //     OnEffectHitTarget += SpellEffectFn(spell_tos_shadow_blades::HandleDummy, SpellEffIndex::EFFECT_0, SpellEffects::SPELL_EFFECT_DUMMY);
+        OnEffectHitTarget += SpellEffectFn(spell_tos_shadow_blades::HandleDummy, SpellEffIndex::EFFECT_0, SpellEffects::SPELL_EFFECT_DUMMY);
     }
-};
+};*/
 
 
 // 239417
-class spell_tos_black_winds : public AuraScript
+/*class spell_tos_black_winds : public AuraScript
 {
     PrepareAuraScript(spell_tos_black_winds);
 
-  *///  void OnTick(AuraEffect const* /*aurEff*/)
-  /*  {
+    void OnTick(AuraEffect const* //*aurEff*///)
+  /*{
         Unit* caster = GetCaster();
         if (!caster)
             return;
@@ -1310,15 +1312,15 @@ class spell_tos_black_winds : public AuraScript
     {
         OnEffectPeriodic += AuraEffectPeriodicFn(spell_tos_black_winds::OnTick, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
     }
-};
+};*/
 
 // 236682
-class spell_tos_fel_infusion : public AuraScript
+/*class spell_tos_fel_infusion : public AuraScript
 {
     PrepareAuraScript(spell_tos_fel_infusion);
 
-   */// void OnTick(AuraEffect const* /*aurEff*/)
-  /*  {
+    void OnTick(AuraEffect const* //*aurEff*///)
+  /*{
         Unit* caster = GetCaster();
         if (!caster)
             return;
@@ -1331,15 +1333,15 @@ class spell_tos_fel_infusion : public AuraScript
     {
         OnEffectPeriodic += AuraEffectPeriodicFn(spell_tos_fel_infusion::OnTick, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
     }
-};
+};*/
 
 // 239739
-class spell_tos_black_mark_aura : public AuraScript
+/*class spell_tos_black_mark_aura : public AuraScript
 {
     PrepareAuraScript(spell_tos_black_mark_aura);
 
-   */// void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
- /*   {
+    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes //*mode*///)
+ /* {
         if (!GetCaster() || !GetTarget())
             return;
 
@@ -1348,9 +1350,8 @@ class spell_tos_black_mark_aura : public AuraScript
         if (!cre || !target)
             return;
 
-     //   uint32 timer = cre->AI()->GetModifyedData(1);
-
-      //  GetAura()->SetDuration(timer);
+        uint32 timer = cre->AI()->GetModifyedData(1);
+        GetAura()->SetDuration(timer);
     }
 
     void Register()
@@ -1359,6 +1360,7 @@ class spell_tos_black_mark_aura : public AuraScript
     }
 };
 */
+
 void AddSC_boss_fallen_avatar()
 {
    // RegisterCreatureAI(boss_fallen_avatar);

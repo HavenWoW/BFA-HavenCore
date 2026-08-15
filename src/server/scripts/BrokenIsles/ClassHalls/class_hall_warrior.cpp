@@ -727,13 +727,13 @@ struct npc_odyn : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)
+    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/)
     {
         if (quest->GetQuestId() == QUEST_WEAPONS_OF_LEGEND || quest->GetQuestId() == QUEST_ONE_MORE_LEGEND || quest->GetQuestId() == QUEST_MORE_WEAPONS_OF_LEGEND)
         {
@@ -1121,7 +1121,7 @@ struct npc_high_overlord_saurfang_93773 : public ScriptedAI
         }
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_H_RETURN_TO_THE_BROKEN_SHORE)
         {
@@ -1137,7 +1137,7 @@ struct npc_high_overlord_saurfang_93773 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_H_A_DESPERATE_PLEA))
@@ -1178,7 +1178,7 @@ struct npc_hruthnir_96660 : public ScriptedAI
 {
     npc_hruthnir_96660(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_LEGACY_OF_THE_ICEBREAKER))

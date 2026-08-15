@@ -41,7 +41,7 @@ struct garrison_level_2 : public GarrisonAI
                garrison->GetOwner()->HasQuest(QUEST_MY_VERY_OWN_CASTLE);
     }
 
-    void OnUpgrade(Player* player) override
+    void OnUpgrade(Player* /*player*/) override
     {
         if (garrison->GetOwner()->HasQuest(QUEST_BIGGER_IS_BETTER_H))
             garrison->GetOwner()->ForceCompleteQuest(QUEST_BIGGER_IS_BETTER_H);

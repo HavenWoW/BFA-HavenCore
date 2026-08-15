@@ -212,7 +212,7 @@ struct boss_sisters_of_the_moon : BossAI
                 me->RemoveAurasDueToSpell(SPELL_FONT_OF_ELUNE_AT);
                 //me->RemoveAllAreaObjects();
 
-                for (auto const& guid : sistersVector)
+                for ([[maybe_unused]] auto const& guid : sistersVector)
                 {
                  //  if (auto sister = Creature::GetCreature(*me, guid))
                     {
@@ -244,12 +244,12 @@ struct boss_sisters_of_the_moon : BossAI
                 if (IsMythic())
                     berserkTimer = 11 * MINUTE * IN_MILLISECONDS;
 
-                for (auto const& guid : sistersVector)
-                {
+                //for (auto const& guid : sistersVector)
+                //{
                    // if (auto sister = Creature::GetCreature(*me, guid))
                    //     if (sister->isAlive() && !sister->isInCombat())
                      //       sister->AI()->DoZoneInCombat(sister, 100.0f);
-                }
+                //}
             }
             break;
         }
@@ -330,11 +330,11 @@ struct boss_sisters_of_the_moon : BossAI
             {
                 berserkTimer = 0;
 
-                for (auto const& guid : sistersVector)
-                {
+                //for (auto const& guid : sistersVector)
+                //{
                    // if (auto boss = Unit::GetCreature(*me, guid))
                      //   boss->CastSpell(boss, SPELL_BERSERK, true);
-                }
+                //}
             }
             else
                 berserkTimer -= diff;
@@ -367,7 +367,7 @@ struct npc_sister_kasparian : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         DoCast(me, SPELL_PHASE_1_CONVERSATION, true);
@@ -427,7 +427,7 @@ struct npc_sister_kasparian : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         me->Dismount();
         me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE));
@@ -581,7 +581,7 @@ struct npc_sister_lunaspyre : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         //me->SetUInt32Value(UNIT_FIELD_EMOTE_STATE, EMOTE_STATE_READY2HL);
@@ -618,7 +618,7 @@ struct npc_sister_lunaspyre : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-  //  void JustDied(Unit* killer) override
+  //  void JustDied(Unit* /*killer*/) override
  //   {
   //      instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
      //   me->RemoveAllAreaObjects();
@@ -770,7 +770,7 @@ struct npc_sister_yathae : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* unit) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         DefaultEvents(++phase);
@@ -900,7 +900,7 @@ struct npc_sister_yathae : ScriptedAI
             break;
         }
     }
-    /*
+
    // void OnRemoveAuraTarget(Unit* target, uint32 spellId, AuraRemoveMode mode) override
    // {
         if (me->IsInCombat() && target && mode == AURA_REMOVE_BY_EXPIRE)
@@ -1007,12 +1007,12 @@ struct npc_sistersmoon_moontalon : public ScriptedAI
         me->SetReactState(REACT_AGGRESSIVE);
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
@@ -1097,7 +1097,7 @@ struct npc_sistersmoon_twilight_soul : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         if (me->HasAura(180343))
             if (auto boss = instance->instance->GetCreature(instance->GetGuidData(NPC_HUNTRESS_KASPARIAN)))

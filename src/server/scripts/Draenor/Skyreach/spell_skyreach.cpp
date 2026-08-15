@@ -44,12 +44,12 @@ public:
                 /// The three position refers to those points. We want to check if the player
                 /// is inside and far from the target for a certain distance.
                 /// O---------------- L
-                ///  \
+                ///
                 ///   \        Player
                 ///    \      x
-                ///     \
-                ///      \
-                ///       \
+                ///     \.
+                ///      \.
+                ///       \.
                 ///        R
                 static const Position s_OriginPosition = { 918.919f, 1913.459f, 213.0f, 0.0f };
                 static const Position s_RightPosition = { 936.999f, 1872.137f, 213.0f, 0.0f };

@@ -104,7 +104,7 @@ struct npc_alonsus_faol_101314 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -219,7 +219,7 @@ struct npc_calia_102343 : public ScriptedAI
 {
     npc_calia_102343(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_PRIESTLY_MATTERS) && !IsLock)
@@ -247,7 +247,7 @@ struct npc_brother_larry_105769 : public ScriptedAI
 {
     npc_brother_larry_105769(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->AddDelayedTeleport(4000, 1220, -835.32f, 4276.66f, 746.252f, 1.05569f);
@@ -302,12 +302,12 @@ struct npc_alonsus_faol_102363 : public ScriptedAI
                 IsLock = true;
                 me->Say(104645);
 
-                me->GetScheduler().Schedule(Milliseconds(1000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(1000), [this](TaskContext /*context*/)
                 {
                     if (Creature* target = me->FindNearestCreature(109776, 50.0f))
                         target->Say(104646);
                 });
-                me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
                 {
                     if (Creature* target = me->FindNearestCreature(101313, 50.0f))//110557
                         target->Say(104647);
@@ -413,7 +413,7 @@ struct npc_vindicator_boros_105602 : public ScriptedAI
 {
     npc_vindicator_boros_105602(Creature* creature) : ScriptedAI(creature) { }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_HOUSE_CALL)
         {

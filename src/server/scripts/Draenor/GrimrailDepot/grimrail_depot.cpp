@@ -78,7 +78,7 @@ class grimrail_depot_mob_assault_cannon : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
         }
 
@@ -143,7 +143,7 @@ class grimrail_depot_mob_grimrail_bombadier : public CreatureScript
             events.ScheduleEvent(eGrimrailBombadierEvents::EventBlackrockBombs, 3 * TimeConstants::IN_MILLISECONDS);
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {         
             events.ScheduleEvent(eGrimrailBombadierEvents::EventDoubleSlash, 6 * TimeConstants::IN_MILLISECONDS);
         }
@@ -244,7 +244,7 @@ class grimrail_depot_mob_grimrail_laborer : public CreatureScript
             events.Reset();
         }
 
-        void JustDied(Unit* p_Killer) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (m_Instance != nullptr)
             {
@@ -259,7 +259,7 @@ class grimrail_depot_mob_grimrail_laborer : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailLaborerEvents::EventHaymaker, 6 * TimeConstants::IN_MILLISECONDS);
         }
@@ -277,7 +277,7 @@ class grimrail_depot_mob_grimrail_laborer : public CreatureScript
             switch (events.ExecuteEvent())
             {
             case eGrimrailLaborerEvents::EventHaymaker:
-                if (Unit* l_Target = me->GetVictim())
+                if (me->GetVictim())
                     events.ScheduleEvent(eGrimrailLaborerEvents::EventHaymaker, 8 * TimeConstants::IN_MILLISECONDS);
                 break;
             default:
@@ -328,7 +328,7 @@ class grimrail_depot_mob_grimrail_overseer : public CreatureScript
             m_DashEffect = false;
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailOverseerEvents::EventDash, 15 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGrimrailOverseerEvents::EventHewingSwipe, 6 * TimeConstants::IN_MILLISECONDS);
@@ -454,12 +454,12 @@ class grimrail_depot_mob_grimrail_scout : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailScoutEvents::EventArcaneBlitz, 0 * TimeConstants::IN_MILLISECONDS);
         }
 
-        void JustDied(Unit* p_Killer) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (m_Instance != nullptr)
             {
@@ -548,7 +548,7 @@ class grimrail_depot_mob_grimrail_technician : public CreatureScript
             ClearDelayedOperations();
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailTechnicianEvents::Event50kVolts, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGrimrailTechnicianEvents::EventActivating, 20 * TimeConstants::IN_MILLISECONDS);
@@ -742,7 +742,7 @@ class grimrail_depot_mob_gromkar_capitan : public CreatureScript
             events.Reset();
         }
 
-        void JustDied(Unit* p_Killer) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (InstanceScript* m_Instance =me->GetInstanceScript())
             {
@@ -757,7 +757,7 @@ class grimrail_depot_mob_gromkar_capitan : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarCapitanEvents::EventRecklessSlash, 0 * TimeConstants::IN_MILLISECONDS);
         }
@@ -824,7 +824,7 @@ class grimrail_depot_mob_gromkar_cinderseer : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarCinderseerEvents::EventFlametongue, 10 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGromkarCinderseerEvents::EventLavaWreath, 15 * TimeConstants::IN_MILLISECONDS);
@@ -906,14 +906,14 @@ class grimrail_depot_mob_gromkar_farseer : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarFarSeerEvents::EventStormShield, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGromkarFarSeerEvents::EventThunderZone, 15 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGromkarFarSeerEvents::EventHealingRain, 20 * TimeConstants::IN_MILLISECONDS);
         }
 
-        void JustDied(Unit* p_Killer) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (m_Instance != nullptr)
             {
@@ -998,7 +998,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarGunnerEvents::EventShrapnelBlast, 1 * TimeConstants::IN_MILLISECONDS);
         }

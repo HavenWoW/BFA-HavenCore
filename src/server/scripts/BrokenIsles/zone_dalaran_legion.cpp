@@ -228,24 +228,24 @@ public:
     void OnTempSummonNPC(uint32 insideNpc, Player* player)
     {
         _insideNpc = insideNpc;
-        if (creature = player->FindNearestCreature(_insideNpc, 100.0f))
+        if ((creature = player->FindNearestCreature(_insideNpc, 100.0f)))
             creature->DestroyForPlayer(player);
 
         _positon = Position(player->GetPositionX() + 20, player->GetPositionY() + 20, player->GetPositionZ());
-        TempSummon* personalCreature = player->SummonCreature(_insideNpc, _positon, TEMPSUMMON_TIMED_DESPAWN, 60000, 0, true);
+        player->SummonCreature(_insideNpc, _positon, TEMPSUMMON_TIMED_DESPAWN, 60000, 0, true);
     }
 
     void OnTempSummonNPCOnPOS(uint32 insideNpc, Player* player, Position npcPos)
     {
         _insideNpc = insideNpc;
-        if (creature = player->FindNearestCreature(_insideNpc, 100.0f))
+        if ((creature = player->FindNearestCreature(_insideNpc, 100.0f)))
         {
             // TODO : Remove this line when phasing is done properly
             creature->DestroyForPlayer(player);
         }
 
         _positon = npcPos;
-        TempSummon* personalCreature = player->SummonCreature(_insideNpc, _positon, TEMPSUMMON_TIMED_DESPAWN, 3600000, 0, true);
+        player->SummonCreature(_insideNpc, _positon, TEMPSUMMON_TIMED_DESPAWN, 3600000, 0, true);
     }
     enum BROKEN_ISLES_PATHFINDE
     {
@@ -344,7 +344,7 @@ public:
                 OnTempSummonNPC(NPC_INITIATE_DA_NEL, player);
 
             //achievement 10596 npc 88317,102639
-            if (player->HasAchieved(10596) && player->GetQuestStatus(QUEST_THE_DALARAN_FOUNTAIN) == QUEST_STATE_COMPLETE && player->GetQuestStatus(QUEST_FISH_FRENZY) == QUEST_STATUS_NONE)
+            if (player->HasAchieved(10596) && player->GetQuestStatus(QUEST_THE_DALARAN_FOUNTAIN) == QUEST_STATUS_COMPLETE && player->GetQuestStatus(QUEST_FISH_FRENZY) == QUEST_STATUS_NONE)
                 OnTempSummonNPC(NPC_NAT_PAGLE, player);
         }
 
@@ -352,7 +352,7 @@ public:
 
     void OnPlayerExit(Player* player) override
     {
-        if (creature = player->FindNearestCreature(_insideNpc, 100.0f))
+        if ((creature = player->FindNearestCreature(_insideNpc, 100.0f)))
         {
             // TODO : Remove this line when phasing is done properly
             creature->DestroyForPlayer(player);
@@ -389,7 +389,7 @@ class PhaseOnDaralanArea : public PlayerScript
 public:
     PhaseOnDaralanArea() : PlayerScript("PhaseOnDaralanArea") { }
 
-    void OnQuestStatusChange(Player* player, uint32 /*questId*/)
+    void OnQuestStatusChange(Player* /*player*/, uint32 /*questId*/)
     {
     //    OnCheckPhase(player);
     }
@@ -538,7 +538,7 @@ public:
         if (player->GetAreaId() == 7502)
         {
             //horde            
-         /*   if (player->CheckQuestStatus(39864, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED) || player->CheckQuestStatus(44701, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED))
+            if (player->CheckQuestStatus(39864, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED) || player->CheckQuestStatus(44701, CHECK_QUEST_TAKEN_AND_COMPLETE_AND_REWARDED))
                 PhasingHandler::AddPhase(player, PHASE_STORMHEIM_HORDE);
             if (player->CheckQuestStatus(39801, CHECK_QUEST_REWARDED))
                 PhasingHandler::RemovePhase(player, PHASE_STORMHEIM_HORDE);
@@ -549,7 +549,7 @@ public:
                 PhasingHandler::RemovePhase(player, PHASE_STORMHEIM_ALLIANCE);
         }
     }
-    */
+*/
     void OnSpellCast(Player* player, Spell* spell, bool /*skipCheck*/)
     {
         if (spell->GetSpellInfo()->Id == 220513)
@@ -638,7 +638,7 @@ struct npc_emissary_auldbridge_111109 : public ScriptedAI
         if (!m_playerGUID.IsEmpty())
         {
             if (Player* player = ObjectAccessor::GetPlayer(*me, m_playerGUID))
-                if (player->GetQuestStatus(QUEST_BLINK_OF_AN_EYE) == QUEST_STATUS_REWARDED && player->getLevel() >= 98 && player->GetZoneId() == 7502 && player->IsInWorld() || player->IsAlive())
+                if ((player->GetQuestStatus(QUEST_BLINK_OF_AN_EYE) == QUEST_STATUS_REWARDED && player->getLevel() >= 98 && player->GetZoneId() == 7502 && player->IsInWorld()) || player->IsAlive())
                 {
                     //Druid Quest
                     if (player->getClass() == CLASS_DRUID && player->GetQuestStatus(QUEST_A_SUMMONS_FROM_MOONGLADE) == QUEST_STATUS_NONE)
@@ -828,7 +828,7 @@ struct npc_nat_pagle_102639 : public ScriptedAI
 {
     npc_nat_pagle_102639(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         player->KilledMonsterCredit(102639);
@@ -861,13 +861,13 @@ struct npc_hunter_talua : public ScriptedAI
 {
     npc_hunter_talua(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->getLevel() < 98 || player->getClass() != CLASS_HUNTER)
             return;
 
-        if (Pet* pet = player->GetPet())
+        if ([[maybe_unused]] Pet* pet = player->GetPet())
             player->RemovePet(nullptr, PET_SAVE_DISMISS, false);
 
         player->CastSpell(player, 216213, true);
@@ -886,7 +886,7 @@ struct npc_great_eagle : public ScriptedAI
     {
     }
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override
     {
         me->GetMotionMaster()->MoveDistract(1000);
         me->GetMotionMaster()->MovePoint(1, -854.9718f, 4185.322f, 754.1122f);
@@ -1018,23 +1018,23 @@ struct npc_arcane_anomaly_98266 : public ScriptedAI
                 DoCastSelf(164233, true);
                 me->Say(100088);//Ith'el kanesh!
 
-                me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
                 {
                     me->Say(100089);//I am Thalyssra of the shal'dorei... the Nightborne. First Arcanist in the court of Suramar.
                 });
-                me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
                 {
                     me->Say(100091);//My people have made a dire pact. One that spells doom for this world.
                 });
-                me->GetScheduler().Schedule(Milliseconds(16000), [this](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(16000), [this](TaskContext /*context*/)
                 {
                     me->Say(100094);//Time is short. If you have found this message, you are capable of finding me as well.
                 });
-                me->GetScheduler().Schedule(Milliseconds(21000), [this, player](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(21000), [this, player](TaskContext /*context*/)
                 {
                     me->Say(100096);//Make haste for Suramar. You may be our last hope.
                 });
-                me->GetScheduler().Schedule(Milliseconds(26000), [this, player](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(26000), [this, player](TaskContext /*context*/)
                 {
                     player->KilledMonsterCredit(98266);
                     me->Say(100256);//Ith\'nala kanesh!

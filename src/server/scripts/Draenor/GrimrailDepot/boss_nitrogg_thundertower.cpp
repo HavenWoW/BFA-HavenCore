@@ -155,7 +155,7 @@ class boss_nitrogg_thundertower : public CreatureScript
                 m_Phase = 3;
         }
 
-        void EnterCombat(Unit* p_Who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             if (m_Instance != nullptr)
             {
@@ -248,8 +248,6 @@ class boss_nitrogg_thundertower : public CreatureScript
                 me->GetCreatureListWithEntryInGrid(l_TurretsList, GrimrailDepotCreatures::CreatureIronTurret, 200.0f);
                 if (!l_TurretsList.empty())
                 {
-                    uint32 m_WaypointCount = 0;
-
                     for (Creature* l_Itr : l_TurretsList)
                     {
                         if (!l_Itr)
@@ -283,7 +281,7 @@ class boss_nitrogg_thundertower : public CreatureScript
 
         void UpdateAI(uint32 const p_Diff) override
         {
-            if (Player* l_Player = me->SelectNearestPlayer(18.0f))
+            if (me->SelectNearestPlayer(18.0f))
             {
                 if (m_PhaseDiff <= p_Diff)
                 {
@@ -332,7 +330,7 @@ class boss_nitrogg_thundertower : public CreatureScript
 
                         //me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_IMMUNE_TO_PC);
 
-                        if (Player* l_NearestPlayer = l_NitroggTurret->SelectNearestPlayer(100.0f))
+                        if (l_NitroggTurret->SelectNearestPlayer(100.0f))
                         {
                             l_NitroggTurret->SetFaction(HostileFaction);
                             l_NitroggTurret->SetInCombatWithZone();
@@ -505,7 +503,7 @@ class grimrail_depot_nitrogg_thundertower_mob_iron_turret : public CreatureScrip
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC));
         }
 
-        void EnterCombat(Unit* p_Who) override
+        void EnterCombat(Unit* /*unit*/) override
         {    
             events.ScheduleEvent(eIronTowerEvents::EventSuppressiveFire, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eIronTowerEvents::EventSlagBlast, 20 * TimeConstants::IN_MILLISECONDS);
@@ -605,7 +603,7 @@ class grimrail_depot_nitrogg_thundertower_mob_gromkar_boomer : public CreatureSc
             m_Activated = false;
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarboomerEvents::EventBlackrockMortar, 8 * TimeConstants::IN_MILLISECONDS);
         }
@@ -866,7 +864,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* p_Attacker) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarGrenadierEvents::EventBlackrockGrenade, 4 * TimeConstants::IN_MILLISECONDS);
         }

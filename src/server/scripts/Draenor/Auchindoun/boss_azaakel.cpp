@@ -229,7 +229,7 @@ struct boss_azaakel : public BossAI
             instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void MovementInform(uint32 p_Type, uint32 p_ID)
+    void MovementInform(uint32 /*p_Type*/, uint32 p_ID)
     {
         if (p_ID == eAzzakelMovements::MovementAzzakelMalevolentCrash)
         {
@@ -593,7 +593,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 p_Diff) override
+        void UpdateAI(uint32 /*p_Diff*/) override
         {
             std::list<Player*> l_ListPlayers;
             me->GetPlayerListInGrid(l_ListPlayers, 15.0f);
@@ -642,7 +642,7 @@ public:
             SpellCurtainOfFlameAura = 153392,
             SpellCurtainOfFlameVisual = 153400
         };
-        void OnPeriodic(AuraEffect const* p_AurEff)
+        void OnPeriodic(AuraEffect const* /*p_AurEff*/)
         {
             if (Unit* l_Target = GetTarget())
             {
@@ -696,7 +696,7 @@ public:
             EventMalevolentCrush01 = 78
         };
 
-        void OnApply(AuraEffect const* p_AurEff, AuraEffectHandleModes /*p_Mode*/)
+        void OnApply(AuraEffect const* /*p_AurEff*/, AuraEffectHandleModes /*p_Mode*/)
         {
             if (!GetCaster())
                 return;
@@ -720,7 +720,7 @@ public:
             }
         }
 
-        void OnRemove(AuraEffect const* p_AurEff, AuraEffectHandleModes /*p_Mode*/)
+        void OnRemove(AuraEffect const* /*p_AurEff*/, AuraEffectHandleModes /*p_Mode*/)
         {
             if (!GetCaster())
                 return;

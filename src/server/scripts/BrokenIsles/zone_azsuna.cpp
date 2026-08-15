@@ -757,7 +757,7 @@ class npc_quest_43521 : public CreatureScript
 public:
     npc_quest_43521() : CreatureScript("npc_quest_43521") { }
 
-    bool OnQuestReward(Player* player, Creature* creature, const Quest *_Quest, uint32 /*slot*/) override
+    bool OnQuestReward(Player* player, Creature* /*creature*/, const Quest *_Quest, uint32 /*slot*/) override
     {
         if (_Quest->GetQuestId() == 43521)
         {
@@ -786,7 +786,7 @@ class npc_quest_43520 : public CreatureScript
 public:
     npc_quest_43520() : CreatureScript("npc_quest_43520") { }
 
-    bool OnQuestReward(Player* player, Creature* creature, const Quest *_Quest, uint32 /*slot*/) override
+    bool OnQuestReward(Player* player, Creature* /*creature*/, const Quest *_Quest, uint32 /*slot*/) override
     {
         if (_Quest->GetQuestId() == 43520)
         {
@@ -843,8 +843,8 @@ public:
             player->CastSpell(player, 210554, true);
     }
 
-    void OnUpdateArea(Player* player, Area* newArea, Area* /*oldArea*///)
-   /*{
+    void OnUpdateArea(Player* player, Area* newArea, Area* [[maybe_unused]] oldArea)
+    {
         switch (newArea->GetId())
         {
         case 7357:
@@ -1230,8 +1230,8 @@ public:
             player->CastSpell(player, 212782, true);
     }
 
-    void OnUpdateArea(Player* player, Area* newArea, Area* /*oldArea*///)
-   /* {
+    void OnUpdateArea(Player* player, Area* newArea, Area* [[maybe_unused]] oldArea)
+    {
         switch (newArea->GetId())
         {
         case 7358:
@@ -1415,7 +1415,7 @@ public:
                         if (!say)
                         {
                             say = true;
-                            Agapant->GetScheduler().Schedule(2s, [Agapant](TaskContext context)
+                            Agapant->GetScheduler().Schedule(2s, [Agapant](TaskContext /*context*/)
                             {
                                 Agapant->AI()->Talk(0);
                             });
@@ -1606,7 +1606,7 @@ class npc_demon_89398 : public CreatureScript
 public:
     npc_demon_89398() : CreatureScript("npc_demon_89398") { }
 
-    bool OnGossipHello(Player* player, Creature* Creature) override
+    bool OnGossipHello(Player* player, Creature* /*Creature*/) override
     {
         if (player->GetQuestStatus(37660) == QUEST_STATUS_INCOMPLETE)
         {
@@ -1870,13 +1870,13 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             ResummonAdds = false;
             events.RescheduleEvent(1, 3000); // 234497
         }
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
            // if (Player* pl = me->FindNearestPlayer(50.0f))
             {
@@ -1962,7 +1962,7 @@ public:
            // });
         }*/
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             _introDone = true;
             DoCast(237716);
@@ -2013,7 +2013,7 @@ public:
     {
         npc_invasion_azsuna_miscAI(Creature* creature) : ScriptedAI(creature) {}
 
-      /*  void OnSpellClick(Unit* clicker) //override
+          void OnSpellClick(Unit* clicker) //override
         {
             if (!clicker->IsPlayer())
                 return;
@@ -2068,7 +2068,7 @@ public:
                 clicker->CastSpell(me, 52391, true); //Ride Veh
         }
         */
-        void PassengerBoarded(Unit* who, int8 /*seatId*/, bool apply) override
+        void PassengerBoarded(Unit* who, int8 /*seatId*/, bool /*apply*/) override
         {
            // SetFlyMode(true);
             if (who->IsPlayer())
@@ -2084,7 +2084,7 @@ public:
                 return;
 
             if (!_introDone)
-                if (InstanceScript *script = me->GetInstanceScript())
+                if (me->GetInstanceScript())
                   //  if (script->GetScenarionStep() == 1)
                         if (me->IsWithinDistInMap(who, 5.0f) && !who->IsOnVehicle())
                         {
@@ -2093,7 +2093,7 @@ public:
                         }
         }
 
-        void MovementInform(uint32 moveType, uint32 pointId) override
+        void MovementInform(uint32 moveType, uint32 /*pointId*/) override
         {
             if (moveType != WAYPOINT_MOTION_TYPE)
                 return;

@@ -61,7 +61,7 @@ public:
     {
         if (quest->GetQuestId() == QUEST_FINDING_A_FOOTHOLD)
         {
-            player->GetScheduler().Schedule(68s, [this, player](TaskContext context)
+            player->GetScheduler().Schedule(68s, [this, player](TaskContext /*context*/)
             {
                 player->ForceCompleteQuest(QUEST_FINDING_A_FOOTHOLD);
             });
@@ -111,7 +111,7 @@ public:
             playerGuid = guid;
             Start(false, true, guid);
             SetDespawnAtFar(false);
-            me->GetScheduler().Schedule(68s, [this](TaskContext context)
+            me->GetScheduler().Schedule(68s, [this](TaskContext /*context*/)
             {
                 Talk(0);
                 me->SetFacingTo(5.631830f);

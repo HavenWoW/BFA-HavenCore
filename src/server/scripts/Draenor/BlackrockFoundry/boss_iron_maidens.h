@@ -67,7 +67,7 @@ enum eIronMaidensSpells
     IronMaidensBonus    = 177538
 };
 
-static void RespawnMaidens(InstanceScript* p_Instance, Creature* p_Source)
+inline void RespawnMaidens(InstanceScript* p_Instance, Creature* p_Source)
 {
     if (p_Instance == nullptr || p_Source == nullptr)
         return;
@@ -82,7 +82,7 @@ static void RespawnMaidens(InstanceScript* p_Instance, Creature* p_Source)
     }
 }
 
-static void StartMaidens(InstanceScript* p_Instance, Creature* p_Source, Unit* p_Target)
+inline void StartMaidens(InstanceScript* p_Instance, Creature* p_Source, Unit* p_Target)
 {
     if (p_Instance == nullptr || p_Source == nullptr || p_Target == nullptr)
         return;
@@ -112,7 +112,7 @@ static void StartMaidens(InstanceScript* p_Instance, Creature* p_Source, Unit* p
     }
 }
 
-static void WipeMaidens(InstanceScript* p_Instance)
+inline void WipeMaidens(InstanceScript* p_Instance)
 {
     if (p_Instance == nullptr)
         return;
@@ -133,7 +133,7 @@ static void WipeMaidens(InstanceScript* p_Instance)
     }
 }
 
-static bool IsLastMaidenAlive(InstanceScript* p_Instance, Creature* p_Source)
+inline bool IsLastMaidenAlive(InstanceScript* p_Instance, Creature* p_Source)
 {
     if (p_Instance == nullptr || p_Source == nullptr)
         return false;
@@ -156,7 +156,7 @@ static bool IsLastMaidenAlive(InstanceScript* p_Instance, Creature* p_Source)
     return true;
 }
 
-static void TriggerIronWill(InstanceScript* p_Instance)
+inline void TriggerIronWill(InstanceScript* p_Instance)
 {
     if (p_Instance == nullptr)
         return;
@@ -329,7 +329,7 @@ float const g_GaranFinalFacing = 1.64061f;
 
 Position const g_CosmeticCleaverPos = { 446.648f, 3170.30f, 135.302f, 1.66107f };
 
-static std::array<Emote, eIronMaidensDatas::MaxRandomEmotes> g_DockworkerEmotes =
+[[maybe_unused]] static std::array<Emote, eIronMaidensDatas::MaxRandomEmotes> g_DockworkerEmotes =
 {
     Emote::EMOTE_ONESHOT_CHEER_NO_SHEATHE,
     Emote::EMOTE_ONESHOT_SALUTE_NO_SHEATH,

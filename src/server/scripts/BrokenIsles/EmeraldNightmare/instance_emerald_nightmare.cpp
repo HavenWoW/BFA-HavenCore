@@ -25,18 +25,18 @@
 
 DoorData const doorData[] =
 {
-    {GO_NYTHENDRA_DOOR_1,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE},
-    {GO_NYTHENDRA_DOOR_2,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE},
-    {GO_NYTHENDRA_DOOR_3,       DATA_NYTHENDRA,         DOOR_TYPE_ROOM},
-    {GO_NYTHENDRA_DOOR_4,       DATA_NYTHENDRA,         DOOR_TYPE_ROOM},
-    {GO_NYTHENDRA_DOOR_5,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE},
-    {GO_NYTHENDRA_DOOR_6,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE},
-    {GO_RENFERAL_DOOR,          DATA_RENFERAL,          DOOR_TYPE_ROOM},
-    {GO_ILGYNOTH_DOOR_1,        DATA_ILGYNOTH,          DOOR_TYPE_ROOM},
-    {GO_ILGYNOTH_DOOR_2,        DATA_ILGYNOTH,          DOOR_TYPE_ROOM},
-    {GO_ILGYNOTH_DOOR_3,        DATA_ILGYNOTH,          DOOR_TYPE_ROOM},
-    {GO_URSOC_DOOR_1,           DATA_URSOC,             DOOR_TYPE_ROOM},
-    {GO_URSOC_DOOR_2,           DATA_URSOC,             DOOR_TYPE_ROOM},
+    {GO_NYTHENDRA_DOOR_1,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE, BOUNDARY_NONE},
+    {GO_NYTHENDRA_DOOR_2,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE, BOUNDARY_NONE},
+    {GO_NYTHENDRA_DOOR_3,       DATA_NYTHENDRA,         DOOR_TYPE_ROOM, BOUNDARY_NONE},
+    {GO_NYTHENDRA_DOOR_4,       DATA_NYTHENDRA,         DOOR_TYPE_ROOM, BOUNDARY_NONE},
+    {GO_NYTHENDRA_DOOR_5,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE, BOUNDARY_NONE},
+    {GO_NYTHENDRA_DOOR_6,       DATA_NYTHENDRA,         DOOR_TYPE_PASSAGE, BOUNDARY_NONE},
+    {GO_RENFERAL_DOOR,          DATA_RENFERAL,          DOOR_TYPE_ROOM, BOUNDARY_NONE},
+    {GO_ILGYNOTH_DOOR_1,        DATA_ILGYNOTH,          DOOR_TYPE_ROOM, BOUNDARY_NONE},
+    {GO_ILGYNOTH_DOOR_2,        DATA_ILGYNOTH,          DOOR_TYPE_ROOM, BOUNDARY_NONE},
+    {GO_ILGYNOTH_DOOR_3,        DATA_ILGYNOTH,          DOOR_TYPE_ROOM, BOUNDARY_NONE},
+    {GO_URSOC_DOOR_1,           DATA_URSOC,             DOOR_TYPE_ROOM, BOUNDARY_NONE},
+    {GO_URSOC_DOOR_2,           DATA_URSOC,             DOOR_TYPE_ROOM, BOUNDARY_NONE},
 };
 
 ObjectData const creatureData[] =
@@ -216,6 +216,8 @@ public:
                             if (!egg->IsAlive())
                                 egg->Respawn();
                     break;
+                default:
+                    break;
                 }
                 break;
             }
@@ -251,7 +253,7 @@ public:
             return InstanceScript::GetGuidData(type);
         }
 
-        uint32 GetData(uint32 type) const override
+        uint32 GetData(uint32 /*type*/) const override
         {
             return 0;
         }

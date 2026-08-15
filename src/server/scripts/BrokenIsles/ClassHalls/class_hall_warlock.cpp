@@ -164,7 +164,7 @@ struct npc_ritssyn_flamescowl_101456 : public ScriptedAI
         }
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
 
         if (Player* player = ObjectAccessor::GetPlayer(*me, m_playerGUID))
@@ -255,7 +255,7 @@ struct npc_ritssyn_flamescowl_101456 : public ScriptedAI
         }
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)  override
+    void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/)  override
     {
         // if (quest->GetQuestId() == QUEST_WITNESS_TO_THE_WOUND)
         // {
@@ -867,6 +867,7 @@ struct npc_image_of_guldan_110548 : public ScriptedAI
             {
                 me->Say(120133);
             });
+            break;
         case 2:
             me->Yell(117591);
             me->SummonCreature(110476, Position(-667.751f, 2614.76f, 80.7247f, 2.34035f), TEMPSUMMON_TIMED_DESPAWN, 180000);
@@ -917,7 +918,7 @@ struct npc_allaris_narassin_110556 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         me->Say(117588);
         std::list<Player*> _list = me->SelectNearestPlayers(50.f, true);

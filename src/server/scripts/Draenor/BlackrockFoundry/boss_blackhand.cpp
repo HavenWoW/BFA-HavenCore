@@ -274,7 +274,7 @@ class boss_blackhand : public CreatureScript
                 m_CosmeticEvents.ScheduleEvent(eEvents::EventRegenerateEnergy, eTimers::TimerRegenerateEnergy);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 me->NearTeleportTo(me->GetHomePosition());
 
@@ -375,7 +375,7 @@ class boss_blackhand : public CreatureScript
                 }
             }
 
-            void SpellMissTarget(Unit* p_Target, SpellInfo const* p_SpellInfo, SpellMissInfo p_MissInfo)
+            void SpellMissTarget(Unit* p_Target, SpellInfo const* p_SpellInfo, SpellMissInfo /*p_MissInfo*/)
             {
                 if (p_Target == nullptr)
                     return;
@@ -424,7 +424,7 @@ class boss_blackhand : public CreatureScript
                 {
                     for (uint32 l_Entry = eFoundryGameObjects::BlackhandsCrucible01; l_Entry <= eFoundryGameObjects::BlackhandsCrucible05; ++l_Entry)
                     {
-                        if (GameObject* l_Crucible = me->FindNearestGameObject(l_Entry, 50.0f))
+                        if (me->FindNearestGameObject(l_Entry, 50.0f))
                         {
                            // AddTimedDelayedOperation(10, [this, l_Entry]() -> void
                            // {
@@ -560,7 +560,7 @@ class boss_blackhand : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers p_Power, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
             {
                 /// Regens manually
                 p_Value = 0;
@@ -852,8 +852,6 @@ class boss_blackhand : public CreatureScript
                             me->SummonCreature(eBlackhandCreatures::IronSoldier, l_Pos);
                         }
 
-                        uint32 l_Time = eTimers::TimerIronSoldiersCD - (eTimers::TimerIronSoldiersReduce * m_SoldiersCount);
-
                         m_Events.ScheduleEvent(eEvents::EventIronSoldiers, eTimers::TimerIronSoldiersCD, 0, ePhases::StorageWarehouse);
 
                         m_FirstSideSpawn = !m_FirstSideSpawn;
@@ -1132,7 +1130,7 @@ class npc_foundry_blackrock_foundry : public CreatureScript
             {
                // UpdateOperations(p_Diff);
 
-                if (m_ScaleTime != -1)
+                if (m_ScaleTime != uint32(-1))
                 {
                     m_ScaleTime += p_Diff;
 
@@ -1265,7 +1263,7 @@ class npc_foundry_slag_bomb : public CreatureScript
                     me->DespawnOrUnsummon(200);
             }
 
-            void UpdateAI(uint32  p_Diff) override
+            void UpdateAI(uint32  /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -1323,7 +1321,7 @@ class npc_foundry_ceiling_stalker : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                 //UpdateOperations(p_Diff);
             }
@@ -1359,7 +1357,7 @@ class npc_foundry_brf_demolition_stalker : public CreatureScript
                 me->CastSpell(me, eSpell::DemolitionSmallAura, true);
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -1424,7 +1422,7 @@ class npc_foundry_brf_massive_demolition_stalker : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -1471,7 +1469,7 @@ class npc_foundry_rubble_pile : public CreatureScript
                 //});
             }
 
-            void SpellHit(Unit* p_Attacker, SpellInfo const* p_SpellInfo) override
+            void SpellHit(Unit* /*p_Attacker*/, SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::ImpalingThrowPile)
                 {
@@ -1482,7 +1480,7 @@ class npc_foundry_rubble_pile : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                 //UpdateOperations(p_Diff);
             }
@@ -1555,7 +1553,7 @@ class npc_foundry_siegemaker : public CreatureScript
                // m_PortCullisGuid = 0;
             }
 
-            void SpellHit(Unit* p_Caster, SpellInfo const* p_SpellInfo) override
+            void SpellHit(Unit* /*p_Caster*/, SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -1608,7 +1606,7 @@ class npc_foundry_siegemaker : public CreatureScript
                     me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL | UnitFlags::UNIT_FLAG_NON_ATTACKABLE | UnitFlags::UNIT_FLAG_NOT_SELECTABLE));
                     me->RemoveUnitFlag(UnitFlags(UNIT_FLAG2_DISABLE_TURN));
 
-                    if (TempSummon* l_Temp = me->ToTempSummon())
+                    if ([[maybe_unused]] TempSummon* l_Temp = me->ToTempSummon())
                     {
                         if (Unit* l_Owner = me->ToTempSummon()->GetSummoner())
                             EnterCombat(l_Owner->GetVictim());
@@ -1696,7 +1694,7 @@ class npc_foundry_siegemaker : public CreatureScript
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
             }
 
-            void PassengerBoarded(Unit* p_Passenger, int8 p_SeatID, bool p_Apply) override
+            void PassengerBoarded(Unit* p_Passenger, int8 /*p_SeatID*/, bool p_Apply) override
             {
                 if (!p_Apply && p_Passenger->ToCreature())
                     p_Passenger->ToCreature()->DespawnOrUnsummon();
@@ -1714,13 +1712,13 @@ class npc_foundry_siegemaker : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers p_Power, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
             {
                 /// Only regens by script
                 p_Value = 0;
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
 
@@ -1823,7 +1821,7 @@ class npc_foundry_blaze_controller : public CreatureScript
 
                             /// Don't even process if controller isn't here anymore//???
                             bool l_Okay = !m_Controller ? ObjectAccessor::GetCreature(*me,  m_Controller) != nullptr : true;
-                            for (AreaTrigger* l_Blaze : l_BlazeList)
+                            for ([[maybe_unused]] AreaTrigger* l_Blaze : l_BlazeList)
                             {
                                 if (!l_Okay)
                                     break;
@@ -1856,7 +1854,7 @@ class npc_foundry_blaze_controller : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 p_ID /*= 0*/)
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/)
             {
                 m_Controller = p_Guid;
             }
@@ -1911,7 +1909,7 @@ class npc_foundry_iron_soldier : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override { }
+            void UpdateAI(uint32 /*p_Diff*/) override { }
         };
 
         CreatureAI* GetAI(Creature* p_Creature) const override
@@ -1993,7 +1991,7 @@ class npc_foundry_blackrock_foundry_third_phase : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                 //UpdateOperations(p_Diff);
             }
@@ -2072,7 +2070,7 @@ class npc_foundry_iron_sentry : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -2117,7 +2115,7 @@ class npc_foundry_slag_hole : public CreatureScript
                 me->CastSpell(me, eSpells::SlagHoleVisual, true);
             }
 
-            void SpellHit(Unit* p_Caster, SpellInfo const* p_SpellInfo) override
+            void SpellHit(Unit* /*p_Caster*/, SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::SlagEruptionCast)
                     me->CastSpell(me, eSpells::SlagEruptionVisual, true);
@@ -2137,7 +2135,7 @@ class npc_foundry_slag_hole : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override { }
+            void UpdateAI(uint32 /*p_Diff*/) override { }
         };
 
         CreatureAI* GetAI(Creature* p_Creature) const override
@@ -2177,7 +2175,7 @@ class npc_foundry_slag_crater : public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG2_DISABLE_TURN));
             }
 
-            void SpellHit(Unit* p_Caster, SpellInfo const* p_SpellInfo) override
+            void SpellHit(Unit* /*p_Caster*/, SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::SlagEruptionCast)
                     me->CastSpell(me, eSpells::HugeSlagEruptionAura, true);
@@ -2197,7 +2195,7 @@ class npc_foundry_slag_crater : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override { }
+            void UpdateAI(uint32 /*p_Diff*/) override { }
         };
 
         CreatureAI* GetAI(Creature* p_Creature) const override
@@ -2270,7 +2268,7 @@ class npc_foundry_achievement_stalker : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override { }
+            void UpdateAI(uint32 /*p_Diff*/) override { }
         };
 
         CreatureAI* GetAI(Creature* p_Creature) const override
@@ -2614,7 +2612,7 @@ class spell_foundry_throw_slag_bombs : public SpellScriptLoader
                     SpellInfo const* l_SpellInfo    = GetSpellInfo();
                     WorldLocation l_SummonPos       = *GetExplTargetDest();
 
-                    float l_Angle   = l_SpellInfo->GetEffect(p_EffIndex)->TargetB.CalcDirectionAngle();
+                    [[maybe_unused]] float l_Angle   = l_SpellInfo->GetEffect(p_EffIndex)->TargetB.CalcDirectionAngle();
                     float l_Dist    = l_SpellInfo->GetEffect(p_EffIndex)->CalcRadius(l_Boss);
 
                     if (l_SpellInfo->GetEffect(p_EffIndex)->TargetB.GetTarget() == Targets::TARGET_DEST_DEST_RANDOM)
@@ -2960,7 +2958,7 @@ class areatrigger_foundry_slag_bomb : public AreaTriggerEntityScript
                 Trinity::UnitListSearcher<Trinity::AnyUnfriendlyUnitInObjectRangeCheck> l_Searcher(p_AreaTrigger, l_TargetList, l_Check);
               //  p_AreaTrigger->VisitNearbyObject(l_Radius, l_Searcher);
 
-                for (Unit* l_Iter : l_TargetList)
+                for ([[maybe_unused]] Unit* l_Iter : l_TargetList)
                 {
                     l_Caster->CastSpell(l_Caster, eSpell::SlagBombAoE, true);
                     p_AreaTrigger->Remove();
@@ -3170,7 +3168,7 @@ class areatrigger_foundry_falling_ash : public AreaTriggerEntityScript
             AshesAura = 163324
         };
 
-        void OnSetCreatePosition(AreaTrigger* p_AreaTrigger, Unit* p_Caster, Position& p_SourcePosition, Position& p_DestinationPosition, std::list<Position>& /*p_PathToLinearDestination*/)
+        void OnSetCreatePosition(AreaTrigger* /*p_AreaTrigger*/, Unit* p_Caster, Position& p_SourcePosition, Position& p_DestinationPosition, std::list<Position>& /*p_PathToLinearDestination*/)
         {
            // m_CanUpdate = !p_AreaTrigger->GetMap()->IsLFR();
 
@@ -3190,12 +3188,12 @@ class areatrigger_foundry_falling_ash : public AreaTriggerEntityScript
             p_DestinationPosition.m_positionZ   = p_SourcePosition.m_positionZ - 90.0f;
         }
 
-        void OnUpdate(AreaTrigger* p_AreaTrigger, uint32 p_Time)
+        void OnUpdate(AreaTrigger* p_AreaTrigger, uint32 /*p_Time*/)
         {
             if (!m_CanUpdate)
                 return;
 
-            if (Unit* l_Caster = p_AreaTrigger->GetCaster())
+            if ([[maybe_unused]] Unit* l_Caster = p_AreaTrigger->GetCaster())
             {
                 std::list<Player*> l_TargetList;
                 float l_Radius = 1.0f;

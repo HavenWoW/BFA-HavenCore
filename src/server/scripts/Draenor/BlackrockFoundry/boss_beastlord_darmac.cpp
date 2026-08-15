@@ -252,7 +252,7 @@ class boss_beastlord_darmac : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventPinDown, eTimers::TimerPinDown);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 std::vector<uint32> l_Beasts = { eFoundryCreatures::BossIroncrusher, eFoundryCreatures::BossDreadwing, eFoundryCreatures::BossCruelfang };
 
@@ -972,7 +972,7 @@ class npc_foundry_cruelfang : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventSavageHowl, eTimers::TimerSavageHowl);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 m_IsEvadeMode = true;
 
@@ -1224,7 +1224,7 @@ class npc_foundry_dreadwing : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventConflagration, eTimers::TimerConflagration);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 m_IsEvadeMode = true;
 
@@ -1448,7 +1448,7 @@ class npc_foundry_ironcrusher : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventCrushArmor, eTimers::TimerCrushArmor);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 m_IsEvadeMode = true;
 
@@ -1627,7 +1627,7 @@ class npc_foundry_hitching_post : public CreatureScript
                // });
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                 //UpdateOperations(p_Diff);
             }
@@ -1736,7 +1736,7 @@ class npc_foundry_heavy_spear : public CreatureScript
                     me->CastSpell(me, eSpells::SeekingEmbersSearch, true);
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                 //UpdateOperations(p_Diff);
             }
@@ -1816,7 +1816,7 @@ class npc_foundry_thunderlord_pack_pens : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }

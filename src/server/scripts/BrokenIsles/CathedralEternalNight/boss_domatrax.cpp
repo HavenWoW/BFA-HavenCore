@@ -124,7 +124,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, egida);
                 
                 egida->CastSpell(egida, SPELL_EGIDA_DISPLAY_BAR);
-                egida->GetScheduler().Schedule(Milliseconds(1000), [egida](TaskContext context)
+                egida->GetScheduler().Schedule(Milliseconds(1000), [egida](TaskContext /*context*/)
                 {
                     egida->CastSpell(egida, SPELL_EGIDA_AT);
                 });
@@ -144,7 +144,7 @@ public:
                 summon->SetReactState(REACT_PASSIVE);
                 summon->CastSpell(summon, phase == 1 ? SPELL_PORTAL_PERIODIC_ONE: SPELL_PORTAL_PERIODIC_TWO); // periodic summon adds
                 
-                 me->SummonCreature(phase == 1 ? NPC_IMP : (Difficulty() == DIFFICULTY_HEROIC ? NPC_FELGUARD : NPC_SHIVARRA), summon->GetPositionX(), summon->GetPositionY(), summon->GetPositionZ(), summon->GetOrientation());
+                me->SummonCreature(phase == 1 ? NPC_IMP : (Difficulty() == DIFFICULTY_HEROIC ? NPC_FELGUARD : NPC_SHIVARRA), summon->GetPositionX(), summon->GetPositionY(), summon->GetPositionZ(), summon->GetOrientation());
                 
                 if (Difficulty() != DIFFICULTY_HEROIC) // mythic and other. normal mode isn't exist
                     summon->CastSpell(summon, SPELL_PORTAL_MYTHIC_ADD);
@@ -183,17 +183,17 @@ public:
             }
         }
         
-        void DoAction(int32 const action) override
+        void DoAction(int32 const /*action*/) override
         {
             me->SetVisible(true);
             DoCast(SPELL_INTRO);
             
-            me->GetScheduler().Schedule(Milliseconds(1000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(1000), [this](TaskContext /*context*/)
             {
                 Talk(SAY_INTRO);
             });
             
-            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
             {
                 me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_NOT_SELECTABLE));
                 me->SetReactState(REACT_DEFENSIVE);
@@ -221,7 +221,7 @@ public:
             }
         }
         
-        void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
         {
             if (phase < 3 && me->HealthBelowPct(phases_hp_required[phase]))
             {
@@ -312,7 +312,7 @@ public:
 
         void Reset() override {}
 
-        void sGossipSelect(Player* player, uint32 sender, uint32 action) override
+        void sGossipSelect(Player* /*player*/, uint32 /*sender*/, uint32 /*action*/) override
         {
             me->RemoveAurasDueToSpell(144373);
             me->RemoveUnitFlag(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
@@ -322,7 +322,7 @@ public:
                     domatrax->AI()->DoAction(true);
         }
         
-        void UpdateAI(uint32 diff) override { }
+        void UpdateAI(uint32 /*diff*/) override { }
     };
 
     CreatureAI* GetAI(Creature* creature) const override

@@ -302,7 +302,7 @@ public:
     {
         npc_mephistroth_illidanAI(Creature* creature) : ScriptedAI(creature) 
         {
-            me->GetScheduler().Schedule(Milliseconds(100), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(100), [this](TaskContext /*context*/)
             {
                 me->CastSpell(me, SPELL_ILLIDAN_SPAWN);
             });
@@ -313,7 +313,7 @@ public:
         void Reset() override
         {
             me->SetReactState(REACT_PASSIVE);
-            me->GetScheduler().Schedule(Milliseconds(2000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(2000), [this](TaskContext /*context*/)
             {
                 DoCast(SPELL_PREPARE);
                 events.ScheduleEvent(1, 1000);
@@ -344,7 +344,7 @@ public:
                             meph->RemoveAurasDueToSpell(SPELL_CREEPING_SHADOWS);
                         }
                         
-                    me->GetScheduler().Schedule(Milliseconds(300), [this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(300), [this](TaskContext /*context*/)
                     {
                         me->CastSpell(me, SPELL_ILLIDAN_DESPAWN);
                         me->DespawnOrUnsummon(2100);
@@ -384,7 +384,7 @@ public:
                 {
                     caster->GetNearPoint2D(pos.m_positionX, pos.m_positionY, hit_range, angle);
                     pos.m_positionZ = caster->GetPositionZ();
-                    caster->GetScheduler().Schedule(Milliseconds(100 + i), [caster, pos](TaskContext context)
+                    caster->GetScheduler().Schedule(Milliseconds(100 + i), [caster, pos](TaskContext /*context*/)
                     {
                         caster->CastSpell(pos, 233175, false);
                     });
@@ -416,7 +416,7 @@ class spell_mephistroth_egida : public SpellScriptLoader
         {
             PrepareAuraScript(spell_mephistroth_egida_AuraScript);
 
-            void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+            void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (Unit* caster = GetCaster())
                 {

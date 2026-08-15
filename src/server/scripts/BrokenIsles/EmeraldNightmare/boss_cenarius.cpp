@@ -248,7 +248,7 @@ struct boss_cenarius : public BossAI
         }
     }
 
-    void SpellHit(Unit* target, const SpellInfo* spell) override
+    void SpellHit(Unit* /*target*/, const SpellInfo* spell) override
     {
         if (spell->Id == SPELL_FORCES_OF_NIGHTMARE)
         {
@@ -340,7 +340,7 @@ struct boss_cenarius : public BossAI
         }
     }
 
-    void DamageTaken(Unit* attacker, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(35) && !secondPhase)
         {
@@ -638,10 +638,12 @@ struct npc_cenarius_forces_of_nightmare : public ScriptedAI
             break;
         case SPELL_ROTTEN_BREATH_FILTER:
             me->SetReactState(REACT_PASSIVE);
-//            me->SetFacingTo;//(target);
+            //me->SetFacingTo(target);
             me->SetReactState(REACT_AGGRESSIVE);
-            if (auto rotten = me->FindNearestCreature(NPC_ROTTEN_BREATH_TRIG, 100.0f))
-              //  me->CastSpellDelay(rotten, SPELL_ROTTEN_BREATH_DMG, false, 100);
+            /*if (me->FindNearestCreature(NPC_ROTTEN_BREATH_TRIG, 100.0f))
+            {
+                me->CastSpellDelay(rotten, SPELL_ROTTEN_BREATH_DMG, false, 100);
+            }*/
             break;
         }
     }
@@ -661,16 +663,16 @@ struct npc_cenarius_forces_of_nightmare : public ScriptedAI
         if (switchTarget)
             return;
 
-     //   auto pTarget = SelectTarget(SELECT_TARGET_RANDOM, 1, [this](Unit const* t) { return t->IsPlayer() && !t->ToPlayer()->IsInTankSpec(); });
-      //  if (!pTarget)
-       //     pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true);
+        //auto pTarget = SelectTarget(SELECT_TARGET_RANDOM, 1, [this](Unit const* t) { return t->IsPlayer() && !t->ToPlayer()->IsInTankSpec(); });
+        //if (!pTarget)
+            //pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true);
 
-     //   if (pTarget)
+        //if (pTarget)
         {
             switchTarget = true;
             DoResetThreat();
-          //  me->AddThreat(pTarget, 10000.0f);
-//            AttackStart;
+            //me->AddThreat(pTarget, 10000.0f);
+            //AttackStart();
             events.RescheduleEvent(1, 2000);
         }
     }

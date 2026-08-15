@@ -79,7 +79,7 @@ enum eAuchindounDatas
     DataCrystal
 };
 
-static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
+inline void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
 {
     std::list<Creature*> l_Creatures;
     GetCreatureListWithEntryInGrid(l_Creatures, p_Object, p_Entry, 1000.0f);

@@ -73,12 +73,12 @@ struct scenario_mage_art : public InstanceScript
         }
     }
 
-    void OnCreatureCreate(Creature* creature) override
+    void OnCreatureCreate(Creature* /*creature*/) override
     {
 
     }
 
-    void OnGameObjectCreate(GameObject* go) override
+    void OnGameObjectCreate(GameObject* /*go*/) override
     {
 
     }
@@ -149,12 +149,12 @@ struct scenario_mage_art : public InstanceScript
 
     void SummonAluneth()
     {
-        GameObject* Aluneth = instance->SummonGameObject(249814, Position(1117.78f, 1048.028f, 314.6193f, 2.096361f), QuaternionData(), 300);
+        instance->SummonGameObject(249814, Position(1117.78f, 1048.028f, 314.6193f, 2.096361f), QuaternionData(), 300);
     }
 
     void SummonEcho_of_Aluneth()
     {
-        TempSummon* Aluneth = instance->SummonCreature(106706, Position(4067.734f, 7453.73f, 267.3939f, 3.032354f));
+        instance->SummonCreature(106706, Position(4067.734f, 7453.73f, 267.3939f, 3.032354f));
     }
 
  private:

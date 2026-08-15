@@ -148,7 +148,7 @@ Position const g_PositionDefiledSpiritsMovement[8] =
     {1797.886f, -20.040f, 281.501f, 5.166008f}
 };
 
-static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
+[[maybe_unused]] static void DespawnCreaturesInArea(uint32 p_Entry, WorldObject* p_Object)
 {
     std::list<Creature*> creaturesList;
     GetCreatureListWithEntryInGrid(creaturesList, p_Object, p_Entry, 2000.0f);

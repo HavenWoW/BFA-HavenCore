@@ -96,12 +96,12 @@ struct scenario_paladin_truthguard : public InstanceScript
         }
     }
 
-    void OnCreatureCreate(Creature* creature) override
+    void OnCreatureCreate(Creature* /*creature*/) override
     {
 
     }
 
-    void OnGameObjectCreate(GameObject* go) override
+    void OnGameObjectCreate(GameObject* /*go*/) override
     {
 
     }
@@ -181,16 +181,16 @@ struct npc_orik_trueheart_105910 : public ScriptedAI
                 {
                     IsLock = true;
                     Talk(0);
-                    me->GetScheduler().Schedule(Milliseconds(6000), [player, this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(6000), [player, this](TaskContext /*context*/)
                     {
                         if (Creature* kato = me->FindNearestCreature(105694, 25.0f, true))
                             kato->AI()->Talk(0);
                     });
-                    me->GetScheduler().Schedule(Milliseconds(12000), [this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(12000), [this](TaskContext /*context*/)
                     {
                         Talk(1);
                     });
-                    me->GetScheduler().Schedule(Milliseconds(18000), [player, this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(18000), [player, this](TaskContext /*context*/)
                     {
                         Talk(2, player);
                         if (instance->GetData(DATA_STAGE_1) == NOT_STARTED)

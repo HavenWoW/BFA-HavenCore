@@ -309,7 +309,7 @@ struct npc_chief_engineer_ishkar_122369 : public ScriptedAI
         DoMeleeAttackIfReady();
     }
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
     {
         SubDamageTaken(NPC_ADMIRAL_SVIRAX, damage);
         SubDamageTaken(NPC_GENERAL_ERODUS, damage);
@@ -405,7 +405,7 @@ struct npc_general_erodus_122333 : public ScriptedAI
         DoMeleeAttackIfReady();
     }
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
     {
         SubDamageTaken(NPC_ADMIRAL_SVIRAX, damage);
         SubDamageTaken(NPC_CHIEF_ENGINEER_ISHKAR, damage);

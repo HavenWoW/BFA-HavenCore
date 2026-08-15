@@ -205,7 +205,7 @@ public:
 			return true;
 		}
 
-		void MoveInLineOfSight(Unit* who)
+		void MoveInLineOfSight(Unit* /*who*/)
 		{
 			if (!introText)
 			{
@@ -290,7 +290,7 @@ public:
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 		}
 
-		void DamageTaken(Unit* attacker, uint32 & damage) override
+		void DamageTaken(Unit* attacker, uint32 & /*damage*/) override
 		{
 			if (me->HealthBelowPct(10) && !wrath)
 			{
@@ -307,7 +307,7 @@ public:
 		}
 
 
-		void EnterEvadeMode(EvadeReason reason) override
+		void EnterEvadeMode(EvadeReason /*reason*/) override
 		{
 			Reset();
 		}

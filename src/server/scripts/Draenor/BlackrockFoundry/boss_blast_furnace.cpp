@@ -208,7 +208,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 summons.DespawnAll();
 
@@ -592,7 +592,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                     {
                         if (m_Instance != nullptr)
                         {
-                            if (Creature* l_Fury = ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::HeartOfTheMountain)))
+                            if (ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::HeartOfTheMountain)))
                             {
                                 if (Creature* l_Elemental = me->SummonCreature(eCreatures::SlagElemental, g_EncounterAddSpawns[urand(0, 1)][urand(0, 2)]))
                                 {
@@ -619,7 +619,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                     {
                         if (m_Instance != nullptr)
                         {
-                            if (Creature* l_Fury = ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::HeartOfTheMountain)))
+                            if (ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::HeartOfTheMountain)))
                             {
                                 for (uint8 l_I = 0; l_I < 2; ++l_I)
                                 {
@@ -649,7 +649,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                     {
                         if (m_Instance != nullptr)
                         {
-                            if (Creature* l_Fury = ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::HeartOfTheMountain)))
+                            if (ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::HeartOfTheMountain)))
                             {
                                 if (Creature* l_Guard = me->SummonCreature(eCreatures::SecurityGuardFight, g_SecurityGuardSecondPhaseSpwan))
                                 {
@@ -923,7 +923,7 @@ class boss_foreman_feldspar : public CreatureScript
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 if (m_InEvadeMode)
                     return;
@@ -1223,7 +1223,7 @@ class npc_foundry_blackhand_cosmetic : public CreatureScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
               //  UpdateOperations(p_Diff);
             }
@@ -1335,7 +1335,7 @@ class npc_foundry_primal_elementalist : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
@@ -1548,7 +1548,7 @@ class npc_foundry_bellows_operator : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 me->RemoveAllAuras();
 
@@ -1678,7 +1678,7 @@ class npc_foundry_heat_regulator : public CreatureScript
                // });
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
             {
                 me->ClearUnitState(UnitState::UNIT_STATE_STUNNED);
                 me->ClearUnitState(UnitState::UNIT_STATE_ROOT);
@@ -1724,7 +1724,7 @@ class npc_foundry_heat_regulator : public CreatureScript
                     l_Regulator->SetGoState(GOState::GO_STATE_READY);
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                // UpdateOperations(p_Diff);
             }
@@ -2665,7 +2665,7 @@ class spell_foundry_damage_shield : public SpellScriptLoader
                     if (!l_Target->IsAIEnabled)
                         return;
 
-                    if (npc_foundry_primal_elementalist::npc_foundry_primal_elementalistAI* l_AI = CAST_AI(npc_foundry_primal_elementalist::npc_foundry_primal_elementalistAI, l_Target->GetAI()))
+                    if (CAST_AI(npc_foundry_primal_elementalist::npc_foundry_primal_elementalistAI, l_Target->GetAI()))
                     {
                         ObjectGuid l_Guid = l_Target->GetGUID();
                         //l_AI->AddTimedDelayedOperation(50, [this, l_Guid]() -> void
@@ -2737,7 +2737,7 @@ class spell_foundry_shields_down : public SpellScriptLoader
                     if (!l_Target->IsAIEnabled)
                         return;
 
-                    if (npc_foundry_primal_elementalist::npc_foundry_primal_elementalistAI* l_AI = CAST_AI(npc_foundry_primal_elementalist::npc_foundry_primal_elementalistAI, l_Target->GetAI()))
+                    if (CAST_AI(npc_foundry_primal_elementalist::npc_foundry_primal_elementalistAI, l_Target->GetAI()))
                     {
                         ObjectGuid l_Guid = l_Target->GetGUID();
                        // l_AI->AddTimedDelayedOperation(50, [this, l_Guid]() -> void
@@ -2772,16 +2772,16 @@ class spell_foundry_volatile_fire : public SpellScriptLoader
         {
             PrepareAuraScript(spell_foundry_volatile_fire_AuraScript);
 
-            void OnApply(AuraEffect const* p_AurEff, AuraEffectHandleModes /*p_Mode*/)
-            {
-              //  int32 l_NewDuration = p_AurEff->GetAmplitude();
+            //void OnApply(AuraEffect const* p_AurEff, AuraEffectHandleModes /*p_Mode*/)
+            //{
+                //int32 l_NewDuration = p_AurEff->GetAmplitude();
 
-                if (Aura* l_Base = p_AurEff->GetBase())
-                {
-               //     l_Base->SetMaxDuration(l_NewDuration);
+                //if (Aura* l_Base = p_AurEff->GetBase())
+                //{
+                //    l_Base->SetMaxDuration(l_NewDuration);
                 //    l_Base->SetDuration(l_NewDuration);
-                }
-            }
+                //}
+            //}
 
             void OnTick(AuraEffect const* /*p_AurEff*/)
             {
@@ -2797,7 +2797,7 @@ class spell_foundry_volatile_fire : public SpellScriptLoader
 
             void Register() override
             {
-                OnEffectApply += AuraEffectApplyFn(spell_foundry_volatile_fire_AuraScript::OnApply, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
+                //OnEffectApply += AuraEffectApplyFn(spell_foundry_volatile_fire_AuraScript::OnApply, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
                 OnEffectPeriodic += AuraEffectPeriodicFn(spell_foundry_volatile_fire_AuraScript::OnTick, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
             }
         };
@@ -2924,7 +2924,7 @@ class spell_foundry_deafening_roar : public SpellScriptLoader
 
             void HandleDamage(SpellEffIndex /*p_EffIndex*/)
             {
-                if (Unit* l_Caster = GetCaster())
+                if ([[maybe_unused]] Unit* l_Caster = GetCaster())
                 {
                     if (Unit* l_Target = GetHitUnit())
                     {
@@ -2958,7 +2958,7 @@ class spell_foundry_slag_pool_periodic : public SpellScriptLoader
 
             void AfterApply(AuraEffect const* p_AurEff, AuraEffectHandleModes /*p_Mode*/)
             {
-                if (Unit* l_Target = GetTarget())
+                if ([[maybe_unused]] Unit* l_Target = GetTarget())
                 {
                     AuraEffect* l_AuraEffect = p_AurEff->GetBase()->GetEffect(EFFECT_0);
                     if (l_AuraEffect == nullptr)
@@ -3195,12 +3195,12 @@ class areatrigger_foundry_slag_pool : public AreaTriggerEntityScript
                 Trinity::UnitListSearcher<Trinity::AnyUnfriendlyUnitInObjectRangeCheck> l_Searcher(p_AreaTrigger, l_TargetList, l_Check);
                // p_AreaTrigger->VisitNearbyObject(l_Radius, l_Searcher);
 
-                float l_X = p_AreaTrigger->GetPositionX();
-                float l_Y = p_AreaTrigger->GetPositionY();
-                float l_Z = p_AreaTrigger->GetPositionZ();
-                float l_O = p_AreaTrigger->GetOrientation();
+                //float l_X = p_AreaTrigger->GetPositionX();
+                //float l_Y = p_AreaTrigger->GetPositionY();
+                //float l_Z = p_AreaTrigger->GetPositionZ();
+                //float l_O = p_AreaTrigger->GetOrientation();
 
-                Position const l_Pos = { l_X, l_Y, l_Z, 0.0f };
+                //Position const l_Pos = { l_X, l_Y, l_Z, 0.0f };
 
                // for (AreaTriggerTemplate l_Template : l_Templates)
               //  {

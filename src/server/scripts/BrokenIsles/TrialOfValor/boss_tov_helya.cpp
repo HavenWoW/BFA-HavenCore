@@ -317,8 +317,6 @@ public:
                 isPhase3 = true;
             }
 
-            Map::PlayerList const& PlayerList = me->GetMap()->GetPlayers();
-
             while (uint32 eventId = events.ExecuteEvent())
             {
                 switch (eventId)
@@ -549,7 +547,7 @@ public:
     {
         PrepareAuraScript(spell_helya_taint_of_the_sea_AuraScript);
 
-        void AfterRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void AfterRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             GetCaster()->CastSpell(GetTarget(), SPELL_TAINTED_EXPLOSION, true);
             GetCaster()->CastSpell(GetTarget(), SPELL_TAINTED_ESSENCE, true);

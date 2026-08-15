@@ -231,7 +231,7 @@ struct npc_ashtar_121694 : ScriptedAI
         }
     }
  
-    void EnterEvadeMode(EvadeReason reason) override
+    void EnterEvadeMode(EvadeReason /*reason*/) override
     {
         CreatureAI::EnterEvadeMode();
     }
@@ -398,6 +398,7 @@ struct npc_ashtar_121694 : ScriptedAI
                 me->SummonGameObject(269859, GameObjects_BloodElf[i], QuaternionData(), 15);
                 me->SummonCreature(121730, Creatures_BloodElf[i], TEMPSUMMON_TIMED_DESPAWN, 15000);
             }
+            break;
         case ACTION_8:
             Talk(SAY_HIGHMOUNTAIN_TAUREN);
             break;
@@ -445,7 +446,7 @@ struct npc_marla_121739 : ScriptedAI
         DoCast(243089);
     }
  
-    void EnterEvadeMode(EvadeReason reason) override
+    void EnterEvadeMode(EvadeReason /*reason*/) override
     {
         CreatureAI::EnterEvadeMode();
     }

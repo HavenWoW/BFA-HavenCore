@@ -30,14 +30,6 @@ public:
     {
         if (player)
         {
-             auto ok = true;
-
-             if (player->GetTeamId() == TEAM_ALLIANCE && !player->HasAchieved(ACHIEVEMENT_FIRST_RULE_A))
-                 ok = false;
-
-             if (player->GetTeamId() == TEAM_HORDE && !player->HasAchieved(ACHIEVEMENT_FIRST_RULE_H))
-                 ok = false;
-
             if (player->HasAchieved(ACHIEVEMENT_FIRST_RULE_H) || player->HasAchieved(ACHIEVEMENT_FIRST_RULE_A))
             {
                 AddGossipItemFor(player, 15284, 0, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
@@ -343,7 +335,7 @@ class brawl_invitation_item : public ItemScript
 public:
     brawl_invitation_item() : ItemScript("brawl_invitation_item") { }
 
-    bool OnUse(Player* player, Item* item, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+    bool OnUse(Player* player, Item* item, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (!player || !item)
             return false;

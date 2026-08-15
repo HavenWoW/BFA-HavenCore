@@ -45,7 +45,7 @@ Position const g_Position[3] =
     { 6504.740f, -1131.180f, 4.958000f, 2.120224f }
 };
 
-static void GrimailEnforcersStart(InstanceScript* p_Instance, Creature* p_Me)
+static void GrimailEnforcersStart(InstanceScript* p_Instance, Creature* /*p_Me*/)
 {
     if (p_Instance == nullptr)
         return;
@@ -298,9 +298,6 @@ class iron_docks_grimrail_mob_train : public CreatureScript
                                 if (!l_Itr)
                                     continue;
 
-                                float l_X = l_Itr->m_positionX + 600 * cos(3.142922f);
-                                float l_Y = l_Itr->m_positionY + 600 * sin(3.142922f);
-
                                 l_Itr->SetSpeed(UnitMoveType::MOVE_WALK, 8.0f);
                                 l_Itr->SetSpeed(UnitMoveType::MOVE_RUN, 8.0f);
                                 l_Itr->SetSpeed(UnitMoveType::MOVE_FLIGHT, 8.0f);
@@ -308,9 +305,6 @@ class iron_docks_grimrail_mob_train : public CreatureScript
 
                                 l_Itr->GetMotionMaster()->MoveCharge(l_Trigger, l_Itr->GetPositionZ(), l_Itr->GetOrientation());
                             }
-
-                            float l_X = me->m_positionX + 600 * cos(3.142922f);
-                            float l_Y = me->m_positionY + 600 * sin(3.142922f);
 
                             me->SetSpeed(UnitMoveType::MOVE_WALK, 8.0f);
                             me->SetSpeed(UnitMoveType::MOVE_RUN, 8.0f);

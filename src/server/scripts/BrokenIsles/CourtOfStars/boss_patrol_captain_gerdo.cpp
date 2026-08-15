@@ -107,13 +107,13 @@ public:
                 sayer->AI()->Talk(0);
         }
 
-        void SpellHit(Unit* target, const SpellInfo* spell) override
+        void SpellHit(Unit* /*target*/, const SpellInfo* spell) override
         {
             if (spell->Id == SPELL_SIGNAL_BEACON)
                 instance->SetData(DATA_BEACON_ACTIVATE, IN_PROGRESS);
         }
 
-        void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
         {
             if (me->HealthBelowPct(26) && !flaskEvent)
             {
@@ -213,7 +213,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* summoner) override
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             DoZoneInCombat(me, 100.0f);
             events.RescheduleEvent(1, 5000);
@@ -361,7 +361,9 @@ public:
         void UpdateAI(uint32 diff) override
         {
             if (event)
+            {
                 if (talk < 4)
+                {
                     if (timer <= diff)
                     {
                         if (owner)
@@ -369,7 +371,10 @@ public:
                         talk++;
                         timer = 16000;
                     }
-                    else timer -= diff;
+                    else
+                        timer -= diff;
+                }
+            }
         }
 
     };
@@ -438,7 +443,7 @@ public:
                 clicker->CastSpell(me, SPELL_CAST_DISABLE_BEACON);
         }
 
-        void SpellHit(Unit* target, const SpellInfo* spell) override
+        void SpellHit(Unit* /*target*/, const SpellInfo* spell) override
         {
             if (spell->Id == SPELL_CAST_DISABLE_BEACON)
             {
@@ -471,7 +476,7 @@ public:
 
         void Reset() override {}
 
-        void EnterCombat(Unit* who) override {}
+        void EnterCombat(Unit* /*unit*/) override {}
 
         void IsSummonedBy(Unit* summoner) override
         {

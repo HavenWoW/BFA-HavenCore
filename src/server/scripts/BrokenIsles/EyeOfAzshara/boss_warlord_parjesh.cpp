@@ -179,7 +179,7 @@ public:
 			DespawnCreatures(NPC_HATECOIL_SHELLBREAKER);
 		}
 
-		void MoveInLineOfSight(Unit* who)
+		void MoveInLineOfSight(Unit* /*who*/)
 		{
 			if (!introText)
 			{
@@ -247,7 +247,7 @@ public:
 			}
 		}
 
-		void KilledUnit(Unit* unit) override
+		void KilledUnit(Unit* /*unit*/) override
 		{
 			SelectSoundAndText(me, 6);
 		}
@@ -296,7 +296,7 @@ public:
 		}
 
 
-		void SpellHit(Unit* caster, SpellInfo const* spell) override
+		void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
 		{
 			if (spell->Id == SPELL_CALL_REINFORCEMENTS)
 			{
@@ -417,7 +417,7 @@ public:
 			events.Reset();
 		}
 
-		void EnterCombat(Unit* who)
+		void EnterCombat(Unit* /*unit*/)
 		{
 			events.ScheduleEvent(EVENT_BELLOWING_ROAR, TIMER_BELLOWING_ROAR);
 		}
@@ -467,7 +467,7 @@ public:
 
 		EventMap events;
 
-		void EnterCombat(Unit* who)
+		void EnterCombat(Unit* /*unit*/)
 		{
 			events.ScheduleEvent(EVENT_LIGHTING_STRIKE, TIMER_LIGHTING_STRIKE);
 			events.ScheduleEvent(EVENT_RESTORATION, TIMER_RESTORATION);

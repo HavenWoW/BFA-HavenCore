@@ -246,7 +246,7 @@ struct scenario_artifact_ursocslair : public InstanceScript
 
     }
 
-    void OnPlayerEnter(Player* player) override
+    void OnPlayerEnter(Player* /*player*/) override
     {
         //instance->GetInstanceScenario()->SendScenarioEvent(player, 46437);
         ///first talk
@@ -261,7 +261,7 @@ struct scenario_artifact_ursocslair : public InstanceScript
             events.ScheduleEvent(SCENE_PLAYER_ENTER, 5s);
         }
         events.ScheduleEvent(TEST_EVENT, 10 * IN_MILLISECONDS);
-        if (InstanceScenario* scenario = instance->GetInstanceScenario())
+        if (instance->GetInstanceScenario())
         {
             DoUpdateCriteria(CRITERIA_TYPE_SEND_EVENT_SCENARIO, 46437, 0, nullptr);
             //scenario->CompleteCurrStep();
@@ -621,6 +621,7 @@ struct npc_lea_stonepaw_105243 : public ScriptedAI
         {
             if (!me->IsInCombat())
                 if (Creature* npc = me->FindNearestCreature(NPC_ROTHOOF_DEFILER_101386, 25.0f, true))
+                {
                     if (me->IsValidAttackTarget(npc))
                     {
                         me->Attack(npc, true);
@@ -632,6 +633,7 @@ struct npc_lea_stonepaw_105243 : public ScriptedAI
                         me->CastSpell(npc, 194153, false);
                         TC_LOG_ERROR("server.worldserver", "====================scenario_artifact_ursocslair  can't attack npc====================== ");
                     }
+                }
 
 
         } else
@@ -704,7 +706,7 @@ public:
                     //player->CastSpell(player, 208779, true);
 
                     ///Scenaro Complete
-                    if (instance = go->GetInstanceScript())
+                    if ((instance = go->GetInstanceScript()))
                     {
                         instance->DoPlayScenePackageIdOnPlayers(DRUID_GUARDIA_ACQUISTION_ARTIFACT_LOOTED_SCENE);
                         player->GetScenario()->CompleteScenario();

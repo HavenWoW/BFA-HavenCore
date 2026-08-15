@@ -77,7 +77,7 @@ class EventRocketsparkAndBorkaConversation : public BasicEvent
 {
 public:
 
-    explicit EventRocketsparkAndBorkaConversation(Unit* p_Unit, int p_Value, InstanceScript* p_Instance) : m_Obj(p_Unit), m_Modifier(p_Value), m_InstanceScript(p_Instance), BasicEvent()
+    explicit EventRocketsparkAndBorkaConversation(Unit* p_Unit, int p_Value, InstanceScript* p_Instance) : BasicEvent(), m_InstanceScript(p_Instance), m_Obj(p_Unit), m_Modifier(p_Value)
     {
     }
 
@@ -85,7 +85,7 @@ public:
     {
         if (m_Obj)
         {
-            if (InstanceScript* l_Instance = m_Obj->GetInstanceScript())
+            if (m_Obj->GetInstanceScript())
             {
                 if (Creature* l_RocketSpark = m_InstanceScript->instance->GetCreature(m_InstanceScript->GetGuidData(GrimrailDepotData::DataRocketspark)))
                 {

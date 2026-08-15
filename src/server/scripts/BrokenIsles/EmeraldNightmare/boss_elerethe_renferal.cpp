@@ -258,7 +258,7 @@ struct boss_elerethe_renferal : public BossAI
         _JustDied();
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         BossAI::EnterEvadeMode();
         RemoveEventTrash();
@@ -273,11 +273,6 @@ struct boss_elerethe_renferal : public BossAI
         instance->DoRemoveAurasDueToSpellOnPlayers(215464);
         instance->DoRemoveAurasDueToSpellOnPlayers(215460);
         instance->DoRemoveAurasDueToSpellOnPlayers(215449);
-
-        std::list<AreaTrigger*> list;
-      //  me->GetAreaTriggerListWithEntryInGrid(list, 11547, 222.0f); //NECROTIC_VENOM - 213123
-        for (auto at : list)
-         //   at->Despawn();
 
         std::list<Creature*> creatureList;
        // me->GetCreatureListWithEntryInGrid(creatureList, NPC_TWISTING_SHADOWS, 222.0f);
@@ -306,7 +301,7 @@ struct boss_elerethe_renferal : public BossAI
         }
     }
 
-    void SpellHit(Unit* caster, const SpellInfo* spell) override
+    void SpellHit(Unit* /*caster*/, const SpellInfo* spell) override
     {
         switch (spell->Id)
         {

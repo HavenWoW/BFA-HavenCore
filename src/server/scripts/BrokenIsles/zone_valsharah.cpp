@@ -52,7 +52,7 @@ public:
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*sender*/, uint32 action) override
     {
         ClearGossipMenuFor(player);
 
@@ -258,11 +258,11 @@ class npc_subdued_nightwing : public CreatureScript
 public:
     npc_subdued_nightwing() : CreatureScript("npc_subdued_nightwing") { }
 
-    bool OnGossipHello(Player* player, Creature* creature) override
+    bool OnGossipHello(Player* player, Creature* /*creature*/) override
     {
         if (player->GetQuestStatus(43702) == QUEST_STATUS_INCOMPLETE)
-            if (Creature* creature = player->SummonCreature(109827, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 300000))
-                player->CastSpell(creature, 46598, true);
+            if (Creature* summon = player->SummonCreature(109827, 0.0f, 0.0f, 0.0f, 0.0f, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 300000))
+                player->CastSpell(summon, 46598, true);
 
         return true;
     }
@@ -301,7 +301,7 @@ class npc_92850 : public CreatureScript
 public:
     npc_92850() : CreatureScript("npc_92850") { }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*sender*/, uint32 action) override
     {
         switch (action)
         {
