@@ -30,7 +30,9 @@ include (CheckCXXSourceCompiles)
 
 set(BOOST_REQUIRED_VERSION 1.74)
 
-cmake_policy(SET CMP0167 OLD)
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 OLD)
+endif()
 
 find_package(Boost ${BOOST_REQUIRED_VERSION} REQUIRED system filesystem thread program_options iostreams regex)
 
