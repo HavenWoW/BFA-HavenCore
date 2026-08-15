@@ -34,16 +34,14 @@ services:
       context: .
       dockerfile: docker/Dockerfile.runtime
     entrypoint: ["/entrypoint.sh", "bnetserver"]
-    volumes:
+    volumes: !override
       - dev_install:/opt/bfacore
-      - bnetserver_etc:/opt/bfacore/etc
 
   worldserver:
     build:
       context: .
       dockerfile: docker/Dockerfile.runtime
     entrypoint: ["/entrypoint.sh", "worldserver"]
-    volumes:
+    volumes: !override
       - dev_install:/opt/bfacore
-      - worldserver_etc:/opt/bfacore/etc
       - ./client-data:/opt/bfacore/bin/ClientData:ro
