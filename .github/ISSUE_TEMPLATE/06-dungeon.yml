@@ -1,0 +1,101 @@
+name: "🏰 Dungeon or raid problem"
+description: "A boss that doesn't work, a fight you can't finish, or wrong loot from a dungeon"
+title: "[Dungeon] "
+labels: ["Instance", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You do not need to know anything about code or GitHub to fill this in.
+
+        Answer what you can and leave the rest blank. A half-filled report is far more useful than no report.
+
+  - type: input
+    id: dungeon
+    attributes:
+      label: Which dungeon or raid?
+      placeholder: "The Deadmines"
+    validations:
+      required: true
+
+  - type: input
+    id: boss
+    attributes:
+      label: Which boss or which part?
+      description: "Leave blank if it's not tied to one boss."
+      placeholder: "Admiral Ripsnarl"
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Which difficulty?
+      options:
+        - Normal
+        - Heroic
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: what-part
+    attributes:
+      label: What is wrong?
+      options:
+        - "The fight can't be finished, we're stuck"
+        - "The boss doesn't spawn, or doesn't come back after a wipe"
+        - "The boss doesn't use their abilities properly"
+        - "An invisible or wrong creature is attacking us"
+        - "The loot is wrong for this difficulty"
+        - "A door, chest or object won't work"
+        - "Trash mobs behave wrongly"
+        - "I can't enter the dungeon"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. No special format needed."
+      placeholder: |
+        We pulled Admiral Ripsnarl, he vanished into the fog phase and never
+        came back. Something called "General Purpose Bunny" was hitting us
+        the whole time. We had to reset the instance.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened instead?
+      placeholder: "Ripsnarl should reappear after the fog phase so we can keep fighting him."
+    validations:
+      required: true
+
+  - type: input
+    id: group
+    attributes:
+      label: How many were in your group, and what levels?
+      placeholder: "5 players, levels 16 to 19"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself. You can also paste a video link.
+        Video is especially helpful for boss fights.
+
+  - type: input
+    id: source
+    attributes:
+      label: How do you know it should work differently?
+      description: "Optional. A Wowhead page, a YouTube video of the fight, or just 'I remember it from retail'."
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.

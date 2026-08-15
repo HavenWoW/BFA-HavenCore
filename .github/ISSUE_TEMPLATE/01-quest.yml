@@ -1,0 +1,104 @@
+name: "🗺️ Quest problem"
+description: "A quest you can't pick up, can't finish, or that behaves wrongly"
+title: "[Quest] "
+labels: ["Quest", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You do not need to know anything about code or GitHub to fill this in.
+
+        Answer what you can and leave the rest blank. A half-filled report is far more useful than no report.
+        A developer will read this and work out the technical side.
+
+  - type: input
+    id: quest-name
+    attributes:
+      label: What is the quest called?
+      description: "Copy the name exactly as it appears in your quest log."
+      placeholder: "Webwood Corruption"
+    validations:
+      required: true
+
+  - type: input
+    id: quest-id
+    attributes:
+      label: Quest ID or Wowhead link
+      description: "If you don't know it, leave this blank — the name above is enough. If you use Wowhead, just paste the address bar."
+      placeholder: "28726  —  or  https://www.wowhead.com/quest=28726"
+
+  - type: dropdown
+    id: what-part
+    attributes:
+      label: Which part of the quest goes wrong?
+      description: "Pick the closest one. If nothing fits, choose Something else and explain below."
+      options:
+        - "I can't pick the quest up"
+        - "The quest doesn't show on my map or minimap"
+        - "The objective never completes, even though I did it"
+        - "The objective completed on its own, without me doing it"
+        - "The objective text is wrong or confusing"
+        - "I can't hand the quest in"
+        - "An NPC that should appear never does"
+        - "An NPC that should follow me doesn't"
+        - "Something in the quest can't be clicked or used"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. No special format needed."
+      placeholder: |
+        I picked up the quest from Tarindrella and she was supposed to follow me,
+        but she just stood there. I killed the spiders anyway and the counter
+        never went up.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened instead?
+      description: "This is the most useful thing you can tell us. Even 'she should have followed me' is enough."
+      placeholder: "Tarindrella should have joined me as a follower when I accepted the quest."
+    validations:
+      required: true
+
+  - type: input
+    id: where
+    attributes:
+      label: Where were you?
+      description: "The zone name is plenty. Coordinates are a bonus if your addon shows them."
+      placeholder: "Teldrassil, near Starbreeze Village"
+
+  - type: input
+    id: character
+    attributes:
+      label: Your character
+      description: "Level, faction, race and class. This helps us reproduce it on a matching character."
+      placeholder: "Level 8 Alliance Night Elf Druid"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself. You can also paste a video link.
+        A screenshot of the quest log or the broken NPC is often all we need.
+
+  - type: input
+    id: source
+    attributes:
+      label: How do you know it should work differently?
+      description: "Optional. A Wowhead page, a YouTube video, or just 'I remember it from retail'."
+      placeholder: "https://www.youtube.com/watch?v=..."
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.

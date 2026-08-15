@@ -1,0 +1,93 @@
+name: "📦 Object or vehicle problem"
+description: "A chest, door, ladder, cannon or vehicle that won't work when you click it"
+title: "[Object] "
+labels: ["Object", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This one is for things in the world you click on rather than talk to — chests, crates, doors,
+        levers, ladders, cannons, mine carts, and anything you're supposed to ride or control.
+
+        You do not need to know anything about code or GitHub to fill this in.
+
+  - type: input
+    id: object-name
+    attributes:
+      label: What is it called?
+      description: "The name that appears when you hover your mouse over it."
+      placeholder: "Rope Ladder"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: what-part
+    attributes:
+      label: What is wrong with it?
+      options:
+        - "Clicking it does nothing at all"
+        - "I can't click it, the cursor never changes"
+        - "It's a chest or container and it's empty"
+        - "I get in the vehicle but the controls don't work"
+        - "I get a pet instead of getting in the vehicle"
+        - "It moves me somewhere instead of doing what it should"
+        - "It's floating, sunk into the ground, or in the wrong place"
+        - "It's already used or already open when it shouldn't be"
+        - "I can use it over and over when I should only get one use"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: input
+    id: quest
+    attributes:
+      label: Is this part of a quest?
+      description: "If yes, the quest name. This tells us whether the quest is blocked."
+      placeholder: "Precious Cargo"
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. No special format needed."
+      placeholder: |
+        The rope ladders on the side of the ship show the gear cursor when I
+        get close, so I know I'm near enough, but right clicking them does
+        absolutely nothing. I can't get up the ship at all.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened instead?
+      placeholder: "Clicking the ladder should climb me up onto the ship deck."
+    validations:
+      required: true
+
+  - type: input
+    id: where
+    attributes:
+      label: Where is it?
+      description: "The zone name is plenty. Coordinates are a bonus if your addon shows them."
+      placeholder: "The Lost Isles, at the beached ship"
+
+  - type: input
+    id: character
+    attributes:
+      label: Your character
+      placeholder: "Level 6 Horde Goblin Warrior"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself. You can also paste a video link.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.

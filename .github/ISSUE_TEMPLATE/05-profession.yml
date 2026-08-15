@@ -1,0 +1,100 @@
+name: "🔨 Profession problem"
+description: "A profession you can't train, a skill that won't go up, or a missing recipe"
+title: "[Profession] "
+labels: ["Proffesion", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You do not need to know anything about code or GitHub to fill this in.
+
+        Answer what you can and leave the rest blank. A half-filled report is far more useful than no report.
+
+  - type: dropdown
+    id: profession
+    attributes:
+      label: Which profession?
+      options:
+        - Alchemy
+        - Blacksmithing
+        - Enchanting
+        - Engineering
+        - Inscription
+        - Jewelcrafting
+        - Leatherworking
+        - Tailoring
+        - Herbalism
+        - Mining
+        - Skinning
+        - Archaeology
+        - Cooking
+        - Fishing
+        - First Aid
+    validations:
+      required: true
+
+  - type: dropdown
+    id: what-part
+    attributes:
+      label: What is wrong?
+      options:
+        - "I can't learn the profession at all"
+        - "The trainer won't talk to me, or clicking does nothing"
+        - "The trainer only offers it to some classes or races"
+        - "My skill level is wrong, or it was set to the wrong number"
+        - "My skill won't go up any further"
+        - "A recipe I should have is missing"
+        - "Gathering gives nothing, or gives the wrong thing"
+        - "I can gather while mounted, and I don't think I should"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: input
+    id: trainer
+    attributes:
+      label: Which trainer, and where?
+      description: "If a trainer is involved, their name and zone. Leave blank if not."
+      placeholder: "Karolek in Orgrimmar"
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. No special format needed."
+      placeholder: |
+        I learned Fishing and it immediately gave me 60 out of 60 skill.
+        The trainer then said I don't have enough skill to learn the next rank,
+        so I'm stuck and can't raise it any further.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened instead?
+      placeholder: "Learning Fishing should start me at 1 skill and let me raise it by fishing."
+    validations:
+      required: true
+
+  - type: input
+    id: character
+    attributes:
+      label: Your character
+      description: "Level, faction, race and class. Class and race matter a lot for trainer problems."
+      placeholder: "Level 10 Horde Orc Shaman"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself.
+        A screenshot of the trainer window or your profession panel is ideal.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.

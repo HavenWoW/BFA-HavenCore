@@ -1,0 +1,101 @@
+name: "👤 NPC or creature problem"
+description: "A monster, guard, vendor or friendly NPC behaving wrongly"
+title: "[NPC] "
+labels: ["Creatures", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You do not need to know anything about code or GitHub to fill this in.
+
+        Answer what you can and leave the rest blank. A half-filled report is far more useful than no report.
+
+  - type: input
+    id: npc-name
+    attributes:
+      label: What is the NPC called?
+      description: "Copy the name exactly as it appears over their head."
+      placeholder: "Webwood Lurker"
+    validations:
+      required: true
+
+  - type: input
+    id: npc-id
+    attributes:
+      label: NPC ID or Wowhead link
+      description: "If you don't know it, leave this blank. If you use Wowhead, just paste the address bar."
+      placeholder: "1998  —  or  https://www.wowhead.com/npc=1998"
+
+  - type: dropdown
+    id: what-part
+    attributes:
+      label: What is wrong with them?
+      description: "Pick the closest one. If nothing fits, choose Something else and explain below."
+      options:
+        - "They aren't there at all"
+        - "There are two of them when there should be one"
+        - "They stand still when they should walk around"
+        - "They walk somewhere they shouldn't, like up a cliff"
+        - "They attack me when they shouldn't"
+        - "They don't attack when they should"
+        - "They're supposed to be dead or lying down, but they're alive and active"
+        - "They keep casting spells while running away"
+        - "Wrong level, health or damage"
+        - "I can't click on them or talk to them"
+        - "They look wrong, or are floating or sunk into the ground"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. No special format needed."
+      placeholder: |
+        I killed Ressan the Needler and his name stayed red and hostile
+        even after he was dead on the ground.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened instead?
+      placeholder: "His name should go grey once he's dead, like every other mob."
+    validations:
+      required: true
+
+  - type: input
+    id: where
+    attributes:
+      label: Where were you?
+      description: "The zone name is plenty. Coordinates are a bonus if your addon shows them."
+      placeholder: "Tirisfal Glades, near Brill"
+
+  - type: input
+    id: character
+    attributes:
+      label: Your character
+      placeholder: "Level 11 Horde Undead Rogue"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself. You can also paste a video link.
+        A screenshot showing the NPC and their nameplate is ideal.
+
+  - type: input
+    id: source
+    attributes:
+      label: How do you know it should work differently?
+      description: "Optional. A Wowhead page, a YouTube video, or just 'I remember it from retail'."
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.

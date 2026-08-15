@@ -1,0 +1,101 @@
+name: "✨ Spell, talent or class ability problem"
+description: "An ability that deals the wrong damage, has the wrong cooldown, or that you shouldn't have yet"
+title: "[Class] "
+labels: ["Class", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You do not need to know anything about code or GitHub to fill this in.
+
+        Answer what you can and leave the rest blank. A half-filled report is far more useful than no report.
+
+  - type: input
+    id: spell-name
+    attributes:
+      label: What is the ability called?
+      placeholder: "Moonfire"
+    validations:
+      required: true
+
+  - type: input
+    id: spell-id
+    attributes:
+      label: Spell ID or Wowhead link
+      description: "If you don't know it, leave this blank. If you use Wowhead, just paste the address bar."
+      placeholder: "8921  —  or  https://www.wowhead.com/spell=8921"
+
+  - type: input
+    id: class-spec
+    attributes:
+      label: Your class and specialisation
+      description: "If you're below level 10 and haven't picked a spec yet, just say so."
+      placeholder: "Druid, no spec yet (level 3)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: what-part
+    attributes:
+      label: What is wrong with it?
+      options:
+        - "It deals no damage or healing at all"
+        - "The damage or healing is too high or too low"
+        - "The cooldown is wrong, or there's no cooldown at all"
+        - "I have this ability but I'm too low level for it"
+        - "I should have this ability by now, but I don't"
+        - "I can't learn it from the trainer"
+        - "It doesn't do what the tooltip says"
+        - "The buff or debuff doesn't apply, or falls off early"
+        - "The resource cost is wrong"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. If you can, say what numbers you saw."
+      placeholder: |
+        Moonfire is supposed to tick every 2 seconds. On the same target,
+        sometimes it ticks normally and sometimes it deals nothing at all
+        for the whole duration.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened instead?
+      placeholder: "It should tick for arcane damage every 2 seconds, every time."
+    validations:
+      required: true
+
+  - type: input
+    id: character
+    attributes:
+      label: Your character level and race
+      description: "Race matters for racial abilities."
+      placeholder: "Level 3 Night Elf"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself.
+        A screenshot of your combat log or the ability tooltip is very useful here.
+
+  - type: input
+    id: source
+    attributes:
+      label: How do you know it should work differently?
+      description: "Optional. A Wowhead page, a YouTube video, or just 'I remember it from retail'."
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.

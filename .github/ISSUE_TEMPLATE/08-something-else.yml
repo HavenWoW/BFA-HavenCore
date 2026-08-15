@@ -1,0 +1,60 @@
+name: "❓ Something else"
+description: "Anything that doesn't fit the other categories — including visual glitches, the shop, or the game client"
+title: ""
+labels: ["needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this one if none of the other templates fit, or if you're not sure which one to pick.
+        Picking the "wrong" template is not a problem — a maintainer will sort it out.
+
+        You do not need to know anything about code or GitHub to fill this in.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. No special format needed."
+      placeholder: |
+        There's a whirlwind visual effect that keeps drifting across Eversong Woods.
+        Nothing is casting it and it doesn't seem to belong to anything.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should have happened instead?
+      description: "If you're not sure, just say what looked wrong about it."
+      placeholder: "There shouldn't be a whirlwind there at all."
+    validations:
+      required: true
+
+  - type: input
+    id: where
+    attributes:
+      label: Where were you?
+      description: "Leave blank if it isn't tied to a place."
+      placeholder: "Eversong Woods"
+
+  - type: input
+    id: character
+    attributes:
+      label: Your character
+      description: "Level, faction, race and class, if it's relevant."
+      placeholder: "Level 12 Horde Blood Elf Mage"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself. You can also paste a video link.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.

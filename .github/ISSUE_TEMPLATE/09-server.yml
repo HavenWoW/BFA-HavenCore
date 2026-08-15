@@ -1,0 +1,71 @@
+name: "⚙️ Server, build or crash"
+description: "For contributors: build failures, crashes, performance problems, or core code issues"
+title: "[Core] "
+labels: ["CPP", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This one is aimed at people building or running the core themselves. If you're a player who hit
+        something odd in game, one of the other templates will fit better — but don't worry about
+        picking wrong, a maintainer will re-file it.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem is it?
+      options:
+        - "worldserver or bnetserver crashes"
+        - "Build failure"
+        - "Performance: lag, low update diff, or high CPU"
+        - "Database or SQL update problem"
+        - "Something is wrong in the core code"
+        - "Something else technical"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Include the exact error text if there is one."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How do we reproduce it?
+      description: "The steps you took, in order."
+      placeholder: |
+        1. Configure with -DTOOLS=0
+        2. Build the worldserver target
+        3. Build fails in ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs, crash dump or build output
+      description: "Paste the relevant part. Long output is fine — GitHub will fold it automatically."
+      render: text
+
+  - type: input
+    id: commit
+    attributes:
+      label: Which commit are you on?
+      description: "Run `git rev-parse --short HEAD` if you're not sure."
+      placeholder: "adbeaf1"
+
+  - type: input
+    id: environment
+    attributes:
+      label: Your build environment
+      placeholder: "Windows 11, Visual Studio 2022, RelWithDebInfo, MySQL 8.0, OpenSSL 3.x"
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage.

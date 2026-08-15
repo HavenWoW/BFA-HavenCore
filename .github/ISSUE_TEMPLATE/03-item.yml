@@ -1,0 +1,97 @@
+name: "🎒 Item or loot problem"
+description: "Wrong stats on an item, something that won't drop, or an empty chest"
+title: "[Item] "
+labels: ["Loot", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You do not need to know anything about code or GitHub to fill this in.
+
+        Answer what you can and leave the rest blank. A half-filled report is far more useful than no report.
+
+  - type: input
+    id: item-name
+    attributes:
+      label: What is the item called?
+      description: "Copy the name exactly as it appears in your bags."
+      placeholder: "Black Leather Vest"
+    validations:
+      required: true
+
+  - type: input
+    id: item-id
+    attributes:
+      label: Item ID or Wowhead link
+      description: "If you don't know it, leave this blank. If you use Wowhead, just paste the address bar."
+      placeholder: "23375  —  or  https://www.wowhead.com/item=23375"
+
+  - type: dropdown
+    id: what-part
+    attributes:
+      label: What is wrong with it?
+      options:
+        - "The stats are wrong"
+        - "It never drops, even after many kills"
+        - "The chest, crate or container it comes from is empty"
+        - "It drops from the wrong creature"
+        - "The item level or quality is wrong"
+        - "I can't equip it, but I should be able to"
+        - "It's the wrong reward for the quest"
+        - "The name, icon or tooltip is wrong"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: "Describe it the way you'd tell a friend. No special format needed."
+      placeholder: |
+        I've opened about fifteen Battered Chests around Westfall and every
+        single one of them was completely empty.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: What should it be instead?
+      description: "For wrong stats, the easiest thing is a Wowhead link plus a screenshot of what you see in game."
+      placeholder: "It should have +4 Agility and +3 Stamina. In game it shows +1 Strength."
+    validations:
+      required: true
+
+  - type: input
+    id: where
+    attributes:
+      label: Where did you get it, or where were you?
+      placeholder: "Westfall, quest reward from Furlbrow's Deed"
+
+  - type: input
+    id: character
+    attributes:
+      label: Your character
+      placeholder: "Level 14 Alliance Human Rogue"
+
+  - type: textarea
+    id: proof
+    attributes:
+      label: Screenshots or video
+      description: |
+        Drag an image straight into this box and it will upload by itself.
+        For wrong stats, a screenshot of the item tooltip in game is the most useful thing you can attach.
+
+  - type: input
+    id: source
+    attributes:
+      label: How do you know it should work differently?
+      description: "Optional. A Wowhead page is ideal for items."
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        Please don't add a priority label. A maintainer sorts that during triage, so you never have to
+        guess how serious your report is. Everything gets read.
