@@ -56,7 +56,7 @@ void AnticheatMgr::JumpHackDetection(Player* player, AnticheatData& data, uint32
     if (data.GetLastOpcode() == CMSG_MOVE_JUMP && opcode == CMSG_MOVE_JUMP)
     {
         BuildReport(player, data, JUMP_HACK_REPORT);
-        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Jump-Hack detected player GUID (low) %u", player->GetGUID().GetCounter());
+        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Jump-Hack detected player GUID (low) " UI64FMTD, player->GetGUID().GetCounter());
     }
 }
 
@@ -77,7 +77,7 @@ void AnticheatMgr::WalkOnWaterHackDetection(Player* player, AnticheatData& data)
         player->HasAuraType(SPELL_AURA_WATER_WALK))
         return;
 
-    TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Walk on Water - Hack detected player GUID (low) %u", player->GetGUID().GetCounter());
+    TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Walk on Water - Hack detected player GUID (low) " UI64FMTD, player->GetGUID().GetCounter());
     BuildReport(player, data, WALK_WATER_HACK_REPORT);
 }
 
@@ -94,7 +94,7 @@ void AnticheatMgr::FlyHackDetection(Player* player, AnticheatData& data)
         player->HasAuraType(SPELL_AURA_MOD_INCREASE_FLIGHT_SPEED))
         return;
 
-    TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Fly-Hack detected player GUID (low) %u", player->GetGUID().GetCounter());
+    TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Fly-Hack detected player GUID (low) " UI64FMTD, player->GetGUID().GetCounter());
     BuildReport(player, data, FLY_HACK_REPORT);
 }
 
@@ -118,7 +118,7 @@ void AnticheatMgr::TeleportPlaneHackDetection(Player* player, AnticheatData& dat
     // we are not really walking there
     if (z_diff > 1.0f)
     {
-        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Teleport To Plane - Hack detected player GUID (low) %u", player->GetGUID().GetCounter());
+        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Teleport To Plane - Hack detected player GUID (low) " UI64FMTD, player->GetGUID().GetCounter());
         BuildReport(player, data, TELEPORT_PLANE_HACK_REPORT);
     }
 }
@@ -179,7 +179,7 @@ void AnticheatMgr::ClimbHackDetection(Player* player, AnticheatData& data, Movem
 
     if (angle > CLIMB_MAX_SLOPE_RADIANS)
     {
-        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Climb-Hack detected player GUID (low) %u", player->GetGUID().GetCounter());
+        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Climb-Hack detected player GUID (low) " UI64FMTD, player->GetGUID().GetCounter());
         BuildReport(player, data, CLIMB_HACK_REPORT);
     }
 }
@@ -224,7 +224,7 @@ void AnticheatMgr::SpeedHackDetection(Player* player, AnticheatData& data, Movem
     if (clientSpeedRate > speedRate)
     {
         BuildReport(player, data, SPEED_HACK_REPORT);
-        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Speed-Hack detected player GUID (low) %u", player->GetGUID().GetCounter());
+        TC_LOG_DEBUG("entities.player.character", "AnticheatMgr:: Speed-Hack detected player GUID (low) " UI64FMTD, player->GetGUID().GetCounter());
     }
 }
 

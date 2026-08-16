@@ -30353,7 +30353,7 @@ TrainerSpellState Player::GetTrainerSpellState(TrainerSpell const* trainer_spell
     // BFA uses expansion-specific profession skill lines. Classic Jewelcrafting
     // trainer data can still reference the generic Jewelcrafting parent skill.
     uint32 const reqSkillLine = trainer_spell->ReqSkillLine == SKILL_JEWELCRAFTING
-        ? SKILL_JEWELCRAFTING_2
+        ? uint32(SKILL_JEWELCRAFTING_2)
         : trainer_spell->ReqSkillLine;
 
     // check skill requirement
