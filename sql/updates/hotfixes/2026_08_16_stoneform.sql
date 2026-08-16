@@ -1,0 +1,1 @@
+INSERT INTO `hotfixes`.`spell_cooldowns` (`ID`, `CategoryRecoveryTime`, `RecoveryTime`, `VerifiedBuild`) VALUES ('1285', '30000', '120000', '20594'); 
