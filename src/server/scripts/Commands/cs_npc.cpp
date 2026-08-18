@@ -179,7 +179,7 @@ EnumName<UnitFlags2> const unitFlags2[MAX_UNIT_FLAGS_2] =
 
 EnumName<UnitFlags3> const unitFlags3[MAX_UNIT_FLAGS_3] =
 {
-    CREATE_NAMED_ENUM(UNIT_FLAG3_UNK1)
+    CREATE_NAMED_ENUM(UNIT_FLAG3_UNK0)
 };
 
 EnumName<CreatureFlagsExtra> const flagsExtra[FLAGS_EXTRA_COUNT] =
