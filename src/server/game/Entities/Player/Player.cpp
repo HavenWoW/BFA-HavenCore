@@ -3318,14 +3318,48 @@ bool Player::AddSpell(uint32 spellId, bool active, bool learning, bool dependent
         return false;
     }
 
-    // update free primary prof.points (if any, can be none in case GM .learn prof. learning)
-    if (uint32 freeProfs = GetFreePrimaryProfessionPoints())
-    {
-        if (spellInfo->IsPrimaryProfessionFirstRank())
-            SetFreePrimaryProfessions(freeProfs - 1);
-    }
-
     SkillLineAbilityMapBounds skill_bounds = sSpellMgr->GetSkillLineAbilityMapBounds(spellId);
+
+    // BFA profession learning can involve more than one spell that is marked as
+    // a first-rank primary profession spell. Only the spell that actually
+    // activates a new parent profession should consume a profession slot.
+    //
+    // Example: Enchanting learns legacy spell 7411 first, which activates
+    // SKILL_ENCHANTING. A second BFA spell (264455) is also marked as a
+    // first-rank profession spell, but belongs to the same already-active
+    // profession and must not consume the remaining slot.
+    if (!dependent && spellInfo->IsPrimaryProfessionFirstRank())
+    {
+        bool alreadyHasProfession = false;
+
+        for (SkillLineAbilityMap::const_iterator itr = skill_bounds.first; itr != skill_bounds.second; ++itr)
+        {
+            uint32 skillLineId = itr->second->SkillLine;
+            SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillLineId);
+            if (!skillLine)
+                continue;
+
+            uint32 parentSkillLineId = skillLine->ParentSkillLineID
+                ? uint32(skillLine->ParentSkillLineID)
+                : skillLineId;
+
+            SkillLineEntry const* parentSkillLine = sSkillLineStore.LookupEntry(parentSkillLineId);
+            if (!parentSkillLine || parentSkillLine->CategoryID != SKILL_CATEGORY_PROFESSION)
+                continue;
+
+            if (HasSkill(parentSkillLineId))
+            {
+                alreadyHasProfession = true;
+                break;
+            }
+        }
+
+        if (!alreadyHasProfession)
+        {
+            if (uint32 freeProfs = GetFreePrimaryProfessionPoints())
+                SetFreePrimaryProfessions(freeProfs - 1);
+        }
+    }
 
     if (SpellLearnSkillNode const* spellLearnSkill = sSpellMgr->GetSpellLearnSkill(spellId))
     {
@@ -5643,14 +5677,6 @@ bool Player::UpdateCraftSkill(uint32 spellid)
         {
             uint32 skillId = _spell_idx->second->SkillupSkillLineID;
 
-            // Classic Inscription recipes reference the expansion-specific
-            // child skill line in DB2, while the player stores/progresses
-            // Inscription on the parent skill line.
-            if (skillId == SKILL_INSCRIPTION_2)
-                skillId = SKILL_INSCRIPTION;
-            else if (skillId == SKILL_ENGINEERING_2)
-                skillId = SKILL_ENGINEERING;
-
             uint32 SkillValue = GetPureSkillValue(skillId);
 
             // Alchemy Discoveries here
@@ -5695,6 +5721,7 @@ bool Player::UpdateGatherSkill(uint32 SkillId, uint32 SkillValue, uint32 RedLeve
         case SKILL_JEWELCRAFTING:
         case SKILL_JEWELCRAFTING_2:
         case SKILL_INSCRIPTION:
+        case SKILL_INSCRIPTION_2:
             return UpdateSkillPro(SkillId, SkillGainChance(SkillValue, RedLevel+100, RedLevel+50, RedLevel+25)*Multiplicator, gathering_skill_gain);
         case SKILL_SKINNING:
         case SKILL_SKINNING_2:
@@ -5809,22 +5836,6 @@ bool Player::UpdateSkillPro(uint16 skillId, int32 chance, uint32 step)
     // recipe skill line to the parent skill, so explicitly send the skill-up
     // chat notification for that parent skill. Other professions already
     // receive their native client notification and must not be duplicated.
-    if (skillId == SKILL_INSCRIPTION || skillId == SKILL_ENGINEERING)
-    {
-        if (SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillId))
-        {
-            LocaleConstant locale = GetSession()->GetSessionDbcLocale();
-
-            std::ostringstream skillMessage;
-            skillMessage << "Your skill in " << skillLine->DisplayName->Str[locale]
-                         << " has increased to " << new_value << ".";
-
-            WorldPackets::Chat::Chat packet;
-            packet.Initialize(CHAT_MSG_SKILL, LANG_UNIVERSAL, this, this, skillMessage.str());
-            SendDirectMessage(packet.Write());
-        }
-    }
-
     if (itr->second.uState != SKILL_NEW)
         itr->second.uState = SKILL_CHANGED;
 
@@ -5985,6 +5996,51 @@ uint16 currVal;
                     itr->second.uState = SKILL_NEW;
                 else                // updated skill, mark as changed to save into database
                     itr->second.uState = SKILL_CHANGED;
+            }
+
+            // BFA professions use expansion-specific child skill lines. Legacy
+            // trainer spells still activate the parent profession skill, which is
+            // already pre-populated at rank 0 by InitializeSkillFields().
+            //
+            // When a parent profession is activated for the first time, also
+            // activate its earliest expansion child (Classic). ParentTierIndex is
+            // chronological for profession expansions, so the lowest positive
+            // index is the Classic skill line.
+            if (currVal == 0)
+            {
+                if (SkillLineEntry const* skillEntry = sSkillLineStore.LookupEntry(id))
+                {
+                    if (!skillEntry->ParentSkillLineID && skillEntry->CategoryID == SKILL_CATEGORY_PROFESSION)
+                    {
+                        SkillLineEntry const* classicSkill = nullptr;
+
+                        if (std::vector<SkillLineEntry const*> const* childSkillLines = sDB2Manager.GetSkillLinesForParentSkill(id))
+                        {
+                            for (SkillLineEntry const* childSkillLine : *childSkillLines)
+                            {
+                                if (!childSkillLine->ParentTierIndex)
+                                    continue;
+
+                                if (!classicSkill || childSkillLine->ParentTierIndex < classicSkill->ParentTierIndex)
+                                    classicSkill = childSkillLine;
+                            }
+                        }
+
+                        if (classicSkill && GetPureSkillValue(classicSkill->ID) == 0)
+                        {
+                            uint16 childMax = maxVal;
+
+                            if (SkillRaceClassInfoEntry const* rcEntry = sDB2Manager.GetSkillRaceClassInfo(id, getRace(), getClass()))
+                                if (SkillTiersEntry const* tier = sObjectMgr->GetSkillTier(rcEntry->SkillTierID))
+                                    childMax = tier->Value[classicSkill->ParentTierIndex - 1];
+
+                            if (!childMax)
+                                childMax = maxVal;
+
+                            SetSkill(classicSkill->ID, classicSkill->ParentTierIndex, 1, childMax);
+                        }
+                    }
+                }
             }
         }
         else if (currVal && !newVal) // Deactivate skill line
