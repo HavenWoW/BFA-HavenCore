@@ -3320,14 +3320,7 @@ bool Player::AddSpell(uint32 spellId, bool active, bool learning, bool dependent
 
     SkillLineAbilityMapBounds skill_bounds = sSpellMgr->GetSkillLineAbilityMapBounds(spellId);
 
-    // BFA profession learning can involve more than one spell that is marked as
-    // a first-rank primary profession spell. Only the spell that actually
-    // activates a new parent profession should consume a profession slot.
     //
-    // Example: Enchanting learns legacy spell 7411 first, which activates
-    // SKILL_ENCHANTING. A second BFA spell (264455) is also marked as a
-    // first-rank profession spell, but belongs to the same already-active
-    // profession and must not consume the remaining slot.
     if (!dependent && spellInfo->IsPrimaryProfessionFirstRank())
     {
         bool alreadyHasProfession = false;
@@ -5832,9 +5825,7 @@ bool Player::UpdateSkillPro(uint16 skillId, int32 chance, uint32 step)
 
     SetSkillRank(itr->second.pos, new_value);
 
-    // Classic Inscription progression is resolved from the expansion-specific
     // recipe skill line to the parent skill, so explicitly send the skill-up
-    // chat notification for that parent skill. Other professions already
     // receive their native client notification and must not be duplicated.
     if (itr->second.uState != SKILL_NEW)
         itr->second.uState = SKILL_CHANGED;
@@ -5881,7 +5872,6 @@ void Player::UpdateSkillsForLevel()
         if (!rcEntry)
             continue;
 
-        // Professions and riding use their own progression and must not be
         // scaled from character level.
         if (IsProfessionOrRidingSkill(rcEntry->SkillID))
             continue;
@@ -5998,14 +5988,7 @@ uint16 currVal;
                     itr->second.uState = SKILL_CHANGED;
             }
 
-            // BFA professions use expansion-specific child skill lines. Legacy
-            // trainer spells still activate the parent profession skill, which is
-            // already pre-populated at rank 0 by InitializeSkillFields().
             //
-            // When a parent profession is activated for the first time, also
-            // activate its earliest expansion child (Classic). ParentTierIndex is
-            // chronological for profession expansions, so the lowest positive
-            // index is the Classic skill line.
             if (currVal == 0)
             {
                 if (SkillLineEntry const* skillEntry = sSkillLineStore.LookupEntry(id))
@@ -6183,10 +6166,7 @@ SetSkill(skillEntry->ParentSkillLineID, skillEntry->ParentTierIndex, std::max<ui
             LearnSkillRewardedSpells(id, newVal);
         }
     }
-    // Expansion-specific profession skills store their progression on the child
-    // skill line, while the client uses the parent profession skill for
     // gathering-node difficulty/color. Keep the parent rank synchronized with
-    // the child and prevent character level from driving profession difficulty.
     if (newVal)
     {
         if (SkillLineEntry const* skillEntry = sSkillLineStore.LookupEntry(id))
@@ -30406,7 +30386,6 @@ TrainerSpellState Player::GetTrainerSpellState(TrainerSpell const* trainer_spell
     if (hasSpell)
         return TRAINER_SPELL_GRAY;
 
-    // BFA uses expansion-specific profession skill lines. Classic Jewelcrafting
     // trainer data can still reference the generic Jewelcrafting parent skill.
     uint32 const reqSkillLine = trainer_spell->ReqSkillLine == SKILL_JEWELCRAFTING
         ? uint32(SKILL_JEWELCRAFTING_2)
