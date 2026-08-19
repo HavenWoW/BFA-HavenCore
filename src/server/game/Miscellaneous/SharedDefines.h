@@ -4668,6 +4668,10 @@ inline SkillType SkillByLockType(LockType locktype)
         case LOCKTYPE_INSCRIPTION: return SKILL_INSCRIPTION;
         case LOCKTYPE_ARCHAEOLOGY: return SKILL_ARCHAEOLOGY;
         case LOCKTYPE_LUMBER_MILL: return SKILL_LOGGING;
+
+        // Legacy/generic Herbalism locks are still used by Classic-era BFA objects.
+        // Resolve them to the Classic expansion skill line so gathering can progress.
+        case LOCKTYPE_HERBALISM: return SKILL_HERBALISM_2;
         case LOCKTYPE_CLASSIC_HERBALISM: return SKILL_HERBALISM_2;
         case LOCKTYPE_OUTLAND_HERBALISM: return SKILL_OUTLAND_HERBALISM;
         case LOCKTYPE_NORTHREND_HERBALISM: return SKILL_NORTHREND_HERBALISM;
@@ -4676,7 +4680,6 @@ inline SkillType SkillByLockType(LockType locktype)
         case LOCKTYPE_DRAENOR_HERBALISM: return SKILL_DRAENOR_HERBALISM;
         case LOCKTYPE_LEGION_HERBALISM: return SKILL_LEGION_HERBALISM;
         case LOCKTYPE_KUL_TIRAN_HERBALISM: return SKILL_KUL_TIRAN_HERBALISM;
-        case LOCKTYPE_MINING: return SKILL_MINING_2;
         case LOCKTYPE_CLASSIC_MINING: return SKILL_MINING_2;
         case LOCKTYPE_OUTLAND_MINING: return SKILL_OUTLAND_MINING;
         case LOCKTYPE_NORTHREND_MINING: return SKILL_NORTHREND_MINING;
