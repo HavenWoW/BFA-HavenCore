@@ -1876,12 +1876,7 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
         return;
     }
 
-    // Some BFA gathering spells do not carry a MiscValue that matches the
     // lock's skill type. CanOpenLock() therefore succeeds without resolving
-    // a profession, leaving skillId as SKILL_NONE. Resolve gathering-node
-    // professions directly from the lock data so the correct expansion child
-    // skill (for example Classic Herbalism / 2556) is used for both the
-    // requirement check and skill progression.
     if (gameObjTarget &&
         (gameObjTarget->GetGOInfo()->type == GAMEOBJECT_TYPE_GATHERING_NODE ||
          gameObjTarget->GetGOInfo()->type == GAMEOBJECT_TYPE_CHEST) &&
@@ -1901,7 +1896,6 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
                 if (candidateSkill == SKILL_NONE)
                     continue;
 
-                // Prefer the profession the player actually knows if a lock
                 // happens to contain more than one skill alternative.
                 if (player->GetSkillValue(candidateSkill) > 0)
                 {
@@ -1942,7 +1936,6 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
     GameObjectTemplate const* goInfo = gameObjTarget->GetGOInfo();
     if (goInfo->type == GAMEOBJECT_TYPE_GATHERING_NODE || goInfo->type == GAMEOBJECT_TYPE_CHEST)
     {
-        // CanOpenLock() resolves which profession is used, but BFA gathering-node
         // locks can have no explicit required skill value. For type 50 gathering
         // nodes, use the template's trivial-skill data to derive the base skill
         // used by UpdateGatherSkill(). SkillGainChance() treats this base as:
@@ -1957,8 +1950,6 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
         }
 
         // Use the resolved skill directly instead of relying on IconName strings
-        // such as "Mining" or "Herb", which are not consistently populated in
-        // BFA DB data.
         if (skillId != SKILL_NONE)
         {
             if (uint32 pureSkillValue = player->GetPureSkillValue(skillId))
@@ -4100,13 +4091,7 @@ void Spell::EffectDisEnchant(SpellEffIndex /*effIndex*/)
         // Generic recipe-based progression, when DB2 provides a SkillupSkillLineID.
         bool skillUp = caster->UpdateCraftSkill(m_spellInfo->Id);
 
-        // In BFA, Disenchant (spell 13262) has no SkillupSkillLineID in
-        // SkillLineAbility, so UpdateCraftSkill cannot award the first profession
-        // points. Classic Enchanting progression is stored on the expansion
-        // child skill line (SKILL_ENCHANTING_2 / 2494).
         //
-        // Rise of Azshara allows the first 25 profession skill points to be gained
-        // through disenchanting. Only apply this fallback when the generic DB2
         // path did not already award a point.
         if (!skillUp)
         {
@@ -4618,9 +4603,6 @@ void Spell::EffectSkinning(SpellEffIndex /*effIndex*/)
 
         Player* player = m_caster->ToPlayer();
 
-        // BFA stores Classic profession progression on expansion-specific child
-        // skill lines. creature_template still uses the legacy parent profession
-        // IDs for skinnable and mineable creatures.
         uint32 progressionSkill = skill;
         if (skill == SKILL_SKINNING)
             progressionSkill = SKILL_SKINNING_2;
@@ -4629,7 +4611,6 @@ void Spell::EffectSkinning(SpellEffIndex /*effIndex*/)
 
         uint32 const skillValue = player->GetPureSkillValue(progressionSkill);
 
-        // Double chances for elites.
         if (skillValue)
             player->UpdateGatherSkill(progressionSkill, skillValue, reqValue, creature->isElite() ? 2 : 1);
     }
