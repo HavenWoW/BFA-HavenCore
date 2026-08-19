@@ -1867,13 +1867,69 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
 
     SkillType skillId = SKILL_NONE;
     int32 reqSkillValue = 0;
-    int32 skillValue;
+    int32 skillValue = 0;
 
     SpellCastResult res = CanOpenLock(effIndex, lockId, skillId, reqSkillValue, skillValue);
     if (res != SPELL_CAST_OK)
     {
         SendCastResult(res);
         return;
+    }
+
+    // Some BFA gathering spells do not carry a MiscValue that matches the
+    // lock's skill type. CanOpenLock() therefore succeeds without resolving
+    // a profession, leaving skillId as SKILL_NONE. Resolve gathering-node
+    // professions directly from the lock data so the correct expansion child
+    // skill (for example Classic Herbalism / 2556) is used for both the
+    // requirement check and skill progression.
+    if (gameObjTarget &&
+        (gameObjTarget->GetGOInfo()->type == GAMEOBJECT_TYPE_GATHERING_NODE ||
+         gameObjTarget->GetGOInfo()->type == GAMEOBJECT_TYPE_CHEST) &&
+        skillId == SKILL_NONE)
+    {
+        if (LockEntry const* lockInfo = sLockStore.LookupEntry(lockId))
+        {
+            SkillType fallbackSkill = SKILL_NONE;
+            int32 fallbackReqSkillValue = 0;
+
+            for (int j = 0; j < MAX_LOCK_CASE; ++j)
+            {
+                if (lockInfo->Type[j] != LOCK_KEY_SKILL)
+                    continue;
+
+                SkillType candidateSkill = SkillByLockType(LockType(lockInfo->Index[j]));
+                if (candidateSkill == SKILL_NONE)
+                    continue;
+
+                // Prefer the profession the player actually knows if a lock
+                // happens to contain more than one skill alternative.
+                if (player->GetSkillValue(candidateSkill) > 0)
+                {
+                    fallbackSkill = candidateSkill;
+                    fallbackReqSkillValue = lockInfo->Skill[j];
+                    break;
+                }
+
+                if (fallbackSkill == SKILL_NONE)
+                {
+                    fallbackSkill = candidateSkill;
+                    fallbackReqSkillValue = lockInfo->Skill[j];
+                }
+            }
+
+            if (fallbackSkill != SKILL_NONE)
+            {
+                skillId = fallbackSkill;
+                reqSkillValue = fallbackReqSkillValue;
+                skillValue = player->GetSkillValue(skillId);
+
+                if (skillValue < reqSkillValue)
+                {
+                    SendCastResult(SPELL_FAILED_LOW_CASTLEVEL);
+                    return;
+                }
+            }
+        }
     }
     if (gameObjTarget)
         SendLoot(guid, LOOT_SKINNING);
@@ -4041,7 +4097,26 @@ void Spell::EffectDisEnchant(SpellEffIndex /*effIndex*/)
 
     if (Player* caster = m_caster->ToPlayer())
     {
-        caster->UpdateCraftSkill(m_spellInfo->Id);
+        // Generic recipe-based progression, when DB2 provides a SkillupSkillLineID.
+        bool skillUp = caster->UpdateCraftSkill(m_spellInfo->Id);
+
+        // In BFA, Disenchant (spell 13262) has no SkillupSkillLineID in
+        // SkillLineAbility, so UpdateCraftSkill cannot award the first profession
+        // points. Classic Enchanting progression is stored on the expansion
+        // child skill line (SKILL_ENCHANTING_2 / 2494).
+        //
+        // Rise of Azshara allows the first 25 profession skill points to be gained
+        // through disenchanting. Only apply this fallback when the generic DB2
+        // path did not already award a point.
+        if (!skillUp)
+        {
+            uint32 const enchantingSkill = SKILL_ENCHANTING_2;
+            uint32 const skillValue = caster->GetPureSkillValue(enchantingSkill);
+
+            if (skillValue > 0 && skillValue < 25)
+                caster->UpdateSkillPro(enchantingSkill, 1000, 1);
+        }
+
         caster->SendLoot(itemTarget->GetGUID(), LOOT_DISENCHANTING);
     }
 
@@ -4513,7 +4588,7 @@ void Spell::EffectSkinning(SpellEffIndex /*effIndex*/)
     creature->AddDynamicFlag(UNIT_DYNFLAG_LOOTABLE);
     m_caster->ToPlayer()->SendLoot(creature->GetGUID(), LOOT_SKINNING);
 
-    if (skill == SKILL_SKINNING)
+    if (skill == SKILL_SKINNING || skill == SKILL_MINING)
     {
         int32 reqValue;
         if (targetLevel <= 10)
@@ -4541,12 +4616,22 @@ void Spell::EffectSkinning(SpellEffIndex /*effIndex*/)
         else
             reqValue = 900;
 
-        // TODO: Specialize skillid for each expansion
-        // new db field?
-        // tied to one of existing expansion fields in creature_template?
+        Player* player = m_caster->ToPlayer();
 
-        // Double chances for elites
-        m_caster->ToPlayer()->UpdateGatherSkill(skill, damage, reqValue, creature->isElite() ? 2 : 1);
+        // BFA stores Classic profession progression on expansion-specific child
+        // skill lines. creature_template still uses the legacy parent profession
+        // IDs for skinnable and mineable creatures.
+        uint32 progressionSkill = skill;
+        if (skill == SKILL_SKINNING)
+            progressionSkill = SKILL_SKINNING_2;
+        else if (skill == SKILL_MINING)
+            progressionSkill = SKILL_MINING_2;
+
+        uint32 const skillValue = player->GetPureSkillValue(progressionSkill);
+
+        // Double chances for elites.
+        if (skillValue)
+            player->UpdateGatherSkill(progressionSkill, skillValue, reqValue, creature->isElite() ? 2 : 1);
     }
 }
 
@@ -5162,9 +5247,10 @@ void Spell::EffectMilling(SpellEffIndex /*effIndex*/)
 
     if (sWorld->getBoolConfig(CONFIG_SKILL_MILLING))
     {
-        uint32 SkillValue = player->GetPureSkillValue(SKILL_INSCRIPTION);
-        uint32 reqSkillValue = itemTarget->GetTemplate()->GetRequiredSkillRank();
-        player->UpdateGatherSkill(SKILL_INSCRIPTION, SkillValue, reqSkillValue);
+        uint32 const inscriptionSkill = SKILL_INSCRIPTION_2;
+        uint32 const skillValue = player->GetPureSkillValue(inscriptionSkill);
+        uint32 const reqSkillValue = itemTarget->GetTemplate()->GetRequiredSkillRank();
+        player->UpdateGatherSkill(inscriptionSkill, skillValue, reqSkillValue);
     }
 
     player->SendLoot(itemTarget->GetGUID(), LOOT_MILLING);

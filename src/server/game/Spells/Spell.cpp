@@ -6878,7 +6878,7 @@ SpellCastResult Spell::CheckItems(uint32* param1 /*= nullptr*/, uint32* param2 /
                     return SPELL_FAILED_CANT_BE_MILLED;
                 //Check for enough skill in inscription
                 uint32 item_millingskilllevel = item->GetTemplate()->GetRequiredSkillRank();
-                if (item_millingskilllevel > player->GetSkillValue(SKILL_INSCRIPTION))
+                if (item_millingskilllevel > player->GetSkillValue(SKILL_INSCRIPTION_2))
                     return SPELL_FAILED_LOW_CASTLEVEL;
                 //make sure the player has the required herbs in inventory
                 if (item->GetCount() < 5)
