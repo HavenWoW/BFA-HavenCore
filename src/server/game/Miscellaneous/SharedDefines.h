@@ -4669,8 +4669,6 @@ inline SkillType SkillByLockType(LockType locktype)
         case LOCKTYPE_ARCHAEOLOGY: return SKILL_ARCHAEOLOGY;
         case LOCKTYPE_LUMBER_MILL: return SKILL_LOGGING;
 
-        // Legacy/generic Herbalism locks are still used by Classic-era BFA objects.
-        // Resolve them to the Classic expansion skill line so gathering can progress.
         case LOCKTYPE_HERBALISM: return SKILL_HERBALISM_2;
         case LOCKTYPE_CLASSIC_HERBALISM: return SKILL_HERBALISM_2;
         case LOCKTYPE_OUTLAND_HERBALISM: return SKILL_OUTLAND_HERBALISM;
