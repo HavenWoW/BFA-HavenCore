@@ -11,4 +11,4 @@ WHERE `QuestID`=26586 AND `BlobIndex`=0 AND `Idx1`=0;
 -- Mossy Tumors (ID 923) - Turn in quest was bugged, needed the ID for item(s) choice and quantity. (Before everything was 0).
 UPDATE `quest_template` 
 SET `RewardChoiceItemID1`=5605, `RewardChoiceItemQuantity1`=1, `RewardChoiceItemID2`=157016, `RewardChoiceItemQuantity2`=1 
-WHERE `QuestID` = 923;
+WHERE `ID` = 923;
