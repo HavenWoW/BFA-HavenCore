@@ -1850,7 +1850,7 @@ class TC_GAME_API Unit : public WorldObject
 
         void AddInterruptMask(std::array<uint32, 2> const& mask)
         {
-            for (std::size_t i = 0; i < m_interruptMask.size(); ++i)
+            for (uint32 i = 0; i < m_interruptMask.size(); ++i)
                 m_interruptMask[i] |= mask[i];
         }
         void UpdateInterruptMask();

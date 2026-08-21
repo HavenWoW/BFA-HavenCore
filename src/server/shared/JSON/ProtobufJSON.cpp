@@ -59,7 +59,7 @@ void Serializer::WriteMessage(google::protobuf::Message const& value)
     reflection->ListFields(value, &fields);
 
     _writer.StartObject();
-    for (std::size_t i = 0; i < fields.size(); ++i)
+    for (uint32 i = 0; i < fields.size(); ++i)
         WriteMessageField(value, fields[i]);
 
     _writer.EndObject();
@@ -115,7 +115,7 @@ void Serializer::WriteSimpleMessageField(google::protobuf::Message const& value,
             else
             {
                 _writer.StartArray();
-                for (std::size_t i = 0; i < strValue.length(); ++i)
+                for (uint32 i = 0; i < strValue.length(); ++i)
                     WriteUInt32(uint32(strValue[i]));
                 _writer.EndArray();
             }
@@ -448,7 +448,7 @@ bool JSON::Deserialize(std::string const& json, google::protobuf::Message* messa
     Deserializer deserializer;
     if (!deserializer.ReadMessage(json, message))
     {
-        for (std::size_t i = 0; i < deserializer.GetErrors().size(); ++i)
+        for (uint32 i = 0; i < deserializer.GetErrors().size(); ++i)
             TC_LOG_ERROR("json", "%s", deserializer.GetErrors()[i].c_str());
         return false;
     }

@@ -120,7 +120,7 @@ DB2FileLoadInfo::DB2FileLoadInfo(DB2FieldMeta const* fields, std::size_t fieldCo
     : Fields(fields), FieldCount(fieldCount), Meta(meta)
 {
     TypesString.reserve(FieldCount);
-    for (std::size_t i = 0; i < FieldCount; ++i)
+    for (uint32 i = 0; i < FieldCount; ++i)
         TypesString += char(Fields[i].Type);
 }
 
@@ -412,7 +412,7 @@ char* DB2FileLoaderRegularImpl::AutoProduceData(uint32& records, char**& indexTa
         stringPool.push_back(stringHoldersPool);
 
         // DB2 strings expected to have at least empty string
-        for (std::size_t i = 0; i < stringHoldersPoolSize / sizeof(char*); ++i)
+        for (uint32 i = 0; i < stringHoldersPoolSize / sizeof(char*); ++i)
             ((char const**)stringHoldersPool)[i] = nullStr;
     }
 
@@ -1089,7 +1089,7 @@ char* DB2FileLoaderSparseImpl::AutoProduceData(uint32& maxId, char**& indexTable
     stringPool.push_back(stringHoldersPool);
 
     // DB2 strings expected to have at least empty string
-    for (std::size_t i = 0; i < stringHoldersPoolSize / sizeof(char*); ++i)
+    for (uint32 i = 0; i < stringHoldersPoolSize / sizeof(char*); ++i)
         ((char const**)stringHoldersPool)[i] = nullStr;
 
     char* stringTable = new char[_totalRecordSize - records * ((recordsize - (!_loadInfo->Meta->HasIndexFieldInData() ? 4 : 0)) - stringFields * sizeof(char*))];

@@ -37,7 +37,7 @@ WorldPacket const* WorldPackets::EquipmentSet::LoadEquipmentSet::Write()
         _worldPacket << uint32(equipSet->SetID);
         _worldPacket << uint32(equipSet->IgnoreMask);
 
-        for (std::size_t i = 0; i < EQUIPEMENT_SET_SLOTS; ++i)
+        for (uint32 i = 0; i < EQUIPEMENT_SET_SLOTS; ++i)
         {
             _worldPacket << equipSet->Pieces[i];
             _worldPacket << int32(equipSet->Appearances[i]);

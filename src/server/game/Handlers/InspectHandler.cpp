@@ -50,7 +50,7 @@ void WorldSession::HandleInspectOpcode(WorldPackets::Inspect::Inspect& inspect)
                 inspectResult.Talents.push_back(v.first);
 
         PlayerPvpTalentMap const& pvpTalents = player->GetPvpTalentMap(player->GetActiveTalentGroup());
-        for (std::size_t i = 0; i < pvpTalents.size(); ++i)
+        for (uint32 i = 0; i < pvpTalents.size(); ++i)
             inspectResult.PvpTalents[i] = pvpTalents[i];
     }
 

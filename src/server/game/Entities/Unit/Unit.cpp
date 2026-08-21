@@ -678,12 +678,12 @@ void Unit::UpdateInterruptMask()
 {
     m_interruptMask.fill(0);
     for (AuraApplication const* aurApp : m_interruptableAuras)
-        for (std::size_t i = 0; i < m_interruptMask.size(); ++i)
+        for (uint32 i = 0; i < m_interruptMask.size(); ++i)
             m_interruptMask[i] |= aurApp->GetBase()->GetSpellInfo()->AuraInterruptFlags[i];
 
     if (Spell* spell = m_currentSpells[CURRENT_CHANNELED_SPELL])
         if (spell->getState() == SPELL_STATE_CASTING)
-            for (std::size_t i = 0; i < m_interruptMask.size(); ++i)
+            for (uint32 i = 0; i < m_interruptMask.size(); ++i)
                 m_interruptMask[i] |= spell->m_spellInfo->ChannelInterruptFlags[i];
 }
 

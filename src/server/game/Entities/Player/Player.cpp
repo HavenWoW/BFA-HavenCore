@@ -18764,7 +18764,7 @@ void Player::_LoadTransmogOutfits(PreparedQueryResult result)
         for (uint32 i = 0; i < EQUIPMENT_SLOT_END; ++i)
             eqSet.Data.Appearances[i] = fields[5 + i].GetInt32();
 
-        for (std::size_t i = 0; i < eqSet.Data.Enchants.size(); ++i)
+        for (uint32 i = 0; i < eqSet.Data.Enchants.size(); ++i)
             eqSet.Data.Enchants[i] = fields[24 + i].GetInt32();
 
         if (eqSet.Data.SetID >= MAX_EQUIPMENT_SET_INDEX)   // client limit
@@ -18988,14 +18988,14 @@ bool Player::LoadFromDB(ObjectGuid guid, CharacterDatabaseQueryHolder* holder)
 
     Tokenizer exploredZones(fields[66].GetString(), ' ');
     if (exploredZones.size() == PLAYER_EXPLORED_ZONES_SIZE * 2)
-        for (std::size_t i = 0; i < exploredZones.size(); ++i)
+        for (uint32 i = 0; i < exploredZones.size(); ++i)
             SetUpdateFieldFlagValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::ExploredZones, i / 2),
             (uint64(atoul(exploredZones[i])) << (32 * (i % 2))));
 
     Tokenizer knownTitles(fields[67].GetString(), ' ');
     if (!(knownTitles.size() % 2))
     {
-        for (std::size_t i = 0; i < knownTitles.size(); ++i)
+        for (uint32 i = 0; i < knownTitles.size(); ++i)
             SetUpdateFieldFlagValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::KnownTitles, i / 2),
             (uint64(atoul(knownTitles[i])) << (32 * (i % 2))));
     }
@@ -28477,7 +28477,7 @@ void Player::_SaveEquipmentSets(CharacterDatabaseTransaction& trans)
                     stmt->setUInt32(j++, eqSet.Data.IgnoreMask);
                     for (uint8 i = 0; i < EQUIPMENT_SLOT_END; ++i)
                         stmt->setInt32(j++, eqSet.Data.Appearances[i]);
-                    for (std::size_t i = 0; i < eqSet.Data.Enchants.size(); ++i)
+                    for (uint32 i = 0; i < eqSet.Data.Enchants.size(); ++i)
                         stmt->setInt32(j++, eqSet.Data.Enchants[i]);
                     stmt->setUInt64(j++, GetGUID().GetCounter());
                     stmt->setUInt64(j++, eqSet.Data.Guid);
@@ -28514,7 +28514,7 @@ void Player::_SaveEquipmentSets(CharacterDatabaseTransaction& trans)
                     stmt->setUInt32(j++, eqSet.Data.IgnoreMask);
                     for (uint8 i = 0; i < EQUIPMENT_SLOT_END; ++i)
                         stmt->setInt32(j++, eqSet.Data.Appearances[i]);
-                    for (std::size_t i = 0; i < eqSet.Data.Enchants.size(); ++i)
+                    for (uint32 i = 0; i < eqSet.Data.Enchants.size(); ++i)
                         stmt->setInt32(j++, eqSet.Data.Enchants[i]);
                 }
                 trans->Append(stmt);
@@ -29915,7 +29915,7 @@ void Player::SendPlayerChoice(ObjectGuid sender, int32 choiceId)
     displayPlayerChoice.HideWarboardHeader = playerChoice->HideWarboardHeader;
     displayPlayerChoice.KeepOpenAfterChoice = playerChoice->KeepOpenAfterChoice;
 
-    for (std::size_t i = 0; i < playerChoice->Responses.size(); ++i)
+    for (uint32 i = 0; i < playerChoice->Responses.size(); ++i)
     {
         PlayerChoiceResponse const& playerChoiceResponseTemplate = playerChoice->Responses[i];
         WorldPackets::Quest::PlayerChoiceResponse& playerChoiceResponse = displayPlayerChoice.Responses[i];

@@ -117,10 +117,10 @@ public:
 
     UpdateMask& operator|=(UpdateMask const& right)
     {
-        for (std::size_t i = 0; i < BlocksMaskCount; ++i)
+        for (uint32 i = 0; i < BlocksMaskCount; ++i)
             _blocksMask[i] |= right._blocksMask[i];
 
-        for (std::size_t i = 0; i < BlockCount; ++i)
+        for (uint32 i = 0; i < BlockCount; ++i)
             _blocks[i] |= right._blocks[i];
 
         return *this;

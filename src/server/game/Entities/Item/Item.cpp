@@ -349,7 +349,7 @@ void ItemAdditionalLoadInfo::Init(std::unordered_map<ObjectGuid::LowType, ItemAd
             info.AzeriteItem->Xp = fields[1].GetUInt64();
             info.AzeriteItem->Level = fields[2].GetUInt32();
             info.AzeriteItem->KnowledgeLevel = fields[3].GetUInt32();
-            for (std::size_t i = 0; i < MAX_SPECIALIZATIONS; ++i)
+            for (uint32 i = 0; i < MAX_SPECIALIZATIONS; ++i)
             {
                 uint32 specializationId = fields[4 + i * 4].GetUInt32();
                 if (!sChrSpecializationStore.LookupEntry(specializationId))

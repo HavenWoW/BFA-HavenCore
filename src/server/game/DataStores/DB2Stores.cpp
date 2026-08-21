@@ -501,7 +501,7 @@ void LoadDB2(std::bitset<TOTAL_LOCALES>& availableDb2Locales, std::vector<std::s
     DB2LoadInfo const* loadInfo = storage->GetLoadInfo();
     {
         std::string clientMetaString, ourMetaString;
-        for (std::size_t i = 0; i < loadInfo->Meta->FieldCount; ++i)
+        for (uint32 i = 0; i < loadInfo->Meta->FieldCount; ++i)
         {
             for (std::size_t j = 0; j < loadInfo->Meta->Fields[i].ArraySize; ++j)
             {
@@ -1955,7 +1955,7 @@ float DB2Manager::GetCurveValueAt(uint32 curveId, float x) const
             return points.back()->Pos.Y;
 
         std::vector<float> tmp(points.size());
-        for (std::size_t i = 0; i < points.size(); ++i)
+        for (uint32 i = 0; i < points.size(); ++i)
             tmp[i] = points[i]->Pos.Y;
 
         float mu = (x - points[0]->Pos.X) / xDiff;

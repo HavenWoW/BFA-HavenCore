@@ -62,7 +62,7 @@ char* DB2DatabaseLoader::Load(bool custom, uint32& records, char**& indexTable, 
         stringHolders = new char[stringHoldersPoolSize];
 
         // DB2 strings expected to have at least empty string
-        for (std::size_t i = 0; i < stringHoldersPoolSize / sizeof(char*); ++i)
+        for (uint32 i = 0; i < stringHoldersPoolSize / sizeof(char*); ++i)
             ((char const**)stringHolders)[i] = nullStr;
     }
     else

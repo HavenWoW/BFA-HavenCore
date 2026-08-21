@@ -59,7 +59,7 @@ void LoadDisables()
     uint32 oldMSTime = getMSTime();
 
     // reload case
-    for (std::size_t i = 0; i < m_DisableMap.size(); ++i)
+    for (uint32 i = 0; i < m_DisableMap.size(); ++i)
         m_DisableMap[i].clear();
 
     QueryResult result = WorldDatabase.Query("SELECT sourceType, entry, flags, params_0, params_1 FROM disables");

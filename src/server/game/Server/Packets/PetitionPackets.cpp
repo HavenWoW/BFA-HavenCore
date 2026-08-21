@@ -44,12 +44,12 @@ ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Petition::PetitionInfo co
     data.WriteBits(petitionInfo.Title.length(), 7);
     data.WriteBits(petitionInfo.BodyText.length(), 12);
 
-    for (std::size_t i = 0; i < petitionInfo.Choicetext.size(); ++i)
+    for (uint32 i = 0; i < petitionInfo.Choicetext.size(); ++i)
         data.WriteBits(petitionInfo.Choicetext[i].length(), 6);
 
     data.FlushBits();
 
-    for (std::size_t i = 0; i < petitionInfo.Choicetext.size(); ++i)
+    for (uint32 i = 0; i < petitionInfo.Choicetext.size(); ++i)
         data.WriteString(petitionInfo.Choicetext[i]);
 
     data.WriteString(petitionInfo.Title);

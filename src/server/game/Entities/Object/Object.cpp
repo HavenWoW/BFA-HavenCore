@@ -342,7 +342,7 @@ void Object::BuildMovementUpdate(ByteBuffer* data, CreateObjectBits flags) const
         *data << uint32(0);                                             // RemoveForcesIDs.size()
         *data << uint32(0);                                             // MoveIndex
 
-        //for (std::size_t i = 0; i < RemoveForcesIDs.size(); ++i)
+        //for (uint32 i = 0; i < RemoveForcesIDs.size(); ++i)
         //    *data << ObjectGuid(RemoveForcesIDs);
 
         data->WriteBits(unit->GetUnitMovementFlags(), 30);
@@ -630,7 +630,7 @@ void Object::BuildMovementUpdate(ByteBuffer* data, CreateObjectBits flags) const
 
     //    if (HasPetBattleFullUpdate)
     //    {
-    //        for (std::size_t i = 0; i < 2; ++i)
+    //        for (uint32 i = 0; i < 2; ++i)
     //        {
     //            *data << ObjectGuid(Players[i].CharacterID);
     //            *data << int32(Players[i].TrapAbilityID);
@@ -691,7 +691,7 @@ void Object::BuildMovementUpdate(ByteBuffer* data, CreateObjectBits flags) const
     //            }
     //        }
 
-    //        for (std::size_t i = 0; i < 3; ++i)
+    //        for (uint32 i = 0; i < 3; ++i)
     //        {
     //            *data << uint32(Enviros[j].Auras.size());
     //            *data << uint32(Enviros[j].States.size());

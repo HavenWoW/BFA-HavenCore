@@ -494,7 +494,7 @@ void WorldPackets::Character::AlterApperance::Read()
     _worldPacket >> NewFacialHair;
     _worldPacket >> NewSkinColor;
     _worldPacket >> NewFace;
-    for (std::size_t i = 0; i < NewCustomDisplay.size(); ++i)
+    for (uint32 i = 0; i < NewCustomDisplay.size(); ++i)
         _worldPacket >> NewCustomDisplay[i];
 }
 

@@ -567,7 +567,7 @@ ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Guild::GuildRewardItem co
     data << int32(rewardItem.MinGuildRep);
     data << uint64(rewardItem.Cost);
 
-    for (std::size_t i = 0; i < rewardItem.AchievementsRequired.size(); i++)
+    for (uint32 i = 0; i < rewardItem.AchievementsRequired.size(); i++)
         data << uint32(rewardItem.AchievementsRequired[i]);
 
     return data;
@@ -815,7 +815,7 @@ ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Guild::GuildNewsEvent con
     data << int32(newsEvent.Type);
     data << int32(newsEvent.Flags);
 
-    for (std::size_t i = 0; i < newsEvent.Data.size(); ++i)
+    for (uint32 i = 0; i < newsEvent.Data.size(); ++i)
         data << int32(newsEvent.Data[i]);
 
     data << newsEvent.MemberGuid;

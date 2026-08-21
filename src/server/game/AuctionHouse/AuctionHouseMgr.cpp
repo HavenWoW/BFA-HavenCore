@@ -258,7 +258,7 @@ public:
 
     bool operator()(AuctionsBucketData const* left, AuctionsBucketData const* right) const
     {
-        for (std::size_t i = 0; i < _sortCount; ++i)
+        for (uint32 i = 0; i < _sortCount; ++i)
         {
             int32 ordering = CompareColumns(_sorts[i].SortOrder, left, right);
             if (ordering != 0)
@@ -301,7 +301,7 @@ public:
 
     bool operator()(AuctionPosting const* left, AuctionPosting const* right) const
     {
-        for (std::size_t i = 0; i < _sortCount; ++i)
+        for (uint32 i = 0; i < _sortCount; ++i)
         {
             int32 ordering = CompareColumns(_sorts[i].SortOrder, left, right);
             if (ordering != 0)
@@ -1320,7 +1320,7 @@ void AuctionHouseObject::BuildListBuckets(WorldPackets::AuctionHouse::AuctionLis
 {
     std::vector<AuctionsBucketData const*> buckets;
     buckets.reserve(keysCount);
-    for (std::size_t i = 0; i < keysCount; ++i)
+    for (uint32 i = 0; i < keysCount; ++i)
     {
         auto bucketItr = _buckets.find(AuctionsBucketKey(keys[i]));
         if (bucketItr != _buckets.end())
@@ -1760,7 +1760,7 @@ bool AuctionHouseObject::BuyCommodity(CharacterDatabaseTransaction trans, Player
         MailDraft mail(AuctionHouseMgr::BuildCommodityAuctionMailSubject(AuctionMailType::Won, itemId, batch.Quantity),
             AuctionHouseMgr::BuildAuctionWonMailBody(*uniqueSeller, batch.TotalPrice, batch.Quantity));
 
-        for (std::size_t i = 0; i < batch.ItemsCount; ++i)
+        for (uint32 i = 0; i < batch.ItemsCount; ++i)
         {
             CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_AUCTION_ITEMS_BY_ITEM);
             stmt->setUInt64(0, batch.Items[i]->GetGUID().GetCounter());
@@ -1779,7 +1779,7 @@ bool AuctionHouseObject::BuyCommodity(CharacterDatabaseTransaction trans, Player
     packet.Info.Initialize(auctions[0], items[0].Items[0]);
     player->SendDirectMessage(packet.Write());
 
-    for (std::size_t i = 0; i < auctions.size(); ++i)
+    for (uint32 i = 0; i < auctions.size(); ++i)
     {
         if (removedItemsFromAuction[i] == auctions[i]->Items.size())
             RemoveAuction(trans, auctions[i]); // bought all items
@@ -1940,7 +1940,7 @@ void AuctionHouseObject::SendAuctionExpired(AuctionPosting const* auction, Chara
         {
             MailDraft mail(AuctionHouseMgr::BuildItemAuctionMailSubject(AuctionMailType::Expired, auction), "");
 
-            for (std::size_t i = 0; i < MAX_MAIL_ITEMS && itemItr != auction->Items.end(); ++i, ++itemItr)
+            for (uint32 i = 0; i < MAX_MAIL_ITEMS && itemItr != auction->Items.end(); ++i, ++itemItr)
                 mail.AddItem(*itemItr);
 
             mail.SendMailTo(trans, MailReceiver(owner, auction->Owner), this, MAIL_CHECK_MASK_COPIED, 0);
@@ -1961,7 +1961,7 @@ void AuctionHouseObject::SendAuctionRemoved(AuctionPosting const* auction, Playe
     {
         MailDraft draft(AuctionHouseMgr::BuildItemAuctionMailSubject(AuctionMailType::Cancelled, auction), "");
 
-        for (std::size_t i = 0; i < MAX_MAIL_ITEMS && itemItr != auction->Items.end(); ++i, ++itemItr)
+        for (uint32 i = 0; i < MAX_MAIL_ITEMS && itemItr != auction->Items.end(); ++i, ++itemItr)
             draft.AddItem(*itemItr);
 
         draft.SendMailTo(trans, owner, this, MAIL_CHECK_MASK_COPIED);

@@ -42,13 +42,13 @@ WorldPacket const* WorldPackets::Query::QueryCreatureResponse::Write()
         _worldPacket.WriteBits(Stats.CursorName.length() + 1, 6);
         _worldPacket.WriteBit(Stats.Leader);
 
-        for (std::size_t i = 0; i < Stats.Name.size(); ++i)
+        for (uint32 i = 0; i < Stats.Name.size(); ++i)
         {
             _worldPacket.WriteBits(Stats.Name[i].length() + 1, 11);
             _worldPacket.WriteBits(Stats.NameAlt[i].length() + 1, 11);
         }
 
-        for (std::size_t i = 0; i < Stats.Name.size(); ++i)
+        for (uint32 i = 0; i < Stats.Name.size(); ++i)
         {
             if (!Stats.Name[i].empty())
                 _worldPacket << Stats.Name[i];
@@ -353,7 +353,7 @@ void WorldPackets::Query::QuestPOIQuery::Read()
 {
     _worldPacket >> MissingQuestCount;
 
-    for (std::size_t i = 0; i < MissingQuestPOIs.size(); ++i)
+    for (uint32 i = 0; i < MissingQuestPOIs.size(); ++i)
         _worldPacket >> MissingQuestPOIs[i];
 }
 

@@ -4000,7 +4000,7 @@ void Spell::EffectApplyGlyph(SpellEffIndex /*effIndex*/)
 
     std::vector<uint32>& glyphs = player->GetGlyphs(player->GetActiveTalentGroup());
     std::size_t replacedGlyph = glyphs.size();
-    for (std::size_t i = 0; i < glyphs.size(); ++i)
+    for (uint32 i = 0; i < glyphs.size(); ++i)
     {
         if (std::vector<uint32> const* activeGlyphBindableSpells = sDB2Manager.GetGlyphBindableSpells(glyphs[i]))
         {

@@ -1496,7 +1496,7 @@ void WorldSession::HandleAlterAppearance(WorldPackets::Character::AlterApperance
 
     std::array<BarberShopStyleEntry const*, PLAYER_CUSTOM_DISPLAY_SIZE> customDisplayEntries;
     std::array<uint8, PLAYER_CUSTOM_DISPLAY_SIZE> customDisplay;
-    for (std::size_t i = 0; i < PLAYER_CUSTOM_DISPLAY_SIZE; ++i)
+    for (uint32 i = 0; i < PLAYER_CUSTOM_DISPLAY_SIZE; ++i)
     {
         BarberShopStyleEntry const* bs_customDisplay = sBarberShopStyleStore.LookupEntry(packet.NewCustomDisplay[i]);
         if (bs_customDisplay && (bs_customDisplay->Type != 5 + i || bs_customDisplay->Race != _player->getRace() || bs_customDisplay->Sex != _player->m_playerData->NativeSex))
@@ -2117,7 +2117,7 @@ void WorldSession::HandleCharRaceOrFactionChangeCallback(std::shared_ptr<WorldPa
                 // this doesn't seem to be 100% blizzlike... but it can't really be helped.
                 std::ostringstream taximaskstream;
                 TaxiMask const& factionMask = newTeamId == TEAM_HORDE ? sHordeTaxiNodesMask : sAllianceTaxiNodesMask;
-                for (std::size_t i = 0; i < TaxiMaskSize; ++i)
+                for (uint32 i = 0; i < TaxiMaskSize; ++i)
                 {
                     // i = (315 - 1) / 8 = 39
                     // m = 1 << ((315 - 1) % 8) = 4

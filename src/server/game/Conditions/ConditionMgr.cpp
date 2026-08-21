@@ -2483,7 +2483,7 @@ inline bool PlayerConditionLogic(uint32 logic, std::array<bool, N>& results)
 {
     static_assert(N < 16, "Logic array size must be equal to or less than 16");
 
-    for (std::size_t i = 0; i < results.size(); ++i)
+    for (uint32 i = 0; i < results.size(); ++i)
         if ((logic >> (16 + i)) & 1)
             results[i] ^= true;
 
@@ -2596,7 +2596,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, SkillCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < SkillCount::value; ++i)
+        for (uint32 i = 0; i < SkillCount::value; ++i)
         {
             if (condition->SkillID[i])
             {
@@ -2643,7 +2643,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
             std::array<bool, FactionCount::value + 1> results;
             results.fill(true);
-            for (std::size_t i = 0; i < FactionCount::value; ++i)
+            for (uint32 i = 0; i < FactionCount::value; ++i)
             {
                 if (condition->MinFactionID[i])
                 {
@@ -2719,7 +2719,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, PrevQuestCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < PrevQuestCount::value; ++i)
+        for (uint32 i = 0; i < PrevQuestCount::value; ++i)
             if (uint32 questBit = sDB2Manager.GetQuestUniqueBitFlag(condition->PrevQuestID[i]))
                 results[i] = (player->m_activePlayerData->QuestCompleted[((questBit - 1) >> 6)] & (UI64LIT(1) << ((questBit - 1) & 63))) != 0;
 
@@ -2733,7 +2733,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, CurrQuestCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < CurrQuestCount::value; ++i)
+        for (uint32 i = 0; i < CurrQuestCount::value; ++i)
             if (condition->CurrQuestID[i])
                 results[i] = player->FindQuestSlot(condition->CurrQuestID[i]) != MAX_QUEST_LOG_SIZE;
 
@@ -2747,7 +2747,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, CurrentCompletedQuestCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < CurrentCompletedQuestCount::value; ++i)
+        for (uint32 i = 0; i < CurrentCompletedQuestCount::value; ++i)
             if (condition->CurrentCompletedQuestID[i])
                 results[i] = player->GetQuestStatus(condition->CurrentCompletedQuestID[i]) == QUEST_STATUS_COMPLETE;
 
@@ -2762,7 +2762,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, SpellCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < SpellCount::value; ++i)
+        for (uint32 i = 0; i < SpellCount::value; ++i)
             if (condition->SpellID[i])
                 results[i] = player->HasSpell(condition->SpellID[i]);
 
@@ -2776,7 +2776,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, ItemCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < ItemCount::value; ++i)
+        for (uint32 i = 0; i < ItemCount::value; ++i)
             if (condition->ItemID[i])
                 results[i] = player->GetItemCount(condition->ItemID[i], condition->ItemFlags != 0) >= condition->ItemCount[i];
 
@@ -2790,7 +2790,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, CurrencyCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < CurrencyCount::value; ++i)
+        for (uint32 i = 0; i < CurrencyCount::value; ++i)
             if (condition->CurrencyID[i])
                 results[i] = player->GetCurrency(condition->CurrencyID[i]) >= condition->CurrencyCount[i];
 
@@ -2802,7 +2802,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
     {
         using ExploredCount = std::extent<decltype(condition->Explored)>;
 
-        for (std::size_t i = 0; i < ExploredCount::value; ++i)
+        for (uint32 i = 0; i < ExploredCount::value; ++i)
         {
             if (AreaTableEntry const* area = sAreaTableStore.LookupEntry(condition->Explored[i]))
                 if (area->AreaBit != -1 && !(player->m_activePlayerData->ExploredZones[area->AreaBit / 64] & (UI64LIT(1) << (uint32(area->AreaBit) % 64))))
@@ -2816,7 +2816,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, AuraCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < AuraCount::value; ++i)
+        for (uint32 i = 0; i < AuraCount::value; ++i)
         {
             if (condition->AuraSpellID[i])
             {
@@ -2851,7 +2851,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, AchievementCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < AchievementCount::value; ++i)
+        for (uint32 i = 0; i < AchievementCount::value; ++i)
         {
             if (condition->Achievement[i])
             {
@@ -2871,7 +2871,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, LfgCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < LfgCount::value; ++i)
+        for (uint32 i = 0; i < LfgCount::value; ++i)
             if (condition->LfgStatus[i])
                 results[i] = PlayerConditionCompare(condition->LfgCompare[i],
                     GetPlayerConditionLfgValue(player, PlayerConditionLfgStatus(condition->LfgStatus[i])),
@@ -2887,7 +2887,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
         std::array<bool, AreaCount::value> results;
         results.fill(true);
-        for (std::size_t i = 0; i < AreaCount::value; ++i)
+        for (uint32 i = 0; i < AreaCount::value; ++i)
             if (condition->AreaID[i])
                 results[i] = player->GetAreaId() == condition->AreaID[i] || player->GetZoneId() == condition->AreaID[i];
 
@@ -2919,7 +2919,7 @@ bool ConditionMgr::IsPlayerMeetingCondition(Player const* player, PlayerConditio
 
             std::array<bool, QuestKillCount::value> results;
             results.fill(true);
-            for (std::size_t i = 0; i < QuestKillCount::value; ++i)
+            for (uint32 i = 0; i < QuestKillCount::value; ++i)
             {
                 if (condition->QuestKillMonster[i])
                 {

@@ -47,7 +47,7 @@ WorldPacket const* WorldPackets::Battleground::AreaSpiritHealerTime::Write()
 
 ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Battleground::PVPMatchStatistics::RatingData const& ratingData)
 {
-    for (std::size_t i = 0; i < 2; ++i)
+    for (uint32 i = 0; i < 2; ++i)
     {
         data << int32(ratingData.Prematch[i]);
         data << int32(ratingData.Postmatch[i]);

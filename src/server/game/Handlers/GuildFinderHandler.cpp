@@ -65,7 +65,7 @@ void WorldSession::HandleGuildFinderBrowse(WorldPackets::GuildFinder::LFGuildBro
     WorldPackets::GuildFinder::LFGuildBrowseResult lfGuildBrowseResult;
     lfGuildBrowseResult.Post.resize(guildList.size());
 
-    for (std::size_t i = 0; i < guildList.size(); ++i)
+    for (uint32 i = 0; i < guildList.size(); ++i)
     {
         LFGuildSettings const* guildSettings = guildList[i];
         WorldPackets::GuildFinder::LFGuildBrowseData& guildData = lfGuildBrowseResult.Post[i];
@@ -111,7 +111,7 @@ void WorldSession::HandleGuildFinderGetApplications(WorldPackets::GuildFinder::L
     lfGuildApplications.Application.resize(applicatedGuilds.size());
     lfGuildApplications.NumRemaining = 10 - sGuildFinderMgr->CountRequestsFromPlayer(GetPlayer()->GetGUID());
 
-    for (std::size_t i = 0; i < applicatedGuilds.size(); ++i)
+    for (uint32 i = 0; i < applicatedGuilds.size(); ++i)
     {
         MembershipRequest const* application = applicatedGuilds[i];
         WorldPackets::GuildFinder::LFGuildApplicationData& applicationData = lfGuildApplications.Application[i];

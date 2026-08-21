@@ -199,7 +199,7 @@ bool ExtractSingleWmo(std::string& fname)
     int Wmo_nVertices = 0;
     uint32 groupCount = 0;
     //printf("root has %d groups\n", froot->nGroups);
-    for (std::size_t i = 0; i < froot.groupFileDataIDs.size(); ++i)
+    for (uint32 i = 0; i < froot.groupFileDataIDs.size(); ++i)
     {
         std::string s = Trinity::StringFormat("FILE%08X.xxx", froot.groupFileDataIDs[i]);
         WMOGroup fgroup(s);

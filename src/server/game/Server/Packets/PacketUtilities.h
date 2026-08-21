@@ -166,7 +166,7 @@ namespace WorldPackets
     {
         uint32 mask = v.GetMask();
         data << uint32(mask);
-        for (std::size_t i = 0; i < v.GetSize(); ++i)
+        for (uint32 i = 0; i < v.GetSize(); ++i)
             if (mask & (1 << i))
                 data << v[i];
 

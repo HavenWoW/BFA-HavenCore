@@ -4974,7 +4974,7 @@ void ObjectMgr::LoadQuestGreetingLocales()
 {
     uint32 oldMSTime = getMSTime();
 
-    for (std::size_t i = 0; i < _questGreetingLocaleStore.size(); ++i)
+    for (uint32 i = 0; i < _questGreetingLocaleStore.size(); ++i)
         _questGreetingLocaleStore[i].clear();
 
     //                                               0   1     2       3
@@ -6184,7 +6184,7 @@ void ObjectMgr::LoadQuestGreetings()
 {
     uint32 oldMSTime = getMSTime();
 
-    for (std::size_t i = 0; i < _questGreetingStore.size(); ++i)
+    for (uint32 i = 0; i < _questGreetingStore.size(); ++i)
         _questGreetingStore[i].clear();
 
     //                                                0   1          2                3
@@ -9078,7 +9078,7 @@ void ObjectMgr::LoadTrainers()
             }
 
             bool allReqValid = true;
-            for (std::size_t i = 0; i < spell.ReqAbility.size(); ++i)
+            for (uint32 i = 0; i < spell.ReqAbility.size(); ++i)
             {
                 uint32 requiredSpell = spell.ReqAbility[i];
                 if (requiredSpell && !sSpellMgr->GetSpellInfo(requiredSpell))
