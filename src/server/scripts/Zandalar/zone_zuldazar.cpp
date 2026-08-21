@@ -175,7 +175,7 @@ struct npc_soth_zolani : public npc_escortAI
             me->SetWalk(true);
             Talk(0);
             me->GetMotionMaster()->MovePoint(1, -1129.335f, 845.836f, 487.865f, true);            
-            player->GetScheduler().Schedule(27s, [this, player] (TaskContext context)
+            player->GetScheduler().Schedule(27s, [this, player] (TaskContext /*context*/)
             {
                 player->KilledMonsterCredit(120169);
                 Talk(1);

@@ -1165,7 +1165,6 @@ private:
 
         if (GetCaster()->HasAura(SPELL_WARRIOR_BATTLE_TRANCE))
         {
-            Unit* target = GetCaster()->ToPlayer()->GetSelectedUnit();
             targetHit++;
 
             if (this->targetHit == 4)
@@ -1419,7 +1418,7 @@ class aura_warr_victorious : public AuraScript
 {
     PrepareAuraScript(aura_warr_victorious);
 
-    bool CheckProc(ProcEventInfo& eventInfo)
+    bool CheckProc(ProcEventInfo& /*eventInfo*/)
     {
         if (Unit* caster = GetCaster())
         {
@@ -2900,11 +2899,11 @@ public:
         if (player->getClass() != CLASS_WARRIOR)
             return;
 
-        if (Aura* anger = player->GetAura(SPELL_WARRIOR_ANGER_MANAGEMENT))
+        if (player->GetAura(SPELL_WARRIOR_ANGER_MANAGEMENT))
         {
             TalentSpecialization spec = player->GetSpecializationId();
 
-            if (SpellPowerCost const* powerCost = spell->GetPowerCost(POWER_RAGE))
+            if (spell->GetPowerCost(POWER_RAGE))
             {
                 //int32 mod = powerCost->Amount * 100 / anger->GetEffect(EFFECT_0)->GetAmount();
                 //int32 mod = std::max(powerCost->Amount * 100, anger->GetEffect(EFFECT_0)->GetAmount()) / 2;
@@ -2936,7 +2935,7 @@ class spell_warr_sudden_death : public AuraScript
 {
     PrepareAuraScript(spell_warr_sudden_death);
 
-    void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+    void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
     {
         GetTarget()->CastSpell(GetTarget(), SPELL_WARRIOR_SUDDEN_DEATH_PROC, true);
     }
@@ -2952,7 +2951,7 @@ class spell_warr_victorious_state : public AuraScript
 {
     PrepareAuraScript(spell_warr_victorious_state);
 
-    void HandleEffectProc(AuraEffect const* /*aurEff*/, ProcEventInfo& procInfo)
+    void HandleEffectProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*procInfo*/)
     {
         if (Unit* caster = GetCaster())
         {
@@ -2993,8 +2992,8 @@ class war_machine : public PlayerScript
 public:
     war_machine() : PlayerScript("war_machine") { }
 
-    void OnPVPKill(Player* killer, Player* killed) 
-    { 
+    void OnPVPKill(Player* killer, Player* /*killed*/)
+    {
         if (killer->getClass() != CLASS_WARRIOR)
             return;
 
@@ -3002,7 +3001,7 @@ public:
             killer->CastSpell(nullptr, SPELL_WARRRIOR_WAR_MACHINE_BUFF, true);
     }
 
-    void OnCreatureKill(Player* killer, Creature* killed)
+    void OnCreatureKill(Player* killer, Creature* /*killed*/)
     { 
         if (killer->getClass() != CLASS_WARRIOR)
             return;
@@ -3050,7 +3049,7 @@ private:
                         if (!targets->HasAura(SPELL_WARRIOR_WAR_BANNER_BUFF))
                             targets->AddAura(SPELL_WARRIOR_WAR_BANNER_BUFF);
 
-                        targets->GetScheduler().Schedule(15s, [this, targets](TaskContext context)
+                        targets->GetScheduler().Schedule(15s, [this, targets](TaskContext /*context*/)
                         {
                             if (!targets)
                                 return;

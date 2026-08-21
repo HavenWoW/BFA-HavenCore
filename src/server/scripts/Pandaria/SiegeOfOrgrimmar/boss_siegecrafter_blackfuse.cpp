@@ -981,7 +981,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 return 0;
             }
 
-            void SummonedCreatureDies(Creature* summon, Unit* killer) override
+            void SummonedCreatureDies(Creature* summon, Unit* /*killer*/) override
             {
                 if (summon->GetEntry() == NPC_AUTOMATED_SHREDDER)
                 {
@@ -1338,7 +1338,7 @@ class npc_siegecrafter_blackfuse_sawblade : public CreatureScript
                 return 0;
             }
 
-            void SetData(uint32 type, uint32 data) override
+            void SetData(uint32 type, uint32 /*data*/) override
             {
                 if (type == DATA_SAWBLADE_TO_ELECTROMAGNET_PULL)
                 {
@@ -2116,7 +2116,7 @@ class npc_siegecrafter_blackfuse_laser_target : public CreatureScript
             }
 
             //void SplineMovementUpdate(uint32 p_Type, uint32 p_Id) override
-            void MovementInform(uint32 p_Type, uint32 p_Id) override
+            void MovementInform(uint32 p_Type, uint32 /*p_Id*/) override
             {
                 if (m_IsOvercharged && p_Type == Movement::MoveSpline::UpdateResult::Result_Arrived)
                 {
@@ -2530,7 +2530,7 @@ class npc_siegecrafter_blackfuse_shockwave_missile_turret : public CreatureScrip
             {
             }
 
-            void SummonedCreatureDies(Creature* p_Creature, Unit* p_Killer) override
+            void SummonedCreatureDies(Creature* p_Creature, Unit* /*p_Killer*/) override
             {
                 if (p_Creature->GetEntry() == Adds::NPC_OVERCHARGED_SHOCKWAVE_MISSILE)
                 {
@@ -2632,7 +2632,7 @@ class npc_siegecrafter_blackfuse_shockwave_missile : public CreatureScript
                 m_ShockwaveMissileCounter = 0;
             }
 
-            void IsSummonedBy(Unit* owner) override
+            void IsSummonedBy(Unit* /*owner*/) override
             {
                 DoCast(me, IsOvercharged() ? SPELL_SHOCKWAVE_MISSILE_VISUAL_2 : SPELL_SHOCKWAVE_MISSILE_VISUAL_1);
 
@@ -2789,7 +2789,7 @@ class spell_siegecrafter_blackfuse_electromagnetic_barrier : public SpellScriptL
         {
             PrepareAuraScript(spell_siegecrafter_blackfuse_electromagnetic_barrier_AuraScript);
 
-            void HandleApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+            void HandleApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetCaster() || !GetUnitOwner())
                     return;
@@ -2801,7 +2801,7 @@ class spell_siegecrafter_blackfuse_electromagnetic_barrier : public SpellScriptL
                 GetUnitOwner()->AddAura(SPELL_ELECTROMAGNETIC_BARRIER_DUMMY, GetUnitOwner());
             }
 
-            void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -2836,7 +2836,7 @@ class spell_siegecrafter_blackfuse_laser_turret_targetting : public SpellScriptL
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -2866,7 +2866,7 @@ class spell_siegecrafter_blackfuse_laser_ground_effect : public SpellScriptLoade
         {
             PrepareAuraScript(spell_siegecrafter_blackfuse_laser_ground_effect_AuraScript);
 
-            void HandleEffectPeriodic(AuraEffect const* aurEff)
+            void HandleEffectPeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -2911,7 +2911,7 @@ class spell_siegecrafter_blackfuse_crawler_mine_targetting : public SpellScriptL
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -2964,7 +2964,7 @@ class spell_siegecrafter_blackfuse_magnetic_pulse : public SpellScriptLoader
                 });
             }
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3021,7 +3021,7 @@ class spell_siegecrafter_blackfuse_magnetic_pulse_pull : public SpellScriptLoade
                 });
             }
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3081,7 +3081,7 @@ class spell_siegecrafter_blackfuse_magnetic_pulse_push : public SpellScriptLoade
                 });
             }
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3170,7 +3170,7 @@ class spell_siegecrafter_blackfuse_launch_sawblade_aoe : public SpellScriptLoade
         {
             PrepareSpellScript(spell_siegecrafter_blackfuse_launch_sawblade_aoe_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;

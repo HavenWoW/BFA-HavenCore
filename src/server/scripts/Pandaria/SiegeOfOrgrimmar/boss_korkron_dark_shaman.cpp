@@ -540,7 +540,7 @@ private:
 
             if (pOtherShaman && pOtherShaman->IsAlive())
             {
-                uint32 otherHealth = pOtherShaman->GetHealth();
+                uint32 otherHealth = uint32(pOtherShaman->GetHealth());
                 if (me->GetHealth() > otherHealth)
                     me->SetHealth(otherHealth);
                 //me->SetHealth(std::min(me->GetHealth(), otherHealth));
@@ -1339,7 +1339,7 @@ class npc_korkron_dark_shaman_iron_tomb : public CreatureScript
                 me->SetUnitFlags(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC));
             }
 
-            void IsSummonedBy(Unit* owner) override
+            void IsSummonedBy(Unit* /*owner*/) override
             {
                 DoCast(me, SPELL_IRON_TOMB_DMG);
             }
@@ -1392,7 +1392,7 @@ class spell_korkron_dark_shaman_toxic_mist : public SpellScriptLoader
         {
             PrepareAuraScript(spell_korkron_dark_shaman_toxic_mist_AuraScript);
 
-            void HandleAfterRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+            void HandleAfterRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1421,14 +1421,14 @@ class spell_korkron_dark_shaman_ashen_wall : public SpellScriptLoader
         {
             PrepareSpellScript(spell_korkron_dark_shaman_ashen_wall_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
 
                 for (uint8 i = 0; i < 8; ++i)
                 {
-                    Position summonPos = GetHitUnit()->GetNearPosition(-20.0f + (5.0f * i), GetHitUnit()->GetRelativeAngle(GetCaster()) + (M_PI / 2));;
+                    Position summonPos = GetHitUnit()->GetNearPosition(-20.0f + (5.0f * i), GetHitUnit()->GetRelativeAngle(GetCaster()) + float(M_PI / 2));
                     summonPos.SetOrientation(GetCaster()->GetOrientation());
                     GetCaster()->CastSpell(summonPos, SPELL_ASHEN_WALL_SUMMON, true);
                 }
@@ -1501,7 +1501,7 @@ class spell_korkron_dark_shaman_foul_geyser : public SpellScriptLoader
         {
             PrepareAuraScript(spell_korkron_dark_shaman_foul_geyser_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 PreventDefaultAction();
 
@@ -1553,7 +1553,7 @@ class spell_korkron_dark_shaman_iron_tomb_aoe : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;

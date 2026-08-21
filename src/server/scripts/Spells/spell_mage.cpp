@@ -297,7 +297,7 @@ class spell_mage_arcane_explosion : public SpellScript
 
     void CheckTargets(std::list<WorldObject*>& targets)
     {
-        _hit = targets.size();
+        _hit = int32(targets.size());
     }
 
     void Prevent(SpellEffIndex effIndex)
@@ -396,7 +396,7 @@ class spell_mage_clearcasting : public AuraScript
                 if (powerCost.Power == POWER_MANA)
                     manaUsed = powerCost.Amount;
 
-            int32 chance = std::floor(manaUsed / reqManaToSpent) * 1;
+            int32 chance = int32(std::floor(manaUsed / reqManaToSpent));
             return roll_chance_i(chance);
         }
 
@@ -508,7 +508,7 @@ class spell_mage_arcane_barrage : public SpellScript
     {
         if (targets.size() > uint64(GetCaster()->GetPower(POWER_ARCANE_CHARGES)))
             targets.resize(GetCaster()->GetPower(POWER_ARCANE_CHARGES));
-        _chainTargetCount = targets.size();
+        _chainTargetCount = uint32(targets.size());
     }
 
     void HandleEffectHitTarget(SpellEffIndex /*effIndex*/)
@@ -778,7 +778,7 @@ class spell_mage_meteor_damage : public SpellScript
 
     void CountTargets(std::list<WorldObject*>& targets)
     {
-        _targets = targets.size();
+        _targets = int32(targets.size());
     }
 
     void Register() override
@@ -1247,7 +1247,7 @@ class spell_mage_ray_of_frost : public AuraScript
         if (Unit* caster = GetCaster())
         {
             if (AuraEffect* aurEff = GetAura()->GetEffect(EFFECT_1))
-                aurEff->SetDamage(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEff->GetSpellEffectInfo(), GetStackAmount()) * aurEff->GetDonePct());
+                aurEff->SetDamage(int32(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEff->GetSpellEffectInfo(), GetStackAmount()) * aurEff->GetDonePct()));
 
             caster->CastSpell(caster, SPELL_MAGE_RAY_OF_FROST_DAMAGE_INCREASE, true);
         }

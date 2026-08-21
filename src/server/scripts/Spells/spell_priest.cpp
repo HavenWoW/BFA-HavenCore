@@ -1015,8 +1015,6 @@ class aura_pri_guardian_spirit : public AuraScript
 
         if (!caster || !target)
             return;
-
-        float healingMultiplier = caster->ToPlayer()->GetRatingMultiplier(CR_VERSATILITY_HEALING_DONE) * 60;
     }
 
     void AfterRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*Mode*/)
@@ -1026,8 +1024,6 @@ class aura_pri_guardian_spirit : public AuraScript
 
         if (!caster || !target)
             return;
-
-        float healingMultiplier = caster->ToPlayer()->GetRatingMultiplier(CR_VERSATILITY_HEALING_DONE) / 60;
     }
 
     void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& absorbAmount)

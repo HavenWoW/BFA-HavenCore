@@ -267,7 +267,7 @@ struct boss_avatar_of_sethraliss : public BossAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) 
+    void sGossipSelect(Player* /*player*/, uint32 /*menuId*/, uint32 /*gossipListId*/) 
     { 
         if (instance->GetBossState(DATA_AVATAR_OF_SETHRALISS) == NOT_STARTED)
         {
@@ -295,12 +295,12 @@ struct boss_avatar_of_sethraliss : public BossAI
                 avatar->AI()->Talk(SAY_INTRO);
                 _EnterCombat();
 
-                avatar->GetScheduler().Schedule(6s, [this, avatar] (TaskContext context)
+                avatar->GetScheduler().Schedule(6s, [this, avatar] (TaskContext /*context*/)
                 {
                     avatar->AI()->Talk(SAY_OBJECTIVE);
                 });
 
-                avatar->GetScheduler().Schedule(8s, [this, avatar] (TaskContext context)
+                avatar->GetScheduler().Schedule(8s, [this, avatar] (TaskContext /*context*/)
                 {
                     avatar->AI()->Talk(SAY_RESTORE);                    
                 });

@@ -2095,7 +2095,7 @@ class npc_garrosh_hellscream_desecrated_weapon : public CreatureScript
                 m_UpdateScaleTimer = 1000;
             }
 
-            void DamageTaken(Unit* who, uint32& damage) override
+            void DamageTaken(Unit* /*who*/, uint32& damage) override
             {
                 if (me->GetHealth() <= damage)
                 {
@@ -2200,7 +2200,7 @@ struct npc_garrosh_hellscream_orcsAI : public ScriptedAI
             AtEndPoint();
     }
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* caster, SpellInfo const* /*spell*/) override
     {
         if (me->GetEntry() == NPC_FARSEER_WOLF_RIDER/*todo check this && spell->_IsCrowdControl(0, false)*/)
         {
@@ -2445,11 +2445,11 @@ class npc_garrosh_hellscream_siege_engineer : public CreatureScript
                     DoCast(me, SPELL_POWER_IRON_STAR);
             }
 
-            void DamageTaken(Unit* attacker, uint32& /*damage*/) override { }
+            void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override { }
 
-            void AttackStart(Unit* victim) override { }
+            void AttackStart(Unit* /*victim*/) override { }
 
-            void UpdateAI(const uint32 diff) override { }
+            void UpdateAI(const uint32 /*diff*/) override { }
         };
 };
 
@@ -2502,7 +2502,7 @@ class npc_garrosh_hellscream_korkron_iron_star : public CreatureScript
 
                 _polygonVertices = s_IronStarVertices;
 
-                float const orientation = me->NormalizeOrientation(me->GetOrientation() + (M_PI / 2));
+                float const orientation = me->NormalizeOrientation(me->GetOrientation() + float(M_PI / 2));
 
                 float angleSin = std::sin(orientation);
                 float angleCos = std::cos(orientation);
@@ -2654,7 +2654,7 @@ class npc_garrosh_hellscream_korkron_iron_star : public CreatureScript
                 }
 
                 if (Creature* pGarrosh = GetGarrosh(me))
-                    pGarrosh->AI()->SetData(DATA_IRON_STAR_CREATURES, creatures.size());
+                    pGarrosh->AI()->SetData(DATA_IRON_STAR_CREATURES, uint32(creatures.size()));
             }
 
             void HandlePowerIronStar()
@@ -2844,7 +2844,7 @@ class npc_garrosh_hellscream_minion_of_yshaarj : public CreatureScript
                 DoCast(me, SPELL_EMPOWERED, true);
             }
 
-            void UpdateAI(const uint32 diff) override
+            void UpdateAI(const uint32 /*diff*/) override
             {
                 if (!UpdateVictim())
                     return;
@@ -2963,7 +2963,7 @@ class npc_garrosh_hellscream_iron_star : public CreatureScript
                 me->AddAura(SPELL_UNSTABLE_IRON_STAR_AURA, me);
             }
 
-            void IsSummonedBy(Unit* p_Owner) override
+            void IsSummonedBy(Unit* /*p_Owner*/) override
             {
                 // Set in combat to enable SelectTarget
                 if (Creature* l_Garrosh = GetGarrosh(me))
@@ -3160,7 +3160,7 @@ class spell_garrosh_hellscream_desecrate_aoe : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3262,7 +3262,7 @@ class spell_garrosh_hellscream_power_exploding_iron_star : public SpellScriptLoa
         {
             PrepareSpellScript(spell_garrosh_hellscream_power_exploding_iron_star_SpellScript);
 
-            void HandleDamage(SpellEffIndex effIndex)
+            void HandleDamage(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3299,7 +3299,7 @@ class spell_garrosh_hellscream_teleport_aoe : public SpellScriptLoader
 
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3408,7 +3408,7 @@ class spell_garrosh_hellscream_consumed_hope : public SpellScriptLoader
 
             // This aura has dummy auraeffect only instead of proc_trigger_spell like other 'consumed' spells.
             // Handle proc here.
-            void OnProc(AuraEffect const* p_AurEff, ProcEventInfo& p_EventInfo)
+            void OnProc(AuraEffect const* /*p_AurEff*/, ProcEventInfo& /*p_EventInfo*/)
             {
                 PreventDefaultAction();
 
@@ -3443,7 +3443,7 @@ class spell_garrosh_hellscream_whirling_corruption_dmg : public SpellScriptLoade
         {
             PrepareSpellScript(spell_garrosh_hellscream_whirling_corruption_dmg_SpellScript);
 
-            void HandleDamage(SpellEffIndex effIndex)
+            void HandleDamage(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3457,7 +3457,7 @@ class spell_garrosh_hellscream_whirling_corruption_dmg : public SpellScriptLoade
 
                 int32 minDamage = GetHitDamage() / 4;
 
-                int32 reduceDamage = dist * ((GetHitDamage() - minDamage) / WHIRLING_CORRUPTION_MIN_DAMAGE_RANGE);
+                int32 reduceDamage = int32(dist * ((GetHitDamage() - minDamage) / WHIRLING_CORRUPTION_MIN_DAMAGE_RANGE));
                 int32 damage = GetHitDamage() - reduceDamage;
                 if (damage < minDamage)
                     damage = minDamage;
@@ -3623,7 +3623,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
                 amount = -1;
             }
 
-            void OnAbsorb(AuraEffect* aurEff, DamageInfo & dmgInfo, uint32 & absorbAmount)
+            void OnAbsorb(AuraEffect* /*aurEff*/, DamageInfo & dmgInfo, uint32 & absorbAmount)
             {
                 if (!GetTarget())
                     return;
@@ -3638,7 +3638,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
 
                 if (GetTarget()->GetHealth() <= dmgInfo.GetDamage())
                 {
-                    absorbAmount = dmgInfo.GetDamage() - GetTarget()->GetHealth() + minHealth;
+                    absorbAmount = uint32(dmgInfo.GetDamage() - GetTarget()->GetHealth() + minHealth);
                 }
                 else if (GetTarget()->GetHealth() <= minHealth)
                 {
@@ -3646,7 +3646,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
                 }
                 else if ((GetTarget()->GetHealth() - dmgInfo.GetDamage()) <= minHealth)
                 {
-                    absorbAmount = dmgInfo.GetDamage() - (GetTarget()->GetHealth() - minHealth);
+                    absorbAmount = uint32(dmgInfo.GetDamage() - (GetTarget()->GetHealth() - minHealth));
                 }
             }
 
@@ -3741,7 +3741,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
                 }
             }
 
-            void SetData(uint32 type, uint32 data) /*override*/
+            void SetData(uint32 type, uint32 /*data*/) /*override*/
             {
                 if (type == DATA_TOUCH_SUCCESSFUL)
                 {
@@ -3865,7 +3865,7 @@ class spell_garrosh_hellscream_crushing_fear_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3895,7 +3895,7 @@ class spell_garrosh_hellscream_manifest_rage: public SpellScriptLoader
         {
             PrepareAuraScript(spell_garrosh_hellscream_manifest_rage_AuraScript);
 
-            void OnTick(AuraEffect const* aurEff)
+            void OnTick(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -3977,7 +3977,7 @@ class spell_garrosh_hellscream_malice_aoe : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*> &targets)
             {
-                m_TargetsCount = targets.size();
+                m_TargetsCount = int32(targets.size());
             }
 
             void HandleAfterCast()
@@ -3995,7 +3995,7 @@ class spell_garrosh_hellscream_malice_aoe : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 Unit* l_Caster = GetCaster();
                 Unit* l_Target = GetHitUnit();
@@ -4071,7 +4071,7 @@ class spell_garrosh_hellscream_malicious_energy_explosion : public SpellScriptLo
         {
             PrepareSpellScript(spell_garrosh_hellscream_malicious_energy_explosion_SpellScript);
 
-            void HandleDamage(SpellEffIndex effIndex)
+            void HandleDamage(SpellEffIndex /*effIndex*/)
             {
                 int32 l_Difference = GetSpellValue()->EffectBasePoints[2];//GetSpellValue(SpellValueMod::SPELLVALUE_BASE_POINT2);
                 if (l_Difference > 1)
@@ -4101,7 +4101,7 @@ class spell_garrosh_hellscream_call_bombardment: public SpellScriptLoader
         {
             PrepareAuraScript(spell_garrosh_hellscream_call_bombardment_AuraScript);
 
-            void OnTick(AuraEffect const* aurEff)
+            void OnTick(AuraEffect const* /*aurEff*/)
             {
                 // Prevent default Clump Check.
                 PreventDefaultAction();
@@ -4143,7 +4143,7 @@ class spell_garrosh_hellscream_bombardment_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4183,7 +4183,7 @@ class spell_garrosh_hellscream_fire_iron_star_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4268,7 +4268,7 @@ class achievement_garrosh_hellscream_strike : public AchievementCriteriaScript
     public:
         achievement_garrosh_hellscream_strike() : AchievementCriteriaScript("achievement_garrosh_hellscream_strike") { }
 
-        bool OnCheck(Player* source, Unit* target) override
+        bool OnCheck(Player* source, Unit* /*target*/) override
         {
             if (Creature* pGarrosh = GetGarrosh(source))
             {

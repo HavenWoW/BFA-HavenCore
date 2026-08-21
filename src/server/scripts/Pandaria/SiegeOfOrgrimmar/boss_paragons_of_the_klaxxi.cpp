@@ -980,7 +980,7 @@ struct paragon_of_klaxxiAI : public ScriptedAI
         }
     }
 
-    void DamageTaken(Unit* who, uint32 &damage) override
+    void DamageTaken(Unit* /*who*/, uint32 &damage) override
     {
         if (m_IsDefeated)
         {
@@ -1002,7 +1002,7 @@ struct paragon_of_klaxxiAI : public ScriptedAI
         }
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
     }
 
@@ -1124,7 +1124,7 @@ protected:
 
     bool IsDefeated() const { return m_IsDefeated; }
 
-    virtual void HandlePlayerBuff(Player* player) { }
+    virtual void HandlePlayerBuff(Player* /*player*/) { }
 
 private:
 
@@ -2648,7 +2648,7 @@ class npc_paragons_of_the_klaxxi_mantid_amber : public CreatureScript
         }
 
         // Prevent gossip menu
-        bool OnGossipHello(Player* pPlayer, Creature* pCreature) override
+        bool OnGossipHello(Player* /*pPlayer*/, Creature* /*pCreature*/) override
         {
             return true;
         }
@@ -2792,7 +2792,7 @@ class npc_paragons_of_the_klaxxi_hungry_kunchong : public CreatureScript
                 }
             }
 
-            void DamageTaken(Unit* who, uint32& damage) override
+            void DamageTaken(Unit* /*who*/, uint32& /*damage*/) override
             {
                 if (m_MesmerizePlayerGuid != ObjectGuid::Empty && m_PreviousHealthPct - me->GetHealthPct() >= 30.f)
                 {
@@ -3010,7 +3010,7 @@ class npc_paragons_of_the_klaxxi_amber : public CreatureScript
                 }
             }
 
-            void DamageTaken(Unit* who, uint32& damage) override
+            void DamageTaken(Unit* /*who*/, uint32& damage) override
             {
                 if (IsHeroic())
                 {
@@ -3121,7 +3121,7 @@ class npc_paragons_of_the_klaxxi_blood : public CreatureScript
                 m_BloodInfusionTimer = 1000;
             }
 
-            void IsSummonedBy(Unit* owner) override
+            void IsSummonedBy(Unit* /*owner*/) override
             {
                 events.ScheduleEvent(EVENT_CHANGE_TARGET, 1000);
             }
@@ -3261,7 +3261,7 @@ class npc_paragons_of_the_klaxxi_amber_parasite : public CreatureScript
                 DoCast(me, SPELL_GENETIC_MODIFICATIONS, true);
             }
 
-            void IsSummonedBy(Unit* owner)
+            void IsSummonedBy(Unit* /*owner*/)
             {
                 events.ScheduleEvent(EVENT_HUNGER, TIMER_HUNGER);
             }
@@ -3388,7 +3388,7 @@ class spell_paragons_of_the_klaxxi_reave : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3609,7 +3609,7 @@ class spell_paragons_of_the_klaxxi_toxic_ejection : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3681,7 +3681,7 @@ class spell_paragons_of_the_klaxxi_catalyst : public SpellScriptLoader
                 });
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3732,7 +3732,7 @@ class spell_paragons_of_the_klaxxi_mesmerize_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitCreatureTarget(SpellEffIndex effIndex)
+            void HandleHitCreatureTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3813,7 +3813,7 @@ class spell_paragons_of_the_klaxxi_devour_kill : public SpellScriptLoader
         {
             PrepareSpellScript(spell_paragons_of_the_klaxxi_devour_kill_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3886,7 +3886,7 @@ class spell_paragons_of_the_klaxxi_vicious_assault : public SpellScriptLoader
         {
             PrepareSpellScript(spell_paragons_of_the_klaxxi_vicious_assault_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3922,7 +3922,7 @@ class spell_paragons_of_the_klaxxi_diminish : public SpellScriptLoader
 
                 if (GetHitUnit()->GetHealthPct() > 25.f)
                 {
-                    SetHitDamage(GetHitUnit()->CountPctFromCurHealth(34));
+                    SetHitDamage(int32(GetHitUnit()->CountPctFromCurHealth(34)));
                 }
                 else
                 {
@@ -4063,7 +4063,7 @@ class spell_paragons_of_the_klaxxi_fiery_edge_aura: public SpellScriptLoader
         {
             PrepareAuraScript(spell_paragons_of_the_klaxxi_fiery_edge_aura_AuraScript);
 
-            void OnTick(AuraEffect const* aurEff)
+            void OnTick(AuraEffect const* /*aurEff*/)
             {
                 if (!GetCaster() || !GetUnitOwner())
                     return;
@@ -4141,7 +4141,7 @@ class spell_paragons_of_the_klaxxi_fiery_edge_dmg : public SpellScriptLoader
                 else if (dist < 1.0f)
                     dist = 1.0f;
 
-                int32 reduceDamage = dist * ((FIERY_EDGE_DAMAGE_MAX - FIERY_EDGE_DAMAGE_MIN) / FIERY_EDGE_DAMAGE_DIST_MAX);
+                int32 reduceDamage = int32(dist * ((FIERY_EDGE_DAMAGE_MAX - FIERY_EDGE_DAMAGE_MIN) / FIERY_EDGE_DAMAGE_DIST_MAX));
                 int32 damage = FIERY_EDGE_DAMAGE_MAX - reduceDamage;
                 if (damage < FIERY_EDGE_DAMAGE_MIN)
                     damage = FIERY_EDGE_DAMAGE_MIN;
@@ -4215,7 +4215,7 @@ class spell_paragons_of_the_klaxxi_store_kinetic_energy : public SpellScriptLoad
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4320,7 +4320,7 @@ class spell_paragons_of_the_klaxxi_hurl_amber_aoe : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4350,7 +4350,7 @@ class spell_paragons_of_the_klaxxi_bloodletting_missile_self : public SpellScrip
         {
             PrepareSpellScript(spell_paragons_of_the_klaxxi_bloodletting_missile_self_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -4591,7 +4591,7 @@ class spell_paragons_of_the_klaxxi_mutate_aoe : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4661,7 +4661,7 @@ class spell_paragons_of_the_klaxxi_aim_aoe : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4897,7 +4897,7 @@ class spell_paragons_of_the_klaxxi_hurl_amber_dmg_2 : public SpellScriptLoader
         {
             PrepareSpellScript(spell_paragons_of_the_klaxxi_hurl_amber_dmg_2_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4937,7 +4937,7 @@ class spel_paragons_of_the_klaxxi_rapid_fire: public SpellScriptLoader
                 uint32 tick = aurEff->GetTickNumber();
                 if (tick < SONIC_PULSE_SPELLS_COUNT)
                 {
-                    float orientation = (tick + 1) * ((2 * M_PI) / SONIC_PULSE_SPELLS_COUNT);
+                    float orientation = float((tick + 1) * ((2 * M_PI) / SONIC_PULSE_SPELLS_COUNT));
                     GetUnitOwner()->SetFacingTo(orientation);
                     GetUnitOwner()->SetOrientation(orientation);
                     GetUnitOwner()->CastSpell(GetUnitOwner(), sonicPulseSpells[tick], true);
@@ -5000,7 +5000,7 @@ class spell_paragons_of_the_klaxxi_prey : public SpellScriptLoader
         {
             PrepareSpellScript(spell_paragons_of_the_klaxxi_prey_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;

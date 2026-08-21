@@ -141,12 +141,12 @@ struct npc_mob_echo_of_shadra : public ScriptedAI
     {
     }
 
-    void MovementInform(uint32 type, uint32 id) override
+    void MovementInform(uint32 /*type*/, uint32 /*id*/) override
     {
         me->GetMotionMaster()->MoveRandom(urand(5, 15));
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         if (Player* closestplayer = me->SelectNearestPlayer(50))
             if (me->GetDistance(closestplayer) < 1)
@@ -202,7 +202,7 @@ public:
         {
             if (GameObject* colision = go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_COLLISION_WALL)))
                 colision->Delete();
-            if (GameObject* water = go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_WATERFALL_STAIRS)))
+            if (go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_WATERFALL_STAIRS)))
                 OpenGate(go->GetInstanceScript());
         }
     }
@@ -213,7 +213,7 @@ class spell_rooting_decay : public AuraScript
 {
     PrepareAuraScript(spell_rooting_decay);
 
-    void OnPeriodic(AuraEffect const* aurEff)
+    void OnPeriodic(AuraEffect const* /*aurEff*/)
     {
         if (Unit* caster = GetCaster())
             caster->CastSpell(caster, 256959);

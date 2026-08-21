@@ -269,12 +269,12 @@ struct npc_ataldazar_echo_of_shadra : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         events.ScheduleEvent(EVENT_SHADOW_EMPOWERED, 5000);
     }
 
-    void MovementInform(uint32 type, uint32 id) override
+    void MovementInform(uint32 /*type*/, uint32 /*id*/) override
     {
         me->GetMotionMaster()->MoveRandom(urand(5, 15));
     }

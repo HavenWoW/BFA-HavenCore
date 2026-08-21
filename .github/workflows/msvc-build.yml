@@ -27,7 +27,7 @@ jobs:
     - name: Setup
       env:
         BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
-      run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DTOOLS=1 -DSCRIPTS=dynamic -DSERVERS=1 -DOPENSSL_ROOT_DIR="C:\Program Files\OpenSSL" -DCMAKE_INSTALL_PREFIX=check_install
+      run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DWITH_WARNINGS=1 -DTOOLS=1 -DSCRIPTS=dynamic -DSERVERS=1 -DNOJEM=0 -DOPENSSL_ROOT_DIR="C:\Program Files\OpenSSL" -DCMAKE_INSTALL_PREFIX=check_install
       shell: pwsh
     - name: Build
       run: cmake --build build --config RelWithDebInfo --target install -- /m

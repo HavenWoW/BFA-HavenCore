@@ -23,7 +23,7 @@ struct npc_generic_horde_bod_story : public CombatAI
     {
         scheduler.Update(diff);
 
-        if (auto* c_chargolm = me->FindNearestCreature(NPC_CHARGOLM, 25.0f, false && !chargolm && me->GetEntry() == NPC_PRINCESS_TALANJI))
+        if (me->FindNearestCreature(NPC_CHARGOLM, 25.0f, false && !chargolm && me->GetEntry() == NPC_PRINCESS_TALANJI))
         {
             chargolm = true;
 
@@ -62,7 +62,7 @@ struct npc_generic_horde_bod_story : public CombatAI
             switch (me->GetEntry())
             {
             case NPC_NATHANOS_BRIGHTCALLER:
-                if (Creature* zandalariWArr = me->FindNearestCreature(147601, 50.0f, true && me->GetEntry() == NPC_NATHANOS_BRIGHTCALLER && !pre_grong))
+                if (me->FindNearestCreature(147601, 50.0f, true && me->GetEntry() == NPC_NATHANOS_BRIGHTCALLER && !pre_grong))
                 {
                     pre_grong = true;
                     me->AI()->Talk(0);
@@ -122,7 +122,7 @@ struct npc_otoye : public ScriptedAI
         if (player->IsInCombat())
             return;
 
-        me->GetScheduler().Schedule(5s, [this](TaskContext context)
+        me->GetScheduler().Schedule(5s, [this](TaskContext /*context*/)
         {
             instance->DoNearTeleportPlayers(tell_story_horde_pos, false);
         });
@@ -170,9 +170,9 @@ private:
         me->SetFlying(true);
     }
 
-    void OnSpellClick(Unit* clicker, bool& result) override
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
-        if (Player* player = clicker->ToPlayer())
+        if (clicker->ToPlayer())
             me->SummonCreature(me->GetEntry(), me->GetPosition(), TEMPSUMMON_TIMED_DESPAWN, 20000);
     }
 

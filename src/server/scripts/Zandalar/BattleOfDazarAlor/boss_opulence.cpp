@@ -94,7 +94,7 @@ struct boss_opulence : public BossAI
             {
                 gallywix->AI()->Talk(SAY_GALLYWIX_STAGE_TWO_BEGINS_1);
 
-            }).Schedule(20s, [this, gallywix](TaskContext context)
+            }).Schedule(20s, [this, gallywix](TaskContext /*context*/)
             {
                 gallywix->AI()->Talk(SAY_GALLYWIX_OPULENCE_AGGRO);
             });

@@ -566,7 +566,7 @@ class spell_priestess_pool_tainted_selector : public SpellScript
         Trinity::Containers::RandomResize(targets, 1);
     }
 
-    void DoEffectHitTarget(SpellEffIndex effIndex)
+    void DoEffectHitTarget(SpellEffIndex /*effIndex*/)
     {
         if (Unit* hitUnit = GetHitUnit())
             if (UnitAI* ai = GetCaster()->GetAI()) //@HACK TODO

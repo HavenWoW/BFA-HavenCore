@@ -391,7 +391,7 @@ class boss_immerseus : public CreatureScript
                 }
             }
 
-            void DamageTaken(Unit* attacker, uint32& damage) override
+            void DamageTaken(Unit* /*attacker*/, uint32& damage) override
             {
                 if (damage >= me->GetHealth())
                 {
@@ -1067,7 +1067,7 @@ class npc_immerseus_swirl_target : public CreatureScript
                 }
             }
 
-            void SetData(uint32 type, uint32 data)
+            void SetData(uint32 /*type*/, uint32 data)
             {
                 pos = data;
             }
@@ -1142,7 +1142,7 @@ class spell_immerseus_sha_bolt_aoe : public SpellScriptLoader
         {
             PrepareSpellScript(spell_immerseus_sha_bolt_aoe_SpellScript);
 
-            void HandleScript(SpellEffIndex effIndex)
+            void HandleScript(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1171,7 +1171,7 @@ class spell_immerseus_split : public SpellScriptLoader
         {
             PrepareSpellScript(spell_immerseus_split_SpellScript);
 
-            void HandleScript(SpellEffIndex effIndex)
+            void HandleScript(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -1203,7 +1203,7 @@ class spell_immerseus_reform : public SpellScriptLoader
         {
             PrepareSpellScript(spell_immerseus_reform_SpellScript);
 
-            void HandleScript(SpellEffIndex effIndex)
+            void HandleScript(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -1235,7 +1235,7 @@ class spell_immerseus_congealing : public SpellScriptLoader
         {
             PrepareAuraScript(spell_immerseus_congealing_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1392,7 +1392,7 @@ class spell_immerseus_erupting_sha : public SpellScriptLoader
         {
             PrepareSpellScript(spell_immerseus_erupting_sha_SpellScript);
 
-            void HandleDamage(SpellEffIndex effIndex)
+            void HandleDamage(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -1416,7 +1416,7 @@ class spell_immerseus_erupting_sha : public SpellScriptLoader
 
                 if (modDamage < 1.f)
                 {
-                    int32 newDamage = modDamage * GetHitDamage();
+                    int32 newDamage = int32(modDamage * GetHitDamage());
                     SetHitDamage(newDamage);
                 }
             }
@@ -1612,7 +1612,7 @@ class spell_sha_corruption : public AuraScript
     void OnPeriodic(AuraEffect const* p_AurEff)
     {
         uint8 l_StackAmount = GetAura()->GetStackAmount();
-        uint32 l_Damage = p_AurEff->GetBaseAmount() * m_Coefficients[std::min(uint8(l_StackAmount - 1), uint8(5))];
+        uint32 l_Damage = uint32(p_AurEff->GetBaseAmount() * m_Coefficients[std::min(uint8(l_StackAmount - 1), uint8(5))]);
 
         for (uint8 l_Itr = 7; l_Itr <= l_StackAmount; ++l_Itr)
             AddPct(l_Damage, 100);

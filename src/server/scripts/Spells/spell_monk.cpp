@@ -1094,7 +1094,7 @@ public:
                     std::list<Unit*> playerList;
                     std::list<Creature*> tempList;
                     std::list<Creature*> statueList;
-                    Creature* statue;
+                    Creature* statue = nullptr;
 
                     player->GetPartyMembers(playerList);
 
@@ -3987,7 +3987,7 @@ struct npc_monk_jade_serpent_statue : public ScriptedAI
 {
     npc_monk_jade_serpent_statue(Creature* c) : ScriptedAI(c) { }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         if (Unit* owner = me->GetOwner())
         {
@@ -4024,7 +4024,7 @@ class mystic_touch : public PlayerScript
 public:
     mystic_touch() : PlayerScript("mystic_touch") { }
 
-    void OnDamage(Unit* caster, Unit* target, uint32& damage, SpellInfo const* spellProto)
+    void OnDamage(Unit* caster, Unit* target, uint32& /*damage*/, SpellInfo const* /*spellProto*/)
     {
         if (Player* player = caster->ToPlayer())
         {

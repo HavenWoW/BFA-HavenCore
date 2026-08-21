@@ -383,7 +383,7 @@ struct boss_conclave_of_the_chosen : public BossAI
                 paku->CastSpell(nullptr, SPELL_LOAS_WRATH, true);
 
             //Gonk + Paku are dead now, so Kimbul is joing the fight
-            if (Creature* paku = me->FindNearestCreature(NPC_PAKU, 125.0f, false && me->isDead()))
+            if (me->FindNearestCreature(NPC_PAKU, 125.0f, false))
             {
                 if (Creature* kimbul = me->FindNearestCreature(NPC_KIMBUL, 125.0f, true))  
                 {
@@ -404,7 +404,7 @@ struct boss_conclave_of_the_chosen : public BossAI
                 gonk->CastSpell(nullptr, SPELL_LOAS_WRATH, true);
 
             //Gonk + Paku are dead now, so Kimbul is joing the fight
-            if (Creature* gonk = me->FindNearestCreature(NPC_GONK, 125.0f, false && me->isDead()))
+            if (me->FindNearestCreature(NPC_GONK, 125.0f, false))
             {
                 if (Creature* kimbul = me->FindNearestCreature(NPC_KIMBUL, 125.0f, true))
                 {
@@ -479,12 +479,12 @@ struct npc_paku_conclave : public ScriptedAI
         }
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         me->CanFly();
         me->SetFlying(true);
-        me->GetScheduler().Schedule(1s, [this](TaskContext context)
+        me->GetScheduler().Schedule(1s, [this](TaskContext /*context*/)
         {
             me->GetMotionMaster()->MovePoint(1, me->GetRandomPoint(me->GetPosition(), 30.0f), true);
         });
@@ -510,7 +510,7 @@ struct npc_gonk_conclave : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         me->CastSpell(nullptr, SPELL_GONKS_WRATH, false);
@@ -533,10 +533,10 @@ struct npc_kimbul_conclave : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
-        me->GetScheduler().Schedule(1s, [this] (TaskContext context)
+        me->GetScheduler().Schedule(1s, [this] (TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
@@ -544,7 +544,7 @@ struct npc_kimbul_conclave : public ScriptedAI
                 me->AddAura(SPELL_BLEEDING_WOUNDS, target);
             }
 
-        }).Schedule(2s, [this](TaskContext context)
+        }).Schedule(2s, [this](TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
@@ -552,14 +552,14 @@ struct npc_kimbul_conclave : public ScriptedAI
                 me->AddAura(SPELL_BLEEDING_WOUNDS, target);
             }
 
-        }).Schedule(3s, [this](TaskContext context)
+        }).Schedule(3s, [this](TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->AddAura(SPELL_BLEEDING_WOUNDS, target);
             }
-        }).Schedule(4s, [this](TaskContext context)
+        }).Schedule(4s, [this](TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
@@ -590,7 +590,7 @@ struct npc_akunda_conclave : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);       
         UnitList tar_li;
@@ -598,7 +598,7 @@ struct npc_akunda_conclave : public ScriptedAI
         for (Unit* targets : tar_li)
         {
             me->CastSpell(targets, SPELL_AKUNDAS_WRATH, true);
-            targets->GetScheduler().Schedule(7s, [this, targets](TaskContext context)
+            targets->GetScheduler().Schedule(7s, [this, targets](TaskContext /*context*/)
             {
                 me->CastSpell(targets, SPELL_AKUNDAS_WRAT_EXP, true);
                 for (int8 i = 0; i < 6; i++)
@@ -658,10 +658,10 @@ struct npc_kragwa : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
-        me->GetScheduler().Schedule(1s, [this](TaskContext context)
+        me->GetScheduler().Schedule(1s, [this](TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
@@ -669,7 +669,7 @@ struct npc_kragwa : public ScriptedAI
                 me->CastSpell(target->GetPosition(), SPELL_KRAGWAS_WRATH_MAIN, true);
             }
 
-        }).Schedule(2s, [this](TaskContext context)
+        }).Schedule(2s, [this](TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
@@ -677,14 +677,14 @@ struct npc_kragwa : public ScriptedAI
                 me->CastSpell(target->GetPosition(), SPELL_KRAGWAS_WRATH_MAIN, true);
             }
 
-        }).Schedule(3s, [this](TaskContext context)
+        }).Schedule(3s, [this](TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
                 me->CastSpell(target, SPELL_KIMBULS_WRATH_JUMP, true);
                 me->CastSpell(target->GetPosition(), SPELL_KRAGWAS_WRATH_MAIN, true);
             }
-        }).Schedule(4s, [this](TaskContext context)
+        }).Schedule(4s, [this](TaskContext /*context*/)
         {
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
@@ -715,7 +715,7 @@ struct npc_bwonsamdi_conclave : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         Talk(SAY_BWONSAMDIS_WRATH);
         if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))

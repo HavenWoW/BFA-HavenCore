@@ -198,7 +198,7 @@ public:
             _DespawnAtEvade(15);
         }
 
-        void DamageTaken(Unit* at, uint32& damage) override
+        void DamageTaken(Unit* /*at*/, uint32& damage) override
         {
             if (me->HasAura(SPELL_LIGHTNING_SHIELD_AURA))
                 damage = 0;
@@ -448,7 +448,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             _DespawnAtEvade(15);
         }
@@ -585,7 +585,7 @@ public:
             targetsPlayers = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex effIndex)
+        void RecalculateDamage(SpellEffIndex /*effIndex*/)
         {
             SetHitDamage(GetHitDamage() / targetsPlayers);
         }

@@ -490,7 +490,7 @@ public:
         if (pPlayer->GetQuestStatus(QUEST_CHUG_AND_CHUCK_A) == QUEST_STATUS_INCOMPLETE
             || pPlayer->GetQuestStatus(QUEST_CHUG_AND_CHUCK_H) == QUEST_STATUS_INCOMPLETE)
         {
-            if (Creature* pStout = pPlayer->FindNearestCreature(NPC_BREWFEST_STOUT, 10.0f)) // spell range
+            if (pPlayer->FindNearestCreature(NPC_BREWFEST_STOUT, 10.0f)) // spell range
             {
                 return false;
             }
@@ -554,7 +554,7 @@ class item_leyara_locket : public ItemScript
 public:
     item_leyara_locket() : ItemScript("item_leyara_locket") { }
 
-    bool OnUse(Player* pPlayer, Item* pItem, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
+    bool OnUse(Player* pPlayer, Item* /*pItem*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (pPlayer->getGender() == GENDER_MALE)
             pPlayer->CastSpell(pPlayer, 101185); // model male

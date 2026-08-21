@@ -2126,11 +2126,11 @@ class spell_q12641_death_comes_from_on_high : public SpellScriptLoader
                     if (Player* player = GetCaster()->GetCharmerOrOwner()->ToPlayer())
                         player->KilledMonsterCredit(NPC_NEW_AVALON_TOWN_HALL);
 
-                if (Creature* npc = caster->FindNearestCreature(NPC_SCARLET_HOLD, 45.0f))
+                if (caster->FindNearestCreature(NPC_SCARLET_HOLD, 45.0f))
                     if (Player* player = GetCaster()->GetCharmerOrOwner()->ToPlayer())
                         player->KilledMonsterCredit(NPC_SCARLET_HOLD);
 
-                if (Creature* npc = caster->FindNearestCreature(NPC_CHAPEL_OF_THE_CRIMSON_FLAME, 45.0f))
+                if (caster->FindNearestCreature(NPC_CHAPEL_OF_THE_CRIMSON_FLAME, 45.0f))
                     if (Player* player = GetCaster()->GetCharmerOrOwner()->ToPlayer())
                         player->KilledMonsterCredit(NPC_CHAPEL_OF_THE_CRIMSON_FLAME);
             }
@@ -2834,13 +2834,10 @@ public:
 
         void HandleOnCast()
         {
-            if (Unit* caster = GetCaster())
+            if (GetCaster())
             {
-                Position pos{ -851.8559f, 4622.788f, 749.4676f };
-                uint32 AreaTriggerID = 13567;
                 AreaTrigger* areaTrigger = new AreaTrigger;
-               // if (!areaTrigger->CreateAreaTrigger(sObjectMgr->GetGenerator<HighGuid::AreaTrigger>()->Generate(), 0, caster, nullptr, pos, pos, nullptr, ObjectGuid::Empty, AreaTriggerID))
-                    delete areaTrigger;
+                delete areaTrigger;
             }
         }
 

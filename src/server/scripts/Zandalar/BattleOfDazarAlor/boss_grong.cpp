@@ -130,7 +130,7 @@ private:
         {
             bwonsamdi->CastSpell(nullptr, 243010, true);
             bwonsamdi->AI()->Talk(0);
-            bwonsamdi->GetScheduler().Schedule(10s, [this, bwonsamdi] (TaskContext context)
+            bwonsamdi->GetScheduler().Schedule(10s, [this, bwonsamdi] (TaskContext /*context*/)
             {
                 bwonsamdi->AI()->Talk(1);
             });
@@ -140,7 +140,7 @@ private:
             encounterDoor->SetGoState(GO_STATE_ACTIVE);
     }
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
         if (spell->Id == LIGHTNING_DETONATION)
             me->ModifyPower(POWER_ENERGY, me->GetPower(POWER_ENERGY) + 50);
@@ -172,17 +172,17 @@ private:
             std::list<Player*> pl_li;
             me->GetPlayerListInGrid(pl_li, 100.0f);
             for (auto& targets : pl_li)
-            me->GetScheduler().Schedule(1s, [this, pl_li, targets] (TaskContext context)
+            me->GetScheduler().Schedule(1s, [this, pl_li, targets] (TaskContext /*context*/)
             {
                 me->ModifyPower(POWER_ENERGY, -25);
                 me->AddAura(SHATTERED, targets);
 
-            }).Schedule(2s, [this, pl_li, targets] (TaskContext context)
+            }).Schedule(2s, [this, pl_li, targets] (TaskContext /*context*/)
             {
                 me->ModifyPower(POWER_ENERGY, -25);
                 me->AddAura(SHATTERED, targets);
 
-            }).Schedule(3s, [this, pl_li, targets] (TaskContext context)
+            }).Schedule(3s, [this, pl_li, targets] (TaskContext /*context*/)
             {
                 me->ModifyPower(POWER_ENERGY, -25);
                 me->AddAura(SHATTERED, targets);
@@ -226,13 +226,13 @@ private:
                 {
                     target->EnterVehicle(me);                    
                     me->CastSpell(target, BESTIAL_THROW, false);
-                    me->GetScheduler().Schedule(5s, [target, this] (TaskContext context)
+                    me->GetScheduler().Schedule(5s, [target, this] (TaskContext /*context*/)
                     {
                         target->ExitVehicle();
                         if (Unit* target_throw = SelectTarget(SELECT_TARGET_RANDOM, 0, 60.0f, true))
                         {
                             target->CastSpell(target_throw, BESTIAL_THROW_JUMP, true);
-                            me->GetScheduler().Schedule(1s, [target, this, target_throw] (TaskContext context)
+                            me->GetScheduler().Schedule(1s, [target, this, target_throw] (TaskContext /*context*/)
                             {
                                 me->CastSpell(target_throw, BESTIAL_IMPACT, true);
                             });
@@ -297,7 +297,7 @@ struct npc_apetagonizer_3000 : public ScriptedAI
         me->UpdatePosition(me->GetPositionX()+ 0.0f, me->GetPositionY() + 0.0f, me->GetPositionZ() + 20.0f, me->GetOrientation());
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {        
         me->AddAura(PARACHUTE);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -377,7 +377,7 @@ struct npc_apetagonize_core : public ScriptedAI
         me->DespawnOrUnsummon();
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->CastSpell(me, APETAGONIZE_CORE_MISSILE);
     }

@@ -496,7 +496,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_taint_of_ghunn_AuraScript);
 
-        void HandleAbsorb(AuraEffect* aurEff, HealInfo& healInfo, uint32& absorbAmount)
+        void HandleAbsorb(AuraEffect* /*aurEff*/, HealInfo& healInfo, uint32& absorbAmount)
         {
             uint32 heal = healInfo.GetHeal();
             int32 maxPct = GetAura()->GetEffect(EFFECT_0)->GetAmount();
@@ -517,9 +517,8 @@ public:
         {
             if (Unit* caster = GetTarget())
             {
-                if (AuraEffect* aurEff = GetAura()->GetEffect(EFFECT_1))
-                    if (AuraEffect* aurEff = GetAura()->GetEffect(EFFECT_1))
-                        aurEff->SetDamage(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEff->GetSpellEffectInfo(), GetStackAmount()) * aurEff->GetDonePct());
+                if (AuraEffect* aurEffect = GetAura()->GetEffect(EFFECT_1))
+                    aurEffect->SetDamage(caster->SpellDamageBonusDone(GetTarget(), GetSpellInfo(), 0, DOT, aurEffect->GetSpellEffectInfo(), GetStackAmount()) * aurEffect->GetDonePct());
             }
         }
 

@@ -35,7 +35,6 @@ if( WITH_WARNINGS )
 
   target_compile_options(trinity-warning-interface
     INTERFACE
-      -Wno-error=unused-variable
       -Wno-error=unused-parameter
       -Wno-deprecated-copy) # warning in g3d
 

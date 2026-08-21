@@ -233,7 +233,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage)
         {
             if (me->HasAura(SPELL_BLOOD_BARRIER))
             {
@@ -277,7 +277,7 @@ public:
                 if (!targets.empty())
                     if (targets.size() >= 1)
                         targets.resize(1);
-                for (auto target : targets)
+                for ([[maybe_unused]] Unit* target : targets)
                 {
                     for (uint8 i = 0; i < 5; ++i)
                         me->CastSpell(me->GetPositionX() + 2 * i, me->GetPositionY(), me->GetPositionZ(), SPELL_VILE_EXPULSION_MISSILE_SPAWN);
@@ -460,7 +460,7 @@ public:
                     if (!targets.empty())
                         if (targets.size() >= 1)
                             targets.resize(1);
-                    for (auto target : targets)
+                    for (Unit* target : targets)
                     {
                         me->CastSpell(target, SPELL_CLEANSING_LIGHT);
                         std::list<AreaTrigger*> areatriggers = target->SelectNearestAreaTriggers(SPELL_VILE_EXPULSION_SPAWN, 100.f);
@@ -502,7 +502,7 @@ public:
             return me->FindNearestCreature(BOSS_UNBOUND_ABOMINATION, 500.0f, true);
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage)
         {
             if (damage >= me->GetHealth())
             {
@@ -554,7 +554,7 @@ public:
             return me->FindNearestCreature(BOSS_UNBOUND_ABOMINATION, 500.0f, true);
         }
 
-        void DamageTaken(Unit* a, uint32& damage)
+        void DamageTaken(Unit* /*a*/, uint32& damage)
         {
             if (damage >= me->GetHealth())
             {
@@ -600,7 +600,7 @@ public:
                         if (targets.size() >= 1)
                             targets.resize(1);
 
-                    for (auto target : targets)
+                    for (Unit* target : targets)
                     {
                         me->AddThreat(target, 9999999999.9f);
                         me->AI()->AttackStart(target);

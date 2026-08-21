@@ -62,7 +62,7 @@ struct npc_princess_talanji_146921 : public ScriptedAI
         if (player->HasQuest(QUEST_PARTING_MISTS) && !player->GetQuestObjectiveData(QUEST_PARTING_MISTS, 2))
         {
             player->KilledMonsterCredit(148888);
-            player->GetScheduler().Schedule(5s, [this, player](TaskContext context)
+            player->GetScheduler().Schedule(5s, [this, player](TaskContext /*context*/)
             {
                 player->GetSceneMgr().PlaySceneByPackageId(SCENE_ZULDAZAR_ATTACK);
             });
@@ -73,7 +73,7 @@ struct npc_princess_talanji_146921 : public ScriptedAI
 //147318
 struct npc_riding_raptor_147318 : public ScriptedAI
 {
-    npc_riding_raptor_147318(Creature* c) : ScriptedAI(c) { Vehicle* vehicle = me->GetVehicleKit(); }
+    npc_riding_raptor_147318(Creature* c) : ScriptedAI(c) { me->GetVehicleKit(); }
 
     void IsSummonedBy(Unit* summoner) override
     {
@@ -120,7 +120,7 @@ struct npc_rokhan_147233 : public ScriptedAI
         {
             player->KilledMonsterCredit(147669);
             player->NearTeleportTo(1884.685f, 1775.752f, -0.199f, false);
-            player->GetScheduler().Schedule(5s, [this, player](TaskContext context)
+            player->GetScheduler().Schedule(5s, [this, player](TaskContext /*context*/)
             {
                 player->SummonCreature(NPC_RIDING_RAPTOR_VEHICLE, me->GetPosition());
             });
@@ -151,7 +151,7 @@ struct npc_pterrodax_143701 : public ScriptedAI
         {
             if (player->HasQuest(QUEST_FLY_OUT_TO_MEET_THEM))
             {
-                Vehicle* vehicle = me->GetVehicleKit();
+                me->GetVehicleKit();
                 player->EnterVehicle(me);
                 me->GetMotionMaster()->MovePoint(1, -349.566f, 1171.464f, 316.705f, true);
                 player->KilledMonsterCredit(147707);

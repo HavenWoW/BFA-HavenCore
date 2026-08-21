@@ -799,7 +799,7 @@ class npc_iron_juggernaut_crawler_mine_dummy : public CreatureScript
                 me->SetUnitFlags(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_IMMUNE_TO_PC));
             }
 
-            void IsSummonedBy(Unit* owner)
+            void IsSummonedBy(Unit* /*owner*/)
             {
                 if (Creature* pJuggernaut = GetIronJuggernaut(me))
                 {
@@ -829,12 +829,12 @@ class npc_iron_juggernaut_crawler_mine : public CreatureScript
                 me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_GRIP, false);
             }
 
-            void DamageTaken(Unit* who, uint32& damage) override
+            void DamageTaken(Unit* /*who*/, uint32& damage) override
             {
                 damage = 0;
             }
 
-            void MovementInform(uint32 type, uint32 id)
+            void MovementInform(uint32 /*type*/, uint32 id)
             {
                 if (id == EVENT_JUMP)
                 {
@@ -1103,7 +1103,7 @@ class npc_iron_juggernaut_sawblade_ricochet : public CreatureScript
                 }
             }*/
 
-            void MovementInform(uint32 type, uint32 id) override
+            void MovementInform(uint32 type, uint32 /*id*/) override
             {
                 if (type == Movement::MoveSpline::UpdateResult::Result_Arrived)
                 {
@@ -1365,7 +1365,7 @@ class spell_iron_juggernaut_mortar_blast_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1461,7 +1461,7 @@ class spell_iron_juggernaut_mortar_blast_siege_periodic : public SpellScriptLoad
         {
             PrepareAuraScript(spell_iron_juggernaut_mortar_blast_siege_periodic_AuraScript);
 
-            void HandlePeriodicTick(AuraEffect const* aurEff)
+            void HandlePeriodicTick(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1579,7 +1579,7 @@ class spell_iron_juggernaut_crawler_mine_aoe : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -1609,7 +1609,7 @@ class spell_iron_juggernaut_detonation_sequence : public SpellScriptLoader
         {
             PrepareAuraScript(spell_iron_juggernaut_detonation_sequence_AuraScript);
 
-            void HandlePeriodicTick(AuraEffect const* aurEff)
+            void HandlePeriodicTick(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1663,7 +1663,7 @@ class spell_iron_juggernaut_demolisher_cannons_aoe : public SpellScriptLoader
                     targets.push_back(target);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1741,7 +1741,7 @@ class spell_iron_juggernaut_cutter_laser_aoe : public SpellScriptLoader
                 targets.remove_if(EntryCheck(NPC_TAIL_GUN));
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1771,7 +1771,7 @@ class spell_iron_juggernaut_cutter_laser_dmg : public SpellScriptLoader
         {
             PrepareAuraScript(spell_iron_juggernaut_cutter_laser_dmg_AuraScript);
 
-            void HandlePeriodicTick(AuraEffect const* aurEff)
+            void HandlePeriodicTick(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1803,12 +1803,10 @@ class spell_iron_juggernaut_explosive_tar_periodic : public SpellScriptLoader
         {
             PrepareAuraScript(spell_iron_juggernaut_explosive_tar_periodic_AuraScript);
 
-            void HandlePeriodicTick(AuraEffect const* aurEff)
+            void HandlePeriodicTick(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
-
-                const uint32 maxTarTargets = 5;
 
                 if (Creature* pJuggernaut = GetUnitOwner()->ToCreature())
                 {
@@ -1850,7 +1848,7 @@ class spell_iron_juggernaut_explosive_tar_dmg : public SpellScriptLoader
         {
             PrepareAuraScript(spell_iron_juggernaut_explosive_tar_dmg_AuraScript);
 
-            void HandlePeriodicTick(AuraEffect const* aurEff)
+            void HandlePeriodicTick(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;

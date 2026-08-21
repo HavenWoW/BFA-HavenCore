@@ -412,7 +412,7 @@ class spell_pal_light_of_the_protector : public SpellScript
     void HandleOnHit(SpellEffIndex /*effIndex*/)
     {
         Unit* caster = GetCaster();
-        uint32 dmg;
+        uint32 dmg = 0;
 
         if (GetSpellInfo()->Id == SPELL_PALADIN_LIGHT_OF_THE_PROTECTOR)
         {
@@ -2150,7 +2150,7 @@ class judgment_of_light : public PlayerScript
 public:
     judgment_of_light() : PlayerScript("judgment_of_light") { }
 
-    void OnDamage(Unit* caster, Unit* target, uint32& damage, SpellInfo const* spellProto)
+    void OnDamage(Unit* caster, Unit* target, uint32& /*damage*/, SpellInfo const* /*spellProto*/)
     {
         if (Player* player = caster->ToPlayer())
         {
@@ -2206,7 +2206,7 @@ class spell_pal_hand_of_hindrance : public AuraScript
 {
     PrepareAuraScript(spell_pal_hand_of_hindrance);
 
-    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes mode)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_ENEMY_SPELL)
             if (Unit* caster = GetCaster())
@@ -2226,7 +2226,7 @@ class fist_of_justice : public PlayerScript
 public:
     fist_of_justice() : PlayerScript("fist_of_justice") { }
 
-    void OnModifyPower(Player* player, Powers power, int32 oldValue, int32& newValue, bool /*regen*/, bool /*after*/)
+    void OnModifyPower(Player* player, Powers /*power*/, int32 oldValue, int32& newValue, bool /*regen*/, bool /*after*/)
     {
         if (player->getClass() != CLASS_PALADIN)
             return;
@@ -2249,7 +2249,7 @@ class aura_darkest_before_the_dawn : public AuraScript
     void OnTick(AuraEffect const* /*aurEff*/)
     {
         if (GetCaster())
-            if (Aura* dawnTrigger = GetCaster()->GetAura(SPELL_PALADIN_DARKEST_BEFORE_THE_DAWN))
+            if (GetCaster()->GetAura(SPELL_PALADIN_DARKEST_BEFORE_THE_DAWN))
                 GetCaster()->AddAura(SPELL_PALADIN_DARKEST_BEFORE_THE_DAWN_BUFF);
     }
 

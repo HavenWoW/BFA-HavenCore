@@ -114,7 +114,7 @@ struct npc_dazar_minions : public ScriptedAI
 {
     npc_dazar_minions(Creature* c) : ScriptedAI(c) { }
 
-    void IsSummonedBy(Unit* u) override
+    void IsSummonedBy(Unit* /*u*/) override
     {
         switch (me->GetEntry())
         {

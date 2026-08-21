@@ -340,7 +340,7 @@ class achievement_almost_blink_luck : public AchievementCriteriaScript
 public:
     achievement_almost_blink_luck() : AchievementCriteriaScript("achievement_almost_blink_luck") { }
 
-    bool OnCheck(Player* source, Unit* target) override
+    bool OnCheck(Player* source, Unit* /*target*/) override
     {
         if (!source)
             return false;
@@ -359,7 +359,7 @@ class achievement_master_of_the_molten_flow : public AchievementCriteriaScript
 public:
     achievement_master_of_the_molten_flow() : AchievementCriteriaScript("achievement_master_of_the_molten_flow") { }
 
-    bool OnCheck(Player* source, Unit* target) override
+    bool OnCheck(Player* /*source*/, Unit* target) override
     {
         if (!target)
             return false;
@@ -378,7 +378,7 @@ class achievement_run_with_the_wind : public AchievementCriteriaScript
 public:
     achievement_run_with_the_wind() : AchievementCriteriaScript("achievement_run_with_the_wind") { }
 
-    bool OnCheck(Player* source, Unit* target) override
+    bool OnCheck(Player* source, Unit* /*target*/) override
     {
         if (!source)
             return false;

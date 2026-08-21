@@ -352,8 +352,8 @@ public:
             if (Unit* pet = GetUnitOwner())
                 if (pet->IsPet())
                     if (Unit* owner = pet->ToPet()->GetOwner())
-                        if (AuraEffect* /* aurEff */ect = owner->GetAuraEffect(SPELL_WARLOCK_GLYPH_OF_VOIDWALKER, EFFECT_0))
-                            amount += /* aurEff */ect->GetAmount();
+                        if (AuraEffect* aurEff = owner->GetAuraEffect(SPELL_WARLOCK_GLYPH_OF_VOIDWALKER, EFFECT_0))
+                            amount += aurEff->GetAmount();
         }
 
         void Register() override
@@ -924,8 +924,8 @@ public:
                 return;
             if (Player* owner = GetCaster()->GetOwner()->ToPlayer())
             {
-                if (AuraEffect* /* aurEff */ect = owner->GetAuraEffectOfRankedSpell(SPELL_HUNTER_ANIMAL_HANDLER, EFFECT_1))
-                    amount = /* aurEff */ect->GetAmount();
+                if (AuraEffect* aurEff = owner->GetAuraEffectOfRankedSpell(SPELL_HUNTER_ANIMAL_HANDLER, EFFECT_1))
+                    amount = aurEff->GetAmount();
                 else
                     amount = 0;
             }

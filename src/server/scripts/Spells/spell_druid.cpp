@@ -1713,7 +1713,7 @@ public:
         void HandleOnHit()
         {
             Unit* caster = GetCaster();
-            if (caster)
+            if (!caster)
                 return;
 
             if (caster->HasAura(SPELL_BLOODTALONS))

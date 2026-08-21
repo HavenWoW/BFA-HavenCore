@@ -419,7 +419,7 @@ public:
         return true;
     }
 
-    bool CompletePlayerTest(ObjectGuid playerGuid, bool passed)
+    bool CompletePlayerTest(ObjectGuid playerGuid, bool /*passed*/)
     {
         TestPlayer* testPlayer = GetPlayerTest(playerGuid);
         if (!testPlayer)
@@ -463,7 +463,7 @@ public:
 
     uint32 GetPlayerTestsCount() const
     {
-        return m_testPlayers.size();
+        return uint32(m_testPlayers.size());
     }
 
     void RemoveAllPlayerTests()
@@ -1024,7 +1024,7 @@ public:
             DespawnCreaturesInArea(NPC_ESSENCE_OF_CORRUPTION_1, me);
         }
 
-        void DespawnCreaturesInArea(int entry, Unit* unit)
+        void DespawnCreaturesInArea(int entry, Unit* /*unit*/)
         {
             std::list<Creature*> creatureList = me->FindNearestCreatures(entry, 200);
             for (Creature* creature : creatureList)
@@ -1295,7 +1295,7 @@ public:
             me->setActive(true);
         }
 
-        void DoAction(const int32 action)
+        void DoAction(const int32 /*action*/)
         {
 
         }
@@ -1548,7 +1548,7 @@ public:
 
         }
 
-        void IsSummonedBy(Unit* owher) override
+        void IsSummonedBy(Unit* /*owher*/) override
         {
             if (InstanceScript* pInstance = me->GetInstanceScript())
             {
@@ -1564,16 +1564,16 @@ public:
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
 
-        void DamageTaken(Unit* who, uint32& damage) override
+        void DamageTaken(Unit* /*who*/, uint32& damage) override
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }
 
-        void EnterEvadeMode(EvadeReason why) override
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             me->DespawnOrUnsummon(1000);
         }
@@ -1666,7 +1666,7 @@ public:
             DoCast(me, SPELL_ESSENSE_OF_CORRUPTION, true);
         }
 
-        void IsSummonedBy(Unit* owher) override
+        void IsSummonedBy(Unit* /*owher*/) override
         {
             if (InstanceScript* pInstance = me->GetInstanceScript())
             {
@@ -1682,16 +1682,16 @@ public:
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
 
-        void DamageTaken(Unit* who, uint32& damage) override
+        void DamageTaken(Unit* /*who*/, uint32& damage) override
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }
 
-        void EnterEvadeMode(EvadeReason why) override
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             me->DespawnOrUnsummon(1000);
         }
@@ -1805,7 +1805,7 @@ public:
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }*/
@@ -1908,7 +1908,7 @@ public:
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
-                uint32 damageCopy = damage > me->GetHealth() ? me->GetHealth() : damage;
+                uint32 damageCopy = damage > me->GetHealth() ? uint32(me->GetHealth()) : damage;
                 me->DealDamage(pAmalgam, pAmalgam->GetHealth() > damageCopy ? damageCopy : 0);
             }
         }*/
@@ -1992,7 +1992,7 @@ public:
 
         }
 
-        void IsSummonedBy(Unit* owher)
+        void IsSummonedBy(Unit* /*owher*/)
         {
             if (InstanceScript* pInstance = me->GetInstanceScript())
             {
@@ -2101,7 +2101,7 @@ public:
 
         }
 
-        void IsSummonedBy(Unit* owher)
+        void IsSummonedBy(Unit* /*owher*/)
         {
             if (InstanceScript* pInstance = me->GetInstanceScript())
             {
@@ -2222,7 +2222,7 @@ public:
 
         }
 
-        void IsSummonedBy(Unit* owner) override
+        void IsSummonedBy(Unit* /*owner*/) override
         {
             DoCast(me, SPELL_RESIDUAL_CORRUPTION_AURA, true);
         }
@@ -2243,7 +2243,7 @@ public:
     {
         PrepareAuraScript(spell_norushen_unleashed_anger_AuraScript);
 
-        void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster() || !GetUnitOwner())
                 return;
@@ -2273,7 +2273,7 @@ public:
     {
         PrepareAuraScript(spell_norushen_test_of_serenity_AuraScript);
 
-        void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster() || !GetUnitOwner())
                 return;
@@ -2323,7 +2323,7 @@ public:
     {
         PrepareAuraScript(spell_norushen_test_of_reliance_AuraScript);
 
-        void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster() || !GetUnitOwner())
                 return;
@@ -2373,7 +2373,7 @@ public:
     {
         PrepareAuraScript(spell_norushen_test_of_confidence_AuraScript);
 
-        void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster() || !GetUnitOwner())
                 return;
@@ -2423,7 +2423,7 @@ public:
     {
         PrepareAuraScript(spell_norushen_blind_hatred_periodic_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aurEff)
+        void HandlePeriodic(AuraEffect const* /*aurEff*/)
         {
             if (!GetUnitOwner())
                 return;
@@ -2541,7 +2541,7 @@ public:
     {
         PrepareAuraScript(spell_norushen_corruption_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aurEff)
+        void HandlePeriodic(AuraEffect const* /*aurEff*/)
         {
             if (!GetUnitOwner())
                 return;
@@ -2574,7 +2574,7 @@ public:
                 aurEff->SetAmount(-amount);
         }
 
-        void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetUnitOwner())
                 return;
@@ -2642,7 +2642,7 @@ public:
 
             float multiplier = 1.0f + (100.0f - GetCaster()->GetHealthPct()) / 100.0f;
 
-            SetHitDamage(GetHitDamage() * multiplier);
+            SetHitDamage(int32(GetHitDamage() * multiplier));
         }
 
         void Register()
@@ -2730,7 +2730,7 @@ public:
 
         template <Roles Role>
         //bool Calculate(AuraEffect const* aurEff, int32& amount, bool& canBeRecalculated)
-        void HandleEffectCalcAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& canBeRecalculated)
+        void HandleEffectCalcAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
         {
             if (GetOwner() && GetOwner()->IsPlayer() && GetOwner()->ToPlayer()->GetRoleForGroup() == Role)
                 amount = (Role == Roles::ROLE_TANK) ? -25 : 25;

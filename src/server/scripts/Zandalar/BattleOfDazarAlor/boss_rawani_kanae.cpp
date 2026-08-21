@@ -152,7 +152,7 @@ struct boss_rawani_kanae : public BossAI
         }
     }
 
-    void DamageTaken(Unit* unit, uint32& damage) override
+    void DamageTaken(Unit* /*unit*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(60) && hp60 == false)
             hp60 = true;
@@ -202,7 +202,7 @@ struct boss_rawani_kanae : public BossAI
                 Talk(SAY_KILL);
     }
 
-   void SpellHit(Unit* caster, SpellInfo const* spell) override 
+   void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override 
    {
        if (me->HasAura(SEAL_OF_RECKONING))
            me->AddAura(ZEALOTRY);
@@ -319,7 +319,7 @@ struct boss_rawani_kanae : public BossAI
             {
                 if (me->HasAura(SEAL_OF_RETRIBUTION))
                 {
-                    me->GetScheduler().Schedule(100ms, [this] (TaskContext context)
+                    me->GetScheduler().Schedule(100ms, [this] (TaskContext /*context*/)
                     {
                         me->SetPower(POWER_ENERGY, 0);
                         me->RemoveAura(SEAL_OF_RETRIBUTION);
@@ -330,7 +330,7 @@ struct boss_rawani_kanae : public BossAI
                 }
                 if (me->HasAura(SEAL_OF_RECKONING))
                 {
-                    me->GetScheduler().Schedule(100ms, [this] (TaskContext context)
+                    me->GetScheduler().Schedule(100ms, [this] (TaskContext /*context*/)
                     {
                         me->SetPower(POWER_ENERGY, 0);
                         me->RemoveAura(SEAL_OF_RECKONING);
@@ -380,7 +380,7 @@ struct npc_zandalari_crusader_147896 : public ScriptedAI
         events.ScheduleEvent(EVENT_DIVINE_MALLET, 18s);
     }
 
-    void MoveInLineOfSight(Unit* u) override
+    void MoveInLineOfSight(Unit* /*u*/) override
     {
         if (Creature* rawani = me->FindNearestCreature(NPC_RAWANI_KANAE, 100.f, true))
         {
@@ -470,7 +470,7 @@ struct npc_rezani_disciple_147895 : public ScriptedAI
         events.ScheduleEvent(EVENT_PENANCE_DAMAGE, 18s);
     }
 
-    void MoveInLineOfSight(Unit* u) override
+    void MoveInLineOfSight(Unit* /*u*/) override
     {
         if (Creature* rawani = me->FindNearestCreature(NPC_RAWANI_KANAE, 100.0f))
         {
@@ -560,13 +560,13 @@ struct npc_lions_roar : public ScriptedAI
         }
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->SetFaction(84);
         me->AddUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE));
         me->SetWalk(false);
         me->GetMotionMaster()->MovePoint(1, -2022.489f, 774.871f, 5.931f, true);
-        me->GetScheduler().Schedule(8s, [this] (TaskContext context)
+        me->GetScheduler().Schedule(8s, [this] (TaskContext /*context*/)
         {
             if (auto* collision1 = me->FindNearestGameObject(GO_RAWANI_COLLISION_1, 100.0f))
                 collision1->RemoveFromWorld();

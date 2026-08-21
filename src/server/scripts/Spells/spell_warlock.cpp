@@ -3333,15 +3333,9 @@ public:
             amount = -1;
         }
 
-        void HandleAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
-        {
-
-        }
-
         void Register() override
         {
             DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_warl_chaotic_energies_AuraScript::CalcAmount, EFFECT_2, SPELL_AURA_SCHOOL_ABSORB);
-            OnEffectAbsorb += AuraEffectAbsorbFn(spell_warl_chaotic_energies_AuraScript::HandleAbsorb, EFFECT_2);
         }
     };
 

@@ -3684,7 +3684,7 @@ public:
     public:
         PrepareAuraScript(bfa_spell_frostbrand_AuraScript);
 
-        void HandleEffectProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        void HandleEffectProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             PreventDefaultAction();
 
@@ -3766,7 +3766,7 @@ public:
     public:
         PrepareAuraScript(bfa_spell_flametongue_proc_attack_AuraScript);
 
-        void HandleEffectProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        void HandleEffectProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             PreventDefaultAction();
 
@@ -3806,7 +3806,7 @@ public:
             if (!caster)
                 return;
             
-            if (Aura* flamet = caster->GetAura(SPELL_FLAMETONGUE_AURA))
+            if (caster->GetAura(SPELL_FLAMETONGUE_AURA))
             {
                 uint32 damage = caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.2f;
                 SetHitDamage(damage);
@@ -3847,7 +3847,7 @@ public:
             hitTarget = targets.size();
         }
 
-        void HandleAfterCast(SpellEffIndex index)
+        void HandleAfterCast(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetHitUnit();

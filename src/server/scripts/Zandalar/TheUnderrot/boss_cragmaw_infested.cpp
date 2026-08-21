@@ -139,7 +139,7 @@ public:
             _DespawnAtEvade(15);
         }
 
-        void MovementInform(uint32 uiType, uint32 id)
+        void MovementInform(uint32 /*uiType*/, uint32 id)
         {
             switch (id)
             {

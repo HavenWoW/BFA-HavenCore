@@ -978,7 +978,7 @@ class boss_blackhand : public CreatureScript
                // me->DespawnGameObjectsInArea({ eBlackhandObjects::OreCollision }, 300.0f);
                // me->DespawnAreaTriggersInArea({ eSpells::OverheatedAreaTrigger, eSpells::SlagCraterAreaTrigger }, 300.0f);
 
-                if (m_Instance != nullptr)
+                if (m_Instance == nullptr)
                     return;
 
                 m_Instance->DoRemoveAurasDueToSpellOnPlayers(eSpells::BurnedAura);

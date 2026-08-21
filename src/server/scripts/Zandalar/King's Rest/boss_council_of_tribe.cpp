@@ -160,11 +160,11 @@ struct boss_council_tribes : public BossAI
              if (Unit* tar = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
              {
                 DoCast(tar, SPELL_BARREL_THROUGH);
-                me->GetScheduler().Schedule(8s, [this, tar] (TaskContext context)
+                me->GetScheduler().Schedule(8s, [this, tar] (TaskContext /*context*/)
                 {
                     DoCast(tar, SPELL_BARREL_THROUGH_CHARGE);
                 });
-                me->GetScheduler().Schedule(10s, [this] (TaskContext context)
+                me->GetScheduler().Schedule(10s, [this] (TaskContext /*context*/)
                 {
                     DoCastAOE(SPELL_BARREL_THROUGH_AOE);
                 });
@@ -184,10 +184,10 @@ struct boss_council_tribes : public BossAI
 
         case EVENT_CALL_OF_THE_ELEMENTS:
              DoCast(SPELL_CALL_OF_THE_ELEMENTS);
-             auto* explosive = DoSummon(NPC_EXPLOSIVE_TOTEM, me->GetRandomPoint(middle_pos, 30.0f));
-             auto* thunder = DoSummon(NPC_THUNDERING_TOTEM, me->GetRandomPoint(middle_pos,30.0f));
-             auto* torrent = DoSummon(NPC_TORRENT_TOTEM, me->GetRandomPoint(middle_pos, 30.0f));
-             auto* earthwall = DoSummon(NPC_EARTHWALL_TOTEM, me->GetRandomPoint(middle_pos, 30.0f));
+             DoSummon(NPC_EXPLOSIVE_TOTEM, me->GetRandomPoint(middle_pos, 30.0f));
+             DoSummon(NPC_THUNDERING_TOTEM, me->GetRandomPoint(middle_pos,30.0f));
+             DoSummon(NPC_TORRENT_TOTEM, me->GetRandomPoint(middle_pos, 30.0f));
+             DoSummon(NPC_EARTHWALL_TOTEM, me->GetRandomPoint(middle_pos, 30.0f));
              events.Repeat(30s);
              break;
         }
@@ -213,7 +213,7 @@ struct npc_zanazal_totem : public ScriptedAI
             DoStartMovement(u);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->SetReactState(REACT_PASSIVE);
         switch (me->GetEntry())

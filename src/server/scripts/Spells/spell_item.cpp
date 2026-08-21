@@ -4814,7 +4814,7 @@ class aura_item_avalanche_elixir : public AuraScript
         return ValidateSpellInfo({ SPELL_AVALANCHE_ELIXIR_BUFF, SPELL_AVALANCHE_ELIXIR });
     }
 
-    void HandleEffectPeriodic(AuraEffect const* aurEff)
+    void HandleEffectPeriodic(AuraEffect const* /*aurEff*/)
     {
         if (Player* target = GetTarget()->ToPlayer())
             if (target->HasAura(SPELL_AVALANCHE_ELIXIR) && target->IsFalling())
@@ -4836,7 +4836,7 @@ class talisman_of_flame_ascendancy : public ItemScript
 public:
     talisman_of_flame_ascendancy() : ItemScript("talisman_of_flame_ascendancy") { }
     
-    bool OnUse(Player* plr, Item* /*item*/, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+    bool OnUse(Player* plr, Item* /*item*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (plr->GetQuestStatus(25310) == QUEST_STATUS_INCOMPLETE && plr->GetAreaId() == 4998)
         {

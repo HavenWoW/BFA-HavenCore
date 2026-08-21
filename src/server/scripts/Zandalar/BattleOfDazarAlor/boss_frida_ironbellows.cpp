@@ -159,7 +159,7 @@ private:
             encounterDoor->SetGoState(GO_STATE_READY);
     }
 
-    void DamageTaken(Unit* unit, uint32& damage) override
+    void DamageTaken(Unit* /*unit*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(60) && hp60 == false)        
             hp60 = true;
@@ -212,11 +212,11 @@ private:
 
        if (auto* rokhan = me->FindNearestCreature(NPC_ROKHAN, 100.0f, true))
        {
-           rokhan->GetScheduler().Schedule(5s, [rokhan] (TaskContext context)
+           rokhan->GetScheduler().Schedule(5s, [rokhan] (TaskContext /*context*/)
            {                
                 rokhan->Say("Take dat shorty! Nice work, champions!", LANG_UNIVERSAL);
            });
-           rokhan->GetScheduler().Schedule(10s, [rokhan](TaskContext context)
+           rokhan->GetScheduler().Schedule(10s, [rokhan](TaskContext /*context*/)
            {
                 InstanceScript* instance = rokhan->GetInstanceScript();
                 instance->DoPlayScenePackageIdOnPlayers(SCENE_BLOOD_MOON_RISING);
@@ -224,13 +224,13 @@ private:
                 if (auto* talanji = rokhan->FindNearestCreature(NPC_PRINCESS_TALANJI, 100.0f, true))
                 {
                     talanji->GetMotionMaster()->MovePoint(2, -622.842f, 1105.355f, 320.464f, true);
-                    talanji->GetScheduler().Schedule(5s, [talanji](TaskContext context)
+                    talanji->GetScheduler().Schedule(5s, [talanji](TaskContext /*context*/)
                     {
                         talanji->Say("De city surges with Bwonsamdi's power! My father would not invoke dis ritual unless de odds were dire.", LANG_UNIVERSAL);
                         talanji->SummonCreature(NPC_RIDING_PTERRORDAX, talanji->GetRandomPoint(talanji->GetPosition(), 5.0f));
                         if (auto* pterrodax = talanji->FindNearestCreature(NPC_RIDING_PTERRORDAX, 25.0f, true))
                         {
-                            Vehicle* vehicle = pterrodax->GetVehicleKit();
+                            pterrodax->GetVehicleKit();
                             pterrodax->SetFlying(true);
                             talanji->EnterVehicle(pterrodax);
                             pterrodax->GetMotionMaster()->MovePoint(1, -842.941f, 981.829f, 361.478f, true);
@@ -253,7 +253,7 @@ private:
                 Talk(SAY_KILL);
     }
 
-   void SpellHit(Unit* caster, SpellInfo const* spell) override 
+   void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override
    {
        if (me->HasAura(SEAL_OF_RECKONING))
            me->AddAura(ZEALOTRY);
@@ -367,7 +367,7 @@ private:
             {
                 if (me->HasAura(SEAL_OF_RETRIBUTION))
                 {
-                    me->GetScheduler().Schedule(100ms, [this] (TaskContext context)
+                    me->GetScheduler().Schedule(100ms, [this] (TaskContext /*context*/)
                     {
                         me->SetPower(POWER_ENERGY, 0);
                         me->RemoveAura(SEAL_OF_RETRIBUTION);
@@ -378,7 +378,7 @@ private:
                 }
                 if (me->HasAura(SEAL_OF_RECKONING))
                 {
-                    me->GetScheduler().Schedule(100ms, [this] (TaskContext context)
+                    me->GetScheduler().Schedule(100ms, [this] (TaskContext /*context*/)
                     {
                         me->SetPower(POWER_ENERGY, 0);
                         me->RemoveAura(SEAL_OF_RECKONING);
@@ -426,7 +426,7 @@ struct npc_darkforged_crusader_145903 : public ScriptedAI
         events.ScheduleEvent(EVENT_DIVINE_MALLET, 18s);
     }
 
-    void MoveInLineOfSight(Unit* u) override
+    void MoveInLineOfSight(Unit* /*u*/) override
     {
         if (Creature* frida = me->FindNearestCreature(NPC_FRIDA_IRONBELLOWS, 100.0f, true))
         {
@@ -511,7 +511,7 @@ struct npc_antoined_disciple_145898 : public ScriptedAI
         events.ScheduleEvent(EVENT_PENANCE_DAMAGE, 18s);
     }
 
-    void MoveInLineOfSight(Unit* u) override
+    void MoveInLineOfSight(Unit* /*u*/) override
     {
         if (Creature* frida = me->FindNearestCreature(NPC_FRIDA_IRONBELLOWS, 100.0f, true))
         {

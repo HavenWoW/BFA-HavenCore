@@ -32,6 +32,6 @@ jobs:
         BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
         CC: gcc-11
         CXX: g++-11
-      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTOOLS=1 -DSCRIPTS=dynamic -DSERVERS=1 -DCMAKE_INSTALL_PREFIX=check_install
+      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_WARNINGS=1 -DTOOLS=1 -DSCRIPTS=dynamic -DSERVERS=1 -DNOJEM=0 -DCMAKE_INSTALL_PREFIX=check_install
     - name: Build
       run: cmake --build build --target install --parallel

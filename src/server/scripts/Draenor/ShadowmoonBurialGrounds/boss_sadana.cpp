@@ -833,7 +833,7 @@ public:
                     break;
                 }
 
-                for (uint32 l_I = 0; l_I < 4; l_I++)
+                for (uint32 l_I = 0; l_I < 3; l_I++)
                     me->RemoveAura(l_ShadowRuneEntries[l_I]);
 
                 m_HasBeenActivated = true;
