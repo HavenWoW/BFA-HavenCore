@@ -1089,6 +1089,12 @@ void Player::Update(uint32 p_time)
     if (!IsInWorld())
         return;
 
+    if (m_corruptionNeedsUpdate)
+    {
+        m_corruptionNeedsUpdate = false;
+        UpdateCorruption();
+    }
+
     // undelivered mail
     if (m_nextMailDelivereTime && m_nextMailDelivereTime <= time(nullptr))
     {
@@ -4666,6 +4672,11 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
 
     setDeathState(ALIVE);
 
+    // RemoveAllAurasOnDeath stripped the corruption penalties and nothing puts them back:
+    // the sync is driven by a rating change or an area transition, and resurrecting is
+    // neither. Reviving where you fell otherwise leaves the player uncorrupted.
+    ScheduleCorruptionUpdate();
+
     // add the flag to make sure opcode is always sent
     AddUnitMovementFlag(MOVEMENTFLAG_WATERWALKING);
     SetWaterWalking(false);
@@ -5557,7 +5568,11 @@ void Player::UpdateRating(CombatRating cr)
             break;
         case CR_CORRUPTION:
         case CR_CORRUPTION_RESISTANCE:
-            UpdateCorruption();
+            // Bulk rebuilds strip every item's corruption before re-applying it, so syncing per
+            // mutation would walk the total down to zero and tear down each tier's aura on the
+            // way. Callers that clear this flag are responsible for one sync when they finish.
+            if (affectStats)
+                ScheduleCorruptionUpdate();
             break;
         case CR_SPEED:
         case CR_RESILIENCE_PLAYER_DAMAGE:
@@ -7760,6 +7775,11 @@ void Player::UpdateArea(uint32 newArea)
                 if (garrison.second->IsAllowedArea(newArea))
                     garrison.second->Enter();
         }
+
+        // A corruption penalty can be gated on a PlayerConditionID that reads the player's
+        // location, and nothing else re-evaluates those conditions when only the area
+        // changes. Safe on every transition: the sync casts only what is missing.
+        ScheduleCorruptionUpdate();
     }
 }
 
@@ -30914,12 +30934,15 @@ void Player::CreateChallengeKey(Item* item)
 void Player::SetEffectiveLevelAndMaxItemLevel(uint32 effectiveLevel, uint32 maxItemLevel)
 {
     float healthPct = GetHealthPct();
+    SetCanModifyStats(false);
     _RemoveAllItemMods();
 
     SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::EffectiveLevel), effectiveLevel);
     SetUpdateFieldValue(m_values.ModifyValue(&Unit::m_unitData).ModifyValue(&UF::UnitData::MaxItemLevel), maxItemLevel);
 
     _ApplyAllItemMods();
+    SetCanModifyStats(true);
+
     UpdateAverageItemLevel();
 
     uint32 basemana = 0;
@@ -30947,9 +30970,15 @@ void Player::UpdateItemLevelAreaBasedScaling()
     if (_usePvpItemLevels != pvpActivity)
     {
         float healthPct = GetHealthPct();
+        SetCanModifyStats(false);
         _RemoveAllItemMods();
         ActivatePvpItemLevels(pvpActivity);
         _ApplyAllItemMods();
+        SetCanModifyStats(true);
+        // The bracket defers every derived stat, not only corruption, and neither item-mod
+        // pass recomputes on its own - so settle them all once here, as _ApplyAllStatBonuses
+        // does, leaving the max health scaled below freshly computed rather than stale.
+        UpdateAllStats();
         SetHealth(CalculatePct(GetMaxHealth(), healthPct));
     }
     // @todo other types of power scaling
