@@ -19,7 +19,6 @@
 #include "Errors.h"
 #include "Log.h"
 #include "Optional.h"
-#include "Util.h"
 
 #include <boost/algorithm/string/join.hpp>
 #include <boost/iostreams/copy.hpp>
@@ -52,11 +51,19 @@ public:
 
     std::streamsize write(const char* str, std::streamsize size)
     {
-        std::string consoleStr(str, size);
-        std::string utf8;
-        if (consoleToUtf8(consoleStr, utf8))
-            callback_(utf8);
-        return size;
+        std::string_view consoleStr(str, size);
+        size_t lineEnd = consoleStr.find_first_of("\r\n");
+        std::streamsize processedCharacters = size;
+        if (lineEnd != std::string_view::npos)
+        {
+            consoleStr = consoleStr.substr(0, lineEnd);
+            processedCharacters = lineEnd + 1;
+        }
+
+        if (!consoleStr.empty())
+            callback_(consoleStr);
+
+        return processedCharacters;
     }
 };
 
@@ -118,14 +125,14 @@ static int CreateChildProcess(T waiter, std::string const& executable,
         }
     }();
 
-    auto outInfo = MakeTCLogSink([&](std::string const& msg)
+    auto outInfo = MakeTCLogSink([&](std::string_view msg)
     {
-        TC_LOG_INFO(logger, "%s", msg.c_str());
+        TC_LOG_INFO(logger, STRING_VIEW_FMT, STRING_VIEW_FMT_ARG(msg));
     });
 
-    auto outError = MakeTCLogSink([&](std::string const& msg)
+    auto outError = MakeTCLogSink([&](std::string_view msg)
     {
-        TC_LOG_ERROR(logger, "%s", msg.c_str());
+        TC_LOG_ERROR(logger, STRING_VIEW_FMT, STRING_VIEW_FMT_ARG(msg));
     });
 
     copy(outStream, outInfo);
