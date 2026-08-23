@@ -4070,6 +4070,29 @@ void SpellMgr::LoadSpellInfoCorrections()
         const_cast<SpellEffectInfo*>(spellInfo->GetEffect(EFFECT_1))->Effect = 0;
     });
 
+	//
+    // HUNTER SPELLS
+    //
+
+    // Lone wolf talent
+    ApplySpellFix({ 155228 }, [](SpellInfo* spellInfo)
+    {
+        const_cast<SpellEffectInfo*>(spellInfo->GetEffect(EFFECT_2))->ApplyAuraName = SPELL_AURA_PERIODIC_DUMMY;
+        const_cast<SpellEffectInfo*>(spellInfo->GetEffect(EFFECT_2))->ApplyAuraPeriod = 500;
+    });
+
+    ApplySpellFix({ 164273 }, [](SpellInfo* spellInfo)
+    {
+        const_cast<SpellEffectInfo*>(spellInfo->GetEffect(EFFECT_0))->BasePoints = 10;
+        const_cast<SpellEffectInfo*>(spellInfo->GetEffect(EFFECT_0))->MiscValue = 10;
+    });
+
+    // END OF HUNTER SPELLS
+
+    //
+    // DEMON HUNTER SPELLS
+    //
+
     SpellInfo* spellInfo = nullptr;
     for (uint32 i = 0; i < GetSpellInfoStoreSize(); ++i)
     {
