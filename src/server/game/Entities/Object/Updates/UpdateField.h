@@ -219,7 +219,7 @@ namespace UF
     private:
         void RemoveValue()
         {
-            if (_field.is_initialized())
+            if (_field.has_value())
                 _field.DestroyValue();
         }
 
@@ -302,7 +302,7 @@ namespace UF
             std::conditional_t<PublicSet, UpdateFieldPublicSetter<V>, UpdateFieldSetter<V>>>>
             ModifyValue(OptionalUpdateField<V, BlockBit, Bit>(T::* field), uint32)
         {
-            if (!(_value.*field).is_initialized())
+            if (!(_value.*field).has_value())
                 (_value.*field).ConstructValue();
 
             _value._changesMask.Set(BlockBit);
@@ -526,7 +526,7 @@ namespace UF
         template<typename T, uint32 BlockBit, uint32 Bit>
         void ClearChangesMask(OptionalUpdateField<T, BlockBit, Bit>& field, std::true_type)
         {
-            if (field.is_initialized())
+            if (field.has_value())
                 field._value->ClearChangesMask();
         }
 
@@ -755,7 +755,7 @@ namespace UF
             DestroyValue();
         }
 
-        bool is_initialized() const
+        bool has_value() const
         {
             return !!_value;
         }

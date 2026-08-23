@@ -665,7 +665,7 @@ void LFGMgr::LeaveLfg(ObjectGuid guid, Optional<uint32> queueId /*= {}*/, bool d
         {
             if (!gguid.IsEmpty())
             {
-                if (queueId.is_initialized())
+                if (queueId.has_value())
                 {
                     LFGQueue& queue = GetQueue(gguid, *queueId);
                     queue.RemoveFromQueue(gguid);
@@ -686,7 +686,7 @@ void LFGMgr::LeaveLfg(ObjectGuid guid, Optional<uint32> queueId /*= {}*/, bool d
             }
             else
             {
-                if (queueId.is_initialized())
+                if (queueId.has_value())
                 {
                     LFGQueue& queue = GetQueue(guid, *queueId);
                     queue.RemoveFromQueue(guid);

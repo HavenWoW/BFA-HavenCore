@@ -1620,7 +1620,7 @@ void InstanceScript::StartChallengeMode(uint8 level)
         entranceLocation.Relocate(areaTrigger->target_X, areaTrigger->target_Y, areaTrigger->target_Z, areaTrigger->target_Orientation);
     DoNearTeleportPlayers(entranceLocation);
 
-    if (_challengeModeDoorPosition.is_initialized())
+    if (_challengeModeDoorPosition.has_value())
         instance->SummonGameObject(GOB_CHALLENGER_DOOR, *_challengeModeDoorPosition, QuaternionData(), WEEK);
 
     ShowChallengeDoor();
@@ -1853,9 +1853,9 @@ void InstanceScript::CastChallengePlayerSpell(Player* player)
 
 void InstanceScript::SpawnFontOfPower()
 {   
-    if (_challengeModeFontOfPowerPosition.is_initialized() && instance->IsMythic())
+    if (_challengeModeFontOfPowerPosition.has_value() && instance->IsMythic())
         instance->SummonGameObject(GO_FONT_OF_POWER, *_challengeModeFontOfPowerPosition, QuaternionData(), WEEK);
-    if (_challengeModeFontOfPowerPosition2.is_initialized() && instance->IsMythic())
+    if (_challengeModeFontOfPowerPosition2.has_value() && instance->IsMythic())
         instance->SummonGameObject(GO_FONT_OF_POWER, *_challengeModeFontOfPowerPosition2, QuaternionData(), WEEK);
 }
 

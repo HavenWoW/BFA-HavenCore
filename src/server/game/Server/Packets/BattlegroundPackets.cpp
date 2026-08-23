@@ -89,11 +89,11 @@ ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Battleground::PVPMatchSta
 
     data.WriteBit(playerData.Faction != 0);
     data.WriteBit(playerData.IsInWorld);
-    data.WriteBit(playerData.Honor.is_initialized());
-    data.WriteBit(playerData.PreMatchRating.is_initialized());
-    data.WriteBit(playerData.RatingChange.is_initialized());
-    data.WriteBit(playerData.PreMatchMMR.is_initialized());
-    data.WriteBit(playerData.MmrChange.is_initialized());
+    data.WriteBit(playerData.Honor.has_value());
+    data.WriteBit(playerData.PreMatchRating.has_value());
+    data.WriteBit(playerData.RatingChange.has_value());
+    data.WriteBit(playerData.PreMatchMMR.has_value());
+    data.WriteBit(playerData.MmrChange.has_value());
     data.FlushBits();
 
     if (playerData.Honor)
@@ -118,11 +118,11 @@ WorldPacket const* WorldPackets::Battleground::PVPMatchStatistics::Write()
 {
     _worldPacket.reserve(Statistics.size() * sizeof(PVPMatchPlayerStatistics) + sizeof(PVPMatchStatistics));
 
-    _worldPacket.WriteBit(Ratings.is_initialized());
+    _worldPacket.WriteBit(Ratings.has_value());
     _worldPacket << uint32(Statistics.size());
     _worldPacket.append(PlayerCount.data(), PlayerCount.size());
 
-    if (Ratings.is_initialized())
+    if (Ratings.has_value())
         _worldPacket << *Ratings;
 
     for (PVPMatchPlayerStatistics const& player : Statistics)
@@ -373,14 +373,14 @@ WorldPacket const* WorldPackets::Battleground::CheckWargameEntry::Write()
 WorldPacket const* WorldPackets::Battleground::WargameRequestSuccessfullySentToOpponent::Write()
 {
     _worldPacket << UnkInt;
-    _worldPacket.WriteBit(UnkInt2.is_initialized());
-    _worldPacket.WriteBit(UnkInt3.is_initialized());
+    _worldPacket.WriteBit(UnkInt2.has_value());
+    _worldPacket.WriteBit(UnkInt3.has_value());
     _worldPacket.FlushBits();
 
-    if (UnkInt2.is_initialized())
+    if (UnkInt2.has_value())
         _worldPacket << *UnkInt2;
 
-    if (UnkInt3.is_initialized())
+    if (UnkInt3.has_value())
         _worldPacket << *UnkInt3;
 
     return &_worldPacket;

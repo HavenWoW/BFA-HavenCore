@@ -1380,7 +1380,7 @@ void Guild::SendQueryResponse(WorldSession* session, ObjectGuid const& playerGui
     WorldPackets::Guild::QueryGuildInfoResponse response;
     response.GuildGuid = GetGUID();
     response.PlayerGuid = playerGuid;
-    response.Info = boost::in_place();
+    response.Info.emplace();
 
     response.Info->GuildGUID = GetGUID();
     response.Info->VirtualRealmAddress = GetVirtualRealmAddress();
@@ -1393,7 +1393,7 @@ void Guild::SendQueryResponse(WorldSession* session, ObjectGuid const& playerGui
 
     for (uint8 i = 0; i < _GetRanksSize(); ++i)
     {
-        WorldPackets::Guild::QueryGuildInfoResponse::GuildInfo::GuildInfoRank info
+        WorldPackets::Guild::GuildInfo::GuildInfoRank info
             (m_ranks[i].GetId(), i, m_ranks[i].GetName());
         response.Info->Ranks.insert(info);
     }

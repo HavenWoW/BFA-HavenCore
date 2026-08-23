@@ -162,7 +162,7 @@ void CombatAI::EnterEvadeMode(EvadeReason why)
     if (!_EnterEvadeMode(why))
         return;
 
-    if (combatMoveDest.is_initialized())
+    if (combatMoveDest.has_value())
         MoveCombat(*combatMoveDest);
     else
     {

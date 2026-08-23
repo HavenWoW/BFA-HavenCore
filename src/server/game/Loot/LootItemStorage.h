@@ -24,15 +24,12 @@
 #include "DatabaseEnvFwd.h"
 
 #include <vector>
+#include <shared_mutex>
 
 class Item;
 class Player;
 struct Loot;
 struct LootItem;
-namespace boost
-{
-    class shared_mutex;
-}
 
 struct StoredLootItem
 {
@@ -78,7 +75,7 @@ class LootItemStorage
 {
 public:
     static LootItemStorage* instance();
-    static boost::shared_mutex* GetLock();
+    static std::shared_mutex* GetLock();
 
     void LoadStorageFromDB();
     bool LoadStoredLoot(Item* item, Player* player);

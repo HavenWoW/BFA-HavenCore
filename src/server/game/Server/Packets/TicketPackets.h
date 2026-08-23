@@ -114,108 +114,108 @@ namespace WorldPackets
             std::string Note;
         };
 
+        struct SupportTicketChatLine
+        {
+            SupportTicketChatLine(ByteBuffer& data);
+            SupportTicketChatLine(uint32 timestamp, std::string const& text);
+
+            uint32 Timestamp = 0;
+            std::string Text;
+        };
+
+        struct SupportTicketChatLog
+        {
+            std::vector<SupportTicketChatLine> Lines;
+            Optional<uint32> ReportLineIndex;
+        };
+
+        struct SupportTicketHorusChatLine
+        {
+            SupportTicketHorusChatLine(ByteBuffer& data);
+
+            struct SenderRealm
+            {
+                uint32 VirtualRealmAddress;
+                uint16 field_4;
+                uint8 field_6;
+            };
+
+            int32 Timestamp;
+            ObjectGuid AuthorGUID;
+            Optional<uint64> ClubID;
+            Optional<ObjectGuid> ChannelGUID;
+            Optional<SenderRealm> RealmAddress;
+            Optional<int32> SlashCmd;
+            std::string Text;
+        };
+
+        struct SupportTicketHorusChatLog
+        {
+            std::vector<SupportTicketHorusChatLine> Lines;
+        };
+
+        struct SupportTicketMailInfo
+        {
+            int32 MailID = 0;
+            std::string MailSubject;
+            std::string MailBody;
+        };
+
+        struct SupportTicketCalendarEventInfo
+        {
+            uint64 EventID;
+            uint64 InviteID;
+            std::string EventTitle;
+        };
+
+        struct SupportTicketPetInfo
+        {
+            ObjectGuid PetID;
+            std::string PetName;
+        };
+
+        struct SupportTicketGuildInfo
+        {
+            ObjectGuid GuildID;
+            std::string GuildName;
+        };
+
+        struct SupportTicketLFGListSearchResult
+        {
+            WorldPackets::LFG::RideTicket RideTicket;
+            uint32 GroupFinderActivityID = 0;
+            ObjectGuid LastTitleAuthorGuid;
+            ObjectGuid LastDescriptionAuthorGuid;
+            ObjectGuid LastVoiceChatAuthorGuid;
+            ObjectGuid ListingCreatorGuid;
+            ObjectGuid Unknown735;
+            std::string Title;
+            std::string Description;
+            std::string VoiceChat;
+        };
+
+        struct SupportTicketLFGListApplicant
+        {
+            WorldPackets::LFG::RideTicket RideTicket;
+            std::string Comment;
+        };
+
+        struct SupportTicketCommunityMessage
+        {
+            bool IsPlayerUsingVoice = false;
+        };
+
+        struct SupportTicketClubFinderResult
+        {
+            uint64 ClubFinderPostingID;
+            uint64 ClubID;
+            ObjectGuid ClubFinderGUID;
+            std::string ClubName;
+        };
+
         class SupportTicketSubmitComplaint final : public ClientPacket
         {
         public:
-            struct SupportTicketChatLine
-            {
-                SupportTicketChatLine(ByteBuffer& data);
-                SupportTicketChatLine(uint32 timestamp, std::string const& text);
-
-                uint32 Timestamp = 0;
-                std::string Text;
-            };
-
-            struct SupportTicketChatLog
-            {
-                std::vector<SupportTicketChatLine> Lines;
-                Optional<uint32> ReportLineIndex;
-            };
-
-            struct SupportTicketHorusChatLine
-            {
-                SupportTicketHorusChatLine(ByteBuffer& data);
-
-                struct SenderRealm
-                {
-                    uint32 VirtualRealmAddress;
-                    uint16 field_4;
-                    uint8 field_6;
-                };
-
-                int32 Timestamp;
-                ObjectGuid AuthorGUID;
-                Optional<uint64> ClubID;
-                Optional<ObjectGuid> ChannelGUID;
-                Optional<SenderRealm> RealmAddress;
-                Optional<int32> SlashCmd;
-                std::string Text;
-            };
-
-            struct SupportTicketHorusChatLog
-            {
-                std::vector<SupportTicketHorusChatLine> Lines;
-            };
-
-            struct SupportTicketMailInfo
-            {
-                int32 MailID = 0;
-                std::string MailSubject;
-                std::string MailBody;
-            };
-
-            struct SupportTicketCalendarEventInfo
-            {
-                uint64 EventID;
-                uint64 InviteID;
-                std::string EventTitle;
-            };
-
-            struct SupportTicketPetInfo
-            {
-                ObjectGuid PetID;
-                std::string PetName;
-            };
-
-            struct SupportTicketGuildInfo
-            {
-                ObjectGuid GuildID;
-                std::string GuildName;
-            };
-
-            struct SupportTicketLFGListSearchResult
-            {
-                WorldPackets::LFG::RideTicket RideTicket;
-                uint32 GroupFinderActivityID = 0;
-                ObjectGuid LastTitleAuthorGuid;
-                ObjectGuid LastDescriptionAuthorGuid;
-                ObjectGuid LastVoiceChatAuthorGuid;
-                ObjectGuid ListingCreatorGuid;
-                ObjectGuid Unknown735;
-                std::string Title;
-                std::string Description;
-                std::string VoiceChat;
-            };
-
-            struct SupportTicketLFGListApplicant
-            {
-                WorldPackets::LFG::RideTicket RideTicket;
-                std::string Comment;
-            };
-
-            struct SupportTicketCommunityMessage
-            {
-                bool IsPlayerUsingVoice = false;
-            };
-
-            struct SupportTicketClubFinderResult
-            {
-                uint64 ClubFinderPostingID;
-                uint64 ClubID;
-                ObjectGuid ClubFinderGUID;
-                std::string ClubName;
-            };
-
             SupportTicketSubmitComplaint(WorldPacket&& packet) : ClientPacket(CMSG_SUPPORT_TICKET_SUBMIT_COMPLAINT, std::move(packet)) { }
 
             void Read() override;

@@ -822,7 +822,7 @@ void AreaTrigger::InitSplines(std::vector<G3D::Vector3> splinePoints, uint32 tim
 
         WorldPackets::AreaTrigger::AreaTriggerRePath reshape;
         reshape.TriggerGUID = GetGUID();
-        reshape.AreaTriggerSpline = boost::in_place();
+        reshape.AreaTriggerSpline.emplace();
         reshape.AreaTriggerSpline->ElapsedTimeForMovement = GetElapsedTimeForMovement();
         reshape.AreaTriggerSpline->TimeToTarget = timeToTarget;
         for (auto point : _spline->getPoints())
@@ -875,7 +875,7 @@ bool AreaTrigger::SetDestination(Position const& pos, uint32 timeToTarget)
 void AreaTrigger::InitOrbit(AreaTriggerOrbitInfo const& cmi, uint32 timeToTarget)
 {
     // Circular movement requires either a center position or an attached unit
-    ASSERT(cmi.Center.is_initialized() || cmi.PathTarget.is_initialized());
+    ASSERT(cmi.Center.has_value() || cmi.PathTarget.has_value());
 
     // should be sent in object create packets only
     SetUpdateFieldValue(m_values.ModifyValue(&AreaTrigger::m_areaTriggerData).ModifyValue(&UF::AreaTriggerData::TimeToTarget), timeToTarget);
@@ -898,19 +898,19 @@ void AreaTrigger::InitOrbit(AreaTriggerOrbitInfo const& cmi, uint32 timeToTarget
 
 bool AreaTrigger::HasOrbit() const
 {
-    return _orbitInfo.is_initialized();
+    return _orbitInfo.has_value();
 }
 
 Position const* AreaTrigger::GetOrbitCenterPosition() const
 {
-    if (!_orbitInfo.is_initialized())
+    if (!_orbitInfo)
         return nullptr;
 
-    if (_orbitInfo->PathTarget.is_initialized())
+    if (_orbitInfo->PathTarget)
         if (WorldObject* center = ObjectAccessor::GetWorldObject(*this, *_orbitInfo->PathTarget))
             return center;
 
-    if (_orbitInfo->Center.is_initialized())
+    if (_orbitInfo->Center)
         return &_orbitInfo->Center->Pos;
 
     return nullptr;

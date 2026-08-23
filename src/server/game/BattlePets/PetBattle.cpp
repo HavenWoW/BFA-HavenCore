@@ -757,7 +757,7 @@ void PetBattle::ProceedRound()
             aura->Process(this);
 
     for (auto& aura : PetAuras)
-        if (!aura->Expired && Pets[aura->CasterPetID]->TeamID == !firstTeam)
+        if (!aura->Expired && Pets[aura->CasterPetID]->TeamID == uint32(!firstTeam))
             aura->Process(this);
 
     PetBattleEvent eventAuraProcessingEnd(PETBATTLE_EVENT_AURA_PROCESSING_END);

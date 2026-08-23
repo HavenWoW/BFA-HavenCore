@@ -569,7 +569,7 @@ void MotionMaster::MoveSmoothPath(uint32 pointId, Position const* pathPoints, si
         return G3D::Vector3(point.GetPositionX(), point.GetPositionY(), point.GetPositionZ());
     });
 
-    if (velocity.is_initialized())
+    if (velocity.has_value())
         init.SetVelocity(*velocity);
 
     init.MovebyPath(path);

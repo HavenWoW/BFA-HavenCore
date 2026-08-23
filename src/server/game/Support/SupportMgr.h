@@ -73,7 +73,7 @@ enum GMTicketOpenedByGMStatus
     GMTICKET_OPENEDBYGM_STATUS_OPENED       = 1
 };
 
-using ChatLog = WorldPackets::Ticket::SupportTicketSubmitComplaint::SupportTicketChatLog;
+using ChatLog = WorldPackets::Ticket::SupportTicketChatLog;
 
 class TC_GAME_API Ticket
 {

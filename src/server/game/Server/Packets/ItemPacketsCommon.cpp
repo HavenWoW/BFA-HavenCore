@@ -36,14 +36,14 @@ void WorldPackets::Item::ItemInstance::Initialize(::Item const* item)
     std::vector<int32> const& bonusListIds = item->m_itemData->BonusListIDs;
     if (!bonusListIds.empty())
     {
-        ItemBonus = boost::in_place();
+        ItemBonus.emplace();
         ItemBonus->BonusListIDs.insert(ItemBonus->BonusListIDs.end(), bonusListIds.begin(), bonusListIds.end());
         ItemBonus->Context = item->GetContext();
     }
 
     if (uint32 mask = item->m_itemData->ModifiersMask)
     {
-        Modifications = boost::in_place();
+        Modifications.emplace();
 
         for (size_t i = 0; mask != 0; mask >>= 1, ++i)
             if ((mask & 1) != 0)
@@ -71,7 +71,7 @@ void WorldPackets::Item::ItemInstance::Initialize(::LootItem const& lootItem)
 
     if (!lootItem.BonusListIDs.empty() || lootItem.randomBonusListId)
     {
-        ItemBonus = boost::in_place();
+        ItemBonus.emplace();
         ItemBonus->BonusListIDs = lootItem.BonusListIDs;
         ItemBonus->Context = lootItem.context;
         if (lootItem.randomBonusListId)
@@ -85,7 +85,7 @@ void WorldPackets::Item::ItemInstance::Initialize(::VoidStorageItem const* voidI
 
     if (voidItem->FixedScalingLevel || voidItem->ArtifactKnowledgeLevel)
     {
-        Modifications = boost::in_place();
+        Modifications.emplace();
         if (voidItem->FixedScalingLevel)
             Modifications->Insert(ITEM_MODIFIER_TIMEWALKER_LEVEL, voidItem->FixedScalingLevel);
         if (voidItem->ArtifactKnowledgeLevel)
@@ -94,7 +94,7 @@ void WorldPackets::Item::ItemInstance::Initialize(::VoidStorageItem const* voidI
 
     if (!voidItem->BonusListIDs.empty())
     {
-        ItemBonus = boost::in_place();
+        ItemBonus.emplace();
         ItemBonus->Context = voidItem->Context;
         ItemBonus->BonusListIDs = voidItem->BonusListIDs;
     }
@@ -105,13 +105,13 @@ bool WorldPackets::Item::ItemInstance::operator==(ItemInstance const& r) const
     if (ItemID != r.ItemID)
         return false;
 
-    if (ItemBonus.is_initialized() != r.ItemBonus.is_initialized() || Modifications.is_initialized() != r.Modifications.is_initialized())
+    if (ItemBonus.has_value() != r.ItemBonus.has_value() || Modifications.has_value() != r.Modifications.has_value())
         return false;
 
-    if (Modifications.is_initialized() && *Modifications != *r.Modifications)
+    if (Modifications.has_value() && *Modifications != *r.Modifications)
         return false;
 
-    if (ItemBonus.is_initialized() && *ItemBonus != *r.ItemBonus)
+    if (ItemBonus.has_value() && *ItemBonus != *r.ItemBonus)
         return false;
 
     return true;
@@ -148,8 +148,8 @@ ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Item::ItemInstance const&
 {
     data << int32(itemInstance.ItemID);
 
-    data.WriteBit(itemInstance.ItemBonus.is_initialized());
-    data.WriteBit(itemInstance.Modifications.is_initialized());
+    data.WriteBit(itemInstance.ItemBonus.has_value());
+    data.WriteBit(itemInstance.Modifications.has_value());
     data.FlushBits();
 
     if (itemInstance.ItemBonus)
@@ -171,13 +171,13 @@ ByteBuffer& operator>>(ByteBuffer& data, WorldPackets::Item::ItemInstance& itemI
 
     if (hasItemBonus)
     {
-        itemInstance.ItemBonus = boost::in_place();
+        itemInstance.ItemBonus.emplace();
         data >> *itemInstance.ItemBonus;
     }
 
     if (hasModifications)
     {
-        itemInstance.Modifications = boost::in_place();
+        itemInstance.Modifications.emplace();
         data >> *itemInstance.Modifications;
     }
 

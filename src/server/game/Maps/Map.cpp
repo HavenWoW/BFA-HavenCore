@@ -2972,7 +2972,7 @@ void Map::GetFullTerrainStatusForPosition(PhaseShift const& phaseShift, float x,
     uint32 terrainMapId = PhasingHandler::GetTerrainMapId(phaseShift, this, x, y);
     vmgr->getAreaAndLiquidData(terrainMapId, x, y, z, reqLiquidType, vmapData);
     if (vmapData.areaInfo)
-        data.areaInfo = boost::in_place(vmapData.areaInfo->adtId, vmapData.areaInfo->rootId, vmapData.areaInfo->groupId, vmapData.areaInfo->mogpFlags);
+        data.areaInfo.emplace(vmapData.areaInfo->adtId, vmapData.areaInfo->rootId, vmapData.areaInfo->groupId, vmapData.areaInfo->mogpFlags);
 
     if(GridMap* gmap = GetGrid(terrainMapId, x, y))
     {
@@ -3033,7 +3033,7 @@ void Map::GetFullTerrainStatusForPosition(PhaseShift const& phaseShift, float x,
                 }
             }
 
-            data.liquidInfo = boost::in_place();
+            data.liquidInfo.emplace();
             data.liquidInfo->level = vmapData.liquidInfo->level;
             data.liquidInfo->depth_level = vmapData.floorZ;
             data.liquidInfo->entry = liquidType;

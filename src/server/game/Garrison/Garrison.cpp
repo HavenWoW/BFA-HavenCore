@@ -704,7 +704,7 @@ std::pair<std::vector<GarrMissionEntry const*>, std::vector<double>> Garrison::G
             continue;
 
         uint32 requiredTeam = sGarrisonMgr.GetFactionByMissionType(missionEntry->GarrMissionTypeId);
-        if (requiredTeam != TEAM_OTHER && requiredTeam != _owner->GetTeamId())
+        if (requiredTeam != TEAM_OTHER && requiredTeam != uint32(_owner->GetTeamId()))
             continue;
 
         double weight = 100.0;

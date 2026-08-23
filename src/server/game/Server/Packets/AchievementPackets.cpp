@@ -36,7 +36,7 @@ ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Achievement::CriteriaProg
     data << uint32(criteria.TimeFromStart);
     data << uint32(criteria.TimeFromCreate);
     data.WriteBits(criteria.Flags, 4);
-    data.WriteBit(criteria.RafAcceptanceID.is_initialized());
+    data.WriteBit(criteria.RafAcceptanceID.has_value());
     data.FlushBits();
 
     if (criteria.RafAcceptanceID)

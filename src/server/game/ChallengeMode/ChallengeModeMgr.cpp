@@ -23,6 +23,7 @@
 #include "LootPackets.h"
 #include "InstanceScript.h"
 #include "ChallengeModePackets.h"
+#include <sstream>
 
 ChallengeModeMgr* ChallengeModeMgr::instance()
 {

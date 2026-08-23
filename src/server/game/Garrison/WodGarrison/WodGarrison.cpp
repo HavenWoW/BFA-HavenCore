@@ -80,7 +80,7 @@ bool WodGarrison::LoadFromDB()
             if (!sGarrBuildingStore.LookupEntry(buildingId))
                 continue;
 
-            plot->BuildingInfo.PacketInfo = boost::in_place();
+            plot->BuildingInfo.PacketInfo.emplace();
             plot->BuildingInfo.PacketInfo->GarrPlotInstanceID = plotInstanceId;
             plot->BuildingInfo.PacketInfo->GarrBuildingID = buildingId;
             plot->BuildingInfo.PacketInfo->TimeBuilt = timeBuilt;
@@ -698,7 +698,7 @@ void WodGarrison::Plot::ClearBuildingInfo(GarrisonType _garrisonType, Player* ow
     plotPlaced.PlotInfo = &PacketInfo;
     owner->SendDirectMessage(plotPlaced.Write());
 
-    BuildingInfo.PacketInfo = boost::none;
+    BuildingInfo.PacketInfo = std::nullopt;
 }
 
 void WodGarrison::Plot::SetBuildingInfo(WorldPackets::Garrison::GarrisonBuildingInfo const& buildingInfo, Player* owner)

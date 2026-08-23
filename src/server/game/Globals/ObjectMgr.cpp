@@ -10981,9 +10981,7 @@ void ObjectMgr::LoadPlayerChoices()
                 continue;
             }
 
-            responseItr->Reward = boost::in_place();
-
-            PlayerChoiceResponseReward* reward = responseItr->Reward.get_ptr();
+            PlayerChoiceResponseReward* reward = &responseItr->Reward.emplace();
             reward->TitleId          = fields[2].GetInt32();
             reward->PackageId        = fields[3].GetInt32();
             reward->SkillLineId      = fields[4].GetInt32();

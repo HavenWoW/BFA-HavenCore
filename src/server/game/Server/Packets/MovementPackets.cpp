@@ -242,9 +242,9 @@ ByteBuffer& WorldPackets::operator<<(ByteBuffer& data, Movement::MovementSpline 
     data.WriteBits(movementSpline.Face, 2);
     data.WriteBits(movementSpline.Points.size(), 16);
     data.WriteBits(movementSpline.PackedDeltas.size(), 16);
-    data.WriteBit(movementSpline.SplineFilter.is_initialized());
-    data.WriteBit(movementSpline.SpellEffectExtraData.is_initialized());
-    data.WriteBit(movementSpline.JumpExtraData.is_initialized());
+    data.WriteBit(movementSpline.SplineFilter.has_value());
+    data.WriteBit(movementSpline.SpellEffectExtraData.has_value());
+    data.WriteBit(movementSpline.JumpExtraData.has_value());
     data.FlushBits();
 
     if (movementSpline.SplineFilter)
@@ -317,7 +317,7 @@ void WorldPackets::Movement::CommonMovement::WriteCreateObjectSplineDataBlock(::
         data.WriteBits(moveSpline.getPath().size(), 16);
         data.WriteBits(uint8(moveSpline.spline.mode()), 2);                     // Mode
         data.WriteBit(0);                                                       // HasSplineFilter
-        data.WriteBit(moveSpline.spell_effect_extra.is_initialized());          // HasSpellEffectExtraData
+        data.WriteBit(moveSpline.spell_effect_extra.has_value());          // HasSpellEffectExtraData
         data.WriteBit(moveSpline.splineflags.parabolic);                        // HasJumpExtraData
         data.FlushBits();
 
@@ -444,7 +444,7 @@ void WorldPackets::Movement::MonsterMove::InitializeSplineData(::Movement::MoveS
 
     if (splineFlags.parabolic)
     {
-        movementSpline.JumpExtraData = boost::in_place();
+        movementSpline.JumpExtraData.emplace();
         movementSpline.JumpExtraData->JumpGravity = moveSpline.vertical_acceleration;
         movementSpline.JumpExtraData->StartTime = moveSpline.effect_start_time;
     }
@@ -454,7 +454,7 @@ void WorldPackets::Movement::MonsterMove::InitializeSplineData(::Movement::MoveS
 
     if (moveSpline.spell_effect_extra)
     {
-        movementSpline.SpellEffectExtraData = boost::in_place();
+        movementSpline.SpellEffectExtraData.emplace();
         movementSpline.SpellEffectExtraData->TargetGUID = moveSpline.spell_effect_extra->Target;
         movementSpline.SpellEffectExtraData->SpellVisualID = moveSpline.spell_effect_extra->SpellVisualId;
         movementSpline.SpellEffectExtraData->ProgressCurveID = moveSpline.spell_effect_extra->ProgressCurveId;
@@ -556,8 +556,8 @@ WorldPacket const* WorldPackets::Movement::TransferPending::Write()
 {
     _worldPacket << int32(MapID);
     _worldPacket << OldMapPosition;
-    _worldPacket.WriteBit(Ship.is_initialized());
-    _worldPacket.WriteBit(TransferSpellID.is_initialized());
+    _worldPacket.WriteBit(Ship.has_value());
+    _worldPacket.WriteBit(TransferSpellID.has_value());
     if (Ship)
     {
         _worldPacket << uint32(Ship->ID);
@@ -599,8 +599,8 @@ WorldPacket const* WorldPackets::Movement::MoveTeleport::Write()
     _worldPacket << float(Facing);
     _worldPacket << uint8(PreloadWorld);
 
-    _worldPacket.WriteBit(TransportGUID.is_initialized());
-    _worldPacket.WriteBit(Vehicle.is_initialized());
+    _worldPacket.WriteBit(TransportGUID.has_value());
+    _worldPacket.WriteBit(Vehicle.has_value());
     _worldPacket.FlushBits();
 
     if (Vehicle)
@@ -640,15 +640,15 @@ WorldPacket const* WorldPackets::Movement::MoveUpdateTeleport::Write()
     _worldPacket << *Status;
 
     _worldPacket << uint32(MovementForces ? MovementForces->size() : 0);
-    _worldPacket.WriteBit(WalkSpeed.is_initialized());
-    _worldPacket.WriteBit(RunSpeed.is_initialized());
-    _worldPacket.WriteBit(RunBackSpeed.is_initialized());
-    _worldPacket.WriteBit(SwimSpeed.is_initialized());
-    _worldPacket.WriteBit(SwimBackSpeed.is_initialized());
-    _worldPacket.WriteBit(FlightSpeed.is_initialized());
-    _worldPacket.WriteBit(FlightBackSpeed.is_initialized());
-    _worldPacket.WriteBit(TurnRate.is_initialized());
-    _worldPacket.WriteBit(PitchRate.is_initialized());
+    _worldPacket.WriteBit(WalkSpeed.has_value());
+    _worldPacket.WriteBit(RunSpeed.has_value());
+    _worldPacket.WriteBit(RunBackSpeed.has_value());
+    _worldPacket.WriteBit(SwimSpeed.has_value());
+    _worldPacket.WriteBit(SwimBackSpeed.has_value());
+    _worldPacket.WriteBit(FlightSpeed.has_value());
+    _worldPacket.WriteBit(FlightBackSpeed.has_value());
+    _worldPacket.WriteBit(TurnRate.has_value());
+    _worldPacket.WriteBit(PitchRate.has_value());
     _worldPacket.FlushBits();
 
     if (MovementForces)
@@ -761,7 +761,7 @@ void WorldPackets::Movement::MoveKnockBackAck::Read()
     bool hasSpeeds = _worldPacket.ReadBit();
     if (hasSpeeds)
     {
-        Speeds = boost::in_place();
+        Speeds.emplace();
         _worldPacket >> *Speeds;
     }
 }
@@ -909,12 +909,12 @@ ByteBuffer& operator<<(ByteBuffer& data, WorldPackets::Movement::MoveSetCompound
 {
     data << uint16(stateChange.MessageID);
     data << uint32(stateChange.SequenceIndex);
-    data.WriteBit(stateChange.Speed.is_initialized());
-    data.WriteBit(stateChange.KnockBack.is_initialized());
-    data.WriteBit(stateChange.VehicleRecID.is_initialized());
-    data.WriteBit(stateChange.CollisionHeight.is_initialized());
-    data.WriteBit(stateChange.MovementForce_.is_initialized());
-    data.WriteBit(stateChange.MovementForceGUID.is_initialized());
+    data.WriteBit(stateChange.Speed.has_value());
+    data.WriteBit(stateChange.KnockBack.has_value());
+    data.WriteBit(stateChange.VehicleRecID.has_value());
+    data.WriteBit(stateChange.CollisionHeight.has_value());
+    data.WriteBit(stateChange.MovementForce_.has_value());
+    data.WriteBit(stateChange.MovementForceGUID.has_value());
     data.FlushBits();
 
     if (stateChange.CollisionHeight)
