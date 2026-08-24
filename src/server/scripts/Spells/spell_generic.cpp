@@ -1605,6 +1605,30 @@ class spell_gen_elune_candle : public SpellScriptLoader
         }
 };
 
+// Monel-Hardened Stirrups allows gathering while mounted.
+class spell_gen_monel_hardened_stirrups : public AuraScript
+{
+    PrepareAuraScript(spell_gen_monel_hardened_stirrups);
+
+    void HandleApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+    {
+        if (Player* player = GetTarget()->ToPlayer())
+            player->AddPlayerLocalFlag(PLAYER_LOCAL_FLAG_CAN_USE_OBJECTS_MOUNTED);
+    }
+
+    void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
+    {
+        if (Player* player = GetTarget()->ToPlayer())
+            player->RemovePlayerLocalFlag(PLAYER_LOCAL_FLAG_CAN_USE_OBJECTS_MOUNTED);
+    }
+
+    void Register() override
+    {
+        AfterEffectApply += AuraEffectApplyFn(spell_gen_monel_hardened_stirrups::HandleApply, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL_OR_REAPPLY_MASK);
+        AfterEffectRemove += AuraEffectRemoveFn(spell_gen_monel_hardened_stirrups::HandleRemove, EFFECT_0, SPELL_AURA_DUMMY, AURA_EFFECT_HANDLE_REAL);
+    }
+};
+
 enum FishingSpells
 {
     SPELL_FISHING_NO_FISHING_POLE   = 131476,
@@ -8180,6 +8204,7 @@ void AddSC_generic_spell_scripts()
     new spell_gen_dungeon_credit();
     new spell_gen_elune_candle();
     new spell_gen_fishing();
+    RegisterAuraScript(spell_gen_monel_hardened_stirrups);
     new spell_gen_gadgetzan_transporter_backfire();
     new spell_gen_gift_of_naaru();
     new spell_gen_gnomish_transporter();
