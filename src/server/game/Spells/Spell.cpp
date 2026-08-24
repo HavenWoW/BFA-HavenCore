@@ -5593,6 +5593,18 @@ SpellCastResult Spell::CheckCast(bool strict, uint32* param1 /*= nullptr*/, uint
                     || (effect->TargetA.GetTarget() == TARGET_GAMEOBJECT_TARGET && !m_targets.GetGOTarget()))
                     return SPELL_FAILED_BAD_TARGETS;
 
+                if (GameObject* go = m_targets.GetGOTarget())
+                {
+                    GameObjectTemplate const* goInfo = go->GetGOInfo();
+
+                    if ((goInfo->type == GAMEOBJECT_TYPE_GATHERING_NODE ||
+                         goInfo->type == GAMEOBJECT_TYPE_CHEST) &&
+                        m_caster->IsMounted() &&
+                        !goInfo->IsUsableMounted() &&
+                        !m_caster->ToPlayer()->HasPlayerLocalFlag(PLAYER_LOCAL_FLAG_CAN_USE_OBJECTS_MOUNTED))
+                        return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
+                }
+
                 Item* pTempItem = nullptr;
                 if (m_targets.GetTargetMask() & TARGET_FLAG_TRADE_ITEM)
                 {
