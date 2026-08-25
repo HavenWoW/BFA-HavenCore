@@ -2,6 +2,7 @@ name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 concurrency:
@@ -39,6 +40,8 @@ jobs:
             - '**/*.hpp'
             - '**/*.inl'
             - '**/*.proto'
+            - '**/*.rc'
+            - '**/*.def'
             - '**/*.cmake'
             - '**/CMakeLists.txt'
             - '.github/workflows/*.yml'
