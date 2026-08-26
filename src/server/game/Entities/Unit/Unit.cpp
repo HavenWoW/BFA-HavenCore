@@ -13573,6 +13573,7 @@ void Unit::JumpTo(WorldObject* obj, float speedZ, bool withOrientation)
 bool Unit::HandleSpellClick(Unit* clicker, int8 seatId)
 {
     bool result = false;
+    bool acceptedSpellHasVehicleControlAura = false;
     uint32 spellClickEntry = GetVehicleKit() ? GetVehicleKit()->GetCreatureEntry() : GetEntry();
     SpellClickInfoMapBounds clickPair = sObjectMgr->GetSpellClickInfoMapBounds(spellClickEntry);
     for (SpellClickInfoContainer::const_iterator itr = clickPair.first; itr != clickPair.second; ++itr)
@@ -13592,31 +13593,42 @@ bool Unit::HandleSpellClick(Unit* clicker, int8 seatId)
         SpellInfo const* spellEntry = sSpellMgr->GetSpellInfo(itr->second.spellId);
         // if (!spellEntry) should be checked at npc_spellclick load
 
+        if (spellEntry)
+        {
+            for (SpellEffectInfo const* effect : spellEntry->GetEffectsForDifficulty(GetMap()->GetDifficultyID()))
+            {
+                if (effect && effect->ApplyAuraName == SPELL_AURA_CONTROL_VEHICLE)
+                {
+                    acceptedSpellHasVehicleControlAura = true;
+                    break;
+                }
+            }
+        }
+
         if (seatId > -1)
         {
             uint8 i = 0;
             bool valid = false;
             for (SpellEffectInfo const* effect : spellEntry->GetEffectsForDifficulty(GetMap()->GetDifficultyID()))
             {
-                if (!effect)
-                    continue;
-
-                if (effect->ApplyAuraName == SPELL_AURA_CONTROL_VEHICLE)
+                if (effect && effect->ApplyAuraName == SPELL_AURA_CONTROL_VEHICLE)
                 {
-                    valid = true;
-                    break;
+                    if (effect->CalcValue() - 1 == seatId)
+                    {
+                        valid = true;
+                        break;
+                    }
+
+                    ++i;
                 }
-                ++i;
             }
 
             if (!valid)
-            {
-                TC_LOG_ERROR("sql.sql", "Spell %u specified in npc_spellclick_spells is not a valid vehicle enter aura!", itr->second.spellId);
                 continue;
-            }
 
+            int32 bp0 = seatId + 1;
             if (IsInMap(caster))
-                caster->CastCustomSpell(itr->second.spellId, SpellValueMod(SPELLVALUE_BASE_POINT0+i), seatId + 1, target, GetVehicleKit() ? TRIGGERED_IGNORE_CASTER_MOUNTED_OR_ON_VEHICLE : TRIGGERED_NONE, nullptr, nullptr, origCasterGUID);
+                caster->CastCustomSpell(target, spellEntry->Id, &bp0, nullptr, nullptr, true, nullptr, nullptr, origCasterGUID);
             else    // This can happen during Player::_LoadAuras
             {
                 int32 bp0[MAX_SPELL_EFFECTS];
@@ -13638,6 +13650,14 @@ bool Unit::HandleSpellClick(Unit* clicker, int8 seatId)
 
         result = true;
     }
+
+    // Some spell-click vehicle definitions can reference spells that no longer
+    // contain SPELL_AURA_CONTROL_VEHICLE in the loaded client data. Preserve
+    // normal spell-click behavior first, then fall back to the core vehicle
+    // entry path for a player clicking a real vehicle.
+    if (result && clicker && clicker->GetTypeId() == TYPEID_PLAYER && GetVehicleKit() &&
+        !clicker->GetVehicle() && !acceptedSpellHasVehicleControlAura)
+        clicker->EnterVehicle(this, seatId);
 
     Creature* creature = ToCreature();
     if (creature && creature->IsAIEnabled)
