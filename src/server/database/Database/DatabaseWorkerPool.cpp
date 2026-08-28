@@ -36,7 +36,12 @@
 #include <mysqld_error.h>
 
 #define MIN_MYSQL_SERVER_VERSION 50100u
+#ifdef MARIADB_VERSION_ID
+// Connector/C reports 3.3.19 as 30319; MYSQL_VERSION_ID is the server id 101118.
+#define MIN_MYSQL_CLIENT_VERSION 30203u
+#else
 #define MIN_MYSQL_CLIENT_VERSION 50100u
+#endif
 
 class PingOperation : public SQLOperation
 {
@@ -54,9 +59,13 @@ DatabaseWorkerPool<T>::DatabaseWorkerPool()
       _async_threads(0), _synch_threads(0)
 {
     WPFatal(mysql_thread_safe(), "Used MySQL library isn't thread-safe.");
+#ifdef MARIADB_VERSION_ID
+    WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "BfaCore does not support MariaDB Connector/C versions below 3.2.3");
+#else
     WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "BfaCore does not support MySQL versions below 5.1");
     WPFatal(mysql_get_client_version() == MYSQL_VERSION_ID, "Used MySQL library version (%s) does not match the version used to compile BfaCore (%s). Search on forum for TCE00011.",
         mysql_get_client_info(), MYSQL_SERVER_VERSION);
+#endif
 }
 
 template <class T>
