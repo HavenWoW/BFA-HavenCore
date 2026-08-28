@@ -60,10 +60,10 @@ DatabaseWorkerPool<T>::DatabaseWorkerPool()
 {
     WPFatal(mysql_thread_safe(), "Used MySQL library isn't thread-safe.");
 #ifdef MARIADB_VERSION_ID
-    WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "BfaCore does not support MariaDB Connector/C versions below 3.2.3");
+    WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "BFA-HavenCore does not support MariaDB Connector/C versions below 3.2.3");
 #else
-    WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "BfaCore does not support MySQL versions below 5.1");
-    WPFatal(mysql_get_client_version() == MYSQL_VERSION_ID, "Used MySQL library version (%s) does not match the version used to compile BfaCore (%s). Search on forum for TCE00011.",
+    WPFatal(mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION, "BFA-HavenCore does not support MySQL versions below 5.1");
+    WPFatal(mysql_get_client_version() == MYSQL_VERSION_ID, "Used MySQL library version (%s) does not match the version used to compile BFA-HavenCore (%s). Search on forum for TCE00011.",
         mysql_get_client_info(), MYSQL_SERVER_VERSION);
 #endif
 }
