@@ -26,6 +26,7 @@ EndScriptData */
 #include "Chat.h"
 #include "DB2Stores.h"
 #include "Language.h"
+#include "Log.h"
 #include "ObjectMgr.h"
 #include "Pet.h"
 #include "Player.h"
@@ -33,6 +34,8 @@ EndScriptData */
 #include "SpellMgr.h"
 #include "SpellInfo.h"
 #include "WorldSession.h"
+#include <algorithm>
+#include <cctype>
 
 class learn_commandscript : public CommandScript
 {
@@ -120,19 +123,93 @@ public:
 
     static bool HandleLearnAllGMCommand(ChatHandler* handler, char const* /*args*/)
     {
-        for (uint32 i = 0; i < sSpellMgr->GetSpellInfoStoreSize(); ++i)
+        Player* player = handler->GetSession()->GetPlayer();
+        int locale = handler->GetSessionDbcLocale();
+
+        // Confirmed useful/working BFA 8.3.7 GM spell list.
+        static uint32 const confirmedGMSpells[] =
         {
-            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(i);
-            if (!spellInfo || !SpellMgr::IsSpellValid(spellInfo, handler->GetSession()->GetPlayer(), false))
-                continue;
+            1234,    // Joe's God Mode
+            265,     // Area Death (TEST)
+            5,       // Death Touch
+            160040,  // Freeze - explicit Blizzard GM tool
+            1852,    // Silenced - explicit Blizzard GM tool
+            9454,    // Freeze - targeted
+            43489,   // Grasp of the Lich King - pacify/silence + root
 
-            if (!spellInfo->IsAbilityOfSkillType(SKILL_INTERNAL))
-                continue;
+            142653,  // Teleport Target to Self
+            21463,   // Teleport to Player
+            36967,   // Teleport to Player
+            267414,  // Teleport Target to Self
+            319517,  // Teleport Target to Self
 
-            handler->GetSession()->GetPlayer()->LearnSpell(i, false);
+            20279,   // Summon Player
+            20477,   // Summon Player
+            223562,  // Summon Player
+
+            309787,  // _JKL - Instant Cast
+
+            23965,   // Instant Heal
+            67891,   // Full Heal
+            69693,   // Full Heal
+            72423,   // Mass Resurrection
+            62856,   // Detect Invisibility
+
+            37800,   // Transparency
+            134001   // Cooldown Reset - confirmed useful
+        };
+
+        TC_LOG_INFO("server.loading", "============================================================");
+        TC_LOG_INFO("server.loading", "[GM-LEARN] Learning confirmed BFA GM spell list");
+        TC_LOG_INFO("server.loading", "============================================================");
+
+        uint32 learned = 0;
+        uint32 alreadyKnown = 0;
+        uint32 invalid = 0;
+
+        for (uint32 spellId : confirmedGMSpells)
+        {
+            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellId);
+            if (!spellInfo || !SpellMgr::IsSpellValid(spellInfo, player, false))
+            {
+                ++invalid;
+                TC_LOG_INFO("server.loading", "[GM-LEARN] Spell=%u INVALID/NOT LOADED", spellId);
+                continue;
+            }
+
+            std::string name;
+            if (spellInfo->SpellName)
+            {
+                name = spellInfo->SpellName->Str[locale];
+                if (name.empty())
+                    name = spellInfo->SpellName->Str[0];
+            }
+
+            if (player->HasSpell(spellId))
+            {
+                ++alreadyKnown;
+                TC_LOG_INFO("server.loading",
+                    "[GM-LEARN] Spell=%u Name=\"%s\" ALREADY KNOWN",
+                    spellId, name.c_str());
+                continue;
+            }
+
+            player->LearnSpell(spellId, false);
+            ++learned;
+
+            TC_LOG_INFO("server.loading",
+                "[GM-LEARN] Spell=%u Name=\"%s\" LEARNED",
+                spellId, name.c_str());
         }
 
-        handler->SendSysMessage(LANG_LEARNING_GM_SKILLS);
+        TC_LOG_INFO("server.loading", "============================================================");
+        TC_LOG_INFO("server.loading",
+            "[GM-LEARN] Finished: learned=%u alreadyKnown=%u invalid=%u total=%u",
+            learned, alreadyKnown, invalid, uint32(sizeof(confirmedGMSpells) / sizeof(uint32)));
+        TC_LOG_INFO("server.loading", "============================================================");
+
+        handler->SendSysMessage("All GM Spells Learned");
+
         return true;
     }
 
