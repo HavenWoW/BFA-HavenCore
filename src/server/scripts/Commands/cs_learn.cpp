@@ -173,7 +173,7 @@ public:
                 player->LearnSpell(spellId, false);
         }
 
-        handler->SendSysMessage("All GM Spells Learned");
+        handler->SendSysMessage(LANG_LEARNING_GM_SKILLS);
         return true;
     }
 
