@@ -1479,6 +1479,8 @@ void SpellMgr::LoadSpellProcs()
     isTriggerAura[SPELL_AURA_MOD_BLOCK_PERCENT] = true;
     isTriggerAura[SPELL_AURA_MOD_ROOT_2] = true;
     isTriggerAura[SPELL_AURA_MOD_FEAR_2] = true;
+    // 8.3.7 Ny'alotha 316780 / 316717 put ProcFlags on LINKED_2; without this the default generator skips them and AuraScript OnProc never runs
+    isTriggerAura[SPELL_AURA_LINKED_2] = true;
 
     isAlwaysTriggeredAura[SPELL_AURA_OVERRIDE_CLASS_SCRIPTS] = true;
     isAlwaysTriggeredAura[SPELL_AURA_MOD_STEALTH] = true;
