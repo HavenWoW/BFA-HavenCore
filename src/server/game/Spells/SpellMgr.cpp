@@ -1526,6 +1526,9 @@ void SpellMgr::LoadSpellProcs()
 
         bool addTriggerFlag = false;
         uint32 procSpellTypeMask = PROC_SPELL_TYPE_NONE;
+        bool foundLinked2 = false;
+        uint32 linked2SpellTypeMask = PROC_SPELL_TYPE_NONE;
+        bool linked2AlwaysTriggered = false;
         for (SpellEffectInfo const* effect : spellInfo->GetEffectsForDifficulty(DIFFICULTY_NONE))
         {
             if (!effect || !effect->IsEffect())
@@ -1537,6 +1540,17 @@ void SpellMgr::LoadSpellProcs()
 
             if (!isTriggerAura[auraName])
                 continue;
+
+            // 8.3.7 Ny'alotha 316780/316717 put ProcFlags on LINKED_2; treating
+            // LINKED_2 as the first match would hide a later real trigger aura
+            // and drop charges on unrelated LINKED_2+charges spells.
+            if (auraName == SPELL_AURA_LINKED_2)
+            {
+                foundLinked2 = true;
+                linked2SpellTypeMask = spellTypeMask[auraName];
+                linked2AlwaysTriggered = isAlwaysTriggeredAura[auraName];
+                continue;
+            }
 
             procSpellTypeMask |= spellTypeMask[auraName];
             if (isAlwaysTriggeredAura[auraName])
@@ -1557,6 +1571,13 @@ void SpellMgr::LoadSpellProcs()
                 }
             }
             break;
+        }
+
+        if (!procSpellTypeMask && foundLinked2)
+        {
+            procSpellTypeMask |= linked2SpellTypeMask;
+            if (linked2AlwaysTriggered)
+                addTriggerFlag = true;
         }
 
         if (!procSpellTypeMask)
