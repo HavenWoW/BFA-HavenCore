@@ -587,6 +587,11 @@ void WorldSession::HandleCharCreateOpcode(WorldPackets::Character::CreateCharact
 
     std::shared_ptr<WorldPackets::Character::CharacterCreateInfo> createInfo = charCreate.CreateInfo;
     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_CHECK_NAME);
+
+	// Check if name starts with uppercase letter, if not, change it and continue.
+    if (!isupper(charCreate.CreateInfo->Name[0]))
+		charCreate.CreateInfo->Name[0] = toupper(charCreate.CreateInfo->Name[0]);
+    
     stmt->setString(0, charCreate.CreateInfo->Name);
 
     _queryProcessor.AddCallback(CharacterDatabase.AsyncQuery(stmt)
