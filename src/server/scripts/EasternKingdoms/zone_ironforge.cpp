@@ -600,63 +600,10 @@ class spell_ironforge_arrest_slaghammer : public SpellScript
     }
 };
 
-class npc_mountaineer_watch : public CreatureScript
-{
-public:
-    npc_mountaineer_watch() : CreatureScript("npc_mountaineer_watch") { }
-
-    bool OnGossipHello(Player* player, Creature* creature)
-    {
-        if (player->GetQuestStatus(313) == QUEST_STATUS_INCOMPLETE)
-        {
-            AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Captain Tharran wants you to deploy your remote observation bots and withdraw to Kharanos.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
-        }
-        SendGossipMenuFor(player, creature->GetEntry(), creature->GetGUID());
-        return true;
-    }
-
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action)
-    {
-        player->PlayerTalkClass->ClearMenus();
-
-        if (action == GOSSIP_ACTION_INFO_DEF + 1)
-        {
-            switch (creature->GetEntry())
-            {
-            case 40991: // Mountaineer Dunstan
-                creature->Whisper("Tell Captain Tharran that I'll be back in Kharanos as soon as I've verified that the bot is working correctly.", LANG_UNIVERSAL, 0);
-                CloseGossipMenuFor(player);
-                break;
-            case 40994: // Mountaineer Lewin
-                creature->Whisper("I can't wait to get out there and help in the fight against those trolls.", LANG_UNIVERSAL, 0);
-                CloseGossipMenuFor(player);
-                break;
-            case 41056: // Mountaineer Valgrum
-                creature->Whisper("We've been fighting nonstop since the cataclysm. It'll be nice to get a rest, if a brief one.", LANG_UNIVERSAL, 0);
-                CloseGossipMenuFor(player);
-                break;
-            }
-
-            float x, y, z;
-            creature->GetClosePoint(x, y, z, creature->GetObjectSize() / 3, 5.0f);
-            if (Creature* bot = creature->SummonCreature(41052, x, y, z, 0, TEMPSUMMON_MANUAL_DESPAWN)) // Summon Remote Observation Bot.
-            {
-                bot->GetMotionMaster()->MoveRandom(10.0f);
-                bot->DespawnOrUnsummon(10000);
-            }
-
-            player->KilledMonsterCredit(creature->GetEntry());
-            creature->DespawnOrUnsummon(6000);
-        }
-
-        return true;
-    }
-};
 
 void AddSC_ironforge()
 {
     RegisterCreatureAI(npc_moira_thaurissan);
     RegisterCreatureAI(npc_ambassador_slaghammer);
     RegisterSpellScript(spell_ironforge_arrest_slaghammer);
-    new npc_mountaineer_watch();
 }
