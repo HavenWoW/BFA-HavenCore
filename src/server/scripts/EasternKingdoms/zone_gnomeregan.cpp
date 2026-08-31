@@ -39,6 +39,7 @@ enum GnomeCreatureIds
     NPC_DECONTAMINATION_BUNNY = 46165,
     NPC_CLEAN_CANNON          = 46208,
     NPC_SAFE_TECHNICAN        = 46230,
+    NPC_SANITRON_5000         = 46185,
     NPC_NEVIN_TWISTWRENCH     = 46293,
     NPC_IMUN_AGENT            = 47836
 };
@@ -49,7 +50,7 @@ enum GnomeSpells
     SPELL_DECONTAMINATE_STAGE_1 = 86075,
     SPELL_DECONTAMINATE_STAGE_2 = 86086,
     SPELL_IRRADIATE             = 80653,
-    SPELL_EXPLOSION             = 30934
+    SPELL_SANITRON_EXPLOSION    = 46419 // cosmetic; 30934 is the wrong spell
 };
 
 enum GnomeQuests
@@ -69,6 +70,9 @@ enum GnomeMoves
 };
 
 Position const SpawnPosition = { -4981.25f, 780.992f, 288.485f, 3.316f };
+Position const TechnicianWreckagePos = { -5184.69f, 699.313f, 288.085f, 0.0f };
+float const SanitronBunnyCastRange = 15.0f;
+float const SanitronCannonCastRange = 20.0f;
 
 class npc_nevin_twistwrench : public CreatureScript
 {
@@ -122,23 +126,11 @@ class npc_sanitron_5000 : public CreatureScript
 public:
     npc_sanitron_5000() : CreatureScript("npc_sanitron_5000") { }
 
-    bool OnGossipHello(Player* player, Creature* creature) override
-    {
-        if (player->GetQuestStatus(QUEST_DECONTAMINATION) == QUEST_STATUS_INCOMPLETE)
-        {
-            player->HandleEmoteCommand(0);
-            creature->GetVehicleKit();
-            player->EnterVehicle(creature->ToUnit(), 0);
-            creature->AI()->Talk(0);
-        }
-        return true;
-    }
-
     struct npc_sanitron_5000AI : public ScriptedAI
     {
         npc_sanitron_5000AI(Creature* creature) : ScriptedAI(creature), _vehicle(creature->GetVehicleKit())
         {
-            ASSERT(_vehicle); // we dont actually use it, just check if exists
+            ASSERT(_vehicle);
         }
 
         void Reset() override
@@ -146,6 +138,24 @@ public:
             uiTimer = 0;
             uiRespawnTimer = 6000;
             uiPhase = 0;
+            _started = false;
+        }
+
+        void PassengerBoarded(Unit* passenger, int8 /*seatId*/, bool apply) override
+        {
+            if (!apply)
+                return;
+
+            Player* player = passenger->ToPlayer();
+            if (!player || _started)
+                return;
+
+            // TALKTO 46185 — "Decontamination Process started"
+            player->TalkedToCreature(me->GetEntry(), me->GetGUID());
+            Talk(0);
+            _started = true;
+            uiPhase = 0;
+            uiTimer = 0;
         }
 
         void GetTargets()
@@ -154,39 +164,37 @@ public:
 
             for (auto itr : targets)
             {
-                switch (itr->GetEntry())
+                if (itr->GetEntry() == NPC_SAFE_TECHNICAN && itr->GetDistance2d(-5165.209961f, 713.809021f) <= 1)
+                    TechnicianGUID = itr->GetGUID();
+            }
+        }
+
+        void NotifyWreckageTechnician()
+        {
+            std::list<Creature*> technicians;
+            me->GetCreatureListWithEntryInGrid(technicians, NPC_SAFE_TECHNICAN, 50.0f);
+            for (Creature* technician : technicians)
+            {
+                if (technician->GetDistance2d(TechnicianWreckagePos.GetPositionX(), TechnicianWreckagePos.GetPositionY()) <= 3.0f)
                 {
-                    case NPC_SAFE_TECHNICAN:
-                        if (itr->GetDistance2d(-5165.209961f, 713.809021f) <= 1)
-                            TechnicianGUID = itr->GetGUID();
-                        break;
-                    case NPC_DECONTAMINATION_BUNNY:
-                        if (itr->GetDistance2d(-5164.919922f, 723.890991f) <= 1)
-                            BunnyGUID[0] = itr->GetGUID();
-                        if (itr->GetDistance2d(-5182.560059f, 726.656982f) <= 1)
-                            BunnyGUID[1] = itr->GetGUID();
-                        if (itr->GetDistance2d(-5166.350098f, 706.336975f) <= 1)
-                            BunnyGUID[2] = itr->GetGUID();
-                        if (itr->GetDistance2d(-5184.040039f, 708.405029f) <= 1)
-                            BunnyGUID[3] = itr->GetGUID();
-                        break;
-                    case NPC_CLEAN_CANNON:
-                        if (itr->GetDistance2d(-5164.209961f, 719.267029f) <= 1)
-                            CannonGUID[0] = itr->GetGUID();
-                        if (itr->GetDistance2d(-5165.000000f, 709.453979f) <= 1)
-                            CannonGUID[1] = itr->GetGUID();
-                        if (itr->GetDistance2d(-5183.830078f, 722.093994f) <= 1)
-                            CannonGUID[2] = itr->GetGUID();
-                        if (itr->GetDistance2d(-5184.470215f, 712.554993f) <= 1)
-                            CannonGUID[3] = itr->GetGUID();
-                        break;
+                    technician->AI()->SetData(1, 1);
+                    break;
                 }
             }
         }
 
+        // Hardcoded 1-yard GUID picks miss nearby bunnies/cannons; SAI used a radius cross-cast.
+        void CastFromNearbyOnPassenger(uint32 casterEntry, uint32 spellId, Unit* target, float range)
+        {
+            std::list<Creature*> casters;
+            me->GetCreatureListWithEntryInGrid(casters, casterEntry, range);
+            for (Creature* caster : casters)
+                caster->CastSpell(target, spellId, true);
+        }
+
         void UpdateAI(uint32 diff) override
         {
-            if (_vehicle->HasEmptySeat(0))
+            if (!_started || _vehicle->HasEmptySeat(0))
                 return;
 
             if (uiTimer <= diff)
@@ -208,10 +216,7 @@ public:
                                 uiTimer = 3000;
                                 break;
                             case 2:
-                                for (uint8 i = 0; i < 2; ++i)
-                                    if (Creature* bunny = ObjectAccessor::GetCreature(*me, BunnyGUID[i]))
-                                        bunny->CastSpell(player, SPELL_DECONTAMINATE_STAGE_1, true);
-
+                                CastFromNearbyOnPassenger(NPC_DECONTAMINATION_BUNNY, SPELL_DECONTAMINATE_STAGE_1, player, SanitronBunnyCastRange);
                                 ++uiPhase;
                                 uiTimer = 1500;
                                 break;
@@ -226,10 +231,7 @@ public:
                                 uiTimer = 3000;
                                 break;
                             case 5:
-                                for (uint8 i = 0; i < 4; ++i)
-                                    if (Creature* cannon = ObjectAccessor::GetCreature(*me, CannonGUID[i]))
-                                        cannon->CastSpell(player, SPELL_CANNON_BURST, true);
-
+                                CastFromNearbyOnPassenger(NPC_CLEAN_CANNON, SPELL_CANNON_BURST, player, SanitronCannonCastRange);
                                 ++uiPhase;
                                 uiTimer = 4000;
                                 break;
@@ -241,16 +243,14 @@ public:
                                 uiTimer = 4000;
                                 break;
                             case 7:
-                                for (uint8 i = 2; i < 4; ++i)
-                                    if (Creature* bunny = ObjectAccessor::GetCreature(*me, BunnyGUID[i]))
-                                        bunny->CastSpell(player, SPELL_DECONTAMINATE_STAGE_2, true);
-
+                                CastFromNearbyOnPassenger(NPC_DECONTAMINATION_BUNNY, SPELL_DECONTAMINATE_STAGE_2, player, SanitronBunnyCastRange);
                                 player->RemoveAurasDueToSpell(SPELL_IRRADIATE);
                                 ++uiPhase;
                                 uiTimer = 1000;
                                 break;
                             case 8:
-                                player->CompleteQuest(QUEST_DECONTAMINATION);
+                                // MONSTER 46185 — "Complete Decontamination Process"
+                                player->KilledMonsterCredit(NPC_SANITRON_5000);
                                 Talk(1);
                                 me->GetMotionMaster()->MovePoint(5, -5175.61f, 700.38f, 290.89f);
                                 ++uiPhase;
@@ -258,13 +258,15 @@ public:
                                 break;
                             case 9:
                                 Talk(2);
-                                me->CastSpell(me, SPELL_EXPLOSION);
+                                me->CastSpell(me, SPELL_SANITRON_EXPLOSION, true);
                                 ++uiPhase;
                                 uiTimer = 1000;
                                 break;
                             case 10:
+                                NotifyWreckageTechnician();
                                 _vehicle->RemoveAllPassengers();
                                 me->setDeathState(JUST_DIED);
+                                _started = false;
                                 ++uiPhase;
                                 uiTimer = 0;
                                 break;
@@ -280,12 +282,11 @@ public:
         Vehicle* _vehicle;
 
         ObjectGuid TechnicianGUID;
-        ObjectGuid BunnyGUID[4] = {};
-        ObjectGuid CannonGUID[4] = {};
 
         uint32 uiTimer;
         uint32 uiRespawnTimer;
         uint8 uiPhase;
+        bool _started = false;
     };
 
     CreatureAI* GetAI(Creature* creature) const override
