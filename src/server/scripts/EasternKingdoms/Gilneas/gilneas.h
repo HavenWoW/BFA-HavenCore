@@ -551,4 +551,15 @@ enum Events
     PASSENGER_GUID = 99998,
 };
 
+
+enum SpellIds
+{
+    SPELL_PING_GILNEAN_CROW                            = 93275
+};
+
+enum GilneanCrow
+{
+    POINT_CROW_FLIGHT = 1
+};
+
 #endif // GILNEAS_M_
