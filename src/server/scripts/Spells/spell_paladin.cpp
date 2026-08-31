@@ -627,54 +627,52 @@ class spell_pal_shield_of_vengeance : public AuraScript
 {
     PrepareAuraScript(spell_pal_shield_of_vengeance);
 
-    int32 absorb;
-    int32 currentAbsorb;
-
-    void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& canBeRecalculated)
+    bool Validate(SpellInfo const* spellInfo) override
     {
-        if (Unit* caster = GetCaster())
+        return ValidateSpellInfo({ SPELL_PALADIN_SHIELD_OF_VENGEANCE_DAMAGE });
+    }
+
+    void CalculateAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
+    {
+        amount = CalculatePct(GetUnitOwner()->GetMaxHealth(), GetEffectInfo(EFFECT_1)->BasePoints);
+        if (Player const* player = GetUnitOwner()->ToPlayer())
+            AddPct(amount, player->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + player->GetTotalAuraModifier(SPELL_AURA_MOD_VERSATILITY));
+
+        _initialAmount = amount;
+    }
+
+    void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    {
+        Unit* caster = GetCaster();
+        if (!caster)
+            return;
+
+        int32 totalDamage = _initialAmount - aurEff->GetAmount();
+
+        std::list<Unit*> targetList;
+        float range = 8.0f;
+
+        caster->GetAttackableUnitListInRange(targetList, range);
+
+        if (targetList.empty())
+            return;
+
+        int32 damagePerTarget = totalDamage / targetList.size();
+
+        for (Unit* target : targetList)
         {
-            canBeRecalculated = false;
-
-            float ap = caster->GetTotalAttackPowerValue(BASE_ATTACK);
-            absorb = (ap * 20);
-            amount += absorb;
+            caster->CastCustomSpell(SPELL_PALADIN_SHIELD_OF_VENGEANCE_DAMAGE,
+                SPELLVALUE_BASE_POINT0, damagePerTarget, target, TRIGGERED_FULL_MASK);
         }
-    }
-
-    void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& /*absorbAmount*/)
-    {
-        Unit* caster = GetCaster();
-        if (!caster)
-            return;
-
-        currentAbsorb += dmgInfo.GetDamage();
-    }
-
-    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
-    {
-        Unit* caster = GetCaster();
-        if (!caster)
-            return;
-
-        if (currentAbsorb < absorb)
-            return;
-
-        std::list<Unit*> targets;
-        caster->GetAttackableUnitListInRange(targets, 8.0f);
-
-		if (uint32 targetSize = targets.size())
-           absorb /= targetSize;
-
-        caster->CastCustomSpell(SPELL_PALADIN_SHIELD_OF_VENGEANCE_DAMAGE, SPELLVALUE_BASE_POINT0, absorb, caster, true);
     }
 
     void Register() override
     {
         DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_pal_shield_of_vengeance::CalculateAmount, EFFECT_0, SPELL_AURA_SCHOOL_ABSORB);
-        OnEffectRemove += AuraEffectRemoveFn(spell_pal_shield_of_vengeance::OnRemove, EFFECT_0, SPELL_AURA_SCHOOL_ABSORB, AURA_EFFECT_HANDLE_REAL);
-        OnEffectAbsorb += AuraEffectAbsorbFn(spell_pal_shield_of_vengeance::Absorb, EFFECT_0);
+        OnEffectRemove += AuraEffectApplyFn(spell_pal_shield_of_vengeance::HandleRemove, EFFECT_0, SPELL_AURA_SCHOOL_ABSORB, AURA_EFFECT_HANDLE_REAL);
     }
+
+    int32 _initialAmount = 0;
 };
 
 // 53385 - Divine Storm
