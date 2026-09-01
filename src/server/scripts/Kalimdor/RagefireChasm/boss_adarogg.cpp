@@ -17,7 +17,7 @@ enum Spells
 
 enum Events
 {
-    EVENT_FLAME_BREATH,
+    EVENT_FLAME_BREATH = 1,
     EVENT_INFERNO
 };
 
@@ -34,8 +34,8 @@ class boss_adarogg : public CreatureScript
 
             void EnterCombat(Unit* /*who*/)
             {
-                events.ScheduleEvent(EVENT_FLAME_BREATH, 5000);
-                events.ScheduleEvent(EVENT_INFERNO, 15000);
+                events.ScheduleEvent(EVENT_INFERNO, 10000);
+                events.ScheduleEvent(EVENT_FLAME_BREATH, 20000);
             }
 
             void SpellHitTarget(Unit* target, SpellInfo const* spell) override
@@ -62,11 +62,30 @@ class boss_adarogg : public CreatureScript
                     {
                         case EVENT_FLAME_BREATH:
                             DoCastVictim(SPELL_FLAME_BREATH);
-                            events.ScheduleEvent(EVENT_FLAME_BREATH, 10*IN_MILLISECONDS);
+                            events.ScheduleEvent(EVENT_FLAME_BREATH, urand(15000, 20000));
                             break;
                         case EVENT_INFERNO:
-                            DoCastRandom(SPELL_INFERNO_CHARGE, 100);
-                            events.ScheduleEvent(EVENT_INFERNO, 18*IN_MILLISECONDS);
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
+                            {
+                                me->SetFacingToObject(target);
+
+                                // HavenCore lacks the modern TrinityCore
+                                // serverside Inferno Charge helper spells.
+                                // Move Adarogg physically to the selected
+                                // player's location so the charge is visible,
+                                // then use the existing spell for the impact.
+                                me->GetMotionMaster()->MoveCharge(
+                                    target->GetPositionX(),
+                                    target->GetPositionY(),
+                                    target->GetPositionZ(),
+                                    35.0f,
+                                    1,
+                                    true);
+
+                                DoCast(target, SPELL_INFERNO_CHARGE, true);
+                            }
+
+                            events.ScheduleEvent(EVENT_INFERNO, urand(15000, 20000));
                             break;
                         default:
                             break;
