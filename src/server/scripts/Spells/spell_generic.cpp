@@ -4887,10 +4887,7 @@ public:
 
 enum GilneasPrison
 {
-    SPELL_SUMMON_RAVENOUS_WORGEN_1 = 66836,
-    SPELL_SUMMON_RAVENOUS_WORGEN_2 = 66925,
-
-    NPC_WORGEN_RUNT                = 35456,
+    NPC_WORGEN_RUNT = 35456,
 };
 
 Position const WorgenRuntHousePos[] =
@@ -4912,7 +4909,6 @@ Position const WorgenRuntHousePos[] =
     { -1634.344f, 1491.3f, 70.10101f, 4.6248f },
     { -1631.979f, 1491.585f, 71.11481f, 4.032866f },
     { -1627.273f, 1499.689f, 68.89395f, 4.251452f },
-    { -1622.665f, 1489.818f, 71.03797f, 3.776179f },
 };
 
 class spell_gen_gilneas_prison_periodic_dummy : public SpellScriptLoader
@@ -4924,38 +4920,25 @@ class spell_gen_gilneas_prison_periodic_dummy : public SpellScriptLoader
         {
             PrepareSpellScript(spell_gen_gilneas_prison_periodic_dummy_SpellScript);
 
-            bool Validate(SpellInfo const* /*spellInfo*/) override
-            {
-                return ValidateSpellInfo(
-                    {
-                        SPELL_SUMMON_RAVENOUS_WORGEN_1, // House roof
-                        SPELL_SUMMON_RAVENOUS_WORGEN_2, // Cathedral roof
-                    });
-            }
-
+            // Roof runners only — do not CastSpell 66836/66925 (those land at the caster).
             void HandleDummy(SpellEffIndex /*effIndex*/)
             {
-                if (Unit* caster = GetCaster())
+                Unit* caster = GetCaster();
+                if (!caster)
+                    return;
+
+                switch (RAND(0, 1))
                 {
-                    switch (RAND(0, 1))
-                    {
-                        case 0:
-                            caster->CastSpell(caster, SPELL_SUMMON_RAVENOUS_WORGEN_1, true);
-                            for (uint8 i = 0; i < 7; i++)
-                                if (Creature* runt = caster->SummonCreature(NPC_WORGEN_RUNT, WorgenRuntHousePos[i]))
-                                    runt->AI()->DoAction(i);
-                            break;
-                        case 1:
-                            caster->CastSpell(caster, SPELL_SUMMON_RAVENOUS_WORGEN_2, true);
-                            for (uint8 i = 7; i < 16; i++)
-                                if (Creature* runt = caster->SummonCreature(NPC_WORGEN_RUNT, WorgenRuntHousePos[i]))
-                                    runt->AI()->DoAction(i);
-                            if (RAND(0, 1) == 1)
-                                for (uint8 i = 0; i < RAND(1, 3); i++)
-                                    if (Creature* runt = caster->SummonCreature(NPC_WORGEN_RUNT, WorgenRuntHousePos[i]))
-                                        runt->AI()->DoAction(i);
-                            break;
-                    }
+                    case 0:
+                        for (uint8 i = 0; i < 7; ++i)
+                            if (Creature* runt = caster->SummonCreature(NPC_WORGEN_RUNT, WorgenRuntHousePos[i]))
+                                runt->AI()->DoAction(i);
+                        break;
+                    case 1:
+                        for (uint8 i = 7; i < 15; ++i)
+                            if (Creature* runt = caster->SummonCreature(NPC_WORGEN_RUNT, WorgenRuntHousePos[i]))
+                                runt->AI()->DoAction(i);
+                        break;
                 }
             }
 
