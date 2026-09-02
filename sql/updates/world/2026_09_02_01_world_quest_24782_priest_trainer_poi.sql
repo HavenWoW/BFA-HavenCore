@@ -1,5 +1,4 @@
 -- Quest 24782 - The Rise of the Darkspear (Priest)
--- Correct the primary POI to Tunari and match the other class variants.
 
 DELETE FROM `quest_poi_points` WHERE `QuestID` = 24782;
 DELETE FROM `quest_poi` WHERE `QuestID` = 24782;
