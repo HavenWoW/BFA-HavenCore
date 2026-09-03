@@ -1,8 +1,19 @@
 /*
-*
-* Copyright (C) 2012-2014 Cerber Project <https://bitbucket.org/mojitoice/>
-*
-*/
+ * 2026 BFA-HavenCore
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "ScriptMgr.h"
 #include "deadmines.h"
@@ -165,13 +176,28 @@ public:
             if (!me)
                 return;
 
+            // Ripsnarl is explicitly hidden during each fog phase with
+            // SetVisible(false). If he dies before EVENT_SHOW_UP restores him,
+            // the corpse inherits that hidden state and normal players cannot
+            // see or loot it (GM visibility bypasses this).
+            //
+            // Always restore normal visibility/selectability before processing
+            // boss death so the corpse is visible and lootable.
+            me->SetVisible(true);
+            me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_PACIFIED));
+            phase = PHASE_NORMAL;
+
             _JustDied();
             summons.DespawnAll();
             Talk(SAY_DEATH);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
             RemoveAuraFromMap();
             RemoveFog();
-            me->SummonCreature(NPC_CAPTAIN_COOKIE, CookieSpawn);
+
+            // Captain Cookie (47739) already has a static Deadmines spawn in the DB.
+            // His own AI keeps him inactive until Ripsnarl is DONE, then activates
+            // when players approach. Summoning another Cookie here creates a
+            // duplicate boss encounter.
         }
 
         void SetData(uint32 /*uiI*/, uint32 uiValue) override
@@ -219,7 +245,7 @@ public:
             if (!me)
                 return;
 
-            phase = PHASE_FOG;
+            phase = apply ? PHASE_FOG : PHASE_NORMAL;
             std::list<Creature*> creature_list;
             me->GetCreatureListWithEntryInGrid(creature_list, NPC_GENERAL_PURPOSE_BUNNY_JMF2, 100.0f);
 
@@ -276,10 +302,16 @@ public:
             if (!me || !instance)
                 return;
 
-            if (!UpdateVictim())
+            // During the fog phase Ripsnarl becomes invisible/non-attackable and can
+            // temporarily lose his victim. Events must continue ticking or
+            // EVENT_SHOW_UP / EVENT_SUMMON_VAPOR will freeze indefinitely.
+            bool hasVictim = UpdateVictim();
+
+            if (!hasVictim && phase == PHASE_NORMAL)
                 return;
 
-            DoMeleeAttackIfReady();
+            if (hasVictim)
+                DoMeleeAttackIfReady();
 
             events.Update(uiDiff);
 
@@ -325,7 +357,11 @@ public:
                         break;
 
                     case EVENT_UPDATE_FOG:
-                        instance->DoCastSpellOnPlayers(SPELL_FOG_AURA);
+                        if (phase == PHASE_FOG)
+                        {
+                            instance->DoCastSpellOnPlayers(SPELL_FOG_AURA);
+                            events.ScheduleEvent(EVENT_UPDATE_FOG, 1000);
+                        }
                         break;
 
                     case EVENT_GO_FOR_THROAT:

@@ -18,8 +18,51 @@
 #include "ScriptMgr.h"
 #include "deadmines.h"
 #include "GameObject.h"
+#include "Player.h"
+#include "Creature.h"
 
 #define NOTE_TEXT "A note falls to the floor!"
+
+namespace
+{
+    // Faction-specific Deadmines entrance/support spawns.
+    // Keep both factions in the DB and remove the wrong-faction set per instance,
+    // matching the runtime filtering approach used by Ragefire Chasm.
+    uint32 const HordeEntranceSpawns[] =
+    {
+        319267, // Kagtha (46889)
+        319264, // Shattered Hand Assassin (46890)
+        319269, // Shattered Hand Assassin (46890)
+
+        319268, // Mayhem Reaper Prototype (46903)
+        319270,
+        319373,
+        319374
+    };
+
+    uint32 const AllianceEntranceSpawns[] =
+    {
+        327276, // Lieutenant Horatio Laine (46612)
+        327270, // Quartermaster Lewis (491)
+
+        327265, // Crime Scene Alarm-o-Bot (46613)
+        327267,
+        327268,
+        327269,
+        327271,
+
+        327266, // Stormwind Defender (50595)
+        327272,
+        327274,
+        327275,
+        327277,
+
+        327263, // Stormwind Investigator (46614)
+        327264,
+        327273,
+        327278
+    };
+}
 
 Position const NoteSpawn = {-74.36111f, -820.0139f, 40.67145f, 4.014257f};
 
@@ -30,50 +73,74 @@ public:
 
     struct instance_deadmines_InstanceMapScript : public InstanceScript
     {
-        instance_deadmines_InstanceMapScript(InstanceMap* map) : InstanceScript(map)
+        instance_deadmines_InstanceMapScript(InstanceMap* map)
+            : InstanceScript(map), TeamInInstance(TEAM_NEUTRAL), TeamInitialized(false), IsVisionOfThePastRunning(false)
         {
             SetBossNumber(MAX_BOSSES);
-            IsVisionOfThePastRunning = false;
         };
+
+        void OnPlayerEnter(Player* player) override
+        {
+            if (!player || TeamInitialized)
+                return;
+
+            TeamInInstance = player->GetTeam();
+            TeamInitialized = true;
+
+            // Remove wrong-faction creatures already loaded in the instance.
+            // OnCreatureCreate below handles creatures from grids loaded later.
+            if (TeamInInstance == ALLIANCE)
+            {
+                for (uint32 spawnId : HordeEntranceSpawns)
+                    DespawnSpawn(spawnId);
+            }
+            else if (TeamInInstance == HORDE)
+            {
+                for (uint32 spawnId : AllianceEntranceSpawns)
+                    DespawnSpawn(spawnId);
+            }
+        }
 
         void OnCreatureCreate(Creature* creature) override
         {
-            Map::PlayerList const &players = instance->GetPlayers();
-            if (!players.isEmpty())
+            if (!creature)
+                return;
+
+            // The old implementation converted wrong-faction NPCs into unrelated
+            // entries (including GM WAYPOINT). Do not mutate templates. Despawn
+            // the wrong faction instead, as done by the RFC faction fix.
+            if (TeamInitialized)
             {
-                if (Player* player = players.begin()->GetSource())
-                    TeamInInstance = player->GetTeam();
+                if (TeamInInstance == ALLIANCE)
+                {
+                    switch (creature->GetEntry())
+                    {
+                        case 46889: // Kagtha
+                        case 46890: // Shattered Hand Assassin
+                        case 46902: // Miss Mayhem
+                        case 46903: // Mayhem Reaper Prototype
+                        case 46906: // Slinky Sharpshiv
+                            creature->DespawnOrUnsummon();
+                            return;
+                    }
+                }
+                else if (TeamInInstance == HORDE)
+                {
+                    switch (creature->GetEntry())
+                    {
+                        case 46612: // Lieutenant Horatio Laine
+                        case 491:   // Quartermaster Lewis
+                        case 46613: // Crime Scene Alarm-o-Bot
+                        case 46614: // Stormwind Investigator
+                        case 50595: // Stormwind Defender
+                            creature->DespawnOrUnsummon();
+                            return;
+                    }
+                }
             }
+
             switch (creature->GetEntry())
             {
-                case 46889: // Kagtha
-                    if (TeamInInstance == ALLIANCE)
-                        creature->UpdateEntry(42308); // Lieutenant Horatio Laine
-                    break;
-                case 46902: // Miss Mayhem
-                    if (TeamInInstance == ALLIANCE)
-                        creature->UpdateEntry(491); // Quartermaster Lewis <Quartermaster>
-                    break;
-                case 46903: // Mayhem Reaper Prototype
-                    if (TeamInInstance == ALLIANCE)
-                        creature->UpdateEntry(1); // GM WAYPOINT
-                    break;
-                case 46906: // Slinky Sharpshiv
-                    if (TeamInInstance == ALLIANCE)
-                        creature->UpdateEntry(46612); // Lieutenant Horatio Laine
-                    break;
-                case 46613: // Crime Scene Alarm-O-Bot
-                    if (TeamInInstance == HORDE)
-                        creature->UpdateEntry(1); // GM WAYPOINT
-                    break;
-                case 50595: // Stormwind Defender
-                    if (TeamInInstance == HORDE)
-                        creature->UpdateEntry(46890); // Shattered Hand Assassin
-                    break;
-                case 46614: // Stormwind Investigator
-                    if (TeamInInstance == HORDE)
-                        creature->UpdateEntry(1); // GM WAYPOINT
-                    break;
                 case NPC_VANESSA_VANCLEEF:
                     uiVanessa = creature->GetGUID();
                     break;
@@ -357,7 +424,17 @@ public:
         ObjectGuid EdwinVanCleefGUID;
         ObjectGuid VanessaVanCleefGUID;
 
+        void DespawnSpawn(uint32 spawnId)
+        {
+            auto bounds = instance->GetCreatureBySpawnIdStore().equal_range(spawnId);
+            for (auto itr = bounds.first; itr != bounds.second; ++itr)
+                if (Creature* creature = itr->second)
+                    if (creature->IsInWorld())
+                        creature->DespawnOrUnsummon();
+        }
+
         uint32 TeamInInstance;
+        bool TeamInitialized;
         bool IsVisionOfThePastRunning;
     };
 

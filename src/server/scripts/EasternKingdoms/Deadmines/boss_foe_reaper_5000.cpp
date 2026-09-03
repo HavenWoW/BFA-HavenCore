@@ -17,8 +17,23 @@
 
 #include "ScriptMgr.h"
 #include "deadmines.h"
+#include "ObjectMgr.h"
+#include "Player.h"
+#include "QuestDef.h"
 #include "Object.h"
 #include "MapManager.h"
+#include <set>
+
+enum DeadminesHordeQuest
+{
+    QUEST_NOT_QUITE_THERE = 27847,
+    NPC_MISS_MAYHEM = 46902
+};
+
+const Position MissMayhemSpawn =
+{
+    -207.508926f, -551.236877f, 51.229359f, 3.911717f
+};
 
 enum eSpell
 {
@@ -127,6 +142,7 @@ public:
         ObjectGuid prototypeGUID;
 
         bool Below;
+        std::set<ObjectGuid> _notQuiteThereOfferedTo;
 
         void Reset() override
         {
@@ -140,6 +156,27 @@ public:
             me->SetPowerType(POWER_ENERGY);
             Step = 0;
             Below = false;
+            _notQuiteThereOfferedTo.clear();
+
+            // Horde questgiver for 27847.
+            //
+            // Do not reuse an older Miss Mayhem summon. Older versions of this
+            // script created her at Foe Reaper's position and that summon can
+            // survive an encounter reset because she is intentionally excluded
+            // from BossAI's SummonList. Remove it and create a clean summon at
+            // the fixed quest location every reset.
+            if (Creature* mayhem = me->FindNearestCreature(NPC_MISS_MAYHEM, 150.0f, true))
+                mayhem->DespawnOrUnsummon();
+
+            if (Creature* mayhem = me->SummonCreature(
+                NPC_MISS_MAYHEM,
+                MissMayhemSpawn,
+                TEMPSUMMON_MANUAL_DESPAWN))
+            {
+                mayhem->StopMoving();
+                mayhem->GetMotionMaster()->Clear();
+                mayhem->SetHomePosition(MissMayhemSpawn);
+            }
 
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
@@ -160,6 +197,43 @@ public:
                     prototypeGUID = prototype->GetGUID();
                 }
             }
+        }
+
+        void MoveInLineOfSight(Unit* who) override
+        {
+            if (Player* player = who ? who->ToPlayer() : nullptr)
+            {
+                if (player->GetTeam() == HORDE &&
+                    player->GetQuestStatus(QUEST_NOT_QUITE_THERE) == QUEST_STATUS_NONE &&
+                    _notQuiteThereOfferedTo.find(player->GetGUID()) == _notQuiteThereOfferedTo.end())
+                {
+                    if (Creature* mayhem = me->FindNearestCreature(NPC_MISS_MAYHEM, 150.0f, true))
+                    {
+                        if (player->IsWithinDistInMap(mayhem, 15.0f))
+                        {
+                            if (Quest const* quest = sObjectMgr->GetQuestTemplate(QUEST_NOT_QUITE_THERE))
+                            {
+                                if (player->CanTakeQuest(quest, false))
+                                {
+                                    player->PrepareQuestMenu(mayhem->GetGUID());
+                                    player->SendPreparedQuest(mayhem);
+                                    _notQuiteThereOfferedTo.insert(player->GetGUID());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            BossAI::MoveInLineOfSight(who);
+        }
+
+        void JustSummoned(Creature* summoned) override
+        {
+            if (summoned->GetEntry() == NPC_MISS_MAYHEM)
+                return;
+
+            BossAI::JustSummoned(summoned);
         }
 
         void EnterCombat(Unit* /*who*/) override

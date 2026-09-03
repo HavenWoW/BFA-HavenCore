@@ -340,6 +340,117 @@ public:
     };
 };
 
+
+enum DefiasOverseerData
+{
+    NPC_DEFIAS_OVERSEER            = 48421,
+    SPAWN_OVERSEER_DIALOGUE_MASTER = 319095,
+    EVENT_OVERSEER_DIALOGUE        = 1,
+    MAX_OVERSEER_DIALOGUE_LINES    = 10
+};
+
+Position const OverseerPipePosition = { -310.87f, -608.34f, 49.20f };
+
+class npc_defias_overseer : public CreatureScript
+{
+public:
+    npc_defias_overseer() : CreatureScript("npc_defias_overseer") { }
+
+    CreatureAI* GetAI(Creature* creature) const override
+    {
+        return new npc_defias_overseerAI(creature);
+    }
+
+    struct npc_defias_overseerAI : public ScriptedAI
+    {
+        npc_defias_overseerAI(Creature* creature) : ScriptedAI(creature), _line(0) { }
+
+        void Reset() override
+        {
+            _events.Reset();
+            _line = 0;
+
+            me->SetFacingTo(me->GetAngle(OverseerPipePosition.GetPositionX(), OverseerPipePosition.GetPositionY()));
+
+            if (me->GetSpawnId() == SPAWN_OVERSEER_DIALOGUE_MASTER)
+                _events.ScheduleEvent(EVENT_OVERSEER_DIALOGUE, 4000);
+        }
+
+        void EnterCombat(Unit* /*who*/) override
+        {
+            _events.Reset();
+        }
+
+        void JustReachedHome() override
+        {
+            Reset();
+        }
+
+        void UpdateAI(uint32 diff) override
+        {
+            _events.Update(diff);
+
+            while (uint32 eventId = _events.ExecuteEvent())
+            {
+                if (eventId != EVENT_OVERSEER_DIALOGUE)
+                    continue;
+
+                Creature* partner = nullptr;
+                std::list<Creature*> overseers;
+                GetCreatureListWithEntryInGrid(overseers, me, NPC_DEFIAS_OVERSEER, 30.0f);
+
+                for (Creature* overseer : overseers)
+                {
+                    if (overseer && overseer != me && overseer->IsAlive())
+                    {
+                        partner = overseer;
+                        break;
+                    }
+                }
+
+                if (!partner)
+                {
+                    _events.ScheduleEvent(EVENT_OVERSEER_DIALOGUE, 5000);
+                    continue;
+                }
+
+                me->SetFacingTo(me->GetAngle(OverseerPipePosition.GetPositionX(), OverseerPipePosition.GetPositionY()));
+                partner->SetFacingTo(partner->GetAngle(OverseerPipePosition.GetPositionX(), OverseerPipePosition.GetPositionY()));
+
+                if (me->IsInCombat() || partner->IsInCombat())
+                {
+                    _events.ScheduleEvent(EVENT_OVERSEER_DIALOGUE, 5000);
+                    continue;
+                }
+
+                if ((_line % 2) == 0)
+                    Talk(_line);
+                else
+                    partner->AI()->Talk(_line);
+
+                ++_line;
+
+                if (_line < MAX_OVERSEER_DIALOGUE_LINES)
+                    _events.ScheduleEvent(EVENT_OVERSEER_DIALOGUE, 3500);
+                else
+                {
+                    _line = 0;
+                    _events.ScheduleEvent(EVENT_OVERSEER_DIALOGUE, 90000);
+                }
+            }
+
+            if (!UpdateVictim())
+                return;
+
+            DoMeleeAttackIfReady();
+        }
+
+    private:
+        EventMap _events;
+        uint8 _line;
+    };
+};
+
 class npc_goblin_engineer : public CreatureScript
 {
 public:
@@ -1133,6 +1244,7 @@ void AddSC_deadmines()
     new npc_deadmines_bird();
     //new go_heavy_door();
     new npc_goblin_engineer();
+    new npc_defias_overseer();
     new go_deadmines_tp();
     new npc_mining_powder();
 
