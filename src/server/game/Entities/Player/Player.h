@@ -1995,7 +1995,12 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         void UpdateLeechPercentage();
 
         void UpdateSpellCritChance();
+        float GetEffectiveCorruption() const;
         void UpdateCorruption();
+        // Corruption penalties are synced once per tick rather than at each mutation site.
+        // A single item swap can move several corrupted pieces through several intermediate
+        // states; syncing each one would apply and remove the same penalty auras repeatedly.
+        void ScheduleCorruptionUpdate() { m_corruptionNeedsUpdate = true; }
         void UpdateArmorPenetration(int32 amount);
         void UpdateExpertise(WeaponAttackType attType);
         void ApplyManaRegenBonus(int32 amount, bool apply);
@@ -3021,6 +3026,7 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         bool m_canParry;
         bool m_canBlock;
         bool m_canTitanGrip;
+        bool m_corruptionNeedsUpdate = false;
         uint32 m_titanGripPenaltySpellId;
         uint8 m_swingErrorMsg;
 
