@@ -117,6 +117,7 @@ public:
             { "transportState", rbac::RBAC_PERM_COMMAND_DEBUG,              false, &HandleDebugTransportStateCommand,   "" },
             { "worldstate" ,   rbac::RBAC_PERM_COMMAND_DEBUG,               false, &HandleDebugWorldStateCommand,       "" },
             { "wsexpression" , rbac::RBAC_PERM_COMMAND_DEBUG,               false, &HandleDebugWSExpressionCommand,     "" },
+            { "corruption",    rbac::RBAC_PERM_COMMAND_DEBUG,               false, &HandleDebugCorruptionCommand,       "" },
         };
         static std::vector<ChatCommand> commandTable =
         {
@@ -1425,6 +1426,48 @@ public:
             handler->PSendSysMessage("True");
         else
             handler->PSendSysMessage("False");
+
+        return true;
+    }
+
+    static bool HandleDebugCorruptionCommand(ChatHandler* handler, char const* /*args*/)
+    {
+        Player* target = handler->getSelectedPlayerOrSelf();
+        if (!target)
+        {
+            handler->SendSysMessage(LANG_NO_CHAR_SELECTED);
+            handler->SetSentErrorMessage(true);
+            return false;
+        }
+
+        float const effectiveCorruption = target->GetEffectiveCorruption();
+        handler->PSendSysMessage("Corruption for %s: effective %.2f (corruption %.2f - resistance %.2f)",
+            target->GetName().c_str(), effectiveCorruption,
+            target->GetRatingBonusValue(CR_CORRUPTION), target->GetRatingBonusValue(CR_CORRUPTION_RESISTANCE));
+
+        uint32 rows = 0;
+        for (CorruptionEffectsEntry const* corruptionEffect : sCorruptionEffectsStore)
+        {
+            ++rows;
+
+            char const* state;
+            if ((CorruptionEffectsFlag(corruptionEffect->Flags) & CorruptionEffectsFlag::Disabled) != CorruptionEffectsFlag::None)
+                state = "disabled";
+            else if (effectiveCorruption < corruptionEffect->MinCorruption)
+                state = "below threshold";
+            else if (PlayerConditionEntry const* playerCondition = sPlayerConditionStore.LookupEntry(corruptionEffect->PlayerConditionID))
+                state = ConditionMgr::IsPlayerMeetingCondition(target, playerCondition) ? "qualifies" : "condition failed";
+            else
+                state = "qualifies";
+
+            handler->PSendSysMessage("  row %u: min %.2f aura %d cond %d - %s, aura %s",
+                corruptionEffect->ID, corruptionEffect->MinCorruption, corruptionEffect->Aura,
+                corruptionEffect->PlayerConditionID, state,
+                target->HasAura(corruptionEffect->Aura) ? "APPLIED" : "absent");
+        }
+
+        if (!rows)
+            handler->SendSysMessage("CorruptionEffects.db2 holds no rows - no penalty can apply on this server. That is missing client data, not a core fault.");
 
         return true;
     }
