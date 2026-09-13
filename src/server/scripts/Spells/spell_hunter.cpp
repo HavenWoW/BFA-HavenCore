@@ -154,7 +154,8 @@ enum HunterSpells
     //8.0
     SPELL_HUNTER_SCORCHING_WILDFIRE = 259496,
     SPELL_HUNTER_RAPID_FIRE = 257044,
-    SPELL_HUNTER_RAPID_FIRE_MISSILE = 257045,
+    SPELL_HUNTER_RAPID_FIRE_DAMAGE = 257045,
+    SPELL_HUNTER_RAPID_FIRE_ENERGIZE = 263585,
     SPELL_HUNTER_LETHAL_SHOTS = 260393,
     SPELL_HUNTER_CALLING_THE_SHOTS = 260404,
     SPELL_HUNTER_TRUESHOT = 288613,
@@ -1540,6 +1541,60 @@ public:
     SpellScript* GetSpellScript() const override
     {
         return new spell_hun_disengage_SpellScript();
+    }
+};
+
+// 257044 - Rapid Fire
+class spell_hun_rapid_fire : public AuraScript
+{
+    PrepareAuraScript(spell_hun_rapid_fire);
+
+    bool Validate(SpellInfo const* /*spellInfo*/) override
+    {
+        return ValidateSpellInfo({ SPELL_HUNTER_RAPID_FIRE_DAMAGE });
+    }
+
+    void HandlePeriodic(AuraEffect const* /*aurEff*/)
+    {
+        if (Unit* caster = GetCaster())
+            caster->CastSpell(GetTarget(), SPELL_HUNTER_RAPID_FIRE_DAMAGE, true);
+    }
+
+    void Register() override
+    {
+        OnEffectPeriodic += AuraEffectPeriodicFn(spell_hun_rapid_fire::HandlePeriodic, EFFECT_1, SPELL_AURA_PERIODIC_DUMMY);
+    }
+};
+
+// 257045 - Rapid Fire Damage
+class spell_hun_rapid_fire_damage : public SpellScriptLoader
+{
+public:
+    spell_hun_rapid_fire_damage() : SpellScriptLoader("spell_hun_rapid_fire_damage") {}
+
+    class spell_hun_rapid_fire_damage_SpellScript : public SpellScript
+    {
+        PrepareSpellScript(spell_hun_rapid_fire_damage_SpellScript);
+
+        bool Validate(SpellInfo const* spellInfo) override
+        {
+            return ValidateSpellInfo({ SPELL_HUNTER_RAPID_FIRE_ENERGIZE });
+        }
+
+        void HandleHit(SpellEffIndex /*effIndex*/)
+        {
+            GetCaster()->CastSpell(nullptr, SPELL_HUNTER_RAPID_FIRE_ENERGIZE, true);
+        }
+
+        void Register() override
+        {
+            OnEffectHitTarget += SpellEffectFn(spell_hun_rapid_fire_damage_SpellScript::HandleHit, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
+        }
+    };
+
+    SpellScript* GetSpellScript() const override
+    {
+        return new spell_hun_rapid_fire_damage_SpellScript();
     }
 };
 
@@ -3952,4 +4007,6 @@ void AddSC_hunter_spell_scripts()
     new at_hun_sentinel(); 
     new PlayerScript_black_arrow();
     RegisterSpellScript(spell_hun_bestial_wrath);
+    RegisterAuraScript(spell_hun_rapid_fire);
+    new spell_hun_rapid_fire_damage();
 }
