@@ -3067,7 +3067,7 @@ void SmartScript::GetTargets(ObjectVector& targets, SmartScriptHolder const& e, 
         {
             if (me)
                 if (Unit* target = me->GetSummonedCreatureByEntry(e.target.invokerSummon.entry))
-                    l->push_back(target);
+                    targets.push_back(target);
 
             break;
         }
