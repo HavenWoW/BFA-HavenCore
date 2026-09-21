@@ -152,9 +152,9 @@ class boss_murozond : public CreatureScript
                 DoAction(ACTION_MUROZOND_REMOVE_TEMPORAL_BOMB);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 DoAction(ACTION_MUROZOND_REMOVE_TEMPORAL_BOMB);
                 me->setActive(false);

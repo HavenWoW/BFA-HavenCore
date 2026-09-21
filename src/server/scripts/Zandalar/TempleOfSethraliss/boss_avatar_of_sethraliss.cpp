@@ -76,7 +76,7 @@ struct boss_avatar_of_sethraliss : public BossAI
         me->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);       
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         instance->SetBossState(DATA_AVATAR_OF_SETHRALISS, IN_PROGRESS);
         events.ScheduleEvent(EVENT_CHECK_PLAYERS, 1s);
@@ -293,7 +293,7 @@ struct boss_avatar_of_sethraliss : public BossAI
             if (Creature* avatar = instance->GetCreature(NPC_AVATAR_OF_SETHRALISS))
             {
                 avatar->AI()->Talk(SAY_INTRO);
-                _EnterCombat();
+                _JustEngagedWith();
 
                 avatar->GetScheduler().Schedule(6s, [this, avatar] (TaskContext /*context*/)
                 {
@@ -345,7 +345,7 @@ struct npc_hoodoo_hexer : public ScriptedAI
         me->SetVisible(false);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {        
         if (IsHeroic() || IsMythic())
         {
@@ -395,7 +395,7 @@ struct npc_plague_toad_137233 : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
        DoCastVictim(SPELL_PLAGUE);
     }

@@ -122,10 +122,10 @@ class boss_nightbane_new : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 _secondPhase = false;
                 events.ScheduleEvent(EVENT_CINDER_BREATH, Seconds(8), GROUND_PHASE);
@@ -374,7 +374,7 @@ class npc_kara_bonecurse : public CreatureScript
                 _events.Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 DoZoneInCombat();
                 _events.ScheduleEvent(EVENT_ABSORB_VITALITY, Seconds(20));

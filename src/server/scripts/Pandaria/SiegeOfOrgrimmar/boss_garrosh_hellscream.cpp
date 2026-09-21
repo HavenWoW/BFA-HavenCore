@@ -1243,7 +1243,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 m_EnergyRegenerator.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 Talk(SAY_GARROSH_AGGRO);
 
@@ -2734,7 +2734,7 @@ class npc_garrosh_hellscream_embodied : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 switch (me->GetEntry())
                 {

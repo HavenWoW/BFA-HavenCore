@@ -116,9 +116,9 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*Ent*/) override
+        void JustEngagedWith(Unit* /*Ent*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             DoZoneInCombat();
 
             count = 0;
@@ -277,7 +277,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
             events.ScheduleEvent(EVENT_ICY_BOULDER, urand(3000, 7000));

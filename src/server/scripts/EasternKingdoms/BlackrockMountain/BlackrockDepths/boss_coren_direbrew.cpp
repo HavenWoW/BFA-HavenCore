@@ -305,7 +305,7 @@ public:
             return ObjectGuid::Empty;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoCastSelf(SPELL_PORT_TO_COREN);
 
@@ -407,10 +407,10 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             Talk(SAY_ANTAGONIST_COMBAT, who);
-            ScriptedAI::EnterCombat(who);
+            ScriptedAI::JustEngagedWith(who);
         }
     };
 

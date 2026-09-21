@@ -237,7 +237,7 @@ class boss_shannox : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (Creature* pRiplimb = me->FindNearestCreature(NPC_RIPLIMB, 300.0f))
                     DoZoneInCombat(pRiplimb);
@@ -454,7 +454,7 @@ class npc_shannox_riplimb : public CreatureScript
                     DoCast(me, SPELL_FEEDING_FRENZY, true);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (Creature* pShannox = me->FindNearestCreature(NPC_SHANNOX, 300.0f))
                     DoZoneInCombat(pShannox);
@@ -651,7 +651,7 @@ class npc_shannox_rageface : public CreatureScript
                     DoCast(me, SPELL_FEEDING_FRENZY, true);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (Creature* pShannox = me->FindNearestCreature(NPC_SHANNOX, 300.0f))
                     DoZoneInCombat(pShannox);

@@ -446,7 +446,7 @@ class npc_highmaul_gorian_guardsman : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventBloodyCleave, urand(4000, 7000));
                 m_Events.ScheduleEvent(eEvents::EventChainGrip, urand(3000, 8000));
@@ -555,7 +555,7 @@ class npc_highmaul_night_twisted_devout : public CreatureScript
                     me->SetReactState(ReactStates::REACT_PASSIVE);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (me->HasReactState(ReactStates::REACT_PASSIVE))
                 {
@@ -662,7 +662,7 @@ class npc_highmaul_gorian_runemaster : public CreatureScript
                 me->RemoveAllAreaTriggers();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventRuneOfDestruction, urand(6000, 9000));
                 m_Events.ScheduleEvent(eEvents::EventRuneOfDisintegration, urand(9000, 12000));
@@ -737,7 +737,7 @@ class npc_highmaul_gorian_enforcer : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventMeatGrinder, urand(6000, 8000));
             }
@@ -807,7 +807,7 @@ class npc_highmaul_underbelly_vagrant : public CreatureScript
                 AddTimedDelayedOperation(16 * TimeConstants::IN_MILLISECONDS, [this]() -> void { me->CastSpell(me, eSpells::SpellLooting, false); });
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventPilfer, urand(2000, 4000));
 
@@ -877,7 +877,7 @@ class npc_highmaul_gorian_sorcerer : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventArcaneForce, urand(6000, 8000));
                 m_Events.ScheduleEvent(eEvents::EventArcaneBolt, urand(7000, 10000));
@@ -945,7 +945,7 @@ class npc_highmaul_night_twisted_brute : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 m_Events.ScheduleEvent(eEvent::EventSurgeOfDarkness, urand(8000, 12000));
 
@@ -1033,7 +1033,7 @@ class npc_highmaul_night_twisted_soothsayer : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventVoidStorm, urand(6000, 9000));
                 m_Events.ScheduleEvent(eEvents::EventVoidBolt, urand(4000, 7000));
@@ -1102,7 +1102,7 @@ class npc_highmaul_void_aberration : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventVoidSoul, urand(8000, 12000));
             }
@@ -1174,7 +1174,7 @@ class npc_highmaul_krush : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventBoarsRush, 5000);
             }
@@ -1295,7 +1295,7 @@ class npc_highmaul_iron_flame_technician : public CreatureScript
                 });
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (m_IsCosmetic)
                     return;
@@ -1458,7 +1458,7 @@ class npc_highmaul_iron_warmaster : public CreatureScript
                 });
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (m_IsCosmetic)
                     return;
@@ -1610,7 +1610,7 @@ class npc_highmaul_iron_blood_mage : public CreatureScript
                 });
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventCorruptedBlood, urand(6000, 9000));
                 m_Events.ScheduleEvent(eEvents::EventBloodBolt, urand(4000, 7000));
@@ -1710,7 +1710,7 @@ class npc_highmaul_night_twisted_ritualist : public CreatureScript
                 me->CastSpell(me, eSpells::VoidChannel, true);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 me->RemoveAura(eSpells::VoidChannel);
 
@@ -1810,7 +1810,7 @@ class npc_highmaul_greater_void_aberration : public CreatureScript
                 });
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventCallOfTheVoid, urand(6000, 9000));
             }
@@ -1901,7 +1901,7 @@ class npc_highmaul_highmaul_conscript : public CreatureScript
                 me->CastSpell(me, eSpells::AtArms, true);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventRendingSlash, 5 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventShieldBlocking, 13 * TimeConstants::IN_MILLISECONDS);
@@ -2051,7 +2051,7 @@ class npc_highmaul_ogron_earthshaker : public CreatureScript
                 m_SlamCount = 0;
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventIntimidatingRoar, 6 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventEarthdevastatingSlam, 17 * TimeConstants::IN_MILLISECONDS);
@@ -2191,7 +2191,7 @@ class npc_highmaul_gorian_arcanist : public CreatureScript
                 me->RemoveUnitFlag(UNIT_FLAG_DISARMED);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventArcaneBolt, 6 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventArcaneVolatility, 10 * TimeConstants::IN_MILLISECONDS);
@@ -2308,7 +2308,7 @@ class npc_highmaul_ogron_brute : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventDecimate, 6 * TimeConstants::IN_MILLISECONDS);
             }
@@ -2653,7 +2653,7 @@ class npc_highmaul_warden_thultok : public CreatureScript
                 me->SummonGameObject(eHighmaulGameobjects::Teleporter, g_TeleporterSpawnPos, QuaternionData(), 0);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventDestructiveForce, 5 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventArcaneResidue, 10 * TimeConstants::IN_MILLISECONDS);
@@ -2729,7 +2729,7 @@ class npc_highmaul_gorian_royal_guardsman : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventRampage, 10 * TimeConstants::IN_MILLISECONDS);
             }
@@ -2846,7 +2846,7 @@ class npc_highmaul_gorian_high_sorcerer : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventArcaneBlast, 5 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventNetherFont, 10 * TimeConstants::IN_MILLISECONDS);
@@ -2935,7 +2935,7 @@ class npc_highmaul_ogron_mauler : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventDeafeningRoar, 5 * TimeConstants::IN_MILLISECONDS);
             }
@@ -3027,7 +3027,7 @@ class npc_highmaul_guard_captain_thag : public CreatureScript
                 me->SetCanDualWield(false);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventBrutalCleave, 5 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventGroundStomp, 7 * TimeConstants::IN_MILLISECONDS);
@@ -3126,7 +3126,7 @@ class npc_highmaul_councilor_daglat : public CreatureScript
                 me->CastSpell(me, eSpells::KneelCosmeticForced, true);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventArcaneDestruction, 1 * TimeConstants::IN_MILLISECONDS);
             }
@@ -3221,7 +3221,7 @@ class npc_highmaul_councilor_magknor : public CreatureScript
                 m_Summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 me->CastSpell(me, eSpells::ArcaneTorrentSummon, true);
 
@@ -3351,7 +3351,7 @@ class npc_highmaul_councilor_gorluk : public CreatureScript
                 me->CastSpell(me, eSpells::KneelCosmeticForced, true);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventPhantasmalWeapon, 7 * TimeConstants::IN_MILLISECONDS);
             }
@@ -3465,7 +3465,7 @@ class npc_highmaul_councilor_nouk : public CreatureScript
                 me->CastSpell(me, eSpells::KneelCosmeticForced, true);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 me->CastSpell(me, eSpells::TimeStop, false);
 
@@ -3549,7 +3549,7 @@ class npc_highmaul_high_councilor_malgris : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventUnstableTempest, 50);
             }

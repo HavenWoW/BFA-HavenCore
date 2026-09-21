@@ -139,9 +139,9 @@ namespace Instances { namespace Bloodmaul
                         m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
                 }
 
-                void EnterCombat(Unit*) override
+                void JustEngagedWith(Unit*) override
                 {
-                    _EnterCombat();
+                    _JustEngagedWith();
 
                     m_Events.ScheduleEvent(eEvents::EventHeatWave, 20 * TimeConstants::IN_MILLISECONDS);
                     m_Events.ScheduleEvent(eEvents::EventFieryBoulder, 7 * TimeConstants::IN_MILLISECONDS);

@@ -108,7 +108,7 @@ class boss_isiset : public CreatureScript
             Talk(SAY_SLAY);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
             events.ScheduleEvent(EVENT_CELESTIAL_CALL, urand(5000, 8000));

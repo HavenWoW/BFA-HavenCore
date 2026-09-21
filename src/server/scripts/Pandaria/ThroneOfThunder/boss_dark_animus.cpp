@@ -170,7 +170,7 @@ public:
             me->SetPower(POWER_ENERGY, 4);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             //me->AddAura(138451, me);
             //SCHEDULE_EVENT(EVENT_CHECK_ACCELERATION, 1000);
@@ -338,7 +338,7 @@ public:
             events.ScheduleEvent(EVENT_CHECK_ENERGY, 1000);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_CRIMSON_WAKE, 10000);
             events.ScheduleEvent(EVENT_CHECK_ENERGY, 1000);
@@ -565,7 +565,7 @@ public:
             me->SetPower(POWER_ENERGY, 0);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_EXPLOSIVE_SLAM, 5000);
             events.ScheduleEvent(EVENT_MATTER_SWAP, urand(2000, 7000));
@@ -768,7 +768,7 @@ public:
             return me->FindNearestCreature(NPC_ANIMA_ORB, 400.0f, true);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             if (Creature* animaOrb = GetAnimaOrb())
             {
@@ -1124,7 +1124,7 @@ public:
             _y = me->GetPositionY();
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.RescheduleEvent(EVENT_SUMMON_ANIMA, 3000);
             me->DespawnOrUnsummon(20000);

@@ -95,11 +95,11 @@ public:
         uint8 curID;
         EventMap events;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_ACTIVATE);
             DoZoneInCombat();
-            _EnterCombat();
+            _JustEngagedWith();
             DoCast(SPELL_ARCANE_SEEPAGE_PRC);
         }
 
@@ -232,7 +232,7 @@ public:
 
         EventMap events;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoCast(SPELL_VILE_SLURGE);
             events.ScheduleEvent(EVENT_SLUDGE, urand(5000, 7000));
@@ -318,7 +318,7 @@ public:
 
         EventMap events;
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void Reset() override
         {
@@ -390,7 +390,7 @@ public:
 
         EventMap events;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
 
         }

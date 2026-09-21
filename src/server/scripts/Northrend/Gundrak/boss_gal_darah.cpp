@@ -110,9 +110,9 @@ class boss_gal_darah : public CreatureScript
                 DoCastAOE(SPELL_HEARTH_BEAM_VISUAL, true);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 Talk(SAY_AGGRO);
 
                 SetPhase(PHASE_TROLL);

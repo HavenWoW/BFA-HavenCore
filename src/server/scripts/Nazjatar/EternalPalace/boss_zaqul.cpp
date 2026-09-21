@@ -201,9 +201,9 @@ public:
             me->SetPower(POWER_ENERGY, 0);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(0);            
             me->SummonCreature(NPC_FACING_TRIGGER_CRUSHING_GRASP, centerPos, TEMPSUMMON_MANUAL_DESPAWN);
             SwitchPhases(1);
@@ -1176,7 +1176,7 @@ public:
             events.Reset(); 
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
             events.ScheduleEvent(EVENT_DARK_TEAR, TIMER_DARK_TEAR);
         }
@@ -1259,7 +1259,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
             if (me->GetMap()->IsHeroic())
             {
@@ -1742,7 +1742,7 @@ public:
             me->SetObjectScale(0.1f);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_TENTACLE_SLAM, TIMER_TENTACLE_SLAM);
         }
@@ -1866,7 +1866,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             events.ScheduleEvent(EVENT_DREAD_SCREAM, TIMER_DREAD_SCREAM);
@@ -1939,7 +1939,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             events.ScheduleEvent(EVENT_VOID_SLAM, TIMER_VOID_SLAM);
@@ -2007,7 +2007,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_FEAR_GATE, TIMER_FEAR_GATE);
         }

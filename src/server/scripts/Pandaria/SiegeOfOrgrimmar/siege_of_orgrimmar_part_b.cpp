@@ -736,7 +736,7 @@ class npc_siege_of_orgrimmar_dragonmaw_bonecrusher : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_FRACTURE, urand(8000, 12000));
                 events.ScheduleEvent(EVENT_SHATTERING_ROAR, urand(2000, 4000));
@@ -803,7 +803,7 @@ class npc_siege_of_orgrimmar_dragonmaw_tidal_shaman : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_CHAIN_HEAL, urand(5000, 12000));
                 events.ScheduleEvent(EVENT_HEALING_TIDE_TOTEM, urand(10000, 20000));
@@ -910,7 +910,7 @@ class npc_siege_of_orgrimmar_dragonmaw_elite_grunt : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_THROW_AXE, 1000);
             }
@@ -1486,7 +1486,7 @@ class npc_siege_of_orgrimmar_blind_blademaster : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_BLIND_CLEAVE, urand(8000, 15000));
                 events.ScheduleEvent(EVENT_SWIFT_STRIKE, urand(1000, 3000));
@@ -1974,7 +1974,7 @@ class npc_siege_of_orgrimmar_overseer_komak : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
 
             }
@@ -2056,7 +2056,7 @@ class npc_siege_of_orgrimmar_overlord_runthak : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_BONECRACKER, urand(8000, 12000));
             }
@@ -2141,7 +2141,7 @@ class npc_siege_of_orgrimmar_hellscream_demolisher : public CreatureScript
                 m_State = ATTACK_STATE_MELEE;
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_HURL_BOULDER, 1000);
                 events.ScheduleEvent(EVENT_UPDATE_ATTACK_STATE, 1000);
@@ -2273,7 +2273,7 @@ class npc_siege_of_orgrimmar_korkron_shadowmage : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_MIND_SPIKE, 1);
                 events.ScheduleEvent(EVENT_SHADOWFLAME, urand(8000, 12000));
@@ -2360,7 +2360,7 @@ class npc_siege_of_orgrimmar_korkron_arcweaver : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_ARCANE_SHOCK, 1);
                 events.ScheduleEvent(EVENT_MAGICSTRIKE, urand(5000, 10000));
@@ -2453,7 +2453,7 @@ class npc_siege_of_orgrimmar_korkron_assassin : public CreatureScript
                 me->AddAura(SPELL_STEALTH, me);
             }
 
-            void EnterCombat(Unit* victim)
+            void JustEngagedWith(Unit* victim)
             {
                 DoCast(victim, SPELL_ASSASSINS_MARK);
                 me->ClearUnitState(UNIT_STATE_CASTING);

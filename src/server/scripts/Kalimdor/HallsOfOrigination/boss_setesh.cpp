@@ -122,9 +122,9 @@ private:
             events.ScheduleEvent(EVENT_CHAOS_PORTAL, 500, 0, PHASE_CHAOS_PORTAL);
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
         events.ScheduleEvent(EVENT_CHAOS_BLAST, urand(10000, 12000), 0, PHASE_NORMAL);
         events.ScheduleEvent(EVENT_CHAOS_BOLT, 1000, 0, PHASE_NORMAL);
         events.ScheduleEvent(EVENT_REIGN_OF_CHAOS, urand(20000, 25000), 0, PHASE_NORMAL);

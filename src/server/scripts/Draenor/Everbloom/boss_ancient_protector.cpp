@@ -70,10 +70,10 @@ public:
             RevitalizingWatersTimer = 18000;
         }
 
-        void EnterCombat(Unit * /*who*/) override
+        void JustEngagedWith(Unit * /*who*/) override
         {
             me->RemoveAurasDueToSpell(SPELL_BOTANI_WATER_COSMETIC_CHANNEL);
-            _EnterCombat();
+            _JustEngagedWith();
             StartAncientProtectors(instance);
         }
 
@@ -171,10 +171,10 @@ public:
             BramblePatchTimer = 12000;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->RemoveAurasDueToSpell(SPELL_BOTANI_NATURE_COSMETIC_CHANNEL);
-            _EnterCombat();
+            _JustEngagedWith();
             StartAncientProtectors(instance);
         }
 
@@ -362,9 +362,9 @@ public:
             GraspingVineTimer = 22000;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             StartAncientProtectors(instance);
         }
 

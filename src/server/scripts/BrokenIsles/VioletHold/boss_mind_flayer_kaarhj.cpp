@@ -96,11 +96,11 @@ class boss_mind_flayer_kaarhj : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
                 WhisperAll(SAY_AGGRO_WHISPER);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_SHADOW_CRASH, urand(3, 5) * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_DOOM, 8 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_HYSTERIA, 12 * IN_MILLISECONDS);

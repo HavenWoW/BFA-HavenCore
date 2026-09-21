@@ -87,9 +87,9 @@ struct boss_god_king_kovald : public BossAI
         me->SetReactState(REACT_DEFENSIVE);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         if (Unit* target = me->GetVictim())
             me->AddAura(SPELL_AEGIS_SHIELD_PLAYER, target);

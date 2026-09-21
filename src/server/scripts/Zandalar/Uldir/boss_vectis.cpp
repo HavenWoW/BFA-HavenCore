@@ -165,9 +165,9 @@ private:
         CleanEncounter(instance, me);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         this->phase = 1;
         events.ScheduleEvent(EVENT_GESTATE, 9s);
@@ -288,7 +288,7 @@ struct npc_plague_amalgam : public ScriptedAI
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_IMMUNOSUPPRESSION, 5s);
     }
@@ -751,7 +751,7 @@ struct npc_engorged_parasite : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         me->SetPowerType(POWER_ENERGY);
         me->SetPower(POWER_ENERGY, 0);

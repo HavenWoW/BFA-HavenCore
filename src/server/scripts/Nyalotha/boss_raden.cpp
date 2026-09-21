@@ -128,10 +128,10 @@ private:
 		me->AddAura(AURA_OVERRIDE_POWER_COLOR_ENTROPIC);
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		Talk(SAY_AGGRO);
-		_EnterCombat();
+		_JustEngagedWith();
 		events.ScheduleEvent(EVENT_RADEN_ENERGY, 100ms);
 		events.ScheduleEvent(EVENT_DRAW_VITA_VOID, 5s);
 		events.ScheduleEvent(EVENT_NULLYFYING_STRIKE, 21s);
@@ -520,7 +520,7 @@ struct npc_void_hunter_crackling_stalker : public ScriptedAI
 			me->AI()->DoZoneInCombat(nullptr);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
 		switch (me->GetEntry())
 		{

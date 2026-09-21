@@ -222,9 +222,9 @@ public:
             _Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
 
             if (instance)
             {
@@ -761,7 +761,7 @@ public:
             notactive = true;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             notactive = true;
             events.ScheduleEvent(EVENT_ZERO_TRANSFORM, 500);

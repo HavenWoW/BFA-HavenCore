@@ -70,11 +70,11 @@ class boss_lord_godfrey : public CreatureScript
             instance->HandleGameObject(instance->GetGuidData(GO_LORD_GODFREY_DOOR), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (me->SelectNearestPlayer(10.0f))
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 if (instance->GetData(TEAM_IN_INSTANCE) == TEAM_HORDE)
                     Talk(SAY_AGGRO_H);

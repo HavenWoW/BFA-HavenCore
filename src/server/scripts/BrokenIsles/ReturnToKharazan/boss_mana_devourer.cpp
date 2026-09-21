@@ -69,12 +69,12 @@ class boss_mana_devourer : public CreatureScript
             explicit boss_mana_devourer_AI(Creature* creature) : BossAI(creature, DATA_MANA_DEVOURER)
             {}
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 me->SetPower(POWER_MANA, 0);
                 me->SetMaxPower(POWER_MANA, 10000);
                 DoCast(me, SPELL_RESTORE_MANA_AURA, true);
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 events.ScheduleEvent(EVENT_ARCANE_BOMB, Seconds(5));
                 events.ScheduleEvent(EVENT_COALESCE_POWER, Seconds(30));

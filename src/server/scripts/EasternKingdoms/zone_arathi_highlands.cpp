@@ -102,7 +102,7 @@ struct npc_professor_phizzlethorpe : public npc_escortAI
         summoned->AI()->AttackStart(me);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         Talk(SAY_AGGRO);
     }

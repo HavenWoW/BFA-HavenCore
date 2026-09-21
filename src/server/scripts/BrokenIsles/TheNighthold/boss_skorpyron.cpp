@@ -163,9 +163,9 @@ public:
             _calcTime = 0;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             me->RemoveAura(SPELL_CHITINOUS_EXOSKELETON_VISUAL);
             me->CastCustomSpell(SPELL_CHITINOUS_EXOSKELETON, SPELLVALUE_AURA_STACK, 25, me, TRIGGERED_FULL_MASK);
@@ -452,7 +452,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ENERGY_SURGE, urand(1000, 4000));
             events.ScheduleEvent(EVENT_BOON_OF_THE_SCORPID, 10000);

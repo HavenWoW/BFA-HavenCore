@@ -246,7 +246,7 @@ public:
             return true;
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             SelectSoundAndText(me, 1);
             events.ScheduleEvent(EVENT_SHOCKWAVE, TIMER_SHOCKWAVE);

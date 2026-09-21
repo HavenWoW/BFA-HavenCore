@@ -250,7 +250,7 @@ class boss_warmaster_blackhorn: public CreatureScript
                 orientation = 0;
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 uiWave = 0;
                 drakeDied = 0;
@@ -1430,7 +1430,7 @@ class npc_warmaster_blackhorn_skyfire: public CreatureScript
                     pInstance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (pInstance)
                     pInstance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);

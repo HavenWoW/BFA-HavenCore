@@ -263,7 +263,7 @@ struct fallen_protectorAI : public BossAI
         m_evadeTimer = TIMER_EVADE_CHECK;
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         bool isFirstAggro = true;
 
@@ -581,9 +581,9 @@ class boss_rook_stonetoe : public CreatureScript
                 fallen_protectorAI::Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_VENGEFUL_STRIKES, 8000);
                 events.ScheduleEvent(EVENT_CORRUPTED_BREW, 18000);
                 events.ScheduleEvent(EVENT_CLASH, 45000);
@@ -776,9 +776,9 @@ class boss_he_softfoot : public CreatureScript
                 me->RemoveAllAreaTriggers();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_GOUGE, 25000);
                 events.ScheduleEvent(EVENT_SHADOWSTEP, 9000);
                 events.ScheduleEvent(EVENT_POISON, urand(5000, 15000));
@@ -997,9 +997,9 @@ class boss_sun_tenderheart : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_SHA_SEAR, urand(500, 2000));
                 events.ScheduleEvent(EVENT_SHADOW_WORD_BANE, 15000);
                 events.ScheduleEvent(EVENT_CALAMITY, 31000);
@@ -1178,12 +1178,12 @@ struct rook_stonetoe_embodiedAI : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* p_Who) override
+    void JustEngagedWith(Unit* p_Who) override
     {
         if (m_Instance)
             m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);
 
-        ScriptedAI::EnterCombat(p_Who);
+        ScriptedAI::JustEngagedWith(p_Who);
     }
 
     void JustDied(Unit* /*p_Killer*/) override
@@ -1317,7 +1317,7 @@ struct npc_he_softfoot_embodied_anguish : public ScriptedAI
         m_TargetGUID = ObjectGuid::Empty;
     }
 
-    void EnterCombat(Unit* /*p_Who*/) override
+    void JustEngagedWith(Unit* /*p_Who*/) override
     {
         events.ScheduleEvent(Events::EVENT_AGGRO, 3000);
         events.ScheduleEvent(Events::EVENT_MARK_OF_ANGUISH, 0);
@@ -1461,7 +1461,7 @@ struct npc_sun_tenderheart_embodied_AI : public Scripted_NoMovementAI
             DoZoneInCombat(p_Summon);
     }
 
-    void EnterCombat(Unit* /*p_Who*/) override
+    void JustEngagedWith(Unit* /*p_Who*/) override
     {
         if (m_Instance)
             m_Instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);

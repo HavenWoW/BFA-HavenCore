@@ -46,7 +46,7 @@ public:
                 instance->SetData(BOSS_OGGLEFLINT, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
             instance->SetData(BOSS_OGGLEFLINT, IN_PROGRESS);
         }

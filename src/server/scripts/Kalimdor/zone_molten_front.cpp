@@ -95,7 +95,7 @@ public:
                 i->GetSource()->TeleportTo(861, 1166.23f, 532.65f, 18.0f, 0.0f);
         }
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             DoCast(79938);
         }
@@ -158,7 +158,7 @@ public:
         uint32 spell_2_Timer;
         uint32 spell_3_Timer;
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             DoCast(98701);
         }
@@ -242,7 +242,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_INCATFORM, 2000);
             events.ScheduleEvent(EVENT_PYROBLAST, 3000);
@@ -310,7 +310,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_LAVA_SHOWER, 15000);
             events.ScheduleEvent(EVENT_BURNING_HUNGER, urand(9000, 17000));
@@ -374,7 +374,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, 4000);
             events.ScheduleEvent(EVENT_TWO, 6000);
@@ -447,7 +447,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, 4000);
         }
@@ -520,7 +520,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -612,7 +612,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -684,7 +684,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -774,7 +774,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -864,7 +864,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -954,7 +954,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -1015,7 +1015,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 7000));
             events.ScheduleEvent(EVENT_TWO, urand(9000, 10000));
@@ -1095,7 +1095,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
         }
 
@@ -1155,7 +1155,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 7000));
             //events.ScheduleEvent(EVENT_TWO, urand(9000,10000));
@@ -1217,7 +1217,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 5000));
             //events.ScheduleEvent(EVENT_TWO, urand(9000,10000));
@@ -1282,7 +1282,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 5000));
             //events.ScheduleEvent(EVENT_TWO, urand(9000,10000));
@@ -1372,7 +1372,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 5000));
             events.ScheduleEvent(EVENT_TWO, urand(27000, 30000));
@@ -1494,7 +1494,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -1565,7 +1565,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 5000));
             events.ScheduleEvent(EVENT_TWO, urand(9000, 10000));
@@ -1664,7 +1664,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -1751,7 +1751,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -1832,7 +1832,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -1921,7 +1921,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -2004,7 +2004,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -2065,7 +2065,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 5000));
             //events.ScheduleEvent(EVENT_TWO, urand(9000,10000));
@@ -2160,7 +2160,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
         }
 
@@ -2222,7 +2222,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(500, 1000));
             //events.ScheduleEvent(EVENT_TWO, urand(9000,10000));
@@ -2314,7 +2314,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -2402,7 +2402,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
         }
 
@@ -2483,7 +2483,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -2544,7 +2544,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(3000, 5000));
             events.ScheduleEvent(EVENT_TWO, urand(7000, 9000));
@@ -2629,7 +2629,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, 1000);
         }
@@ -2706,7 +2706,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(1000, 2000));
             events.ScheduleEvent(EVENT_TWO, urand(7000, 10000));
@@ -2856,7 +2856,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Creature* helper1 = GetClosestCreatureWithEntry(me, 531430, 50.0f);
             me->CastSpell(helper1, 98393, true);
@@ -2924,7 +2924,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, 2000);
         }
@@ -3004,7 +3004,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0))
                 me->CastSpell(pTarget, 32323, true);
@@ -3082,7 +3082,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Unit *pTarget = SelectTarget(SELECT_TARGET_RANDOM, 0))
                 me->CastSpell(pTarget, 53148, true);
@@ -3176,7 +3176,7 @@ public:
             //me->SetAnimTier(UnitBytes1_Flags(UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_HOVER), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -3257,7 +3257,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -3317,7 +3317,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
         }
 
@@ -3438,7 +3438,7 @@ public:
             //me->SetAnimTier(UnitBytes1_Flags(UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_HOVER), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -3509,7 +3509,7 @@ public:
             //me->SetAnimTier(UnitBytes1_Flags(UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_HOVER), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -3575,7 +3575,7 @@ public:
             //me->SetAnimTier(UnitBytes1_Flags(UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_HOVER), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -3645,7 +3645,7 @@ public:
             //me->SetAnimTier(UnitBytes1_Flags(UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_HOVER), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -3715,7 +3715,7 @@ public:
             //me->SetAnimTier(UnitBytes1_Flags(UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_HOVER), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ONE, urand(2000, 5000));
             events.ScheduleEvent(EVENT_TWO, urand(7000, 10000));
@@ -3846,7 +3846,7 @@ public:
             //me->SetAnimTier(UnitBytes1_Flags(UNIT_BYTE1_FLAG_ALWAYS_STAND | UNIT_BYTE1_FLAG_HOVER), true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             //events.ScheduleEvent(EVENT_ONE, 100);
         }
@@ -3923,7 +3923,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
         }
 

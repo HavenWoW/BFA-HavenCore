@@ -182,9 +182,9 @@ class boss_gruul_foundry : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 Talk(eTalks::Aggro);
 

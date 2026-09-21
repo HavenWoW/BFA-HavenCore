@@ -83,7 +83,7 @@ struct boss_nithogg : public WorldBossAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         if (!who)
             return;

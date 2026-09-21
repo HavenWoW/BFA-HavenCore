@@ -43,9 +43,9 @@ private:
         this->energyCore = 0;
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         events.ScheduleEvent(EVENT_ENERGY_CORE, 15s);
     }
 

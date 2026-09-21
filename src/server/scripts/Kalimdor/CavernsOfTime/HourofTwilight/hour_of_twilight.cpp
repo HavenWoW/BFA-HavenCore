@@ -176,7 +176,7 @@ public:
             summons.Summon(summoned);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             /*if (instance)
                 if (instance->GetData(DATA_ARCURION_EVENT) != IN_PROGRESS)*/
@@ -390,7 +390,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -468,7 +468,7 @@ public:
            me->SetReactState(REACT_PASSIVE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -619,7 +619,7 @@ public:
             summons.Summon(summoned);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
             if (instance)
@@ -801,7 +801,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_SECOND, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -875,7 +875,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_SECOND, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -955,7 +955,7 @@ public:
             cooldownDisengage = false;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_SECOND, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -1043,7 +1043,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_SECOND, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -1118,7 +1118,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_SECOND, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -1254,7 +1254,7 @@ public:
             summons.DespawnAll();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
         }
@@ -1418,7 +1418,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_FINAL, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -1491,7 +1491,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_FINAL, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);
@@ -1566,7 +1566,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* thrall = me->FindNearestCreature(NPC_THRALL_FINAL, 100.0f, true))
                 thrall->SetReactState(REACT_AGGRESSIVE);

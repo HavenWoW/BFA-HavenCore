@@ -960,7 +960,7 @@ public:
                     gara->GetAI()->DoAction(ACTION_SUMMON_XAN);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.Reset();
 
@@ -1073,7 +1073,7 @@ public:
                 gara->GetAI()->DoAction(ACTION_XAN_DEATH);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_CONSUMING_VOID, urand(40, 60) * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_GRIP_OF_THE_VOID, urand(10, 20) * IN_MILLISECONDS);

@@ -46,7 +46,7 @@ public:
                 instance->SetData(BOSS_JERGOSH_THE_INVOKER, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
             instance->SetData(BOSS_JERGOSH_THE_INVOKER, IN_PROGRESS);
         }

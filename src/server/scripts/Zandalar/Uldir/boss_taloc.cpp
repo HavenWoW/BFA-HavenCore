@@ -97,9 +97,9 @@ private:
         me->SetCurrentEquipmentId(2);
     };
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {        
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         phase_one = true;
         me->SetHealth(me->CountPctFromMaxHealth(60));

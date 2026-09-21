@@ -67,7 +67,7 @@ class boss_chi_ji : public CreatureScript
                         return;
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
             }
 

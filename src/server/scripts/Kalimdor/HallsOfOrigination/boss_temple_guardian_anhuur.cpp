@@ -143,13 +143,13 @@ class boss_anhuur : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me, 1);
             Talk(SAY_AGGRO);
             events.ScheduleEvent(EVENT_DIVINE_RECKONING, urand(10000, 12000));
             events.ScheduleEvent(EVENT_BURNING_LIGHT, 12000);
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void JustDied(Unit* /*killer*/) override

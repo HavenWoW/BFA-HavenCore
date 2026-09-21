@@ -110,7 +110,7 @@ public:
                 instance->SetData(DATA_LADY_NAZJAR_EVENT, DONE);
         }
 
-        void EnterCombat(Unit* /*Ent*/) override
+        void JustEngagedWith(Unit* /*Ent*/) override
         {
             Talk(SAY_AGGRO);
 

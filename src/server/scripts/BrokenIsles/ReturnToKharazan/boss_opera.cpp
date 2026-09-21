@@ -355,12 +355,12 @@ class boss_opera_toe_knee : public CreatureScript
             explicit boss_opera_toe_knee_AI(Creature* creature) : BossAI(creature, DATA_OPERA)
             {}
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_TOE_AGGRO);
                 _secondPhase = false;
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_BURNING_LEG_SWEEP, 5000);
             }
 
@@ -550,9 +550,9 @@ class boss_opera_mrrgria : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void DamageTaken(Unit* /**/, uint32 & /**/) override
@@ -692,12 +692,12 @@ class boss_opera_coggleston : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_COGGLESTON_AGGRO);
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 _minionsDead = 0;
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void JustReachedHome() override
@@ -778,9 +778,9 @@ class boss_opera_luminore : public CreatureScript
             explicit boss_opera_luminore_AI(Creature* creature) : BossAI(creature, DATA_OPERA)
             {}
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_BURNING_BLAZE, 2000);
                 events.ScheduleEvent(EVENT_HEAT_WAVE, Seconds(30));
             }
@@ -852,9 +852,9 @@ class boss_opera_mrs_cauldrons : public CreatureScript
             {
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 events.ScheduleEvent(EVENT_LEFTOVERS, 1000);
                 events.ScheduleEvent(EVENT_SOUP_SPRAY, 2000);
@@ -954,9 +954,9 @@ class boss_opera_bablet : public CreatureScript
             {
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 events.ScheduleEvent(EVENT_SEVERE_DUSTING, 1000);
             }
@@ -1039,10 +1039,10 @@ class boss_opera_elfyra : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_DEFY_GRAVITY, Seconds(urand(10, 15)));
                 events.ScheduleEvent(EVENT_DREARY_BOLT, Seconds(5));
                 events.ScheduleEvent(EVENT_SUMMON_ASSISTANT, Seconds(30));
@@ -1114,7 +1114,7 @@ class boss_opera_galyndre : public CreatureScript
                 me->CastSpell(me, SPELL_WIKKET_BOND, true);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 events.ScheduleEvent(EVENT_WONDROUS_RADIANCE, Seconds(10));
@@ -1205,7 +1205,7 @@ class npc_kara_winged_assistant : public CreatureScript
                 _events.Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 _events.ScheduleEvent(EVENT_THROW_STUFF, 500);
             }
@@ -1260,7 +1260,7 @@ class npc_kara_gang_ruffian : public CreatureScript
                 me->SetEmoteState(EMOTE_ONESHOT_NONE);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 DoZoneInCombat();
                 _events.ScheduleEvent(EVENT_POISONOUS_SHANK, Seconds(10));
@@ -1332,7 +1332,7 @@ class npc_kara_flashing_forks : public CreatureScript
             explicit npc_kara_flashing_forks_AI(Creature* creature) : ScriptedAI(creature)
             {}
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 _events.ScheduleEvent(EVENT_FLASHING_FORK, 2000);
                 _events.ScheduleEvent(EVENT_BLOODY_JAB, Seconds(urand(8, 12)));
@@ -1408,7 +1408,7 @@ class npc_kara_shoreline_speaker : public CreatureScript
                 me->SetEmoteState(Emote::EMOTE_STATE_NONE);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 DoZoneInCombat();
             }

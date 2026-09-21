@@ -164,7 +164,7 @@ class boss_master_snowdrift : public CreatureScript
                 SetCanSeeEvenInPassiveMode(true);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 pInstance->SetBossState(DATA_MASTER_SNOWDRIFT, IN_PROGRESS);
                 initDefaultEventsForPhase();

@@ -99,7 +99,7 @@ public:
             _enraged = false;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_RUPTURE, 7300);
             events.ScheduleEvent(EVENT_SLAM, 13300);

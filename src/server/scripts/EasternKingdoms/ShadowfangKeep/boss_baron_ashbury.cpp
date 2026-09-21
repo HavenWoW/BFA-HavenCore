@@ -80,9 +80,9 @@ class boss_baron_ashbury : public CreatureScript
                 me->SetReactState(REACT_AGGRESSIVE);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 Talk(SAY_AGGRO);
 
                 instance->HandleGameObject(instance->GetGuidData(GO_BARON_ASHBURY_DOOR), false);

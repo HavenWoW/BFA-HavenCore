@@ -503,9 +503,9 @@ class boss_imperator_margok : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 Talk(eTalks::Aggro);
 
@@ -2075,7 +2075,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             Talk(eTalks::Intro3);
 
@@ -2475,7 +2475,7 @@ class npc_highmaul_arcane_aberration : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 2);
@@ -3012,7 +3012,7 @@ class npc_highmaul_gorian_warmage : public CreatureScript
                     AttackStart(target);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 2);
@@ -3199,7 +3199,7 @@ class npc_highmaul_gorian_reaver : public CreatureScript
                     AttackStart(target);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 2);

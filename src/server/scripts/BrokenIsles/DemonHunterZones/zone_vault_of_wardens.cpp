@@ -96,7 +96,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 92782)
                 events.RescheduleEvent(1, 15000);
@@ -203,7 +203,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 92990)
                 events.RescheduleEvent(1, 20000);
@@ -359,7 +359,7 @@ public:
             me->RemoveNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             return;
         }
@@ -928,7 +928,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             //Talk(0);
             events.RescheduleEvent(1, 15000);
@@ -1203,7 +1203,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             //Talk(0);
             events.RescheduleEvent(1, 45000);

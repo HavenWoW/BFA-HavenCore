@@ -146,7 +146,7 @@ class boss_sinestra : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 DoZoneInCombat(me);
 
@@ -549,7 +549,7 @@ class npc_sinestra_add : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (me->GetEntry() == 55636)
                     events.ScheduleEvent(EVENT_TWILIGHT_BREATH, urand(7000, 10000));

@@ -170,7 +170,7 @@ public:
                 instance->SetBossState(DATA_YALNU, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             me->setActive(true);
             DoZoneInCombat();
@@ -623,7 +623,7 @@ public:
             tendonRipTimer = 6000;
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             me->SetObjectScale(1.0f);
         }

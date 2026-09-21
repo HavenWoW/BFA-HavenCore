@@ -228,7 +228,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(TALK_AGGRO);
             me->SetInCombatWithZone();

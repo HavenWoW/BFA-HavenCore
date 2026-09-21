@@ -240,7 +240,7 @@ class mob_dread_kunchong : public CreatureScript
                 events.ScheduleEvent(EVENT_DREAD_SLASH, 25000);
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 Player* player = who->ToPlayer();
 
@@ -699,7 +699,7 @@ class mob_ik_thik_terrorclaw : public CreatureScript
                 events.ScheduleEvent(EVENT_CLAW, 17000);
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 Player* player = who->ToPlayer();
 
@@ -1105,7 +1105,7 @@ class mob_wake_of_horror : public CreatureScript
                 events.ScheduleEvent(EVENT_UNSTABLE_SERUM, 20000);
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 Player* player = who->ToPlayer();
 

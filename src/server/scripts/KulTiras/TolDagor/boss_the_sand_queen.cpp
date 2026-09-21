@@ -48,12 +48,12 @@ struct boss_sand_queen : public BossAI
 {
     boss_sand_queen(Creature* creature) : BossAI(creature, DATA_THE_SAND_QUEEN) { }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         events.ScheduleEvent(EVENT_SAND_TRAP, 8500);
         events.ScheduleEvent(EVENT_UPHEAVAL, 20500);
         events.ScheduleEvent(EVENT_SANDSTORM, 30300);
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void UpdateAI(uint32 diff) override

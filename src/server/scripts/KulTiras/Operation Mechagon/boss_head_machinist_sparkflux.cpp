@@ -42,9 +42,9 @@ struct boss_head_machinist_sparkflux : public BossAI
         me->SetPower(POWER_ENERGY, 0);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);
     }
 

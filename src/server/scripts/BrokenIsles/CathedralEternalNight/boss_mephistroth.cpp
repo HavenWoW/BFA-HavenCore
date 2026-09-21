@@ -162,10 +162,10 @@ public:
             DoZoneInCombat(summon, 150.0f);
         }
         
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
 
             me->SetPower(POWER_ENERGY, 50);
             DefaultEvents(1);

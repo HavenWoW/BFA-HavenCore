@@ -105,7 +105,7 @@ public:
             return false;
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void GetCreature()
         {
@@ -188,7 +188,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (!me)
                 return;
@@ -376,7 +376,7 @@ public:
                 _events.ScheduleEvent(EVENT_OVERSEER_DIALOGUE, 4000);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.Reset();
         }

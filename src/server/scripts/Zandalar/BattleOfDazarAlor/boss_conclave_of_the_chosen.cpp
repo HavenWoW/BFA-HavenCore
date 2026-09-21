@@ -156,12 +156,12 @@ struct boss_conclave_of_the_chosen : public BossAI
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         switch (me->GetEntry())
         {
         case NPC_GONK:
-            _EnterCombat();
+            _JustEngagedWith();
             DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);
             events.ScheduleEvent(EVENT_RAPTOR_FORM, 15s);            
             if (auto* paku = me->FindNearestCreature(NPC_PAKU, 125.0f, true))
@@ -174,7 +174,7 @@ struct boss_conclave_of_the_chosen : public BossAI
 
         case NPC_PAKU:
             Talk(SAY_PAKU_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
 
             if (auto* gonk = me->FindNearestCreature(NPC_GONK, 125.0f, true))
                 if (!gonk->IsInCombat())
@@ -193,13 +193,13 @@ struct boss_conclave_of_the_chosen : public BossAI
             break;
 
         case NPC_KIMBUL:
-            _EnterCombat();
+            _JustEngagedWith();
             events.ScheduleEvent(EVENT_LACERATING_CLAWS, 15s);
             events.ScheduleEvent(EVENT_KIMBULS_WRATH, 20s);
             break;
 
         case NPC_AKUNDA:
-            _EnterCombat();
+            _JustEngagedWith();
             events.ScheduleEvent(EVENT_THUNDERING_STORM, 15s);
             events.ScheduleEvent(EVENT_MIND_WIPE, 20s);
             events.ScheduleEvent(EVENT_AKUNDAS_WRATH, 25s);

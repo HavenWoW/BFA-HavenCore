@@ -367,7 +367,7 @@ struct npc_sister_kasparian : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         DoCast(me, SPELL_PHASE_1_CONVERSATION, true);
@@ -581,7 +581,7 @@ struct npc_sister_lunaspyre : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         //me->SetUInt32Value(UNIT_FIELD_EMOTE_STATE, EMOTE_STATE_READY2HL);
@@ -770,7 +770,7 @@ struct npc_sister_yathae : ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* unit) override
+    void JustEngagedWith(Unit* unit) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         DefaultEvents(++phase);
@@ -1007,7 +1007,7 @@ struct npc_sistersmoon_moontalon : public ScriptedAI
         me->SetReactState(REACT_AGGRESSIVE);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }

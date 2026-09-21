@@ -180,7 +180,7 @@ struct npc_hogger : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         _events.ScheduleEvent(EVENT_VICIOUS_SLICE, 3000);
     }

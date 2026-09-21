@@ -355,7 +355,7 @@ struct npc_lord_eilgar_122213 : public ScriptedAI
 {
     npc_lord_eilgar_122213(Creature* creature) : ScriptedAI(creature) { }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.ScheduleEvent(SPELL_UNSTABLE_PORTAL, 8s);
         events.ScheduleEvent(SPELL_CORRUPT, 8s);
@@ -406,7 +406,7 @@ struct npc_lady_dacidion_122212 : public ScriptedAI
 {
     npc_lady_dacidion_122212(Creature* creature) : ScriptedAI(creature) { }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.ScheduleEvent(SPELL_UNSTABLE_PORTAL, 8s);
         events.ScheduleEvent(SPELL_FELSILK_WRAP, 17s);
@@ -457,7 +457,7 @@ struct npc_vulcanar_122211 : public ScriptedAI
 {
     npc_vulcanar_122211(Creature* creature) : ScriptedAI(creature) { }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.ScheduleEvent(SPELL_UNSTABLE_PORTAL, 8s);
         events.ScheduleEvent(SPELL_SUPERNOVA, 8s);

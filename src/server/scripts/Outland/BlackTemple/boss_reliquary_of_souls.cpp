@@ -334,7 +334,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->SetCombatPulseDelay(5);
             me->setActive(true);
@@ -419,7 +419,7 @@ public:
             _dead = false;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SPIRIT_SHOCK, Seconds(11));
             events.ScheduleEvent(EVENT_RUNE_SHIELD, Seconds(16));
@@ -540,7 +540,7 @@ public:
             DoCastSelf(SPELL_AURA_OF_ANGER);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(ANGER_SAY_FREED);
 

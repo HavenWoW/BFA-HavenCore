@@ -98,9 +98,9 @@ class boss_echo_of_tyrande : public CreatureScript
                 Summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 PhaseCount = 0;
 

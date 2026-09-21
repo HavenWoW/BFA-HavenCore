@@ -120,9 +120,9 @@ private:
         me->SetReactState(REACT_DEFENSIVE);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {        
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         Talk(SAY_AGGRO_WHISPER);
         this->phase = 1;
@@ -435,7 +435,7 @@ private:
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_VOID_ECHOES, 10s);
     }

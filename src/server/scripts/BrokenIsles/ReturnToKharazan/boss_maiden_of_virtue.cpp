@@ -110,7 +110,7 @@ class boss_maiden_of_virtue_new : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
                 events.ScheduleEvent(EVENT_MASS_REPETANCE, Seconds(50));

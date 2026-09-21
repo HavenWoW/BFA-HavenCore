@@ -725,7 +725,7 @@ class boss_spirit_kings : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
 
                 if (pInstance)

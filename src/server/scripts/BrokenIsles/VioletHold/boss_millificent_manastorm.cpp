@@ -114,10 +114,10 @@ class boss_millificent_manastorm : public CreatureScript
                 _JustReachedHome();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 _enraged = false;
                 _ended = false;
                 events.ScheduleEvent(EVENT_ELEMENTIUM_SQUIRREL_BOMB, Seconds(10));

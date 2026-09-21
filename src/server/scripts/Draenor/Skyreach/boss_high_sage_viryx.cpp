@@ -39,7 +39,7 @@ public:
             m_events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
             me->RemoveAura(uint32(Spells::Submerged));
             m_events.ScheduleEvent(uint32(Events::Shielding), 5000);
@@ -129,7 +129,7 @@ public:
             m_Reset = true;
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
         }
 
@@ -345,9 +345,9 @@ public:
                 Talk(int8(Texts::KilledUnitB), me);
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
-            _EnterCombat();
+            _JustEngagedWith();
 
             Talk(int8(Texts::CombatStart));
             events.ScheduleEvent(uint32(Events::SolarBurst), 5000);

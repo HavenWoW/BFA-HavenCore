@@ -226,7 +226,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoCastSpellShield();
         }
@@ -638,7 +638,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             DoCast(me, SPELL_EARTH_SHIELD);
             DoCast(who, SPELL_HEX_OF_MENDING);

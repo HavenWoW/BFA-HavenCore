@@ -97,7 +97,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void JustDied(Unit* /*killer*/) override
         {
@@ -154,7 +154,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
         void AttackStart(Unit* /*who*/) override { }
         void MoveInLineOfSight(Unit* /*who*/) override { }
 
@@ -236,7 +236,7 @@ public:
             me->ApplySpellImmune(0, IMMUNITY_SCHOOL, SPELL_SCHOOL_MASK_FIRE, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void UpdateAI(uint32 diff) override
         {
@@ -331,7 +331,7 @@ public:
             else DoCast(me, SPELL_SUMMON_IMP, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
         }

@@ -89,7 +89,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_INFERNO, 10000);
             events.ScheduleEvent(EVENT_FLAME_BREATH, 20000);

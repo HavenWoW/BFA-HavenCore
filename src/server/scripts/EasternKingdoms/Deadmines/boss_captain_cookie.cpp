@@ -163,7 +163,7 @@ public:
             BossAI::MoveInLineOfSight(who);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->RemoveAura(SPELL_WHO_IS_THAT);
             me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);

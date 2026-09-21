@@ -62,7 +62,7 @@ class boss_gekkan : public CreatureScript
 
             std::list<ObjectGuid> entourage;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 //Get the four adds.
                 if (me->GetInstanceScript())
@@ -173,7 +173,7 @@ class mob_glintrok_skulker : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(1, 2000);
 
@@ -220,7 +220,7 @@ class mob_glintrok_ironhide : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(1, 2000);
 
@@ -267,7 +267,7 @@ class mob_glintrok_oracle : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(1, 2000);
                 events.ScheduleEvent(2, 4000);
@@ -319,7 +319,7 @@ class mob_glintrok_hexxer : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(1, 2000);
                 events.ScheduleEvent(2, 4000);

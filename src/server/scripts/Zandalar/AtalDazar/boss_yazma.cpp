@@ -92,7 +92,7 @@ struct boss_ataldazar_yazma : public BossAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
 
         //Talk(TALK_AGGRO);
@@ -102,7 +102,7 @@ struct boss_ataldazar_yazma : public BossAI
         events.ScheduleEvent(EVENT_SOULREND, 10000);
         events.ScheduleEvent(EVENT_ECHOES_OF_SHADOW, 16900);
 
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void UpdateAI(uint32 diff) override

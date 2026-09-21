@@ -90,7 +90,7 @@ public:
             events.ScheduleEvent(EVENT_TORM_CRASH_DOOR, urand(10000, 25000), 0, 1);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.SetPhase(2);
             events.ScheduleEvent(EVENT_DEVASTATING_STRIKE, 6000);
@@ -176,7 +176,7 @@ public:
             me->SetPower(POWER_ENERGY, 100);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SCATTER, 10000);
             events.ScheduleEvent(EVENT_FULMINATE, 25000);
@@ -243,7 +243,7 @@ public:
             DoCastSelf(SPELL_SHIELD);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->GetMotionMaster()->MoveRotate(180000, urand(0, 1) ? ROTATE_DIRECTION_LEFT : ROTATE_DIRECTION_RIGHT);
             events.ScheduleEvent(EVENT_PULSAURON_BEAM, 5000);
@@ -303,7 +303,7 @@ public:
     {
         npc_chaotoidAI(Creature* creature) : ScriptedAI(creature) { }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_RELEASE_THE_VOID, urand(10000, 20000));
             events.ScheduleEvent(EVENT_COMPRESS_THE_VOID_GRIP, urand(15000, 25000));

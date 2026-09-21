@@ -46,9 +46,9 @@ struct boss_merektha : public BossAI
         me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         events.SetPhase(PHASE_1);
         events.ScheduleEvent(EVENT_NOXIOUS_BREATH, 3s);
         events.ScheduleEvent(EVENT_BLINDING_SAND, 8s);

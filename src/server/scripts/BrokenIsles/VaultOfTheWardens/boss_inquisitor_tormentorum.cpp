@@ -100,10 +100,10 @@ public:
             tpCount = 0;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
             me->RemoveAurasDueToSpell(SPELL_TORMENT);
 
             events.RescheduleEvent(EVENT_SAP_SOUL, 15000);

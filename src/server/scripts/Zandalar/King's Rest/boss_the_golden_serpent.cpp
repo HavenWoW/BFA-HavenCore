@@ -29,9 +29,9 @@ struct boss_golden_serpent : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         events.ScheduleEvent(EVENT_SPIRIT_OF_GOLD, 5s);
         events.ScheduleEvent(EVENT_TAIL_THRASH, 10s);
         events.ScheduleEvent(EVENT_SERPENT_GUST_WIND, 15s);

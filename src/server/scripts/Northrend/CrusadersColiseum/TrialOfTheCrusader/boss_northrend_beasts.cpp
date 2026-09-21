@@ -227,9 +227,9 @@ class boss_gormok : public CreatureScript
                 me->DespawnOrUnsummon();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SetData(TYPE_NORTHREND_BEASTS, GORMOK_IN_PROGRESS);
             }
 
@@ -563,9 +563,9 @@ struct boss_jormungarAI : public BossAI
         me->DespawnOrUnsummon();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         me->SetInCombatWithZone();
         instance->SetData(TYPE_NORTHREND_BEASTS, SNAKES_IN_PROGRESS);
     }
@@ -966,9 +966,9 @@ class boss_icehowl : public CreatureScript
                 me->DespawnOrUnsummon();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SetData(TYPE_NORTHREND_BEASTS, ICEHOWL_IN_PROGRESS);
             }
 

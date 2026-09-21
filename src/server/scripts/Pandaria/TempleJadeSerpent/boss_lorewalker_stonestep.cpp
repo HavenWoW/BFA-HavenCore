@@ -472,7 +472,7 @@ class mob_haunting_sha : public CreatureScript
                 me->CastSpell(me, SPELL_EXTRACT_SHA, false);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 1000);
             }
@@ -564,7 +564,7 @@ class mob_strife : public CreatureScript
                 hasBeenHit = true;
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 1000);
             }
@@ -661,7 +661,7 @@ class mob_peril : public CreatureScript
                 hasBeenHit = true;
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 1000);
             }
@@ -743,7 +743,7 @@ class mob_nodding_tiger : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 2000);
             }
@@ -786,7 +786,7 @@ class mob_golden_beetle : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 2000);
                 events.ScheduleEvent(2, 4000);
@@ -839,7 +839,7 @@ class mob_jiang_xiang : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 2000);
                 events.ScheduleEvent(2, 4000);
@@ -887,7 +887,7 @@ class mob_songbird_queen : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 2000);
             }
@@ -938,7 +938,7 @@ class mob_talking_fish : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 Talk(TALK_0 + urand(0, 3));
                 events.ScheduleEvent(1, 2000);

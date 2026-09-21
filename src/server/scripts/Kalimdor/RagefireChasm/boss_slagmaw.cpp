@@ -85,7 +85,7 @@ public:
                 DoStartNoMovement(target);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             DoStartNoMovement(who);
 

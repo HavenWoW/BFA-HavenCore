@@ -171,7 +171,7 @@ struct bfa_boss_azerokk : public BossAI {
         Talk(SAY_DEAD);
     }
 
-    void EnterCombat(Unit*) /*override*/
+    void JustEngagedWith(Unit*) /*override*/
     {
         Talk(SAY_AGGRO);
         PlayAnimKits();
@@ -311,7 +311,7 @@ struct bfa_npc_earthrager : public ScriptedAI {
         events.Reset();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_FIXATE, 2000);
         events.ScheduleEvent(EVENT_JAGGED_CUT, 3000);

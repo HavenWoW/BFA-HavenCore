@@ -174,7 +174,7 @@ class mob_krax_ik : public CreatureScript
                 events.ScheduleEvent(EVENT_WINDSONG, 30000);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 me->RemoveAurasDueToSpell(SPELL_STEALTH);
             }
@@ -458,7 +458,7 @@ class mob_bamboo_python : public CreatureScript
                 events.ScheduleEvent(EVENT_SWAMP_FEVER, 7000);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 me->RemoveAurasDueToSpell(SPELL_STEALTH);
             }
@@ -798,7 +798,7 @@ class mob_pandriarch_windfur : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 if (Player* player = who->ToPlayer())
                 {
@@ -930,7 +930,7 @@ class mob_pandriarch_bramblestaff : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 if (Player* player = who->ToPlayer())
                 {
@@ -1069,7 +1069,7 @@ class mob_pandriarch_goldendraft : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 if (Player* player = who->ToPlayer())
                 {
@@ -1173,7 +1173,7 @@ class mob_big_bao : public CreatureScript
                 events.ScheduleEvent(EVENT_WAR_STOMP, 18000);
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 if (Player* player = who->ToPlayer())
                 {
@@ -2655,7 +2655,7 @@ class mob_chi_ji_student : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 if (Player* pAttacker = attacker->ToPlayer())
                     playerGUID = pAttacker->GetGUID();

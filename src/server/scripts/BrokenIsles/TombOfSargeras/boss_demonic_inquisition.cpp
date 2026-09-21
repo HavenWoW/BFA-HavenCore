@@ -117,9 +117,9 @@ public:
                 instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_DEBUFF_UNBEAR_TOR);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             events.Reset();
 
             me->SetPower(me->GetPowerType(), 0);
@@ -160,7 +160,7 @@ public:
                 {
                     if (who)
                         if (!other->IsInCombat())
-                            other->AI()->EnterCombat(who);
+                            other->AI()->JustEngagedWith(who);
                 });
             }
         }
@@ -389,7 +389,7 @@ public:
             me->RemoveAurasDueToSpell(239135);
         }
         */
-    //    void EnterCombat(Unit* /*who*/) override
+    //    void JustEngagedWith(Unit* /*who*/) override
     /*    {
             events.RescheduleEvent(1, 6000);
             events.RescheduleEvent(2, 5000);

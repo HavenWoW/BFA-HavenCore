@@ -91,9 +91,9 @@ struct boss_dread_captain_lockwood : public BossAI
 		}
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
-		_EnterCombat();
+		_JustEngagedWith();
 		Talk(SAY_AGGRO);
 		events.ScheduleEvent(EVENT_RANGE, 500ms);
 		events.ScheduleEvent(EVENT_SHOOT, 1s);

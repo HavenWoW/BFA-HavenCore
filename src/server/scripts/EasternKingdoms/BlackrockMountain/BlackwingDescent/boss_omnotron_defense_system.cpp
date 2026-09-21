@@ -451,7 +451,7 @@ public:
         Position homePosition;
         Creature* omnotron;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if(isFirstTron)
             {
@@ -951,7 +951,7 @@ public:
             me->SetReactState(REACT_PASSIVE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             uiDespawn = 30000;
             DoCast(me, SPELL_CLOUD);
@@ -992,7 +992,7 @@ public:
             me->SetReactState(REACT_PASSIVE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             uiDespawn = 60000;
             DoCast(me, SPELL_POWER_GENERATOR_AURA);

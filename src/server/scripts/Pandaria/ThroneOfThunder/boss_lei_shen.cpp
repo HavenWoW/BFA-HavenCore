@@ -649,7 +649,7 @@ public:
                 instance->SetBossState(DATA_LEI_SHEN, FAIL);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             BerserkEvents.ScheduleEvent(EVENT_BERSERK, TIMER_BERSERK);
             DespawnCreature(NPC_UNHARNESSED_POWER);
@@ -3070,7 +3070,7 @@ public:
                 events.ScheduleEvent(EVENT_FIXATE_PLAYER, 500);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_DIFFUSION_CAST, 3 * IN_MILLISECONDS);
         }

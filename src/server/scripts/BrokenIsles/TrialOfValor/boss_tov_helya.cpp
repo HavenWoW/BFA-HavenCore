@@ -195,9 +195,9 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             if (instance)
             {
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me, 1);
@@ -793,7 +793,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_GHOSTLY_RAGE, 6 * IN_MILLISECONDS);
 
@@ -890,7 +890,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SLUDGE_NOVA, 15 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_ANCHOR_SLAM, 6 * IN_MILLISECONDS);

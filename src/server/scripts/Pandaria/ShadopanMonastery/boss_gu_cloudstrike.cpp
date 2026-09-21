@@ -153,7 +153,7 @@ class boss_gu_cloudstrike : public CreatureScript
                 summons.Summon(summoned);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (Creature* azureSerpent = GetAzureSerpent())
                     if (azureSerpent->AI())

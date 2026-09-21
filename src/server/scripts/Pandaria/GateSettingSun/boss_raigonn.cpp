@@ -190,12 +190,12 @@ class boss_raigonn : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (Phase != PHASE_VULNERABILITY)
                     return;
 
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void MovementInform(uint32 type, uint32 pointId) override

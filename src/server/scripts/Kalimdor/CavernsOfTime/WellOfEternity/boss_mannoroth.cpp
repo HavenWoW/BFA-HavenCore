@@ -223,7 +223,7 @@ public:
             me->Attack(who, false);
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             if (Creature* pVarothen = ObjectAccessor::GetCreature(*me, instance->GetGuidData(DATA_VAROTHEN)))
                 if (!pVarothen->IsInCombat())
@@ -554,7 +554,7 @@ public:
                 me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             Talk(SAY_VAROTHEN_AGGRO);
             events.ScheduleEvent(EVENT_MAGNISTRIKE, urand(3000, 7000));

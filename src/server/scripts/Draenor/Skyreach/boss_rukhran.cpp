@@ -181,7 +181,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(uint32(Events::BLAZE_OF_GLORY), 2000);
         }
@@ -382,9 +382,9 @@ public:
         }
 
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
-            _EnterCombat();
+            _JustEngagedWith();
 
             events.ScheduleEvent(uint32(Events::PIERCE_ARMOR), 6000);
             events.ScheduleEvent(uint32(Events::SUMMON_SOLAR_FLARE), 10000);

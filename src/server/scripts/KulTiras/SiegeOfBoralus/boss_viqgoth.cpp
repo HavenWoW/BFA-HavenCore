@@ -94,9 +94,9 @@ struct boss_viqgoth : public BossAI
 		}		
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
-		_EnterCombat();
+		_JustEngagedWith();
 		//events.ScheduleEvent(EVENT_ERADICATION, 3s);
 		events.ScheduleEvent(EVENT_PUTRID_WATERS, 6s);
 		instance->SetBossState(DATA_VIQGOTH, IN_PROGRESS);
@@ -164,7 +164,7 @@ struct npc_demolishing_terror : public ScriptedAI
 		events.ScheduleEvent(EVENT_HULLCRACKER, 1s);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
 		instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 		events.ScheduleEvent(EVENT_SLAM, 1s);

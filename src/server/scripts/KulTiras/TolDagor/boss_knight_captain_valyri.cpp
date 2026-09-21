@@ -61,12 +61,12 @@ struct boss_knight_captain_valyri : public BossAI
 {
     boss_knight_captain_valyri(Creature* creature) : BossAI(creature, DATA_KNIGHT_CAPTAIN_VALYRI) { }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         events.ScheduleEvent(EVENTS_IGNITION, 6100);
         events.ScheduleEvent(EVENTS_FUSELIGHTER, 14200);
         events.ScheduleEvent(EVENTS_CINDER_FLAME, 18200);
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void SpellHitTarget(Unit* target, SpellInfo const* spell) override

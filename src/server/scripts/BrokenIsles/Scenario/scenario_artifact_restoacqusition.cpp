@@ -216,7 +216,7 @@ struct scenario_artifact_restoacqusition : public InstanceScript
                 //move to destromath
             }
 
-            ///destromath enterCombat 207423
+            ///destromath JustEngagedWith 207423
             //In Mannoroth's name!
 
             ///lyess
@@ -647,7 +647,7 @@ struct npc_destromath_104619 : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         me->Say("In Mannoroth's name!", LANG_UNIVERSAL);
     }

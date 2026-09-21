@@ -88,7 +88,7 @@ public:
             timer_for_energy = 1000;
         }
 
-        void EnterCombat(Unit* unit) override
+        void JustEngagedWith(Unit* unit) override
         {
             if (me->GetEntry() == NPC_CAPITAN || me->GetEntry() == NPC_YDORN)
                 events.RescheduleEvent(1, urand(13000, 16000));

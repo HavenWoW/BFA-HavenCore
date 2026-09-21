@@ -285,7 +285,7 @@ public:
             _EnterEvadeMode();
         }
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             EnterPhaseIntro();
 
@@ -295,7 +295,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me); // Add
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void JustDied(Unit* /*killer*/) override
@@ -718,7 +718,7 @@ public:
             //me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);*/
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_INTRO_1, 2000);
             me->SetReactState(REACT_PASSIVE);
@@ -806,7 +806,7 @@ public:
 
         uint32 timerHurlBone;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             timerHurlBone = urand(4000, 9000);
             me->AddAura(SPELL_NO_REGEN, me);
@@ -859,7 +859,7 @@ public:
     {
         npc_chromatic_prototypeAI(Creature* creature) : ScriptedAI(creature) { }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->AddAura(SPELL_NOVA, me);
             me->SetReactState(REACT_PASSIVE);

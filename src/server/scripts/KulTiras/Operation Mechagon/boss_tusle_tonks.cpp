@@ -65,12 +65,12 @@ struct boss_tusle_tonks : public BossAI
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         switch (me->GetEntry())
         {
         case NPC_PLATINUM_PUMMELER:
-            _EnterCombat();            
+            _JustEngagedWith();            
             events.ScheduleEvent(EVENT_WHIRLING_EDGE, 5s);
             events.ScheduleEvent(EVENT_LAY_MINE, 10s);
             events.ScheduleEvent(EVENT_BUZZ_SAW, 15s);
@@ -80,7 +80,7 @@ struct boss_tusle_tonks : public BossAI
             break;
 
         case NPC_GNOMERCY:
-            _EnterCombat();
+            _JustEngagedWith();
             events.ScheduleEvent(EVENT_MAXIMUM_THRUST, 1s);
             events.ScheduleEvent(EVENT_VENT_JETS, 6s);
             if (Creature* pummeler = me->FindNearestCreature(NPC_PLATINUM_PUMMELER, 100.0f, true))

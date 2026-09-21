@@ -47,7 +47,7 @@ struct boss_overseer_korgus : public BossAI
 {
     boss_overseer_korgus(Creature* creature) : BossAI(creature, DATA_OVERSEER_KORGUS) { }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         //todo change chance to ari or airblast and script the auras
         events.ScheduleEvent(EVENT_MUNITION, 5100);
@@ -55,7 +55,7 @@ struct boss_overseer_korgus : public BossAI
         events.ScheduleEvent(EVENT_CROSSIGNITION, 16000);
         events.ScheduleEvent(EVENT_MASSIVE_BLAST, 17000);
         events.ScheduleEvent(EVENT_DEADEYE, 23300);
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void UpdateAI(uint32 diff) override

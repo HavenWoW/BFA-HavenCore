@@ -96,12 +96,12 @@ struct boss_trixie_naeno : public BossAI
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         switch (me->GetEntry())
         {
         case NPC_TRIXIE:
-            _EnterCombat();
+            _JustEngagedWith();
             events.ScheduleEvent(EVENT_TAZE, 3s);
             events.ScheduleEvent(EVENT_ELECTRIC_SLIDE, 10s);
             events.ScheduleEvent(EVENT_MEGA_TAZE, 15s);
@@ -114,7 +114,7 @@ struct boss_trixie_naeno : public BossAI
             break;
 
         case NPC_NAENO:            
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(SAY_NAENO_AGGRO);
             if (Creature* mechacycle = me->FindNearestCreature(NPC_MECHACYCLE, 100.f, true))
             {                 
@@ -128,7 +128,7 @@ struct boss_trixie_naeno : public BossAI
             break;
 
         case NPC_MECHACYCLE:
-            _EnterCombat();
+            _JustEngagedWith();
             events.ScheduleEvent(EVENT_RANDOM_MOVE, 3s);
             break;
         }

@@ -1413,10 +1413,10 @@ public:
         void DamageTaken(Unit* p_Attacker, uint32& /*p_Damage*/) override
         {
             if (!inCombat)
-                EnterCombat(p_Attacker);
+                JustEngagedWith(p_Attacker);
         }
 
-        void EnterCombat(Unit* /*p_Attacker*/) override
+        void JustEngagedWith(Unit* /*p_Attacker*/) override
         {
             if (!inCombat)
             {
@@ -1644,7 +1644,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             events.ScheduleEvent(EVENT_GREVIOUS_WHIRL, 5000);
             events.ScheduleEvent(EVENT_MORTAL_REND,    12000);
@@ -1717,7 +1717,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_BURNING_STING, 8000);
             events.ScheduleEvent(EVENT_SEARING_SLASH, 4000);
@@ -1778,7 +1778,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_AMBER_SPEW, 9000);
             events.ScheduleEvent(EVENT_SLAM,       4000);
@@ -1942,7 +1942,7 @@ public:
             me->SetVirtualItem(0, EQUIP_ZORLOK);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_TOXIC_HIVEBOMB, urand(2000, 4000));
             events.ScheduleEvent(EVENT_TOXIC_SPEW,     urand(15000, 20000));
@@ -2025,7 +2025,7 @@ public:
             me->SetVirtualItem(2,EQUIP_TRASH_5);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_DISPATCH, 7000);
             events.ScheduleEvent(EVENT_SONIC_BLADE, 15000);
@@ -2106,7 +2106,7 @@ public:
             me->SetVirtualItem(0, EQUIP_TRASH_5);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_CRY_HAVOC, 6000);
             events.ScheduleEvent(EVENT_FRENZIED_ASSAULT, 12000);

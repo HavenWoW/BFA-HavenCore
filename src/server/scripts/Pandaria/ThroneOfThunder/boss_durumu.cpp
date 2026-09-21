@@ -717,7 +717,7 @@ public:
                     (*itr)->SetGoState(GO_STATE_ACTIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             DeactivateObjects();
             Talk(TALK_AGGRO);

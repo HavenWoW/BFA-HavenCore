@@ -225,9 +225,9 @@ private:
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         this->phase = 1;
         if (IsHeroic() || IsMythic())
             events.ScheduleEvent(SPELL_GREATER_SERPENT_TOTEM_SUMMON, 5s);
@@ -413,7 +413,7 @@ private:
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         switch (me->GetEntry())
         {
@@ -714,7 +714,7 @@ private:
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(SPELL_AURA_OF_DEATH_MAIN, 100s);
@@ -777,7 +777,7 @@ struct npc_phantom_generic : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         switch (me->GetEntry())
         {
@@ -851,7 +851,7 @@ struct npc_king_rastakhan_static_generic : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         switch (me->GetEntry())
         {

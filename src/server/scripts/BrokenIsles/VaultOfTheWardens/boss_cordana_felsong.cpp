@@ -167,12 +167,12 @@ public:
             instance->SetData(DATA_CORDANA_ACTIONS, 2); // clear centry
         }
 
-        void EnterCombat(Unit* unit) override
+        void JustEngagedWith(Unit* unit) override
         {
             Talk(SAY_AGGRO);
 
             Reset();
-            _EnterCombat();
+            _JustEngagedWith();
 
             me->AddDelayedCombat(1000, [this]()->void
             {

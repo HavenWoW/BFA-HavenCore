@@ -130,12 +130,12 @@ public:
             phase = PHASE_NORMAL;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (!me)
                 return;
 
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(SAY_AGGRO);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -460,7 +460,7 @@ public:
             form_3 = false;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (!me)
                 return;

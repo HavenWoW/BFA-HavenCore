@@ -476,7 +476,7 @@ public:
             m_Events.Reset();
         }
 
-        void EnterCombat(Unit* /*target*/) override
+        void JustEngagedWith(Unit* /*target*/) override
         {
             /// TALK
 

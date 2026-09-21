@@ -177,9 +177,9 @@ public:
             ResetCharmedPlayers();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
 
             DoZoneInCombat(me);
 
@@ -733,7 +733,7 @@ class npc_darkened_creation : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*victim*/) override
+            void JustEngagedWith(Unit* /*victim*/) override
             {
                 events.ScheduleEvent(EVENT_DEBILITATING_BEAM, urand(3000, 5000));
                 DoZoneInCombat(me);
@@ -794,7 +794,7 @@ class npc_spiked_tentacle : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*victim*/) override
+            void JustEngagedWith(Unit* /*victim*/) override
             {
                 DoZoneInCombat(me);
             }

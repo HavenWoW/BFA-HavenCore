@@ -32,7 +32,7 @@ class boss_ook_ook : public CreatureScript
             void Reset() override
             {}
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {}
 
             void DoAction(const int32 /*action*/) override

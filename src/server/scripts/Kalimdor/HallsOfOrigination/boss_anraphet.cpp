@@ -100,14 +100,14 @@ class boss_anraphet : public CreatureScript
             _Reset();
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             Talk(SAY_AGGRO);
             events.ScheduleEvent(EVENT_NEMESIS_STRIKE, urand(5000, 8000), 1);
             events.ScheduleEvent(EVENT_ALPHA_BEAMS, 10000, 1);
             events.ScheduleEvent(EVENT_OMEGA_STANCE, 15000, 1);
             events.ScheduleEvent(EVENT_CRUMBLING_RUIN, 20000);
-            BossAI::EnterCombat(who);
+            BossAI::JustEngagedWith(who);
         }
 
         void MovementInform(uint32 type, uint32 id) override
@@ -607,7 +607,7 @@ class npc_water_warden_hoo : public CreatureScript
                 targetGUID = victim->GetGUID();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoCast(me, SPELL_AQUA_BOMB_AURA, true);
         }

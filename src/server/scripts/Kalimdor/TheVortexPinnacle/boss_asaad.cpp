@@ -123,9 +123,9 @@ class boss_asaad : public CreatureScript
                 stormTargetGUID = ObjectGuid::Empty;
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void JustDied(Unit* /*who*/) override
@@ -426,7 +426,7 @@ public:
     {
         npc_skyfall_starAI(Creature* creature) : ScriptedAI(creature) { }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_ARCANE_BARRAGE, urand(3000, 10000));
         }

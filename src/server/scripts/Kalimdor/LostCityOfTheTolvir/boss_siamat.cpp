@@ -144,7 +144,7 @@ public:
             me->AddUnitFlag(UNIT_FLAG_REMOVE_CLIENT_CONTROL);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(RAND(SAY_START_1, SAY_START_1));
             events.SetPhase(PHASE_DEFLECTING_WINDS);
@@ -317,7 +317,7 @@ public:
             LightningCharge = false;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_THUNDER_CRASH, 1000);
             events.ScheduleEvent(EVENT_LIGHTNING_NOVA, 5000);

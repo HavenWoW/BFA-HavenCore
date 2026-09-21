@@ -121,9 +121,9 @@ private:
         }
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {        
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         DoCast(PERIODIC_ENERGY_GAIN);
         me->StopMoving();
@@ -418,7 +418,7 @@ struct npc_darkforged_crusader_145903 : public ScriptedAI
         ScriptedAI::Reset();        
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {  
         events.ScheduleEvent(EVENT_CRUSADER_STRIKE, 3s);
         events.ScheduleEvent(EVENT_CONSECRATION, 8s);
@@ -503,7 +503,7 @@ struct npc_antoined_disciple_145898 : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_DIVINE_BURST, 3s);
         events.ScheduleEvent(EVENT_HEAL, 8s);

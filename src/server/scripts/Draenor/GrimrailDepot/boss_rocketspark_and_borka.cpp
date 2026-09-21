@@ -330,7 +330,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* p_Who) override
+        void JustEngagedWith(Unit* p_Who) override
         {
             if (m_Instance != nullptr)
             {
@@ -338,7 +338,7 @@ public:
                 m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
             HandleEncounterStartDoor();
             events.ScheduleEvent(eRocketsparkEvents::EventRandomMovement, 3 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eRocketsparkEvents::EventX2101a, 30 * TimeConstants::IN_MILLISECONDS);
@@ -631,7 +631,7 @@ public:
                 WipingConditionRocketSparkAndBorka(m_Instance, me);
         }
 
-        void EnterCombat(Unit* p_Who) override
+        void JustEngagedWith(Unit* p_Who) override
         {
             if (m_Instance != nullptr)
                 StartRocketSparkAndBorka(m_Instance, me, p_Who->GetGUID());

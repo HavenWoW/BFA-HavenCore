@@ -225,7 +225,7 @@
     // {
         // SPELL_LOA_STRIKE = 272826,
     // };
-    // void EnterCombat(Unit* /*victim*/) override
+    // void JustEngagedWith(Unit* /*victim*/) override
     // {
         // events.ScheduleEvent(SPELL_LOA_STRIKE, 5s);
     // }
@@ -285,7 +285,7 @@
         // SPELL_IMBUE_LIGHTNING = 269234,
     // };
 
-    // void EnterCombat(Unit* /*victim*/) override
+    // void JustEngagedWith(Unit* /*victim*/) override
     // {
         // events.ScheduleEvent(SPELL_DEVASTATING_SLAM, 5s);
         // events.ScheduleEvent(SPELL_HEAD_TAKER, 10s);
@@ -346,7 +346,7 @@
         // SPELL_SIPHON_BLOOD = 255220,
     // };
 
-    // void EnterCombat(Unit* /*victim*/) override
+    // void JustEngagedWith(Unit* /*victim*/) override
     // {
         // Talk(0);
         // events.ScheduleEvent(SPELL_SIPHON_BLOOD, 5s);

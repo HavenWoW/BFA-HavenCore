@@ -151,9 +151,9 @@ private:
 			nzoth->EnterVehicle(me);
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
-		_EnterCombat();
+		_JustEngagedWith();
 		this->phase = 1;
 		events.ScheduleEvent(EVENT_CARAPACE_GAIN_ENERGY, 100ms);
 		events.ScheduleEvent(EVENT_MANDIBLE_SLAM, 3s);
@@ -671,7 +671,7 @@ private:
 		ScriptedAI::Reset();
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		events.ScheduleEvent(EVENT_BREED_MADNESS, 3s);
 	}

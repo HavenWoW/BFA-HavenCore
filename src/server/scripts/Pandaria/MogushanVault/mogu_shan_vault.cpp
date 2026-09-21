@@ -192,7 +192,7 @@ class mob_cursed_mogu_sculpture : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 events.Reset();
                 events.ScheduleEvent(EVENT_CURSED_MOGU_SPIRIT_BOLT, 15000);
@@ -411,7 +411,7 @@ class mob_enormous_stone_quilen : public CreatureScript
                 nextMovementTimer = 500;
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 me->SetWalk(false);
             }
@@ -487,7 +487,7 @@ class mob_stone_quilen : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(EVENT_QUILEN_SUNDERING_BITE,   urand(5000,  6000));
                 events.ScheduleEvent(EVENT_QUILEN_SHATTERING_STONE, urand(10000, 12000));
@@ -569,7 +569,7 @@ class mob_zandalari_skullcharger : public CreatureScript
                     events.ScheduleEvent(EVENT_ZANDALARI_TROLL_RUSH, urand(5000, 6000));
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (Creature* lorewalkerCho = GetClosestCreatureWithEntry(me, NPC_LOREWALKER_CHO, 150.0f, true))
                     if (lorewalkerCho->AI())
@@ -2142,7 +2142,7 @@ class mob_mogu_secret_keeper : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (Creature* cho = GetClosestCreatureWithEntry(me, NPC_LOREWALKER_CHO, 60.0f, true))
                     cho->AI()->DoAction(ACTION_KEEPER_ENTER_COMBAT);

@@ -59,10 +59,10 @@ class boss_ammunae : public CreatureScript
             me->SetPower(POWER_ENERGY, 0);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
             events.ScheduleEvent(EVENT_WITHER, urand(5000, 7000));
             events.ScheduleEvent(EVENT_CONSUME_LIFE, urand(10000, 12000));
             events.ScheduleEvent(EVENT_SUMMON_POD, urand(10000, 12000));
@@ -323,7 +323,7 @@ public:
                passenger->AddUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE));
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SPORE_BLAST, 2000);
         }
@@ -384,7 +384,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SPORE_CLOUD, 2000);
         }

@@ -519,7 +519,7 @@ class boss_ragnaros_firelands: public CreatureScript
                     me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
                 }
 
-                void EnterCombat(Unit* /*who*/) override
+                void JustEngagedWith(Unit* /*who*/) override
                 {
                     me->AddAura(SPELL_BASE_VISUAL, me);
 
@@ -531,7 +531,7 @@ class boss_ragnaros_firelands: public CreatureScript
 
                     events.ScheduleEvent(EVENT_ENRAGE, 18 * MINUTE * IN_MILLISECONDS);
 
-                    _EnterCombat();
+                    _JustEngagedWith();
                 }
 
                 void DoAction(int32 const action) override
@@ -1112,7 +1112,7 @@ class npc_sulfuras_smash_trigger: public CreatureScript // 53266
                 uint32 m_uiSmashTimer;
                 uint32 m_uiDespawnTimer;
 
-                void EnterCombat(Unit* /*who*/) override
+                void JustEngagedWith(Unit* /*who*/) override
                 {
                 }
 
@@ -1168,7 +1168,7 @@ class npc_sulfuras_lava_wave: public CreatureScript // 53363
             }
 
             void Reset() override {}
-            void EnterCombat(Unit* /*who*/) override {}
+            void JustEngagedWith(Unit* /*who*/) override {}
             void EnterEvadeMode(EvadeReason /*why*/) override {}
 
             void MovementInform(uint32 type, uint32 id) override
@@ -1967,7 +1967,7 @@ class npc_malfurion: public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
             }
 
-            void EnterCombat(Unit* /*pWho*/) override
+            void JustEngagedWith(Unit* /*pWho*/) override
             {
                 m_uiCloudTimer = 9000;
             }
@@ -2018,7 +2018,7 @@ class npc_cenarius: public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
             }
 
-            void EnterCombat(Unit* /*pWho*/) override
+            void JustEngagedWith(Unit* /*pWho*/) override
             {
                 m_uiFrostyTimer = 12000;
             }
@@ -2072,7 +2072,7 @@ class npc_heartofragnaros: public CreatureScript
                 m_uiHeartBeat = 1000; //timer is here if you need it so just copy paste. To remove if script works without it.
             }
 
-            void EnterCombat(Unit* /*pWho*/) override
+            void JustEngagedWith(Unit* /*pWho*/) override
             {
             }
 
@@ -2127,7 +2127,7 @@ class npc_hamuul: public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
             }
 
-            void EnterCombat(Unit* /*pWho*/) override
+            void JustEngagedWith(Unit* /*pWho*/) override
             {
                 m_uiRootTimer = 9000;
             }
@@ -2170,7 +2170,7 @@ class npc_blazing_heat: public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
             }
 
-            void EnterCombat(Unit* /*pWho*/)  override {}
+            void JustEngagedWith(Unit* /*pWho*/)  override {}
             void UpdateAI(uint32 /*uiDiff*/) override {}
         };
 };

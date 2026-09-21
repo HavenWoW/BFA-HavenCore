@@ -145,7 +145,7 @@ class boss_halfus_wyrmbreaker : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 DoZoneInCombat(me);
 

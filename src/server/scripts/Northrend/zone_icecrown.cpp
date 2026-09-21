@@ -435,7 +435,7 @@ public:
             events.ScheduleEvent(EVENT_SPAWN, 3000);
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void MoveInLineOfSight(Unit* /*who*/) override { }
 

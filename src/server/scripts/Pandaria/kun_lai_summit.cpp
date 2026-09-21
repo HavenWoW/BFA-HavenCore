@@ -1709,7 +1709,7 @@ class mob_clever_ashyo : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 if (Creature* kenKen = GetClosestCreatureWithEntry(me, 60979, 20.0f, true))
                 {
@@ -1870,7 +1870,7 @@ class mob_ken_ken : public CreatureScript
                 events.ScheduleEvent(EVENT_DESPAWN, 600000);
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 if (Creature* ashyo = GetClosestCreatureWithEntry(me, 60980, 20.0f, true))
                 {
@@ -2544,7 +2544,7 @@ class mob_tankiss : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 if (Creature* healiss = GetClosestCreatureWithEntry(me, 61004, 20.0f, true))
                 {
@@ -2738,7 +2738,7 @@ class mob_healiss : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 if (Creature* tankiss = GetClosestCreatureWithEntry(me, 61006, 20.0f, true))
                 {
@@ -2932,7 +2932,7 @@ class mob_hackiss : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 if (Creature* healiss = GetClosestCreatureWithEntry(me, 61004, 20.0f, true))
                 {

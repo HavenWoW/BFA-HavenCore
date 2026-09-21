@@ -122,7 +122,7 @@ public:
                 me->CastSpell(who, SPELL_HURL_SCRIPT, false);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (instance)
                 instance->SetData(DATA_GENERAL_HUSAM, IN_PROGRESS);

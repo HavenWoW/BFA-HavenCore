@@ -88,9 +88,9 @@ public:
         instance->SetBossState(DATA_MOGUL_RAZDUNK, FAIL);
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
         Talk(YELL_AGROO);
         instance->SetBossState(DATA_MOGUL_RAZDUNK, IN_PROGRESS);
     }

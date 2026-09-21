@@ -358,9 +358,9 @@ public:
                     FrozenHelper->CastSpell(FrozenHelper, SPELL_SUMMON_FLASH_FREEZE_HELPER, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(SAY_AGGRO);
             DoCast(me, SPELL_BITING_COLD, true);
 

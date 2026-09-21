@@ -431,8 +431,8 @@ public:
         uiDamageTakenPossessed = 0;
     }
 
-    // Override EnterCombat to send the DoAction to the helper
-    void EnterCombat(Unit* /*unit*/)
+    // Override JustEngagedWith to send the DoAction to the helper
+    void JustEngagedWith(Unit* /*unit*/)
     {
         pInstance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -684,7 +684,7 @@ public:
         }
 
         // No need to override Reset since there is nothing to reset here
-        // No need to override EnterCombat since there is nothing to do here
+        // No need to override JustEngagedWith since there is nothing to do here
 
         void UpdateAI(uint32 uiDiff)
         {
@@ -823,7 +823,7 @@ public:
                     me->Kill(myTarget);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_RECKLESS_CAHRGE_INITIALIZE, 10 * IN_MILLISECONDS);
         }

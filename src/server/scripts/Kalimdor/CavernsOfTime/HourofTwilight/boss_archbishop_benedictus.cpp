@@ -199,9 +199,9 @@ public:
 
         }
 
-        void EnterCombat(Unit* /*Ent*/) override
+        void JustEngagedWith(Unit* /*Ent*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
 
             if (instance)
                 instance->SetData(DATA_ARCHBISHOP_BENEDICTUS_EVENT, IN_PROGRESS);

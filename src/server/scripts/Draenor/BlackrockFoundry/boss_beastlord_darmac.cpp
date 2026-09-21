@@ -221,7 +221,7 @@ class boss_beastlord_darmac : public CreatureScript
                 Talk(eTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
               //  ClearDelayedOperations();
 
@@ -240,7 +240,7 @@ class boss_beastlord_darmac : public CreatureScript
 
             //    me->SetUInt32Value(UnitFields::UNIT_NPC_EMOTESTATE, 0);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 Talk(eTalks::TalkAggro);
 
@@ -963,7 +963,7 @@ class npc_foundry_cruelfang : public CreatureScript
                 m_RendAndTear = false;
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 4);
@@ -1215,7 +1215,7 @@ class npc_foundry_dreadwing : public CreatureScript
                 m_IsEvadeMode = false;
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 4);
@@ -1438,7 +1438,7 @@ class npc_foundry_ironcrusher : public CreatureScript
                 m_Tantrum       = false;
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 4);

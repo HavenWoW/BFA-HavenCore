@@ -363,7 +363,7 @@ struct npc_frightened_miner_escort : public npc_escortAI
     npc_frightened_miner_escort(Creature* creature) : npc_escortAI(creature) {}
 
     void AttackStart(Unit* /*who*/) override {}
-    void EnterCombat(Unit* /*who*/) override {}
+    void JustEngagedWith(Unit* /*who*/) override {}
     void EnterEvadeMode(EvadeReason /*why*/) override {}
     void JustDied(Unit* /*killer*/) override {}
     void OnCharmed(bool /*apply*/) override {}
@@ -509,7 +509,7 @@ struct npc_lost_isles_weed : public ScriptedAI
     }
 
     void AttackStart(Unit* /*who*/) override {}
-    void EnterCombat(Unit* /*who*/) override {}
+    void JustEngagedWith(Unit* /*who*/) override {}
 };
 
 class spell_weed_whacker : public SpellScript
@@ -607,7 +607,7 @@ struct npc_cliff_bastia : public npc_escortAI
     npc_cliff_bastia(Creature* creature) : npc_escortAI(creature) {}
 
     void AttackStart(Unit* /*who*/) override {}
-    void EnterCombat(Unit* /*who*/) override {}
+    void JustEngagedWith(Unit* /*who*/) override {}
     void EnterEvadeMode(EvadeReason /*why*/) override {}
     void OnCharmed(bool /*apply*/) override {}
 
@@ -659,7 +659,7 @@ struct npc_precious_cargo_gyrocopter : public npc_escortAI
     npc_precious_cargo_gyrocopter(Creature* creature) : npc_escortAI(creature) {}
 
     void AttackStart(Unit* /*who*/) override {}
-    void EnterCombat(Unit* /*who*/) override {}
+    void JustEngagedWith(Unit* /*who*/) override {}
     void EnterEvadeMode(EvadeReason /*why*/) override {}
     void OnCharmed(bool /*apply*/) override {}
 
@@ -732,7 +732,7 @@ struct npc_warchief_revenge_cyclone : public npc_escortAI
     npc_warchief_revenge_cyclone(Creature* creature) : npc_escortAI(creature) {}
 
     void AttackStart(Unit* /*who*/) override {}
-    void EnterCombat(Unit* /*who*/) override {}
+    void JustEngagedWith(Unit* /*who*/) override {}
     void EnterEvadeMode(EvadeReason /*why*/) override {}
     void OnCharmed(bool /*apply*/) override {}
 
@@ -888,7 +888,7 @@ struct npc_sling_rocket : public npc_escortAI
     npc_sling_rocket(Creature* creature) : npc_escortAI(creature) {}
 
     void AttackStart(Unit* /*who*/) override {}
-    void EnterCombat(Unit* /*who*/) override {}
+    void JustEngagedWith(Unit* /*who*/) override {}
     void EnterEvadeMode(EvadeReason /*why*/) override {}
     void OnCharmed(bool /*apply*/) override {}
 
@@ -1645,7 +1645,7 @@ public:
         npc_avion_gobAI(Creature* creature) : npc_escortAI(creature) {}
 
         void AttackStart(Unit* /*who*/) override {}
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
         void EnterEvadeMode(EvadeReason /*why*/) override {}
 
         void Reset() override
@@ -1742,7 +1742,7 @@ public:
         npc_tremblement_volcanoAI(Creature* creature) : ScriptedAI(creature) {}
 
         void AttackStart(Unit* /*who*/) override {}
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
         void EnterEvadeMode(EvadeReason /*why*/) override {}
 
         void Reset() override
@@ -1841,7 +1841,7 @@ public:
         npc_explosion_volcanoAI(Creature* creature) : ScriptedAI(creature) {}
 
         void AttackStart(Unit* /*who*/) override {}
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
         void EnterEvadeMode(EvadeReason /*why*/) override {}
 
         void Reset() override
@@ -1936,7 +1936,7 @@ public:
         uint32 krennansay;
         bool AfterJump;
         void AttackStart(Unit* /*who*/) override {}
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
         void EnterEvadeMode(EvadeReason /*why*/) override {}
 
         void Reset() override
@@ -2388,7 +2388,7 @@ public:
         npc_fusee_gobAI(Creature* creature) : npc_escortAI(creature) {}
 
         void AttackStart(Unit* /*who*/) override {}
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
         void EnterEvadeMode(EvadeReason /*why*/) override {}
 
         void Reset() override
@@ -2444,7 +2444,7 @@ public:
         npc_girocoptereAI(Creature* creature) : npc_escortAI(creature) {}
 
         void AttackStart(Unit* /*who*/) override {}
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
         void EnterEvadeMode(EvadeReason /*why*/) override {}
 
         void Reset() override

@@ -84,7 +84,7 @@ struct boss_Coin_operated_crowd_pummeler : public BossAI
 		me->AddAura(SPELL_INSUFFICIENT_FUNDS);
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
 		me->RemoveAura(SPELL_INSUFFICIENT_FUNDS);
         Talk(TALK_AGGRO);
@@ -99,7 +99,7 @@ struct boss_Coin_operated_crowd_pummeler : public BossAI
 			events.ScheduleEvent(EVENT_PAY_TO_WIN, 1000);
         }
 
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void EnterEvadeMode(EvadeReason why) override

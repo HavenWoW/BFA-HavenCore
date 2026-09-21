@@ -658,7 +658,7 @@ public:
             tmp10->GetMotionMaster()->MovePoint(POINT_10, CorruptedAnimaPosition[0]);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_MATERIALS_OF_CREATION, 10 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_ENERGY_REGEN, TIMER_ENERGY_REGEN);

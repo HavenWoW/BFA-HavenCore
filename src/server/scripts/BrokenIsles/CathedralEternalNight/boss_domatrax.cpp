@@ -108,10 +108,10 @@ public:
             me->SetVisible(false);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
             
             phase = 0;
             me->SetPower(POWER_ENERGY, 0);

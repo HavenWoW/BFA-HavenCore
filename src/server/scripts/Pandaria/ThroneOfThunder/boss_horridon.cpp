@@ -1254,7 +1254,7 @@ public:
                 trigger2->Kill(trigger2);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_TRIPLE_PUNCTURE, 10 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_DOUBLE_SWIPE, 15 * IN_MILLISECONDS);
@@ -1593,7 +1593,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_BESTIAL_CRY, 10 * IN_MILLISECONDS);
         }

@@ -108,9 +108,9 @@ private:
     {
     };
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         phase1 = true;
         events.ScheduleEvent(EVENT_ELETROSHOCK_STRIKES, 2s);
@@ -359,7 +359,7 @@ struct npc_spark_bot : public ScriptedAI
         });
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_SPARK_PULSE, 3s);
     }

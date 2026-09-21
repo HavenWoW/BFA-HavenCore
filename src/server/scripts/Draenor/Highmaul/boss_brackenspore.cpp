@@ -355,9 +355,9 @@ class boss_brackenspore : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 m_Events.ScheduleEvent(eEvents::EventNecroticBreath, 30 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventBerserker, 600 * TimeConstants::IN_MILLISECONDS);
@@ -801,7 +801,7 @@ class npc_highmaul_spore_shooter : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventSporeShot, urand(100, 1500));
             }

@@ -321,7 +321,7 @@ class boss_tayak : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (pInstance)
                 {
@@ -364,7 +364,7 @@ class boss_tayak : public CreatureScript
 
                 //me->DisableEvadeMode();
                 me->DisableHealthRegen();
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void KilledUnit(Unit* victim) override

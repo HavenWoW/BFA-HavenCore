@@ -200,9 +200,9 @@ class boss_kromog : public CreatureScript
                 Talk(eTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 Talk(eTalks::TalkAggro);
 

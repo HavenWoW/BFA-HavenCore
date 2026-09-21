@@ -59,9 +59,9 @@ struct boss_goroth : public BossAI
 {
     boss_goroth(Creature* creature) : BossAI(creature, DATA_GOROTH) { }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(SPELL_BURNING_ARMOR, 16s);
         events.ScheduleEvent(SPELL_CRASHING_COMET, 10s, 20s);

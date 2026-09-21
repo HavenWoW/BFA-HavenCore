@@ -171,7 +171,7 @@ public:
             addsCount = 0;
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             Talk(SAY_AGGRO);
 

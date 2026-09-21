@@ -478,7 +478,7 @@ struct npc_brother_paxton : public ScriptedAI
             DoCastSelf(SPELL_PAXTON_FORTITUDE, true);
     }
 
-    void EnterCombat(Unit* /*who*/) override { }
+    void JustEngagedWith(Unit* /*who*/) override { }
     void AttackStart(Unit* /*who*/) override { }
     void MoveInLineOfSight(Unit* /*who*/) override { }
 
@@ -550,7 +550,7 @@ struct npc_blackrock_spy : public ScriptedAI
         ApplySpyState();
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         Talk(0, who);
         me->RemoveAurasDueToSpell(SPELL_SPYGLASS);
@@ -801,7 +801,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             return;
         }

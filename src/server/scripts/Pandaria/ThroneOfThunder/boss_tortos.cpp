@@ -219,7 +219,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             me->AddAura(SPELL_KICK_SHELL_A, me);
             me->AddAura(SPELL_ROCKFALL_AURA, me);
@@ -241,7 +241,7 @@ public:
                 instance->SetData(DATA_TORTOS, IN_PROGRESS);
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
 
             if (me->GetMap()->IsHeroic())
                 SpawnCrystals();
@@ -495,7 +495,7 @@ public:
             //me->SetSpeed(MOVE_RUN, 3.0f, true);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_DAMAGE_PLAYERS_SPIN, 500);
             events.ScheduleEvent(EVENT_MOVE, 3000, 0, 0);

@@ -172,7 +172,7 @@ struct boss_ataldazar_volkaal : public BossAI
         }
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         Talk(TALK_AGGRO);
         // Events
@@ -180,7 +180,7 @@ struct boss_ataldazar_volkaal : public BossAI
         events.ScheduleEvent(EVENT_TOXIC_LEAP, 2000);
         events.ScheduleEvent(EVENT_NOXIOUS_STENCH, 6000);
 
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void UpdateAI(uint32 diff) override
@@ -358,7 +358,7 @@ struct npc_ataldazar_reanimation_totem : public ScriptedAI
             boss->AI()->DoAction(ACTION_TOTEM_HEALED);
     }
 
-    void EnterCombat(Unit* attacker) override
+    void JustEngagedWith(Unit* attacker) override
     {
         if (Unit* boss = me->FindNearestCreature(NPC_VOLKAAL, 50, true))
         {

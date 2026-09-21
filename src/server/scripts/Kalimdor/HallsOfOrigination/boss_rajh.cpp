@@ -135,9 +135,9 @@ public:
                 (*iter)->DespawnOrUnsummon();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(SAY_AGGRO);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -411,7 +411,7 @@ public:
     {
         npc_elementar_1AI(Creature* creature) : ScriptedAI(creature) { }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_FLAME_WAVE, 9000);
             events.ScheduleEvent(EVENT_SEARING_FLAME, 6000);
@@ -496,7 +496,7 @@ public:
     {
         npc_elementar_2AI(Creature* creature) : ScriptedAI(creature) { }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_FLAME_WAVE, 9000);
             events.ScheduleEvent(EVENT_SEARING_FLAME, 6000);
@@ -581,7 +581,7 @@ public:
     {
         npc_suntouched_speakerAI(Creature* creature) : ScriptedAI(creature) { }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_FIRE_STORM, 10000);
             events.ScheduleEvent(EVENT_STOMP, 6000);

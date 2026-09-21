@@ -696,7 +696,7 @@ struct npc_degar_bloodtotem_110685 : public ScriptedAI
             }
          }
     
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
          {
         me->Yell(119073);
         events.ScheduleEvent(SPELL_WRATH, 5s);

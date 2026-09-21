@@ -422,7 +422,7 @@ public:
             RemoveFeathers();
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             nests = 0; // just to be sure its reseted
             DoCast(me, SPELL_INFECTED_TALONS_AURA);
@@ -1167,7 +1167,7 @@ public:
                 me->SetHealth(summoner->GetHealth());
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             me->SetDisableGravity(true);
             events.ScheduleEvent(EVENT_START_FLY_AWAY, 4000);
@@ -1832,7 +1832,7 @@ public:
             events.ScheduleEvent(EVENT_CHECK_MELEE, 20000, 0, 0);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_TALON_STRIKE, 15000, 0, 0);
         }

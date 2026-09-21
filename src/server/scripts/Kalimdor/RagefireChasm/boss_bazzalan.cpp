@@ -45,7 +45,7 @@ public:
                 instance->SetData(BOSS_BAZZALAN, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
             instance->SetData(BOSS_BAZZALAN, IN_PROGRESS);
         }

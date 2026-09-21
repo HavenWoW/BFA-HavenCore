@@ -371,7 +371,7 @@ class boss_skulloc : public CreatureScript
                     m_BombardmentReady = true;
             }
 
-            void EnterCombat(Unit* /*p_Who*/) override
+            void JustEngagedWith(Unit* /*p_Who*/) override
             {            
                 events.Reset();
 
@@ -625,7 +625,7 @@ class iron_docks_skulloc_mob_koramar : public CreatureScript
                    // me->GetMap()->SetObjectVisibility(5000.0f);       
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {             
                 events.Reset();
 
@@ -806,7 +806,7 @@ class iron_docks_skulloc_mob_turret : public CreatureScript
                 //events.ScheduleEvent(eTurretEvents::EventInstallAccessories, 5 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void EnterCombat(Unit* /*p_Who*/) override
+            void JustEngagedWith(Unit* /*p_Who*/) override
             {
                 if (m_Instance != nullptr)
                     SkullocEnforcersStart(m_Instance, me);

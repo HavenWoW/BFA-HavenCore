@@ -132,7 +132,7 @@ class boss_sha_of_anger : public CreatureScript
                     Talk(TALK_SLAY);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 Talk(TALK_AGGRO);
             }

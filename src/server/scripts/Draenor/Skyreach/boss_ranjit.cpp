@@ -129,9 +129,9 @@ public:
                 Talk(int8(Texts::KILL_PLAYER_2), me);
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
-            _EnterCombat();
+            _JustEngagedWith();
 
             events.ScheduleEvent(uint32(Events::WINDWALL), 8000);
             events.ScheduleEvent(uint32(Events::FAN_OF_BLADES), 5000);

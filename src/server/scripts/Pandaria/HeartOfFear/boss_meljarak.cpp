@@ -256,7 +256,7 @@ bool StartPack(InstanceScript* pInstance, Creature* launcher, Unit* attacker)
     // Set boss in combat if function has been called by an add
     pInstance->SetBossState(DATA_MELJARAK, IN_PROGRESS);
     if (launcher->GetEntry() != NPC_MELJARAK)
-        Meljarak->AI()->EnterCombat(attacker);
+        Meljarak->AI()->JustEngagedWith(attacker);
 
     // Set adds in combat
     uint32 addEntries[3] = {NPC_KORTHIK_ELITE_BLADEMASTER, NPC_SRATHIK_AMBER_TRAPPER, NPC_ZARTHIK_BATTLE_MENDER};
@@ -267,7 +267,7 @@ bool StartPack(InstanceScript* pInstance, Creature* launcher, Unit* attacker)
 
         if (!addList.empty())
             for (Creature* add : addList)
-                add->AI()->EnterCombat(attacker);
+                add->AI()->JustEngagedWith(attacker);
     }
 
     return true;
@@ -342,7 +342,7 @@ public:
             introDone = true;
 
             if (!inCombat)
-                EnterCombat(who);
+                JustEngagedWith(who);
         }
 
         void DamageTaken(Unit* attacker, uint32& damage) override
@@ -364,11 +364,11 @@ public:
                 }
 
                 if (!inCombat)
-                    EnterCombat(attacker);
+                    JustEngagedWith(attacker);
             }
         }
 
-        void EnterCombat(Unit* attacker) override
+        void JustEngagedWith(Unit* attacker) override
         {
             if (attacker->GetTypeId() != TYPEID_PLAYER || !instance || inCombat)
                 return;
@@ -401,7 +401,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me); // Add
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
 
             me->SetReactState(REACT_AGGRESSIVE);
             me->SetInCombatWith(attacker);
@@ -862,7 +862,7 @@ public:
                 respawn = false;
         }
 
-        void EnterCombat(Unit* attacker) override
+        void JustEngagedWith(Unit* attacker) override
         {
             if (attacker->GetTypeId() != TYPEID_PLAYER || inCombat)
                 return;
@@ -960,7 +960,7 @@ public:
                 DoCast(SPELL_RED_MANTID_WINGS);
         }
 
-        void EnterCombat(Unit* attacker) override
+        void JustEngagedWith(Unit* attacker) override
         {
             if (attacker->GetTypeId() != TYPEID_PLAYER || inCombat)
                 return;
@@ -1120,7 +1120,7 @@ public:
                 DoCast(me, SPELL_BLUE_MANTID_WINGS);
         }
 
-        void EnterCombat(Unit* attacker) override
+        void JustEngagedWith(Unit* attacker) override
         {
             if (attacker->GetTypeId() != TYPEID_PLAYER || inCombat)
                 return;

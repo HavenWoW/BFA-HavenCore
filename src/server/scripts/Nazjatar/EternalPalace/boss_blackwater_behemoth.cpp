@@ -268,7 +268,7 @@ public:
             _DespawnAtEvade(15);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             me->AddAura(SPELL_FEEDING_FRENZY_AURA, me);
 

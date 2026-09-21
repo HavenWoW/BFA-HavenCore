@@ -215,7 +215,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -387,7 +387,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_SERRATED_FANGS, TIMER_SERRATED_FANGS);
         }

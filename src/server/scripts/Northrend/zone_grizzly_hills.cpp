@@ -172,7 +172,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*Who*/) override
+        void JustEngagedWith(Unit* /*Who*/) override
         {
             Talk(SAY_RANDOMAGGRO);
         }
@@ -220,7 +220,7 @@ public:
 
         void Reset() override { }
 
-        void EnterCombat(Unit* Who) override
+        void JustEngagedWith(Unit* Who) override
         {
             if (Creature* Emily = GetClosestCreatureWithEntry(me, NPC_EMILY, 50.0f))
             {

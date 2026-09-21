@@ -559,7 +559,7 @@ public:
                 DoCast(caster, SPELL_MONK_RIDE_POLE, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_THROW_ROCK, 0);
         }
@@ -1307,7 +1307,7 @@ public:
             _events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_AIM, 10000);
             _events.ScheduleEvent(EVENT_OOKSPLOSIONS, 30000);
@@ -1554,7 +1554,7 @@ private:
         me->GetMotionMaster()->MovePoint(0, ZhaoPos[0].GetPositionX(), ZhaoPos[0].GetPositionY(), ZhaoPos[0].GetPositionZ());
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         me->GetMotionMaster()->MovePath(ZHAOREN_PATH, true);
         events.SetPhase(PHASE_FLYING);
@@ -1968,7 +1968,7 @@ public:
                     AttackStart(creature);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             who->GetAI()->AttackStart(me);
             _events.ScheduleEvent(EVENT_TEMPERED_FURY, urand(2000, 4000));
@@ -2145,7 +2145,7 @@ public:
             PhasingHandler::AddPhase(me, 543, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_SMASH, 8000);
             _events.ScheduleEvent(EVENT_RUPTURE, urand(12000, 16000));
@@ -2760,7 +2760,7 @@ public:
             events.RescheduleEvent(EVENT_2, 5000);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.RescheduleEvent(EVENT_1, 5000);
             events.CancelEvent(EVENT_2);
@@ -2920,7 +2920,7 @@ public:
         bool isInFalcon;
         bool fightEnd;
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.RescheduleEvent(EVENT_JAOMIN_JUMP, 1000);
             events.RescheduleEvent(EVENT_HIT_CIRCLE, 2000);

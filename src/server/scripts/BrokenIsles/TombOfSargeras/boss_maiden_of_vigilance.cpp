@@ -151,10 +151,10 @@ struct boss_maiden_of_vigilance : BossAI
         me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_INTERRUPT, false);
     }
 
-    void EnterCombat(Unit* /who/) override
+    void JustEngagedWith(Unit* /who/) override
     {
         Talk(SAY_AGGRO);
-        _EnterCombat();
+        _JustEngagedWith();
 
         me->AddDelayedEvent(480000, [this]() -> void
         {

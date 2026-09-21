@@ -312,7 +312,7 @@ public:
 			Reset();
 		}
 
-		void EnterCombat(Unit* /**/) override
+		void JustEngagedWith(Unit* /**/) override
 		{
 			SelectSoundAndText(me, 2);
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);

@@ -112,10 +112,10 @@ public:
             me->SetControlled(0, UNIT_STATE_ROOT);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
             me->SetReactState(REACT_AGGRESSIVE);
 
             events.RescheduleEvent(EVENT_PULSE, 6000);

@@ -97,9 +97,9 @@ struct boss_odyn_hov : public BossAI
         spearOfLightCount = 0;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         me->SetWalk(true);
 

@@ -169,7 +169,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                 Talk(eTalks::Slay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
                 if (m_FightStarted)
                     return;
@@ -179,7 +179,7 @@ class boss_heart_of_the_mountain : public CreatureScript
 
                 m_FightStarted = true;
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 if (m_Instance != nullptr)
                 {
@@ -881,7 +881,7 @@ class boss_foreman_feldspar : public CreatureScript
                 Talk(eTalks::Slay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
                 if (m_FightStarted)
                     return;
@@ -1307,7 +1307,7 @@ class npc_foundry_primal_elementalist : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 3);
@@ -1666,7 +1666,7 @@ class npc_foundry_heat_regulator : public CreatureScript
                     l_Regulator->SetGoState(GOState::GO_STATE_ACTIVE);
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 2);
@@ -1790,7 +1790,7 @@ class npc_foundry_security_guard : public CreatureScript
                 me->RemoveAllAreaTriggers();
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventDefense, 5 * TimeConstants::IN_MILLISECONDS);
 
@@ -1892,7 +1892,7 @@ class npc_foundry_furnace_engineer : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventElectrocution, 5 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventBomb, 10 * TimeConstants::IN_MILLISECONDS);
@@ -2112,7 +2112,7 @@ class npc_foundry_slag_elemental : public CreatureScript
                 me->AddUnitState(UnitState::UNIT_STATE_IGNORE_PATHFINDING);
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
               //  AddTimedDelayedOperation(2 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                // {
@@ -2353,7 +2353,7 @@ class npc_foundry_firecaller : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventCauterizeWounds, 15 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventLavaBurst, 10 * TimeConstants::IN_MILLISECONDS);

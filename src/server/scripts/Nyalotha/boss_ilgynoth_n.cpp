@@ -102,9 +102,9 @@ private:
 		me->SetReactState(REACT_AGGRESSIVE);		
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
-		_EnterCombat();
+		_JustEngagedWith();
 		Talk(SAY_AGGRO);
 		this->phase = 1;
 		this->organDied = 0;
@@ -431,7 +431,7 @@ struct npc_clotted_corruption : public ScriptedAI
 		ScriptedAI::Reset();
 	}
 
-	void EnterCombat(Unit* /*killer*/) override
+	void JustEngagedWith(Unit* /*killer*/) override
 	{
 		events.ScheduleEvent(EVENT_ABSORBING_CHARGE, 3s);
 	}

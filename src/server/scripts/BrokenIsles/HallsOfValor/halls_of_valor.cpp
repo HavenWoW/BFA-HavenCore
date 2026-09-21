@@ -57,9 +57,9 @@ struct boss_king_ranulf : public BossAI
             instance->SetBossState(DATA_GODKING_SKOVALD, NOT_STARTED);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         if (instance)
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me, 1);
@@ -116,9 +116,9 @@ struct boss_king_haldor : public BossAI
             instance->SetBossState(DATA_KING_HALDOR, NOT_STARTED);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(EVENT_SEVER, 3000);
 
@@ -179,9 +179,9 @@ struct boss_king_bjorn : public BossAI
             instance->SetBossState(DATA_KING_BJORN, NOT_STARTED);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(EVENT_WICKED_DAGGER, 3000);
 
@@ -239,9 +239,9 @@ struct boss_king_tor : public BossAI
 
     ObjectGuid targetGuid;
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(EVENT_CALL_ANCESTOR, 1000);
 

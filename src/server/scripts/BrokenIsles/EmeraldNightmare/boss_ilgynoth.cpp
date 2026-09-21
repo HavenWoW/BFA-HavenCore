@@ -189,9 +189,9 @@ struct boss_ilgynoth : public BossAI
           //  at->Despawn();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         me->SummonCreature(NPC_EYE_OF_ILGYNOTH, true);
         me->SummonCreature(NPC_DOMINATOR_TENTACLE, true);
         DoCast(me, SPELL_DARKEST_NIGHTMARE_AT, true);
@@ -421,7 +421,7 @@ struct npc_eye_of_ilgynoth : public ScriptedAI
 
     void Reset() override {}
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         DoZoneInCombat();
         events.RescheduleEvent(1, 2000);
@@ -529,7 +529,7 @@ struct npc_ilgynoth_tentacles : public ScriptedAI
 
     void Reset() override {}
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         DoZoneInCombat();
 

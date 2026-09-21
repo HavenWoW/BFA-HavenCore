@@ -481,7 +481,7 @@ class boss_alysrazor : public CreatureScript
                 me->UpdateOrientation(0.0f);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 DespawnCreatures(NPC_EGG_PILE);
                 DespawnCreatures(NPC_MOLTEN_EGG_TRASH);
@@ -964,7 +964,7 @@ class npc_alysrazor_fiery_vortex : public CreatureScript
             {
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(EVENT_HARSH_WIND, 5000);
             }
@@ -1635,7 +1635,7 @@ class npc_alysrazor_plump_lava_worm : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 DoCast(me, SPELL_LAVA_SPEW);
                 events.ScheduleEvent(EVENT_ROTATE, 4000);
@@ -1719,7 +1719,7 @@ class npc_alysrazor_herald_of_the_burning_end : public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE));
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 Talk(SAY_AGGRO);
                 DoCast(me, SPELL_RITUAL_OF_THE_FLAME, true);

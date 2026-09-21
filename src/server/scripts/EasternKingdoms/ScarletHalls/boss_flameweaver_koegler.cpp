@@ -50,9 +50,9 @@ private:
         me->SetReactState(REACT_DEFENSIVE);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         events.ScheduleEvent(EVENT_BURNING_BOOKS, 30000);
         events.ScheduleEvent(EVENT_QUICK_MIND, 15000);
@@ -129,7 +129,7 @@ struct npc_book_case : public ScriptedAI
 
     void Reset() override { }
 
-    void EnterCombat(Unit* /*who*/) override { }
+    void JustEngagedWith(Unit* /*who*/) override { }
 
     void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {

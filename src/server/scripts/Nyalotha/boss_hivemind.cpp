@@ -170,12 +170,12 @@ private:
 		}
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		switch (me->GetEntry())
 		{
 		case NPC_KAZIR:
-			_EnterCombat();
+			_JustEngagedWith();
 			events.ScheduleEvent(EVENT_POWER_GAIN, 1s);
 			darkReconstruction = false;
 			events.ScheduleEvent(EVENT_SPAWN_ACIDIC_AQIR, 45s);
@@ -187,7 +187,7 @@ private:
 			break;
 
 		case NPC_TEKRIS:
-			_EnterCombat();
+			_JustEngagedWith();
 			events.ScheduleEvent(EVENT_POWER_GAIN, 1s);
 			me->GetScheduler().Schedule(3s, [this](TaskContext /*context*/)
 			{
@@ -501,7 +501,7 @@ struct npc_hivemind : public ScriptedAI
 		}
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		switch (me->GetEntry())
 		{

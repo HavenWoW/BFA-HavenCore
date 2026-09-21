@@ -123,9 +123,9 @@ class boss_shivermaw : public CreatureScript
                 CreatureAI::EnterEvadeMode(reason);
             }
 
-            void EnterCombat(Unit* ) override
+            void JustEngagedWith(Unit* ) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_FROST_BREATH, Seconds(6));
                 events.ScheduleEvent(EVENT_RELENTLEESS_STORM, Seconds(10));
                 events.ScheduleEvent(EVENT_WING_BUFFET, Seconds(16));

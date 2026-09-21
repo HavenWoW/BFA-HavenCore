@@ -265,7 +265,7 @@ class npc_wg_queue : public CreatureScript
             FrostArmor_Timer = 0;
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void UpdateAI(uint32 diff) override
         {

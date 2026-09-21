@@ -118,7 +118,7 @@ public:
             me->CastSpell(me, SPELL_SHADE_OF_XAVIUS_VISUAL, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->setActive(true);
             DoZoneInCombat();

@@ -700,7 +700,7 @@ public:
                 DoStartNoMovement(who);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_BERSERK, 7 * MINUTE * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_UNCHECKED_CORRUPTION, 5000);
@@ -1559,7 +1559,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1677,7 +1677,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1795,7 +1795,7 @@ public:
             DoCast(me, SPELL_UNLEASHED_1, true);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1898,7 +1898,7 @@ public:
             return ObjectGuid::Empty;
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -2003,7 +2003,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -2112,7 +2112,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }

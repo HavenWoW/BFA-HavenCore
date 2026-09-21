@@ -93,7 +93,7 @@ public:
             DoCast(me, SPELL_MOD_SCALE);
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             me->RemoveAurasDueToSpell(SPELL_REVITALIZING_GROWTH);
         }
@@ -187,7 +187,7 @@ public:
             DoCast(me, SPELL_MOD_SCALE);
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             me->RemoveAurasDueToSpell(SPELL_REVITALIZING_GROWTH);
         }
@@ -274,7 +274,7 @@ public:
             me->SetEmoteState(EMOTE_STATE_SUBMERGED);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->SetEmoteState(EMOTE_ONESHOT_NONE);
             me->HandleEmoteCommand(449);

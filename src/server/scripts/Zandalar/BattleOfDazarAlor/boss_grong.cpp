@@ -86,9 +86,9 @@ private:
         }
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();    
+        _JustEngagedWith();    
         DoCast(PERIODIC_ENERGY_GAIN);
         events.ScheduleEvent(EVENT_REVERBERATING_SLAM, 3s);
         events.ScheduleEvent(EVENT_BESTIAL_COMBO, 11s);

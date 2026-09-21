@@ -219,9 +219,9 @@ private:
         me->RemoveUnitFlag2(UnitFlags2(UNIT_FLAG2_SELECTION_DISABLED));
     }
 
-    void EnterCombat(Unit* u) override
+    void JustEngagedWith(Unit* u) override
     {
-        BossAI::EnterCombat(u);
+        BossAI::JustEngagedWith(u);
         Talk(SAY_AGGRO);
         this->cracklingShards = 0;
         SchedulePhase1();

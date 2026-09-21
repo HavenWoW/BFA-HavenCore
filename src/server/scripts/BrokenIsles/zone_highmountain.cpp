@@ -917,7 +917,7 @@ struct npc_marakhan_97418 : public ScriptedAI
             events.ScheduleEvent(SPELL_UNYIELDING_TERROR, 1s);
     }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         if (Creature* mobs = me->FindNearestCreature(100055, 100.0f, true))
         {

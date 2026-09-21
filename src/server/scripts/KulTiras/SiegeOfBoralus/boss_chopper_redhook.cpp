@@ -55,9 +55,9 @@ struct boss_chopper_redhook : public BossAI
 		BossAI::Reset();		
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
-		_EnterCombat();
+		_JustEngagedWith();
 		events.ScheduleEvent(EVENT_GORE_CRASH, 1s);
 		events.ScheduleEvent(EVENT_ON_THE_HOOK, 3s);
 		events.ScheduleEvent(EVENT_BARRAGE, 6s);

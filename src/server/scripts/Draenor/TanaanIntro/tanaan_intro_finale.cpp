@@ -451,7 +451,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* attacker) override
+        void JustEngagedWith(Unit* attacker) override
         {
             if (me->IsVehicle())
             {

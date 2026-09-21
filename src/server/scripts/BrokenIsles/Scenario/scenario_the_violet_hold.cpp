@@ -241,7 +241,7 @@ struct npc_kathra_natir_102785 : public ScriptedAI
         }
     }
     //in com 1419
-    void EnterCombat(Unit* /*victim*/)
+    void JustEngagedWith(Unit* /*victim*/)
     {
         if (Player* player = ObjectAccessor::GetPlayer(*me, m_playerGUID))
             player->CastSpell(player, SPELL_CONVERSATION_KATHRA_FIGHT2, true);

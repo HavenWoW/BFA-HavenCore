@@ -104,9 +104,9 @@ class boss_echo_of_baine : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 me->SetSpeed(MOVE_WALK, 2.0f);
                 me->SetSpeed(MOVE_RUN, 2.0f);
 

@@ -130,10 +130,10 @@ private:
         me->AddAura(AURA_OVERRIDE_POWER_COLOR_ENTROPIC);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
         me->RemoveAura(OBSIDIAN_SKIN_VISUAL);
-		_EnterCombat();
+		_JustEngagedWith();
 		Talk(SAY_AGGRO);
 		DoCast(PERIODIC_ENERGY_GAIN);
         this->phase = 1;
@@ -203,7 +203,7 @@ private:
              //instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, summon);
 			 summon->SetNativeDisplayId(93869, 2.5f);
 			 summon->AddAura(DARK_AEGIS);
-             summon->AI()->EnterCombat(nullptr);
+             summon->AI()->JustEngagedWith(nullptr);
 			 summon->AI()->DoZoneInCombat();
 			 break;
 		}

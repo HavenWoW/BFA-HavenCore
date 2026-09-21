@@ -154,7 +154,7 @@ public:
             //me->GetVehicleKit()->AddPassenger(NPC_WICKED_LITTLE_HELPER, 1);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_CLEAVE, urand(1000, 3000));
             events.ScheduleEvent(EVENT_THROW_TREE, urand(5000, 10000));

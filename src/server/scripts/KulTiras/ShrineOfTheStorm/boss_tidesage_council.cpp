@@ -210,7 +210,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             SelectSoundAndText(me, 1);
             if (Creature* faye = Faye())
@@ -429,7 +429,7 @@ public:
             events.ScheduleEvent(EVENT_REGEN_MANA, TIMER_REGEN_MANA);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             if (Creature* iron = Ironhull())
                 iron->SetInCombatWithZone();

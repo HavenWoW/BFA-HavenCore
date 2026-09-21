@@ -169,7 +169,7 @@ class boss_skylord_torva : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             if (m_Instance != nullptr)
                 m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);
@@ -188,7 +188,7 @@ class boss_skylord_torva : public CreatureScript
                 }
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(eSkylordTorvaTalks::TalkAggro);
 
             events.ScheduleEvent(eSkylordTorvaEvents::EventFreezingSnare, 8 * TimeConstants::IN_MILLISECONDS);

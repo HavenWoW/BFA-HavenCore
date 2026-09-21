@@ -171,7 +171,7 @@ class boss_morchok: public CreatureScript
 
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 Talk(SAY_AGGRO);
                 events.ScheduleEvent(EVENT_STOMP, urand(12000, 14000));

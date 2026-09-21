@@ -314,7 +314,7 @@ public:
             _DespawnAtEvade(15);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             me->SetPower(POWER_ENERGY, 0);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -818,7 +818,7 @@ public:
             SelectSoundAndText(me, 3);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             SelectSoundAndText(me, 2);
             me->SummonCreature(NPC_QUEEN_AZSHARA_DECREE, decreeSpawnTrigger, TEMPSUMMON_MANUAL_DESPAWN);

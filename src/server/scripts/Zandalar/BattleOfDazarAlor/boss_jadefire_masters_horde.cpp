@@ -142,12 +142,12 @@ private:
         }
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         switch (me->GetEntry())
         {
         case NPC_MARA_GRIMFANG:
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(0);
             DoCast(PERIODIC_ENERGY_GAIN);
             events.ScheduleEvent(EVENT_WHIRLING_JADE_STORM, 3s);
@@ -164,7 +164,7 @@ private:
             break;
 
         case NPC_ANATHOS_FIRECALLER:
-            _EnterCombat();
+            _JustEngagedWith();
             me->GetScheduler().Schedule(4s, [this](TaskContext /*context*/)
             {
                 Talk(0);

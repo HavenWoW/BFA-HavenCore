@@ -97,11 +97,11 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
             //12:02
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
             DoCast(SPELL_HEAT_UP);
 
             events.RescheduleEvent(EVENT_VOLCANO, 10000);     //12:12, 12:34

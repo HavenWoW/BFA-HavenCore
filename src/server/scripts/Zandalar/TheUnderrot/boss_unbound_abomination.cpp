@@ -247,7 +247,7 @@ public:
             return me->FindNearestCreature(NPC_TITAN_KEEPER_HEZREL, 500.0f, true);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             SelectSoundAndText(me, 1);
             visage = 0;
@@ -541,7 +541,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             me->SetReactState(REACT_AGGRESSIVE);
 

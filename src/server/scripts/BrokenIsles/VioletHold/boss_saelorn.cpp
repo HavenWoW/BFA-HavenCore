@@ -96,10 +96,10 @@ class boss_saelorn : public CreatureScript
                     Talk(SAY_KILL);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_PHASE_SPIDER, Seconds(18));
                 events.ScheduleEvent(EVENT_FEL_DETONATION, Seconds(20));
                 events.ScheduleEvent(EVENT_WEB_GRAB, Seconds(15));

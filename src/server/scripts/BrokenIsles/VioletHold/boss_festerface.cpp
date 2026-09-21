@@ -82,10 +82,10 @@ class boss_festerface : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_CONGEALING_VOMIT, Seconds(10));
                 events.ScheduleEvent(EVENT_CHECK_NEAR_GOO, Seconds(12));
 

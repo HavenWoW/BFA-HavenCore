@@ -85,11 +85,11 @@ class boss_curator_new : public CreatureScript
                 me->SummonCreature(NPC_SOUL_FRAGMENT_KARA, me->GetPosition(), TEMPSUMMON_TIMED_DESPAWN, 480 * IN_MILLISECONDS);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 me->SetMaxPower(POWER_MANA, 100);
                 me->SetPower(POWER_MANA, 100);
                 events.ScheduleEvent(EVENT_VOLATILE_ENERGY, Seconds(5));

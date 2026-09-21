@@ -204,7 +204,7 @@ public:
                 instance->SetBossState(DATA_PRIMORDIUS, DONE);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             me->ModifyAuraState(AURA_STATE_CONFLAGRATE, true);
@@ -798,7 +798,7 @@ public:
 
         EventMap events;
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_BLACK_BLOOD, 30000, 0, 0);
         }

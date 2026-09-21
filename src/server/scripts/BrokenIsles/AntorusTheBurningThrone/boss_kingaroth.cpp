@@ -268,7 +268,7 @@ struct npc_garothi_kingaroth_mobs : public ScriptedAI
         if (Creature* boss = me->FindNearestCreature(NPC_KINGAROTH, 150.0f, true))
             boss->AI()->DoAction(1);
     }
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         switch (me->GetEntry())
         {

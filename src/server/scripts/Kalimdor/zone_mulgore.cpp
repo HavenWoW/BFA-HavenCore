@@ -72,7 +72,7 @@ struct npc_agitated_earth_spirit : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*victim*/) override
+    void JustEngagedWith(Unit* /*victim*/) override
     {
         me->GetScheduler().Schedule(4s, 5s, [this](TaskContext context)
         {
@@ -253,7 +253,7 @@ public:
             me->SetVirtualItem(0, WEAPON_MELEE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->StopMoving();
             me->AttackStop();
@@ -392,7 +392,7 @@ public:
             DoCastSelf(SPELL_BRISTLEBACK);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_REND, urand(2000, 4000));
         }

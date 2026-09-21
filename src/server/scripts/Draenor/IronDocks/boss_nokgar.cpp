@@ -203,9 +203,9 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             StopArchers();
             events.ScheduleEvent(eNokgarEvents::EventLaunchArchers, 10 * TimeConstants::IN_MILLISECONDS);
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
@@ -444,7 +444,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
 
             }
 
-            void EnterCombat(Unit* p_Who) override
+            void JustEngagedWith(Unit* p_Who) override
             {
                 if (Creature* l_Nokgar = me->FindNearestCreature(eIronDocksCreatures::CreatureFleshrenderNokgar, 100.0f, true))
                 {

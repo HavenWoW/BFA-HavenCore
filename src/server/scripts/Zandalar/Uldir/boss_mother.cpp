@@ -116,10 +116,10 @@ struct boss_mother : public BossAI
         _DespawnAtEvade();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         Talk(SAY_AGGRO);
-        _EnterCombat();
+        _JustEngagedWith();
         instance->DoAddAuraOnPlayers(SPELL_FIRST_ROOM_OCCUPANT);
         events.ScheduleEvent(EVENT_SANITIZING_STRIKE, 3s);
         events.ScheduleEvent(EVENT_PURIFYING_FLAME, 6s);

@@ -113,12 +113,12 @@ class boss_advisor_vandros : public CreatureScript
                 _JustDied();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 Talk(SAY_AGGRO);
                 _lostInTime = false;
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_FORCE_BOMB, Seconds(30));
                 events.ScheduleEvent(EVENT_CHRONO_SHARDS, Seconds(10));
                 events.ScheduleEvent(EVENT_ACCELERATING_BLAST, Seconds(3));
@@ -283,7 +283,7 @@ class npc_arc_timeless_wraith : public CreatureScript
                 _events.Reset();
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 if (!victim)
                     return;

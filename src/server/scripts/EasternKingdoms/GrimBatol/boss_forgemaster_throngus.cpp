@@ -119,7 +119,7 @@ public:
     {
         boss_forgemaster_throngusAI(Creature *c) : ScriptedAI(c), instance(c->GetInstanceScript()) {}
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(0);
             phases[0] = 0;

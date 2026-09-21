@@ -148,11 +148,11 @@ class boss_attumen_new : public CreatureScript
                 SummonHorse();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
 
                 events.ScheduleEvent(EVENT_MIGHTY_STOMP, Seconds(17), PHASE_ONE);
                 events.ScheduleEvent(EVENT_MOUNTED_STRIKE, Seconds(urand(8, 12)), PHASE_ONE);
@@ -396,7 +396,7 @@ class npc_kara_midnight : public CreatureScript
                 _summons.Summon(summon);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 DoZoneInCombat(me, 500.f);
                 _chargesDone = 0;
@@ -405,7 +405,7 @@ class npc_kara_midnight : public CreatureScript
                     instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
                 if (Creature* rider = ObjectAccessor::GetCreature(*me, _attumenGUID))
-                    rider->AI()->EnterCombat(nullptr);
+                    rider->AI()->JustEngagedWith(nullptr);
 
                 _events.ScheduleEvent(EVENT_MIGHTY_STOMP, Seconds(17), PHASE_ONE);
                 _events.ScheduleEvent(EVENT_INTAGIBLE_PRESSENCE, Seconds(10), PHASE_ONE);

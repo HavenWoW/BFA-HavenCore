@@ -95,9 +95,9 @@ public:
             school = 0;
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(eArchmageTalks::KirinTorMageAggro);
             DoCast(me, SPELL_LIVING_ORGANISM);
         }

@@ -202,7 +202,7 @@ public:
                     blaze->AI()->EnterEvadeMode();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (instance)
                 instance->SetData(DATA_HIGH_PROPHET_BARIM, IN_PROGRESS);
@@ -490,7 +490,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.SetPhase(PHASE_BLAZE);
             me->CastSpell(me, SPELL_BLAZE_OF_THE_HEAVENS_PERIODIC, false);
@@ -714,7 +714,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             events.ScheduleEvent(EVENT_SOUL_SEVER, 1000);
             events.ScheduleEvent(EVENT_WAIL_OF_DARKNESS, urand(1000, 4000));

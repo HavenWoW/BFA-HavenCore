@@ -160,7 +160,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             ROOT;
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -341,7 +341,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_SEA_BLAST_CAST, TIMER_SEA_BLAST_CAST);
         }

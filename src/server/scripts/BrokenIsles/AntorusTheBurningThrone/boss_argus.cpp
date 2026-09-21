@@ -620,7 +620,7 @@ struct npc_constellar_designate_127192 : public ScriptedAI
             boss->AI()->DoAction(1);
     }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.ScheduleEvent(SPELL_STARBLAST, 8s);
         //if (!IsMythic())
@@ -691,7 +691,7 @@ struct npc_reorigination_module_127809 : public ScriptedAI
 {
     npc_reorigination_module_127809(Creature* creature) : ScriptedAI(creature) { SetCombatMovement(false); }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.ScheduleEvent(SPELL_INITIALIZATION_SEQUENCE, 8s);
         events.ScheduleEvent(SPELL_REORIGINATION_MODULE_DMG, 45s);

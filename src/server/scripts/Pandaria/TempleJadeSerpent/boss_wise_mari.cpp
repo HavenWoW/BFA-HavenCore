@@ -149,7 +149,7 @@ class boss_wase_mari : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 std::list<Creature*> searcher;
                 GetCreatureListWithEntryInGrid(searcher, me, CREATURE_FOUTAIN_TRIGGER, 50.0f);
@@ -185,7 +185,7 @@ class boss_wase_mari : public CreatureScript
                 events.ScheduleEvent(EVENT_CALL_WATER, 8000);
                 events.ScheduleEvent(EVENT_HYDROLANCE_START, TIMER_HYDROLANCE_START);
 
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void DoAction(const int32 /*action*/) override

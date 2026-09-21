@@ -1391,7 +1391,7 @@ public:
                 me->SetReactState(REACT_AGGRESSIVE);
                 me->RemoveUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
                 me->SetInCombatWithZone();
-                EnterCombat(me);
+                JustEngagedWith(me);
                 break;
             case 3:
                 Talk(3);//me->Yell("All lesser races are enemies of the true horde!");
@@ -1415,7 +1415,7 @@ public:
             _Reset();
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             if (!_startCombat)
             {
@@ -1603,7 +1603,7 @@ public:
                 instance->SetData(me->GetEntry(), DONE);
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             events.ScheduleEvent(1, urand(13000, 15000));
             instance->SetData(me->GetEntry(), SPECIAL);
@@ -1709,7 +1709,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             events.ScheduleEvent(1, urand(10000, 12000));
             events.ScheduleEvent(2, urand(6000, 8000));//reset 8 sec
@@ -2400,9 +2400,9 @@ public:
             _Reset();
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             DoCastVictim(SPELL_SHATTERING_CHARGE);
             events.ScheduleEvent(1, urand(3000, 20000));
             events.ScheduleEvent(2, urand(10000, 20000));

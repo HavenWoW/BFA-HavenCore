@@ -99,7 +99,7 @@ class boss_nalak : public CreatureScript
                 Talk(TALK_DEATH);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 me->CastSpell(me, SPELL_STATIC_SHIELD, true);
 

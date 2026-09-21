@@ -1128,7 +1128,7 @@ struct npc_wyrmtongue_hoarder_89407 : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.Reset();
         events.ScheduleEvent(1, 5s);

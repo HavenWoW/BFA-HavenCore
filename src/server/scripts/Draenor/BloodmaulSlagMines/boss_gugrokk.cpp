@@ -118,9 +118,9 @@ namespace Instances { namespace Bloodmaul
                     Talk(eTalks::TalkDeath);
                 }
 
-                void EnterCombat(Unit*) override
+                void JustEngagedWith(Unit*) override
                 {
-                    _EnterCombat();
+                    _JustEngagedWith();
 
                     if (m_Instance != nullptr)
                         m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);

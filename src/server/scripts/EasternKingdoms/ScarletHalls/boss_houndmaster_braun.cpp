@@ -78,9 +78,9 @@ private:
         releasedogs = false;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         events.ScheduleEvent(EVENT_THROW, 18000);
         events.ScheduleEvent(EVENT_BLOSSOM, 15000);
         events.ScheduleEvent(EVENT_CLOSE_GATE, 3000);

@@ -226,9 +226,9 @@ public:
             _triggersCount = 0;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             StartNormalSpeed();
             events.SetPhase(EVENT_PHASE_NORMAL_SLOW_FAST);

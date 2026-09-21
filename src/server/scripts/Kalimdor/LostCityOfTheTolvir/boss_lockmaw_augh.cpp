@@ -144,7 +144,7 @@ public:
                 instance->SetData(DATA_LOCKMAW, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             if (instance)
                 instance->SetData(DATA_LOCKMAW, IN_PROGRESS);
@@ -373,7 +373,7 @@ public:
         InstanceScript* instance;
         bool Active;
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             if (Active)
                 Talk(AUGH_SAY_INTRO_1);
@@ -700,7 +700,7 @@ public:
                 instance->SetData(DATA_AUGH, DONE);
         }
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             if (instance)
                 instance->SetData(DATA_AUGH, IN_PROGRESS);

@@ -45,7 +45,7 @@ public:
                 instance->SetData(BOSS_TARAGAMAN_THE_HUNGERER, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/)
         {
             instance->SetData(BOSS_TARAGAMAN_THE_HUNGERER, IN_PROGRESS);
         }

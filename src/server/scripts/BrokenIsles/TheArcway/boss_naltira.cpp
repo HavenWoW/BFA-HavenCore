@@ -80,9 +80,9 @@ class boss_naltira : public CreatureScript
             explicit boss_naltira_AI(Creature* creature) : BossAI(creature, DATA_NALTIRA)
             {}
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 SummonSpiders();
                 events.ScheduleEvent(EVENT_MANAFANG, Seconds(30));

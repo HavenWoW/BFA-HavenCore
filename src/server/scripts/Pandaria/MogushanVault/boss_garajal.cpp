@@ -211,7 +211,7 @@ class boss_garajal : public CreatureScript
                 }*/
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 // Can't be pulled if previous bosses hasn't been done, or if attacker isn't in the battle area
                 if (!m_Instance->CheckRequiredBosses(DATA_GARAJAL) || attacker->GetPositionX() < 4240.0f || attacker->GetPositionY() > 1380.0f)

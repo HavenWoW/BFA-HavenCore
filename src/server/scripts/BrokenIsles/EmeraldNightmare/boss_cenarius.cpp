@@ -220,9 +220,9 @@ struct boss_cenarius : public BossAI
         me->SetReactState(REACT_AGGRESSIVE);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         DoCast(me, SPELL_CREEPING_NIGHTMARES, true);
         powerTimer = 1000;
 

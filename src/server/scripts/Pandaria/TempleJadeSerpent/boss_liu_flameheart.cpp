@@ -157,7 +157,7 @@ class boss_liu_flameheart : public CreatureScript
                     Talk(TALK_KILL_02);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 Talk(TALK_AGGRO_01);
                 events.ScheduleEvent(EVENT_SERPENT_STRIKE, 5000);
@@ -372,7 +372,7 @@ class boss_yu_lon : public CreatureScript
         {
             boss_yu_lon_AI(Creature* creature) : BossAI(creature, BOSS_YU_LON) {}
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(EVENT_JADE_FIRE, 100);
             }
@@ -459,7 +459,7 @@ class mob_minion_of_doubt : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 2000);
                 events.ScheduleEvent(2, 4000);
@@ -510,7 +510,7 @@ class mob_lesser_sha : public CreatureScript
 
             EventMap events;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(1, 2000);
             }

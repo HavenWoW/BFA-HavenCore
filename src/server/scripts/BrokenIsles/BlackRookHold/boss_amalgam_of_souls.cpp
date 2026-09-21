@@ -180,7 +180,7 @@ struct npc_aos_restless_soul : public ScriptedAI
         me->GetMotionMaster()->MovePoint(1, *summoner, false);
     }
 
-    void EnterCombat(Unit* /*who*/) override { }
+    void JustEngagedWith(Unit* /*who*/) override { }
 
     void MovementInform(uint32 type, uint32 id) override
     {

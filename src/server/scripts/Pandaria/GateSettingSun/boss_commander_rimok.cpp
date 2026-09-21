@@ -63,9 +63,9 @@ class boss_commander_rimok : public CreatureScript
                 events.ScheduleEvent(EVENT_VISCOUS_FLUID,    urand(10000, 15000));
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void JustReachedHome() override

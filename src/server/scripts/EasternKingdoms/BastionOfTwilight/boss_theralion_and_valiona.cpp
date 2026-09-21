@@ -307,7 +307,7 @@ class boss_theralion : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 DoZoneInCombat(me);
 
@@ -898,7 +898,7 @@ class boss_valiona : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* victim) override
+            void JustEngagedWith(Unit* victim) override
             {
                 DoZoneInCombat(me);
 

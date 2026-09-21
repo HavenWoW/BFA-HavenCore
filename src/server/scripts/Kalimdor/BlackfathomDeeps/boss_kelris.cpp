@@ -60,9 +60,9 @@ public:
             DoCastSelf(SPELL_BLACKFATHOM_CHANNELING);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(SAY_AGGRO);
             me->RemoveAurasDueToSpell(SPELL_BLACKFATHOM_CHANNELING);
             events.ScheduleEvent(EVENT_MIND_BLAST, urand(2000, 5000));

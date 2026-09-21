@@ -155,7 +155,7 @@ class boss_nitrogg_thundertower : public CreatureScript
                 m_Phase = 3;
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             if (m_Instance != nullptr)
             {
@@ -163,7 +163,7 @@ class boss_nitrogg_thundertower : public CreatureScript
                 m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me);
             }             
 
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(eNitroggThundertowerTalks::TalkAggro);
             events.ScheduleEvent(eNitroggThundertowerEvents::EventOpenAssaultFlaps, 50 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eNitroggThundertowerEvents::EventBlackrockGrenade, 8 * TimeConstants::IN_MILLISECONDS);
@@ -503,7 +503,7 @@ class grimrail_depot_nitrogg_thundertower_mob_iron_turret : public CreatureScrip
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC));
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {    
             events.ScheduleEvent(eIronTowerEvents::EventSuppressiveFire, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eIronTowerEvents::EventSlagBlast, 20 * TimeConstants::IN_MILLISECONDS);
@@ -603,7 +603,7 @@ class grimrail_depot_nitrogg_thundertower_mob_gromkar_boomer : public CreatureSc
             m_Activated = false;
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarboomerEvents::EventBlackrockMortar, 8 * TimeConstants::IN_MILLISECONDS);
         }
@@ -864,7 +864,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarGrenadierEvents::EventBlackrockGrenade, 4 * TimeConstants::IN_MILLISECONDS);
         }

@@ -347,9 +347,9 @@ struct bfa_boss_queen_azshara : public BossAI
             me->SetPower(POWER_MANA, 0);
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void KilledUnit(Unit* target) override
@@ -977,7 +977,7 @@ struct bfa_npc_aethanel : public ScriptedAI
             azshara->AI()->DoAction(ACTION_COUNT_SERVANTS_P1);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_LONGING, TIMER_PAINFUL_MEMORIES);
@@ -1052,7 +1052,7 @@ struct bfa_npc_cyranus : public ScriptedAI
                 azshara->AI()->DoAction(ACTION_COUNT_SERVANTS_P1);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_LONGING, TIMER_LONGING);
@@ -1305,7 +1305,7 @@ private:
             _stun = false;
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_SELECT_RANDOM_WARD, TIMER_SELECT_WARD);
         }
@@ -1838,7 +1838,7 @@ struct bfa_npc_azshara_indomitable_devoted : public ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_CHARGE_WARD, 2000);
     }
@@ -2100,7 +2100,7 @@ struct bfa_npc_loyal_myrmidon : public ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_CHARGED_SPEAR, TIMER_CHARGED_SPEAR);
     }
@@ -2149,7 +2149,7 @@ struct bfa_npc_tidemistresses : public ScriptedAI
             SetCombatMovement(false);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_STATIC_SHOCK, TIMER_STATIC_SHOCK);
             events.ScheduleEvent(EVENT_CHAIN_LIGHTNING, TIMER_CHAIN_LIGHTNING);

@@ -103,10 +103,10 @@ struct boss_xanesh : public BossAI
 		me->SetPower(POWER_ENERGY, 0);
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		Talk(SAY_AGGRO);
-		_EnterCombat();
+		_JustEngagedWith();
 		if (IsHeroic() || IsMythic())
 			events.ScheduleEvent(EVENT_OBELISKS, 5s);
 		events.ScheduleEvent(EVENT_ABYSSAL_STRIKE, 10s);
@@ -418,7 +418,7 @@ struct npc_flayed_soul : public ScriptedAI
 		DoZoneInCombat(nullptr);		
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		me->CastSpell(nullptr, SPELL_SOUL_FLY, false);
 	}

@@ -94,7 +94,7 @@ public:
             SpellEnrage            = 32714
         };
 
-        void EnterCombat(Unit* /*victim*/) override
+        void JustEngagedWith(Unit* /*victim*/) override
         {
             me->GetScheduler().Schedule(Seconds(13), [this](TaskContext context)
             {
@@ -131,7 +131,7 @@ public:
             SpellShadowInfusion    = 170180
         };
 
-        void EnterCombat(Unit* /*victim*/) override
+        void JustEngagedWith(Unit* /*victim*/) override
         {
             me->GetScheduler().Schedule(Seconds(17), [this](TaskContext context)
             {
@@ -170,7 +170,7 @@ public:
             SpellScreech           = 167367
         };
 
-        void EnterCombat(Unit* /*victim*/) override
+        void JustEngagedWith(Unit* /*victim*/) override
         {
             me->GetScheduler().Schedule(Seconds(40), [this](TaskContext context)
             {
@@ -289,7 +289,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*victim*/) override
+        void JustEngagedWith(Unit* /*victim*/) override
         {
             me->GetScheduler().Schedule(Seconds(40), [this](TaskContext context)
             {

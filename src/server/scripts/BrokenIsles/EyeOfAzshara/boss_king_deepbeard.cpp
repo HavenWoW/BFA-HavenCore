@@ -161,7 +161,7 @@ public:
 			SelectSoundAndText(me, 6);
 		}
 
-		void EnterCombat(Unit* /**/)
+		void JustEngagedWith(Unit* /**/)
 		{
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 

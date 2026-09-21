@@ -257,7 +257,7 @@ public:
 			Reset();
 		}
 
-		void EnterCombat(Unit* /**/) override
+		void JustEngagedWith(Unit* /**/) override
 		{
 			me->AddAura(42716);
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -362,7 +362,7 @@ public:
 			events.Reset();
 		}
 
-		void EnterCombat(Unit* /**/) override
+		void JustEngagedWith(Unit* /**/) override
 		{
 			switch (me->GetEntry())
 			{

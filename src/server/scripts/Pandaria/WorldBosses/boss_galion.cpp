@@ -191,7 +191,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* attacker) override
+        void JustEngagedWith(Unit* attacker) override
         {
             me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
             m_Events.ScheduleEvent(EVENT_WARN_STOMP, 47000);
@@ -359,7 +359,7 @@ public:
             m_IsInCombat = false;
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             if (me->IsOnVehicle())
                 m_Events.ScheduleEvent(EVENT_FIRE_SHOT, urand(5000, 10000));

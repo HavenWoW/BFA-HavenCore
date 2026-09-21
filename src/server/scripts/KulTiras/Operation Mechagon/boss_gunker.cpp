@@ -68,9 +68,9 @@ struct boss_gunker : public BossAI
         }
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);        
         events.ScheduleEvent(EVENT_SLUDGE_BOLT, 1s);
         events.ScheduleEvent(EVENT_SPLATTER, 8s);

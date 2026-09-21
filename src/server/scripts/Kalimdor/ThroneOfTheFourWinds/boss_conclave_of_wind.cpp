@@ -185,9 +185,9 @@ public:
             _EnterEvadeMode();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             instance->SetData(DATA_CONCLAVE_OF_WIND_EVENT, IN_PROGRESS);
             instance->SetData(DATA_GATHERING_STRENGTH, 0);
 
@@ -518,9 +518,9 @@ public:
             _EnterEvadeMode();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             instance->SetData(DATA_CONCLAVE_OF_WIND_EVENT, IN_PROGRESS);
             instance->SetData(DATA_GATHERING_STRENGTH, 0);
 
@@ -887,9 +887,9 @@ public:
             _EnterEvadeMode();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             instance->SetData(DATA_CONCLAVE_OF_WIND_EVENT, IN_PROGRESS);
             instance->SetData(DATA_GATHERING_STRENGTH, 0);
 

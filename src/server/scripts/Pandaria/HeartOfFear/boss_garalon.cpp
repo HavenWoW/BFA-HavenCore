@@ -273,11 +273,11 @@ public:
             if (!fightInProgress)
             {
                 if (CheckTrash())
-                    EnterCombat(attacker);
+                    JustEngagedWith(attacker);
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (!instance || instance->GetBossState(DATA_GARALON) != NOT_STARTED)
                 return;
@@ -318,7 +318,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me); // Add
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void EnterEvadeMode(EvadeReason /*why*/) override
@@ -674,7 +674,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* attacker) override
+        void JustEngagedWith(Unit* attacker) override
         {
             Reset();
             if (instance)
@@ -685,7 +685,7 @@ public:
                 if (instance->GetBossState(DATA_GARALON) != IN_PROGRESS && instance->GetBossState(DATA_GARALON) != FAIL)
                 {
                     if (Creature* garalon = instance->GetCreature(NPC_GARALON))
-                        garalon->AI()->EnterCombat(attacker);
+                        garalon->AI()->JustEngagedWith(attacker);
                 }
             }
         }

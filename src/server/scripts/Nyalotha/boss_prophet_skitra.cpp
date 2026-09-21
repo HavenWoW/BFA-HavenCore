@@ -97,9 +97,9 @@ private:
         me->AddAura(AURA_OVERRIDE_POWER_COLOR_DEMONIC);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         this->phase = 1;
         events.ScheduleEvent(EVENT_SHADOW_SHOCK, 3s);

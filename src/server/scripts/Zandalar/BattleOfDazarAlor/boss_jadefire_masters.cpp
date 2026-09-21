@@ -153,12 +153,12 @@ struct boss_jadefire_masters : public BossAI
        }
    }
    
-   void EnterCombat(Unit* /*unit*/) override
+   void JustEngagedWith(Unit* /*unit*/) override
    {
        switch (me->GetEntry())
        {
        case NPC_MESTRAH:
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(SAY_MESTRAH_AGGRO);
             DoCast(PERIODIC_ENERGY_GAIN);
             events.ScheduleEvent(EVENT_WHIRLING_JADE_STORM, 3s);
@@ -179,7 +179,7 @@ struct boss_jadefire_masters : public BossAI
             break;
 
        case NPC_MANCEROY_FLAMEFIST:            
-            _EnterCombat(); 
+            _JustEngagedWith(); 
             me->GetScheduler().Schedule(4s, [this] (TaskContext /*context*/)
             {
                 Talk(SAY_MANCEROY_AGGRO);
@@ -594,7 +594,7 @@ struct npc_spirit_of_xuen : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* u) override
+    void JustEngagedWith(Unit* u) override
     {
         me->GetScheduler().Schedule(3s, [this] (TaskContext context)
         {

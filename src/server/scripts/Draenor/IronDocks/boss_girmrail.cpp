@@ -367,9 +367,9 @@ class boss_grimrail_duguru : public CreatureScript
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL));
         }
 
-        void EnterCombat(Unit* /*p_Attacker*/) override
+        void JustEngagedWith(Unit* /*p_Attacker*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             if (m_Instance != nullptr)
                 GrimailEnforcersStart(m_Instance, me);
 
@@ -554,9 +554,9 @@ class boss_grimrail_makogg : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 if (m_Instance != nullptr)
                     GrimailEnforcersStart(m_Instance, me);
              
@@ -734,9 +734,9 @@ class boss_grimrail_noxx : public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL));
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 if (m_Instance != nullptr)
                     GrimailEnforcersStart(m_Instance, me);
 

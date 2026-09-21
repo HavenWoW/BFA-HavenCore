@@ -122,10 +122,10 @@ class boss_harbaron : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_FRAGMENT, Seconds(19));
                 events.ScheduleEvent(EVENT_COSMIC_SCYHTE, Seconds(3));
                 events.ScheduleEvent(EVENT_SHACKLED_SERVITOR, Seconds(7));
@@ -283,7 +283,7 @@ class npc_mos_shackled_servitor : public CreatureScript
                 me->AddUnitState(UNIT_STATE_ROOT);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 DoCast(me, SPELL_VOID_SNAP);
                 _events.ScheduleEvent(EVENT_VOID_SNAP, Seconds(6));

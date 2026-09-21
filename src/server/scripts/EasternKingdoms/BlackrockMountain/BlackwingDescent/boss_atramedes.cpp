@@ -234,7 +234,7 @@ public:
             _Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             EnterPhaseGround();
             applySound();
@@ -253,7 +253,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me); // Add
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void initEvents(bool onGround = true)

@@ -133,7 +133,7 @@ class boss_echo_of_sylvanas : public CreatureScript
                 DoCast(me, SPELL_CALLING_IMMUNITY);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 me->setActive(true);
                 DoZoneInCombat();

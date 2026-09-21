@@ -605,7 +605,7 @@ class boss_galakras : public CreatureScript
                 m_FlamesOfGalakrond.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 SpawnTurrets();
 
@@ -1179,7 +1179,7 @@ class npc_galakras_master_cannoneer_dagryn : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_SHOOT, 1000);
                 events.ScheduleEvent(EVENT_MUZZLE_SPRAY, urand(5000, 10000));
@@ -1252,7 +1252,7 @@ class npc_galakras_lieutenant_krugruk : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_THUNDER_CLAP, urand(4000, 5000));
                 events.ScheduleEvent(EVENT_ARCING_SMASH, urand(10000, 12000));
@@ -1324,7 +1324,7 @@ class npc_galakras_dragonmaw_flameslinger : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_FLAME_ARROWS, 1000);
             }
@@ -1389,7 +1389,7 @@ class npc_galakras_high_enforcer_thranok : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_CRUSHERS_CALL, urand(10000, 12000));
                 events.ScheduleEvent(EVENT_SHATTERING_CLEAVE, 7500);
@@ -1463,7 +1463,7 @@ class npc_galakras_korgra_the_snake : public CreatureScript
                 curseOfVenomDone = false;
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_POISON_TIPPED_BLADES, urand(3000, 5000));
             }
@@ -1553,7 +1553,7 @@ class npc_galakras_dragonmaw_bonecrusher : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_SHATTERING_ROAR, urand(5000, 8000));
                 events.ScheduleEvent(EVENT_FRACTURE, urand(5000, 12000));
@@ -1618,7 +1618,7 @@ class npc_galakras_dragonmaw_ebon_stalker : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_SHADOW_STALK, urand(5000, 12000));
             }
@@ -1686,7 +1686,7 @@ class npc_galakras_dragonmaw_flagbearer : public CreatureScript
                 me->AddAura(SPELL_DRAGONMAW_FLAGBEARER, me);
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_WAR_BANNER, urand(7000, 10000));
             }
@@ -1939,7 +1939,7 @@ class npc_galakras_dragonmaw_grunt_1 : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
 
             }
@@ -1995,7 +1995,7 @@ class npc_galakras_dragonmaw_grunt_2 : public CreatureScript
                 me->SetReactState(REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
 
             }
@@ -2051,7 +2051,7 @@ class npc_galakras_dragonmaw_proto_drake : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
 
             }
@@ -2105,7 +2105,7 @@ class npc_galakras_dragonmaw_tidal_shaman : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_CHAIN_HEAL, urand(5000, 12000));
                 events.ScheduleEvent(EVENT_HEALING_TIDE_TOTEM, urand(10000, 20000));
@@ -2556,7 +2556,7 @@ class npc_galakras_korkron_demolisher : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_MOVE_TO_ATTACK, 500);
             }

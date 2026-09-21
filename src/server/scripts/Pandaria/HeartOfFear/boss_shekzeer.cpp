@@ -296,7 +296,7 @@ class boss_shekzeer : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 if (fightInProgress || !pInstance)
                     return;
@@ -455,7 +455,7 @@ class boss_shekzeer : public CreatureScript
                     return;
 
                 if (!phase)
-                    EnterCombat(attacker);
+                    JustEngagedWith(attacker);
 
                 // Near entering phase 3
                 if (me->HealthBelowPctDamaged(31, damage))
@@ -634,7 +634,7 @@ class boss_shekzeer : public CreatureScript
                         me->SetReactState(phase ? REACT_AGGRESSIVE : REACT_DEFENSIVE);
 
 
-                        // if phase = 0, we'll enter in phase 1 in EnterCombat, else, we immediately return from phase 2 to phase 1
+                        // if phase = 0, we'll enter in phase 1 in JustEngagedWith, else, we immediately return from phase 2 to phase 1
                         if (phase)
                         {
                             phase = 1;

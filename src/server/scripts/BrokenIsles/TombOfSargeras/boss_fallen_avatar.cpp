@@ -308,10 +308,10 @@ struct boss_fallen_avatar : BossAI
         m_ruptureRealisticTimers = (IsHeroic() ? ruptureRealisticTimersHeroic : MySpecialList<uint32>({ 60000 }));
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         Talk(SAY_AGGRO);
-        _EnterCombat();
+        _JustEngagedWith();
 
         me->SetPower(me->GetPowerType(), 0);
 
@@ -856,7 +856,7 @@ struct npc_avatara_maiden : public ScriptedAI
         me->SetPower(me->GetPowerType(), 0);
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         me->SetReactState(REACT_DEFENSIVE);
         me->SetPower(me->GetPowerType(), 0);

@@ -47,13 +47,13 @@ struct boss_tzane : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         events.ScheduleEvent(EVENT_CRUSHING_SLAM, 22000);
         events.ScheduleEvent(EVENT_TERROR_WALL, 11000);
         events.ScheduleEvent(EVENT_COALSECED_ESSENCE, 8500);
         events.ScheduleEvent(EVENT_CONSUMING_SPIRITS, 19000);
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void UpdateAI(uint32 diff) override

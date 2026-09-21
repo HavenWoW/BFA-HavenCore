@@ -330,7 +330,7 @@ public:
             m_Events.Reset();
         }
 
-        void EnterCombat(Unit* /*target*/) override
+        void JustEngagedWith(Unit* /*target*/) override
         {
             m_Events.ScheduleEvent(eDatas::EventChomp, 3000);
             m_Events.ScheduleEvent(eDatas::EventImpactSplit, 10000);
@@ -672,7 +672,7 @@ public:
             m_Events.Reset();
         }
 
-        void EnterCombat(Unit* /*target*/) override
+        void JustEngagedWith(Unit* /*target*/) override
         {
             m_Events.ScheduleEvent(eDatas::EventWhipSplash, Seconds(3));
         }

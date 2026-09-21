@@ -438,7 +438,7 @@ public:
                 instance->SetData(DATA_ROKMORA, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(TALK_AGGRO);
             me->SetInCombatWithZone();

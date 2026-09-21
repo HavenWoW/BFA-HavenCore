@@ -544,7 +544,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_SHADOW_BOLT, 1000);
             _events.ScheduleEvent(EVENT_STALKING_SHADOWS, urand(8000, 10000));
@@ -660,7 +660,7 @@ public:
             me->setActive(true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_FEL_FIREBALL, 1000);
         }
@@ -776,7 +776,7 @@ public:
             me->setActive(true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(1);
             _events.ScheduleEvent(EVENT_CREEPING_DOOM, 5000);
@@ -961,7 +961,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->LoadEquipment(1);
             Talk(TEXT_SAY_3);
@@ -1105,7 +1105,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(TEXT_SAY_1);
             _events.ScheduleEvent(EVENT_DARK_PRESENCE, 1500);

@@ -118,7 +118,7 @@ public:
             me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_GRIP, true);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             Talk(SAY_AGGRO);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -128,7 +128,7 @@ public:
             if (IsHeroic())
                 events.ScheduleEvent(EVENT_SUMMON_TEMPEST, urand(TIMER_SUMMON_TEMPEST_MIN, TIMER_SUMMON_TEMPEST_MAX));
 
-            BossAI::EnterCombat(who);
+            BossAI::JustEngagedWith(who);
         }
 
         void KilledUnit(Unit* killed) override

@@ -71,7 +71,7 @@ class boss_baron_silverlaine : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
 
@@ -83,7 +83,7 @@ class boss_baron_silverlaine : public CreatureScript
             events.ScheduleEvent(EVENT_SUMMON_WORGEN_SPIRIT, 20000);
             events.ScheduleEvent(EVENT_VEIL_OF_SHADOW, 15000);
             events.ScheduleEvent(EVENT_CURSED_VEIL, 10000);
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void JustDied(Unit* /*killer*/) override

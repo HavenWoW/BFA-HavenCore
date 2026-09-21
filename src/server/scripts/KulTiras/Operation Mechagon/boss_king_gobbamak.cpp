@@ -49,10 +49,10 @@ struct boss_king_gobbamak : public BossAI
         me->SetPower(POWER_ENERGY, 0);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         this->pack_counter = 0;
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         me->SetPower(POWER_ENERGY, 33);
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);

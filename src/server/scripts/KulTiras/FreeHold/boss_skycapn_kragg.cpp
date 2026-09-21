@@ -163,7 +163,7 @@ struct boss_skycap_kragg : public BossAI
         Reset();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         if (instance)
         {

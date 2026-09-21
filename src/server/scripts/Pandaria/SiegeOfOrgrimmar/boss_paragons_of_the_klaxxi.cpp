@@ -1033,7 +1033,7 @@ struct paragon_of_klaxxiAI : public ScriptedAI
             me->SetReactState(REACT_AGGRESSIVE);
             m_IsInCombat = true;
 
-            DoEnterCombat();
+            DoJustEngagedWith();
         }
     }
 
@@ -1114,7 +1114,7 @@ protected:
         }
     }
 
-    virtual void DoEnterCombat() { }
+    virtual void DoJustEngagedWith() { }
 
     virtual void DoLeaveCombat() { }
 
@@ -1284,7 +1284,7 @@ class npc_kilruk_the_wind_reaver : public CreatureScript
                 m_LastDeathFromAboveGuid = ObjectGuid::Empty;
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_KILRUK_AGGRO);
 
@@ -1519,7 +1519,7 @@ class npc_xaril_the_poisoned_mind : public CreatureScript
                 DoCast(me, SPELL_XARIL_THE_POISONED_MIND, true);
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_XARIL_AGGRO);
 
@@ -1698,7 +1698,7 @@ class npc_kaztik_the_manipulator : public CreatureScript
                 m_KunchongSpawner.Reset();
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_KAZTIK_AGGRO);
 
@@ -1870,7 +1870,7 @@ class npc_korven_the_prime : public CreatureScript
                 m_LastEncaseAmberTargetGuid = ObjectGuid::Empty;
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_KORVEN_AGGRO);
 
@@ -2007,7 +2007,7 @@ class npc_iyyokuk_the_lucid : public CreatureScript
                 DoCast(me, SPELL_GREEN_MANTID_WINGS, true);
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_IYYOKUK_AGGRO);
 
@@ -2135,7 +2135,7 @@ class npc_karoz_the_locust : public CreatureScript
                 m_IsInHurlAmber = false;
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_KAROZ_AGGRO);
 
@@ -2324,7 +2324,7 @@ class npc_skeer_the_bloodseeker : public CreatureScript
                 DoCast(me, SPELL_HEWER_OF_FOES, true);
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_SKEER_AGGRO);
 
@@ -2428,7 +2428,7 @@ class npc_rikkal_the_dissector : public CreatureScript
                 DoCast(me, SPELL_MAD_SCIENTIST, true);
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_RIKKAL_AGGRO);
 
@@ -2541,7 +2541,7 @@ class npc_hisek_the_swarmkeeper : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void DoEnterCombat() override
+            void DoJustEngagedWith() override
             {
                 Talk(SAY_HISEK_AGGRO);
 

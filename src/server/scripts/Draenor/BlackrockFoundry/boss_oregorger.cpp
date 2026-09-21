@@ -280,9 +280,9 @@ class boss_oregorger : public CreatureScript
                 return 0.0f;
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 1);

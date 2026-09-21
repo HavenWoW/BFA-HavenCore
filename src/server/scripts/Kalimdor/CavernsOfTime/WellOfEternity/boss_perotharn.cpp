@@ -190,7 +190,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             Talk(SAY_AGGRO);
 
@@ -402,7 +402,7 @@ public:
             me->SetSpeed(MOVE_RUN, 0.5f);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_NEXT_MOVE, urand(500, 2000));
         }

@@ -901,7 +901,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 me->SetReactState(ReactStates::REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -1489,7 +1489,7 @@ class npc_siegecrafter_blackfuse_automated_shredder : public CreatureScript
                 me->AddAura(SPELL_REACTIVE_ARMOR, me);
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(EVENT_OVERLOAD, TIMER_OVERLOAD);
                 events.ScheduleEvent(EVENT_DEATH_FROM_ABOVE, TIMER_DEATH_FROM_ABOVE_FIRST);

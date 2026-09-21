@@ -89,9 +89,9 @@ struct boss_harlan_sweete : public BossAI
         instance->SetBossState(FreeholdData::DataHarlanSweete, FAIL);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat(true);
+        _JustEngagedWith(true);
         Talk(HarlanTalk::TalkAggro);
         instance->SetBossState(FreeholdData::DataHarlanSweete, IN_PROGRESS);
         events.ScheduleEvent(HarlanSweeteEvents::EventCannonBarrage, 8000);

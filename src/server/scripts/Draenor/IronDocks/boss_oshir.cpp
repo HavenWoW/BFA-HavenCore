@@ -312,9 +312,9 @@ class boss_oshir : public CreatureScript
                 me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC));
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 if (m_Instance != nullptr)
                 {
@@ -865,7 +865,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eThunderWandlerEvents::EventCultTraps, 18 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eThunderWandlerEvents::EventSpearThrow, 18 * TimeConstants::IN_MILLISECONDS);

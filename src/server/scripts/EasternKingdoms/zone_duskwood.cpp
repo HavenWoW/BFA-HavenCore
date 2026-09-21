@@ -70,7 +70,7 @@ struct boss_twilight_corrupter : public ScriptedAI
         Initialize();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         Talk(YELL_TWILIGHT_CORRUPTOR_AGGRO);
         _events.ScheduleEvent(EVENT_SOUL_CORRUPTION, 15000);

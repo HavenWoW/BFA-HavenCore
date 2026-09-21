@@ -474,7 +474,7 @@ class boss_zorlok : public CreatureScript
                 me->RemoveUnitFlag(UNIT_FLAG_IN_COMBAT);
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (pInstance)
                 {

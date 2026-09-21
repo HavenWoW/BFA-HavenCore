@@ -405,7 +405,7 @@ struct npc_verstok_darkbough_108003 : public BossAI
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         me->setActive(true);
 

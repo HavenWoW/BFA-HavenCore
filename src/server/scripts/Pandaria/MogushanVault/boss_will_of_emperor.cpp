@@ -321,7 +321,7 @@ class boss_jin_qin_xi : public CreatureScript
                         me->GetInstanceScript()->SetData(ACHIEVE, 1);
             }
 
-            void EnterCombat(Unit* /*p_Who*/) override
+            void JustEngagedWith(Unit* /*p_Who*/) override
             {
                 DoZoneInCombat();
 

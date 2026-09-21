@@ -241,7 +241,7 @@ class boss_unsok : public CreatureScript
                 }*/
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (!CheckTrash() || (!instance->CheckRequiredBosses(DATA_UNSOK) && !IsLFR()))
                 {
@@ -320,13 +320,13 @@ class boss_unsok : public CreatureScript
 
                 if (!fightInProgress)
                     if (me->GetDistance(who) < 15.0f)
-                        EnterCombat(who);
+                        JustEngagedWith(who);
             }
 
             void DamageTaken(Unit* attacker, uint32 &damage) override
             {
                 if (!fightInProgress)
-                    EnterCombat(attacker);
+                    JustEngagedWith(attacker);
 
                 // Damage taken from mutated construct leads to a 40 loss of power for the mutated construct
                 if (attacker->HasAura(SPELL_RESHAPE_LIFE) && attacker->IsPlayer())

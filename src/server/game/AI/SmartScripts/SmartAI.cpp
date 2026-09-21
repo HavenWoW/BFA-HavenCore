@@ -608,7 +608,7 @@ void SmartAI::JustReachedHome()
     mJustReset = false;
 }
 
-void SmartAI::EnterCombat(Unit* enemy)
+void SmartAI::JustEngagedWith(Unit* enemy)
 {
     if (IsAIControlled())
         me->InterruptNonMeleeSpells(false); // must be before ProcessEvents

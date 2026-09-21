@@ -391,7 +391,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
         }
@@ -540,10 +540,10 @@ public:
                 Timer[EVENT_FLIGHT_SEQUENCE] = 1000;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void AttackStart(Unit* who) override
@@ -1176,7 +1176,7 @@ public:
             me->SetVirtualItem(2, 45738);
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
         void MoveInLineOfSight(Unit* /*who*/) override { }
 
         void EnterEvadeMode(EvadeReason /*why*/) override { }
@@ -1437,7 +1437,7 @@ public:
             me->CombatStop(true);
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
         void MoveInLineOfSight(Unit* /*who*/) override { }
 
 
@@ -1974,7 +1974,7 @@ public:
             me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void MoveInLineOfSight(Unit* who) override
 
@@ -2057,7 +2057,7 @@ public:
     {
         shadow_demonAI(Creature* creature) : ScriptedAI(creature) { }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
         }
@@ -2153,7 +2153,7 @@ public:
             DoCast(me, SPELL_SHADOWFIEND_PASSIVE, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
         }

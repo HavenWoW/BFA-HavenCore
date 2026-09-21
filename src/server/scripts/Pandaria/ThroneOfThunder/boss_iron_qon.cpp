@@ -445,7 +445,7 @@ public:
                 instance->SetBossState(DATA_IRON_QON, DONE);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             if (instance)
             {
@@ -897,7 +897,7 @@ public:
                 }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             if (Creature* ironqon = IronQon())
             {
@@ -1161,7 +1161,7 @@ public:
                 }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             me->SetUnitFlags(UNIT_FLAG_NON_ATTACKABLE);
@@ -1359,7 +1359,7 @@ public:
                 }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             me->AddUnitState(UNIT_STATE_ROOT);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);

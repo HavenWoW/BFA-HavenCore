@@ -1109,7 +1109,7 @@ class boss_sha_of_pride : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -1805,7 +1805,7 @@ class npc_sha_of_pride_manifestation_of_pride : public CreatureScript
                 DoCast(me, SPELL_MANIFESTATION_SPAWN, true);
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_GET_READY, 3000);
             }
@@ -1885,7 +1885,7 @@ class npc_sha_of_pride_reflection : public CreatureScript
                 DoCast(me, SPELL_SELF_REFLECTION_SPAWN, true);
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_REFLECTION_DMG, 3000);
                 events.ScheduleEvent(EVENT_MOVE, 4000);

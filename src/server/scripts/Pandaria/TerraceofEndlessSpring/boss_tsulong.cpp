@@ -241,7 +241,7 @@ public:
             CreatureAI::MoveInLineOfSight(pWho);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
 
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -763,7 +763,7 @@ class npc_embodied_terror : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             terrorizeTimer = urand(3000, 6000);
         }

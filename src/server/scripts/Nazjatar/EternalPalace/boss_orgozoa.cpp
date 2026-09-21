@@ -359,7 +359,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             me->SetPower(POWER_ENERGY, 0);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -826,7 +826,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_PERVASIVE_SHOCK, TIMER_PERVASIVE_SHOCK);
         }
@@ -928,7 +928,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_SHOCKING_LIGHTNING, TIMER_SHOCKING_LIGHTNING);
         }
@@ -990,7 +990,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_POWERFUL_STOMP, TIMER_POWERFUL_STOMP);
         }
@@ -1091,7 +1091,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_AQUA_LANCE, TIMER_AQUA_LANCE);
         }

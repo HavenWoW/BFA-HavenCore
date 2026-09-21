@@ -73,9 +73,9 @@ class boss_general_pavalak : public CreatureScript
                 bulwarkCheck = false;
             }
 
-            void EnterCombat(Unit* /*who*/)
+            void JustEngagedWith(Unit* /*who*/)
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 bladeprepare = 5000;
             }
 

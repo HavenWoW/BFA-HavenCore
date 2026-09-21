@@ -274,7 +274,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
             HandlePhases(1);
             _carapace = 0;

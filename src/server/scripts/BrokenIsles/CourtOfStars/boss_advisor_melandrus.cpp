@@ -163,10 +163,10 @@ struct boss_advisor_melandrus : public BossAI
         instance->DoModifyPlayerCurrencies(1314, 1);
     }
 
-    void EnterCombat(Unit*) override
+    void JustEngagedWith(Unit*) override
     {
         Talk(SAY_AGGRO);
-        _EnterCombat();
+        _JustEngagedWith();
         events.ScheduleEvent(EVENT_SLICING_MAELSTROM, Seconds(11));
         events.ScheduleEvent(EVENT_PIERCING_GALE, Seconds(6));
         events.ScheduleEvent(EVENT_ENVELOPING_WINDS, Seconds(14));

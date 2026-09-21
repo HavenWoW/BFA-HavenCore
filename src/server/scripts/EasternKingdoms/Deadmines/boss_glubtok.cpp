@@ -162,7 +162,7 @@ public:
             platter->AI()->DoAction(ACTION_STOP_FIREWALL);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
             events.ScheduleEvent(EVENT_ELEMENTAL_FISTS, 5000);

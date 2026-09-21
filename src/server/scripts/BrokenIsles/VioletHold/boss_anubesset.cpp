@@ -102,10 +102,10 @@ class boss_anubesset : public CreatureScript
                 _JustDied();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_IMPALE, 20 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_MANDIBLE_STRIKE, 9 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_CALL_OF_THE_SWARN, 30 * IN_MILLISECONDS);
@@ -200,7 +200,7 @@ class npc_vha_spitting_scarab : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* /**/) override
+        void JustEngagedWith(Unit* /**/) override
         {
             _poisonTimer = 0;
         }

@@ -145,7 +145,7 @@ private:
 				if (u->GetDistance(me) <= 35.0f && u->IsPlayer() && me->HasUnitFlag(UNIT_FLAG_IMMUNE_TO_PC))
 				{
 					me->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
-					_EnterCombat();
+					_JustEngagedWith();
 					me->GetMotionMaster()->MoveJump(-549.0f, -264.0f, 185.0f, 3.03f, 15.0f, 15.0f);
 					if (Creature* lady = me->FindNearestCreature(NPC_LADY_WAYCREST, 100.0f, true))
 					{
@@ -161,7 +161,7 @@ private:
 		}
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
 		switch (me->GetEntry())
 		{

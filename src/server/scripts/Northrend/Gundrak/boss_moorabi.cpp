@@ -82,9 +82,9 @@ class boss_moorabi : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 Talk(SAY_AGGRO);
                 DoCast(me, SPELL_MOJO_FRENZY, true);
 

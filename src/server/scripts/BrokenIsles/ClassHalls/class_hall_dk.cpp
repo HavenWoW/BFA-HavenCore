@@ -293,7 +293,7 @@ struct npc_laith_sha_ol_102459 : public ScriptedAI
         SPELL_ARCANE_FURY = 204935,
     };
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         me->Say(104738);
         events.ScheduleEvent(SPELL_ARCANE_BURST, 5s);

@@ -325,7 +325,7 @@ public:
             MakeStatuesPassive();
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_STATIC_BURST, 24000);
             events.ScheduleEvent(EVENT_CHECK_PLAYERS_DISTANCE, 500, 0, 0);

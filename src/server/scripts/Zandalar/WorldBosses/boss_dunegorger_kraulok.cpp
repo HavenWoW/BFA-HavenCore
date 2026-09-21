@@ -59,9 +59,9 @@ struct boss_dunegorger_kraulok : public BossAI
         summons.DespawnAll();
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
 
         //EVENTS
         events.ScheduleEvent(EVENT_SHAKE_LOSE, 25000);

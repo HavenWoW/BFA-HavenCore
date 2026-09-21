@@ -103,12 +103,12 @@ public:
             init.Launch();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
             DoZoneInCombat();
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
-            _EnterCombat();
+            _JustEngagedWith();
 
             events.ScheduleEvent(EVENT_ANNIHILATE, 8000);
             events.ScheduleEvent(EVENT_STATE_FROST, 25000);

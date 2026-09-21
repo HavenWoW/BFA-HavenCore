@@ -929,7 +929,7 @@ struct npc_nightmare_blight_103246 : public ScriptedAI
 
     }
 
-    void EnterCombat(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/)
     {
         ///
     }
@@ -2307,7 +2307,7 @@ struct npc_eredar_soul_lasher_107535 : public ScriptedAI
             me->CastSpell(druid, SPELL_TORMENT_1, true);
     }
 
-    void EnterCombat(Unit*) override
+    void JustEngagedWith(Unit*) override
     {
         me->GetScheduler().Schedule(Milliseconds(2500), [this](TaskContext context)
         {

@@ -306,7 +306,7 @@ public:
             _DespawnAtEvade(15);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             SelectSoundAndText(me, 1);
             me->CastSpell(me, EVENT_FROSTVENOM_TIPPED, true);

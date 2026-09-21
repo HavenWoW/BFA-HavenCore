@@ -128,7 +128,7 @@ public:
                 pInstance->SetData(DATA_DRAHGA_SHADOWBURNER_EVENT, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             phase = PHASE_CASTER_PHASE;
             me->SetReactState(REACT_AGGRESSIVE);
@@ -292,7 +292,7 @@ public:
             dragahGUID = ObjectGuid::Empty;
         }
 
-        void EnterCombat(Unit* /*pWho*/) override { }
+        void JustEngagedWith(Unit* /*pWho*/) override { }
 
         void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
         {

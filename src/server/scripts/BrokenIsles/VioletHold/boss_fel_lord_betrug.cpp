@@ -152,10 +152,10 @@ class boss_fel_lord_betrug : public CreatureScript
                     Talk(SAY_KILL);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_FEL_SLASH, Seconds(10));
                 events.ScheduleEvent(EVENT_MIGHTY_SLASH, Seconds(30));
                 events.ScheduleEvent(EVENT_CHAOTIC_ENERGY, Seconds(15));

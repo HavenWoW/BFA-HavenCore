@@ -83,9 +83,9 @@ class boss_blood_princess_thalena : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 Talk(SAY_AGGRO);
                 DoCast(me, SPELL_SHROUD_OF_SORROW, true);
                 events.ScheduleEvent(EVENT_VAMPIRIC_KISS, Seconds(15));

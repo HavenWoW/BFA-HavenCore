@@ -423,7 +423,7 @@ struct npc_inquisitor_baleful : public ScriptedAI
         return ObjectAccessor::GetCreature(*me, colossalInfernalGuid);
     }
 
-    void EnterCombat(Unit*) override
+    void JustEngagedWith(Unit*) override
     {
         Talk(SAY_AGGRO_INQUISITOR_BALEFUL);
 
@@ -614,7 +614,7 @@ struct npc_doom_commander_beliash : public ScriptedAI
                 me->ForcedDespawn(15000, 15s);
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         Talk(SAY_AGGRO_DOOM_COMMANDER_BELIASH);
 
@@ -885,7 +885,7 @@ public:
                 killer->ToPlayer()->KilledMonsterCredit(NPC_FEL_LORD_CAZA_CREDIT, ObjectGuid::Empty);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             Talk(0);
         }
@@ -1219,7 +1219,7 @@ public:
                     AttackStart(creature);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             who->GetAI()->AttackStart(me);
         }
@@ -1285,7 +1285,7 @@ public:
                     AttackStart(creature);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             who->GetAI()->AttackStart(me);
         }
@@ -1350,7 +1350,7 @@ public:
                     AttackStart(creature);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             who->GetAI()->AttackStart(me);
         }
@@ -1413,7 +1413,7 @@ public:
                     AttackStart(creature);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             who->GetAI()->AttackStart(me);
         }
@@ -1537,7 +1537,7 @@ public:
                     }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             // We will schedule the npc abilities when player move near the npc
         }
@@ -1940,7 +1940,7 @@ public:
                 gob->DestroyForNearbyPlayers();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             Talk(0);
 

@@ -204,7 +204,7 @@ public:
             instance->SetData(DATA_STAGE_1, DONE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_Arcane_Orb, 1500);
             _events.ScheduleEvent(EVENT_Dark_Empowerment, 8000);
@@ -289,7 +289,7 @@ public:
             instance->SetData(DATA_STAGE_1, DONE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_Frostbolt, 1500);
             _events.ScheduleEvent(EVENT_Dark_Empowerment, 8000);
@@ -375,7 +375,7 @@ public:
             instance->SetData(DATA_STAGE_1, DONE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_Frostbolt, 1500);
             _events.ScheduleEvent(EVENT_Dark_Empowerment, 8000);

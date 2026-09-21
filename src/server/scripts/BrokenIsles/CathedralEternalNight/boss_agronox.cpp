@@ -85,10 +85,10 @@ public:
             instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_FULMINATING_LASHERS_DEBUFF);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
 
             events.RescheduleEvent(EVENT_TIMBER_SMASH, 5000); 
             events.RescheduleEvent(EVENT_FLUMINATING, 10000);

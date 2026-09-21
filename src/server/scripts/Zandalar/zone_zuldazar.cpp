@@ -571,7 +571,7 @@ struct npc_voljamba : public ScriptedAI
     }
 
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_SOUL_BLAST, 2000);
         events.ScheduleEvent(EVENT_SUMMON_MASK, 9000);

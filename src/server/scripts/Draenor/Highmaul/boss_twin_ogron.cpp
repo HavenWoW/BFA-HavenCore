@@ -274,11 +274,11 @@ class boss_twin_ogron_pol : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 Talk(eTalks::Aggro);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 me->CastSpell(me, eSpells::WarmingUp, true);
 
@@ -765,11 +765,11 @@ class boss_twin_ogron_phemos : public CreatureScript
                 m_TrashsMobs.erase(guid);
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 Talk(eTalks::Aggro);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 me->CastSpell(me, eSpells::WarmingUp, true);
 

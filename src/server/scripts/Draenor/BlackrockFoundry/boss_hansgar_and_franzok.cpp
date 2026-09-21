@@ -173,9 +173,9 @@ class boss_hansgar : public CreatureScript
                 Talk(eTalks::Slay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 StartBrothers(me, p_Attacker, m_Instance);
                 Talk(eTalks::Aggro);
@@ -1118,9 +1118,9 @@ class boss_franzok : public CreatureScript
                 Talk(eTalks::Slay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 1);

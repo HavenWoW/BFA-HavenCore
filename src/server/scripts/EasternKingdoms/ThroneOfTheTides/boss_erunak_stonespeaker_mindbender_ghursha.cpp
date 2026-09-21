@@ -144,7 +144,7 @@ public:
                 me->InterruptSpell(CURRENT_GENERIC_SPELL);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_EARTH_SHARDS, 8000);
             events.ScheduleEvent(EVENT_EMBERSTRIKE, 11000);
@@ -296,7 +296,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_PHASE_1_END_MINDBENDER);
             EnslaveTimer = 5000;

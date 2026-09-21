@@ -83,9 +83,9 @@ struct boss_opulence : public BossAI
         DoStartMovement(who);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();        
+        _JustEngagedWith();        
         DoCast(PERIODIC_ENERGY_GAIN);
         if (Creature* gallywix = me->FindNearestCreature(NPC_TRADE_PRINCE_GALLYWIX, 100.0f, true))
         {

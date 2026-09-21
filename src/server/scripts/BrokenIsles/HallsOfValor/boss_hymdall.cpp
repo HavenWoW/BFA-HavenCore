@@ -93,9 +93,9 @@ struct boss_hymdall : public BossAI
         selectedPosition = false;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(EVENT_DANCING_BLADE, 16 * IN_MILLISECONDS); // 22
         events.ScheduleEvent(EVENT_BLOODLETTING_SWEEP, 24 * IN_MILLISECONDS);

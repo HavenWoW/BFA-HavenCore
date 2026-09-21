@@ -570,7 +570,7 @@ public:
                     (*itr)->SetGoState(GO_STATE_READY);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             Talk(TALK_S_AGGRO);
             if (Creature* lulin = Lulin())
@@ -980,7 +980,7 @@ public:
                     (*itr)->SetGoState(GO_STATE_ACTIVE);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             Talk(TALK_L_AGGRO);
             ActivateObjects();

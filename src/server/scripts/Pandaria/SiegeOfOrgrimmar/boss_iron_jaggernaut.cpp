@@ -257,7 +257,7 @@ class boss_iron_juggernaut : public CreatureScript
                 m_CurrentPhase = PHASE_NONE;
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
                 SendIronJuggernautStart();
 

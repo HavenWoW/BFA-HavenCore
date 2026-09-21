@@ -40,9 +40,9 @@ struct boss_mchimba : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {        
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         events.ScheduleEvent(EVENT_ENTOMB, 5s);
         events.ScheduleEvent(EVENT_BURN_CORRUPTION, 10s);

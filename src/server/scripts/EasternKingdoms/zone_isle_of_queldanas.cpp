@@ -95,7 +95,7 @@ struct npc_converted_sentry : public ScriptedAI
 
     void MoveInLineOfSight(Unit* /*who*/) override { }
 
-    void EnterCombat(Unit* /*who*/) override { }
+    void JustEngagedWith(Unit* /*who*/) override { }
 };
 
 

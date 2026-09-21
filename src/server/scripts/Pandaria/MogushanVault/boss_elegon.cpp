@@ -284,7 +284,7 @@ class boss_elegon : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (!pInstance->CheckRequiredBosses(DATA_ELEGON))
                 {

@@ -46,10 +46,10 @@ struct boss_soulbound_goliath : public BossAI
 		me->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
 		Talk(SAY_AGGRO);
-		_EnterCombat();
+		_JustEngagedWith();
 		Talk(SAY_WARNING_SOUL_HARVEST);
 		events.ScheduleEvent(EVENT_SOUL_HARVEST, 100ms);
 		events.ScheduleEvent(EVENT_CRUSH, 3s);

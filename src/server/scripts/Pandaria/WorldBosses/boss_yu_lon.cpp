@@ -67,7 +67,7 @@ class world_boss_yu_lon : public CreatureScript
                         return;
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
             }
 

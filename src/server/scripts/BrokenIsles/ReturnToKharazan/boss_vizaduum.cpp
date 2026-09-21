@@ -174,10 +174,10 @@ class boss_vizaduum : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 me->SetReactState(REACT_AGGRESSIVE);
-                _EnterCombat();
+                _JustEngagedWith();
                 _times = 1;
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 events.ScheduleEvent(EVENT_DISINTEGRATE, Seconds(8));

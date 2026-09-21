@@ -610,7 +610,7 @@ public:
             me->SetReactState(ReactStates::REACT_DEFENSIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             me->CastStop();
             me->RemoveAllAuras();
@@ -709,7 +709,7 @@ public:
             me->SetReactState(ReactStates::REACT_DEFENSIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             me->CastStop();
             me->RemoveAllAuras();
@@ -801,7 +801,7 @@ public:
             me->SetReactState(ReactStates::REACT_AGGRESSIVE);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             events.ScheduleEvent(eTerongorEvents::EventWrathcleave, 10 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eTerongorEvents::EventWrathstorm, urand(14 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));
@@ -896,7 +896,7 @@ public:
                 me->CastSpell(l_Teronogor, eAuchindounSpells::SpellDrainSoulVisual);
         }
 
-        void EnterCombat(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/)
         {
             me->CastStop();
             me->RemoveAllAuras();

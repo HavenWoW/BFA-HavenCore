@@ -191,11 +191,11 @@ class boss_moroes_new : public CreatureScript
                 BossAI::EnterEvadeMode(why);
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
                 _IsPurged = false;
-                _EnterCombat();
+                _JustEngagedWith();
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 events.ScheduleEvent(EVENT_GARROTE, Seconds(8));
                 events.ScheduleEvent(EVENT_COAT_CHECK, Seconds(30));
@@ -286,7 +286,7 @@ class npc_kara_moroes_guest : public CreatureScript
                     CreatureAI::EnterEvadeMode(why);
                 }
 
-                void EnterCombat(Unit* /**/) override
+                void JustEngagedWith(Unit* /**/) override
                 {
                     InstanceScript* instance = me->GetInstanceScript();
 

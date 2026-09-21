@@ -73,7 +73,7 @@ class boss_oondasta : public CreatureScript
                     me->AddAura(SPELL_ALPHA_MALE, me);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 _events.ScheduleEvent(EVENT_SPIRITFIRE_BEAM, 15000);
                 _events.ScheduleEvent(EVENT_PIERCING_ROAR, 20000);

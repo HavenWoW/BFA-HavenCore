@@ -360,14 +360,14 @@ class boss_kargath_bladefist : public CreatureScript
                     Talk(eTalks::Slay);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 me->ClearUnitState(UnitState::UNIT_STATE_ROOT);
                 me->ClearUnitState(UnitState::UNIT_STATE_DISTRACTED);
                 me->ClearUnitState(UnitState::UNIT_STATE_STUNNED);
                 me->RemoveUnitFlag(UNIT_FLAG_STUNNED);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 Talk(eTalks::Aggro);
                 m_ChainHurl = false;
@@ -1138,7 +1138,7 @@ class npc_highmaul_vulgor : public CreatureScript
                 me->AddUnitState(UNIT_STATE_IGNORE_PATHFINDING);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 Talk(eTalks::Aggro);
 
@@ -1401,7 +1401,7 @@ class npc_highmaul_bladespire_sorcerer : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvents::EventMoltenBomb, 5000);
                 m_Events.ScheduleEvent(eEvents::EventFlameBolt, 2000);
@@ -1505,7 +1505,7 @@ class npc_highmaul_somldering_stoneguard : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventCleave, 2000);
             }

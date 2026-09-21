@@ -78,7 +78,7 @@ class grimrail_depot_mob_assault_cannon : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
         }
 
@@ -143,7 +143,7 @@ class grimrail_depot_mob_grimrail_bombadier : public CreatureScript
             events.ScheduleEvent(eGrimrailBombadierEvents::EventBlackrockBombs, 3 * TimeConstants::IN_MILLISECONDS);
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {         
             events.ScheduleEvent(eGrimrailBombadierEvents::EventDoubleSlash, 6 * TimeConstants::IN_MILLISECONDS);
         }
@@ -259,7 +259,7 @@ class grimrail_depot_mob_grimrail_laborer : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailLaborerEvents::EventHaymaker, 6 * TimeConstants::IN_MILLISECONDS);
         }
@@ -328,7 +328,7 @@ class grimrail_depot_mob_grimrail_overseer : public CreatureScript
             m_DashEffect = false;
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailOverseerEvents::EventDash, 15 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGrimrailOverseerEvents::EventHewingSwipe, 6 * TimeConstants::IN_MILLISECONDS);
@@ -454,7 +454,7 @@ class grimrail_depot_mob_grimrail_scout : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailScoutEvents::EventArcaneBlitz, 0 * TimeConstants::IN_MILLISECONDS);
         }
@@ -548,7 +548,7 @@ class grimrail_depot_mob_grimrail_technician : public CreatureScript
             ClearDelayedOperations();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGrimrailTechnicianEvents::Event50kVolts, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGrimrailTechnicianEvents::EventActivating, 20 * TimeConstants::IN_MILLISECONDS);
@@ -757,7 +757,7 @@ class grimrail_depot_mob_gromkar_capitan : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarCapitanEvents::EventRecklessSlash, 0 * TimeConstants::IN_MILLISECONDS);
         }
@@ -824,7 +824,7 @@ class grimrail_depot_mob_gromkar_cinderseer : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarCinderseerEvents::EventFlametongue, 10 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGromkarCinderseerEvents::EventLavaWreath, 15 * TimeConstants::IN_MILLISECONDS);
@@ -906,7 +906,7 @@ class grimrail_depot_mob_gromkar_farseer : public CreatureScript
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarFarSeerEvents::EventStormShield, 8 * TimeConstants::IN_MILLISECONDS);
             events.ScheduleEvent(eGromkarFarSeerEvents::EventThunderZone, 15 * TimeConstants::IN_MILLISECONDS);
@@ -998,7 +998,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(eGromkarGunnerEvents::EventShrapnelBlast, 1 * TimeConstants::IN_MILLISECONDS);
         }

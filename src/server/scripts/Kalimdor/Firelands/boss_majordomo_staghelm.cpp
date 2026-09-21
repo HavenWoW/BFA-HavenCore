@@ -150,7 +150,7 @@ class boss_majordomo_staghelm : public CreatureScript
                 _changePhaseNum = 0;
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (IsHeroic())
                     DoCast(me, SPELL_CONCENTRATION, true);

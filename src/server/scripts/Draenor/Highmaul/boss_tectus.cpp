@@ -376,7 +376,7 @@ class boss_tectus : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 if (!AllGardiansDead())
                 {
@@ -385,7 +385,7 @@ class boss_tectus : public CreatureScript
                 }
 
                 if (me->GetEntry() == eHighmaulCreatures::Tectus)
-                    _EnterCombat();
+                    _JustEngagedWith();
 
                 m_Events.ScheduleEvent(eEvents::EventFracture, 8 * TimeConstants::IN_MILLISECONDS);
                 m_Events.ScheduleEvent(eEvents::EventAccretion, 5 * TimeConstants::IN_MILLISECONDS);
@@ -1079,7 +1079,7 @@ class npc_highmaul_rokka_and_lokk : public CreatureScript
                 return false;
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 StartGuardians(me, attacker);
 
@@ -1233,7 +1233,7 @@ class npc_highmaul_oro : public CreatureScript
                 return false;
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 StartGuardians(me, attacker);
 
@@ -1413,7 +1413,7 @@ class npc_highmaul_night_twisted_berserker : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 Talk(eTalk::Aggro);
 
@@ -1511,7 +1511,7 @@ class npc_highmaul_night_twisted_earthwarper : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 Talk(eTalk::Aggro);
 

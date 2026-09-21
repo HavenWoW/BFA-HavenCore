@@ -190,10 +190,10 @@ private:
 		instance->DoRemoveAurasDueToSpellOnPlayers(SPELL_HEART_OF_DARKNESS_FEAR);
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		Talk(SAY_AGGRO);
-		_EnterCombat();
+		_JustEngagedWith();
 		events.ScheduleEvent(EVENT_GAIN_ENERGY_VEXIONA, 100ms);
 		events.ScheduleEvent(EVENT_ASCENDANT, 1s);
 		events.ScheduleEvent(EVENT_ENCROACHING_SHADOWS, 13s);
@@ -391,7 +391,7 @@ struct npc_void_ascendant : public ScriptedAI
 			DoZoneInCombat(nullptr);
 	}
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		events.ScheduleEvent(EVENT_ANNIHILATION, 3s);
 	}
@@ -505,7 +505,7 @@ struct npc_fanatic : public ScriptedAI
 {
 	npc_fanatic(Creature* c) : ScriptedAI(c) { }
 
-	void EnterCombat(Unit* /*who*/) override
+	void JustEngagedWith(Unit* /*who*/) override
 	{
 		switch (me->GetEntry())
 		{

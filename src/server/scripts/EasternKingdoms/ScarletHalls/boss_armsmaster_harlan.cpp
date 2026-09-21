@@ -46,9 +46,9 @@ private:
         me->GetMotionMaster()->Clear();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         events.ScheduleEvent(EVENT_HAR_JUMP, 30000);
         events.ScheduleEvent(EVENT_DRAGON, 4000);

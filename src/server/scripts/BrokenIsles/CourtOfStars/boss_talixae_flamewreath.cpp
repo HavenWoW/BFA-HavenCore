@@ -156,14 +156,14 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             if (guardsDiedCount < 3)
                 Talk(SAY_AGGRO_BAD);
             else
                 Talk(SAY_AGGRO);
 
-            _EnterCombat();
+            _JustEngagedWith();
 
             for (int8 i = 0; i < 3; i++)
               //  if (Creature* guard = me->GetCreature(*me, guardsGUID[i]))
@@ -259,7 +259,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             if (me->GetEntry() == 104275)
                 events.RescheduleEvent(1, 3000); // 209378 17

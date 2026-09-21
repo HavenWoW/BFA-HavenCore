@@ -1204,7 +1204,7 @@ public:
         Creature* elementium;
         uint32 killtimer;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* monstrosity = instance->GetCreature(DATA_MONSTROSITY))
             {

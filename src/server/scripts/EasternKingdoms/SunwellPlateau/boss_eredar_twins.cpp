@@ -132,7 +132,7 @@ public:
             instance->SetBossState(DATA_EREDAR_TWINS, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             DoZoneInCombat();
 
@@ -384,7 +384,7 @@ public:
             instance->SetBossState(DATA_EREDAR_TWINS, NOT_STARTED);
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             DoZoneInCombat();
 
@@ -673,7 +673,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void SpellHitTarget(Unit* target, const SpellInfo* spell) override
         {

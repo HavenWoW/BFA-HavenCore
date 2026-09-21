@@ -122,13 +122,13 @@ class boss_shade_of_medivh : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
                 me->SetPower(POWER_MANA, 0);
                 me->SetMaxPower(POWER_MANA, 100);
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_REGEN_ENERGY, IN_MILLISECONDS);
                 ScheduleTasks();
             }

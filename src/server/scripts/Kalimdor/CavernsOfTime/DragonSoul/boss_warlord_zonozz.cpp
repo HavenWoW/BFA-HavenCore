@@ -216,7 +216,7 @@ class boss_warlord_zonozz: public CreatureScript
                 BossAI::MoveInLineOfSight(who);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (instance->GetBossState(DATA_MORCHOK) != DONE)
                 {
@@ -700,7 +700,7 @@ public:
             me->AddUnitFlag(UNIT_FLAG_REMOVE_CLIENT_CONTROL);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SLUDGE_SPEW, 5000);
             events.ScheduleEvent(EVENT_WILD_FLAIL, urand(1500, 15000));
@@ -754,7 +754,7 @@ public:
         InstanceScript* instance;
         EventMap events;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SHADOW_GAZE, 1000);
             me->AddUnitFlag(UNIT_FLAG_REMOVE_CLIENT_CONTROL);
@@ -814,7 +814,7 @@ class npc_warlord_zonozz_tentacle : public CreatureScript
                 me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 switch (me->GetEntry())
                 {

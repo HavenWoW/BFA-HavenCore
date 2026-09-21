@@ -709,7 +709,7 @@ void BossAI::_DamageTaken(Unit* /*attacker*/, uint32& damage)
         ExecuteEvent(eventId);
 }
 
-void BossAI::_EnterCombat(bool showFrameEngage /*= true*/)
+void BossAI::_JustEngagedWith(bool showFrameEngage /*= true*/)
 {
     if (instance)
     {
@@ -886,7 +886,7 @@ void WorldBossAI::_JustDied()
     summons.DespawnAll();
 }
 
-void WorldBossAI::_EnterCombat()
+void WorldBossAI::_JustEngagedWith()
 {
     ScheduleTasks();
     Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0f, true);

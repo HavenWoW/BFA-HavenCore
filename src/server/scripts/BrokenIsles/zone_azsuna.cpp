@@ -483,7 +483,7 @@ public:
             case 10:
                 if (Creature* summon = me->SummonCreature(NPC_DROWNED_MAGISTER, -120.073f, 6400.717f, 6.92f, 5.64f, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 10000))
                 {
-                    EnterCombat(summon);
+                    JustEngagedWith(summon);
                     me->SetInCombatWith(summon);
                     summon->SetMaxHealth(1009570);
                     summon->SetHealth(1009570);
@@ -504,7 +504,7 @@ public:
             case 26:
                 if (Creature* summon = me->SummonCreature(NPC_UNBREATHING_SOUL, -63.1638f, 6379.03f, 1.200768f, 0.0f, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 10000))
                 {
-                    EnterCombat(summon);
+                    JustEngagedWith(summon);
                     me->SetInCombatWith(summon);
                     summon->SetMaxHealth(1196528);
                     summon->SetHealth(1196528);
@@ -544,7 +544,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (!paused)
             {
@@ -1870,7 +1870,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             ResummonAdds = false;
             events.RescheduleEvent(1, 3000); // 234497
@@ -1962,7 +1962,7 @@ public:
            // });
         }*/
 
-        void EnterCombat(Unit* /*unit*/) override
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             _introDone = true;
             DoCast(237716);

@@ -227,7 +227,7 @@ class boss_magmaw : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             events.SetPhase(PHASE_NORMAL);
             events.ScheduleEvent(EVENT_LAVA_SPEW, urand(5000, 8000));
@@ -247,7 +247,7 @@ class boss_magmaw : public CreatureScript
                 events.ScheduleEvent(EVENT_BLAZING_INFERNO, 15000);
             }
 
-            BossAI::EnterCombat(who);
+            BossAI::JustEngagedWith(who);
         }
 
         void MoveInLineOfSight(Unit* /*who*/) override {}
@@ -585,7 +585,7 @@ class npc_drakonid_drudge : public CreatureScript
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             me->SetEmoteState(EMOTE_ONESHOT_NONE);
             if(Unit * magmaw = me->FindNearestCreature(BOSS_MAGMAW, 100.0f))

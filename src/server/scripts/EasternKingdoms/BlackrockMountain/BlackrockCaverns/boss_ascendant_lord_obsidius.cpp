@@ -60,9 +60,9 @@ class boss_ascendant_lord_obsidius : public CreatureScript
                 _Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
                 events.ScheduleEvent(EVENT_MANA_TAP, 30000);
                 Talk(YELL_AGGRO);
             }
@@ -138,7 +138,7 @@ public:
             DoCast(me, SPELL_SHADOW_OF_OBSIDIUS);
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
             me->RemoveAura(75054);
             events.RescheduleEvent(EVENT_CREPUSCULAR_VEIL, 3900);

@@ -49,7 +49,7 @@ public:
             me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             me->SetReactState(REACT_PASSIVE);
             me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);

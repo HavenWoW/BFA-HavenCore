@@ -82,7 +82,7 @@ class boss_ivanyr : public CreatureScript
                 _vertexs.fill(Vector2(0,0));
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
                 me->SetReactState(REACT_AGGRESSIVE);

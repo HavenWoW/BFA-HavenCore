@@ -76,7 +76,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override { }
+        void JustEngagedWith(Unit* /*who*/) override { }
 
         void ReceiveEmote(Player* player, uint32 emote) override
         {

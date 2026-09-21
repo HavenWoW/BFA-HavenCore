@@ -145,9 +145,9 @@ namespace Instances { namespace Bloodmaul
                         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
                 }
 
-                void EnterCombat(Unit*) override
+                void JustEngagedWith(Unit*) override
                 {
-                    _EnterCombat();
+                    _JustEngagedWith();
 
                     if (instance)
                         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);

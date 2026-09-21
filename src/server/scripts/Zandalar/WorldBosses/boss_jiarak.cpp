@@ -40,9 +40,9 @@ struct boss_jiarak : public BossAI
         summons.DespawnAll();
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
 
         //EVENTS
         events.ScheduleEvent(EVENT_STORM_WING, 11000);

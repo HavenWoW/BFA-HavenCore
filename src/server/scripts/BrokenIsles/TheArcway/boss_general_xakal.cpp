@@ -118,10 +118,10 @@ class boss_general_xakal : public CreatureScript
                 _JustReachedHome();
             }
 
-            void EnterCombat(Unit* /**/) override
+            void JustEngagedWith(Unit* /**/) override
             {
                 Talk(SAY_AGGRO);
-                _EnterCombat();
+                _JustEngagedWith();
 
                 for (uint8 i = 0; i < 20; ++i)
                     DoSummon(NPC_DREAD_FELBAT, BatCenterPos, 5000, TEMPSUMMON_CORPSE_TIMED_DESPAWN);

@@ -1235,7 +1235,7 @@ public:
             ScriptedAI::EnterEvadeMode(why);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(EVENT_SKIN_CROWLEY_SPELL, Milliseconds(SKIN_CROWLEY_SPELL_FIRST));
         }
@@ -3268,7 +3268,7 @@ public:
             DoStartNoMovement(who);
         }
 
-        void EnterCombat(Unit* /*victim*/) override { }
+        void JustEngagedWith(Unit* /*victim*/) override { }
 
         void UpdateAI(uint32 diff) override
         {

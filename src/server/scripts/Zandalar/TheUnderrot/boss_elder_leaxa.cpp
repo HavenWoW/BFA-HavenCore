@@ -236,7 +236,7 @@ public:
             me->SummonCreature(NPC_BLOOD_EFFIGY, x, y, me->GetPositionZ(), TEMPSUMMON_CORPSE_DESPAWN);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             SelectSoundAndText(me, 1);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -426,7 +426,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_BLOOD_BOLT, TIMER_BLOOD_BOLT);
 

@@ -270,11 +270,11 @@ class boss_admiral_garan : public CreatureScript
                     Talk(eTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
                 StartMaidens(m_Instance, me, p_Attacker);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 m_Events.ScheduleEvent(eEvents::EventRapidFire, eTimers::TimerRapidFire);
 
@@ -1003,11 +1003,11 @@ class boss_enforcer_sorka : public CreatureScript
                     Talk(eTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
                 StartMaidens(m_Instance, me, p_Attacker);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 m_Events.ScheduleEvent(eEvents::EventBladeDash, eTimers::TimerBladeDash);
 
@@ -1640,11 +1640,11 @@ class boss_marak_the_blooded : public CreatureScript
                     Talk(eTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
                 StartMaidens(m_Instance, me, p_Attacker);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 m_Events.ScheduleEvent(eEvents::EventBloodRitual, eTimers::TimerBloodRitual);
 
@@ -2392,7 +2392,7 @@ class npc_foundry_ukurogg : public CreatureScript
                 me->CastSpell(me, eSpells::BloodCorruptionAura, true);
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 me->SetWalk(false);
 
@@ -2460,7 +2460,7 @@ class npc_foundry_ukurogg : public CreatureScript
 
                 m_Engaged = true;
 
-                EnterCombat(p_Attacker);
+                JustEngagedWith(p_Attacker);
             }
 
             void JustDied(Unit* /*p_Killer*/) override
@@ -3023,7 +3023,7 @@ class npc_foundry_battle_medic_rogg : public CreatureScript
                 m_Engaged = false;
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (!m_Engaged)
                     return;
@@ -3042,7 +3042,7 @@ class npc_foundry_battle_medic_rogg : public CreatureScript
 
                 m_Engaged = true;
 
-                EnterCombat(p_Attacker);
+                JustEngagedWith(p_Attacker);
             }
 
             void UpdateAI(uint32 p_Diff)
@@ -3144,7 +3144,7 @@ class npc_foundry_gorak : public CreatureScript
                 m_Engaged = false;
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 if (!m_Engaged)
                     return;
@@ -3161,7 +3161,7 @@ class npc_foundry_gorak : public CreatureScript
 
                 m_Engaged = true;
 
-                EnterCombat(p_Attacker);
+                JustEngagedWith(p_Attacker);
             }
 
             void JustDied(Unit* /*killer*/) override
@@ -3250,7 +3250,7 @@ class npc_foundry_iron_eviscerator : public CreatureScript
               //  m_FixateTarget = 0;
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (!m_Engaged)
                     return;
@@ -3270,7 +3270,7 @@ class npc_foundry_iron_eviscerator : public CreatureScript
 
                 m_Engaged = true;
 
-                EnterCombat(p_Attacker);
+                JustEngagedWith(p_Attacker);
             }
 
             void SpellHitTarget(Unit* p_Target, SpellInfo const* p_SpellInfo) override

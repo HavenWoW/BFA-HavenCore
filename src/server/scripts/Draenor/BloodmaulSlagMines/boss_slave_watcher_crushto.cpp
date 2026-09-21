@@ -108,9 +108,9 @@ namespace Instances
                             Talk(eTalks::TalkSlay);
                     }
 
-                    void EnterCombat(Unit*) override
+                    void JustEngagedWith(Unit*) override
                     {
-                        _EnterCombat();
+                        _JustEngagedWith();
 
                         Talk(eTalks::TalkAggro);
 

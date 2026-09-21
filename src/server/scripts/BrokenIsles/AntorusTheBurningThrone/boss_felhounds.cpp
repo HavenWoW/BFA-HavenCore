@@ -120,9 +120,9 @@ struct boss_shatug_fhargAI : public BossAI
             //instance->DoConversation(5523);
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Creature* pOtherBoss = GetOtherBoss();
         if (pOtherBoss)
         {

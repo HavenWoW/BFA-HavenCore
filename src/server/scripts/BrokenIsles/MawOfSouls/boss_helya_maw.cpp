@@ -527,10 +527,10 @@ public:
             _pools.clear();
         }
 
-        void EnterCombat(Unit* /**/) override
+        void JustEngagedWith(Unit* /**/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
             _secondPhase = false;
             _submerged = false;
             events.ScheduleEvent(EVENT_GRASPING_TENTACLE, Seconds(15));
@@ -758,7 +758,7 @@ public:
             me->AddUnitMovementFlag(MOVEMENTFLAG_ROOT);
         }
 
-        void EnterCombat(Unit* /**/) override
+        void JustEngagedWith(Unit* /**/) override
         {
             if (Creature* helya = me->FindNearestCreature(BOSS_HELYA, 250.0f))
                 DoZoneInCombat(helya);
@@ -806,7 +806,7 @@ public:
                 helya->GetAI()->DoAction(ACTION_TENTACLE_DEAD);
         }
 
-        void EnterCombat(Unit* /**/) override
+        void JustEngagedWith(Unit* /**/) override
         {
             if (Creature* helya = me->FindNearestCreature(BOSS_HELYA, 250.0f))
                 DoZoneInCombat(helya);

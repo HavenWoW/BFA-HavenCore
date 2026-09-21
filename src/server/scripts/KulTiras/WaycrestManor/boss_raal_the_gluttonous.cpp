@@ -53,10 +53,10 @@ struct boss_raal_the_gluttonous : public BossAI
 		SetCombatMovement(false);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
 		Talk(SAY_AGGRO);
-		_EnterCombat();
+		_JustEngagedWith();
 		instance->SetBossState(DATA_RAAL_THE_GLUTTONOUS, IN_PROGRESS);
 		events.ScheduleEvent(EVENT_CHECK_RANGE, 1s);
 		events.ScheduleEvent(EVENT_TENDERIZE, 3s);		

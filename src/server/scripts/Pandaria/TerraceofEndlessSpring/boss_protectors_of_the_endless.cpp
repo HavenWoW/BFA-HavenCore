@@ -311,7 +311,7 @@ public:
                 pInstance->SetBossState(DATA_PROTECTORS, FAIL);
         }
 
-        void EnterCombat(Unit* attacker)
+        void JustEngagedWith(Unit* attacker)
         {
             me->AddAura(126848, me); // PvE Tier debuff
 
@@ -618,7 +618,7 @@ public:
                 pInstance->SetBossState(DATA_PROTECTORS, FAIL);
         }
 
-        void EnterCombat(Unit* attacker)
+        void JustEngagedWith(Unit* attacker)
         {
             me->AddAura(126848, me); // PvE Tier debuff
 
@@ -932,7 +932,7 @@ public:
                 pInstance->SetBossState(DATA_PROTECTORS, FAIL);
         }
 
-        void EnterCombat(Unit* attacker)
+        void JustEngagedWith(Unit* attacker)
         {
             me->AddAura(126848, me); // PvE Tier debuff
 

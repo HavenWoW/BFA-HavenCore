@@ -67,7 +67,7 @@ class boss_xuen : public CreatureScript
                         return;
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
             }
 

@@ -363,7 +363,7 @@ struct npc_yotnar_96175 : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.ScheduleEvent(SPELL_ACTIVATE_GUARDIAN_ORB, 5s);
         events.ScheduleEvent(SPELL_LIGHTFORGED_DEFENSE_MATRIX, 5s);

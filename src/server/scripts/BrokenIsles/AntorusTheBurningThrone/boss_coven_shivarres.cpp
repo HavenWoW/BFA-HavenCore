@@ -308,7 +308,7 @@ struct npc_asara_mother_of_night_122467 : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*victim*/)
+    void JustEngagedWith(Unit* /*victim*/)
     {
         Talk(0);
         events.ScheduleEvent(SPELL_SHADOW_BLADES, 11s);
@@ -432,7 +432,7 @@ struct npc_diima_mother_of_gloom_122469 : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*victim*/)
+    void JustEngagedWith(Unit* /*victim*/)
     {
         Talk(0);
         events.ScheduleEvent(SPELL_FLASHFREEZE, 10s);

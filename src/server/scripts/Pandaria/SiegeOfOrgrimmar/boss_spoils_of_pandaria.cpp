@@ -3764,7 +3764,7 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(eEvents::EVENT_ANIMATED_STRIKE, urand(eTimers::TIMER_ANIMATED_STRIKE_FIRST_MIN, eTimers::TIMER_ANIMATED_STRIKE_FIRST_MAX));
             }

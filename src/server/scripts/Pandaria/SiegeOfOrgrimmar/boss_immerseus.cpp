@@ -323,7 +323,7 @@ class boss_immerseus : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(EVENT_SHA_BOLT, urand(6000, 20000));
                 events.ScheduleEvent(EVENT_CORROSIVE_BLAST, 10000);

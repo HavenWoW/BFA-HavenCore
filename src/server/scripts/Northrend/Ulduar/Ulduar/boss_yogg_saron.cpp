@@ -509,7 +509,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (Creature* sara = instance->GetCreature(DATA_SARA))
                 sara->SetInCombatWith(me);
@@ -762,7 +762,7 @@ public:
                 Talk(SAY_SARA_KILL);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_SARA_AGGRO);
             _events.ScheduleEvent(EVENT_SARAS_FERVOR, 5000, 0, PHASE_ONE);
@@ -1604,7 +1604,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             switch (me->GetEntry())
             {

@@ -119,9 +119,9 @@ private:
         me->SetFlying(true);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         this->phase = 1;
         events.ScheduleEvent(EVENT_SHADOW_BARRAGE, 3s);
@@ -370,7 +370,7 @@ struct npc_generic_zul_minion : public ScriptedAI
             }
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         switch (me->GetEntry())
         {

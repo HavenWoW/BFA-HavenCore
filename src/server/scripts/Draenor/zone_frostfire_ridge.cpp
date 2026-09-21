@@ -292,7 +292,7 @@ class npc_groog : public CreatureScript
                 me->SetFaction(14);
             }
 
-            void EnterCombat(Unit* /*p_Victim*/) override
+            void JustEngagedWith(Unit* /*p_Victim*/) override
             {
                 m_Events.Reset();
 

@@ -112,7 +112,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* Ent) override
+        void JustEngagedWith(Unit* Ent) override
         {
             Talk(SAY_AGGRO);
             if (Ent && Ent->GetTypeId() == TYPEID_PLAYER)

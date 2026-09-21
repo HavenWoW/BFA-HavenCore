@@ -106,9 +106,9 @@ public:
             summons.DespawnAll();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
 
             events.ScheduleEvent(EVENT_CALL_THE_WIND, urand(7500, 10000));
             events.ScheduleEvent(EVENT_CHILLING_BREATH, urand(20000, 30000));

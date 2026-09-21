@@ -934,7 +934,7 @@ struct npc_allaris_narassin_110556 : public ScriptedAI
             guldan->AI()->DoAction(1);
     }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         events.ScheduleEvent(SPELL_DRAIN_LIFE, 15s);
         events.ScheduleEvent(SPELL_SHADOW_BOLT, 5s);

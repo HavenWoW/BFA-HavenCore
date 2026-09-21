@@ -106,7 +106,7 @@ struct npc_apprentice_mirveda : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*who*/) override { }
+    void JustEngagedWith(Unit* /*who*/) override { }
 
     void JustSummoned(Creature* summoned) override
     {
@@ -314,7 +314,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
 
         void UpdateAI(uint32 diff) override
         {
@@ -462,7 +462,7 @@ public:
                 paladinGuid[i].Clear();
         }
 
-        void EnterCombat(Unit* /*who*/) override {}
+        void JustEngagedWith(Unit* /*who*/) override {}
 
         void UpdateAI(uint32 diff) override
         {

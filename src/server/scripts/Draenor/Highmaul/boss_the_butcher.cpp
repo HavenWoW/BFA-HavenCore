@@ -239,9 +239,9 @@ class boss_the_butcher : public CreatureScript
                 m_MaggotSpawned.clear();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 me->CastSpell(me, eSpells::Angry5PerTick, true);
 

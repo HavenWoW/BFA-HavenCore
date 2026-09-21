@@ -314,7 +314,7 @@ class boss_malkorok : public CreatureScript
                 me->SetReactState(REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 

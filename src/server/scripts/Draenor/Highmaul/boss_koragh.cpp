@@ -439,7 +439,7 @@ class boss_koragh : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_overflowingOrbsCount = 1;
 
@@ -471,7 +471,7 @@ class boss_koragh : public CreatureScript
                 if (IsMythic())
                     m_Events.ScheduleEvent(eEvents::EventExpelMagicFel, 12 * TimeConstants::IN_MILLISECONDS);
 
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void KilledUnit(Unit* killed) override
@@ -791,7 +791,7 @@ class npc_highmaul_breaker_of_fel : public CreatureScript
                 me->CastSpell(me, eSpells::FelBreakerFelChannel, false);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventFelNova, 12 * TimeConstants::IN_MILLISECONDS);
             }
@@ -876,7 +876,7 @@ class npc_highmaul_breaker_of_fire : public CreatureScript
                 me->CastSpell(me, eSpells::FelBreakerFireChannel, false);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventWildFlames, 4 * TimeConstants::IN_MILLISECONDS);
             }
@@ -1036,7 +1036,7 @@ class npc_highmaul_breaker_of_frost : public CreatureScript
                 me->CastSpell(me, eSpells::FelBreakerFrostChannel, false);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventFrozenCore, 4 * TimeConstants::IN_MILLISECONDS);
             }

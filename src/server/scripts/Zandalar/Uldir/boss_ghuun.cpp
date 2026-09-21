@@ -169,10 +169,10 @@ private:
         damage = 0;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         this->phase = 1;
-        _EnterCombat();
+        _JustEngagedWith();
         events.ScheduleEvent(EVENT_POWER_MATRIX, 4s);
         events.ScheduleEvent(EVENT_EXPLOSIVE_CORRUPTION, 5s);
         events.ScheduleEvent(EVENT_THOUSAND_MAWS, 23s);
@@ -423,7 +423,7 @@ struct npc_cyclopean_terror : public ScriptedAI
             me->AI()->DoZoneInCombat(nullptr);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_TORMENT, 5s);
     }
@@ -468,7 +468,7 @@ struct npc_dark_young : public ScriptedAI
             me->AI()->DoZoneInCombat(nullptr);       
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {        
         me->AddAura(SPELL_PERIODIC_ENERGY_GAIN);
         me->CastSpell(nullptr, SPELL_DARK_YOUNG_COSMETIC, true);
@@ -751,7 +751,7 @@ struct npc_blightspreader_tendril : public ScriptedAI
         me->SetPower(POWER_ENERGY, 100);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         if (instance)
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -838,9 +838,9 @@ private:
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         me->AddAura(SPELL_CORRUPTING_BITE_DUMMY);
         me->SetPowerType(POWER_ENERGY);
         me->SetPower(POWER_ENERGY, 0);
@@ -1093,7 +1093,7 @@ private:
         unstopabbleCorruption = false;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_MIND_NUMBED_CHATTER, 5s);
     }

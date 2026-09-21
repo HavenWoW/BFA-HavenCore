@@ -310,7 +310,7 @@ class mob_go_kan : public CreatureScript
                 events.ScheduleEvent(EVENT_YAUNGOL_STOMP, 25000);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 me->SetStandState(UNIT_STAND_STATE_STAND);
             }

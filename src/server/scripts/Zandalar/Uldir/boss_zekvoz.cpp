@@ -172,9 +172,9 @@ private:
         me->RemoveAllAreaTriggers();
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         Talk(SAY_AGGRO_WHISPER);
         sixtyfivePercent = false;
@@ -412,7 +412,7 @@ struct npc_silithid_warrior : public ScriptedAI
         me->AddAura(SPELL_JAGGED_MANDIBLE_PROC_TRIGGER);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         events.ScheduleEvent(EVENT_JAGGED_MANDIBLE, 2s);
     }
@@ -820,7 +820,7 @@ struct npc_nerubian_voidweaver : public ScriptedAI
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void EnterCombat(Unit* /*killer*/) override
+    void JustEngagedWith(Unit* /*killer*/) override
     {
         events.ScheduleEvent(EVENT_VOID_BOLT, 3s);
     }

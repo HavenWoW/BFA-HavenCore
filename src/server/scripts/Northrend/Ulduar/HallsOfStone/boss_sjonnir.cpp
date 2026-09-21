@@ -95,7 +95,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             if (!instance->CheckRequiredBosses(DATA_SJONNIR, who->ToPlayer()))
             {
@@ -103,7 +103,7 @@ public:
                 return;
             }
 
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(SAY_AGGRO);
 
             events.ScheduleEvent(EVENT_CHAIN_LIGHTNING, urand(3000, 8000));

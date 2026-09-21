@@ -337,7 +337,7 @@ class boss_feng : public CreatureScript
                 _JustReachedHome();
             }
 
-            void EnterCombat(Unit* attacker) override
+            void JustEngagedWith(Unit* attacker) override
             {
                 if (!pInstance->CheckRequiredBosses(DATA_FENG) || attacker->GetPositionX() < 4009.0f || attacker->GetPositionX() > 4076.0f)
                 {

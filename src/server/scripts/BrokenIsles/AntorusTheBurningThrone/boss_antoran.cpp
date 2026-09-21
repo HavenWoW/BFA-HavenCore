@@ -247,7 +247,7 @@ struct npc_chief_engineer_ishkar_122369 : public ScriptedAI
 {
     npc_chief_engineer_ishkar_122369(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         events.ScheduleEvent(SPELL_EXPLOIT_WEAKNESS, 8s);
@@ -340,7 +340,7 @@ struct npc_general_erodus_122333 : public ScriptedAI
 {
     npc_general_erodus_122333(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         events.ScheduleEvent(SPELL_EXPLOIT_WEAKNESS, 8s);

@@ -249,7 +249,7 @@ struct npc_latosius : public ScriptedAI
         }
     }
 
-    void EnterCombat(Unit* /*attacker*/) override
+    void JustEngagedWith(Unit* /*attacker*/) override
     {
         if (IsLatosius())
         {

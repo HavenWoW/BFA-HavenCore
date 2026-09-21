@@ -57,9 +57,9 @@ struct boss_hadal_darkfathom : public BossAI
 		me->SetPower(POWER_MAELSTROM, 0);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
-		_EnterCombat();
+		_JustEngagedWith();
 		Talk(SAY_AGGRO);
 		events.ScheduleEvent(EVENT_BREAK_WATER, 5s);
 	}

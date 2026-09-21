@@ -94,9 +94,9 @@ struct boss_hyrja : public BossAI
         count = 0;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         me->GetMotionMaster()->MoveJump(3148.366f, 325.743f, 655.16f, 0.80f, 15.0f, 15.0f);
 
@@ -155,7 +155,7 @@ struct boss_hyrja : public BossAI
             me->RemoveUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
             me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
             inCombat = true;
-            EnterCombat(me);
+            JustEngagedWith(me);
         }
     }
 
@@ -246,9 +246,9 @@ struct npc_olmyr_the_enlightened : public BossAI
         me->SetCanFly(false);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(EVENT_SANCTIFY, 3 * IN_MILLISECONDS);
         events.ScheduleEvent(EVENT_SEARING_LIGHT, 8 * IN_MILLISECONDS);
@@ -362,9 +362,9 @@ struct npc_solsten : public BossAI
         count = 0;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(EVENT_EYE_OF_THE_STORM, 5 * IN_MILLISECONDS);
     }

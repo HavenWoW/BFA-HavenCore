@@ -180,7 +180,7 @@ public:
             _Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(TALK_AGGRO);
             me->CastSpell(me, SPELL_GUARDIAN_GRUNT, false);
@@ -330,7 +330,7 @@ public:
         }
         EventMap events;
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(1, 2000);
         }
@@ -584,7 +584,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(TALK_AGGRO);
             events.ScheduleEvent(EVENT_SHOCKWAVE, 3000);
@@ -701,7 +701,7 @@ public:
             DoAction(ACTION_ATTACK_STOP);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(1, 2000);
         }
@@ -803,7 +803,7 @@ public:
     {
         boss_haiyan_the_unstoppable_AI(Creature* creature) : BossAI(creature, BOSS_HAIYAN_THE_UNSTOPPABLE) {}
 
-        void EnterCombat(Unit* /*p_Unit*/) override
+        void JustEngagedWith(Unit* /*p_Unit*/) override
         {
             Talk(TALK_AGGRO);
             events.ScheduleEvent(EVENT_TRAUMATIC_BLOW, 3000);

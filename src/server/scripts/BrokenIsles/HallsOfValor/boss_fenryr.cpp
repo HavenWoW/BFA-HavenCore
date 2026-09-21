@@ -69,9 +69,9 @@ struct boss_fenryr : public BossAI
         me->SetReactState(REACT_DEFENSIVE);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
 
         events.ScheduleEvent(EVENT_UNNERVING_HOWL, 8 * IN_MILLISECONDS);
         events.ScheduleEvent(EVENT_RAVENOUS_LEAP, 15 * IN_MILLISECONDS);

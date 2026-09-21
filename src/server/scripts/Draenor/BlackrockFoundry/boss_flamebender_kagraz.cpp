@@ -183,11 +183,11 @@ class boss_flamebender_kagraz : public CreatureScript
                 Talk(eTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
                 me->InterruptNonMeleeSpells(true);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 Talk(eTalks::TalkAggro);
 
@@ -198,7 +198,7 @@ class boss_flamebender_kagraz : public CreatureScript
                     if (Creature* l_MoltenStalker = ObjectAccessor::GetCreature(*me, m_Instance->GetGuidData(eFoundryCreatures::MoltenTorrentStalker)))
                     {
                         if (l_MoltenStalker->IsAIEnabled)
-                            l_MoltenStalker->AI()->EnterCombat(p_Attacker);
+                            l_MoltenStalker->AI()->JustEngagedWith(p_Attacker);
                     }
                 }
 
@@ -678,7 +678,7 @@ class npc_foundry_aknor_steelbringer : public CreatureScript
               //  m_HammerTarget = 0;
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void JustEngagedWith(Unit* p_Attacker) override
             {
                 if (m_Instance != nullptr)
                 {
@@ -1180,7 +1180,7 @@ class npc_foundry_molten_torrent_stalker : public CreatureScript
                 me->RemoveAllAreaTriggers();
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 me->RemoveAura(eSpells::PrefightCosmeticsStalker);
             }
@@ -1444,7 +1444,7 @@ class npc_foundry_cinder_wolf : public CreatureScript
                 //});
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_ENGAGE, me, 2);

@@ -107,7 +107,7 @@ public:
             isCorruption = false;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             ShouldSummonAdds = false;
             me->SetReactState(REACT_AGGRESSIVE);

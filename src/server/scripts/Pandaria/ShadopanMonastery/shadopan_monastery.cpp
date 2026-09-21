@@ -235,7 +235,7 @@ class npc_shadopan_hatred : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*victim*/) override
+            void JustEngagedWith(Unit* /*victim*/) override
             {
                 DoZoneInCombat();
             }

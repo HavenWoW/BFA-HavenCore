@@ -251,9 +251,9 @@ class boss_operator_thogar : public CreatureScript
                     Talk(eThogarTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 Talk(eThogarTalks::TalkAggro);
 
@@ -1270,7 +1270,7 @@ class npc_foundry_iron_gunnery_sergeant : public CreatureScript
                 m_Events.Reset();
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 m_Events.ScheduleEvent(eEvent::EventDelayedSiegeBomb, 1 * TimeConstants::IN_MILLISECONDS);
             }

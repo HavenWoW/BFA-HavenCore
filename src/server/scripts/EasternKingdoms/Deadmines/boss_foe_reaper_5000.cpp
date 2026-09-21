@@ -236,9 +236,9 @@ public:
             BossAI::JustSummoned(summoned);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
-            _EnterCombat();
+            _JustEngagedWith();
             events.ScheduleEvent(EVENT_REAPER_STRIKE, 10000);
             events.ScheduleEvent(EVENT_OVERDRIVE, 11000);
             events.ScheduleEvent(EVENT_HARVEST, 25000);
@@ -519,7 +519,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {}
 
         void JustDied(Unit* /*killer*/) override

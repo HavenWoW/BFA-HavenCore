@@ -230,7 +230,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*attacker*/)
+        void JustEngagedWith(Unit* /*attacker*/)
         {
             if (pInstance)
             {

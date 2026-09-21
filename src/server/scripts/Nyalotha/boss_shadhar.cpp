@@ -104,9 +104,9 @@ private:
 		me->SetReactState(REACT_AGGRESSIVE);
 	}
 
-	void EnterCombat(Unit* /*unit*/) override
+	void JustEngagedWith(Unit* /*unit*/) override
 	{
-		_EnterCombat();
+		_JustEngagedWith();
 		this->phase = 1;
 		events.ScheduleEvent(EVENT_POWER_GAIN, 1s);
 		events.ScheduleEvent(EVENT_CRASH_DISSOLVE, 5s);

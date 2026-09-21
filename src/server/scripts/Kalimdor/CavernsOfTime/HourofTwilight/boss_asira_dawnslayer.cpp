@@ -99,7 +99,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*Ent*/) override
+        void JustEngagedWith(Unit* /*Ent*/) override
         {
             DoZoneInCombat();
 

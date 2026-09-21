@@ -102,7 +102,7 @@ class boss_general_umbriss : public CreatureScript
                 me->AddUnitState(UNIT_STATE_IGNORE_PATHFINDING);
             }
 
-            void EnterCombat(Unit* /*pWho*/) override
+            void JustEngagedWith(Unit* /*pWho*/) override
             {
                 Talk(0);
             }

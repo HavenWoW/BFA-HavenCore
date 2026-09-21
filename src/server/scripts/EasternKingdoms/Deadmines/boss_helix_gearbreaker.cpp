@@ -189,12 +189,12 @@ public:
             BossAI::MoveInLineOfSight(who);
         }
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             if (!me)
                 return;
 
-            _EnterCombat();
+            _JustEngagedWith();
             Talk(5);
             me->SetInCombatWithZone();
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -353,7 +353,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*pWho*/) override
+        void JustEngagedWith(Unit* /*pWho*/) override
         {
             events.ScheduleEvent(EVENT_OAFQUARD, 5000);
         }
@@ -528,7 +528,7 @@ struct npc_helix_crew : public Scripted_NoMovementAI
             me->Attack(victim, false);
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
         me->GetScheduler().Schedule(5s, [this](TaskContext context)
         {

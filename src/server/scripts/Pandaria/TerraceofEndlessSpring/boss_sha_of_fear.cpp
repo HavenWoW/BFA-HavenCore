@@ -473,7 +473,7 @@ public:
                     player->RemoveArenaSpellCooldowns();
         }
 
-        void EnterCombat(Unit* /*attacker*/) override
+        void JustEngagedWith(Unit* /*attacker*/) override
         {
 
             if (isDuringP2Transition)
@@ -1918,7 +1918,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
 
         EventMap m_mLowEvents;
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
             Talk(SAY_AGGRO);
             RemoveOminousIfExists();
@@ -2881,7 +2881,7 @@ class npc_sha_globe : public CreatureScript
             me->SetReactState(REACT_PASSIVE);
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
         }
 
@@ -3186,7 +3186,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             events.ScheduleEvent(EVENT_GATHERING_SPEED, 10000, 0, 0);
             events.ScheduleEvent(EVENT_FOLLOW_TARGETED_PLAYERS, 1000, 0, 0);

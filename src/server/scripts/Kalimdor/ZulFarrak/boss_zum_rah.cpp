@@ -78,7 +78,7 @@ public:
             Initialize();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_SANCT_INVADE);
             events.ScheduleEvent(EVENT_SHADOW_BOLT, 1000);

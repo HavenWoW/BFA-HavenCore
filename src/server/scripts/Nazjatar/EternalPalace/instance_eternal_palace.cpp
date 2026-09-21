@@ -116,7 +116,7 @@ struct npc_generic_ashvane : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         switch (me->GetEntry())
         {

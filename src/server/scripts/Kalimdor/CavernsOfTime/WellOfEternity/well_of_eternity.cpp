@@ -427,7 +427,7 @@ public:
                     me->DespawnOrUnsummon(500);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_STRIKE_FEAR, urand(5000, 7000));
             //DoCast(who, SPELL_CRUSHING_LEAP);
@@ -691,7 +691,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_QUEENS_BLADE, urand(2000, 6000));
             events.ScheduleEvent(EVENT_SHIMMERING_STRIKE, urand(9000, 12000));
@@ -749,7 +749,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_FEL_FLAMES, urand(2000, 10000));
         }
@@ -803,7 +803,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (me->GetEntry() == NPC_ENCHANTED_HIGHMISTRESS_1)
             {
@@ -882,7 +882,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_SWEET_LULLABY, urand(7000, 12000));
         }
@@ -979,7 +979,7 @@ public:
         void Reset() override
         { }
 
-        void EnterCombat(Unit* who) override
+        void JustEngagedWith(Unit* who) override
         {
             if (!who)
                 return;
@@ -1490,7 +1490,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_ABYSSAL_FLAMES, 5000);
         }

@@ -590,7 +590,7 @@ class boss_thok_the_bloodthirsty : public CreatureScript
                 m_IsBatsReleased = false;
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 m_Phase = PHASE_NORMAL;
 
@@ -1418,7 +1418,7 @@ class npc_thok_the_bloodthirsty_starved_yeti : public CreatureScript
                 m_NextWreckingBallPos = wreckingBallPos[0];
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(EVENT_WRECKING_BALL, TIMER_WRECKING_BALL_FIRST);
             }

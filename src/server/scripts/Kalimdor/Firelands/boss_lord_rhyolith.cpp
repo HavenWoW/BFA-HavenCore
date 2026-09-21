@@ -212,7 +212,7 @@ class boss_lord_rhyolith : public CreatureScript
                     BossAI::JustSummoned(summon);
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -605,7 +605,7 @@ class npc_lord_rhyolith_rhyolith : public CreatureScript
                 me->DespawnOrUnsummon();
             }
 
-            void EnterCombat(Unit* /*attacker*/) override
+            void JustEngagedWith(Unit* /*attacker*/) override
             {
                 events.ScheduleEvent(EVENT_CONCLUSIVE_STOMP, 10000);
 
@@ -691,7 +691,7 @@ class npc_lord_rhyolith_right_foot : public CreatureScript
                 hitsTimer = 1000;
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (Creature* pRhyolith = me->FindNearestCreature(NPC_RHYOLITH, 300.0f))
                     DoZoneInCombat(pRhyolith);
@@ -790,7 +790,7 @@ class npc_lord_rhyolith_left_foot : public CreatureScript
                 hitsTimer = 1000;
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 if (Creature* pRhyolith = me->FindNearestCreature(NPC_RHYOLITH, 300.0f))
                     DoZoneInCombat(pRhyolith);
@@ -885,7 +885,7 @@ class npc_lord_rhyolith_volcano : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 DoCast(me, SPELL_VOLCANO_SMOKE, true);
                 events.ScheduleEvent(EVENT_CHECK_RHYOLITH, 3000);
@@ -984,7 +984,7 @@ class npc_lord_rhyolith_crater : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 DoCast(me, SPELL_EXPLODE, true);
                 DoCast(me, SPELL_MAGMA, true);
@@ -1047,7 +1047,7 @@ class npc_lord_rhyolith_liquid_obsidian : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(EVENT_START_MOVE, 2000);
             }
@@ -1107,7 +1107,7 @@ class npc_lord_rhyolith_spark_of_rhyolith : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(EVENT_START_MOVE, 2000);
             }
@@ -1170,7 +1170,7 @@ class npc_lord_rhyolith_fragment_of_rhyolith : public CreatureScript
                     pRhyolith->AI()->DoAction(ACTION_REMOVE_MOLTEN_ARMOR);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(EVENT_START_MOVE, 2000);
             }

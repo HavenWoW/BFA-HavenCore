@@ -78,7 +78,7 @@ public:
             me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_INSTAKILL, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.RescheduleEvent(1, 25000);
         }
@@ -160,7 +160,7 @@ public:
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_GRUMMKEPACK, true);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.RescheduleEvent(1, 4000);
             events.RescheduleEvent(2, 18000);
@@ -300,7 +300,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.RescheduleEvent(1, 12000);
             events.RescheduleEvent(2, urand(20000, 21000));
@@ -393,7 +393,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             switch (me->GetEntry())
             {

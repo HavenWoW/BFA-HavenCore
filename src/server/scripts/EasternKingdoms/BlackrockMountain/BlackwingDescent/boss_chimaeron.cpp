@@ -171,7 +171,7 @@ public:
             _EnterEvadeMode();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (instance)
             {
@@ -190,7 +190,7 @@ public:
             events.ScheduleEvent(EVENT_CAUSTIC_SLIME, urand(10000, 12000));
             events.ScheduleEvent(EVENT_BREAK, urand(14000, 16000));
 
-            _EnterCombat();
+            _JustEngagedWith();
         }
 
         void JustSummoned(Creature* summon) override

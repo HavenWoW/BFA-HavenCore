@@ -328,7 +328,7 @@ class boss_general_nazgrim : public CreatureScript
                 me->SetEmoteState(Emote::EMOTE_STATE_READY2H);
             }
 
-            void EnterCombat(Unit* who) override
+            void JustEngagedWith(Unit* who) override
             {
                 TalkAggro();
                 events.ScheduleEvent(EVENT_BERSERK, TIMER_BERSERK);
@@ -1044,7 +1044,7 @@ class npc_general_nazgrim_korkron_warshaman : public CreatureScript
                 npc_nazgrim_korkron_addAI::Reset();
             }
 
-            void EnterCombat(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/)
             {
             }
 
@@ -1131,7 +1131,7 @@ class npc_general_nazgrim_korkron_sniper : public CreatureScript
                 SetEquipmentSlots(false, 103953, 0, 103953);
             }
 
-            void EnterCombat(Unit* /*unit*/)  override
+            void JustEngagedWith(Unit* /*unit*/)  override
             {
             }
 
@@ -1424,7 +1424,7 @@ class npc_general_nazgrim_orgrimmar_faithful : public CreatureScript
                 me->SetEmoteState(Emote::EMOTE_STATE_READY2H);
             }
 
-            void EnterCombat(Unit* /*unit*/) override
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 DoAggro();
             }

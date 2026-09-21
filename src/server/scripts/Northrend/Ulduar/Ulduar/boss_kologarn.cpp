@@ -119,7 +119,7 @@ class boss_kologarn : public CreatureScript
             bool left, right;
             ObjectGuid eyebeamTarget;
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -135,7 +135,7 @@ class boss_kologarn : public CreatureScript
                         if (Unit* arm = vehicle->GetPassenger(i))
                             arm->ToCreature()->SetInCombatWithZone();
 
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void Reset() override

@@ -142,7 +142,7 @@ struct boss_priestess_alunza : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         Talk(TALK_AGGRO);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -159,7 +159,7 @@ struct boss_priestess_alunza : public BossAI
         me->RemoveAurasDueToSpell(SPELL_PRE_RITUAL);
         me->AddAura(SPELL_ENERGY_REGEN, me);
 
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void DoAction(int32 action) override

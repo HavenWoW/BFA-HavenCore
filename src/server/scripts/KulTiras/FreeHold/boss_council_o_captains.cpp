@@ -295,7 +295,7 @@ struct boss_council_captain : public BossAI
         Reset();
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         if (instance)
         {
@@ -309,7 +309,7 @@ struct boss_council_captain : public BossAI
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me, 1);
         }
         me->setActive(true);
-        CaptainEnterCombat();
+        CaptainJustEngagedWith();
         reset = true;
 
         switch (me->GetEntry())
@@ -611,7 +611,7 @@ private:
         }
     }
 
-    void CaptainEnterCombat()
+    void CaptainJustEngagedWith()
     {
         if (Creature* jolly = m_Instance->instance->GetCreature(m_Instance->GetGuidData(FreeholdCreature::NpcCaptainJolly)))
         {

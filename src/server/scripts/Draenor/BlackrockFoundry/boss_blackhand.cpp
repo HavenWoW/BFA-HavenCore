@@ -235,7 +235,7 @@ class boss_blackhand : public CreatureScript
                 Talk(eTalks::TalkSlay);
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 me->SetWalk(false);
 
@@ -243,7 +243,7 @@ class boss_blackhand : public CreatureScript
 
                 me->HandleEmoteCommand(0);
 
-                _EnterCombat();
+                _JustEngagedWith();
 
                 if (m_Instance != nullptr)
                 {
@@ -1609,7 +1609,7 @@ class npc_foundry_siegemaker : public CreatureScript
                     if ([[maybe_unused]] TempSummon* l_Temp = me->ToTempSummon())
                     {
                         if (Unit* l_Owner = me->ToTempSummon()->GetSummoner())
-                            EnterCombat(l_Owner->GetVictim());
+                            JustEngagedWith(l_Owner->GetVictim());
                     }
 
                     //AddTimedDelayedOperation(1 * TimeConstants::IN_MILLISECONDS, [this]() -> void
@@ -1668,7 +1668,7 @@ class npc_foundry_siegemaker : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* /*p_Attacker*/) override
+            void JustEngagedWith(Unit* /*p_Attacker*/) override
             {
                 if (me->GetReactState() == ReactStates::REACT_PASSIVE)
                     return;

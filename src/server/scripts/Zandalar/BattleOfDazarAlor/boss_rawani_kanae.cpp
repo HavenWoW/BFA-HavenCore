@@ -117,9 +117,9 @@ struct boss_rawani_kanae : public BossAI
         }
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {        
-        _EnterCombat();
+        _JustEngagedWith();
         Talk(SAY_AGGRO);
         DoCast(PERIODIC_ENERGY_GAIN);
         me->StopMoving();
@@ -371,7 +371,7 @@ struct npc_zandalari_crusader_147896 : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         //instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_CRUSADER_STRIKE, 3s);
@@ -461,7 +461,7 @@ struct npc_rezani_disciple_147895 : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         //instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_DIVINE_BURST, 3s);

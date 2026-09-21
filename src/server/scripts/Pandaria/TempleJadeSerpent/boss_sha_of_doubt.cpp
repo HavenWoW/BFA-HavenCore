@@ -118,7 +118,7 @@ class boss_sha_of_doubt : public CreatureScript
                 Talk(TALK_DEATH);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 Talk(TALK_AGGRO);
                 events.ScheduleEvent(EVENT_WITHER_WILL, 5000);
@@ -230,7 +230,7 @@ class mob_figment_of_doubt : public CreatureScript
                 me->GetInstanceScript()->SetData(TYPE_CLASS_FIGMENT_DIE, _class);
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 me->CastSpell(me, SPELL_GATHERING_DOUBT, false);
                 events.ScheduleEvent(EVENT_GATHERING_DOUBT, 1000);

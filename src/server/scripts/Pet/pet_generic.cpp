@@ -339,7 +339,7 @@ struct npc_dreamgrove_protector_119078 : public ScriptedAI
             }
         }
     
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoCastSelf(SPELL_ARCANE_INFLUX);
             events.ScheduleEvent(SPELL_POUNCE, 1s);

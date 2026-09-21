@@ -147,7 +147,7 @@ struct boss_ataldazar_rezan : public BossAI
             me->CastSpell(point, SPELL_PILE_OF_BONES_AREATRIGGER);
     }
 
-    void EnterCombat(Unit* who) override
+    void JustEngagedWith(Unit* who) override
     {
         // Events
         events.ScheduleEvent(EVENT_TAIL, urand(15000, 20000)); //timed event like onyxia
@@ -155,7 +155,7 @@ struct boss_ataldazar_rezan : public BossAI
         events.ScheduleEvent(EVENT_SERRATHED_TEETH, 6000);
         events.ScheduleEvent(EVENT_PURSUIT, 21800);
 
-        BossAI::EnterCombat(who);
+        BossAI::JustEngagedWith(who);
     }
 
     void DoAction(int32 action) override

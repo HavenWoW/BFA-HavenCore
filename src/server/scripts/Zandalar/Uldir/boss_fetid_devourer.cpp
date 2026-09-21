@@ -88,9 +88,9 @@ struct boss_fetid_devourer : public BossAI
         IsLock = true;
     }
 
-    void EnterCombat(Unit* /*unit*/) override
+    void JustEngagedWith(Unit* /*unit*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);
         events.ScheduleEvent(EVENT_TERRIBLE_THRASH, 4s);
         events.ScheduleEvent(EVENT_MALODOROUS_MIASMA, 8s);

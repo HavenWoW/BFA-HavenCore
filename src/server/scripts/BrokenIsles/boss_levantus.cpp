@@ -67,7 +67,7 @@ public:
             _events.Reset();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             _events.ScheduleEvent(1, 5000);
             _events.ScheduleEvent(2, 8000);

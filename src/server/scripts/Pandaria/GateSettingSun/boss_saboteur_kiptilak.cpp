@@ -72,9 +72,9 @@ class boss_saboteur_kiptilak : public CreatureScript
                 WorldInFlamesEvents = 0;
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
             }
 
             void JustReachedHome() override
@@ -231,7 +231,7 @@ public:
                 me->DespawnOrUnsummon();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             return;
         }

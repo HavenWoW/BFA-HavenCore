@@ -95,9 +95,9 @@ class boss_echo_of_jaina : public CreatureScript
                 Summons.DespawnAll();
             }
 
-            void EnterCombat(Unit* /*who*/) override
+            void JustEngagedWith(Unit* /*who*/) override
             {
-                _EnterCombat();
+                _JustEngagedWith();
 
                 DoZoneInCombat();
                 i = 0;

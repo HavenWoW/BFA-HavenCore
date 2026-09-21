@@ -297,7 +297,7 @@ public:
             me->DespawnOrUnsummon(3000);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_INTIMIDATING_ROAR, 10000);
             events.ScheduleEvent(EVENT_OVERHEAD_SMASH, 5000);
@@ -401,7 +401,7 @@ public:
                 (*iter)->DespawnOrUnsummon();
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_S_CHARGE, 10000);
             events.ScheduleEvent(EVENT_UPPERCUT, 5000);
@@ -474,7 +474,7 @@ public:
             DespawnCreatures(47476);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_S_CHARGE, 10000);
             events.ScheduleEvent(EVENT_UPPERCUT, 5000);
@@ -578,7 +578,7 @@ public:
             inhaled = false;
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_BELCH, 15000);
             events.ScheduleEvent(EVENT_POISON_CLOUD, 10000);
@@ -721,7 +721,7 @@ public:
             me->DespawnOrUnsummon(3000);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_DEATH_BY_PEASANT, 15000);
             events.ScheduleEvent(EVENT_GEOF_UCUT, 5000);
@@ -822,7 +822,7 @@ public:
             me->DespawnOrUnsummon(3000);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_FIREBALL, 1000);
         }
@@ -900,7 +900,7 @@ public:
                 AttackStartNoMove(playersearch);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_GLOOM_BALL, 2000);
         }

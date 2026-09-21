@@ -106,9 +106,9 @@ struct boss_ursoc : public BossAI
         lowHp = false;
     }
 
-    void EnterCombat(Unit* /*who*/) override
+    void JustEngagedWith(Unit* /*who*/) override
     {
-        _EnterCombat();
+        _JustEngagedWith();
         DoCast(me, SPELL_FEROCIOUS_YELL, true);
         DoCast(me, SPELL_ENERGIZE, true);
 

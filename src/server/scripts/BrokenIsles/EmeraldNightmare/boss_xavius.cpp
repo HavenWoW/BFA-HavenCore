@@ -222,10 +222,10 @@ public:
             }
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             Talk(SAY_AGGRO);
-            _EnterCombat();
+            _JustEngagedWith();
             ClearPlayerAuras();
             DoCast(me, SPELL_XAVIUS_ENERGIZE_PHASE_1, true);
             DoCast(me, SPELL_UNFATHOMABLE_REALITY, true);
@@ -729,7 +729,7 @@ public:
             DoZoneInCombat(me, 100.0f);
         }
 
-        void EnterCombat(Unit* /*who*/) override
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(1, 9000);
             events.ScheduleEvent(2, 14000);

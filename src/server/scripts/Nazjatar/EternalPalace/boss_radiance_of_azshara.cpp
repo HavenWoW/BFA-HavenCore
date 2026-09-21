@@ -168,10 +168,10 @@ public:
                 me->CastSpell(target, SPELL_RADIANT_FURY, true);
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
             Talk(3);      
-            _EnterCombat();
+            _JustEngagedWith();
             ChangePhase(1);
         }
 
@@ -779,7 +779,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -935,7 +935,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*) override
+        void JustEngagedWith(Unit*) override
         {
             events.ScheduleEvent(EVENT_CHAIN_LIGHTNING, TIMER_CHAIN_LIGHTNING);
         }

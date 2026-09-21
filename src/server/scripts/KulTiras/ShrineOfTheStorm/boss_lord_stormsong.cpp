@@ -156,7 +156,7 @@ public:
             RemoveAdditionalAura(SPELL_ANCIENT_MINDBENDER);
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             SelectSoundAndText(me, 1);
 
@@ -397,7 +397,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit*)
+        void JustEngagedWith(Unit*)
         {
             me->CastSpell(me, SPELL_WAKEN_THE_VOID_AURA, true);
             me->SetReactState(REACT_AGGRESSIVE);

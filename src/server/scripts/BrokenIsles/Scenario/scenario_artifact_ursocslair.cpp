@@ -579,9 +579,9 @@ struct npc_lea_stonepaw_105243 : public ScriptedAI
         isStep1 = true;
     }
 
-    void EnterCombat(Unit* victim)
+    void JustEngagedWith(Unit* victim)
     {
-        TC_LOG_ERROR("server.worldserver", "====================scenario_artifact_ursocslair  EnterCombat====================== ");
+        TC_LOG_ERROR("server.worldserver", "====================scenario_artifact_ursocslair  JustEngagedWith====================== ");
         if (!me->HasAura(186588))
             me->CastSpell(me, 186588, true);
         Player* player = me->GetCharmerOrOwnerPlayerOrPlayerItself();
