@@ -143,6 +143,7 @@ public:
             SetUpdateFieldValue(m_values.ModifyValue(&GameObject::m_gameObjectData).ModifyValue(&UF::GameObjectData::CreatedBy), owner);
         }
         ObjectGuid GetOwnerGUID() const { return m_gameObjectData->CreatedBy; }
+        void SetGuildGUID(ObjectGuid guildGuid) { SetUpdateFieldValue(m_values.ModifyValue(&GameObject::m_gameObjectData).ModifyValue(&UF::GameObjectData::GuildGUID), guildGuid); }
         Unit* GetOwner() const;
 
         void SetSpellId(uint32 id)

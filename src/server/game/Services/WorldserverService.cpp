@@ -17,13 +17,23 @@
 
 #include "WorldserverService.h"
 #include "BattlenetRpcErrorCodes.h"
+#include "CharacterCache.h"
+#include "DatabaseEnv.h"
 #include "IpAddress.h"
+#include "Guild.h"
+#include "GuildMgr.h"
+#include "Language.h"
+#include "Player.h"
 #include "Log.h"
 #include "ProtobufJSON.h"
 #include "Realm.h"
 #include "RealmList.h"
 #include "RealmList.pb.h"
 #include "World.h"
+#include <algorithm>
+#include <chrono>
+#include <initializer_list>
+#include <limits>
 #include <zlib.h>
 
 Battlenet::GameUtilitiesService::GameUtilitiesService(WorldSession* session) : BaseService(session)
@@ -117,3 +127,5 @@ uint32 Battlenet::GameUtilitiesService::HandleGetAllValuesForAttribute(game_util
 
     return ERROR_RPC_NOT_IMPLEMENTED;
 }
+
+// ---------------------------------------------------------------------------

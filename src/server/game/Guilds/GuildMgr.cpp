@@ -238,6 +238,62 @@ void GuildMgr::LoadGuilds()
         }
     }
 
+    // 3a. Reconstruct personal achievement points for every guild member.
+    // Guild::Member only receives live Player achievement totals while online;
+    // without this pass every offline member falls back to zero after restart.
+    TC_LOG_INFO("server.loading", "Loading guild member achievement points...");
+    {
+        uint32 oldMSTime = getMSTime();
+        QueryResult result = CharacterDatabase.Query(
+            "SELECT gm.guildid, ca.guid, ca.achievement "
+            "FROM guild_member gm INNER JOIN character_achievement ca ON ca.guid = gm.guid "
+            "ORDER BY gm.guildid, ca.guid");
+
+        uint32 membersUpdated = 0;
+        if (result)
+        {
+            ObjectGuid::LowType currentGuildId = 0;
+            ObjectGuid::LowType currentMemberGuid = 0;
+            uint32 points = 0;
+
+            auto flushPoints = [&]()
+            {
+                if (!currentGuildId || !currentMemberGuid)
+                    return;
+
+                if (Guild* guild = GetGuildById(currentGuildId))
+                {
+                    guild->SetMemberAchievementPoints(ObjectGuid::Create<HighGuid::Player>(currentMemberGuid), points);
+                    ++membersUpdated;
+                }
+            };
+
+            do
+            {
+                Field* fields = result->Fetch();
+                ObjectGuid::LowType guildId = fields[0].GetUInt64();
+                ObjectGuid::LowType memberGuid = fields[1].GetUInt64();
+                uint32 achievementId = fields[2].GetUInt32();
+
+                if (guildId != currentGuildId || memberGuid != currentMemberGuid)
+                {
+                    flushPoints();
+                    currentGuildId = guildId;
+                    currentMemberGuid = memberGuid;
+                    points = 0;
+                }
+
+                if (AchievementEntry const* achievement = sAchievementStore.LookupEntry(achievementId))
+                    points += achievement->Points;
+            }
+            while (result->NextRow());
+
+            flushPoints();
+        }
+
+        TC_LOG_INFO("server.loading", ">> Loaded achievement points for %u guild members in %u ms", membersUpdated, GetMSTimeDiffToNow(oldMSTime));
+    }
+
     // 4. Load all guild bank tab rights
     TC_LOG_INFO("server.loading", "Loading bank tab rights...");
     {
@@ -344,10 +400,14 @@ void GuildMgr::LoadGuilds()
     {
         uint32 oldMSTime = getMSTime();
 
-        CharacterDatabase.DirectPExecute("DELETE FROM guild_newslog WHERE LogGuid > %u", sWorld->getIntConfig(CONFIG_GUILD_NEWS_LOG_COUNT));
+        // LogGuid is a ring-buffer slot id (GetNextGUID() wraps at the configured
+        // record count), not a chronological sequence number. Deleting rows by a
+        // numeric LogGuid threshold can remove valid/newer news after a wrap or a
+        // Guild.NewsLogRecordsCount change. LogHolder::CanInsert() already limits
+        // the in-memory snapshot, and reused slots overwrite the same primary key.
 
-                                                     //      0        1        2          3           4      5      6
-        QueryResult result = CharacterDatabase.Query("SELECT guildid, LogGuid, EventType, PlayerGuid, Flags, Value, Timestamp FROM guild_newslog ORDER BY TimeStamp DESC, LogGuid DESC");
+                                                     //      0        1        2          3           4      5      6          7
+        QueryResult result = CharacterDatabase.Query("SELECT guildid, LogGuid, EventType, PlayerGuid, Flags, Value, Timestamp, Data FROM guild_newslog ORDER BY TimeStamp DESC, LogGuid DESC");
 
         if (!result)
             TC_LOG_INFO("server.loading", ">> Loaded 0 guild event logs. DB table `guild_newslog` is empty.");
@@ -590,4 +650,11 @@ void GuildMgr::ResetTimes(bool week)
     for (GuildContainer::const_iterator itr = GuildStore.begin(); itr != GuildStore.end(); ++itr)
         if (Guild* guild = itr->second)
             guild->ResetTimes(week);
+}
+
+void GuildMgr::ResetGuildChallenges()
+{
+    CharacterDatabase.Execute(CharacterDatabase.GetPreparedStatement(CHAR_RESET_GUILD_CHALLENGES));
+    for (GuildContainer::iterator itr = GuildStore.begin(); itr != GuildStore.end(); ++itr)
+        itr->second->ResetGuildChallenges();
 }

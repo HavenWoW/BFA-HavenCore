@@ -55,6 +55,8 @@
 #include "GridNotifiers.h"
 #include "CellImpl.h"
 #include "ScriptedCreature.h"
+#include "Guild.h"
+#include "GuildMgr.h"
 
 inline uint32 secsToTimeBitFields(time_t secs)
 {
@@ -84,6 +86,31 @@ _challengeModeStarted(false), _challengeModeLevel(0), _challengeModeStartTime(0)
    // to keep it loaded until this object is destroyed.
     module_reference = sScriptMgr->AcquireModuleReferenceOfScriptName(scriptname);
 #endif // #ifndef TRINITY_API_USE_DYNAMIC_LINKING
+}
+
+namespace
+{
+    // A member of the guild that owns 'map' (guild group rule, Map::GetOwnerGuildId),
+    // used as reference player for guild achievement / challenge credit.
+    Player* FindOwnerGuildMember(Map* map, Guild*& ownerGuild)
+    {
+        ownerGuild = nullptr;
+        ObjectGuid::LowType ownerGuildId = map->GetOwnerGuildId();
+        if (!ownerGuildId)
+            return nullptr;
+
+        ownerGuild = sGuildMgr->GetGuildById(ownerGuildId);
+        if (!ownerGuild)
+            return nullptr;
+
+        Map::PlayerList const& players = map->GetPlayers();
+        for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+            if (Player* member = itr->GetSource())
+                if (member->GetGuildId() == ownerGuildId)
+                    return member;
+
+        return nullptr;
+    }
 }
 
 void InstanceScript::SaveToDB()
@@ -527,6 +554,7 @@ bool InstanceScript::SetBossState(uint32 id, EncounterState state)
 
 void InstanceScript::ResetChallengeMode()
 {
+    _challengeModeUpgrades = 0; // no stale 'timed' result from a previous run
    // if (_challenge)
       //  _challenge->ResetGo();
 
@@ -1415,10 +1443,52 @@ void InstanceScript::UpdateEncounterState(EncounterCreditType type, uint32 credi
                  if (players.begin() != players.end())
                      scenario->UpdateCriteria(CRITERIA_TYPE_COMPLETE_DUNGEON_ENCOUNTER, encounter->dbcEntry->ID, 0, 0, nullptr, players.begin()->GetSource());
               }
+
+            // Encounter credit for every player (personal achievements/statistics)
+            // and once for the guild that owns the instance (guild runs). The type
+            // is a group criteria type, so players do not forward it themselves.
+            DoUpdateCriteria(CRITERIA_TYPE_COMPLETE_DUNGEON_ENCOUNTER, encounter->dbcEntry->ID);
+            if (ObjectGuid::LowType ownerGuildId = instance->GetOwnerGuildId())
+            {
+                if (Guild* ownerGuild = sGuildMgr->GetGuildById(ownerGuildId))
+                {
+                    Player* guildMember = nullptr;
+                    Map::PlayerList const& mapPlayers = instance->GetPlayers();
+                    for (Map::PlayerList::const_iterator mapItr = mapPlayers.begin(); mapItr != mapPlayers.end(); ++mapItr)
+                        if (Player* member = mapItr->GetSource())
+                            if (member->GetGuildId() == ownerGuildId)
+                            {
+                                guildMember = member;
+                                break;
+                            }
+
+                    if (guildMember)
+                        ownerGuild->UpdateCriteria(CRITERIA_TYPE_COMPLETE_DUNGEON_ENCOUNTER, encounter->dbcEntry->ID, 0, 0, nullptr, guildMember);
+                }
+            }
               
+            // Guild Raid Challenge (client: "Kill any level-appropriate raid boss while
+            // in a guild group"): every current-expansion raid encounter.
+            if (instance->IsRaid() && instance->GetEntry() && instance->GetEntry()->ExpansionID == CURRENT_EXPANSION)
+            {
+                Guild* challengeGuild = nullptr;
+                if (Player* member = FindOwnerGuildMember(instance, challengeGuild))
+                    challengeGuild->CompleteGuildChallenge(ChallengeRaid, member);
+            }
+
             if (encounter->lastEncounterDungeon)
             {
                 dungeonId = encounter->lastEncounterDungeon;
+
+                // Guild Dungeon Challenge (client: "Complete any dungeon from the current
+                // expansion while in a guild group"). Mythic+ runs count as the keystone
+                // challenge instead; raids are credited per boss above.
+                if (!instance->IsRaid() && !IsChallengeModeStarted() && instance->GetEntry() && instance->GetEntry()->ExpansionID == CURRENT_EXPANSION)
+                {
+                    Guild* challengeGuild = nullptr;
+                    if (Player* member = FindOwnerGuildMember(instance, challengeGuild))
+                        challengeGuild->CompleteGuildChallenge(ChallengeDungeon, member);
+                }
                 TC_LOG_DEBUG("lfg", "UpdateEncounterState: Instance %s (instanceId %u) completed encounter %s. Credit Dungeon: %u",
                     instance->GetMapName(), instance->GetInstanceId(), encounter->dbcEntry->Name->Str[sWorld->GetDefaultDbcLocale()], dungeonId);
                 break;
@@ -1588,6 +1658,7 @@ private:
 
 void InstanceScript::StartChallengeMode(uint8 level)
 {
+    _challengeModeUpgrades = 0; // no stale 'timed' result from a previous run
     MapChallengeModeEntry const* mapChallengeModeEntry = sChallengeModeMgr->GetMapChallengeModeEntry(instance->GetId());
     if (!mapChallengeModeEntry)
         return;
@@ -1672,12 +1743,30 @@ void InstanceScript::CompleteChallengeMode()
     MapChallengeModeEntry const* mapChallengeModeEntry = sChallengeModeMgr->GetMapChallengeModeEntry(instance->GetId());
     if (!mapChallengeModeEntry)
         return;
+
+    // Guild challenge: Mythic Keystone run completed by a guild group.
+    {
+        Guild* challengeGuild = nullptr;
+        if (Player* member = FindOwnerGuildMember(instance, challengeGuild))
+            challengeGuild->CompleteGuildChallenge(ChallengeDungeonChallenge, member);
+    }
     uint32 totalDuration = GetChallengeModeCurrentDuration();
     // Todo : Send stats
     uint8 mythicIncrement = 0;
     for (uint8 i = 0; i < 3; ++i)
         if (uint32(mapChallengeModeEntry->CriteriaCount[i]) > totalDuration)
             ++mythicIncrement;
+    _challengeModeUpgrades = mythicIncrement;
+
+    // Guild achievements: Keystone Initiate / Challenger / Conqueror / Master Guild
+    // Run. Their criteria require a guild group (modifier 61) and the world state
+    // expressions KEYSTONE_LEVEL >= 2/5/10/15 AND KEYSTONE_UPGRADES >= 1 (timed),
+    // evaluated from this instance. Credited once to the owning guild.
+    {
+        Guild* runGuild = nullptr;
+        if (Player* member = FindOwnerGuildMember(instance, runGuild))
+            runGuild->UpdateCriteria(CRITERIA_TYPE_COMPLETE_CHALLENGE_MODE_GUILD, instance->GetId(), _challengeModeLevel, 0, nullptr, member);
+    }
     Map::PlayerList const& players = instance->GetPlayers();
     for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
         itr->GetSource()->AddChallengeKey(sChallengeModeMgr->GetRandomChallengeId(), std::max(_challengeModeLevel + mythicIncrement, 1));

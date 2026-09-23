@@ -42,7 +42,8 @@ _lastShootPos(), _passengersSpawnedByAI(false), _canBeCastedByPassengers(false)
         if (uint32 seatId = _vehicleInfo->SeatID[i])
             if (VehicleSeatEntry const* veSeat = sVehicleSeatStore.LookupEntry(seatId))
             {
-                Seats.insert(std::make_pair(i, VehicleSeat(veSeat)));
+                VehicleSeatAddon const* addon = sObjectMgr->GetVehicleSeatAddon(seatId);
+                Seats.insert(std::make_pair(i, VehicleSeat(veSeat, addon)));
                 if (veSeat->CanEnterOrExit())
                     ++UsableSeatNum;
             }
@@ -259,11 +260,14 @@ void Vehicle::RemoveAllPassengers()
     // We don't need to iterate over Seats
     _me->RemoveAurasByType(SPELL_AURA_CONTROL_VEHICLE);
 
-    // Following the above logic, this assertion should NEVER fail.
-    // Even in 'hacky' cases, there should at least be VEHICLE_SPELL_RIDE_HARDCODED on us.
-    // SeatMap::const_iterator itr;
-    // for (itr = Seats.begin(); itr != Seats.end(); ++itr)
-    //    ASSERT(!itr->second.passenger);
+    // Ported from TrinityCore master: an aura script can despawn the vehicle in the
+    // middle of handling SPELL_AURA_CONTROL_VEHICLE removal. In that case the aura
+    // effect is already unregistered but a passenger may still be found in a seat,
+    // leaving that player/creature stuck inside the vehicle. Force every remaining
+    // seated passenger to exit so no one is left attached to a torn-down vehicle.
+    for (SeatMap::const_iterator itr = Seats.begin(); itr != Seats.end(); ++itr)
+        if (Unit* passenger = ObjectAccessor::GetUnit(*_me, itr->second.Passenger.Guid))
+            passenger->_ExitVehicle();
 }
 
 /**
@@ -492,6 +496,12 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
 
 Vehicle* Vehicle::RemovePassenger(Unit* unit)
 {
+    // Ported from TrinityCore master: guard against a null passenger before any
+    // dereference. Prevents a crash when RemovePassenger is reached with a passenger
+    // that has already been cleaned up elsewhere.
+    if (!unit)
+        return nullptr;
+
     if (unit->GetVehicle() != this)
         return nullptr;
 
@@ -841,7 +851,15 @@ bool VehicleJoinEvent::Execute(uint64, uint32)
     if (Seat->second.SeatInfo->Flags & VEHICLE_SEAT_FLAG_PASSENGER_NOT_SELECTABLE)
         Passenger->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
 
-    Passenger->m_movementInfo.transport.pos.Relocate(veSeat->AttachmentOffset.X, veSeat->AttachmentOffset.Y, veSeat->AttachmentOffset.Z);
+    // Seat orientation: a passenger faces the direction the seat defines, NOT a
+    // hardcoded 0.0 (which flattened every passenger/accessory to seat-forward).
+    // Source order matches retail: the server-side vehicle_seat_addon override
+    // (SeatOrientationOffset) takes precedence; otherwise the client seat's own
+    // PassengerYaw is used.
+    VehicleSeatAddon const* seatAddon = Seat->second.SeatAddon;
+    float const seatOrientation = seatAddon ? seatAddon->SeatOrientationOffset : veSeat->PassengerYaw;
+
+    Passenger->m_movementInfo.transport.pos.Relocate(veSeat->AttachmentOffset.X, veSeat->AttachmentOffset.Y, veSeat->AttachmentOffset.Z, seatOrientation);
     Passenger->m_movementInfo.transport.time = 0;
     Passenger->m_movementInfo.transport.seat = Seat->first;
     Passenger->m_movementInfo.transport.guid = Target->GetBase()->GetGUID();
@@ -858,7 +876,7 @@ bool VehicleJoinEvent::Execute(uint64, uint32)
     Movement::MoveSplineInit init(Passenger);
     init.DisableTransportPathTransformations();
     init.MoveTo(veSeat->AttachmentOffset.X, veSeat->AttachmentOffset.Y, veSeat->AttachmentOffset.Z, false, true);
-    init.SetFacing(0.0f);
+    init.SetFacing(seatOrientation);
     init.SetTransportEnter();
     init.Launch();
 

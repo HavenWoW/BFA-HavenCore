@@ -25,6 +25,8 @@
 #include "Map.h"
 #include "ObjectMgr.h"
 #include "Player.h"
+#include "Guild.h"
+#include "GuildMgr.h"
 
 InstanceScenario::InstanceScenario(Map* map, ScenarioData const* scenarioData) : Scenario(scenarioData), _map(map)
 {
@@ -163,6 +165,37 @@ void InstanceScenario::LoadInstanceData(uint32 instanceId)
 void InstanceScenario::CompleteScenario()
 {
     Scenario::CompleteScenario();
+
+    // Scenario achievements (More Fun With Friends, Scenario Roundup): only real
+    // scenario maps - dungeons / Mythic+ also track objectives through instance
+    // scenarios. Every player for personal achievements, the owning guild once
+    // (both are group criteria types, so players do not forward them).
+    if (_map->IsScenario())
+    {
+        uint32 const scenarioId = GetEntry()->ID; // ScenarioData is only forward-declared here
+        ObjectGuid::LowType const ownerGuildId = _map->GetOwnerGuildId();
+        Player* guildMember = nullptr;
+
+        Map::PlayerList const& players = _map->GetPlayers();
+        for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+        {
+            Player* player = itr->GetSource();
+            if (!player)
+                continue;
+
+            player->UpdateCriteria(CRITERIA_TYPE_COMPLETE_SCENARIO_COUNT, 1);
+            player->UpdateCriteria(CRITERIA_TYPE_COMPLETE_SCENARIO, scenarioId);
+            if (!guildMember && ownerGuildId && player->GetGuildId() == ownerGuildId)
+                guildMember = player;
+        }
+
+        if (guildMember)
+            if (Guild* guild = sGuildMgr->GetGuildById(ownerGuildId))
+            {
+                guild->UpdateCriteria(CRITERIA_TYPE_COMPLETE_SCENARIO_COUNT, 1, 0, 0, nullptr, guildMember);
+                guild->UpdateCriteria(CRITERIA_TYPE_COMPLETE_SCENARIO, scenarioId, 0, 0, nullptr, guildMember);
+            }
+    }
 
     if (InstanceMap* iMap = const_cast<Map*>(_map)->ToInstanceMap())
     {

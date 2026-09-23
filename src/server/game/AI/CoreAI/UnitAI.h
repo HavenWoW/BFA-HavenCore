@@ -150,6 +150,9 @@ class TC_GAME_API UnitAI
         virtual ~UnitAI() { }
 
         virtual bool CanAIAttack(Unit const* /*target*/) const { return true; }
+
+        // Optional encounter-specific quest credit policy; ordinary combat is unchanged.
+        virtual bool CanReceiveKillCredit(Player const* /*player*/) const { return true; }
         virtual void AttackStart(Unit* /*target*/);
         virtual void UpdateAI(uint32 diff) = 0;
         void UpdateOperations(uint32 diff);

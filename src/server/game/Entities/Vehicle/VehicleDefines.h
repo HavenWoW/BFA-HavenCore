@@ -89,9 +89,32 @@ struct PassengerInfo
     }
 };
 
+enum class VehicleExitParameters : uint8
+{
+    VehicleExitParamNone    = 0, // provided parameters will be ignored
+    VehicleExitParamOffset  = 1, // provided parameters will be used as offset values
+    VehicleExitParamDest    = 2, // provided parameters will be used as absolute destination
+    VehicleExitParamMax
+};
+
+struct VehicleSeatAddon
+{
+    VehicleSeatAddon() { }
+    VehicleSeatAddon(float orientatonOffset, float exitX, float exitY, float exitZ, float exitO, uint8 param) :
+        SeatOrientationOffset(orientatonOffset), ExitParameterX(exitX), ExitParameterY(exitY), ExitParameterZ(exitZ),
+        ExitParameterO(exitO), ExitParameter(VehicleExitParameters(param)) { }
+
+    float SeatOrientationOffset = 0.f;
+    float ExitParameterX = 0.f;
+    float ExitParameterY = 0.f;
+    float ExitParameterZ = 0.f;
+    float ExitParameterO = 0.f;
+    VehicleExitParameters ExitParameter = VehicleExitParameters::VehicleExitParamNone;
+};
+
 struct VehicleSeat
 {
-    explicit VehicleSeat(VehicleSeatEntry const* seatInfo) : SeatInfo(seatInfo)
+    explicit VehicleSeat(VehicleSeatEntry const* seatInfo, VehicleSeatAddon const* seatAddon) : SeatInfo(seatInfo), SeatAddon(seatAddon)
     {
         Passenger.Reset();
     }
@@ -99,6 +122,7 @@ struct VehicleSeat
     bool IsEmpty() const { return Passenger.Guid.IsEmpty(); }
 
     VehicleSeatEntry const* SeatInfo;
+    VehicleSeatAddon const* SeatAddon;
     PassengerInfo Passenger;
 };
 
@@ -116,6 +140,7 @@ struct VehicleAccessory
 typedef std::vector<VehicleAccessory> VehicleAccessoryList;
 typedef std::map<ObjectGuid::LowType, VehicleAccessoryList> VehicleAccessoryContainer;
 typedef std::map<uint32, VehicleAccessoryList> VehicleAccessoryTemplateContainer;
+typedef std::map<uint32 /*seatEntryId*/, VehicleSeatAddon> VehicleSeatAddonContainer;
 typedef std::map<int8, VehicleSeat> SeatMap;
 
 class TransportBase

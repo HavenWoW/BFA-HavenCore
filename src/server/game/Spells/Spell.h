@@ -796,6 +796,7 @@ class TC_GAME_API Spell
         bool m_referencedFromCurrentSpell;                  // mark as references to prevent deleted and access by dead pointers
         bool m_executedCurrently;                           // mark as executed to prevent deleted and access by dead pointers
         bool m_needComboPoints;
+        bool m_guildSpellTargetCredited = false;            // BE_SPELL_TARGET guild credit given for this cast (once per cast)
         uint32 m_applyMultiplierMask;
         float m_damageMultipliers[MAX_SPELL_EFFECTS];
 

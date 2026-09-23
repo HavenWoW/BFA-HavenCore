@@ -171,6 +171,8 @@ private:
     // std::chrono::system_clock::time_point::min() is a placeholder value for realm firsts not yet completed
     // std::chrono::system_clock::time_point::max() is a value assigned to realm firsts complete before worldserver started
     std::unordered_map<uint32 /*achievementId*/, std::chrono::system_clock::time_point /*completionTime*/> _allCompletedAchievements;
+    std::unordered_map<uint32 /*achievementId*/, uint32 /*guilds*/> _hallOfFameCompletions;
+    static constexpr uint32 HallOfFameLimit = 100;
 
     std::unordered_map<uint32, AchievementReward> _achievementRewards;
     std::unordered_map<uint32, AchievementRewardLocale> _achievementRewardLocales;

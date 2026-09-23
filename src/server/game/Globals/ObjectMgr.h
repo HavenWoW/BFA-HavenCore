@@ -1204,6 +1204,7 @@ class TC_GAME_API ObjectMgr
         }
 
         VehicleAccessoryList const* GetVehicleAccessoryList(Vehicle* veh) const;
+        VehicleSeatAddon const* GetVehicleSeatAddon(uint32 seatId) const;
 
         DungeonEncounterList const* GetDungeonEncounterList(uint32 mapId, Difficulty difficulty) const;
 
@@ -1319,6 +1320,7 @@ class TC_GAME_API ObjectMgr
         void LoadMailLevelRewards();
         void LoadVehicleTemplateAccessories();
         void LoadVehicleAccessories();
+        void LoadVehicleSeatAddon();
 
         void LoadNPCText();
 
@@ -1811,6 +1813,7 @@ class TC_GAME_API ObjectMgr
 
         VehicleAccessoryTemplateContainer _vehicleTemplateAccessoryStore;
         VehicleAccessoryContainer _vehicleAccessoryStore;
+        VehicleSeatAddonContainer _vehicleSeatAddonStore;
 
         LocaleConstant DBCLocaleIndex;
 

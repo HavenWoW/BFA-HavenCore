@@ -4651,8 +4651,22 @@ class spell_gen_mobile_bank : public SpellScript
 
     void SpawnChest(SpellEffIndex /*effIndex*/)
     {
-        if (GetCaster()->IsPlayer() && GetCaster()->ToPlayer()->GetGuildId())
-            GetCaster()->SummonGameObject(GOB_MOBILE_BANK, GetCaster()->GetPositionWithDistInFront(2.f), QuaternionData::fromEulerAnglesZYX(GetCaster()->GetOrientation() - float(M_PI), 0.f, 0.f), 5 * MINUTE * IN_MILLISECONDS);
+        if (!GetCaster()->IsPlayer())
+            return;
+
+        Player* player = GetCaster()->ToPlayer();
+        if (!player->GetGuildId())
+            return;
+
+        ObjectGuid guildGuid = ObjectGuid::Create<HighGuid::Guild>(player->GetGuildId());
+        // Pass GuildGUID into the summon so it is present in the create-object update
+        // (set before AddToMap). Setting it after the summon returns is too late for
+        // the client to render the guild emblem on the Mobile Bank.
+        if (GameObject* mobileBank = GetCaster()->SummonGameObject(GOB_MOBILE_BANK, GetCaster()->GetPositionWithDistInFront(2.f), QuaternionData::fromEulerAnglesZYX(GetCaster()->GetOrientation() - float(M_PI), 0.f, 0.f), 5 * MINUTE * IN_MILLISECONDS, false, guildGuid))
+        {
+            TC_LOG_INFO("guild", "[EMBLEM-TRACE] MobileBank spawn: Player=%s GameObject=[%s] Guild=[%s]",
+                player->GetName().c_str(), mobileBank->GetGUID().ToString().c_str(), guildGuid.ToString().c_str());
+        }
     }
 
     void Register() override

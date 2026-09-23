@@ -516,6 +516,7 @@ void CriteriaHandler::UpdateCriteria(CriteriaTypes type, uint64 miscValue1 /*= 0
             case CRITERIA_TYPE_PLACE_GARRISON_BUILDING:
             case CRITERIA_TYPE_HONOR_LEVEL_REACHED:
             case CRITERIA_TYPE_PRESTIGE_REACHED:
+            case CRITERIA_TYPE_BUY_GUILD_TABARD:
                 SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
                 break;
             case CRITERIA_TYPE_COLLECT_BATTLEPET:
@@ -750,29 +751,61 @@ void CriteriaHandler::UpdateCriteria(CriteriaTypes type, uint64 miscValue1 /*= 0
             case CRITERIA_TYPE_COMPLETE_RAID:
             case CRITERIA_TYPE_PLAY_ARENA:
             case CRITERIA_TYPE_HIGHEST_TEAM_RATING:
+            // Guild criterion types (credited through Guild::UpdateCriteria). The
+            // filtering (creature type, profession, item class...) lives in each
+            // criterion's modifier tree; Asset is 0 for all of them in 8.3.7.
+            case CRITERIA_TYPE_BUY_GUILD_BANK_SLOTS:          // miscValue1 = bank tabs owned after the purchase
+                SetCriteriaProgress(criteria, miscValue1, referencePlayer, PROGRESS_HIGHEST);
+                break;
+            case CRITERIA_TYPE_KILL_CREATURE_TYPE_GUILD:      // miscValue1 = 1, unit = victim
+            case CRITERIA_TYPE_COMPLETE_QUESTS_GUILD:         // miscValue1 = 1
+            case CRITERIA_TYPE_HONORABLE_KILLS_GUILD:         // miscValue1 = 1
+            case CRITERIA_TYPE_SPENT_GOLD_GUILD_REPAIRS:      // miscValue1 = copper spent
+            case CRITERIA_TYPE_EARN_GUILD_ACHIEVEMENT_POINTS: // miscValue1 = achievement points
+                SetCriteriaProgress(criteria, miscValue1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_CRAFT_ITEMS_GUILD:             // miscValue1 = item id (modifiers), miscValue2 = count
+            case CRITERIA_TYPE_COOK_RECIPES_GUILD:
+                SetCriteriaProgress(criteria, miscValue2, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE_TYPE: // miscValue1 = GuildChallengeType, Asset = type
+                if (miscValue1 != uint64(criteria->Entry->Asset.ID))
+                    continue;
+                SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE:      // any type
+                SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_WIN_RATED_BATTLEGROUND:        // miscValue1 = 1
+                SetCriteriaProgress(criteria, miscValue1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_COMPLETE_CHALLENGE_MODE_GUILD: // miscValue1 = map, miscValue2 = keystone level (modifiers decide)
+                SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_CATCH_FROM_POOL:               // miscValue1 = 1 per catch from a fishing pool
+                SetCriteriaProgress(criteria, miscValue1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_COMPLETE_ARCHAEOLOGY_PROJECTS: // miscValue1 = research project; Asset 0 = any
+                if (criteria->Entry->Asset.ID && miscValue1 != uint64(criteria->Entry->Asset.ID))
+                    continue;
+                SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_COMPLETE_SCENARIO_COUNT:       // miscValue1 = 1
+                SetCriteriaProgress(criteria, miscValue1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
+            case CRITERIA_TYPE_COMPLETE_SCENARIO:             // miscValue1 = scenario ID, Asset = scenario ID
+                if (miscValue1 != uint64(criteria->Entry->Asset.ID))
+                    continue;
+                SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
+                break;
             case CRITERIA_TYPE_OWN_RANK:
-            case CRITERIA_TYPE_SPENT_GOLD_GUILD_REPAIRS:
-            case CRITERIA_TYPE_CRAFT_ITEMS_GUILD:
-            case CRITERIA_TYPE_CATCH_FROM_POOL:
-            case CRITERIA_TYPE_BUY_GUILD_BANK_SLOTS:
-            case CRITERIA_TYPE_EARN_GUILD_ACHIEVEMENT_POINTS:
-            case CRITERIA_TYPE_WIN_RATED_BATTLEGROUND:
             case CRITERIA_TYPE_REACH_BG_RATING:
-            case CRITERIA_TYPE_BUY_GUILD_TABARD:
-            case CRITERIA_TYPE_COMPLETE_QUESTS_GUILD:
-            case CRITERIA_TYPE_HONORABLE_KILLS_GUILD:
-            case CRITERIA_TYPE_KILL_CREATURE_TYPE_GUILD:
-            case CRITERIA_TYPE_COMPLETE_ARCHAEOLOGY_PROJECTS:
-            case CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE_TYPE:
-            case CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE:
             case CRITERIA_TYPE_LFR_DUNGEONS_COMPLETED:
             case CRITERIA_TYPE_LFR_LEAVES:
             case CRITERIA_TYPE_LFR_VOTE_KICKS_INITIATED_BY_PLAYER:
             case CRITERIA_TYPE_LFR_VOTE_KICKS_NOT_INIT_BY_PLAYER:
             case CRITERIA_TYPE_BE_KICKED_FROM_LFR:
             case CRITERIA_TYPE_COUNT_OF_LFR_QUEUE_BOOSTS_BY_TANK:
-            case CRITERIA_TYPE_COMPLETE_SCENARIO_COUNT:
-            case CRITERIA_TYPE_COMPLETE_SCENARIO:
             case CRITERIA_TYPE_CAPTURE_PET_IN_BATTLE:
             case CRITERIA_TYPE_BATTLE_PET_WIN:
             case CRITERIA_TYPE_BATTLE_PET_LEVEL_UP:
@@ -797,10 +830,8 @@ void CriteriaHandler::UpdateCriteria(CriteriaTypes type, uint64 miscValue1 /*= 0
             case CRITERIA_TYPE_SURVEY_GAMEOBJECT:
             case CRITERIA_TYPE_CLEAR_DIGSITE:
             case CRITERIA_TYPE_MANUAL_COMPLETE_CRITERIA:
-            case CRITERIA_TYPE_COMPLETE_CHALLENGE_MODE_GUILD:
             case CRITERIA_TYPE_DEFEAT_CREATURE_GROUP:
             case CRITERIA_TYPE_COMPLETE_CHALLENGE_MODE:
-            case CRITERIA_TYPE_COOK_RECIPES_GUILD:
             case CRITERIA_TYPE_EARN_PET_BATTLE_ACHIEVEMENT_POINTS:
             case CRITERIA_TYPE_RELEASE_SPIRIT:
             case CRITERIA_TYPE_ADD_BATTLE_PET_JOURNAL:
@@ -1165,6 +1196,22 @@ bool CriteriaHandler::IsCompletedCriteria(Criteria const* criteria, uint64 requi
 
     switch (CriteriaTypes(criteria->Entry->Type))
     {
+        case CRITERIA_TYPE_BUY_GUILD_BANK_SLOTS:
+        case CRITERIA_TYPE_KILL_CREATURE_TYPE_GUILD:
+        case CRITERIA_TYPE_CRAFT_ITEMS_GUILD:
+        case CRITERIA_TYPE_COOK_RECIPES_GUILD:
+        case CRITERIA_TYPE_COMPLETE_QUESTS_GUILD:
+        case CRITERIA_TYPE_HONORABLE_KILLS_GUILD:
+        case CRITERIA_TYPE_SPENT_GOLD_GUILD_REPAIRS:
+        case CRITERIA_TYPE_EARN_GUILD_ACHIEVEMENT_POINTS:
+        case CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE_TYPE:
+        case CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE:
+        case CRITERIA_TYPE_WIN_RATED_BATTLEGROUND:
+        case CRITERIA_TYPE_COMPLETE_CHALLENGE_MODE_GUILD:
+        case CRITERIA_TYPE_CATCH_FROM_POOL:
+        case CRITERIA_TYPE_COMPLETE_ARCHAEOLOGY_PROJECTS:
+        case CRITERIA_TYPE_COMPLETE_SCENARIO_COUNT:
+        case CRITERIA_TYPE_COMPLETE_SCENARIO:
         case CRITERIA_TYPE_WIN_BG:
         case CRITERIA_TYPE_KILL_CREATURE:
         case CRITERIA_TYPE_REACH_LEVEL:
@@ -1969,6 +2016,51 @@ bool CriteriaHandler::ModifierSatisfied(ModifierTreeEntry const* modifier, uint6
             if (!ConditionMgr::GetPlayerConditionLfgValue(referencePlayer, PlayerConditionLfgStatus::InLFGFirstRandomDungeon))
                 return false;
             break;
+        case CRITERIA_ADDITIONAL_CONDITION_ITEM_CLASS_AND_SUBCLASS: // 96
+        {
+            // miscValue1 is itemid (e.g. guild crafting: potions, gems, glyphs, food)
+            ItemTemplate const* item = sObjectMgr->GetItemTemplate(uint32(miscValue1));
+            if (!item || item->GetClass() != reqValue || item->GetSubClass() != secondaryAsset)
+                return false;
+            break;
+        }
+        case CRITERIA_ADDITIONAL_CONDITION_REQUIRES_GUILD_GROUP: // 61
+        {
+            if (!referencePlayer->IsInWorld())
+                return false;
+            // The player's map (instance / battleground side) must be owned by the
+            // player's own guild: Map::GetOwnerGuildId guild group rule (3 of 5,
+            // 80% of larger groups).
+            ObjectGuid::LowType guildId = referencePlayer->GetGuildId();
+            Map const* map = referencePlayer->GetMap();
+            uint32 team = map->IsBattlegroundOrArena() ? referencePlayer->GetBGTeam() : uint32(TEAM_OTHER);
+            if (!guildId || map->GetOwnerGuildId(team) != guildId)
+                return false;
+            break;
+        }
+        case CRITERIA_ADDITIONAL_CONDITION_GUILD_GROUP_MEMBERS: // 80
+        {
+            if (!referencePlayer->IsInWorld())
+                return false;
+            // At least reqValue members of the player's guild in the same instance /
+            // battleground side (the player included).
+            ObjectGuid::LowType guildId = referencePlayer->GetGuildId();
+            if (!guildId)
+                return false;
+
+            Map const* map = referencePlayer->GetMap();
+            bool const battleground = map->IsBattlegroundOrArena();
+            uint32 members = 0;
+            Map::PlayerList const& players = map->GetPlayers();
+            for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                if (Player const* member = itr->GetSource())
+                    if (member->GetGuildId() == guildId && (!battleground || member->GetBGTeam() == referencePlayer->GetBGTeam()))
+                        ++members;
+
+            if (members < reqValue)
+                return false;
+            break;
+        }
         case CRITERIA_ADDITIONAL_CONDITION_GUILD_REPUTATION: // 62
             if (referencePlayer->GetReputationMgr().GetReputation(1168) < int32(reqValue))
                 return false;

@@ -26,9 +26,12 @@
 #include "Config.h"
 #include "DatabaseEnv.h"
 #include "DB2Stores.h"
-#include "GuildFinderMgr.h"
+#include "ClubFinderMgr.h"
+#include "ClubStreamHistoryMgr.h"
+#include "ClubUtils.h"
 #include "GuildMgr.h"
 #include "GuildPackets.h"
+#include "Group.h"
 #include "Language.h"
 #include "Log.h"
 #include "Map.h"
@@ -36,9 +39,16 @@
 #include "ObjectMgr.h"
 #include "Player.h"
 #include "ScriptMgr.h"
+#include "SpellInfo.h"
+#include "SpellMgr.h"
 #include "SocialMgr.h"
 #include "World.h"
 #include "WorldSession.h"
+#include "WorldserverService.h"
+#include "Util.h"
+#include <algorithm>
+#include <array>
+#include <unordered_map>
 
 size_t const MAX_GUILD_BANK_TAB_TEXT_LEN = 500;
 
@@ -87,6 +97,8 @@ inline void Guild::LogHolder::LoadEvent(LogEntry* entry)
 {
     if (m_nextGUID == uint32(GUILD_EVENT_LOG_GUID_UNDEFINED))
         m_nextGUID = entry->GetGUID();
+    else if (m_uniqueGuids && entry->GetGUID() > m_nextGUID)
+        m_nextGUID = entry->GetGUID();   // continue after the highest ID, never reuse one
     m_log.push_front(entry);
 }
 
@@ -98,6 +110,8 @@ inline void Guild::LogHolder::AddEvent(CharacterDatabaseTransaction& trans, LogE
     if (m_log.size() >= m_maxRecords)
     {
         LogEntry* oldEntry = m_log.front();
+        if (m_uniqueGuids)
+            oldEntry->DeleteFromDB(trans);   // GUIDs never wrap, so the row is not overwritten later
         delete oldEntry;
         m_log.pop_front();
     }
@@ -111,6 +125,13 @@ inline uint32 Guild::LogHolder::GetNextGUID()
 {
     // Next guid was not initialized. It means there are no records for this holder in DB yet.
     // Start from the beginning.
+    if (m_uniqueGuids)
+    {
+        // 1, 2, 3, ... : never 0, never reused.
+        m_nextGUID = m_nextGUID == uint32(GUILD_EVENT_LOG_GUID_UNDEFINED) ? 1 : m_nextGUID + 1;
+        return m_nextGUID;
+    }
+
     if (m_nextGUID == uint32(GUILD_EVENT_LOG_GUID_UNDEFINED))
         m_nextGUID = 0;
     else
@@ -208,6 +229,40 @@ void Guild::BankEventLogEntry::WritePacket(WorldPackets::Guild:: GuildBankLogQue
     packet.Entry.push_back(bankLogEntry);
 }
 
+namespace
+{
+    std::string SerializeGuildNewsItem(Item const* item)
+    {
+        if (!item)
+            return {};
+
+        WorldPackets::Item::ItemInstance itemInstance;
+        itemInstance.Initialize(item);
+
+        ByteBuffer buffer;
+        buffer << itemInstance;
+        return ByteArrayToHexStr(buffer.contents(), buffer.size(), false);
+    }
+
+    bool DeserializeGuildNewsItem(std::string const& data, WorldPackets::Item::ItemInstance& itemInstance)
+    {
+        if (data.empty() || (data.size() & 1))
+            return false;
+
+        try
+        {
+            ByteBuffer buffer(data.size() / 2, ByteBuffer::Resize{});
+            HexStrToByteArray(data, buffer.contents());
+            buffer >> itemInstance;
+            return true;
+        }
+        catch (ByteBufferException const&)
+        {
+            return false;
+        }
+    }
+}
+
 void Guild::NewsLogEntry::SaveToDB(CharacterDatabaseTransaction& trans) const
 {
     uint8 index = 0;
@@ -219,6 +274,15 @@ void Guild::NewsLogEntry::SaveToDB(CharacterDatabaseTransaction& trans) const
     stmt->setUInt32(++index, GetFlags());
     stmt->setUInt32(++index, GetValue());
     stmt->setUInt64(++index, GetTimestamp());
+    stmt->setString(++index, GetItemData());
+    CharacterDatabase.ExecuteOrAppend(trans, stmt);
+}
+
+void Guild::NewsLogEntry::DeleteFromDB(CharacterDatabaseTransaction& trans) const
+{
+    CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_GUILD_NEWS);
+    stmt->setUInt64(0, m_guildId);
+    stmt->setUInt32(1, GetGUID());
     CharacterDatabase.ExecuteOrAppend(trans, stmt);
 }
 
@@ -228,7 +292,12 @@ void Guild::NewsLogEntry::WritePacket(WorldPackets::Guild::GuildNews& newsPacket
     newsEvent.Id = int32(GetGUID());
     newsEvent.MemberGuid = GetPlayerGuid();
     newsEvent.CompletedDate = uint32(GetTimestamp());
-    newsEvent.Flags = int32(GetFlags());
+    // Only the sticky bit (retail sends 0/1). The 8.3.7 client's news sort
+    // (GuildNewsSort -> comparator 0x15E70C0) orders entries whose Flags differ by
+    // bit 0 alone, so any other bit (e.g. 0x2000 from old achievement news) made the
+    // comparison contradictory: the order changed on every reopen and unpinned
+    // rows landed in the pinned section.
+    newsEvent.Flags = int32(GetFlags() & 1);
     newsEvent.Type = int32(GetType());
 
     newsEvent.Data[0] = GetValue();
@@ -239,7 +308,9 @@ void Guild::NewsLogEntry::WritePacket(WorldPackets::Guild::GuildNews& newsPacket
     if (GetType() == GUILD_NEWS_ITEM_LOOTED || GetType() == GUILD_NEWS_ITEM_CRAFTED || GetType() == GUILD_NEWS_ITEM_PURCHASED)
     {
         WorldPackets::Item::ItemInstance itemInstance;
-        itemInstance.ItemID = GetValue();
+        if (!DeserializeGuildNewsItem(GetItemData(), itemInstance))
+            itemInstance.ItemID = GetValue(); // legacy rows only stored the base item id
+
         newsEvent.Item = itemInstance;
     }
 
@@ -361,6 +432,12 @@ void Guild::RankInfo::SetBankTabSlotsAndRights(GuildBankRightsAndSlots rightsAnd
 Guild::BankTab::BankTab(ObjectGuid::LowType guildId, uint8 tabId) : m_guildId(guildId), m_tabId(tabId)
 {
     memset(m_items, 0, GUILD_BANK_MAX_SLOTS * sizeof(Item*));
+
+    // Retail creates purchased guild-bank tabs with usable defaults immediately.
+    // Keep these defaults in memory as well as in the database so the first full
+    // bank update after purchase already contains a valid title and texture.
+    m_name = "Tab " + std::to_string(uint32(tabId) + 1);
+    m_icon = "134400"; // INV_Misc_QuestionMark fileDataID
 }
 
 // BankTab
@@ -369,6 +446,14 @@ void Guild::BankTab::LoadFromDB(Field* fields)
     m_name = fields[2].GetString();
     m_icon = fields[3].GetString();
     m_text = fields[4].GetString();
+
+    // Older Haven rows were created without TabName/TabIcon. Preserve custom
+    // values, but repair those legacy empty rows in memory so they render like a
+    // freshly purchased BFA guild-bank tab.
+    if (m_name.empty())
+        m_name = "Tab " + std::to_string(uint32(m_tabId) + 1);
+    if (m_icon.empty() || m_icon == "0")
+        m_icon = "134400";
 }
 
 bool Guild::BankTab::LoadItemFromDB(Field* fields)
@@ -590,6 +675,9 @@ void Guild::Member::ChangeRank(CharacterDatabaseTransaction& trans, uint8 newRan
     stmt->setUInt8 (0, newRank);
     stmt->setUInt64(1, m_guid.GetCounter());
     CharacterDatabase.ExecuteOrAppend(trans, stmt);
+
+    if (Guild* guild = sGuildMgr->GetGuildById(m_guildId))
+        Battlenet::NotifyGuildClubMemberRoleChanged(guild, m_guid, newRank);
 }
 
 void Guild::Member::SaveToDB(CharacterDatabaseTransaction& trans) const
@@ -728,10 +816,23 @@ void EmblemInfo::ReadPacket(WorldPackets::Guild::SaveGuildEmblem& packet)
 
 bool EmblemInfo::ValidateEmblemColors() const
 {
-    return sGuildColorBackgroundStore.LookupEntry(m_backgroundColor) &&
-           sGuildColorBorderStore.LookupEntry(m_borderColor) &&
-           sGuildColorEmblemStore.LookupEntry(m_color);
+    // Newly founded retail guilds use -1 for every component. Haven persists
+    // that sentinel as 0xFF because the guild table columns are unsigned bytes.
+    if (m_style == 0xFF && m_color == 0xFF && m_borderStyle == 0xFF && m_borderColor == 0xFF && m_backgroundColor == 0xFF)
+    {
+        TC_LOG_INFO("guild", "[EMBLEM-TRACE] ValidateEmblemColors: all-0xFF sentinel accepted");
+        return true;
+    }
 
+    bool backgroundValid = sGuildColorBackgroundStore.LookupEntry(m_backgroundColor) != nullptr;
+    bool borderColorValid = sGuildColorBorderStore.LookupEntry(m_borderColor) != nullptr;
+    bool emblemColorValid = sGuildColorEmblemStore.LookupEntry(m_color) != nullptr;
+
+    TC_LOG_INFO("guild", "[EMBLEM-TRACE] ValidateEmblemColors: Style=%u Color=%u(valid=%u) BorderStyle=%u BorderColor=%u(valid=%u) Background=%u(valid=%u)",
+        m_style, m_color, uint32(emblemColorValid), m_borderStyle, m_borderColor, uint32(borderColorValid),
+        m_backgroundColor, uint32(backgroundValid));
+
+    return backgroundValid && borderColorValid && emblemColorValid;
 }
 
 bool EmblemInfo::LoadFromDB(Field* fields)
@@ -747,6 +848,9 @@ bool EmblemInfo::LoadFromDB(Field* fields)
 
 void EmblemInfo::SaveToDB(ObjectGuid::LowType guildId) const
 {
+    TC_LOG_INFO("guild", "[EMBLEM-TRACE] SaveToDB: Guild=" UI64FMTD " Style=%u Color=%u BorderStyle=%u BorderColor=%u Background=%u",
+        guildId, m_style, m_color, m_borderStyle, m_borderColor, m_backgroundColor);
+
     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_GUILD_EMBLEM_INFO);
     stmt->setUInt32(0, m_style);
     stmt->setUInt32(1, m_color);
@@ -1173,11 +1277,11 @@ bool Guild::Create(Player* pLeader, std::string const& name)
     stmt->setString(++index, m_info);
     stmt->setString(++index, m_motd);
     stmt->setUInt64(++index, uint32(m_createdDate));
-    stmt->setUInt32(++index, m_emblemInfo.GetStyle());
-    stmt->setUInt32(++index, m_emblemInfo.GetColor());
-    stmt->setUInt32(++index, m_emblemInfo.GetBorderStyle());
-    stmt->setUInt32(++index, m_emblemInfo.GetBorderColor());
-    stmt->setUInt32(++index, m_emblemInfo.GetBackgroundColor());
+    stmt->setUInt32(++index, m_emblemInfo.GetStyleForDB());
+    stmt->setUInt32(++index, m_emblemInfo.GetColorForDB());
+    stmt->setUInt32(++index, m_emblemInfo.GetBorderStyleForDB());
+    stmt->setUInt32(++index, m_emblemInfo.GetBorderColorForDB());
+    stmt->setUInt32(++index, m_emblemInfo.GetBackgroundColorForDB());
     stmt->setUInt64(++index, m_bankMoney);
     trans->Append(stmt);
 
@@ -1191,6 +1295,10 @@ bool Guild::Create(Player* pLeader, std::string const& name)
         Member* leader = GetMember(m_leaderGuid);
         if (leader)
             SendEventNewLeader(leader, nullptr);
+
+        // Retail emits a Type 7 guild-news entry immediately after creation:
+        // "<guild name> has been founded". It carries no member GUID/value.
+        AddGuildNews(GUILD_NEWS_CREATE, ObjectGuid::Empty, 0, 0);
 
         sScriptMgr->OnGuildCreate(this, pLeader, name);
     }
@@ -1215,6 +1323,7 @@ void Guild::Disband()
 
     WorldPackets::Guild::GuildEventDisbanded packet;
     BroadcastPacket(packet.Write());
+
 
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
     // Remove all members
@@ -1255,13 +1364,16 @@ void Guild::Disband()
     stmt->setUInt64(0, m_id);
     trans->Append(stmt);
 
+    // Guild club chat history, read markers and mentions (club id = guild id).
+    sClubStreamHistoryMgr->DeleteClub(m_id, trans);
+
     stmt = CharacterDatabase.GetPreparedStatement(CHAR_REMOVE_GUILD_CHALLENGES);
     stmt->setUInt64(0, m_id);
     trans->Append(stmt);
 
     CharacterDatabase.CommitTransaction(trans);
 
-    sGuildFinderMgr->DeleteGuild(GetGUID());
+    sClubFinderMgr->DeleteGuild(GetGUID());
 
     sGuildMgr->RemoveGuild(m_id);
 }
@@ -1298,6 +1410,12 @@ void Guild::UpdateMemberData(Player* player, uint8 dataid, uint32 value)
     }
 }
 
+void Guild::SetMemberAchievementPoints(ObjectGuid guid, uint32 points)
+{
+    if (Member* member = GetMember(guid))
+        member->SetAchievementPoints(points);
+}
+
 void Guild::OnPlayerStatusChange(Player* player, uint32 flag, bool state)
 {
     if (Member* member = GetMember(player->GetGUID()))
@@ -1324,7 +1442,130 @@ bool Guild::SetName(std::string const& name)
     guildNameChanged.GuildName = m_name;
     BroadcastPacket(guildNameChanged.Write());
 
+    Battlenet::NotifyGuildClubNameChanged(this);
+
     return true;
+}
+
+int32 Guild::GetLegacyProfessionStep(uint32 maxRank)
+{
+    static constexpr uint32 LegacyCaps[] = { 75, 150, 225, 300, 375, 450, 525, 600, 700, 800 };
+    for (uint32 i = 0; i < std::size(LegacyCaps); ++i)
+        if (maxRank <= LegacyCaps[i])
+            return int32(i + 1);
+    return int32(std::size(LegacyCaps));
+}
+
+uint32 Guild::GetRootProfessionSkillLine(uint32 skillId)
+{
+    uint32 rootSkillId = skillId;
+    SkillLineEntry const* rootSkill = sSkillLineStore.LookupEntry(skillId);
+    while (rootSkill && rootSkill->ParentSkillLineID)
+    {
+        rootSkillId = rootSkill->ParentSkillLineID;
+        rootSkill = sSkillLineStore.LookupEntry(rootSkillId);
+    }
+
+    return rootSkill && rootSkill->CategoryID == SKILL_CATEGORY_PROFESSION ? rootSkillId : 0;
+}
+
+bool Guild::IsSkillGrantedAbility(SkillLineAbilityEntry const* ability, uint32 skillValue, uint8 race, uint8 classId, uint8 level)
+{
+    // Mirrors Player::LearnSkillRewardedSpells (the 'learn' branch only).
+    if (!ability)
+        return false;
+
+    if (ability->AcquireMethod != SKILL_LINE_ABILITY_LEARNED_ON_SKILL_VALUE && ability->AcquireMethod != SKILL_LINE_ABILITY_LEARNED_ON_SKILL_LEARN)
+        return false;
+
+    if (ability->RaceMask && !ability->RaceMask.HasRace(race))
+        return false;
+
+    uint32 classMask = classId ? (1u << (classId - 1)) : 0;
+    if (ability->ClassMask && !(ability->ClassMask & classMask))
+        return false;
+
+    SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(ability->Spell);
+    if (!spellInfo || level < spellInfo->SpellLevel)
+        return false;
+
+    return !(int32(skillValue) < ability->MinSkillLineRank && ability->AcquireMethod == SKILL_LINE_ABILITY_LEARNED_ON_SKILL_VALUE);
+}
+
+void Guild::AppendSkillGrantedSpells(uint32 skillId, uint32 skillValue, uint8 race, uint8 classId, uint8 level, std::unordered_set<uint32>& spells)
+{
+    if (std::vector<SkillLineAbilityEntry const*> const* abilities = sDB2Manager.GetSkillLineAbilitiesBySkill(skillId))
+        for (SkillLineAbilityEntry const* ability : *abilities)
+            if (IsSkillGrantedAbility(ability, skillValue, race, classId, level))
+                spells.insert(uint32(ability->Spell));
+}
+
+void Guild::AppendLiveKnownSpells(Player const* player, std::unordered_set<uint32>& spells)
+{
+    if (!player)
+        return;
+
+    // Live spell map includes dependent (skill-granted) and unsaved new spells.
+    for (auto const& spellPair : player->GetSpellMap())
+        if (spellPair.second && spellPair.second->state != PLAYERSPELL_REMOVED && !spellPair.second->disabled)
+            spells.insert(spellPair.first);
+}
+
+void Guild::AppendOfflineKnownSpells(ObjectGuid memberGuid, ObjectGuid::LowType guildId, std::unordered_set<uint32>& spells)
+{
+    CharacterDatabasePreparedStatement* spellStmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_GUILD_MEMBER_SPELLS_BY_GUID);
+    spellStmt->setUInt64(0, guildId);
+    spellStmt->setUInt64(1, memberGuid.GetCounter());
+    if (PreparedQueryResult result = CharacterDatabase.Query(spellStmt))
+    {
+        do
+            spells.insert(result->Fetch()[0].GetUInt32());
+        while (result->NextRow());
+    }
+
+    CharacterCacheEntry const* cache = sCharacterCache->GetCharacterCacheByGuid(memberGuid);
+    if (!cache)
+        return;
+
+    CharacterDatabasePreparedStatement* skillStmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_GUILD_MEMBER_SKILLS_BY_GUID);
+    skillStmt->setUInt64(0, guildId);
+    skillStmt->setUInt64(1, memberGuid.GetCounter());
+    if (PreparedQueryResult result = CharacterDatabase.Query(skillStmt))
+    {
+        do
+        {
+            Field* fields = result->Fetch();
+            uint32 skillId = fields[0].GetUInt16();
+            if (GetRootProfessionSkillLine(skillId))
+                AppendSkillGrantedSpells(skillId, fields[1].GetUInt16(), cache->Race, cache->Class, cache->Level, spells);
+        }
+        while (result->NextRow());
+    }
+}
+
+namespace
+{
+    // Live roster profession slots for an online member (no DB save needed).
+    void FillLiveProfessionSlots(Player const* player, WorldPackets::Guild::GuildRosterProfessionData (&slots)[2])
+    {
+        for (auto& slot : slots)
+            slot = WorldPackets::Guild::GuildRosterProfessionData();
+
+        uint32 used = 0;
+        for (SkillLineEntry const* skillLine : sSkillLineStore)
+        {
+            if (used >= 2)
+                break;
+
+            if (skillLine->ParentSkillLineID || skillLine->CategoryID != SKILL_CATEGORY_PROFESSION || !player->HasSkill(skillLine->ID))
+                continue;
+
+            slots[used].DbID = int32(skillLine->ID);
+            slots[used].Rank = int32(player->GetPureSkillValue(skillLine->ID));
+            slots[used].Step = Guild::GetLegacyProfessionStep(player->GetPureMaxSkillValue(skillLine->ID));
+            ++used;
+        }
+    }
 }
 
 void Guild::HandleRoster(WorldSession* session)
@@ -1336,6 +1577,72 @@ void Guild::HandleRoster(WorldSession* session)
     roster.GuildFlags = m_flags;
 
     roster.MemberData.reserve(m_members.size());
+
+    // The BFA roster packet has two profession slots per member. Map expansion
+    // skill lines back to their root profession and keep the newest/highest
+    // tier for each root profession. This also works for offline members.
+    std::unordered_map<uint64, std::array<WorldPackets::Guild::GuildRosterProfessionData, 2>> professionsByMember;
+
+    CharacterDatabasePreparedStatement* professionStmt = CharacterDatabase.GetPreparedStatement(CHAR_SEL_GUILD_MEMBER_SKILLS);
+    professionStmt->setUInt64(0, m_id);
+    if (PreparedQueryResult professionResult = CharacterDatabase.Query(professionStmt))
+    {
+        do
+        {
+            Field* fields = professionResult->Fetch();
+            uint64 memberGuid = fields[0].GetUInt64();
+            // character_skills.skill is SMALLINT: read as uint16 (a raw GetUInt32 on a
+            // 2-byte binary field reads garbage upper bytes and every row is skipped).
+            uint32 skillId = fields[1].GetUInt16();
+            int32 skillRank = fields[2].GetUInt16();
+            uint32 skillMax = fields[3].GetUInt16();
+
+            SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillId);
+            if (!skillLine)
+                continue;
+
+            uint32 rootSkillId = skillId;
+            SkillLineEntry const* rootSkill = skillLine;
+            while (rootSkill && rootSkill->ParentSkillLineID)
+            {
+                rootSkillId = rootSkill->ParentSkillLineID;
+                rootSkill = sSkillLineStore.LookupEntry(rootSkillId);
+            }
+
+            if (!rootSkill || rootSkill->CategoryID != SKILL_CATEGORY_PROFESSION)
+                continue;
+
+            bool isRootRow = skillId == rootSkillId;
+            auto& slots = professionsByMember[memberGuid];
+            WorldPackets::Guild::GuildRosterProfessionData* target = nullptr;
+
+            for (auto& slot : slots)
+            {
+                if (slot.DbID == int32(rootSkillId))
+                {
+                    target = &slot;
+                    break;
+                }
+
+                if (!target && !slot.DbID)
+                    target = &slot;
+            }
+
+            if (!target)
+                continue;
+
+            // Retail reports the ROOT line's value as Rank and a legacy step from the
+            // root line's max rank (see GetLegacyProfessionStep). A tier row only
+            // fills the slot until the root row is seen; the root row always wins.
+            if (isRootRow || !target->DbID)
+            {
+                target->DbID = int32(rootSkillId);
+                target->Rank = skillRank;
+                target->Step = GetLegacyProfessionStep(skillMax);
+            }
+        }
+        while (professionResult->NextRow());
+    }
 
     for (auto itr : m_members)
     {
@@ -1350,7 +1657,17 @@ void Guild::HandleRoster(WorldSession* session)
         memberData.GuildReputation = int32(member->GetTotalReputation());
         memberData.LastSave = member->GetInactiveDays();
 
-        //GuildRosterProfessionData
+        if (Player* onlineMember = member->FindConnectedPlayer())
+            FillLiveProfessionSlots(onlineMember, memberData.Profession);
+        else
+        {
+            auto professionItr = professionsByMember.find(member->GetGUID().GetCounter());
+            if (professionItr != professionsByMember.end())
+            {
+                memberData.Profession[0] = professionItr->second[0];
+                memberData.Profession[1] = professionItr->second[1];
+            }
+        }
 
         memberData.VirtualRealmAddress = GetVirtualRealmAddress();
         memberData.Status = member->GetFlags();
@@ -1364,7 +1681,6 @@ void Guild::HandleRoster(WorldSession* session)
         memberData.Name = member->GetName();
         memberData.Note = member->GetPublicNote();
         memberData.OfficerNote = member->GetOfficerNote();
-
         roster.MemberData.push_back(memberData);
     }
 
@@ -1390,6 +1706,10 @@ void Guild::SendQueryResponse(WorldSession* session, ObjectGuid const& playerGui
     response.Info->BorderStyle = m_emblemInfo.GetBorderStyle();
     response.Info->BorderColor = m_emblemInfo.GetBorderColor();
     response.Info->BackgroundColor = m_emblemInfo.GetBackgroundColor();
+
+    TC_LOG_INFO("guild", "[EMBLEM-TRACE] SMSG_QUERY_GUILD_INFO_RESPONSE [%s]: Guild=[%s] Style=%u Color=%u BorderStyle=%u BorderColor=%u Background=%u",
+        session->GetPlayerInfo().c_str(), GetGUID().ToString().c_str(), response.Info->EmblemStyle, response.Info->EmblemColor,
+        response.Info->BorderStyle, response.Info->BorderColor, response.Info->BackgroundColor);
 
     for (uint8 i = 0; i < _GetRanksSize(); ++i)
     {
@@ -1494,6 +1814,7 @@ void Guild::HandleSetMOTD(WorldSession* session, std::string const& motd)
         CharacterDatabase.Execute(stmt);
 
         SendEventMOTD(session, true);
+        Battlenet::NotifyGuildClubBroadcastChanged(this, session);
     }
 }
 
@@ -1513,6 +1834,8 @@ void Guild::HandleSetInfo(WorldSession* session, std::string const& info)
         stmt->setString(0, info);
         stmt->setUInt64(1, m_id);
         CharacterDatabase.Execute(stmt);
+
+        Battlenet::NotifyGuildClubDescriptionChanged(this);
     }
 }
 
@@ -1525,14 +1848,36 @@ void Guild::HandleSetEmblem(WorldSession* session, const EmblemInfo& emblemInfo)
         SendSaveEmblemResult(session, ERR_GUILDEMBLEM_NOTENOUGHMONEY); // "You can't afford to do that."
     else
     {
+        TC_LOG_INFO("guild", "[EMBLEM-TRACE] HandleSetEmblem before save: Guild=[%s] old={Style=%u Color=%u BorderStyle=%u BorderColor=%u Background=%u} new={Style=%u Color=%u BorderStyle=%u BorderColor=%u Background=%u}",
+            GetGUID().ToString().c_str(), m_emblemInfo.GetStyle(), m_emblemInfo.GetColor(), m_emblemInfo.GetBorderStyle(),
+            m_emblemInfo.GetBorderColor(), m_emblemInfo.GetBackgroundColor(), emblemInfo.GetStyle(), emblemInfo.GetColor(),
+            emblemInfo.GetBorderStyle(), emblemInfo.GetBorderColor(), emblemInfo.GetBackgroundColor());
+
         player->ModifyMoney(-int64(EMBLEM_PRICE));
 
         m_emblemInfo = emblemInfo;
         m_emblemInfo.SaveToDB(m_id);
 
+        TC_LOG_INFO("guild", "[EMBLEM-TRACE] HandleSetEmblem after save: Guild=[%s] Style=%u Color=%u BorderStyle=%u BorderColor=%u Background=%u",
+            GetGUID().ToString().c_str(), m_emblemInfo.GetStyle(), m_emblemInfo.GetColor(), m_emblemInfo.GetBorderStyle(),
+            m_emblemInfo.GetBorderColor(), m_emblemInfo.GetBackgroundColor());
+
         SendSaveEmblemResult(session, ERR_GUILDEMBLEM_SUCCESS); // "Guild Emblem saved."
 
+        // Match TrinityCore emblem handling: refresh guild query data after a
+        // successful save. Keep Haven's BFA PlayerGuid field by using the
+        // existing BFA SendQueryResponse helper.
         SendQueryResponse(session, ObjectGuid::Empty);
+
+        UpdateCriteria(CRITERIA_TYPE_BUY_GUILD_TABARD, 1, 0, 0, nullptr, player);
+
+        // The retail emblem-save capture immediately awards guild achievement
+        // 5362 (Everyone Needs a Logo). Keep the generic criterion first, but
+        // guarantee the retail result if this branch's BFA DB2 criteria mapping
+        // fails to associate BUY_GUILD_TABARD with the guild achievement.
+        if (!HasAchieved(5362))
+            if (AchievementEntry const* achievement = sAchievementStore.LookupEntry(5362))
+                m_achievementMgr.CompletedAchievement(achievement, player);
     }
 }
 
@@ -1623,21 +1968,67 @@ void Guild::HandleSetRankInfo(WorldSession* session, uint8 rankId, std::string c
 {
     // Only leader can modify ranks
     if (!_IsLeader(session->GetPlayer()))
-        SendCommandResult(session, GUILD_COMMAND_CHANGE_RANK, ERR_GUILD_PERMISSIONS);
-    else if (RankInfo* rankInfo = GetRankInfo(rankId))
     {
-        TC_LOG_DEBUG("guild", "Changed RankName to '%s', rights to 0x%08X", name.c_str(), rights);
+        SendCommandResult(session, GUILD_COMMAND_CHANGE_RANK, ERR_GUILD_PERMISSIONS);
+        return;
+    }
 
-        rankInfo->SetName(name);
-        rankInfo->SetRights(rights);
-        _SetRankBankMoneyPerDay(rankId, moneyPerDay * GOLD);
+    RankInfo* rankInfo = GetRankInfo(rankId);
+    if (!rankInfo)
+        return;
 
-        for (auto itr = rightsAndSlots.begin(); itr != rightsAndSlots.end(); ++itr)
-            _SetRankBankTabRightsAndSlots(rankId, *itr);
+    uint32 const oldRights = rankInfo->GetRights();
+    uint32 const oldClubRole = Battlenet::ClubUtils::GetGuildClubRole(this, rankId);
 
-        WorldPackets::Guild::GuildEventRankChanged packet;
-        packet.RankID = rankId;
-        BroadcastPacket(packet.Write());
+    TC_LOG_DEBUG("guild",
+        "Changed rank %u '%s': rights 0x%08X -> 0x%08X",
+        uint32(rankId), name.c_str(), oldRights, rights);
+
+    rankInfo->SetName(name);
+    rankInfo->SetRights(rights);
+    _SetRankBankMoneyPerDay(rankId, moneyPerDay * GOLD);
+
+    for (auto const& rightsAndSlot : rightsAndSlots)
+        _SetRankBankTabRightsAndSlots(rankId, rightsAndSlot);
+
+    WorldPackets::Guild::GuildEventRankChanged packet;
+    packet.RankID = rankId;
+    BroadcastPacket(packet.Write());
+
+    // BFA keeps the complete guild-rank table and the current player's effective
+    // permissions in separate client caches. Do not rely only on the rank-changed
+    // event to make the client request fresh data: push both views immediately.
+    // This is especially important for guild-chat rights because
+    // C_GuildInfo.CanSpeakInGuildChat() consults the effective-permissions cache.
+    for (auto const& memberPair : m_members)
+    {
+        Member* member = memberPair.second;
+        if (!member)
+            continue;
+
+        Player* player = member->FindConnectedPlayer();
+        if (!player || !player->GetSession())
+            continue;
+
+        WorldSession* memberSession = player->GetSession();
+        SendGuildRankInfo(memberSession);
+
+        if (member->GetRankId() == rankId)
+        {
+            SendPermissions(memberSession);
+            SendMoneyInfo(memberSession);
+        }
+    }
+
+    // The guild-to-Club bridge maps ranks by their rights, not by a fixed
+    // rank number. Only fan out Club role changes when the rights edit
+    // actually crosses one of those role boundaries.
+    uint32 const newClubRole = Battlenet::ClubUtils::GetGuildClubRole(this, rankId);
+    if (oldClubRole != newClubRole)
+    {
+        for (auto const& memberPair : m_members)
+            if (memberPair.second && memberPair.second->GetRankId() == rankId)
+                Battlenet::NotifyGuildClubMemberRoleChanged(this, memberPair.first, rankId);
     }
 }
 
@@ -1672,6 +2063,9 @@ void Guild::HandleBuyBankTab(WorldSession* session, uint8 tabId)
     }
 
     _CreateNewBankTab();
+
+    // Guild achievements: Guild Vault / Extended Storage (tabs owned).
+    UpdateCriteria(CRITERIA_TYPE_BUY_GUILD_BANK_SLOTS, _GetPurchasedTabsSize(), 0, 0, nullptr, player);
 
     WorldPackets::Guild::GuildEventTabAdded packet;
     BroadcastPacket(packet.Write());
@@ -1742,6 +2136,10 @@ void Guild::HandleInviteMember(WorldSession* session, std::string const& name)
 
     invite.InviterName = player->GetName();
     invite.GuildName = GetName();
+
+    TC_LOG_INFO("guild", "[EMBLEM-TRACE] SMSG_GUILD_INVITE prepare: Invitee=%s Guild=[%s] GuildName=%s Style=%u Color=%u BorderStyle=%u BorderColor=%u Background=%u",
+        pInvitee->GetName().c_str(), GetGUID().ToString().c_str(), GetName().c_str(), invite.EmblemStyle, invite.EmblemColor,
+        invite.BorderStyle, invite.BorderColor, invite.Background);
 
     if (Guild* oldGuild = pInvitee->GetGuild())
     {
@@ -1932,6 +2330,9 @@ void Guild::HandleShiftRank(WorldSession* /*session*/, uint32 id, bool up)
     if (!rankinfo || !rankinfo2)
         return;
 
+    uint32 const oldClubRole = Battlenet::ClubUtils::GetGuildClubRole(this, uint8(id));
+    uint32 const oldNextClubRole = Battlenet::ClubUtils::GetGuildClubRole(this, uint8(nextID));
+
     RankInfo tmp = *rankinfo2;
     rankinfo2->SetName(rankinfo->GetName());
     rankinfo2->SetRights(rankinfo->GetRights());
@@ -1939,6 +2340,23 @@ void Guild::HandleShiftRank(WorldSession* /*session*/, uint32 id, bool up)
     rankinfo->SetRights(tmp.GetRights());
 
     SendGuildEventRanksUpdated();
+
+    // Shifting ranks swaps the rights represented by the two rank IDs. Refresh
+    // Club role assignments only for an affected rank whose role class changed.
+    bool const refreshRank = oldClubRole != Battlenet::ClubUtils::GetGuildClubRole(this, uint8(id));
+    bool const refreshNextRank = oldNextClubRole != Battlenet::ClubUtils::GetGuildClubRole(this, uint8(nextID));
+    if (refreshRank || refreshNextRank)
+    {
+        for (auto const& memberPair : m_members)
+        {
+            if (!memberPair.second)
+                continue;
+
+            uint8 memberRank = memberPair.second->GetRankId();
+            if ((memberRank == id && refreshRank) || (memberRank == nextID && refreshNextRank))
+                Battlenet::NotifyGuildClubMemberRoleChanged(this, memberPair.first, memberRank);
+        }
+    }
 }
 
 void Guild::HandleAddNewRank(WorldSession* session, std::string const& name)
@@ -2058,6 +2476,10 @@ bool Guild::HandleMemberWithdrawMoney(WorldSession* session, uint64 amount, bool
     CharacterDatabase.CommitTransaction(trans);
 
     SendEventBankMoneyChanged();
+
+    // Guild achievements: It All Adds Up (gold spent on guild repairs).
+    if (repair)
+        UpdateCriteria(CRITERIA_TYPE_SPENT_GOLD_GUILD_REPAIRS, amount, 0, 0, nullptr, player);
     return true;
 }
 
@@ -2095,14 +2517,125 @@ void Guild::HandleGuildPartyRequest(WorldSession* session) const
     if (!IsMember(player->GetGUID()) || !group)
         return;
 
+    Map* map = player->GetMap();
+    uint32 guildMembersPresent = 0;
+    uint32 groupMembersPresent = 0;
+    for (Group::MemberSlot const& slot : group->GetMemberSlots())
+    {
+        Player* groupMember = ObjectAccessor::FindConnectedPlayer(slot.guid);
+        if (!groupMember || groupMember->IsGameMaster() || groupMember->GetMap() != map)
+            continue;
+
+        ++groupMembersPresent;
+        if (groupMember->GetGuildId() == GetId())
+            ++guildMembersPresent;
+    }
+
+    uint32 instanceMaxPlayers = group->GetMembersCount();
+    if (InstanceMap const* instanceMap = map->ToInstanceMap())
+        if (uint32 maxPlayers = instanceMap->GetMaxPlayers())
+            instanceMaxPlayers = maxPlayers;
+
+    Difficulty const difficulty = map->GetDifficultyID();
+    uint32 thresholdGroupSize = instanceMaxPlayers;
+    uint32 guildMembersRequired = 0;
+
+    if (map->IsRaid())
+    {
+        MapEntry const* mapEntry = map->GetEntry();
+        bool const preWrathRaid = mapEntry && mapEntry->Expansion() < EXPANSION_WRATH_OF_THE_LICH_KING;
+
+        switch (difficulty)
+        {
+            // Legacy fixed-size raid difficulties. Pre-Wrath 25/40-player raids
+            // are the historic exception and require only 10 guild members.
+            case DIFFICULTY_40:
+                thresholdGroupSize = 40;
+                guildMembersRequired = 10;
+                break;
+            case DIFFICULTY_25_N:
+            case DIFFICULTY_25_HC:
+                thresholdGroupSize = 25;
+                guildMembersRequired = preWrathRaid ? 10 : 20;
+                break;
+            case DIFFICULTY_10_N:
+            case DIFFICULTY_10_HC:
+                thresholdGroupSize = 10;
+                guildMembersRequired = 8;
+                break;
+
+            // BFA Mythic is a fixed 20-player raid: 80% = 16.
+            case DIFFICULTY_MYTHIC_RAID:
+                thresholdGroupSize = 20;
+                guildMembersRequired = 16;
+                break;
+
+            // Normal/Heroic and the modern queue/event raid modes are flexible.
+            // Use the players actually participating in this instance rather
+            // than the map's 30-player capacity.
+            case DIFFICULTY_NORMAL_RAID:
+            case DIFFICULTY_HEROIC_RAID:
+            case DIFFICULTY_LFR_NEW:
+            case DIFFICULTY_TIMEWALKING_RAID:
+            case DIFFICULTY_EVENT_RAID:
+            case DIFFICULTY_LFR_15TH_ANNIVERSARY:
+                thresholdGroupSize = groupMembersPresent;
+                guildMembersRequired = thresholdGroupSize ? (thresholdGroupSize * 8 + 9) / 10 : 0;
+                break;
+
+            // Old Raid Finder was a fixed 25-player mode.
+            case DIFFICULTY_LFR:
+                thresholdGroupSize = 25;
+                guildMembersRequired = 20;
+                break;
+
+            // Unknown/future raid mode: preserve the 80% rule, preferring the
+            // actual instance-group population when available.
+            default:
+                thresholdGroupSize = groupMembersPresent ? groupMembersPresent : instanceMaxPlayers;
+                guildMembersRequired = thresholdGroupSize ? (thresholdGroupSize * 8 + 9) / 10 : 0;
+                break;
+        }
+    }
+    else
+    {
+        // Five-player dungeons are the normal 80% exception: 3/5 qualifies.
+        thresholdGroupSize = instanceMaxPlayers;
+        guildMembersRequired = thresholdGroupSize <= 5
+            ? std::min<uint32>(3, thresholdGroupSize)
+            : (thresholdGroupSize * 8 + 9) / 10;
+    }
+
+    bool const inGuildParty = guildMembersRequired && guildMembersPresent >= guildMembersRequired;
+
+    // BFA's Minimap.lua still renders the historic guild XP multiplier in its
+    // Guild Group tooltip: 3/5 = 50%, 4/5 = 100%, 5/5 = 125%.
+    float guildXPMultiplier = 0.0f;
+    if (inGuildParty)
+    {
+        if (!map->IsRaid() && instanceMaxPlayers == 5)
+        {
+            if (guildMembersPresent >= 5)
+                guildXPMultiplier = 1.25f;
+            else if (guildMembersPresent >= 4)
+                guildXPMultiplier = 1.0f;
+            else
+                guildXPMultiplier = 0.5f;
+        }
+        else
+            guildXPMultiplier = 1.0f;
+    }
+
     WorldPackets::Guild::GuildPartyState partyStateResponse;
-    partyStateResponse.InGuildParty = (player->GetMap()->GetOwnerGuildId(player->GetTeam()) == GetId());
-    partyStateResponse.NumMembers = 0;
-    partyStateResponse.NumRequired = 0;
-    partyStateResponse.GuildXPEarnedMult = 0.0f;
+    partyStateResponse.InGuildParty = inGuildParty;
+    partyStateResponse.NumMembers = int32(guildMembersPresent);
+    partyStateResponse.NumRequired = int32(guildMembersRequired);
+    partyStateResponse.GuildXPEarnedMult = guildXPMultiplier;
     session->SendPacket(partyStateResponse.Write());
 
-    TC_LOG_DEBUG("guild", "SMSG_GUILD_PARTY_STATE_RESPONSE [%s]", session->GetPlayerInfo().c_str());
+    TC_LOG_DEBUG("guild", "SMSG_GUILD_PARTY_STATE_RESPONSE [%s] guildMembers=%u groupMembers=%u required=%u thresholdSize=%u instanceMax=%u difficulty=%u inGuildParty=%u multiplier=%.2f",
+        session->GetPlayerInfo().c_str(), guildMembersPresent, groupMembersPresent, guildMembersRequired, thresholdGroupSize,
+        instanceMaxPlayers, uint32(difficulty), inGuildParty ? 1u : 0u, guildXPMultiplier);
 }
 
 void Guild::SendEventLog(WorldSession* session) const
@@ -2136,7 +2669,11 @@ void Guild::SendNewsUpdate(WorldSession* session) const
     WorldPackets::Guild::GuildNews packet;
     packet.NewsEvents.reserve(m_newsLog->GetSize());
 
-    for (GuildLog::const_iterator itr = logs->begin(); itr != logs->end(); ++itr)
+    // The in-memory log is oldest -> newest so AddEvent can evict the oldest
+    // entry from the front. Retail 8.3.7 sends a full Guild News snapshot in
+    // the opposite order (newest -> oldest), so serialize the list in reverse.
+    // Incremental sticky updates still contain only the single changed row.
+    for (GuildLog::const_reverse_iterator itr = logs->rbegin(); itr != logs->rend(); ++itr)
     {
         NewsLogEntry* eventLog = static_cast<NewsLogEntry*>(*itr);
         eventLog->WritePacket(packet);
@@ -2243,6 +2780,14 @@ void Guild::SendLoginInfo(WorldSession* session)
 
     SendEventMOTD(session);
     SendGuildRankInfo(session);
+
+    // The 8.3.7 client asks for the guild info right after entering the world and
+    // renders guild names / the guild frame only once that answer arrives, so a
+    // slow reply leaves players without a guild name and shows an empty 'J' frame
+    // until it lands. Retail answers the client's own query within ~80 ms; sending
+    // it with the login burst pre-fills the same data (the client accepts it
+    // unsolicited and still asks on its own).
+    SendQueryResponse(session, player->GetGUID());
     SendEventPresenceChanged(session, true, true);      // Broadcast
 
     // Send to self separately, player is not in world yet and is not found by _BroadcastEvent
@@ -2313,16 +2858,22 @@ void Guild::SendGuildChallengeUpdate(WorldSession* session /*= nullptr*/)
     for (int i = 0; i < GUILD_CHALLENGES_TYPES; ++i)
         updatePacket.Gold[i] = int32(GuildChallengeGoldReward[i]);
 
-    session->SendPacket(updatePacket.Write());
+    if (session)
+        session->SendPacket(updatePacket.Write());
+    else
+        BroadcastPacket(updatePacket.Write()); // no session: every online member (was a null dereference)
 }
 
-void Guild::CompleteGuildChallenge(uint32 challengeType)
+void Guild::CompleteGuildChallenge(uint32 challengeType, Player* referencePlayer)
 {
     if (challengeType >= ChallengeMax)
         return;
 
-    auto reards = sGuildMgr->GetGuildChallengeRewardData();
-    if (m_ChallengeCount[challengeType] >= reards[challengeType].ChallengeCount)
+    // Weekly limits and rewards come from the Guild.h tables (the same values the
+    // client is sent in SMSG_GUILD_CHALLENGE_UPDATE). GuildMgr's reward vector was
+    // never loaded, so indexing it read past an empty vector.
+    uint32 const maxCount = GuildChallengesMaxCount[challengeType];
+    if (!maxCount || m_ChallengeCount[challengeType] >= maxCount)
         return;
 
     m_ChallengeCount[challengeType]++;
@@ -2334,15 +2885,32 @@ void Guild::CompleteGuildChallenge(uint32 challengeType)
     CharacterDatabase.Execute(stmt);
 
     auto trans = CharacterDatabase.BeginTransaction();
-    _ModifyBankMoney(trans, reards[challengeType].Gold2 * GOLD, true);
+    _ModifyBankMoney(trans, uint64(GuildChallengeGoldReward[challengeType]) * GOLD, true);
     CharacterDatabase.CommitTransaction(trans);
 
     WorldPackets::Guild::GuildChallengeCompleted completed;
     completed.ChallengeType = challengeType;
     completed.CurrentCount = m_ChallengeCount[challengeType];
-    completed.MaxCount = reards[challengeType].ChallengeCount;
-    completed.GoldAwarded = reards[challengeType].Gold2;
+    completed.MaxCount = maxCount;
+    completed.GoldAwarded = GuildChallengeGoldReward[challengeType];
     BroadcastPacket(completed.Write());
+
+    SendGuildChallengeUpdate();
+
+    // Guild achievements: Dungeon/Raid/Rated Battleground/Mythic Keystone
+    // Challenges (per type) and You Have Been Challenged... (all types).
+    if (referencePlayer)
+    {
+        UpdateCriteria(CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE_TYPE, challengeType, 1, 0, nullptr, referencePlayer);
+        UpdateCriteria(CRITERIA_TYPE_COMPLETE_GUILD_CHALLENGE, 1, 0, 0, nullptr, referencePlayer);
+    }
+}
+
+// Weekly reset (World::ResetWeeklyQuests): counters back to 0.
+void Guild::ResetGuildChallenges()
+{
+    for (uint32 i = 0; i < ChallengeMax; ++i)
+        m_ChallengeCount[i] = 0;
 
     SendGuildChallengeUpdate();
 }
@@ -2399,6 +2967,7 @@ void Guild::SendEventPlayerLeft(Member* leaver, Member* remover, bool isRemoved)
     }
 
     BroadcastPacket(eventPacket.Write());
+
 }
 
 void Guild::SendEventPresenceChanged(WorldSession* session, bool loggedOn, bool broadcast) const
@@ -2554,7 +3123,8 @@ void Guild::LoadGuildNewsLogFromDB(Field* fields) const
     GuildNews(fields[2].GetUInt8()),                    // type
     ObjectGuid::Create<HighGuid::Player>(fields[3].GetUInt64()), // player guid
     fields[4].GetUInt32(),                              // Flags
-    fields[5].GetUInt32()));                            // value
+    fields[5].GetUInt32(),                              // value
+    fields[7].GetString()));                            // serialized ItemInstance (item news only)
 }
 
 void Guild::LoadBankTabFromDB(Field* fields)
@@ -2660,6 +3230,11 @@ bool Guild::Validate()
 }
 
 // Broadcasts
+bool Guild::HasRecruitRight(Player const* player) const
+{
+    return player && (player->GetGUID() == m_leaderGuid || _HasRankRight(player, GR_RIGHT_INVITE));
+}
+
 void Guild::BroadcastToGuild(WorldSession* session, bool officerOnly, std::string const& msg, uint32 language) const
 {
     if (session && session->GetPlayer() && _HasRankRight(session->GetPlayer(), officerOnly ? GR_RIGHT_OFFCHATSPEAK : GR_RIGHT_GCHATSPEAK))
@@ -2672,6 +3247,13 @@ void Guild::BroadcastToGuild(WorldSession* session, bool officerOnly, std::strin
                 if (player->GetSession() && _HasRankRight(player, officerOnly ? GR_RIGHT_OFFCHATLISTEN : GR_RIGHT_GCHATLISTEN) &&
                     !player->GetSocial()->HasIgnore(session->GetPlayer()->GetGUID()))
                     player->GetSession()->SendPacket(data);
+
+        // Retail keeps normal /g and /o lines in the guild club stream history
+        // (a retail trade link sent from normal chat is returned by
+        // GetStreamHistory). Store verbatim so links keep their tooltips.
+        // Addon traffic never goes into the stream.
+        if (language != LANG_ADDON && language != LANG_ADDON_LOGGED)
+            Battlenet::StoreGuildClubChatMessage(this, session->GetPlayer()->GetGUID(), officerOnly, msg);
     }
 }
 
@@ -2770,7 +3352,24 @@ bool Guild::AddMember(CharacterDatabaseTransaction& trans, ObjectGuid guid, uint
         player->SetGuildIdInvited(UI64LIT(0));
         player->SetGuildRank(rankId);
         player->SetGuildLevel(GetLevel());
+
+        // Flush GuildGUID / GuildRankID / GuildLevel immediately.
+        // The BFA client must know it is actually in the guild before it
+        // receives the guild/Club membership and permission bootstrap.
+        if (player->IsInWorld())
+            player->SendUpdateToPlayer(player);
+
         SendLoginInfo(player->GetSession());
+        // Retail: a new member's client holds its own rank rights ~0.3 s after
+        // joining (GUILD_PERMISSIONS_QUERY_RESULTS). The 8.3.7 client does not ask
+        // for them on this path until the guild window opens, and refuses /g
+        // ("no permission") until it has them. Provide them with the join.
+        SendPermissions(player->GetSession());
+        // The 8.3.7 client only allows /g once it has its own roster entry (rank).
+        // Retail's client requests the roster right after joining; this client does
+        // not until the guild window opens, so it answered "You don't have permission
+        // to do that." until then. Send the roster it would receive for that request.
+        HandleRoster(player->GetSession());
         name = player->GetName();
     }
     else
@@ -2817,7 +3416,17 @@ bool Guild::AddMember(CharacterDatabaseTransaction& trans, ObjectGuid guid, uint
     joinNotificationPacket.VirtualRealmAddress = GetVirtualRealmAddress();
     BroadcastPacket(joinNotificationPacket.Write());
 
-    sGuildFinderMgr->RemoveAllMembershipRequestsFromPlayer(guid);
+    sClubFinderMgr->OnPlayerJoinedGuild(guid, GetGUID());
+
+    // A player can join while the Communities/Guild UI is already loaded. In that
+    // state the client does not necessarily issue CMSG_GUILD_QUERY_NEWS again, so
+    // bootstrap the existing guild news/history for the newly-added online member.
+    // This is intentionally sent only to the new member; live news continues to use
+    // AddGuildNews() broadcasts for the rest of the guild.
+    if (player)
+        SendNewsUpdate(player->GetSession());
+
+    Battlenet::NotifyGuildClubMemberAdded(this, guid, rankId);
 
     // Call scripts if member was succesfully added (and stored to database)
     sScriptMgr->OnGuildAddMember(this, player, rankId);
@@ -2875,13 +3484,33 @@ void Guild::DeleteMember(CharacterDatabaseTransaction& trans, ObjectGuid guid, b
 
         for (GuildPerkSpellsEntry const* entry : sGuildPerkSpellsStore)
             player->RemoveSpell(entry->SpellID, false, false);
+
+        // Retail sends the active-player values update that clears GuildGUID,
+        // GuildRankID and GuildLevel before the Battle.net Club removal. Flush
+        // those changed fields to the removed player now so Communities sees
+        // IsInGuild() == false when CLUB_REMOVED is processed.
+        if (player->IsInWorld())
+            player->SendUpdateToPlayer(player);
     }
     else
         sCharacterCache->UpdateCharacterGuildId(guid, 0);
 
     Guild::_DeleteMemberFromDB(trans, guid.GetCounter());
+
+    sClubStreamHistoryMgr->DeleteMember(m_id, guid.GetCounter(), trans);
+
     if (!isDisbanding)
         _UpdateAccountsNumber();
+
+    // Keep retail ordering: the client receives GuildGUID = 0 first, then
+    // ClubListener.OnUnsubscribe, then ClubMembershipListener.OnClubRemoved.
+    Battlenet::NotifyGuildClubMemberRemoved(this, guid, isKicked, isDisbanding);
+
+    // Immediately refresh the former member's Finder application cache. The
+    // completed application stays in guild-side history but is not returned as
+    // an assertion of current membership.
+    if (player && !isDisbanding)
+        sClubFinderMgr->SendMembershipRequestListUpdate(player);
 }
 
 bool Guild::ChangeMemberRank(CharacterDatabaseTransaction& trans, ObjectGuid guid, uint8 newRank)
@@ -2965,7 +3594,7 @@ void Guild::_DeleteMemberFromDB(CharacterDatabaseTransaction& trans, ObjectGuid:
 void Guild::_CreateLogHolders()
 {
     m_eventLog = new LogHolder(sWorld->getIntConfig(CONFIG_GUILD_EVENT_LOG_COUNT));
-    m_newsLog = new LogHolder(sWorld->getIntConfig(CONFIG_GUILD_NEWS_LOG_COUNT));
+    m_newsLog = new LogHolder(sWorld->getIntConfig(CONFIG_GUILD_NEWS_LOG_COUNT), true); // unique news IDs
     for (uint8 tabId = 0; tabId <= GUILD_BANK_MAX_TABS; ++tabId)
         m_bankEventLog[tabId] = new LogHolder(sWorld->getIntConfig(CONFIG_GUILD_BANK_EVENT_LOG_COUNT));
 }
@@ -2985,6 +3614,9 @@ void Guild::_CreateNewBankTab()
     stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_GUILD_BANK_TAB);
     stmt->setUInt64(0, m_id);
     stmt->setUInt8 (1, tabId);
+    stmt->setString(2, m_bankTabs.back()->GetName());
+    stmt->setString(3, m_bankTabs.back()->GetIcon());
+    stmt->setString(4, m_bankTabs.back()->GetText());
     trans->Append(stmt);
 
     ++tabId;
@@ -3133,7 +3765,10 @@ inline std::string Guild::_GetRankName(uint8 rankId) const
     return "<unknown>";
 }
 
-inline uint32 Guild::_GetRankRights(uint8 rankId) const
+// Not 'inline': Guild.h's HasAnyRankRight() calls this from other translation units.
+// An inline definition in this .cpp is not emitted for them (GCC/clang link error;
+// MSVC happens to keep a copy).
+uint32 Guild::_GetRankRights(uint8 rankId) const
 {
     if (const RankInfo* rankInfo = GetRankInfo(rankId))
         return rankInfo->GetRights();
@@ -3566,9 +4201,13 @@ void Guild::ResetTimes(bool weekly)
     }
 }
 
-void Guild::AddGuildNews(uint8 type, ObjectGuid guid, uint32 flags, uint32 value) const
+void Guild::AddGuildNews(uint8 type, ObjectGuid guid, uint32 flags, uint32 value, Item const* item) const
 {
-    NewsLogEntry* news = new NewsLogEntry(m_id, m_newsLog->GetNextGUID(), GuildNews(type), guid, flags, value);
+    std::string itemData;
+    if (type == GUILD_NEWS_ITEM_LOOTED || type == GUILD_NEWS_ITEM_CRAFTED || type == GUILD_NEWS_ITEM_PURCHASED)
+        itemData = SerializeGuildNewsItem(item);
+
+    NewsLogEntry* news = new NewsLogEntry(m_id, m_newsLog->GetNextGUID(), GuildNews(type), guid, flags, value, std::move(itemData));
 
     CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
     m_newsLog->AddEvent(trans, news);
@@ -3607,13 +4246,26 @@ void Guild::HandleNewsSetSticky(WorldSession* session, uint32 newsId, bool stick
     NewsLogEntry* news = static_cast<NewsLogEntry*>(*itr);
     news->SetSticky(sticky);
 
+    // Persist the changed flags immediately. Previously sticky state only lived in
+    // memory and reverted after a worldserver restart/reload. SaveToDB uses the
+    // guildid/LogGuid primary key, so this updates the existing news row including
+    // Step 54's serialized ItemInstance data.
+    CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+    news->SaveToDB(trans);
+    CharacterDatabase.CommitTransaction(trans);
+
     TC_LOG_DEBUG("guild", "HandleNewsSetSticky: [%s] changed newsId %u sticky to %u",
         session->GetPlayerInfo().c_str(), newsId, sticky);
 
+    // Sticky changes are incremental news updates. Sending the whole feed here
+    // makes the 8.3.7 client merge a second snapshot into its indexed cache and
+    // corrupts row-to-news mapping, so only the changed row is sent. The sticky
+    // flag is guild wide, so every online member gets it: their news frame then
+    // shows the pin live instead of only after reopening the guild window.
     WorldPackets::Guild::GuildNews newsPacket;
     newsPacket.NewsEvents.reserve(1);
     news->WritePacket(newsPacket);
-    session->SendPacket(newsPacket.Write());
+    BroadcastPacket(newsPacket.Write());
 }
 
 void Guild::SetRename(bool apply)

@@ -24,12 +24,14 @@
 #include "RaceMask.h"
 #include "SharedDefines.h"
 #include <unordered_map>
+#include <unordered_set>
 
 class Item;
 class Player;
 class WorldPacket;
 class WorldSession;
 struct ItemPosCount;
+struct SkillLineAbilityEntry;
 enum InventoryResult : uint8;
 
 namespace WorldPackets
@@ -286,18 +288,27 @@ const uint32 GuildChallengesMaxCount[GUILD_CHALLENGES_TYPES]          = { 0, 7, 
 class TC_GAME_API EmblemInfo
 {
     public:
-        EmblemInfo() : m_style(0), m_color(0), m_borderStyle(0), m_borderColor(0), m_backgroundColor(0) { }
+        // Retail creates a guild with every tabard/emblem component unset (-1).
+        // The characters DB stores these fields as TINYINT UNSIGNED, so 0xFF is
+        // the persistent sentinel and getters expand it to the 32-bit wire value.
+        EmblemInfo() : m_style(0xFF), m_color(0xFF), m_borderStyle(0xFF), m_borderColor(0xFF), m_backgroundColor(0xFF) { }
 
         bool LoadFromDB(Field* fields);
         void SaveToDB(ObjectGuid::LowType guildId) const;
         void ReadPacket(WorldPackets::Guild::SaveGuildEmblem& packet);
         bool ValidateEmblemColors() const;
 
-        uint32 GetStyle() const { return m_style; }
-        uint32 GetColor() const { return m_color; }
-        uint32 GetBorderStyle() const { return m_borderStyle; }
-        uint32 GetBorderColor() const { return m_borderColor; }
-        uint32 GetBackgroundColor() const { return m_backgroundColor; }
+        uint32 GetStyle() const { return m_style == 0xFF ? uint32(-1) : m_style; }
+        uint32 GetColor() const { return m_color == 0xFF ? uint32(-1) : m_color; }
+        uint32 GetBorderStyle() const { return m_borderStyle == 0xFF ? uint32(-1) : m_borderStyle; }
+        uint32 GetBorderColor() const { return m_borderColor == 0xFF ? uint32(-1) : m_borderColor; }
+        uint32 GetBackgroundColor() const { return m_backgroundColor == 0xFF ? uint32(-1) : m_backgroundColor; }
+
+        uint32 GetStyleForDB() const { return m_style; }
+        uint32 GetColorForDB() const { return m_color; }
+        uint32 GetBorderStyleForDB() const { return m_borderStyle; }
+        uint32 GetBorderColorForDB() const { return m_borderColor; }
+        uint32 GetBackgroundColorForDB() const { return m_backgroundColor; }
 
     private:
         uint32 m_style;
@@ -451,6 +462,8 @@ class TC_GAME_API Guild
                 uint64 GetTimestamp() const { return m_timestamp; }
 
                 virtual void SaveToDB(CharacterDatabaseTransaction& trans) const = 0;
+                // Called when the entry is evicted from a holder with unique GUIDs.
+                virtual void DeleteFromDB(CharacterDatabaseTransaction& /*trans*/) const { }
 
             protected:
                 ObjectGuid::LowType m_guildId;
@@ -524,11 +537,11 @@ class TC_GAME_API Guild
         class NewsLogEntry : public LogEntry
         {
             public:
-                NewsLogEntry(ObjectGuid::LowType guildId, uint32 guid, GuildNews type, ObjectGuid playerGuid, uint32 flags, uint32 value) :
-                    LogEntry(guildId, guid), m_type(type), m_playerGuid(playerGuid), m_flags(flags), m_value(value) { }
+                NewsLogEntry(ObjectGuid::LowType guildId, uint32 guid, GuildNews type, ObjectGuid playerGuid, uint32 flags, uint32 value, std::string itemData = {}) :
+                    LogEntry(guildId, guid), m_type(type), m_playerGuid(playerGuid), m_flags(flags), m_value(value), m_itemData(std::move(itemData)) { }
 
-                NewsLogEntry(ObjectGuid::LowType guildId, uint32 guid, time_t timestamp, GuildNews type, ObjectGuid playerGuid, uint32 flags, uint32 value) :
-                    LogEntry(guildId, guid, timestamp), m_type(type), m_playerGuid(playerGuid), m_flags(flags), m_value(value) { }
+                NewsLogEntry(ObjectGuid::LowType guildId, uint32 guid, time_t timestamp, GuildNews type, ObjectGuid playerGuid, uint32 flags, uint32 value, std::string itemData = {}) :
+                    LogEntry(guildId, guid, timestamp), m_type(type), m_playerGuid(playerGuid), m_flags(flags), m_value(value), m_itemData(std::move(itemData)) { }
 
                 ~NewsLogEntry() { }
 
@@ -536,6 +549,7 @@ class TC_GAME_API Guild
                 ObjectGuid GetPlayerGuid() const { return m_playerGuid; }
                 uint32 GetValue() const { return m_value; }
                 uint32 GetFlags() const { return m_flags; }
+                std::string const& GetItemData() const { return m_itemData; }
                 void SetSticky(bool sticky)
                 {
                     if (sticky)
@@ -546,12 +560,14 @@ class TC_GAME_API Guild
 
                 void SaveToDB(CharacterDatabaseTransaction& trans) const override;
                 void WritePacket(WorldPackets::Guild::GuildNews& newsPacket) const;
+                void DeleteFromDB(CharacterDatabaseTransaction& trans) const override;
 
             private:
                 GuildNews m_type;
                 ObjectGuid m_playerGuid;
                 uint32 m_flags;
                 uint32 m_value;
+                std::string m_itemData;
         };
 
         // Class encapsulating work with events collection
@@ -560,7 +576,10 @@ class TC_GAME_API Guild
         class LogHolder
         {
             public:
-                LogHolder(uint32 maxRecords) : m_maxRecords(maxRecords), m_nextGUID(uint32(GUILD_EVENT_LOG_GUID_UNDEFINED)) { }
+                // uniqueGuids: GUIDs start at 1 and never wrap (Guild News - the client keys
+                // its news cache by ID; retail IDs are never 0 and never reused). Evicted
+                // entries are deleted from the DB. Otherwise GUIDs recycle modulo maxRecords.
+                LogHolder(uint32 maxRecords, bool uniqueGuids = false) : m_maxRecords(maxRecords), m_nextGUID(uint32(GUILD_EVENT_LOG_GUID_UNDEFINED)), m_uniqueGuids(uniqueGuids) { }
                 ~LogHolder();
 
                 uint8 GetSize() const { return uint8(m_log.size()); }
@@ -577,6 +596,7 @@ class TC_GAME_API Guild
                 GuildLog m_log;
                 uint32 m_maxRecords;
                 uint32 m_nextGUID;
+                bool m_uniqueGuids;
         };
 
         // Class encapsulating guild rank data
@@ -751,6 +771,27 @@ class TC_GAME_API Guild
 
     public:
         static void SendCommandResult(WorldSession* session, GuildCommandType type, GuildCommandError errCode, std::string const& param = "");
+        // Legacy profession step (1-10) shown by the guild roster / member-recipes UI.
+        // Derived from the ROOT profession skill line's max rank on the legacy caps
+        // (75,150,225,300,375,450,525,600,700,800). Verified against retail sniffs:
+        // fresh profession (max 75) -> step 1; veteran (rank 725) -> step 10.
+        static int32 GetLegacyProfessionStep(uint32 maxRank);
+
+        // Profession data sources for the guild roster / recipe UI.
+        // - Online members are read from the live Player, so professions and
+        //   recipes learned this session appear without a relog.
+        // - Offline members are read from the DB. Skill-granted recipes are
+        //   'dependent' spells that Player::_SaveSpells never stores, so they are
+        //   re-derived from character_skills exactly like
+        //   Player::LearnSkillRewardedSpells does at login.
+        static uint32 GetRootProfessionSkillLine(uint32 skillId);
+        // True if 'ability' is granted by its skill line at 'skillValue' (same rules
+        // as Player::LearnSkillRewardedSpells). Shared by every guild profession path.
+        static bool IsSkillGrantedAbility(SkillLineAbilityEntry const* ability, uint32 skillValue, uint8 race, uint8 classId, uint8 level);
+        static void AppendSkillGrantedSpells(uint32 skillId, uint32 skillValue, uint8 race, uint8 classId, uint8 level, std::unordered_set<uint32>& spells);
+        static void AppendLiveKnownSpells(Player const* player, std::unordered_set<uint32>& spells);
+        // Appends every recipe spell known by an offline member (DB + skill-granted).
+        static void AppendOfflineKnownSpells(ObjectGuid memberGuid, ObjectGuid::LowType guildId, std::unordered_set<uint32>& spells);
         static void SendSaveEmblemResult(WorldSession* session, GuildEmblemError errCode);
 
         Guild();
@@ -804,6 +845,7 @@ class TC_GAME_API Guild
         void HandleNewsSetSticky(WorldSession* session, uint32 newsId, bool sticky) const;
 
         void UpdateMemberData(Player* player, uint8 dataid, uint32 value);
+        void SetMemberAchievementPoints(ObjectGuid guid, uint32 points);
         void OnPlayerStatusChange(Player* player, uint32 flag, bool state);
 
         // Send info to client
@@ -817,7 +859,8 @@ class TC_GAME_API Guild
         void SendLoginInfo(WorldSession* session);
         void SendNewsUpdate(WorldSession* session) const;
         void SendGuildChallengeUpdate(WorldSession* session = nullptr);
-        void CompleteGuildChallenge(uint32 type);
+        void CompleteGuildChallenge(uint32 challengeType, Player* referencePlayer);
+        void ResetGuildChallenges();
 
         // Send events
         void SendEventAwayChanged(ObjectGuid const& memberGuid, bool afk, bool dnd);
@@ -841,6 +884,18 @@ class TC_GAME_API Guild
         bool Validate();
 
         // Broadcasts
+        bool HasAnyRankRight(uint8 rankId, uint32 rights) const { return (_GetRankRights(rankId) & rights) != 0; }
+        bool HasChatRight(Player const* player, bool officerOnly, bool speak) const
+        {
+            return _HasRankRight(player, officerOnly
+                ? (speak ? GR_RIGHT_OFFCHATSPEAK : GR_RIGHT_OFFCHATLISTEN)
+                : (speak ? GR_RIGHT_GCHATSPEAK : GR_RIGHT_GCHATLISTEN));
+        }
+
+        // Guild Finder recruitment (applicant list, accept/decline, application
+        // notifications) follows the rank's invite right, not leader-only.
+        bool HasRecruitRight(Player const* player) const;
+
         void BroadcastToGuild(WorldSession* session, bool officerOnly, std::string const& msg, uint32 language = LANG_UNIVERSAL) const;
         void BroadcastAddonToGuild(WorldSession* session, bool officerOnly, std::string const& msg, std::string const& prefix, bool isLogged) const;
         void BroadcastPacketToRank(WorldPacket const* packet, uint8 rankId) const;
@@ -879,7 +934,7 @@ class TC_GAME_API Guild
         // Pre-6.x guild leveling
         uint8 GetLevel() const { return GUILD_OLD_MAX_LEVEL; }
 
-        void AddGuildNews(uint8 type, ObjectGuid guid, uint32 flags, uint32 value) const;
+        void AddGuildNews(uint8 type, ObjectGuid guid, uint32 flags, uint32 value, Item const* item = nullptr) const;
 
         EmblemInfo const& GetEmblemInfo() const { return m_emblemInfo; }
         void ResetTimes(bool weekly);

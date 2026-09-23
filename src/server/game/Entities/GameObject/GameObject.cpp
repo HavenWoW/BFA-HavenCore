@@ -1932,6 +1932,9 @@ void GameObject::Use(Unit* user)
 
             player->SendLoot(GetGUID(), LOOT_FISHINGHOLE);
             player->UpdateCriteria(CRITERIA_TYPE_FISH_IN_GAMEOBJECT, GetGOInfo()->entry);
+            // Guild achievements: That's a Lot of Bait ... / Pandaren Angler (zone via
+            // modifier 41). Non-group type: forwarded to the player's guild.
+            player->UpdateCriteria(CRITERIA_TYPE_CATCH_FROM_POOL, 1);
             return;
         }
 

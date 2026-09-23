@@ -3140,15 +3140,22 @@ static int32(* const WorldStateExpressionFunctions[WSE_FUNCTION_MAX])(Player con
         return 0;
     },
 
-    // WSE_FUNCTION_UNK27
-    [](Player const* /*player*/, uint32 /*arg1*/, uint32 /*arg2*/) -> int32
+    // WSE_FUNCTION_KEYSTONE_UPGRADES (27): upgrades earned by the player's keystone
+    // run (0 = depleted / not timed). Used with >= 1 by the Mythic+ guild runs.
+    [](Player const* player, uint32 /*arg1*/, uint32 /*arg2*/) -> int32
     {
+        if (InstanceMap* instanceMap = player->GetMap()->ToInstanceMap())
+            if (InstanceScript* instance = instanceMap->GetInstanceScript())
+                return int32(instance->GetChallengeModeUpgrades());
         return 0;
     },
 
-    // WSE_FUNCTION_KEYSTONE_LEVEL
-    [](Player const* /*player*/, uint32 /*arg1*/, uint32 /*arg2*/) -> int32
+    // WSE_FUNCTION_KEYSTONE_LEVEL (28): keystone level of the player's instance.
+    [](Player const* player, uint32 /*arg1*/, uint32 /*arg2*/) -> int32
     {
+        if (InstanceMap* instanceMap = player->GetMap()->ToInstanceMap())
+            if (InstanceScript* instance = instanceMap->GetInstanceScript())
+                return int32(instance->GetChallengeModeLevel());
         return 0;
     },
 

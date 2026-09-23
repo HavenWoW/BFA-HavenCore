@@ -18,9 +18,10 @@
 #include "CharacterCache.h"
 #include "WorldSession.h"
 #include "Guild.h"
-#include "GuildFinderMgr.h"
+#include "ClubFinderMgr.h"
 #include "GuildFinderPackets.h"
 #include "GuildMgr.h"
+#include "Log.h"
 #include "Object.h"
 #include "Player.h"
 #include "SharedDefines.h"
@@ -29,7 +30,7 @@
 
 void WorldSession::HandleGuildFinderAddRecruit(WorldPackets::GuildFinder::LFGuildAddRecruit& lfGuildAddRecruit)
 {
-    if (sGuildFinderMgr->CountRequestsFromPlayer(GetPlayer()->GetGUID()) >= 10)
+    if (sClubFinderMgr->CountRequestsFromPlayer(GetPlayer()->GetGUID()) >= 10)
         return;
 
     if (!lfGuildAddRecruit.GuildGUID.IsGuild())
@@ -43,7 +44,7 @@ void WorldSession::HandleGuildFinderAddRecruit(WorldPackets::GuildFinder::LFGuil
 
     MembershipRequest request = MembershipRequest(GetPlayer()->GetGUID(), lfGuildAddRecruit.GuildGUID, lfGuildAddRecruit.Availability,
         lfGuildAddRecruit.ClassRoles, lfGuildAddRecruit.PlayStyle, lfGuildAddRecruit.Comment, time(nullptr));
-    sGuildFinderMgr->AddMembershipRequest(lfGuildAddRecruit.GuildGUID, request);
+    sClubFinderMgr->AddMembershipRequest(lfGuildAddRecruit.GuildGUID, request);
 }
 
 void WorldSession::HandleGuildFinderBrowse(WorldPackets::GuildFinder::LFGuildBrowse& lfGuildBrowse)
@@ -60,7 +61,7 @@ void WorldSession::HandleGuildFinderBrowse(WorldPackets::GuildFinder::LFGuildBro
     Player* player = GetPlayer();
 
     LFGuildPlayer settings(player->GetGUID(), lfGuildBrowse.ClassRoles, lfGuildBrowse.Availability, lfGuildBrowse.PlayStyle, ANY_FINDER_LEVEL);
-    std::vector<LFGuildSettings const*> guildList = sGuildFinderMgr->GetGuildsMatchingSetting(settings, player->GetTeamId());
+    std::vector<LFGuildSettings const*> guildList = sClubFinderMgr->GetGuildsMatchingSetting(settings, player->GetTeamId());
 
     WorldPackets::GuildFinder::LFGuildBrowseResult lfGuildBrowseResult;
     lfGuildBrowseResult.Post.resize(guildList.size());
@@ -87,7 +88,7 @@ void WorldSession::HandleGuildFinderBrowse(WorldPackets::GuildFinder::LFGuildBro
         guildData.Background = guild->GetEmblemInfo().GetBackgroundColor();
         guildData.Comment = guildSettings->GetComment();
         guildData.Cached = 0;
-        guildData.MembershipRequested = sGuildFinderMgr->HasRequest(player->GetGUID(), guild->GetGUID());
+        guildData.MembershipRequested = sClubFinderMgr->HasRequest(player->GetGUID(), guild->GetGUID());
     }
 
     player->SendDirectMessage(lfGuildBrowseResult.Write());
@@ -101,15 +102,15 @@ void WorldSession::HandleGuildFinderDeclineRecruit(WorldPackets::GuildFinder::LF
     if (!lfGuildDeclineRecruit.RecruitGUID.IsPlayer())
         return;
 
-    sGuildFinderMgr->RemoveMembershipRequest(lfGuildDeclineRecruit.RecruitGUID, GetPlayer()->GetGuild()->GetGUID());
+    sClubFinderMgr->RemoveMembershipRequest(lfGuildDeclineRecruit.RecruitGUID, GetPlayer()->GetGuild()->GetGUID());
 }
 
 void WorldSession::HandleGuildFinderGetApplications(WorldPackets::GuildFinder::LFGuildGetApplications& /*lfGuildGetApplications*/)
 {
-    std::vector<MembershipRequest const*> applicatedGuilds = sGuildFinderMgr->GetAllMembershipRequestsForPlayer(GetPlayer()->GetGUID());
+    std::vector<MembershipRequest const*> applicatedGuilds = sClubFinderMgr->GetAllMembershipRequestsForPlayer(GetPlayer()->GetGUID());
     WorldPackets::GuildFinder::LFGuildApplications lfGuildApplications;
     lfGuildApplications.Application.resize(applicatedGuilds.size());
-    lfGuildApplications.NumRemaining = 10 - sGuildFinderMgr->CountRequestsFromPlayer(GetPlayer()->GetGUID());
+    lfGuildApplications.NumRemaining = 10 - sClubFinderMgr->CountRequestsFromPlayer(GetPlayer()->GetGUID());
 
     for (std::size_t i = 0; i < applicatedGuilds.size(); ++i)
     {
@@ -117,7 +118,7 @@ void WorldSession::HandleGuildFinderGetApplications(WorldPackets::GuildFinder::L
         WorldPackets::GuildFinder::LFGuildApplicationData& applicationData = lfGuildApplications.Application[i];
 
         Guild* guild = ASSERT_NOTNULL(sGuildMgr->GetGuildByGuid(application->GetGuildGuid()));
-        LFGuildSettings const& guildSettings = sGuildFinderMgr->GetGuildSettings(application->GetGuildGuid());
+        LFGuildSettings const& guildSettings = sClubFinderMgr->GetGuildSettings(application->GetGuildGuid());
 
         applicationData.GuildGUID = application->GetGuildGuid();
         applicationData.GuildVirtualRealm = GetVirtualRealmAddress();
@@ -144,7 +145,7 @@ void WorldSession::HandleGuildFinderGetGuildPost(WorldPackets::GuildFinder::LFGu
     WorldPackets::GuildFinder::LFGuildPost lfGuildPost;
     if (guild->GetLeaderGUID() == player->GetGUID())
     {
-        LFGuildSettings const& settings = sGuildFinderMgr->GetGuildSettings(guild->GetGUID());
+        LFGuildSettings const& settings = sClubFinderMgr->GetGuildSettings(guild->GetGUID());
         lfGuildPost.Post.emplace();
         lfGuildPost.Post->Active = settings.IsListed();
         lfGuildPost.Post->PlayStyle = settings.GetInterests();
@@ -168,7 +169,7 @@ void WorldSession::HandleGuildFinderGetRecruits(WorldPackets::GuildFinder::LFGui
     time_t now = time(nullptr);
     WorldPackets::GuildFinder::LFGuildRecruits lfGuildRecruits;
     lfGuildRecruits.UpdateTime = now;
-    if (std::unordered_map<ObjectGuid, MembershipRequest> const* recruitsList = sGuildFinderMgr->GetAllMembershipRequestsForGuild(guild->GetGUID()))
+    if (std::unordered_map<ObjectGuid, MembershipRequest> const* recruitsList = sClubFinderMgr->GetAllMembershipRequestsForGuild(guild->GetGUID()))
     {
         lfGuildRecruits.Recruits.resize(recruitsList->size());
         std::size_t i = 0;
@@ -201,7 +202,7 @@ void WorldSession::HandleGuildFinderRemoveRecruit(WorldPackets::GuildFinder::LFG
     if (!lfGuildRemoveRecruit.GuildGUID.IsGuild())
         return;
 
-    sGuildFinderMgr->RemoveMembershipRequest(GetPlayer()->GetGUID(), lfGuildRemoveRecruit.GuildGUID);
+    sClubFinderMgr->RemoveMembershipRequest(GetPlayer()->GetGUID(), lfGuildRemoveRecruit.GuildGUID);
 }
 
 // Sent any time a guild master sets an option in the interface and when listing / unlisting his guild
@@ -233,7 +234,111 @@ void WorldSession::HandleGuildFinderSetGuildPost(WorldPackets::GuildFinder::LFGu
     if (guild->GetLeaderGUID() != player->GetGUID())
         return;
 
+    // BFA still has the legacy LF_GUILD post opcode alongside the 8.3
+    // CLUB_FINDER API. Keep both paths writing the same persistent state.
+    // The old seven-field constructor left recruitmentFlags/lastUpdatedTime at
+    // zero, which made IsActiveListing() reject an otherwise listed guild and
+    // left the Communities recruitment dialog with no posting age to display.
+    constexpr uint32 DungeonsFlag      = 1u << 1;
+    constexpr uint32 RaidsFlag         = 1u << 2;
+    constexpr uint32 PvpFlag           = 1u << 3;
+    constexpr uint32 RolePlayingFlag   = 1u << 4;
+    constexpr uint32 SocialFlag        = 1u << 5;
+    constexpr uint32 EnableListingFlag = 1u << 12;
+    constexpr uint32 MaxLevelOnlyFlag  = 1u << 13;
+    constexpr uint32 LegacyFinderFlags = DungeonsFlag | RaidsFlag | PvpFlag | RolePlayingFlag | SocialFlag |
+        EnableListingFlag | MaxLevelOnlyFlag;
+
+    LFGuildSettings const& previousSettings = sClubFinderMgr->GetGuildSettings(guild->GetGUID());
+    uint32 recruitmentFlags = previousSettings.GetRecruitmentFlags() & ~LegacyFinderFlags;
+    if (lfGuildSetGuildPost.PlayStyle & INTEREST_DUNGEONS)     recruitmentFlags |= DungeonsFlag;
+    if (lfGuildSetGuildPost.PlayStyle & INTEREST_RAIDS)        recruitmentFlags |= RaidsFlag;
+    if (lfGuildSetGuildPost.PlayStyle & INTEREST_PVP)          recruitmentFlags |= PvpFlag;
+    if (lfGuildSetGuildPost.PlayStyle & INTEREST_ROLE_PLAYING) recruitmentFlags |= RolePlayingFlag;
+    if (lfGuildSetGuildPost.PlayStyle & INTEREST_QUESTING)     recruitmentFlags |= SocialFlag;
+    if (lfGuildSetGuildPost.Active)                             recruitmentFlags |= EnableListingFlag;
+    if (lfGuildSetGuildPost.LevelRange == MAX_FINDER_LEVEL)    recruitmentFlags |= MaxLevelOnlyFlag;
+
+    uint64 specMask = previousSettings.GetSpecMask();
+    uint32 minItemLevel = previousSettings.GetMinItemLevel();
+    uint32 now = uint32(time(nullptr));
+
     LFGuildSettings settings(lfGuildSetGuildPost.Active, player->GetTeamId(), guild->GetGUID(), lfGuildSetGuildPost.ClassRoles,
-        lfGuildSetGuildPost.Availability, lfGuildSetGuildPost.PlayStyle, lfGuildSetGuildPost.LevelRange, lfGuildSetGuildPost.Comment);
-    sGuildFinderMgr->SetGuildSettings(guild->GetGUID(), settings);
+        lfGuildSetGuildPost.Availability, lfGuildSetGuildPost.PlayStyle, lfGuildSetGuildPost.LevelRange, lfGuildSetGuildPost.Comment,
+        specMask, recruitmentFlags, minItemLevel, now);
+    sClubFinderMgr->SetGuildSettings(guild->GetGUID(), settings);
+}
+
+void WorldSession::HandleClubFinderPost(WorldPackets::GuildFinder::ClubFinderPost& packet)
+{
+    WorldPackets::GuildFinder::ClubFinderResponsePostRecruitmentMessage response;
+
+    Player* player = GetPlayer();
+    Guild* guild = player ? player->GetGuild() : nullptr;
+    if (!player || !guild || packet.ClubID != guild->GetId() || guild->GetLeaderGUID() != player->GetGUID())
+    {
+        // Failure response layout has not been sniffed. An empty ClubFinderGUID
+        // with zero flags is safer than the old invented int32 result payload.
+        response.ClubFinderGUID = ObjectGuid::Empty;
+        response.Flags = 0;
+        SendPacket(response.Write());
+        return;
+    }
+
+    constexpr uint32 DungeonsFlag      = 1u << 1;
+    constexpr uint32 RaidsFlag         = 1u << 2;
+    constexpr uint32 PvpFlag           = 1u << 3;
+    constexpr uint32 RolePlayingFlag   = 1u << 4;
+    constexpr uint32 SocialFlag        = 1u << 5;
+    constexpr uint32 EnableListingFlag = 1u << 12;
+    constexpr uint32 MaxLevelOnlyFlag  = 1u << 13;
+
+    constexpr uint64 TankSpecMask   = 0x0000000880002910ULL;
+    constexpr uint64 HealerSpecMask = 0x0000000208181008ULL;
+    constexpr uint64 DamageSpecMask = 0x0000000577E7C6E7ULL;
+
+    uint8 interests = 0;
+    if (packet.RecruitmentFlags & DungeonsFlag)    interests |= INTEREST_DUNGEONS;
+    if (packet.RecruitmentFlags & RaidsFlag)       interests |= INTEREST_RAIDS;
+    if (packet.RecruitmentFlags & PvpFlag)         interests |= INTEREST_PVP;
+    if (packet.RecruitmentFlags & RolePlayingFlag) interests |= INTEREST_ROLE_PLAYING;
+    if (packet.RecruitmentFlags & SocialFlag)      interests |= INTEREST_QUESTING;
+    if (!interests)
+        interests = ALL_INTERESTS;
+
+    uint8 roles = 0;
+    if (!packet.SpecMask)
+        roles = GUILDFINDER_ALL_ROLES;
+    else
+    {
+        if (packet.SpecMask & TankSpecMask)   roles |= GUILDFINDER_ROLE_TANK;
+        if (packet.SpecMask & HealerSpecMask) roles |= GUILDFINDER_ROLE_HEALER;
+        if (packet.SpecMask & DamageSpecMask) roles |= GUILDFINDER_ROLE_DPS;
+
+        // Never persist an active posting with no legacy role bits. Finder's
+        // matching code treats ClassRoles=0 as matching nobody. This also makes
+        // the bridge tolerant of specialization bits unknown to this BFA table.
+        if (!roles)
+            roles = GUILDFINDER_ALL_ROLES;
+    }
+
+    bool listed = (packet.RecruitmentFlags & EnableListingFlag) != 0;
+    uint8 level = (packet.RecruitmentFlags & MaxLevelOnlyFlag) ? MAX_FINDER_LEVEL : ANY_FINDER_LEVEL;
+    uint32 now = uint32(time(nullptr));
+    LFGuildSettings const& previousSettings = sClubFinderMgr->GetGuildSettings(guild->GetGUID());
+    bool const updatingExistingPosting = previousSettings.GetLastUpdatedTime() != 0;
+
+    LFGuildSettings settings(listed, player->GetTeamId(), guild->GetGUID(), roles, AVAILABILITY_ALWAYS,
+        interests, level, packet.Description, packet.SpecMask, packet.RecruitmentFlags, packet.MinItemLevel, now);
+    sClubFinderMgr->SetGuildSettings(guild->GetGUID(), settings);
+
+    // Use the canonical ClubFinder GUID builder shared by all posting/application paths.
+    response.ClubFinderGUID = sClubFinderMgr->GetClubFinderGuid(guild);
+    // Captures show 0x04 for the first post and 0x24 for an update/repost.
+    response.Flags = updatingExistingPosting ? 0x24 : 0x04;
+
+    TC_LOG_DEBUG("guild", "Stored BFA Club Finder post for guild %u (flags=0x%08X, minIlvl=%u, unknown32=%u, header5=%u, finder=%s)",
+        guild->GetId(), packet.RecruitmentFlags, packet.MinItemLevel, packet.Unknown32, uint32(packet.Unknown5), response.ClubFinderGUID.ToString().c_str());
+
+    SendPacket(response.Write());
 }

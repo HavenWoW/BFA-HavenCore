@@ -17,6 +17,7 @@
 
 #include "KillRewarder.h"
 #include "Creature.h"
+#include "CreatureAI.h"
 #include "DB2Stores.h"
 #include "Formulas.h"
 #include "Group.h"
@@ -179,6 +180,11 @@ inline void KillRewarder::_RewardKillCredit(Player* player)
     if (!_group || player->IsAlive() || !player->GetCorpse())
         if (Creature* target = _victim->ToCreature())
         {
+            // Reserved encounters can restrict quest credit without replacing
+            // ordinary death, experience, reputation or combat-proc handling.
+            if (target->IsAIEnabled && !target->AI()->CanReceiveKillCredit(player))
+                return;
+
             player->KilledMonster(target->GetCreatureTemplate(), target->GetGUID());
             player->UpdateCriteria(CRITERIA_TYPE_KILL_CREATURE_TYPE, target->GetCreatureType(), 1, 0, target);
         }
@@ -286,5 +292,12 @@ void KillRewarder::Reward()
 
         if (Scenario* scenario = victim->GetScenario())
             scenario->UpdateCriteria(CRITERIA_TYPE_KILL_CREATURE, victim->GetEntry(), 1, 0, victim, _killer);
+
+        // Guild achievements: Critter Kill Squad / Crittergeddon. Credited once per
+        // kill to the killer's own guild; the creature type is checked by the
+        // criterion's modifier tree (unit = victim).
+        if (_killer)
+            if (Guild* killerGuild = _killer->GetGuild())
+                killerGuild->UpdateCriteria(CRITERIA_TYPE_KILL_CREATURE_TYPE_GUILD, 1, 0, 0, victim, _killer);
     }
 }

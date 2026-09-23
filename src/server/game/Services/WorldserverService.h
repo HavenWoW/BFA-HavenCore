@@ -36,11 +36,19 @@
 #include "resource_service.pb.h"
 #include "user_manager_service.pb.h"
 
+class Guild;
+
 namespace bgs { namespace protocol { } }
 using namespace bgs::protocol;
 
 namespace Battlenet
 {
+    // Persists one guild/officer chat line into the guild club stream history
+    // (verbatim content, so |H links keep their tooltips). Used by both the
+    // Communities CreateMessage path and normal /g and /o chat. Returns the
+    // message epoch (microseconds).
+    uint64 StoreGuildClubChatMessage(Guild const* guild, ObjectGuid authorGuid, bool officerStream, std::string const& content);
+
     template<class T>
     class WorldserverService : public T
     {
@@ -71,6 +79,13 @@ namespace Battlenet
         uint32 HandleRealmListRequest(std::unordered_map<std::string, Variant const*> params, game_utilities::v1::ClientResponse* response);
         uint32 HandleRealmJoinRequest(std::unordered_map<std::string, Variant const*> params, game_utilities::v1::ClientResponse* response);
     };
+
 }
+
+// Draconic layout: the club services live in their own units. Included here so
+// existing users of WorldserverService.h (dispatcher, Guild.cpp, handlers) see
+// them unchanged.
+#include "ClubService.h"
+#include "ClubMembershipService.h"
 
 #endif // WorldserverService_h__

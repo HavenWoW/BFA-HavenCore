@@ -564,7 +564,10 @@ class TC_GAME_API Map : public GridRefManager<NGridType>
         }
         bool getObjectHitPos(PhaseShift const& phaseShift, float x1, float y1, float z1, float x2, float y2, float z2, float& rx, float &ry, float& rz, float modifyDist);
 
-        virtual ObjectGuid::LowType GetOwnerGuildId(uint32 /*team*/ = TEAM_OTHER) const { return UI64LIT(0); }
+        // Guild group rule: the guild that owns this instance / battleground side,
+        // or 0. Used for guild achievement credit (kills, encounters, BG, arena)
+        // and the client's guild group indicator. See Map.cpp.
+        virtual ObjectGuid::LowType GetOwnerGuildId(uint32 team = TEAM_OTHER) const;
         /*
             RESPAWN TIMES
         */

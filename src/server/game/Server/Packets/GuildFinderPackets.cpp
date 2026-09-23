@@ -172,3 +172,50 @@ void WorldPackets::GuildFinder::LFGuildSetGuildPost::Read()
     Active = _worldPacket.ReadBit();
     Comment = _worldPacket.ReadString(_worldPacket.ReadBits(10));
 }
+
+void WorldPackets::GuildFinder::ClubFinderPost::Read()
+{
+    // BFA carries the length header followed by the fixed recruitment fields
+    // and then the two variable strings. Newer retail captures add one opaque
+    // uint32 between MinItemLevel and those strings. Detect that word from the
+    // declared string lengths instead of hard-coding a post-BFA layout.
+    uint32 nameLength = _worldPacket.ReadBits(7);
+    uint32 descriptionLength = _worldPacket.ReadBits(12);
+    Unknown5 = uint8(_worldPacket.ReadBits(5));
+
+    _worldPacket >> ClubID;
+    _worldPacket >> SpecMask;
+    _worldPacket >> RecruitmentFlags;
+    _worldPacket >> MinItemLevel;
+
+    std::size_t stringBytes = std::size_t(nameLength) + std::size_t(descriptionLength);
+    std::size_t remainingBytes = _worldPacket.size() - _worldPacket.rpos();
+    if (remainingBytes == stringBytes + sizeof(uint32))
+        _worldPacket >> Unknown32;
+
+    // Never let a malformed length header walk beyond the packet. The normal
+    // BFA and captured newer-retail variants both reach this point with exactly
+    // stringBytes remaining.
+    if (_worldPacket.size() - _worldPacket.rpos() < stringBytes)
+    {
+        _worldPacket.rfinish();
+        Name.clear();
+        Description.clear();
+        return;
+    }
+
+    Name = _worldPacket.ReadString(nameLength);
+    Description = _worldPacket.ReadString(descriptionLength);
+}
+
+// [8.3.7 LAYOUT] VERIFIED in-game: posting GUID + one byte of two 3-bit fields
+// (result: 0 created / 1 updated, then a field retail always sets to 1) ->
+// 0x04 / 0x24. Matches retail captures; saved settings are confirmed stored.
+WorldPacket const* WorldPackets::GuildFinder::ClubFinderResponsePostRecruitmentMessage::Write()
+{
+    // Retail success response is the packed ClubFinderGUID followed by one
+    // response/state byte (0x24 in the supplied successful guild POST capture).
+    _worldPacket << ClubFinderGUID;
+    _worldPacket << Flags;
+    return &_worldPacket;
+}

@@ -34,8 +34,12 @@
 #include "Packet.h"
 #include "SharedDefines.h"
 #include <array>
+#include <chrono>
+#include <deque>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 class BattlePet;
 class BattlepayManager;
@@ -464,6 +468,19 @@ namespace WorldPackets
         class LFGuildGetRecruits;
         class LFGuildRemoveRecruit;
         class LFGuildSetGuildPost;
+        class ClubFinderPost;
+    }
+
+    namespace ClubFinder
+    {
+        class ClubFinderRequestClubsList;
+        class ClubFinderRequestClubsData;
+        class ClubFinderRequestMembershipToClub;
+        class ClubFinderGetApplicantsList;
+        class ClubFinderRequestPendingClubsList;
+        class ClubFinderRequestSubscribedClubPostingIDs;
+        class ClubFinderRespondToApplicant;
+        class ClubFinderApplicationResponse;
     }
 
     namespace Hotfix
@@ -1248,7 +1265,11 @@ class TC_GAME_API WorldSession
 
         uint32 GetLatency() const { return m_latency; }
         void SetLatency(uint32 latency) { m_latency = latency; }
-        void ResetClientTimeDelay() { m_clientTimeDelay = 0; }
+
+        // Client/server clock synchronization used to translate movement timestamps.
+        void ResetTimeSync();
+        void SendTimeSync();
+        uint32 AdjustClientMovementTime(uint32 time) const;
 
         std::atomic<int32> m_timeOutTime;
 
@@ -1505,6 +1526,26 @@ class TC_GAME_API WorldSession
         void HandleGuildFinderGetRecruits(WorldPackets::GuildFinder::LFGuildGetRecruits& lfGuildGetRecruits);
         void HandleGuildFinderRemoveRecruit(WorldPackets::GuildFinder::LFGuildRemoveRecruit& lfGuildRemoveRecruit);
         void HandleGuildFinderSetGuildPost(WorldPackets::GuildFinder::LFGuildSetGuildPost& lfGuildSetGuildPost);
+        void HandleClubFinderPost(WorldPackets::GuildFinder::ClubFinderPost& packet);
+
+        // Club Finder (8.3 Guild & Communities panel — guild side, data in ClubFinderMgr)
+        void HandleClubFinderRequestClubsList(WorldPackets::ClubFinder::ClubFinderRequestClubsList& request);
+        void HandleClubFinderRequestClubsData(WorldPackets::ClubFinder::ClubFinderRequestClubsData& request);
+        void HandleClubFinderRequestMembershipToClub(WorldPackets::ClubFinder::ClubFinderRequestMembershipToClub& request);
+        void HandleClubFinderGetApplicantsList(WorldPackets::ClubFinder::ClubFinderGetApplicantsList& request);
+        void HandleClubFinderRequestPendingClubsList(WorldPackets::ClubFinder::ClubFinderRequestPendingClubsList& request);
+        void HandleClubFinderRequestSubscribedClubPostingIDs(WorldPackets::ClubFinder::ClubFinderRequestSubscribedClubPostingIDs& request);
+        void HandleClubFinderRespondToApplicant(WorldPackets::ClubFinder::ClubFinderRespondToApplicant& request);
+        void HandleClubFinderApplicationResponse(WorldPackets::ClubFinder::ClubFinderApplicationResponse& request);
+
+        // BFA Communities member-name cache bridge. 0x368B is mislabeled as
+        // CMSG_QUERY_COMMUNITY_NAME in this branch; 0x368C is the bulk form.
+        void HandleQueryPlayerNameByCommunityId(WorldPacket& recvData);
+        void HandleQueryPlayerNamesForCommunity(WorldPacket& recvData);
+        void HandleGuildQueryRecipes(WorldPacket& recvData);
+        void HandleShowTradeSkill(WorldPacket& recvData);
+        void HandleGuildQueryMembersForRecipe(WorldPacket& recvData);
+        void HandleGuildQueryMemberRecipes(WorldPacket& recvData);
 
         void HandleEnableTaxiNodeOpcode(WorldPackets::Taxi::EnableTaxiNode& enableTaxiNode);
         void HandleTaxiNodeStatusQueryOpcode(WorldPackets::Taxi::TaxiNodeStatusQuery& taxiNodeStatusQuery);
@@ -2178,7 +2219,6 @@ class TC_GAME_API WorldSession
         LocaleConstant m_sessionDbcLocale;
         LocaleConstant m_sessionDbLocaleIndex;
         std::atomic<uint32> m_latency;
-        std::atomic<uint32> m_clientTimeDelay;
         AccountData _accountData[NUM_ACCOUNT_DATA_TYPES];
         uint32 _tutorials[MAX_ACCOUNT_TUTORIAL_VALUES];
         uint8 _tutorialsChanged;
@@ -2191,6 +2231,16 @@ class TC_GAME_API WorldSession
         uint32 expireTime;
         bool forceExit;
         ObjectGuid m_currentBankerGUID;
+
+        // First value is client->server clock delta, second value is measured RTT.
+        std::deque<std::pair<int64, uint32>> _timeSyncClockDeltaQueue;
+        int64 _timeSyncClockDelta = 0;
+        void ComputeNewClockDelta();
+
+        // sequence -> {server game time at send, steady-clock send timestamp}
+        std::map<uint32, std::pair<uint32, std::chrono::steady_clock::time_point>> _pendingTimeSyncRequests;
+        uint32 _timeSyncNextCounter = 0;
+        uint32 _timeSyncTimer = 0;
 
         std::unique_ptr<CollectionMgr> _collectionMgr;
 

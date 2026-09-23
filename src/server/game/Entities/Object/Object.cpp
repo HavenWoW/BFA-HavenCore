@@ -1967,7 +1967,7 @@ TempSummon* WorldObject::SummonCreature(uint32 id, float x, float y, float z, fl
     return SummonCreature(id, pos, spwtype, despwtime, 0, visibleBySummonerOnly);
 }
 
-GameObject* WorldObject::SummonGameObject(uint32 entry, Position const& pos, QuaternionData const& rot, uint32 respawnTime, bool visibleBySummonerOnly /*= false*/)
+GameObject* WorldObject::SummonGameObject(uint32 entry, Position const& pos, QuaternionData const& rot, uint32 respawnTime, bool visibleBySummonerOnly /*= false*/, ObjectGuid guildGuid /*= ObjectGuid::Empty*/)
 {
     if (!IsInWorld())
         return nullptr;
@@ -1993,11 +1993,18 @@ GameObject* WorldObject::SummonGameObject(uint32 entry, Position const& pos, Qua
     else
         go->SetSpawnedByDefault(false);
 
+    // Guild-owned summoned objects (e.g. Mobile Bank) must carry GuildGUID BEFORE
+    // AddToMap serializes the create-object; setting it afterward leaves the client
+    // rendering the object with GuildGUID = 0 and it never re-skins the guild emblem
+    // on the later partial update.
+    if (!guildGuid.IsEmpty())
+        go->SetGuildGUID(guildGuid);
+
     map->AddToMap(go);
     return go;
 }
 
-GameObject* WorldObject::SummonGameObject(uint32 entry, float x, float y, float z, float ang, QuaternionData const& rot, uint32 respawnTime, bool visibleBySummonerOnly /*= false*/)
+GameObject* WorldObject::SummonGameObject(uint32 entry, float x, float y, float z, float ang, QuaternionData const& rot, uint32 respawnTime, bool visibleBySummonerOnly /*= false*/, ObjectGuid guildGuid /*= ObjectGuid::Empty*/)
 {
     if (!x && !y && !z)
     {
@@ -2006,7 +2013,7 @@ GameObject* WorldObject::SummonGameObject(uint32 entry, float x, float y, float 
     }
 
     Position pos(x, y, z, ang);
-    return SummonGameObject(entry, pos, rot, respawnTime, visibleBySummonerOnly);
+    return SummonGameObject(entry, pos, rot, respawnTime, visibleBySummonerOnly, guildGuid);
 }
 
 Creature* WorldObject::SummonTrigger(float x, float y, float z, float ang, uint32 duration, CreatureAI* (*GetAI)(Creature*))

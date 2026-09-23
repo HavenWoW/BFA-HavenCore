@@ -46,11 +46,18 @@ void WorldSession::HandleGuildQueryOpcode(WorldPackets::Guild::QueryGuildInfo& q
         GetPlayerInfo().c_str(), query.GuildGuid.ToString().c_str(), query.PlayerGuid.ToString().c_str());
 
     if (Guild* guild = sGuildMgr->GetGuildByGuid(query.GuildGuid))
-        if (guild->IsMember(query.PlayerGuid))
+    {
+        // Retail BFA/modern clients query guild-wide data (name, ranks and
+        // tabard/emblem) with an empty PlayerGuid. Requiring a concrete member
+        // GUID here makes those cache refreshes return an empty response, which
+        // leaves inspect, invitations and newly joined members with stale or
+        // missing guild visuals.
+        if (query.PlayerGuid.IsEmpty() || guild->IsMember(query.PlayerGuid))
         {
             guild->SendQueryResponse(this, query.PlayerGuid);
             return;
         }
+    }
 
     WorldPackets::Guild::QueryGuildInfoResponse response;
     response.GuildGuid = query.GuildGuid;
@@ -225,13 +232,16 @@ void WorldSession::HandleGuildUpdateInfoText(WorldPackets::Guild::GuildUpdateInf
 
 void WorldSession::HandleSaveGuildEmblem(WorldPackets::Guild::SaveGuildEmblem& packet)
 {
+    TC_LOG_INFO("guild", "[EMBLEM-TRACE] CMSG_SAVE_GUILD_EMBLEM raw [%s]: Vendor=[%s] EColor=%u EStyle=%u BColor=%u BStyle=%u Bg=%u",
+        GetPlayerInfo().c_str(), packet.Vendor.ToString().c_str(), uint32(packet.EColor), uint32(packet.EStyle),
+        uint32(packet.BColor), uint32(packet.BStyle), uint32(packet.Bg));
+
     EmblemInfo emblemInfo;
     emblemInfo.ReadPacket(packet);
 
-    TC_LOG_DEBUG("guild", "CMSG_SAVE_GUILD_EMBLEM [%s]: Guid: [%s] Style: %d, Color: %d, BorderStyle: %d, BorderColor: %d, BackgroundColor: %d"
-        , GetPlayerInfo().c_str(), packet.Vendor.ToString().c_str(), emblemInfo.GetStyle()
-        , emblemInfo.GetColor(), emblemInfo.GetBorderStyle()
-        , emblemInfo.GetBorderColor(), emblemInfo.GetBackgroundColor());
+    TC_LOG_INFO("guild", "[EMBLEM-TRACE] CMSG_SAVE_GUILD_EMBLEM interpreted [%s]: Style=%u Color=%u BorderStyle=%u BorderColor=%u Background=%u",
+        GetPlayerInfo().c_str(), emblemInfo.GetStyle(), emblemInfo.GetColor(), emblemInfo.GetBorderStyle(),
+        emblemInfo.GetBorderColor(), emblemInfo.GetBackgroundColor());
 
     if (GetPlayer()->GetNPCIfCanInteractWith(packet.Vendor, UNIT_NPC_FLAG_TABARDDESIGNER, UNIT_NPC_FLAG_2_NONE))
     {
@@ -488,9 +498,13 @@ void WorldSession::HandleGuildSetRankPermissions(WorldPackets::Guild::GuildSetRa
     for (uint8 tabId = 0; tabId < GUILD_BANK_MAX_TABS; ++tabId)
         rightsAndSlots[tabId] = GuildBankRightsAndSlots(tabId, uint8(packet.TabFlags[tabId]), uint32(packet.TabWithdrawItemLimit[tabId]));
 
-    TC_LOG_DEBUG("guild", "CMSG_GUILD_SET_RANK_PERMISSIONS [%s]: Rank: %s (%u)", GetPlayerInfo().c_str(), packet.RankName.c_str(), packet.RankOrder);
+    TC_LOG_DEBUG("guild",
+        "CMSG_GUILD_SET_RANK_PERMISSIONS [%s]: RankID: %u, RankOrder: %u, Name: %s, Flags: 0x%08X",
+        GetPlayerInfo().c_str(), uint32(packet.RankID), uint32(packet.RankOrder), packet.RankName.c_str(), packet.Flags);
 
-    guild->HandleSetRankInfo(this, packet.RankOrder, packet.RankName, packet.Flags, packet.WithdrawGoldLimit, rightsAndSlots);
+    // RankID is the stable identifier used by Guild::RankInfo and guild_member.rank.
+    // RankOrder is UI ordering and can diverge after ranks are shifted.
+    guild->HandleSetRankInfo(this, packet.RankID, packet.RankName, packet.Flags, packet.WithdrawGoldLimit, rightsAndSlots);
 }
 
 void WorldSession::HandleGuildRequestPartyState(WorldPackets::Guild::RequestGuildPartyState& packet)
@@ -542,8 +556,19 @@ void WorldSession::HandleRequestGuildRewardsList(WorldPackets::Guild::RequestGui
 void WorldSession::HandleGuildQueryNews(WorldPackets::Guild::GuildQueryNews& newsQuery)
 {
     if (Guild* guild = GetPlayer()->GetGuild())
-        if (guild->GetGUID() == newsQuery.GuildGUID)
-            guild->SendNewsUpdate(this);
+    {
+        // BFA calls QueryGuildNews() on PLAYER_ENTERING_WORLD, including map and
+        // instance transitions. During that transition the request GUID can be
+        // temporarily empty/stale while the player still belongs to the same
+        // server-side guild. Guild News is private to the player's own guild, so
+        // always answer with that authoritative guild instead of dropping the
+        // refresh and leaving the client-side news cache empty.
+        if (newsQuery.GuildGUID != guild->GetGUID())
+            TC_LOG_DEBUG("guild", "CMSG_GUILD_QUERY_NEWS [%s]: requested %s, serving own guild %s",
+                GetPlayerInfo().c_str(), newsQuery.GuildGUID.ToString().c_str(), guild->GetGUID().ToString().c_str());
+
+        guild->SendNewsUpdate(this);
+    }
 }
 
 void WorldSession::HandleGuildNewsUpdateSticky(WorldPackets::Guild::GuildNewsUpdateSticky& packet)

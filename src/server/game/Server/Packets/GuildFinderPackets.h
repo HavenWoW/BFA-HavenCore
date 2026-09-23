@@ -232,6 +232,38 @@ namespace WorldPackets
             bool Active = false;
             std::string Comment;
         };
+
+        // BFA 8.3.7 Club Finder wire protocol (CMSG 0x3717).
+        class ClubFinderPost final : public ClientPacket
+        {
+        public:
+            ClubFinderPost(WorldPacket&& packet) : ClientPacket(CMSG_CLUB_FINDER_POST, std::move(packet)) { }
+
+            void Read() override;
+
+            uint64 ClubID = 0;
+            uint64 SpecMask = 0;
+            uint32 RecruitmentFlags = 0;
+            uint32 MinItemLevel = 0;
+            // Some retail builds carry one additional uint32 between
+            // MinItemLevel and the variable strings. Keep it opaque and only
+            // consume it when packet size proves that word is present.
+            uint32 Unknown32 = 0;
+            uint8 Unknown5 = 0;
+            std::string Name;
+            std::string Description;
+        };
+
+        class ClubFinderResponsePostRecruitmentMessage final : public ServerPacket
+        {
+        public:
+            ClubFinderResponsePostRecruitmentMessage() : ServerPacket(SMSG_CLUB_FINDER_RESPONSE_POST_RECRUITMENT_MESSAGE, 14) { }
+
+            WorldPacket const* Write() override;
+
+            ObjectGuid ClubFinderGUID;
+            uint8 Flags = 0;
+        };
     }
 }
 

@@ -339,7 +339,9 @@ void ArchaeologyPlayerMgr::CompleteArtifact(uint32 /*spellId*/)
                     artifact.count = count ? count : 1;
                     m_ArchaeologyHistoryMap.insert(ArchaeologyHistoryMap::value_type(artifactId, artifact));
 
-                    GetPlayer()->GetAchievementMgr()->UpdateCriteria(CRITERIA_TYPE_COMPLETE_ARCHAEOLOGY_PROJECTS, artifactId);
+                    // Through Player::UpdateCriteria so the guild is credited too
+                    // (Making History); the achievement manager alone skipped it.
+                    GetPlayer()->UpdateCriteria(CRITERIA_TYPE_COMPLETE_ARCHAEOLOGY_PROJECTS, artifactId);
 
                     WorldPackets::Misc::ResearchComplete researchComplete;
                     researchComplete.researchHistory.id = artifactId;

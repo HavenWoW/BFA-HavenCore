@@ -292,6 +292,22 @@ void CharacterDatabaseConnection::DoPrepareStatements()
     PrepareStatement(CHAR_INS_GUILD_EVENTLOG, "INSERT INTO guild_eventlog (guildid, LogGuid, EventType, PlayerGuid1, PlayerGuid2, NewRank, TimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
     PrepareStatement(CHAR_DEL_GUILD_EVENTLOG, "DELETE FROM guild_eventlog WHERE guildid = ? AND LogGuid = ?", CONNECTION_ASYNC); // 0: uint32, 1: uint32
     PrepareStatement(CHAR_DEL_GUILD_EVENTLOGS, "DELETE FROM guild_eventlog WHERE guildid = ?", CONNECTION_ASYNC); // 0: uint32
+    // Club stream history (ClubStreamHistoryMgr; reads come from its cache, loads use plain queries)
+    PrepareStatement(CHAR_INS_CLUB_MESSAGE, "INSERT INTO club_message (clubId, streamId, epoch, position, authorAccountId, authorGuid, content, createdTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_UPD_CLUB_MESSAGE_DESTROY, "UPDATE club_message SET content = '', destroyerGuid = ?, destroyTime = ? WHERE clubId = ? AND streamId = ? AND epoch = ? AND position = ? AND destroyTime = 0", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_CLUB_MESSAGES, "DELETE FROM club_message WHERE clubId = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_OLD_CLUB_MESSAGES, "DELETE FROM club_message WHERE clubId = ? AND streamId = ? AND createdTime < ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_EXPIRED_CLUB_MESSAGES, "DELETE FROM club_message WHERE createdTime < ?", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_DEL_EXPIRED_CLUB_MEMBER_MENTIONS, "DELETE FROM club_member_mention WHERE createdTime < ?", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_REP_CLUB_STREAM_VIEW_MARKER, "REPLACE INTO club_stream_view_marker (clubId, streamId, memberGuid, lastViewTime) VALUES (?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_CLUB_STREAM_VIEW_MARKER_MEMBER, "DELETE FROM club_stream_view_marker WHERE clubId = ? AND memberGuid = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_CLUB_STREAM_VIEW_MARKERS, "DELETE FROM club_stream_view_marker WHERE clubId = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_CLUB_MEMBER_MENTIONS, "DELETE FROM club_member_mention WHERE clubId = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_SEL_GUILD_MEMBER_SKILLS, "SELECT cs.guid, cs.skill, cs.value, cs.max FROM character_skills cs INNER JOIN guild_member gm ON gm.guid = cs.guid WHERE gm.guildid = ?", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_GUILD_MEMBER_SKILLS_BY_GUID, "SELECT cs.skill, cs.value, cs.max FROM character_skills cs INNER JOIN guild_member gm ON gm.guid = cs.guid WHERE gm.guildid = ? AND cs.guid = ?", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_GUILD_MEMBER_SPELLS, "SELECT cs.guid, cs.spell FROM character_spell cs INNER JOIN guild_member gm ON gm.guid = cs.guid WHERE gm.guildid = ? AND cs.active = 1 AND cs.disabled = 0", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_GUILD_MEMBER_SPELLS_BY_GUID, "SELECT cs.spell FROM character_spell cs INNER JOIN guild_member gm ON gm.guid = cs.guid WHERE gm.guildid = ? AND cs.guid = ? AND cs.active = 1 AND cs.disabled = 0", CONNECTION_SYNCH);
+    PrepareStatement(CHAR_SEL_GUILD_MEMBERS_WITH_SPELL, "SELECT cs.guid FROM character_spell cs INNER JOIN guild_member gm ON gm.guid = cs.guid WHERE gm.guildid = ? AND cs.spell = ? AND cs.active = 1 AND cs.disabled = 0", CONNECTION_SYNCH);
     PrepareStatement(CHAR_UPD_GUILD_MEMBER_PNOTE, "UPDATE guild_member SET pnote = ? WHERE guid = ?", CONNECTION_ASYNC); // 0: string, 1: uint32
     PrepareStatement(CHAR_UPD_GUILD_MEMBER_OFFNOTE, "UPDATE guild_member SET offnote = ? WHERE guid = ?", CONNECTION_ASYNC); // 0: string, 1: uint32
     PrepareStatement(CHAR_UPD_GUILD_MEMBER_RANK, "UPDATE guild_member SET `rank` = ? WHERE guid = ?", CONNECTION_ASYNC); // 0: uint8, 1: uint32
@@ -326,12 +342,15 @@ void CharacterDatabaseConnection::DoPrepareStatements()
     PrepareStatement(CHAR_DEL_ALL_GUILD_ACHIEVEMENT_CRITERIA, "DELETE FROM guild_achievement_progress WHERE guildId = ?", CONNECTION_ASYNC);
     PrepareStatement(CHAR_SEL_GUILD_ACHIEVEMENT, "SELECT achievement, date, guids FROM guild_achievement WHERE guildId = ?", CONNECTION_SYNCH);
     PrepareStatement(CHAR_SEL_GUILD_ACHIEVEMENT_CRITERIA, "SELECT criteria, counter, date, completedGuid FROM guild_achievement_progress WHERE guildId = ?", CONNECTION_SYNCH);
-    PrepareStatement(CHAR_INS_GUILD_NEWS, "INSERT INTO guild_newslog (guildid, LogGuid, EventType, PlayerGuid, Flags, Value, Timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)"
-                     " ON DUPLICATE KEY UPDATE LogGuid = VALUES (LogGuid), EventType = VALUES (EventType), PlayerGuid = VALUES (PlayerGuid), Flags = VALUES (Flags), Value = VALUES (Value), Timestamp = VALUES (Timestamp)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_INS_GUILD_NEWS, "INSERT INTO guild_newslog (guildid, LogGuid, EventType, PlayerGuid, Flags, Value, Timestamp, Data) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                     " ON DUPLICATE KEY UPDATE LogGuid = VALUES (LogGuid), EventType = VALUES (EventType), PlayerGuid = VALUES (PlayerGuid), Flags = VALUES (Flags), Value = VALUES (Value), Timestamp = VALUES (Timestamp), Data = VALUES (Data)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_GUILD_NEWS, "DELETE FROM guild_newslog WHERE guildid = ? AND LogGuid = ?", CONNECTION_ASYNC);
 
     PrepareStatement(CHAR_LOAD_GUILD_CHALLENGES, "SELECT GuildId, ChallengeType, ChallengeCount FROM guild_challenges", CONNECTION_SYNCH);
     PrepareStatement(CHAR_INIT_GUILD_CHALLENGES, "INSERT INTO guild_challenges VALUES (?, ?, 0)", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_COMPLETE_GUILD_CHALLENGE, "UPDATE guild_challenges SET ChallengeCount = ? WHERE GuildId = ? AND ChallengeType = ?", CONNECTION_ASYNC);
+    // REPLACE: guilds created before the init statement have no rows, so an UPDATE would silently lose progress.
+    PrepareStatement(CHAR_COMPLETE_GUILD_CHALLENGE, "REPLACE INTO guild_challenges (ChallengeCount, GuildId, ChallengeType) VALUES (?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_RESET_GUILD_CHALLENGES, "UPDATE guild_challenges SET ChallengeCount = 0", CONNECTION_ASYNC);
     PrepareStatement(CHAR_REMOVE_GUILD_CHALLENGES, "DELETE FROM guild_challenges WHERE GuildId = ?", CONNECTION_ASYNC);
 
     // Chat channel handling
@@ -695,11 +714,11 @@ void CharacterDatabaseConnection::DoPrepareStatements()
     PrepareStatement(CHAR_DEL_CHAR_CUF_PROFILES_BY_ID, "DELETE FROM character_cuf_profiles WHERE guid = ? AND id = ?", CONNECTION_ASYNC);
     PrepareStatement(CHAR_DEL_CHAR_CUF_PROFILES, "DELETE FROM character_cuf_profiles WHERE guid = ?", CONNECTION_ASYNC);
 
-    // Guild Finder
-    PrepareStatement(CHAR_REP_GUILD_FINDER_APPLICANT, "REPLACE INTO guild_finder_applicant (guildId, playerGuid, availability, classRole, interests, comment, submitTime) VALUES(?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_DEL_GUILD_FINDER_APPLICANT, "DELETE FROM guild_finder_applicant WHERE guildId = ? AND playerGuid = ?", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_REP_GUILD_FINDER_GUILD_SETTINGS, "REPLACE INTO guild_finder_guild_settings (guildId, availability, classRoles, interests, level, listed, comment) VALUES(?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
-    PrepareStatement(CHAR_DEL_GUILD_FINDER_GUILD_SETTINGS, "DELETE FROM guild_finder_guild_settings WHERE guildId = ?", CONNECTION_ASYNC);
+    // Club Finder. postingId is an independent protocol/database identity; clubId is the owning guild id.
+    PrepareStatement(CHAR_REP_CLUB_FINDER_APPLICATION, "REPLACE INTO club_finder_application (postingId, playerGuid, comment, specs, status, lastUpdatedTime, availability, classRole, interests, submitTime, itemLevel) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_CLUB_FINDER_APPLICATION, "DELETE FROM club_finder_application WHERE postingId = ? AND playerGuid = ?", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_REP_CLUB_FINDER_POSTING, "REPLACE INTO club_finder_posting (postingId, clubId, name, description, recruitingSpecs, recruitmentFlags, itemLevelRequirement, avatarId, displayFlags, type, crossFaction, lastPosterGuid, lastUpdatedTime, legacyAvailability, legacyClassRoles, legacyInterests, legacyLevel) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);
+    PrepareStatement(CHAR_DEL_CLUB_FINDER_POSTING, "DELETE FROM club_finder_posting WHERE postingId = ?", CONNECTION_ASYNC);
 
     // Challenge
     PrepareStatement(CHAR_INS_CHALLENGE, "INSERT INTO challenge (`ID`, `GuildID`, `MapID`, `RecordTime`, `Date`, `ChallengeLevel`, `TimerLevel`, `Affixes`, `ChestID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", CONNECTION_ASYNC);

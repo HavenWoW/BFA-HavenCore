@@ -368,10 +368,13 @@ public:
         {
             case CRITERIA_TYPE_KILL_CREATURE:
             case CRITERIA_TYPE_WIN_BG:
-            case CRITERIA_TYPE_BE_SPELL_TARGET:         // NYI
+            case CRITERIA_TYPE_COMPLETE_DUNGEON_ENCOUNTER: // credited per player + once to the owner guild
+            case CRITERIA_TYPE_COMPLETE_SCENARIO_COUNT:    // credited per player + once to the owner guild
+            case CRITERIA_TYPE_COMPLETE_SCENARIO:          // (InstanceScenario::CompleteScenario)
+            case CRITERIA_TYPE_BE_SPELL_TARGET:         // guild credited once per cast in Spell::DoSpellHitOnUnit path
             case CRITERIA_TYPE_WIN_RATED_ARENA:
-            case CRITERIA_TYPE_BE_SPELL_TARGET2:        // NYI
-            case CRITERIA_TYPE_WIN_RATED_BATTLEGROUND:  // NYI
+            case CRITERIA_TYPE_BE_SPELL_TARGET2:        // guild credited once per cast (see above)
+            case CRITERIA_TYPE_WIN_RATED_BATTLEGROUND:  // guild credited once per win in Battleground::EndBattleground
                 return true;
             default:
                 break;

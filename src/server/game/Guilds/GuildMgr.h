@@ -67,6 +67,7 @@ public:
 
     std::vector<GuildReward> const& GetGuildRewards() const { return GuildRewards; }
     GuildChallengeRewardData const& GetGuildChallengeRewardData() const;
+    void ResetGuildChallenges(); // weekly
     void ResetTimes(bool week);
 protected:
     typedef std::unordered_map<ObjectGuid::LowType, Guild*> GuildContainer;

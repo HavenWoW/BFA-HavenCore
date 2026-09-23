@@ -57,6 +57,7 @@
 #include "World.h"
 #include "WorldSession.h"
 #include <numeric>
+#include "GuildMgr.h"
 
 extern NonDefaultConstructible<pEffect> SpellEffects[TOTAL_SPELL_EFFECTS];
 
@@ -2689,6 +2690,19 @@ SpellMissInfo Spell::DoSpellHitOnUnit(Unit* unit, uint32 effectMask)
         player->StartCriteriaTimer(CRITERIA_TIMED_TYPE_SPELL_TARGET, m_spellInfo->Id);
         player->UpdateCriteria(CRITERIA_TYPE_BE_SPELL_TARGET, m_spellInfo->Id, 0, 0, m_caster);
         player->UpdateCriteria(CRITERIA_TYPE_BE_SPELL_TARGET2, m_spellInfo->Id);
+
+        // Guild runs: BE_SPELL_TARGET(2) are group criteria types, so players do not
+        // forward them to their guild. Credit the guild that owns the instance once
+        // per cast, through a member of that guild (reference for the modifiers).
+        if (!m_guildSpellTargetCredited && player->GetMap()->IsDungeon())
+            if (ObjectGuid::LowType ownerGuildId = player->GetMap()->GetOwnerGuildId())
+                if (player->GetGuildId() == ownerGuildId)
+                    if (Guild* ownerGuild = sGuildMgr->GetGuildById(ownerGuildId))
+                    {
+                        m_guildSpellTargetCredited = true;
+                        ownerGuild->UpdateCriteria(CRITERIA_TYPE_BE_SPELL_TARGET, m_spellInfo->Id, 0, 0, m_caster, player);
+                        ownerGuild->UpdateCriteria(CRITERIA_TYPE_BE_SPELL_TARGET2, m_spellInfo->Id, 0, 0, nullptr, player);
+                    }
     }
 
     if (Player* player = m_caster->ToPlayer())

@@ -190,6 +190,15 @@ void LoadDisables()
                 if (flags)
                     TC_LOG_ERROR("sql.sql", "Disable flags specified for Criteria %u, useless data.", entry);
                 break;
+            case DISABLE_TYPE_ACHIEVEMENT:
+                if (!sAchievementStore.LookupEntry(entry))
+                {
+                    TC_LOG_ERROR("sql.sql", "Achievement entry %u from `disables` doesn't exist in dbc, skipped.", entry);
+                    continue;
+                }
+                if (flags)
+                    TC_LOG_ERROR("sql.sql", "Disable flags specified for Achievement %u, useless data.", entry);
+                break;
             case DISABLE_TYPE_VMAP:
             {
                 MapEntry const* mapEntry = sMapStore.LookupEntry(entry);
@@ -362,6 +371,7 @@ bool IsDisabledFor(DisableType type, uint32 entry, Unit const* unit, uint8 flags
         case DISABLE_TYPE_BATTLEGROUND:
         case DISABLE_TYPE_OUTDOORPVP:
         case DISABLE_TYPE_CRITERIA:
+        case DISABLE_TYPE_ACHIEVEMENT:
         case DISABLE_TYPE_MMAP:
             return true;
         case DISABLE_TYPE_VMAP:

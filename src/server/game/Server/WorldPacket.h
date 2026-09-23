@@ -20,6 +20,7 @@
 
 #include "ByteBuffer.h"
 #include "Opcodes.h"
+#include <chrono>
 
 class WorldPacket : public ByteBuffer
 {
@@ -40,7 +41,7 @@ class WorldPacket : public ByteBuffer
 
         WorldPacket(uint32 opcode, size_t res, ConnectionType connection = CONNECTION_TYPE_DEFAULT) : WorldPacket(opcode, res, Reserve{}, connection) { }
 
-        WorldPacket(WorldPacket&& packet) noexcept : ByteBuffer(std::move(packet)), m_opcode(packet.m_opcode), _connection(packet._connection)
+        WorldPacket(WorldPacket&& packet) noexcept : ByteBuffer(std::move(packet)), m_opcode(packet.m_opcode), _connection(packet._connection), m_receivedTime(packet.m_receivedTime)
         {
         }
 
@@ -52,6 +53,7 @@ class WorldPacket : public ByteBuffer
             {
                 m_opcode = right.m_opcode;
                 _connection = right._connection;
+                m_receivedTime = right.m_receivedTime;
                 ByteBuffer::operator =(right);
             }
 
@@ -64,6 +66,7 @@ class WorldPacket : public ByteBuffer
             {
                 m_opcode = right.m_opcode;
                 _connection = right._connection;
+                m_receivedTime = right.m_receivedTime;
                 ByteBuffer::operator=(std::move(right));
             }
 
@@ -78,6 +81,7 @@ class WorldPacket : public ByteBuffer
             _storage.reserve(newres);
             m_opcode = opcode;
             _connection = connection;
+            m_receivedTime = std::chrono::steady_clock::time_point{};
         }
 
         uint32 GetOpcode() const { return m_opcode; }
@@ -85,9 +89,13 @@ class WorldPacket : public ByteBuffer
 
         ConnectionType GetConnection() const { return _connection; }
 
+        std::chrono::steady_clock::time_point GetReceivedTime() const { return m_receivedTime; }
+        void SetReceiveTime(std::chrono::steady_clock::time_point receivedTime) { m_receivedTime = receivedTime; }
+
     protected:
         uint32 m_opcode;
         ConnectionType _connection;
+        std::chrono::steady_clock::time_point m_receivedTime{};
 };
 
 #endif

@@ -783,25 +783,43 @@ void WorldSession::HandleSetTitleOpcode(WorldPackets::Character::SetTitle& packe
 
 void WorldSession::HandleTimeSyncResponse(WorldPackets::Misc::TimeSyncResponse& packet)
 {
-    // Prevent crashing server if queue is empty
-    if (_player->m_timeSyncQueue.empty())
+    auto itr = _pendingTimeSyncRequests.find(packet.SequenceIndex);
+    if (itr == _pendingTimeSyncRequests.end())
     {
-        TC_LOG_ERROR("network", "Received CMSG_TIME_SYNC_RESPONSE from player %s without requesting it (hacker?)", _player->GetName().c_str());
+        TC_LOG_DEBUG("network", "Received unexpected CMSG_TIME_SYNC_RESPONSE sequence %u from %s",
+            packet.SequenceIndex, GetPlayerInfo().c_str());
         return;
     }
 
-    if (packet.SequenceIndex != _player->m_timeSyncQueue.front())
-        TC_LOG_ERROR("network", "Wrong time sync counter from player %s (cheater?)", _player->GetName().c_str());
+    uint32 serverTimeAtSent = itr->second.first;
+    std::chrono::steady_clock::time_point requestSentTime = itr->second.second;
+    _pendingTimeSyncRequests.erase(itr);
 
-    TC_LOG_DEBUG("network", "Time sync received: counter %u, client ticks %u, time since last sync %u", packet.SequenceIndex, packet.ClientTime, packet.ClientTime - _player->m_timeSyncClient);
+    std::chrono::steady_clock::time_point responseReceivedTime = packet.GetReceivedTime();
+    if (responseReceivedTime == std::chrono::steady_clock::time_point{})
+        responseReceivedTime = std::chrono::steady_clock::now();
 
-    uint32 ourTicks = packet.ClientTime + (GameTime::GetGameTimeMS() - _player->m_timeSyncServer);
+    int64 roundTripMs = std::chrono::duration_cast<std::chrono::milliseconds>(responseReceivedTime - requestSentTime).count();
+    if (roundTripMs < 0)
+        roundTripMs = 0;
+    if (roundTripMs > 0xFFFFFFFFLL)
+        roundTripMs = 0xFFFFFFFFLL;
 
-    // diff should be small
-    TC_LOG_DEBUG("network", "Our ticks: %u, diff %u, latency %u", ourTicks, ourTicks - packet.ClientTime, GetLatency());
+    uint32 roundTripDuration = uint32(roundTripMs);
+    uint32 lagDelay = roundTripDuration / 2;
 
-    _player->m_timeSyncClient = packet.ClientTime;
-    _player->m_timeSyncQueue.pop();
+    // clockDelta = serverTime - clientTime. Once known, client movement
+    // timestamps can be translated onto the server clock seen by observers.
+    int64 clockDelta = int64(serverTimeAtSent) + int64(lagDelay) - int64(packet.ClientTime);
+
+    _timeSyncClockDeltaQueue.emplace_back(clockDelta, roundTripDuration);
+    if (_timeSyncClockDeltaQueue.size() > 6)
+        _timeSyncClockDeltaQueue.pop_front();
+
+    ComputeNewClockDelta();
+
+    TC_LOG_DEBUG("network", "Time sync received: counter %u, client ticks %u, RTT %u ms",
+        packet.SequenceIndex, packet.ClientTime, roundTripDuration);
 }
 
 void WorldSession::HandleResetInstancesOpcode(WorldPackets::Instance::ResetInstances& /*packet*/)

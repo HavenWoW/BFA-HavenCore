@@ -711,7 +711,10 @@ bool Pet::CreateBaseAtCreature(Creature* creature)
         return false;
     }
 
-    SetDisplayId(creature->GetDisplayId());
+    // 8.3: a tamed pet keeps the tamed creature's own model scale. The single-arg
+    // SetDisplayId would reset scale to 1.0 and discard it, so pass the creature's
+    // native display scale through explicitly.
+    SetDisplayId(creature->GetDisplayId(), creature->GetNativeDisplayScale());
 
     if (CreatureFamilyEntry const* cFamily = sCreatureFamilyStore.LookupEntry(cinfo->family))
         SetName(cFamily->Name->Str[GetOwner()->GetSession()->GetSessionDbcLocale()]);
@@ -793,20 +796,11 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
 
     SetModifierValue(UNIT_MOD_ARMOR, BASE_VALUE, stats->BaseArmor);
 
-    //scale
-    CreatureFamilyEntry const* cFamily = sCreatureFamilyStore.LookupEntry(cinfo->family);
-    if (cFamily && cFamily->MinScale > 0.0f && petType == HUNTER_PET)
-    {
-        float scale;
-        if (getLevel() >= cFamily->MaxScaleLevel)
-            scale = cFamily->MaxScale;
-        else if (getLevel() <= cFamily->MinScaleLevel)
-            scale = cFamily->MinScale;
-        else
-            scale = cFamily->MinScale + float(getLevel() - cFamily->MinScaleLevel) / cFamily->MaxScaleLevel * (cFamily->MaxScale - cFamily->MinScale);
-
-        SetObjectScale(scale);
-    }
+    // NOTE: The CreatureFamily MinScale/MaxScale/MinScaleLevel/MaxScaleLevel fields
+    // drive a level-interpolated pet size that is vanilla/WotLK-era behavior. Retail
+    // 8.3 does NOT scale a hunter pet's model with the owner's level -- a tamed beast
+    // keeps the creature's own display scale (applied in CreateBaseAtCreature). The
+    // old block is intentionally removed so pet size is era-correct for 8.3.7.
 
     // Resistance
     // Hunters pet should not inherit resistances from creature_template, they have separate auras for that

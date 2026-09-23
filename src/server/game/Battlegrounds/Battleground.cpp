@@ -850,13 +850,24 @@ void Battleground::EndBattleground(uint32 winner)
             }
 
             player->UpdateCriteria(CRITERIA_TYPE_WIN_BG, 1);
+            if (isRated() && !isArena())
+                player->UpdateCriteria(CRITERIA_TYPE_WIN_RATED_BATTLEGROUND, 1); // group type: the guild is credited once below
             if (!guildAwarded)
             {
                 guildAwarded = true;
                 if (ObjectGuid::LowType guildId = GetBgMap()->GetOwnerGuildId(player->GetBGTeam()))
                 {
                     if (Guild* guild = sGuildMgr->GetGuildById(guildId))
+                    {
                         guild->UpdateCriteria(CRITERIA_TYPE_WIN_BG, 1, 0, 0, nullptr, player);
+                        if (isRated() && !isArena())
+                        {
+                            // Call of Duty + Guild Rated Battleground Challenge (client:
+                            // "Win a Rated Battleground while in a guild group").
+                            guild->UpdateCriteria(CRITERIA_TYPE_WIN_RATED_BATTLEGROUND, 1, 0, 0, nullptr, player);
+                            guild->CompleteGuildChallenge(ChallengeRatedBG, player);
+                        }
+                    }
                 }
             }
         }

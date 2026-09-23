@@ -20,6 +20,7 @@
 #include "CharacterCache.h"
 #include "ObjectMgr.h"
 #include "Player.h"
+#include "RealmList.h"
 #include "World.h"
 #include "WorldSession.h"
 
@@ -157,6 +158,7 @@ bool WorldPackets::Query::PlayerGuidLookupData::Initialize(ObjectGuid const& gui
 
     IsDeleted = characterInfo->IsDeleted;
     GuidActual = guid;
+    GuildClubMemberID = uint64(guid.GetCounter()) | (uint64(realm.Id.Realm & 0xFFF) << 48);
     VirtualRealmAddress = GetVirtualRealmAddress();
 
     return true;

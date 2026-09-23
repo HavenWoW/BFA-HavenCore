@@ -38,7 +38,7 @@
 #include "GitRevision.h"
 #include "Group.h"
 #include "Guild.h"
-#include "GuildFinderMgr.h"
+#include "ClubFinderMgr.h"
 #include "GuildMgr.h"
 #include "Item.h"
 #include "Language.h"
@@ -859,7 +859,7 @@ void WorldSession::HandleCharDeleteOpcode(WorldPackets::Character::CharDelete& c
             sLog->outCharDump(dump.c_str(), accountId, charDelete.Guid.GetCounter(), name.c_str());
     }
 
-    sGuildFinderMgr->RemoveAllMembershipRequestsFromPlayer(charDelete.Guid);
+    sClubFinderMgr->RemoveAllMembershipRequestsFromPlayer(charDelete.Guid);
     sCalendarMgr->RemoveAllPlayerEventsAndInvites(charDelete.Guid);
     Player::DeleteFromDB(charDelete.Guid, accountId);
 
@@ -1081,6 +1081,14 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
 
     pCurrChar->SendInitialPacketsAfterAddToMap();
 
+    // Offline Club Finder approvals are already persisted in ClubFinderMgr,
+    // but the applicant misses the live Approved update while logged out.
+    // Bootstrap the full applicant-side state during login (the same context
+    // 0x60 list returned by REQUEST_PENDING_CLUBS_LIST), so the invitation is
+    // available on opening J without manually visiting Guild Finder first.
+    if (!pCurrChar->GetGuildId())
+        sClubFinderMgr->SendMembershipRequestListUpdate(pCurrChar);
+
     CharacterDatabasePreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_CHAR_ONLINE);
     stmt->setUInt64(0, pCurrChar->GetGUID().GetCounter());
     CharacterDatabase.Execute(stmt);
@@ -1266,6 +1274,18 @@ void WorldSession::SendFeatureSystemStatus()
     features.BpayStoreAvailable = GetBattlePayMgr()->IsAvailable();
     features.WarModeFeatureEnabled = sWorld->getBoolConfig(CONFIG_FEATURE_SYSTEM_WAR_MODE_ENABLED);
     features.IsMuted = !CanSpeak();
+
+    // Guild & Communities panel. The client shows the static "what is a guild"
+    // onboarding splash (and never sends any CLUB_FINDER_* opcode) unless it is told
+    // at login that clubs are enabled. Enable the guild-side feature set:
+    //   ClubsEnabled                 - turns the Guild & Communities panel on at all
+    //   ClubsCharacterClubTypeAllowed- a guild is a "character" club (the guild-side type)
+    //   ClubFinderEnabled            - enables the "Find a Guild" browse UI
+    // ClubsBattleNetClubTypeAllowed is intentionally left false: that is the
+    // cross-realm Battle.net community type, which is not implemented here.
+    features.ClubsEnabled = true;
+    features.ClubsCharacterClubTypeAllowed = true;
+    features.ClubFinderEnabled = true;
 
     SendPacket(features.Write());
 }

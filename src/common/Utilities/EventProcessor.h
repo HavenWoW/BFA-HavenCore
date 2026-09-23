@@ -19,7 +19,10 @@
 #define __EVENTPROCESSOR_H
 
 #include "Define.h"
+#include "Duration.h"
 #include <map>
+#include <type_traits>
+#include <utility>
 
 class EventProcessor;
 
@@ -67,6 +70,23 @@ class TC_COMMON_API BasicEvent
         uint64 m_execTime;                                  // planned time of next execution, filled by event handler
 };
 
+
+template<typename T>
+class LambdaBasicEvent : public BasicEvent
+{
+    public:
+        explicit LambdaBasicEvent(T callback) : _callback(std::move(callback)) { }
+
+        bool Execute(uint64 /*e_time*/, uint32 /*p_time*/) override
+        {
+            _callback();
+            return true;
+        }
+
+    private:
+        T _callback;
+};
+
 class TC_COMMON_API EventProcessor
 {
     public:
@@ -76,6 +96,36 @@ class TC_COMMON_API EventProcessor
         void Update(uint32 p_time);
         void KillAllEvents(bool force);
         void AddEvent(BasicEvent* Event, uint64 e_time, bool set_addtime = true);
+
+        template<typename T, std::enable_if_t<std::is_invocable_v<std::decay_t<T>>, int> = 0>
+        void AddEvent(T&& event, uint64 e_time, bool set_addtime = true)
+        {
+            using Callback = std::decay_t<T>;
+            AddEvent(new LambdaBasicEvent<Callback>(std::forward<T>(event)), e_time, set_addtime);
+        }
+
+        void AddEventAtOffset(BasicEvent* event, uint64 offset)
+        {
+            AddEvent(event, CalculateTime(offset));
+        }
+
+        template<typename T, std::enable_if_t<std::is_invocable_v<std::decay_t<T>>, int> = 0>
+        void AddEventAtOffset(T&& event, uint64 offset)
+        {
+            AddEvent(std::forward<T>(event), CalculateTime(offset));
+        }
+
+        void AddEventAtOffset(BasicEvent* event, Milliseconds offset)
+        {
+            AddEventAtOffset(event, uint64(offset.count()));
+        }
+
+        template<typename T, std::enable_if_t<std::is_invocable_v<std::decay_t<T>>, int> = 0>
+        void AddEventAtOffset(T&& event, Milliseconds offset)
+        {
+            AddEventAtOffset(std::forward<T>(event), uint64(offset.count()));
+        }
+
         void ModifyEventTime(BasicEvent* Event, uint64 newTime);
         uint64 CalculateTime(uint64 t_offset) const;
 

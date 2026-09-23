@@ -38,6 +38,7 @@ WorldPacket const* WorldPackets::Guild::QueryGuildInfoResponse::Write()
         _worldPacket << Info->GuildGUID;
         _worldPacket << uint32(Info->VirtualRealmAddress);
         _worldPacket << uint32(Info->Ranks.size());
+        // Trinity-style guild emblem order.
         _worldPacket << uint32(Info->EmblemStyle);
         _worldPacket << uint32(Info->EmblemColor);
         _worldPacket << uint32(Info->BorderStyle);
@@ -294,8 +295,11 @@ WorldPacket const* WorldPackets::Guild::GuildEventPlayerLeft::Write()
 WorldPacket const* WorldPackets::Guild::GuildPermissionsQueryResults::Write()
 {
     _worldPacket << uint32(RankID);
-    _worldPacket << int32(WithdrawGoldLimit);
+
+    // BFA client expects guild rights before the gold withdrawal limit.
     _worldPacket << int32(Flags);
+    _worldPacket << int32(WithdrawGoldLimit);
+
     _worldPacket << int32(NumTabs);
     _worldPacket << uint32(Tab.size());
 
@@ -847,7 +851,9 @@ void WorldPackets::Guild::GuildNewsUpdateSticky::Read()
     _worldPacket >> GuildGUID;
     _worldPacket >> NewsID;
 
-    NewsID = _worldPacket.ReadBit();
+    // 8.3.7: the trailing bit is the requested sticky state. Do not overwrite
+    // NewsID here; doing so redirects every request to news ID 0 or 1.
+    Sticky = _worldPacket.ReadBit();
 }
 
 void WorldPackets::Guild::GuildSetGuildMaster::Read()

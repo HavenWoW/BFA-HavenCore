@@ -34,6 +34,7 @@
 #include "World.h"
 #include "WorldSession.h"
 #include <sstream>
+#include "DisableMgr.h"
 
 struct VisibleAchievementCheck
 {
@@ -108,6 +109,10 @@ bool AchievementMgr::CanCompleteCriteriaTree(CriteriaTree const* tree)
     {
         // counter can never complete
         if (achievement->Flags & ACHIEVEMENT_FLAG_COUNTER)
+            return false;
+
+        // no longer obtainable on this realm (disables, sourceType 9)
+        if (DisableMgr::IsDisabledFor(DISABLE_TYPE_ACHIEVEMENT, achievement->ID, nullptr))
             return false;
 
         if (achievement->Flags & (ACHIEVEMENT_FLAG_REALM_FIRST_REACH | ACHIEVEMENT_FLAG_REALM_FIRST_KILL))
@@ -498,7 +503,10 @@ void PlayerAchievementMgr::CompletedAchievement(AchievementEntry const* achievem
 
     if (achievement->Flags & ACHIEVEMENT_FLAG_SHOW_IN_GUILD_NEWS)
         if (Guild* guild = referencePlayer->GetGuild())
-            guild->AddGuildNews(GUILD_NEWS_PLAYER_ACHIEVEMENT, referencePlayer->GetGUID(), achievement->Flags & ACHIEVEMENT_FLAG_SHOW_IN_GUILD_HEADER, achievement->ID);
+            // News Flags only carries the sticky bit (retail: 0 for achievement news).
+            // Storing ACHIEVEMENT_FLAG_SHOW_IN_GUILD_HEADER (0x2000) here made the
+            // client's news sort comparator inconsistent (see NewsLogEntry::WritePacket).
+            guild->AddGuildNews(GUILD_NEWS_PLAYER_ACHIEVEMENT, referencePlayer->GetGUID(), 0, achievement->ID);
 
     if (!_owner->GetSession()->PlayerLoading())
         SendAchievementEarned(achievement);
@@ -942,7 +950,7 @@ void GuildAchievementMgr::CompletedAchievement(AchievementEntry const* achieveme
 
     if (achievement->Flags & ACHIEVEMENT_FLAG_SHOW_IN_GUILD_NEWS)
         if (Guild* guild = referencePlayer->GetGuild())
-            guild->AddGuildNews(GUILD_NEWS_GUILD_ACHIEVEMENT, ObjectGuid::Empty, achievement->Flags & ACHIEVEMENT_FLAG_SHOW_IN_GUILD_HEADER, achievement->ID);
+            guild->AddGuildNews(GUILD_NEWS_GUILD_ACHIEVEMENT, ObjectGuid::Empty, 0, achievement->ID); // Flags = sticky bit only
 
     SendAchievementEarned(achievement);
     CompletedAchievementData& ca = _completedAchievements[achievement->ID];
@@ -975,6 +983,9 @@ void GuildAchievementMgr::CompletedAchievement(AchievementEntry const* achieveme
 
     UpdateCriteria(CRITERIA_TYPE_COMPLETE_ACHIEVEMENT, 0, 0, 0, nullptr, referencePlayer);
     UpdateCriteria(CRITERIA_TYPE_EARN_ACHIEVEMENT_POINTS, achievement->Points, 0, 0, nullptr, referencePlayer);
+    // Guild achievements: Now That's an Achievement (guild achievement points).
+    if (!(achievement->Flags & ACHIEVEMENT_FLAG_TRACKING_FLAG))
+        UpdateCriteria(CRITERIA_TYPE_EARN_GUILD_ACHIEVEMENT_POINTS, achievement->Points, 0, 0, nullptr, referencePlayer);
 }
 
 void GuildAchievementMgr::SendCriteriaUpdate(Criteria const* entry, CriteriaProgress const* progress, uint32 /*timeElapsed*/, bool /*timedCompleted*/) const
@@ -1072,8 +1083,23 @@ bool AchievementGlobalMgr::IsRealmCompleted(AchievementEntry const* achievement)
     if (itr == _allCompletedAchievements.end())
         return false;
 
+
+    // Hall of Fame: open until HallOfFameLimit guilds have it (each faction has
+    // its own achievement, so the limit is per faction).
+    if (achievement->Flags & ACHIEVEMENT_FLAG_HALL_OF_FAME)
+    {
+        auto count = _hallOfFameCompletions.find(achievement->ID);
+        return count != _hallOfFameCompletions.end() && count->second >= HallOfFameLimit;
+    }
     if (itr->second == std::chrono::system_clock::time_point::min())
         return false;
+
+    // Completed before this server start (loaded from character_achievement /
+    // guild_achievement). Without this, 'now - max()' is negative, so kill-type
+    // realm firsts were considered open again after every restart (upstream
+    // TrinityCore has the same check).
+    if (itr->second == std::chrono::system_clock::time_point::max())
+        return true;
 
     // Allow completing the realm first kill for entire minute after first person did it
     // it may allow more than one group to achieve it (highly unlikely)
@@ -1086,6 +1112,12 @@ bool AchievementGlobalMgr::IsRealmCompleted(AchievementEntry const* achievement)
 
 void AchievementGlobalMgr::SetRealmCompleted(AchievementEntry const* achievement)
 {
+    if (achievement->Flags & ACHIEVEMENT_FLAG_HALL_OF_FAME)
+    {
+        ++_hallOfFameCompletions[achievement->ID];
+        return;
+    }
+
     if (IsRealmCompleted(achievement))
         return;
 
@@ -1167,6 +1199,24 @@ void AchievementGlobalMgr::LoadCompletedAchievements()
             _allCompletedAchievements[achievementId] = std::chrono::system_clock::time_point::max();
     }
     while (result->NextRow());
+
+    // Guild realm firsts and Hall of Fame counts live in guild_achievement.
+    if (QueryResult guildResult = CharacterDatabase.Query("SELECT achievement, COUNT(*) FROM guild_achievement GROUP BY achievement"))
+    {
+        do
+        {
+            Field* fields = guildResult->Fetch();
+            AchievementEntry const* achievement = sAchievementStore.LookupEntry(fields[0].GetUInt32());
+            if (!achievement)
+                continue;
+
+            if (achievement->Flags & ACHIEVEMENT_FLAG_HALL_OF_FAME)
+                _hallOfFameCompletions[achievement->ID] = uint32(fields[1].GetUInt64());
+            else if (achievement->Flags & (ACHIEVEMENT_FLAG_REALM_FIRST_REACH | ACHIEVEMENT_FLAG_REALM_FIRST_KILL))
+                _allCompletedAchievements[achievement->ID] = std::chrono::system_clock::time_point::max();
+        }
+        while (guildResult->NextRow());
+    }
 
     TC_LOG_INFO("server.loading", ">> Loaded %lu realm first completed achievements in %u ms.", (unsigned long)_allCompletedAchievements.size(), GetMSTimeDiffToNow(oldMSTime));
 }

@@ -53,7 +53,10 @@
 #include "WardenWin.h"
 #include "World.h"
 #include "WorldSocket.h"
+#include <algorithm>
+#include <cmath>
 #include <sstream>
+#include <vector>
 
 namespace {
 
@@ -131,7 +134,6 @@ WorldSession::WorldSession(uint32 id, std::string&& name, uint32 battlenetAccoun
     m_sessionDbcLocale(sWorld->GetAvailableDbcLocale(locale)),
     m_sessionDbLocaleIndex(locale),
     m_latency(0),
-    m_clientTimeDelay(0),
     _tutorialsChanged(TUTORIALS_FLAG_NONE),
     _filterAddonMessages(false),
     recruiterId(recruiter),
@@ -424,9 +426,43 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
                         , GetPlayerInfo().c_str());
                     break;
                 case STATUS_UNHANDLED:
-                    TC_LOG_ERROR("network.opcode", "Received not handled opcode %s from %s", GetOpcodeNameForLogging(static_cast<OpcodeClient>(packet->GetOpcode())).c_str()
-                        , GetPlayerInfo().c_str());
+                {
+                    OpcodeClient opcode = static_cast<OpcodeClient>(packet->GetOpcode());
+                    switch (opcode)
+                    {
+                        case CMSG_CLUB_FINDER_APPLICATION_RESPONSE:
+                        case CMSG_CLUB_FINDER_GET_APPLICANTS_LIST:
+                        case CMSG_CLUB_FINDER_POST:
+                        case CMSG_CLUB_FINDER_REQUEST_CLUBS_DATA:
+                        case CMSG_CLUB_FINDER_REQUEST_CLUBS_LIST:
+                        case CMSG_CLUB_FINDER_REQUEST_MEMBERSHIP_TO_CLUB:
+                        case CMSG_CLUB_FINDER_REQUEST_PENDING_CLUBS_LIST:
+                        case CMSG_CLUB_FINDER_REQUEST_SUBSCRIBED_CLUB_POSTING_IDS:
+                        case CMSG_CLUB_FINDER_RESPOND_TO_APPLICANT:
+                        {
+                            std::ostringstream bytes;
+                            static char constexpr Hex[] = "0123456789ABCDEF";
+
+                            for (size_t i = 0; i < packet->size(); ++i)
+                            {
+                                uint8 byte = packet->read<uint8>(i);
+                                if (i)
+                                    bytes << ' ';
+
+                                bytes << Hex[(byte >> 4) & 0x0F] << Hex[byte & 0x0F];
+                            }
+
+                            TC_LOG_ERROR("network.opcode", "CLUB_FINDER_RAW opcode=%s size=%u bytes=[%s] from %s",
+                                GetOpcodeNameForLogging(opcode).c_str(), uint32(packet->size()), bytes.str().c_str(), GetPlayerInfo().c_str());
+                            break;
+                        }
+                        default:
+                            TC_LOG_ERROR("network.opcode", "Received not handled opcode %s from %s", GetOpcodeNameForLogging(opcode).c_str()
+                                , GetPlayerInfo().c_str());
+                            break;
+                    }
                     break;
+                }
             }
         }
         catch (WorldPackets::PacketArrayMaxCapacityException const& pamce)
@@ -461,6 +497,15 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
 
     if (m_Socket[CONNECTION_TYPE_REALM] && m_Socket[CONNECTION_TYPE_REALM]->IsOpen() && _warden)
         _warden->Update();
+
+    // Keep the clock model on the same map-session thread that processes movement.
+    if (!updater.ProcessUnsafe() && _timeSyncTimer > 0)
+    {
+        if (diff >= _timeSyncTimer)
+            SendTimeSync();
+        else
+            _timeSyncTimer -= diff;
+    }
 
     ProcessQueryCallbacks();
 
@@ -1430,6 +1475,105 @@ uint32 WorldSession::DosProtection::GetMaxPacketCounterAllowed(uint16 opcode) co
 
 WorldSession::DosProtection::DosProtection(WorldSession* s) : Session(s), _policy((Policy)sWorld->getIntConfig(CONFIG_PACKET_SPOOF_POLICY))
 {
+}
+
+void WorldSession::ResetTimeSync()
+{
+    _timeSyncClockDeltaQueue.clear();
+    _timeSyncClockDelta = 0;
+    _pendingTimeSyncRequests.clear();
+    _timeSyncNextCounter = 0;
+    _timeSyncTimer = 0;
+}
+
+void WorldSession::SendTimeSync()
+{
+    WorldPackets::Misc::TimeSyncRequest packet;
+    packet.SequenceIndex = _timeSyncNextCounter;
+
+    _pendingTimeSyncRequests[_timeSyncNextCounter] =
+        std::make_pair(GameTime::GetGameTimeMS(), std::chrono::steady_clock::now());
+
+    // Keep this bounded even if a client stops answering time-sync requests.
+    while (_pendingTimeSyncRequests.size() > 6)
+        _pendingTimeSyncRequests.erase(_pendingTimeSyncRequests.begin());
+
+    SendPacket(packet.Write());
+
+    // The first follow-up is quicker; after that resync every 10 seconds.
+    _timeSyncTimer = _timeSyncNextCounter == 0 ? 5000 : 10000;
+    ++_timeSyncNextCounter;
+}
+
+uint32 WorldSession::AdjustClientMovementTime(uint32 time) const
+{
+    if (_timeSyncClockDelta == 0)
+        return GameTime::GetGameTimeMS();
+
+    int64 movementTime = int64(time) + _timeSyncClockDelta;
+    if (movementTime < 0 || movementTime > 0xFFFFFFFFLL)
+    {
+        TC_LOG_WARN("misc", "Computed movement time using client clock delta is invalid; using server time instead");
+        return GameTime::GetGameTimeMS();
+    }
+
+    return uint32(movementTime);
+}
+
+void WorldSession::ComputeNewClockDelta()
+{
+    if (_timeSyncClockDeltaQueue.empty())
+        return;
+
+    std::vector<uint32> latencies;
+    latencies.reserve(_timeSyncClockDeltaQueue.size());
+
+    double latencyMean = 0.0;
+    for (auto const& sample : _timeSyncClockDeltaQueue)
+    {
+        latencies.push_back(sample.second);
+        latencyMean += sample.second;
+    }
+
+    latencyMean /= latencies.size();
+    std::sort(latencies.begin(), latencies.end());
+
+    size_t middle = latencies.size() / 2;
+    double latencyMedian = (latencies.size() % 2)
+        ? double(latencies[middle])
+        : (double(latencies[middle - 1]) + double(latencies[middle])) / 2.0;
+
+    double variance = 0.0;
+    for (uint32 latency : latencies)
+    {
+        double difference = double(latency) - latencyMean;
+        variance += difference * difference;
+    }
+    variance /= latencies.size();
+
+    // Reject high-latency outliers (for example a retransmitted TCP packet).
+    double latencyLimit = latencyMedian + std::sqrt(variance);
+
+    int64 clockDeltaSum = 0;
+    uint32 acceptedSamples = 0;
+    for (auto const& sample : _timeSyncClockDeltaQueue)
+    {
+        if (double(sample.second) <= latencyLimit)
+        {
+            clockDeltaSum += sample.first;
+            ++acceptedSamples;
+        }
+    }
+
+    if (acceptedSamples)
+    {
+        int64 meanClockDelta = int64(std::llround(double(clockDeltaSum) / acceptedSamples));
+        int64 difference = meanClockDelta - _timeSyncClockDelta;
+        if (difference < -25 || difference > 25)
+            _timeSyncClockDelta = meanClockDelta;
+    }
+    else if (_timeSyncClockDelta == 0)
+        _timeSyncClockDelta = _timeSyncClockDeltaQueue.back().first;
 }
 
 

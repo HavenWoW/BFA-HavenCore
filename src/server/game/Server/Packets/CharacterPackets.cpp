@@ -20,6 +20,7 @@
 #include "Field.h"
 #include "ObjectMgr.h"
 #include "Player.h"
+#include "RealmList.h"
 #include "World.h"
 
 WorldPackets::Character::EnumCharacters::EnumCharacters(WorldPacket&& packet) : ClientPacket(std::move(packet))
@@ -41,6 +42,7 @@ WorldPackets::Character::EnumCharactersResult::CharacterInfo::CharacterInfo(Fiel
     // "character_banned.guid, characters.slot, characters.logout_time, characters.activeTalentGroup, characters.lastLoginBuild, character_declinedname.genitive"
 
     Guid              = ObjectGuid::Create<HighGuid::Player>(fields[0].GetUInt64());
+    GuildClubMemberID = uint64(Guid.GetCounter()) | (uint64(realm.Id.Realm & 0xFFF) << 48);
     Name              = fields[1].GetString();
     RaceID            = fields[2].GetUInt8();
     ClassID           = fields[3].GetUInt8();
