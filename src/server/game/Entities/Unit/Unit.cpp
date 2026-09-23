@@ -33,6 +33,7 @@
 #include "Creature.h"
 #include "CreatureAI.h"
 #include "CreatureAIImpl.h"
+#include "CreatureGroups.h"
 #include "CreatureTextMgr.h"
 #include "Formulas.h"
 #include "GameTime.h"
