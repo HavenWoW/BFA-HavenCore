@@ -99,10 +99,13 @@ bool ThreatReference::ShouldBeOffline() const
     if (!_owner->_IsTargetAcceptable(_victim) || !_owner->CanCreatureAttack(_victim))
         return true;
     if (!FlagsAllowFighting(_owner, _victim) || !FlagsAllowFighting(_victim, _owner))
-        return ONLINE_STATE_OFFLINE;
-    if (_owner->IsAIEnabled && !_owner->GetAI()->CanAIAttack(_victim))
-        return ONLINE_STATE_OFFLINE;
-    // next, check suppression (immunity to chosen melee attack school)
+        return true;
+    return false;
+}
+
+bool ThreatReference::ShouldBeSuppressed() const
+{
+    // immunity to the chosen melee attack school
     if (IsTaunting()) // a taunting victim can never be suppressed
         return false;
     if (_victim->IsImmunedToDamage(_owner->GetMeleeDamageSchoolMask()))
