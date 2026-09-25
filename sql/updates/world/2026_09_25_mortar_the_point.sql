@@ -1,0 +1,3 @@
+-- Quest text for completeing the quest added per wowhead.com 
+-- https://www.wowhead.com/quest=14258/mortar-the-point
+INSERT INTO quest_offer_reward (ID, Emote1, Emote2, Emote3, Emote4, EmoteDelay1, EmoteDelay2, EmoteDelay3, EmoteDelay4, RewardText, VerifiedBuild) VALUES (14258, 0, 0, 0, 0, 0, 0, 0, 0, "Sweet! Beautiful! Brilliant! Who loves you?$B$BWith my mortars re-supplied, I can help you as you assault the Naga east of here. Use these markers to call in an artillery strike anywhere on the cliffs, and I'll splatter the whole area with fiery hurt. Oh delicious, merciless, random destruction! I hope you're well-armored...", 20574);
