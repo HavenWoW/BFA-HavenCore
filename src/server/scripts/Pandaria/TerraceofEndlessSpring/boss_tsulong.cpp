@@ -306,7 +306,7 @@ public:
             _JustDied();
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             if (action == ACTION_START_TSULONG_WAYPOINT)
             {
@@ -494,7 +494,7 @@ public:
 
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason why) override
         {
             CreatureAI::EnterEvadeMode();
 
@@ -763,7 +763,7 @@ class npc_embodied_terror : public CreatureScript
             }
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             terrorizeTimer = urand(3000, 6000);
         }

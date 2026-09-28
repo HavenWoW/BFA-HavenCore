@@ -117,7 +117,7 @@ class boss_harbaron : public CreatureScript
             boss_harbaron_AI(Creature* creature) : BossAI(creature, DATA_HARBARON)
             {}
 
-            void Reset()
+            void Reset() override
             {
                 _Reset();
             }
@@ -277,7 +277,7 @@ class npc_mos_shackled_servitor : public CreatureScript
             npc_mos_shackled_servitor_AI(Creature* creature) : ScriptedAI(creature)
             {}
 
-            void Reset()
+            void Reset() override
             {
                 DoCast(me, SPELL_GHOST_VISUAL, true);
                 me->AddUnitState(UNIT_STATE_ROOT);
@@ -425,7 +425,7 @@ class npc_mos_cosmic_scythe : public CreatureScript
             {
             }
 
-            void Reset()
+            void Reset() override
             {
                 _timerCast = 0;
             }
@@ -530,7 +530,7 @@ class spell_harbaron_nether_rip : public SpellScriptLoader
                 }
             }
 
-            void Register()
+            void Register() override
             {
                 OnEffectPeriodic += AuraEffectPeriodicFn(spell_harbaron_nether_rip_AuraScript::HandlePeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
             }

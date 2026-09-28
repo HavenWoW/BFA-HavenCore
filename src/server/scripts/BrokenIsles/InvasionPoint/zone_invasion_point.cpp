@@ -165,7 +165,7 @@ struct instance_invasion_point : public InstanceScript
         }
     }
 
-    void OnPlayerEnter(Player* player)
+    void OnPlayerEnter(Player* player) override
     {
         SetCheckPointPos(player->GetPosition());
         if (!isLoaded)
@@ -211,7 +211,7 @@ struct instance_invasion_point : public InstanceScript
         }
     }
 
-    void OnUnitDeath(Unit* l_unit)
+    void OnUnitDeath(Unit* l_unit) override
     {
         switch (l_unit->GetEntry())
         {
@@ -274,7 +274,7 @@ public:
                                
         }
 
-        void OnSpellClick(Unit* who, bool& /*result*/)
+        void OnSpellClick(Unit* who, bool& /*result*/) override
         {
             if (!who || !who->IsInWorld())
                 return;
@@ -419,7 +419,7 @@ struct npc_temporal_anomaly_125856 : public ScriptedAI
 {
     npc_temporal_anomaly_125856(Creature* creature) : ScriptedAI(creature) { instance = creature->GetInstanceScript(); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if ([[maybe_unused]] Player* player = clicker->ToPlayer())
         {

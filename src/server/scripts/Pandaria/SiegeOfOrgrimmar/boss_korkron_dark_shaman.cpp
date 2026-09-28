@@ -276,7 +276,7 @@ struct korkron_dark_shaman_AI : public BossAI
         //me->SetFloatValue(UNIT_FIELD_COMBATREACH, 8.0f);
     }
 
-    void Reset()
+    void Reset() override
     {
         _Reset();
 
@@ -319,7 +319,7 @@ struct korkron_dark_shaman_AI : public BossAI
         SummonMount();
     }
 
-    void JustDied(Unit* /*killer*/)
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
 
@@ -665,7 +665,7 @@ class boss_earthbreaker_haromm : public CreatureScript
 
             }
 
-            void Reset()
+            void Reset() override
             {
                 korkron_dark_shaman_AI::Reset();
 
@@ -674,21 +674,21 @@ class boss_earthbreaker_haromm : public CreatureScript
                 SetEquipmentSlots(false, DISPLAY_HAROMMS_FROZEN_CRESCENT, DISPLAY_HAROMMS_FROZEN_CRESCENT);
             }
 
-            void JustEngagedWith(Unit* who)
+            void JustEngagedWith(Unit* who) override
             {
                 korkron_dark_shaman_AI::JustEngagedWith(who);
 
                 events.ScheduleEvent(EVENT_FROSTSTORM_STRIKE, TIMER_FROSTSTORM_STRIKE_FIRST);
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* who) override
             {
                 Talk(SAY_HAROMM_DEATH);
 
                 korkron_dark_shaman_AI::JustDied(who);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -809,7 +809,7 @@ class boss_wavebinder_kardris : public CreatureScript
             {
             }
 
-            void Reset()
+            void Reset() override
             {
                 korkron_dark_shaman_AI::Reset();
 
@@ -818,21 +818,21 @@ class boss_wavebinder_kardris : public CreatureScript
                 SetEquipmentSlots(false, DISPLAY_KARDRIS_SCEPTER, DISPLAY_KARDRIS_SCEPTER);
             }
 
-            void JustEngagedWith(Unit* who)
+            void JustEngagedWith(Unit* who) override
             {
                 korkron_dark_shaman_AI::JustEngagedWith(who);
 
                 events.ScheduleEvent(EVENT_FROSTSTORM_BOLT, TIMER_FROSTSTORM_BOLT_FIRST);
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* who) override
             {
                 Talk(SAY_KARDRIS_DEATH);
 
                 korkron_dark_shaman_AI::JustDied(who);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -1116,7 +1116,7 @@ class npc_korkron_dark_shaman_toxic_storm : public CreatureScript
                 despawnTornadoTimer = 55000;
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->AddAura(SPELL_TOXIC_STORM_AURA, me);
             }
@@ -1135,7 +1135,7 @@ class npc_korkron_dark_shaman_toxic_storm : public CreatureScript
                 summons.Despawn(summon);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 DespawnToxicTornados(diff);
 
@@ -1234,7 +1234,7 @@ class npc_korkron_dark_shaman_foul_slime : public CreatureScript
                 m_IsMoving = false;
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->SetSpeed(MOVE_RUN, 0.3f);
             }

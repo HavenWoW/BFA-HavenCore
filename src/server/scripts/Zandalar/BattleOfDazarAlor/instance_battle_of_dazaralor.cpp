@@ -52,7 +52,7 @@ struct instance_battle_of_dazaralor : public InstanceScript
 		LoadDoorData(doorData);
 	}
 
-	void OnPlayerEnter(Player* player)
+	void OnPlayerEnter(Player* player) override
 	{
 		if (isHorde == true || isAlliance == true)
 		{
@@ -106,7 +106,7 @@ struct instance_battle_of_dazaralor : public InstanceScript
 		}
 	}
 
-	void OnPlayerExit(Player* player)
+	void OnPlayerExit(Player* player) override
 	{
 		player->GetSceneMgr().CancelSceneByPackageId(SCENE_CORPSES);
 		player->GetSceneMgr().CancelSceneByPackageId(SCENE_BATTLEFIELD_ACTION);

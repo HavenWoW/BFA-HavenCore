@@ -611,7 +611,7 @@ public:
             SelectHealersToxic();
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectHit += SpellEffectFn(bfa_spell_chimeric_marks_SpellScript::HandleAfterCast, EFFECT_0, SPELL_EFFECT_DUMMY);
         }
@@ -732,7 +732,7 @@ public:
             SetHitDamage(GetHitDamage() / targetList);
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_overflowing_chill_venom_damage_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_DEST_AREA_ENEMY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_overflowing_chill_venom_damage_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
@@ -1532,7 +1532,7 @@ public:
             SetHitDamage(GetHitDamage() / targetList);
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_crushing_reverberation_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_DEST_AREA_ENEMY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_crushing_reverberation_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
@@ -1585,7 +1585,7 @@ public:
 
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectPeriodic += AuraEffectPeriodicFn(bfa_spell_overwhelming_barrage_AuraScript::OnPeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
         }
@@ -1652,7 +1652,7 @@ public:
             SetupSpline();
         }
 
-        void OnUpdate(uint32 diff)
+        void OnUpdate(uint32 diff) override
         {
             Map::PlayerList const& playerList = at->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)

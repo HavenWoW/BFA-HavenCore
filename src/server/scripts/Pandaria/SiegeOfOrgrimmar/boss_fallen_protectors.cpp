@@ -1542,7 +1542,7 @@ struct npc_sun_tenderheart_spawn : public ScriptedAI
         SpiritBound = 143723
     };
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
     }
@@ -1554,7 +1554,7 @@ struct npc_sun_tenderheart_spawn : public ScriptedAI
         events.ScheduleEvent(Events::EVENT_AGGRO, 2000);
     }
 
-    void JustDied(Unit* /*p_Who*/)
+    void JustDied(Unit* /*p_Who*/) override
     {
         events.Reset();
         summons.DespawnAll();
@@ -1562,7 +1562,7 @@ struct npc_sun_tenderheart_spawn : public ScriptedAI
         me->DespawnOrUnsummon(3000);
     }
 
-    void UpdateAI(const uint32 p_Diff)
+    void UpdateAI(const uint32 p_Diff) override
     {
         if (!UpdateVictim())
             return;

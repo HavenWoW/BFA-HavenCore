@@ -124,7 +124,7 @@ struct npc_cyrille_107350 : public ScriptedAI
 {
     npc_cyrille_107350(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         if (player->HasQuest(MAKE_YOUR_MARK))
         {
@@ -154,7 +154,7 @@ struct npc_lorin_107349 : public ScriptedAI
 {
     npc_lorin_107349(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         if (player->HasQuest(MAKE_YOUR_MARK))
         {
@@ -184,7 +184,7 @@ struct npc_sylessa_107348 : public ScriptedAI
 {
     npc_sylessa_107348(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         if (player->HasQuest(MAKE_YOUR_MARK))
         {

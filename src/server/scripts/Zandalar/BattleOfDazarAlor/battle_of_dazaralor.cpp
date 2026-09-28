@@ -117,7 +117,7 @@ struct npc_otoye : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         if (player->IsInCombat())
             return;
@@ -145,7 +145,7 @@ struct npc_master_mathias_shaw_148629 : public ScriptedAI
 
     Position rastakhan_floor_pos = { -1153.958f, 690.000f, 318.403f };
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         if (player->IsInCombat())
             return;
@@ -226,7 +226,7 @@ struct npc_nathanos_blightcaller_149506 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         if (player->IsInCombat())
             return;

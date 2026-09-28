@@ -148,7 +148,7 @@ class npc_sap_globule : public CreatureScript
             done = false;
         }
 
-        void IsSummonedBy(Unit* /*summoner*/)
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             if (Creature * jinbak = me->FindNearestCreature(NPC_JINBAK, 500.0f))
                 jinbak->AI()->JustSummoned(me);

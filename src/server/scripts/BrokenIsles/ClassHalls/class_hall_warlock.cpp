@@ -155,7 +155,7 @@ struct npc_ritssyn_flamescowl_101456 : public ScriptedAI
 {
     npc_ritssyn_flamescowl_101456(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -503,7 +503,7 @@ struct npc_calydus_101097 : public ScriptedAI
 {
     npc_calydus_101097(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -567,7 +567,7 @@ struct npc_calydus_101097 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_PLAYER_CHOICE_WARLOCK, true);
@@ -684,7 +684,7 @@ struct npc_calydus_109698 : public ScriptedAI
 
     }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -701,7 +701,7 @@ struct npc_calydus_109698 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         CloseGossipMenuFor(player);
         Talk(0);
@@ -779,7 +779,7 @@ struct npc_fel_bat_110479 : public ScriptedAI
 {
     npc_fel_bat_110479(Creature* creature) : ScriptedAI(creature) { }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -857,7 +857,7 @@ struct npc_image_of_guldan_110548 : public ScriptedAI
 {
     npc_image_of_guldan_110548(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -1006,7 +1006,7 @@ struct npc_demonic_portal_110476 : public ScriptedAI
 {
     npc_demonic_portal_110476(Creature* creature) : ScriptedAI(creature) {  }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {

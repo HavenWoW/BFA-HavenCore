@@ -305,7 +305,7 @@ private:
 		}
 	}
 
-	void SpellHitDest(SpellDestination const* dest, SpellInfo const* spellInfo)
+	void SpellHitDest(SpellDestination const* dest, SpellInfo const* spellInfo) override
 	{		
 		switch (spellInfo->Id)
 		{
@@ -514,7 +514,7 @@ struct npc_void_hunter_crackling_stalker : public ScriptedAI
 		}
 	}
 
-	void IsSummonedBy(Unit* summoner)
+	void IsSummonedBy(Unit* summoner) override
 	{
 		if (summoner->IsInCombat())
 			me->AI()->DoZoneInCombat(nullptr);

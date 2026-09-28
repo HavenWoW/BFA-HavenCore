@@ -3274,7 +3274,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* summoner) override
         {
             me->SetInCombatWithZone();
             me->SetUnitFlags(UNIT_FLAG_NOT_SELECTABLE);
@@ -3293,7 +3293,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 
@@ -3353,7 +3353,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 type, uint32 pointId) override
         {
             switch (pointId)
             {

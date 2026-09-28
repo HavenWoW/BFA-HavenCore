@@ -750,7 +750,7 @@ public:
                 caster->CastSpell(caster, SPELL_HIDE_VISUAL, true);
         }
 
-        void Reset()
+        void Reset() override
         {
             me->SetUnitFlags(UNIT_FLAG_NON_ATTACKABLE);
             me->SetUnitFlags(UNIT_FLAG_NOT_SELECTABLE);
@@ -761,7 +761,7 @@ public:
             DoCast(me, SPELL_HIDE_PROC, true);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 

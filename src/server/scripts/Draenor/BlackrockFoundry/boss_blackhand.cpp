@@ -167,7 +167,7 @@ class boss_blackhand : public CreatureScript
 
             uint32 m_SmashedCount;
 
-            bool CanRespawn()
+            bool CanRespawn() override
             {
                 return false;
             }
@@ -275,7 +275,7 @@ class boss_blackhand : public CreatureScript
                 m_CosmeticEvents.ScheduleEvent(eEvents::EventRegenerateEnergy, eTimers::TimerRegenerateEnergy);
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 me->NearTeleportTo(me->GetHomePosition());
 
@@ -376,7 +376,7 @@ class boss_blackhand : public CreatureScript
                 }
             }
 
-            void SpellMissTarget(Unit* p_Target, SpellInfo const* p_SpellInfo, SpellMissInfo /*p_MissInfo*/)
+            void SpellMissTarget(Unit* p_Target, SpellInfo const* p_SpellInfo, SpellMissInfo /*p_MissInfo*/) override
             {
                 if (p_Target == nullptr)
                     return;
@@ -386,7 +386,7 @@ class boss_blackhand : public CreatureScript
                     me->CastSpell(p_Target, eSpells::ImpaledAura, true);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -561,7 +561,7 @@ class boss_blackhand : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Regens manually
                 p_Value = 0;
@@ -1044,7 +1044,7 @@ class npc_foundry_blackrock_foundry : public CreatureScript
                 m_ScaleTime = -1;
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1258,7 +1258,7 @@ class npc_foundry_slag_bomb : public CreatureScript
                     me->CastSpell(p_Target, eSpells::SlaggedAura, true);
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::SlagBombAoE)
                     me->DespawnOrUnsummon(200);
@@ -1655,7 +1655,7 @@ class npc_foundry_siegemaker : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -1713,7 +1713,7 @@ class npc_foundry_siegemaker : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Only regens by script
                 p_Value = 0;
@@ -1802,7 +1802,7 @@ class npc_foundry_blaze_controller : public CreatureScript
                 m_Controller.Clear();
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1855,7 +1855,7 @@ class npc_foundry_blaze_controller : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/)
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/) override
             {
                 m_Controller = p_Guid;
             }
@@ -1951,7 +1951,7 @@ class npc_foundry_blackrock_foundry_third_phase : public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG_REMOVE_CLIENT_CONTROL));
             }
 
-            void DoAction(int32  p_Action) 
+            void DoAction(int32  p_Action) override
             {
                 switch (p_Action)
                 {
@@ -2122,7 +2122,7 @@ class npc_foundry_slag_hole : public CreatureScript
                     me->CastSpell(me, eSpells::SlagEruptionVisual, true);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -2182,7 +2182,7 @@ class npc_foundry_slag_crater : public CreatureScript
                     me->CastSpell(me, eSpells::HugeSlagEruptionAura, true);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -2235,7 +2235,7 @@ class npc_foundry_achievement_stalker : public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG2_DISABLE_TURN));
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -2255,7 +2255,7 @@ class npc_foundry_achievement_stalker : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {

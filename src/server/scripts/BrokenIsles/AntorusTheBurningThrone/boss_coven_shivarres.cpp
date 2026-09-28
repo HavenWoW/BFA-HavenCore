@@ -308,7 +308,7 @@ struct npc_asara_mother_of_night_122467 : public ScriptedAI
         }
     }
 
-    void JustEngagedWith(Unit* /*victim*/)
+    void JustEngagedWith(Unit* /*victim*/) override
     {
         Talk(0);
         events.ScheduleEvent(SPELL_SHADOW_BLADES, 11s);
@@ -432,7 +432,7 @@ struct npc_diima_mother_of_gloom_122469 : public ScriptedAI
         }
     }
 
-    void JustEngagedWith(Unit* /*victim*/)
+    void JustEngagedWith(Unit* /*victim*/) override
     {
         Talk(0);
         events.ScheduleEvent(SPELL_FLASHFREEZE, 10s);
@@ -587,7 +587,7 @@ struct npc_shadow_blade_123086 : public ScriptedAI
         me->CastSpell(me, 245290, true);
     }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {

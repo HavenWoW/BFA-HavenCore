@@ -127,7 +127,7 @@ struct npc_stormbeak_104681 : public ScriptedAI
 {
     npc_stormbeak_104681(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -158,7 +158,7 @@ struct npc_sturmschnabel_98383 : public ScriptedAI
 {
     npc_sturmschnabel_98383(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -345,7 +345,7 @@ public:
 
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             say = false;
         }
@@ -393,7 +393,7 @@ public:
 
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             say = false;
         }
@@ -441,7 +441,7 @@ public:
 
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             say = false;
         }
@@ -479,7 +479,7 @@ struct npc_bubble_112142 : public ScriptedAI
 {
     npc_bubble_112142(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -625,7 +625,7 @@ public:
             }
         }
 
-        void OnSpellClick(Unit* clicker, bool& /*result*/)
+        void OnSpellClick(Unit* clicker, bool& /*result*/) override
         {
             if (Player* player = clicker->ToPlayer())
             {
@@ -709,7 +709,7 @@ public:
 
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             say = false;
         }
@@ -751,7 +751,7 @@ struct npc_bubble_1121423 : public ScriptedAI
 {
     npc_bubble_1121423(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -780,7 +780,7 @@ struct npc_bubble_222143 : public ScriptedAI
 {
     npc_bubble_222143(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -812,7 +812,7 @@ struct npc_graddoc_113354 : public ScriptedAI
 {
     npc_graddoc_113354(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -908,7 +908,7 @@ public:
 
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             say = false;
         }

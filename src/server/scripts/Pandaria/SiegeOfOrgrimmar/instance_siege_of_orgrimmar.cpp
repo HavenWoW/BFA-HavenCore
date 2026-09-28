@@ -168,7 +168,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         destroyedCannonsCount = 0;
     }
 
-    void Initialize()
+    void Initialize() override
     {
         SetBossNumber(DATA_MAX_BOSS_DATA);
         LoadDoorData(doorData);
@@ -270,7 +270,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         //instance->SetVisibilityRange(200.0f);
     }
 
-    void OnPlayerEnter(Player* player)
+    void OnPlayerEnter(Player* player) override
     {
         ///< TODO: make this code generic
         ///< TODO: use pos from WorldSafeLocs.dbc
@@ -314,7 +314,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         instance->LoadGrid(1631.f, -4662.f);
     }
 
-    void OnCreatureCreate(Creature* creature)
+    void OnCreatureCreate(Creature* creature) override
     {
         ///< All SoO bosses should have immunity to disarm
         if (creature->IsDungeonBoss())
@@ -475,7 +475,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         }
     }
 
-    void OnCreatureRemove(Creature* creature)
+    void OnCreatureRemove(Creature* creature) override
     {
         // There are creatures (bosses) those are summoned by npcs
         // Reset guid accessors to be able to summon bosses again
@@ -493,7 +493,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         }
     }
 
-    void OnGameObjectCreate(GameObject* go)
+    void OnGameObjectCreate(GameObject* go) override
     {
         go->setActive(true);
 
@@ -732,7 +732,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         }
     }
 
-    bool SetBossState(uint32 id, EncounterState state)
+    bool SetBossState(uint32 id, EncounterState state) override
     {
         if (!InstanceScript::SetBossState(id, state))
             return false;
@@ -953,7 +953,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         return ObjectGuid::Empty;
     }
 
-    std::string GetSaveData()
+    std::string GetSaveData() override
     {
         std::ostringstream saveStream;
         saveStream << "S O O " /*<< ReadSaveDataBossStates()*/ << GetEventData();
@@ -970,7 +970,7 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         return saveStream.str();
     }
 
-    void Load(const char* in)
+    void Load(const char* in) override
     {
         if (!in)
         {

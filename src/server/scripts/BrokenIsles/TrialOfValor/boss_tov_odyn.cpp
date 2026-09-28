@@ -272,7 +272,7 @@ public:
             }
         }
 
-        void SpellHitTarget(Unit* target, SpellInfo const* spell)
+        void SpellHitTarget(Unit* target, SpellInfo const* spell) override
         {
             if (!inPhase2)
                 return;
@@ -786,7 +786,7 @@ public:
     {
         areatrigger_glowing_fragment_tovAI(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-        void OnInitialize()
+        void OnInitialize() override
         {
             //UPDATE `areatrigger_template` SET `Flags`= 4 WHERE `Id` IN(12897, 12879);
             //AreaTriggerTemplate const* attemplate = at->GetTemplate();

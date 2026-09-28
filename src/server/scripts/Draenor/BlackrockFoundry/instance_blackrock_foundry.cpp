@@ -627,7 +627,7 @@ struct instance_blackrock_foundry : public InstanceScript
         }
     }
 
-    void OnUnitDeath(Unit* l_unit)
+    void OnUnitDeath(Unit* l_unit) override
     {
         switch (l_unit->GetEntry())
         {
@@ -1229,7 +1229,7 @@ struct instance_blackrock_foundry : public InstanceScript
         }
     }
 
-    uint32 GetData(uint32 p_ID)const
+    uint32 GetData(uint32 p_ID)const override
     {
         switch (p_ID)
         {
@@ -1490,7 +1490,7 @@ struct instance_blackrock_foundry : public InstanceScript
         }
     }
 
-    void OnPlayerExit(Player* p_Player)
+    void OnPlayerExit(Player* p_Player) override
     {
         //   InstanceScript::OnPlayerExit(p_Player);
     }

@@ -60,7 +60,7 @@ class boss_general_pavalak : public CreatureScript
             bool bulwark35;
             bool bulwarkCheck;
 
-            void Reset()
+            void Reset() override
             {
                 _Reset();
                 tempest = 0;
@@ -73,7 +73,7 @@ class boss_general_pavalak : public CreatureScript
                 bulwarkCheck = false;
             }
 
-            void JustEngagedWith(Unit* /*who*/)
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 _JustEngagedWith();
                 bladeprepare = 5000;
@@ -130,7 +130,7 @@ class boss_general_pavalak : public CreatureScript
                 me->GetMotionMaster()->MoveTargetedHome();
             }
 
-            void JustReachedHome()
+            void JustReachedHome() override
             {
                 if (bulwark75 || bulwark35)
                 {
@@ -140,7 +140,7 @@ class boss_general_pavalak : public CreatureScript
                 bulwarkCheck = false;
             }
 
-            void UpdateAI(uint32 diff)
+            void UpdateAI(uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -205,7 +205,7 @@ class boss_general_pavalak : public CreatureScript
                 DoMeleeAttackIfReady();
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
             }

@@ -215,7 +215,7 @@ struct npc_archdruid_hamuul_runetotem_101064 : public ScriptedAI
 {
     npc_archdruid_hamuul_runetotem_101064(Creature* creature) : ScriptedAI(creature) {  }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -309,7 +309,7 @@ struct npc_zentabra_103135 : public ScriptedAI
 {
     npc_zentabra_103135(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -328,7 +328,7 @@ struct npc_zentabra_103135 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_CALL_OF_THE_WILDS))
@@ -443,7 +443,7 @@ struct npc_zentabra_103136 : public ScriptedAI
     }
 
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_CALL_OF_THE_WILDS))
@@ -519,7 +519,7 @@ struct npc_naralex_103133 : public ScriptedAI
         DoCastSelf(204637, true);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         player->CastSpell(player, 204250, true);
         CloseGossipMenuFor(player);
@@ -720,7 +720,7 @@ struct npc_keeper_remulos_103489 : public ScriptedAI
 {
     npc_keeper_remulos_103489(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -821,7 +821,7 @@ struct npc_keeper_remulos_103488 : public ScriptedAI
         ACTION_3 = 3,
     };
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -929,7 +929,7 @@ struct npc_nightmare_blight_103246 : public ScriptedAI
 
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         ///
     }
@@ -1233,7 +1233,7 @@ struct npc_rensar_greathoof_101195 : public ScriptedAI
             }
     }
     */
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -1361,7 +1361,7 @@ struct npc_keeper_remulos_103832 : public ScriptedAI
 {
     npc_keeper_remulos_103832(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -1439,7 +1439,7 @@ struct npc_lea_stonepaw_104535 : public ScriptedAI
 {
     npc_lea_stonepaw_104535(Creature* creature) : ScriptedAI(creature) {  }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -1529,7 +1529,7 @@ struct npc_ursol_104385 : public ScriptedAI
 {
     npc_ursol_104385(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -1701,7 +1701,7 @@ struct npc_ursol_104385 : public ScriptedAI
         m_playerGUID = player->GetGUID();
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_THE_THIRD_TRIAL_OF_URSOL))
@@ -2115,7 +2115,7 @@ struct npc_lyessa_bloomwatcher_104573 : public ScriptedAI
 {
     npc_lyessa_bloomwatcher_104573(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -2479,7 +2479,7 @@ struct npc_valorn_stillbough_101656 : public ScriptedAI
 {
     npc_valorn_stillbough_101656(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -2842,7 +2842,7 @@ struct npc_yaris_darkclaw_106442 : public ScriptedAI
    //     me->SetShipmentContainerID(141);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         //CloseGossipMenuFor(player);
       //  player->SendShipmentCrafterUI(me->GetGUID(), me->GetShipmentContainerID());
@@ -2858,7 +2858,7 @@ struct npc_sister_lilith_108393 : public ScriptedAI
      //   me->SetShipmentContainerID(140);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         //CloseGossipMenuFor(player);
      //   player->SendShipmentCrafterUI(me->GetGUID(), me->GetShipmentContainerID());

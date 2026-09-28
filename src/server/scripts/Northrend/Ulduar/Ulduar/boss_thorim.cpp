@@ -611,7 +611,7 @@ public:
             SetBoundary(&ArenaBoundaries);
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
            // BossAI::JustEngagedWith(who);
             Talk(SAY_AGGRO_1);
@@ -1222,7 +1222,7 @@ public:
                 _events.ScheduleEvent(EVENT_ABILITY_CHARGE, 8s);
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (_info->Type == DARK_RUNE_WARBRINGER)
                 DoCast(me, SPELL_AURA_OF_CELERITY);
@@ -1382,7 +1382,7 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
             _events.Reset();
@@ -1469,7 +1469,7 @@ public:
                 me->SummonCreature(s.entry, s.pos, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 3000);
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
             _events.Reset();

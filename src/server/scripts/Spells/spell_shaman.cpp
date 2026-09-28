@@ -3600,7 +3600,7 @@ public:
                 GetCaster()->CastSpell(GetCaster(), triggerSpell, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectHitTarget += SpellEffectFn(spell_shaman_generic_summon_elemental_SpellScript::HandleSummon, EFFECT_0, SPELL_EFFECT_DUMMY);
         }
@@ -3673,7 +3673,7 @@ public:
 
             caster->CastSpell(target, SPELL_FROSTBRAND_SLOW, true);
         }
-        void Register()
+        void Register() override
         {
             OnHit += SpellHitFn(bfa_spell_frostbrand_SpellScript::HandleOnHit);
         }
@@ -3742,7 +3742,7 @@ public:
             if (caster->HasAura(SPELL_SEARING_ASSAULT_TALENT))
                 caster->CastSpell(target, SPELL_SEARING_ASSULAT_TALENT_PROC, true);
         }
-        void Register()
+        void Register() override
         {
             OnHit += SpellHitFn(bfa_spell_flametongue_SpellScript::HandleOnHit);
         }
@@ -3865,7 +3865,7 @@ public:
                 caster->CastSpell(nullptr, SPELL_CRASHING_STORM_TALENT_AT, true);
             }
         }
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_crash_lightning_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_CONE_ENEMY_104);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_crash_lightning_SpellScript::HandleAfterCast, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);

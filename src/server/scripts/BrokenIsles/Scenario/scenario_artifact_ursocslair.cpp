@@ -579,7 +579,7 @@ struct npc_lea_stonepaw_105243 : public ScriptedAI
         isStep1 = true;
     }
 
-    void JustEngagedWith(Unit* victim)
+    void JustEngagedWith(Unit* victim) override
     {
         TC_LOG_ERROR("server.worldserver", "====================scenario_artifact_ursocslair  JustEngagedWith====================== ");
         if (!me->HasAura(186588))
@@ -695,7 +695,7 @@ public:
         return false;
     }
 
-    void OnLootStateChanged(GameObject* go, uint32 state, Unit* unit)
+    void OnLootStateChanged(GameObject* go, uint32 state, Unit* unit) override
     {
         if (state == GO_ACTIVATED && unit)
             if (Player* player = unit->ToPlayer())

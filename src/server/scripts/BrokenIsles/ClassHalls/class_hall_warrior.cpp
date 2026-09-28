@@ -727,13 +727,13 @@ struct npc_odyn : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
     }
 
-    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/)
+    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/) override
     {
         if (quest->GetQuestId() == QUEST_WEAPONS_OF_LEGEND || quest->GetQuestId() == QUEST_ONE_MORE_LEGEND || quest->GetQuestId() == QUEST_MORE_WEAPONS_OF_LEGEND)
         {
@@ -1112,7 +1112,7 @@ struct npc_high_overlord_saurfang_93773 : public ScriptedAI
 {
     npc_high_overlord_saurfang_93773(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -1137,7 +1137,7 @@ struct npc_high_overlord_saurfang_93773 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_H_A_DESPERATE_PLEA))

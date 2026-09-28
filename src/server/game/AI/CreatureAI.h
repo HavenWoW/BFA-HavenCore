@@ -229,7 +229,7 @@ class TC_GAME_API CreatureAI : public UnitAI
 
         // Called when the creature summon successfully other creature
         virtual void JustSummoned(Creature* /*summon*/) { }
-        virtual void IsSummonedBy(Unit* /*summoner*/) { }
+        virtual void IsSummonedBy(Unit* /*summoner*/) override { }
         virtual void IsSummonedBySpell(Spell const* /*summonSpell*/) { }
 
         virtual void SummonedCreatureDespawn(Creature* /*summon*/) { }

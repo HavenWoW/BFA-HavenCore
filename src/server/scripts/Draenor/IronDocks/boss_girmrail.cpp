@@ -229,7 +229,7 @@ class iron_docks_grimrail_mob_train : public CreatureScript
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC  | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
         }
 
-        void DoAction(const int32 p_Action)
+        void DoAction(const int32 p_Action) override
         {
             switch (p_Action)
             {
@@ -603,7 +603,7 @@ class boss_grimrail_makogg : public CreatureScript
                 }
             }
             */
-            void DoAction(const int32 p_Action)
+            void DoAction(const int32 p_Action) override
             {
                 if (p_Action == eActions::ActionMakoggWinCheck)
                 {

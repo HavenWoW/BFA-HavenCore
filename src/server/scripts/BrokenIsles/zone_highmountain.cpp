@@ -421,7 +421,7 @@ struct npc_spiritwalker_ebonhorn_98825 : public ScriptedAI
             Talk(0);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
 
@@ -670,7 +670,7 @@ struct npc_war_eagle_100712 : public ScriptedAI
 {
     npc_war_eagle_100712(Creature* creature) : ScriptedAI(creature) {  }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -730,7 +730,7 @@ struct npc_windmaster_julan_95403 : public ScriptedAI
         me->RemoveAurasDueToSpell(130966);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_NURSING_THE_WOUNDS))
@@ -790,7 +790,7 @@ struct npc_captive_great_eagle_94991 : public ScriptedAI
         me->AddUnitFlag(UnitFlags(UNIT_NPC_FLAG_SPELLCLICK));
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -817,7 +817,7 @@ struct npc_warbrave_oro_95051 : public ScriptedAI
 {
     npc_warbrave_oro_95051(Creature* creature) : ScriptedAI(creature) {  }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -981,7 +981,7 @@ struct npc_quest_pet_rocks : public ScriptedAI
 {
     npc_quest_pet_rocks(Creature* creature) : ScriptedAI(creature) {  }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {

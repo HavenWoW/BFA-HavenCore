@@ -250,7 +250,7 @@ public:
         at_bane_essence_AI(AreaTrigger* at) : AreaTriggerAI(at)
         {}
 
-        void OnInitialize()
+        void OnInitialize() override
         {
             if (!at->GetCaster())
                 return;
@@ -401,7 +401,7 @@ public:
             }
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectPeriodic += AuraEffectPeriodicFn(spell_ymiron_fallen_bane_AuraScript::HandlePeriodic, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
         }

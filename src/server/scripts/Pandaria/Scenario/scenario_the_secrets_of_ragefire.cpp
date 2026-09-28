@@ -496,7 +496,7 @@ struct scenario_the_secrets_of_ragefire : public InstanceScript
     }
 
 
-    void OnUnitDeath(Unit* l_unit)
+    void OnUnitDeath(Unit* l_unit) override
     {
        // if (l_unit->GetEntry() == 98011)
        //     if (GetData(DATA_STAGE_1) == NOT_STARTED)
@@ -617,7 +617,7 @@ public:
     {
         ragefire_core_ticking_bombAI(Creature* creature) : ScriptedAI(creature), startTicking(false) { }
 
-        void Reset()
+        void Reset() override
         {
             //   me->SetVisible(false);
         }
@@ -688,7 +688,7 @@ public:
 
         InstanceScript* instance;
 
-        void MovementInform(uint32 /*type*/, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id) override
         {
             switch (id)
             {
@@ -850,7 +850,7 @@ public:
 
         }
 
-        void MovementInform(uint32 /*type*/, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id) override
         {
             switch (id)
             {
@@ -955,7 +955,7 @@ public:
             me->LoadEquipment(int8(62249));
         }
 
-        void MovementInform(uint32 /*type*/, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id) override
         {
             switch (id)
             {
@@ -1037,7 +1037,7 @@ public:
 
         InstanceScript* instance;
 
-        void MovementInform(uint32 /*type*/, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id) override
         {
             switch (id)
             {
@@ -1272,7 +1272,7 @@ public:
             me->LoadEquipment(int8(62249));
         }
 
-        void MovementInform(uint32 /*type*/, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id) override
         {
             switch (id)
             {
@@ -1401,7 +1401,7 @@ public:
             }
         }
 
-        void Reset()
+        void Reset() override
         {
             if (instance)
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -1582,7 +1582,7 @@ public:
 
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             _shadowStep = true;
@@ -1686,7 +1686,7 @@ public:
 
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
         }
@@ -2392,7 +2392,7 @@ public:
         {
         }
 
-        void Reset()
+        void Reset() override
         {
             if (instance)
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -2473,7 +2473,7 @@ public:
     {
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             instance = me->GetInstanceScript();
 

@@ -309,7 +309,7 @@ public:
 
         uint32 m_uiPushTimer;
         EventMap m_mEvents;
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             summons.DespawnAll();
@@ -319,13 +319,13 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason why) override
         {
             ClearCombatfromPlayers();
             MakeStatuesPassive();
         }
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_STATIC_BURST, 24000);
             events.ScheduleEvent(EVENT_CHECK_PLAYERS_DISTANCE, 500, 0, 0);
@@ -345,12 +345,12 @@ public:
 
         }
 
-        void JustSummoned(Creature* pSummoned)
+        void JustSummoned(Creature* pSummoned) override
         {
             summons.Summon(pSummoned);
         }
 
-        void SummonedCreatureDespawn(Creature* pSummoned)
+        void SummonedCreatureDespawn(Creature* pSummoned) override
         {
             summons.Despawn(pSummoned);
         }
@@ -403,7 +403,7 @@ public:
                 }
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* /*killer*/) override
         {
             _JustDied();
             UnsummonFissure();
@@ -471,7 +471,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 uiType, uint32 uiPointId)
+        void MovementInform(uint32 uiType, uint32 uiPointId) override
         {
             if (uiPointId == 1948)
             {
@@ -513,7 +513,7 @@ public:
                             }
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             
             m_mEvents.Update(uiDiff);
@@ -1506,7 +1506,7 @@ public:
  
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             events.Update(uiDiff);
 
@@ -1572,7 +1572,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             events.Update(uiDiff);
 

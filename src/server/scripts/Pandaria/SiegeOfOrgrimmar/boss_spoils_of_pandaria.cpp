@@ -2289,7 +2289,7 @@ class npc_spoils_of_pandaria_lift_hook : public CreatureScript
     public:
         npc_spoils_of_pandaria_lift_hook() : CreatureScript("npc_spoils_of_pandaria_lift_hook") { }
 
-        CreatureAI* GetAI(Creature* creature) const
+        CreatureAI* GetAI(Creature* creature) const override
         {
             return new npc_spoils_of_pandaria_lift_hookAI(creature);
         }
@@ -2400,7 +2400,7 @@ class npc_spoils_of_pandaria_unstable_spark : public CreatureScript
                 //ApplyAllImmunities(true);
             }
 
-            void Reset()
+            void Reset() override
             {
                 DoCast(me, SPELL_UNSTABLE_SPARK_VISUAL, true);
             }
@@ -2416,7 +2416,7 @@ class npc_spoils_of_pandaria_unstable_spark : public CreatureScript
                 me->DespawnOrUnsummon(2000);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 UpdateCastingSupernova(diff);
             }
@@ -2696,7 +2696,7 @@ class npc_spoils_of_pandaria_animated_stone_mogu : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_EARTHEN_SHARD, eTimers::TIMER_EARTHEN_SHARD_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2877,7 +2877,7 @@ class npc_spoils_of_pandaria_quilen_guardian : public CreatureScript
                 return !IsAnyQuilenAlive();
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3038,7 +3038,7 @@ class npc_spoils_of_pandaria_mogu_shadow_ritualist : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_MOGU_RUNE_OF_POWER, eTimers::TIMER_MOGU_RUNE_OF_POWER_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3159,7 +3159,7 @@ class npc_spoils_of_pandaria_modified_anima_golem : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_MATTER_SCRAMBLE, eTimers::TIMER_MATTER_SCRAMBLE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3331,7 +3331,7 @@ class npc_spoils_of_pandaria_jun_wei : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3451,7 +3451,7 @@ class npc_spoils_of_pandaria_zu_yin : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3571,7 +3571,7 @@ class npc_spoils_of_pandaria_xiang_lin : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3691,7 +3691,7 @@ class npc_spoils_of_pandaria_kun_da : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3776,7 +3776,7 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 me->DespawnOrUnsummon(1 * IN_MILLISECONDS);
             }
 
-            void UpdateAI(const uint32 p_Diff)
+            void UpdateAI(const uint32 p_Diff) override
             {
                 UpdateVisual(p_Diff);
 
@@ -3814,7 +3814,7 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 }
             }
 
-            void ExecuteEvent(uint32 p_EventId)
+            void ExecuteEvent(uint32 p_EventId) override
             {
                 if (p_EventId == eEvents::EVENT_ANIMATED_STRIKE)
                 {
@@ -4500,7 +4500,7 @@ class npc_spoils_of_pandaria_wise_mistweaver_spirit : public CreatureScript
 
             }
 
-            void Reset()
+            void Reset() override
             {
                 npc_spoils_of_pandaria_mobAI::Reset();
 
@@ -6140,7 +6140,7 @@ struct spell_area_spoils_of_pandaria_set_to_blow : AreaTriggerAI
         return;
     }
 
-    void OnRemove()
+    void OnRemove() override
     {
         Unit* caster = at->GetCaster();
         if (!caster)
@@ -6211,7 +6211,7 @@ struct spell_area_spoils_of_pandaria_encapsulated_pheromones : AreaTriggerAI
         return;
     }
 
-    void OnUnitExit(Unit* target)
+    void OnUnitExit(Unit* target) override
     {
         target->RemoveAura(SPELL_ENCAPSULATED_PHEROMONES_AURA);
         return;
@@ -6239,7 +6239,7 @@ struct spell_area_spoils_of_pandaria_staff_of_resonating_water : AreaTriggerAI
         //trigger->SetTrajectory(AreatriggerInterpolation::AREATRIGGER_INTERPOLATION_LINEAR);
     }
 
-    void OnUnitEnter(Unit* target)
+    void OnUnitEnter(Unit* target) override
     {
         if (at->GetDuration() == 0)
             return;
@@ -6343,7 +6343,7 @@ struct spell_area_spoils_of_pandaria_crimson_reconstitution : AreaTriggerAI
 {
     spell_area_spoils_of_pandaria_crimson_reconstitution(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUnitEnter(Unit* target)
+    void OnUnitEnter(Unit* target) override
     {
         Unit* l_Caster = at->GetCaster();
         if (!l_Caster || !l_Caster->IsInCombat())
@@ -6355,7 +6355,7 @@ struct spell_area_spoils_of_pandaria_crimson_reconstitution : AreaTriggerAI
         l_Caster->AddAura(Spells::SPELL_CRIMSON_RECONSTITUTION_HEAL, target);
     }
 
-    void OnUnitExit(Unit* target)
+    void OnUnitExit(Unit* target) override
     {
         target->RemoveAura(Spells::SPELL_CRIMSON_RECONSTITUTION_HEAL);
     }

@@ -63,7 +63,7 @@ struct npc_duke_lankral_101441 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -165,7 +165,7 @@ struct npc_zeomus_102403 : public ScriptedAI
 {
     npc_zeomus_102403(Creature* creature) : ScriptedAI(creature) { }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -253,7 +253,7 @@ struct npc_a_shallow_grave_102473 : public ScriptedAI
         me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {

@@ -173,7 +173,7 @@ private:
 				Talk(SAY_KILL);
 	}
 
-	void SpellHit(Unit* unit, const SpellInfo* spellInfo)
+	void SpellHit(Unit* unit, const SpellInfo* spellInfo) override
 	{
 		if (spellInfo->Id == SPELL_EYE_OF_NZOTH)
 		{
@@ -388,7 +388,7 @@ struct npc_blood_of_nyalotha : public ScriptedAI
 		}
 	}
 
-	void SpellHit(Unit* unit, const SpellInfo* spellInfo) 
+	void SpellHit(Unit* unit, const SpellInfo* spellInfo) override
 	{ 
 		if (spellInfo->Id == SPELL_ABSORBING_CHARGE)
 			unit->KillSelf();

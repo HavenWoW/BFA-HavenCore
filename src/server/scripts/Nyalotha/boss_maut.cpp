@@ -239,7 +239,7 @@ private:
         }
 	}
 
-	void DoAction(int32 param)
+	void DoAction(int32 param) override
 	{
 		switch (param)
 		{

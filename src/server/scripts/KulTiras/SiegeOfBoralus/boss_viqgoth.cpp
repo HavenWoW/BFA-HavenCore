@@ -230,7 +230,7 @@ struct npc_cannon_viq : public ScriptedAI
 
 	}
 
-	void sGossipHello(Player* player)
+	void sGossipHello(Player* player) override
 	{	
 		CloseGossipMenuFor(player);
 		//me->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
@@ -341,7 +341,7 @@ struct npc_jaina_sob_outro_ali : public ScriptedAI
 		}
 	}
 
-	void UpdateAI(uint32 diff)
+	void UpdateAI(uint32 diff) override
 	{
 		scheduler.Update(diff);
 	}

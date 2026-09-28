@@ -174,11 +174,11 @@ public:
                 instance->SetData(Data::AraknathSolarConstructorActivation, false);
         }
 
-        void KilledUnit(Unit* /*p_Victim*/)
+        void KilledUnit(Unit* /*p_Victim*/) override
         {
         }
 
-        void JustReachedHome()
+        void JustReachedHome() override
         {
             _JustReachedHome();
 

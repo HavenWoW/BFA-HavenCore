@@ -62,7 +62,7 @@ struct npc_jaina_150101 : public ScriptedAI
 {
     npc_jaina_150101(Creature* c) : ScriptedAI(c) { }
 
-    void sQuestAccept(Player* player, Quest const* quest)
+    void sQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->ID == QUEST_DESCENT_ALLIANCE)
         {
@@ -141,7 +141,7 @@ struct npc_chief_telemancer_oculeth : public ScriptedAI
         me->AddAura(1706); //Levitate
     }
 
-    void sQuestAccept(Player* player, Quest const* quest)
+    void sQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->ID == QUEST_DESCENT_HORDE)
         {

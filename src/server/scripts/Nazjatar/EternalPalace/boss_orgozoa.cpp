@@ -210,7 +210,7 @@ public:
         bool phase2_check;
         uint8 dribblingIchor;
 
-        void Reset()
+        void Reset() override
         {
             intermission = false;
             phase1_check = false;
@@ -225,7 +225,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void JustDied(Unit*)
+        void JustDied(Unit*) override
         {
             RemoveIncubationFluid();
             DespawnCreatureEntry(NPC_ZANJIR_MYRMIDON);
@@ -236,7 +236,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason /*w*/)
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             _DespawnAtEvade(15);
         }
@@ -340,7 +340,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* at, uint32& damage) override
         {
             if (me->HealthBelowPct(40) && !intermission)
             {
@@ -359,14 +359,14 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             me->SetPower(POWER_ENERGY, 0);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             HandlePhases(1);
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 type, uint32 pointId) override
         {
             switch (pointId)
             {
@@ -398,7 +398,7 @@ public:
             }
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature* summon) override
         {
             summons.Summon(summon);
 
@@ -1057,7 +1057,7 @@ public:
                 GetCaster()->CastSpell(GetCaster(), SPELL_REVERBERATING_TREMOR, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_powerful_stomp_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_SRC_AREA_ENEMY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_powerful_stomp_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
@@ -1217,11 +1217,11 @@ public:
 
         bool eggxploded;
 
-        void Reset()
+        void Reset() override
         {
             eggxploded = false;
         }
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)

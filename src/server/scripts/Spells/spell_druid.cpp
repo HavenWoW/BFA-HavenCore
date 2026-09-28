@@ -2331,7 +2331,7 @@ public:
                         caster->CastSpell(GetTarget(), SPELL_DRU_SHOOTING_STARS_TRIGGERED, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectPeriodic += AuraEffectPeriodicFn(spell_dru_moonfire_sunfire_dot_AuraScript::OnTick, EFFECT_1, SPELL_AURA_PERIODIC_DAMAGE);
         }
@@ -2585,7 +2585,7 @@ public:
                     caster->CastSpell(caster, SPELL_DRUID_BRAMBLES_BARSKIN_DAMAGE, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectPeriodic += AuraEffectPeriodicFn(spell_dru_barkskin_AuraScript::OnTick, EFFECT_4, SPELL_AURA_PERIODIC_DUMMY);
         }
@@ -3838,7 +3838,7 @@ public:
         }
     };
 
-    SpellScript* GetSpellScript() const
+    SpellScript* GetSpellScript() const override
     {
         return new spell_dru_rejuvenation_SpellScript();
     }
@@ -4109,7 +4109,7 @@ class spell_druid_earthwarden_triggered : public AuraScript
         }
     }
 
-    void Register()
+    void Register() override
     {
         DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_druid_earthwarden_triggered::CalculateAmount, EFFECT_0, SPELL_AURA_SCHOOL_ABSORB);
         OnEffectAbsorb += AuraEffectAbsorbFn(spell_druid_earthwarden_triggered::Absorb, EFFECT_0);
@@ -4149,7 +4149,7 @@ class spell_druid_earthwarden : public AuraScript
         GetCaster()->ToPlayer()->GetSpellHistory()->AddCooldown(SPELL_DRUID_EARTHWARDEN, 0, std::chrono::milliseconds(500));
     }
 
-    void Register()
+    void Register() override
     {
         DoCheckProc += AuraCheckProcFn(spell_druid_earthwarden::CheckProc);
         OnEffectProc += AuraEffectProcFn(spell_druid_earthwarden::OnProc, EFFECT_0, SPELL_AURA_DUMMY);
@@ -4231,7 +4231,7 @@ class spell_druid_rend_and_tear : public AuraScript
         spellMod->value = GetCaster()->GetShapeshiftForm() == FORM_BEAR_FORM ? aurEff->GetAmount() : 0;
     }
 
-    void Register()
+    void Register() override
     {
         DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_druid_rend_and_tear::CalculateAmount, EFFECT_0, SPELL_AURA_SCHOOL_ABSORB);
         OnEffectAbsorb += AuraEffectAbsorbFn(spell_druid_rend_and_tear::Absorb, EFFECT_0);

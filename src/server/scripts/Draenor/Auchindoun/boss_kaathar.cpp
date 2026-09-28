@@ -205,7 +205,7 @@ struct boss_kaathar : public BossAI
         me->SummonCreature(NPC_NYAMI, Position(1649.33f, 2964.08f, 35.3197f, 2.65524f), TEMPSUMMON_MANUAL_DESPAWN, WEEK);
     }
 
-    void DoAction(int32 p_Action)
+    void DoAction(int32 p_Action) override
     {
         switch (p_Action)
         {
@@ -792,7 +792,7 @@ struct auchindoun_kaathar_mob_teleport_players : public ScriptedAI
 {
     auchindoun_kaathar_mob_teleport_players(Creature* p_Creature) : ScriptedAI(p_Creature) {}
 
-    void Reset()
+    void Reset() override
     {
         me->SetReactState(ReactStates::REACT_PASSIVE);
         me->AddUnitFlag(UnitFlags(UnitFlags2::UNIT_FLAG2_DISABLE_TURN));

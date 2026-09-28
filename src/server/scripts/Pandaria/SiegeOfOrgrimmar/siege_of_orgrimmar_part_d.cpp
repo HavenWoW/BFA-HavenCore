@@ -155,7 +155,7 @@ class npc_siege_of_orgrimmar_gatecrusher_savah : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -248,7 +248,7 @@ class npc_siege_of_orgrimmar_grandmaster_alchemist_kixen : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -341,7 +341,7 @@ class npc_siege_of_orgrimmar_korthik_honor_guard : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -504,7 +504,7 @@ class npc_siege_of_orgrimmar_srathik_amber_master : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -644,7 +644,7 @@ class npc_siege_of_orgrimmar_kovok : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -751,7 +751,7 @@ class npc_siege_of_orgrimmar_korkron_reaper : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -857,7 +857,7 @@ class npc_siege_of_orgrimmar_ichor_of_yshaarj : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -958,7 +958,7 @@ class npc_siege_of_orgrimmar_harbringer_of_yshaarj : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {

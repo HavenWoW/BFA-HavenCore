@@ -2192,7 +2192,7 @@ class npc_galakras_anti_air_turret : public CreatureScript
     public:
         npc_galakras_anti_air_turret() : CreatureScript("npc_galakras_anti_air_turret") { }
 
-        CreatureAI* GetAI(Creature* creature) const
+        CreatureAI* GetAI(Creature* creature) const override
         {
             return new npc_galakras_anti_air_turretAI(creature);
         }
@@ -2215,7 +2215,7 @@ class npc_galakras_anti_air_turret : public CreatureScript
                 cooldownTimer = 0;
             }
 
-            void Reset()
+            void Reset() override
             {
                 enabled = true;
             }
@@ -2242,7 +2242,7 @@ class npc_galakras_anti_air_turret : public CreatureScript
                 }
              }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 if (action == ACTION_RIGHT_TOWER_ALL_DEFENDERS_DIED)
                 {
@@ -2273,7 +2273,7 @@ class npc_galakras_anti_air_turret : public CreatureScript
                 }
             }
 
-            void SetData(uint32 type, uint32 data)
+            void SetData(uint32 type, uint32 data) override
             {
                 if (type == DATA_LEFT_TOWER_DEFENDER)
                 {
@@ -2285,7 +2285,7 @@ class npc_galakras_anti_air_turret : public CreatureScript
                 }
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!cooldownTimer)
                     return;
@@ -2342,12 +2342,12 @@ class npc_galakras_tower : public CreatureScript
                 defendersLeft = DEFENDERS_COUNT;
             }
 
-            void Reset()
+            void Reset() override
             {
 
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 if (action == ACTION_LEFT_TOWER_DEFENDER_DIED)
                 {
@@ -2374,7 +2374,7 @@ class npc_galakras_tower : public CreatureScript
                 damage = 0;
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 SelectPlayers(diff);
             }
@@ -2934,7 +2934,7 @@ struct spell_area_galakras_flames_of_galakrond : AreaTriggerAI
         }
     }
 
-    void OnUnitEnter(Unit* target)
+    void OnUnitEnter(Unit* target) override
     {
         Unit* caster = at->GetCaster();
         if (!caster)
@@ -2957,7 +2957,7 @@ struct spell_area_galakras_flames_of_galakrond : AreaTriggerAI
         }
     }
 
-    void OnUnitExit(Unit* target)
+    void OnUnitExit(Unit* target) override
     {
         Unit* caster = at->GetCaster();
         if (!caster)

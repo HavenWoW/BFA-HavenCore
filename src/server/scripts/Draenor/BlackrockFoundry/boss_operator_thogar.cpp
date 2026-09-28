@@ -213,7 +213,7 @@ class boss_operator_thogar : public CreatureScript
                 }
             }
 
-            ObjectGuid GetGUID(int32 p_ID /*= 0*/)const
+            ObjectGuid GetGUID(int32 p_ID /*= 0*/)const override
             {
                 return m_IntroTrainGuid;
             }
@@ -292,7 +292,7 @@ class boss_operator_thogar : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason why = EVADE_REASON_OTHER) override
             {
                 CreatureAI::EnterEvadeMode();
 
@@ -332,7 +332,7 @@ class boss_operator_thogar : public CreatureScript
                 }
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -346,7 +346,7 @@ class boss_operator_thogar : public CreatureScript
                 }
             }
 
-            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo)
+            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo) override
             {
                 if (p_Dest == nullptr)
                     return;
@@ -495,7 +495,7 @@ class npc_foundry_train_controller : public CreatureScript
                 me->AddUnitState(UnitState::UNIT_STATE_IGNORE_PATHFINDING);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (m_Vehicle == nullptr || m_Instance == nullptr)
                     return;
@@ -1255,12 +1255,12 @@ class npc_foundry_iron_gunnery_sergeant : public CreatureScript
 
             EventMap m_Events;
 
-            bool CanTargetOutOfLOS()
+            bool CanTargetOutOfLOS() override
             {
                 return true;
             }
 
-            bool CanBeTargetedOutOfLOS()
+            bool CanBeTargetedOutOfLOS() override
             {
                 return true;
             }
@@ -1410,7 +1410,7 @@ class npc_foundry_siege_engine : public CreatureScript
               //  });
             }
 
-            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo) 
+            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo) override
             {
                 if (p_Dest == nullptr)
                     return;

@@ -120,7 +120,7 @@ struct instance_grimrail_depot : public InstanceScript
         }
     }
 
-    ObjectGuid GetGuidData(uint32 DataId) const
+    ObjectGuid GetGuidData(uint32 DataId) const override
     {
         switch (DataId)
         {

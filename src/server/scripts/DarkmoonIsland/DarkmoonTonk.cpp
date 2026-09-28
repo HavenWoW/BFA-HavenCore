@@ -57,7 +57,7 @@ class npc_finlay_coolshot : public CreatureScript
 public:
     npc_finlay_coolshot() : CreatureScript("npc_finlay_coolshot") { }
 
-    CreatureAI* GetAI(Creature* creature) const
+    CreatureAI* GetAI(Creature* creature) const override
     {
         return new npc_finlay_coolshotAI(creature);
     }
@@ -301,7 +301,7 @@ public:
         return true;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 action)
+    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 action) override
     {
         char const* GOSSIP_BUTTON_1;
         char const* GOSSIP_BUTTON_2;

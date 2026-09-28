@@ -208,7 +208,7 @@ class boss_admiral_garan : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/)
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/) override
             {
                 m_TrashesGuids.erase(p_Guid);
 
@@ -235,7 +235,7 @@ class boss_admiral_garan : public CreatureScript
                 }
             }
 
-            uint32 GetData(uint32 p_ID) const
+            uint32 GetData(uint32 p_ID) const override
             {
                 switch (p_ID)
                 {
@@ -330,7 +330,7 @@ class boss_admiral_garan : public CreatureScript
                 RemoveCombatAuras();
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -508,7 +508,7 @@ class boss_admiral_garan : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Iron Maidens only regens by script
                 p_Value = 0;
@@ -553,7 +553,7 @@ class boss_admiral_garan : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -968,7 +968,7 @@ class boss_enforcer_sorka : public CreatureScript
                 m_ShipAdds.clear();
             }
 
-            uint32 GetData(uint32 p_ID) const
+            uint32 GetData(uint32 p_ID) const override
             {
                 switch (p_ID)
                 {
@@ -1158,7 +1158,7 @@ class boss_enforcer_sorka : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Iron Maidens only regens by script
                 p_Value = 0;
@@ -1605,7 +1605,7 @@ class boss_marak_the_blooded : public CreatureScript
                 m_ShipAdds.clear();
             }
 
-            uint32 GetData(uint32 p_ID)const
+            uint32 GetData(uint32 p_ID)const override
             {
                 switch (p_ID)
                 {
@@ -1699,7 +1699,7 @@ class boss_marak_the_blooded : public CreatureScript
                 RemoveCombatAuras();
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1821,7 +1821,7 @@ class boss_marak_the_blooded : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Iron Maidens only regens by script
                 p_Value = 0;
@@ -1863,7 +1863,7 @@ class boss_marak_the_blooded : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -2243,7 +2243,7 @@ class npc_foundry_loading_chain : public CreatureScript
                 }
             }
 
-            uint32 GetData(uint32 p_ID = 0)const
+            uint32 GetData(uint32 p_ID = 0)const override
             {
                 switch (p_ID)
                 {
@@ -2256,7 +2256,7 @@ class npc_foundry_loading_chain : public CreatureScript
                 }
             }
 
-            void OnSpellClick(Unit* p_Clicker, bool& /*result*/)
+            void OnSpellClick(Unit* p_Clicker, bool& /*result*/) override
             {
                 if (!m_IsAvailable || m_IsOnBoat/* || p_Clicker->HasAura(eIronMaidensSpells::RideLoadingChain)*/)
                     return;
@@ -2406,7 +2406,7 @@ class npc_foundry_ukurogg : public CreatureScript
                 m_Events.ScheduleEvent(eEvent::EventCorruptedBlood, 2 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void SpellHit(Unit* /*p_Attacker*/, SpellInfo const* p_SpellInfo)
+            void SpellHit(Unit* /*p_Attacker*/, SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::CarryingCrate)
                 {
@@ -2667,7 +2667,7 @@ class npc_foundry_rapid_fire_stalker : public CreatureScript
 
             ObjectGuid m_TargetGUID;
 
-            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/)
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/ /*= 0*/) override
             {
                 m_TargetGUID = p_Guid;
             }
@@ -2794,7 +2794,7 @@ class npc_foundry_iron_cannon : public CreatureScript
                 }
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -3045,7 +3045,7 @@ class npc_foundry_battle_medic_rogg : public CreatureScript
                 JustEngagedWith(p_Attacker);
             }
 
-            void UpdateAI(uint32 p_Diff)
+            void UpdateAI(uint32 p_Diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -3380,7 +3380,7 @@ class npc_foundry_cluster_bomb_alpha : public CreatureScript
                // });
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::DetonationSequenceTriggered && m_Instance != nullptr)
                 {

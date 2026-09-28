@@ -149,7 +149,7 @@ private:
             DoCastAOE(TANTRUM);
     }
 
-    void OnSpellFinished(SpellInfo const* spellInfo)
+    void OnSpellFinished(SpellInfo const* spellInfo) override
     {
         if (spellInfo->Id == FEROCIOUS_ROAR)
         {

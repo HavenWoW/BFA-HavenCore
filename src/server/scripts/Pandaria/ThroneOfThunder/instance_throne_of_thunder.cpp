@@ -103,7 +103,7 @@ public:
             }
         }
 
-        uint64 GetData64(uint32 uiType) const
+        uint64 GetData64(uint32 uiType) const override
         {
             switch (uiType)
             {

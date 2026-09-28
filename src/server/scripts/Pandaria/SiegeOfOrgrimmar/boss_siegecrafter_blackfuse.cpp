@@ -931,7 +931,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 Talk(SAY_DEATH_1);
 
@@ -1534,7 +1534,7 @@ class npc_siegecrafter_blackfuse_automated_shredder : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -1954,7 +1954,7 @@ class npc_siegecrafter_blackfuse_laser_turret : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2285,7 +2285,7 @@ class npc_siegecrafter_blackfuse_crawler_mine : public CreatureScript
                 me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_FREEZE, apply);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2304,7 +2304,7 @@ class npc_siegecrafter_blackfuse_crawler_mine : public CreatureScript
                 }
             }
 
-            void DoActivateWeapon()
+            void DoActivateWeapon() override
             {
                 events.ScheduleEvent(EVENT_CRAWLER_MINE_PREPARE, 100);
                 events.ScheduleEvent(EVENT_CRAWLER_MINE, m_CrawlerMineCounter == 0 ? TIMER_CRAWLER_MINE_ACTIVATION_FIRST : m_CrawlerMineCounter * TIMER_CRAWLER_MINE_ACTIVATION);
@@ -2453,7 +2453,7 @@ class npc_siegecrafter_blackfuse_electromagnet : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2550,7 +2550,7 @@ class npc_siegecrafter_blackfuse_shockwave_missile_turret : public CreatureScrip
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2656,7 +2656,7 @@ class npc_siegecrafter_blackfuse_shockwave_missile : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3337,7 +3337,7 @@ struct spell_area_siegecrafter_blackfuse_laser_ground_effect : AreaTriggerAI
         at->SetDuration(Timers::TIMER_SUPERHEATED_DURATION);
     }
 
-    void OnUnitEnter(Unit* p_Target)
+    void OnUnitEnter(Unit* p_Target) override
     {
         Unit* caster = at->GetCaster();
         if (!caster)
@@ -3389,7 +3389,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush : AreaTriggerAI
         });*/
     }
 
-    void OnRemove()
+    void OnRemove() override
     {
         Unit* l_Caster = at->GetCaster();
         if (!l_Caster)
@@ -3440,7 +3440,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_pull : AreaTriggerAI
         });*/
     }
 
-    void OnRemove()
+    void OnRemove() override
     {
         Unit* l_Caster = at->GetCaster();
         if (!l_Caster)

@@ -205,7 +205,7 @@ public:
 			return true;
 		}
 
-		void MoveInLineOfSight(Unit* /*who*/)
+		void MoveInLineOfSight(Unit* /*who*/) override
 		{
 			if (!introText)
 			{
@@ -454,7 +454,7 @@ public:
 
 		EventMap events;
 
-		void Reset()
+		void Reset() override
 		{
 			me->SetSpeed(MOVE_RUN, 1.2f);
 
@@ -687,7 +687,7 @@ public:
 			SetHitDamage(GetHitDamage() / _targetsSize);
 		}
 
-		void Register()
+		void Register() override
 		{
 			OnEffectLaunchTarget += SpellEffectFn(bfa_spell_crushing_depths_SpellScript::HandleDamage, EFFECT_0, SPELL_EFFECT_DAMAGE_FROM_MAX_HEALTH_PCT);
 			OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_crushing_depths_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_DEST_AREA_ENEMY);

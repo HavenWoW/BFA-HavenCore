@@ -95,7 +95,7 @@ public:
         InstanceScript* instance;
         SummonList summons;
 
-        void Reset()
+        void Reset() override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
@@ -104,7 +104,7 @@ public:
             me->RemoveAllAreaTriggers();
         }
 
-        void JustDied(Unit*)
+        void JustDied(Unit*) override
         {
             SelectSoundAndText(me, 4);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -112,7 +112,7 @@ public:
             summons.DespawnAll();
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature* summon) override
         {
             summons.Summon(summon);
 
@@ -125,7 +125,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason /*why*/)
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             _DespawnAtEvade(15);
         }
@@ -190,7 +190,7 @@ public:
             }
         }
 
-        void KilledUnit(Unit*)
+        void KilledUnit(Unit*) override
         {
             SelectSoundAndText(me, 3);
         }
@@ -236,7 +236,7 @@ public:
             me->SummonCreature(NPC_BLOOD_EFFIGY, x, y, me->GetPositionZ(), TEMPSUMMON_CORPSE_DESPAWN);
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             SelectSoundAndText(me, 1);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -303,7 +303,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 

@@ -362,7 +362,7 @@ struct npc_sister_kasparian : ScriptedAI
         DoCast(me, SPELL_CORPOREAL_GHOST_MOUNT, true);
     }
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
     }
@@ -458,7 +458,7 @@ struct npc_sister_kasparian : ScriptedAI
         }
     }
     */
-    void MovementInform(uint32 type, uint32 id)
+    void MovementInform(uint32 type, uint32 id) override
     {
         if (type == EFFECT_MOTION_TYPE)
         {
@@ -576,7 +576,7 @@ struct npc_sister_lunaspyre : ScriptedAI
         DoCast(me, SPELL_LUNAR_GHOST, true);
     }
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
     }

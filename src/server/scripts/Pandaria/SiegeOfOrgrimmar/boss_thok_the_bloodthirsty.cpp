@@ -1196,7 +1196,7 @@ class npc_thok_the_bloodthirsty_prisoner : public CreatureScript
                 }
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 m_SceneHelper.UpdateSceneHelper(diff);
             }

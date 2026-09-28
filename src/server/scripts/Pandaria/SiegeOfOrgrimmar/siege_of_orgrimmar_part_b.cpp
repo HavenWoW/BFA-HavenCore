@@ -230,12 +230,12 @@ class npc_siege_of_orgrimmar_jaina_proudmoore_2 : public CreatureScript
                 secondGalakrasIntroDone = false;
             }
 
-            void Reset()
+            void Reset() override
             {
 
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 if (action == ACTION_FIRST_INTRO_GALAKRAS)
                 {
@@ -273,7 +273,7 @@ class npc_siege_of_orgrimmar_jaina_proudmoore_2 : public CreatureScript
                 me->RemoveUnitFlag(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 m_SceneHelper.UpdateSceneHelper(diff);
             }
@@ -459,12 +459,12 @@ class npc_siege_of_orgrimmar_lorthemar_theron_2 : public CreatureScript
                 secondGalakrasIntroDone = false;
             }
 
-            void Reset()
+            void Reset() override
             {
 
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 if (action == ACTION_FIRST_INTRO_GALAKRAS)
                 {
@@ -502,7 +502,7 @@ class npc_siege_of_orgrimmar_lorthemar_theron_2 : public CreatureScript
                 me->RemoveUnitFlag(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 m_SceneHelper.UpdateSceneHelper(diff);
             }
@@ -872,7 +872,7 @@ class npc_siege_of_orgrimmar_healing_tide_totem : public CreatureScript
                 pInstance = creature->GetInstanceScript();
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->AddAura(SPELL_HEALING_TIDE_AURA, me);
             }
@@ -986,7 +986,7 @@ class npc_siege_of_orgrimmar_korkron_cannon : public CreatureScript
     public:
         npc_siege_of_orgrimmar_korkron_cannon() : CreatureScript("npc_siege_of_orgrimmar_korkron_cannon") { }
 
-        CreatureAI* GetAI(Creature* creature) const
+        CreatureAI* GetAI(Creature* creature) const override
         {
             return new npc_siege_of_orgrimmar_korkron_cannonAI(creature);
         }
@@ -1006,7 +1006,7 @@ class npc_siege_of_orgrimmar_korkron_cannon : public CreatureScript
                 isMineActivated = false;
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->SetUnitFlags(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
             }

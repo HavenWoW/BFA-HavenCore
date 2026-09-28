@@ -120,7 +120,7 @@ class boss_flamebender_kagraz : public CreatureScript
 
             bool m_Firestorm;
 
-            bool CanRespawn()
+            bool CanRespawn() override
             {
                 return false;
             }
@@ -213,7 +213,7 @@ class boss_flamebender_kagraz : public CreatureScript
                     m_Events.ScheduleEvent(eEvents::EventBerserker, eTimers::TimerBerserker);
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 m_Firestorm = false;
 
@@ -366,7 +366,7 @@ class boss_flamebender_kagraz : public CreatureScript
                 }
             }
 
-            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo)
+            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo) override
             {
                 if (p_Dest == nullptr)
                     return;
@@ -410,7 +410,7 @@ class boss_flamebender_kagraz : public CreatureScript
                 }
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -442,7 +442,7 @@ class boss_flamebender_kagraz : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Flamebender Ka'graz only regens by script
                 p_Value = 0;
@@ -695,7 +695,7 @@ class npc_foundry_aknor_steelbringer : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventDropTheHammer, eTimers::TimerDropTheHammer);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (p_Action == eActions::DropTheHammer)
                 {
@@ -727,7 +727,7 @@ class npc_foundry_aknor_steelbringer : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 me->InterruptNonMeleeSpells(true);
 
@@ -831,7 +831,7 @@ class npc_foundry_flamebender_kagraz_trigger : public CreatureScript
                 me->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UnitFlags::UNIT_FLAG_NON_ATTACKABLE | UnitFlags::UNIT_FLAG_NOT_SELECTABLE));
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/)
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/) override
             {
                 m_LavaSlashTarget = p_Guid;
 
@@ -862,7 +862,7 @@ class npc_foundry_flamebender_kagraz_trigger : public CreatureScript
                 }
             }
 
-            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo)
+            void SpellHitDest(SpellDestination const* p_Dest, SpellInfo const* p_SpellInfo) override
             {
                 if (p_Dest == nullptr)
                     return;
@@ -962,7 +962,7 @@ class npc_foundry_kagraz_enchanted_armament : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid /*p_Guid*/, int32 /*p_ID*/=0)
+            void SetGUID(ObjectGuid /*p_Guid*/, int32 /*p_ID*/=0) override
             {
                 //AddTimedDelayedOperation(50, [this, p_Guid]() -> void
                 //{
@@ -1089,7 +1089,7 @@ class npc_foundry_lava_stalker : public CreatureScript
                 }
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1222,7 +1222,7 @@ class npc_foundry_molten_torrent_stalker : public CreatureScript
                 }
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1557,7 +1557,7 @@ class npc_foundry_cinder_wolf : public CreatureScript
                     me->CastSpell(me, eSpells::Fixate, true);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (m_Initialized)
                   //  ClearDelayedOperations();
@@ -1630,7 +1630,7 @@ class npc_foundry_cinder_wolf : public CreatureScript
                 }
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/) 
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/) override
             {
                 m_OtherWolf = p_Guid;
             }

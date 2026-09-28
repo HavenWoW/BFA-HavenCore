@@ -1025,7 +1025,7 @@ class npc_kayn_sunfury : public CreatureScript
 public:
     npc_kayn_sunfury() : CreatureScript("npc_kayn_sunfury") { }
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest)
+    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_CRY_HAVOC)
             creature->AI()->Talk(SAY_KAYN_SUNFURY_TEXT_1);
@@ -2018,7 +2018,7 @@ public:
     uint32 MAP_MARDUM = 1481;
     uint32 ZONE_MARDUM_SHATTERED_ABYSS = 7705;
 
-    void OnLogin(Player* player, bool firstLogin)
+    void OnLogin(Player* player, bool firstLogin) override
     {
         if (player->GetMapId() == MAP_MARDUM)
         {

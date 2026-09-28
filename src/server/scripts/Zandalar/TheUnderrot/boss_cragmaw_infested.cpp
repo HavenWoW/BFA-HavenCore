@@ -84,7 +84,7 @@ public:
         EventMap events;
         InstanceScript* instance;
 
-        void Reset()
+        void Reset() override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
             events.Reset();
@@ -125,21 +125,21 @@ public:
             return true;
         }
 
-        void JustDied(Unit*)
+        void JustDied(Unit*) override
         {
             DespawnCreature(NPC_BLOOD_TICK);
             DespawnCreature(NPC_LARVES);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason /*why*/)
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             DespawnCreature(NPC_BLOOD_TICK);
             DespawnCreature(NPC_LARVES);
             _DespawnAtEvade(15);
         }
 
-        void MovementInform(uint32 /*uiType*/, uint32 id)
+        void MovementInform(uint32 /*uiType*/, uint32 id) override
         {
             switch (id)
             {
@@ -215,7 +215,7 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -243,7 +243,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 

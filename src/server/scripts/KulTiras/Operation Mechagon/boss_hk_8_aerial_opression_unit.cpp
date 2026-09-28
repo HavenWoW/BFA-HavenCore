@@ -144,7 +144,7 @@ struct npc_tank_buster_mk1 : public ScriptedAI
         }
     }
 
-    void DamageTaken(Unit* /*u*/, uint32& /*dmg*/)
+    void DamageTaken(Unit* /*u*/, uint32& /*dmg*/) override
     {
         if (me->HealthBelowPct(2) && !init_stage_two)
         {

@@ -1447,7 +1447,7 @@ public:
             m_uiDeadCouncillors += uiData;
         }
 
-        uint32 GetData(uint32 uiType) const
+        uint32 GetData(uint32 uiType) const override
         {
             return m_uiDeadCouncillors;
         }
@@ -1591,7 +1591,7 @@ public:
                 }
         }
 
-        void DoAction(int32 iAction)
+        void DoAction(int32 iAction) override
         {
             switch (iAction)
             {
@@ -1653,7 +1653,7 @@ public:
                 pMinion->DespawnOrUnsummon();
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             if (events.Empty())
                 return;
@@ -1730,7 +1730,7 @@ public:
             list.push_back(pInstance->GetObjectGuid(BOSS_COUNCIL_KAZRAJIN));
         }
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             uiCouncillorEntry = 0;
@@ -1741,7 +1741,7 @@ public:
             me->SetWalk(false);
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason w) override
         {
             uiCouncillorEntry = 0; // Reset councillor entry to prevent bug
             me->GetMotionMaster()->MovementExpired(); // Reset movement so we will not continue to follow a councillor
@@ -1755,7 +1755,7 @@ public:
             return me->GetVehicle();
         }
 
-        void MovementInform(uint32 uiType, uint32 uiPointId)
+        void MovementInform(uint32 uiType, uint32 uiPointId) override
         {
             if (uiType != POINT_MOTION_TYPE)
                 return;
@@ -1770,7 +1770,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             if (me->GetVehicle())
                 return;
@@ -1984,7 +1984,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             events.Update(uiDiff);
 
@@ -2041,7 +2041,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void DamageTaken(Unit* pDealer, uint32& uiDamage)
+        void DamageTaken(Unit* pDealer, uint32& uiDamage) override
         {
             if (me->HasUnitState(UNIT_STATE_ROOT))
             {
@@ -2101,7 +2101,7 @@ public:
         }
 
         // Override function to be sure there won't be any call to MoveChase (at least in AttackStart)
-        void AttackStart(Unit* pTarget) { }
+        void AttackStart(Unit* pTarget) override { }
 
         void IsSummonedBy(Unit* pSummoner) override
         {
@@ -2147,7 +2147,7 @@ public:
             events.RescheduleEvent(EVENT_MOVE_COUNCILLOR, 500);
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             events.Update(uiDiff);
 
@@ -2241,7 +2241,7 @@ public:
         }
 
         // Override function to be sure there won't be any call to MoveChase (at least in AttackStart)
-        void AttackStart(Unit* pTarget) { }
+        void AttackStart(Unit* pTarget) override { }
 
         void IsSummonedBy(Unit* pSummoner) override
         {
@@ -2302,12 +2302,12 @@ public:
             uiTargetGuid = guid;
         }*/
 
-        void SetGUID(ObjectGuid guid, int32 id = 0)
+        void SetGUID(ObjectGuid guid, int32 id = 0) override
         {
             playerGuid = guid;
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             events.Update(uiDiff);
 
@@ -2635,7 +2635,7 @@ public:
 
         }
 
-        uint32 GetData(uint32 uiIndex) const
+        uint32 GetData(uint32 uiIndex) const override
         {
             if (uiIndex == DATA_TWISTED_FATE_OTHER_DIED)
                 return (uint32)bOtherTwistedFateDied;

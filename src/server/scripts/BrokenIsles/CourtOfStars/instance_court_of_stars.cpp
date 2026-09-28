@@ -155,7 +155,7 @@ public:
             return &loc_res_pla;
         }
         */
-         void Update(uint32 diff)
+         void Update(uint32 diff) override
         {
             // Challenge
             InstanceScript::Update(diff);

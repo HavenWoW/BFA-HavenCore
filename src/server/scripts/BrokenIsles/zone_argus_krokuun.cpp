@@ -288,7 +288,7 @@ public:
             _playerGUID = ObjectGuid::Empty;
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             if (action == ACTION_START_ANIMATION)
                 events.ScheduleEvent(EVENT_STEP_01, 1s);
@@ -359,7 +359,7 @@ struct npc_lady_liadrin_122065 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
 
@@ -499,7 +499,7 @@ class npc_prophet_velen_120977 : public CreatureScript
 public:
     npc_prophet_velen_120977() : CreatureScript("npc_prophet_velen_120977") { }
 
-    bool OnGossipHello(Player* player, Creature* creature)
+    bool OnGossipHello(Player* player, Creature* creature) override
     {
         TC_LOG_ERROR("server.worldserver", "OnGossipHello ");
         if (player->GetQuestStatus(QUEST_LIGHTS_EXODUS) == QUEST_STATUS_COMPLETE)
@@ -618,7 +618,7 @@ public:
 
         }
 
-        void DoAction(int32 param)
+        void DoAction(int32 param) override
         {
             if (param == EVENT_TALK_04)
                 events.ScheduleEvent(EVENT_TALK_04, 1s);
@@ -820,7 +820,7 @@ class npc_prophet_velen_126307 : public CreatureScript
 public:
     npc_prophet_velen_126307() : CreatureScript("npc_prophet_velen_126307") { }
 
-    bool OnQuestAccept(Player* player, Creature* /*creature*/, Quest const* quest)
+    bool OnQuestAccept(Player* player, Creature* /*creature*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_INTO_THE_NIGHT)
         {
@@ -857,7 +857,7 @@ public:
 
         }
 
-        void DoAction(int32 param)
+        void DoAction(int32 param) override
         {
             if (param == EVENT_TALK_04)
                 events.ScheduleEvent(EVENT_TALK_04, 1s);

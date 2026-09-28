@@ -342,7 +342,7 @@ struct npc_dreadbringer_valus : ScriptedAI
         events.ScheduleEvent(EVENT_3, 85000);
     }
 
-    void JustSummoned(Creature* summon)
+    void JustSummoned(Creature* summon) override
     {
         summons.Summon(summon);
 
@@ -1295,7 +1295,7 @@ struct npc_velthrak_the_punisher : ScriptedAI
         }
     }
 
-    void JustSummoned(Creature* summon)
+    void JustSummoned(Creature* summon) override
     {
         summons.Summon(summon);
         summon->SetReactState(REACT_PASSIVE);
@@ -1574,7 +1574,7 @@ struct npc_malphazel_argus : ScriptedAI
         events.ScheduleEvent(EVENT_3, 25000);
     }
 
-    void JustSummoned(Creature* summon)
+    void JustSummoned(Creature* summon) override
     {
         summons.Summon(summon);
 
@@ -3051,7 +3051,7 @@ struct npc_magma_giant : ScriptedAI
         ScriptedAI::EnterEvadeMode();
     }
 
-    void JustSummoned(Creature* summon)
+    void JustSummoned(Creature* summon) override
     {
         summons.Summon(summon);
 
@@ -3072,7 +3072,7 @@ struct npc_magma_giant : ScriptedAI
      //   });
     }
 
-    void MovementInform(uint32 type, uint32 data)
+    void MovementInform(uint32 type, uint32 data) override
     {
         if (type == POINT_MOTION_TYPE)
         {

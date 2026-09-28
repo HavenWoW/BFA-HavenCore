@@ -168,7 +168,7 @@ public:
 			return true;
 		}
 
-		void Reset()
+		void Reset() override
 		{
 			me->RemoveAllAreaTriggers();
 			me->RemoveAllAuras();
@@ -179,7 +179,7 @@ public:
 			DespawnCreatures(NPC_HATECOIL_SHELLBREAKER);
 		}
 
-		void MoveInLineOfSight(Unit* /*who*/)
+		void MoveInLineOfSight(Unit* /*who*/) override
 		{
 			if (!introText)
 			{
@@ -234,7 +234,7 @@ public:
 			}
 		}
 
-		void DamageTaken(Unit* /**/, uint32 & /**/) 
+		void DamageTaken(Unit* /**/, uint32 & /**/) override
 		{
 			if (me->HealthBelowPct(30) && !enrage)
 			{
@@ -252,7 +252,7 @@ public:
 			SelectSoundAndText(me, 6);
 		}
 
-		void JustDied(Unit* /**/) 
+		void JustDied(Unit* /**/) override
 		{
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 			DespawnCreatures(NPC_HATECOIL_CRESTRIDER);
@@ -261,7 +261,7 @@ public:
 			SelectSoundAndText(me, 2);
 		}
 
-		void JustSummoned(Creature* summon)
+		void JustSummoned(Creature* summon) override
 		{
 
 			summons.Summon(summon);

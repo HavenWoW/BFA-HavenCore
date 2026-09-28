@@ -119,7 +119,7 @@ public:
 		EventMap events;
 		InstanceScript* instance;
 
-		void Reset()
+		void Reset() override
 		{
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
@@ -130,18 +130,18 @@ public:
 			DespawnCreature(NPC_MONSOON);
 		}
 
-		void EnterEvadeMode(EvadeReason /*reason*/) 
+		void EnterEvadeMode(EvadeReason /*reason*/) override
 		{
 			me->NearTeleportTo(me->GetHomePosition());
 			Reset();
 		}
 
-		void KilledUnit(Unit* /*target*/) 
+		void KilledUnit(Unit* /*target*/) override
 		{
 			SelectSoundAndText(me, 6);
 		}
 
-		void JustDied(Unit* /**/) 
+		void JustDied(Unit* /**/) override
 		{
 			DespawnCreature(NPC_SALTSEA_GLOBULE);
 			DespawnCreature(NPC_MONSOON);
@@ -172,7 +172,7 @@ public:
 			return true;
 		}
 
-		void JustEngagedWith(Unit*)
+		void JustEngagedWith(Unit*) override
 		{
 			SelectSoundAndText(me, 1);
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -364,7 +364,7 @@ public:
 			}
 		}
 
-		void UpdateAI(uint32 diff)
+		void UpdateAI(uint32 diff) override
 		{
 			if (!UpdateVictim())
 				return;

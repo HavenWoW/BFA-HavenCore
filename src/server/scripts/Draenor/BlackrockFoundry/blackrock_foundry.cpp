@@ -524,7 +524,7 @@ class npc_foundry_iron_slag_shaper : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventRainOfSlag, 10 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (p_Action == eAction::ActionRescheduleSlag)
                 {
@@ -662,7 +662,7 @@ class npc_foundry_slagshop_worker : public CreatureScript
                 DoMeleeAttackIfReady();
             }
 
-            void LastOperationCalled() 
+            void LastOperationCalled() override
             {
                // AddTimedDelayedOperation(urand(30 * TimeConstants::IN_MILLISECONDS, 120 * TimeConstants::IN_MILLISECONDS), [this]() -> void
                // {
@@ -1054,7 +1054,7 @@ class npc_foundry_iron_laborer_cosmetic : public CreatureScript
 
             bool m_Started;
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (p_Action == eActions::ActionDisable)
                     m_Started = true;
@@ -1135,7 +1135,7 @@ class npc_foundry_iron_laborer : public CreatureScript
 
             Vehicle* m_Vehicle;
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (p_Action == eAction::ActionEvent)
                 {
@@ -2141,7 +2141,7 @@ class npc_foundry_iron_flametwister : public CreatureScript
                 DoMeleeAttackIfReady();
             }
 
-            void LastOperationCalled()
+            void LastOperationCalled() override
             {
               //  AddTimedDelayedOperation(8 * TimeConstants::IN_MILLISECONDS, [this]() -> void
                // {
@@ -2485,7 +2485,7 @@ class npc_foundry_flame_vents : public CreatureScript
                 }
             }
 
-            void LastOperationCalled() 
+            void LastOperationCalled() override
             {
                 if ((me->GetOrientation() >= 3.14f && me->GetOrientation() <= 3.20f) ||
                     (me->GetOrientation() >= 4.70f && me->GetOrientation() <= 4.71f) || me->GetOrientation() < 0.1f)
@@ -3976,7 +3976,7 @@ class npc_foundry_inferno_totem : public CreatureScript
                 me->CastSpell(me, eSpell::Inferno, false);
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpell::Inferno)
                     me->DespawnOrUnsummon();
@@ -4076,7 +4076,7 @@ class npc_foundry_iron_mauler : public CreatureScript
                     me->CastSpell(p_Attacker, eSpells::ThrowMassiveAmmoCache, false);
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::ThrowMassiveAmmoCache)
                     me->RemoveAura(eSpells::CarryingCrate);
@@ -4231,7 +4231,7 @@ class npc_foundry_iron_cleaver : public CreatureScript
               //  });
             }
 
-            void LastOperationCalled()
+            void LastOperationCalled() override
             {
                 if (!m_IsCosmetic)
                     return;

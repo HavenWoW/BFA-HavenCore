@@ -797,7 +797,7 @@ public:
             at->InitSplines(points, 10000);
         }
 
-        void OnUnitEnter(Unit* unit)
+        void OnUnitEnter(Unit* unit) override
         {
             if (Creature* lady = GetLady())
             {
@@ -922,7 +922,7 @@ public:
             at->InitSplines(points, 10000);
         }
 
-        void OnUnitEnter(Unit* unit)
+        void OnUnitEnter(Unit* unit) override
         {
             if (Creature* lady = GetLady())
             {
@@ -937,7 +937,7 @@ public:
             }
         }
 
-        void OnUnitExit(Unit* unit)
+        void OnUnitExit(Unit* unit) override
         {
             currentTarget = ObjectGuid::Empty; //clears when players exists
         }

@@ -606,7 +606,7 @@ public:
                 caster->CastSpell(caster, SPELL_FEEDING_FRENZY_AURA, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectProc += AuraEffectProcFn(bfa_spell_feeding_frenzy_AuraScript::HandleOnProc, EFFECT_0, SPELL_AURA_DUMMY);
         }
@@ -876,7 +876,7 @@ public:
             SetHitDamage(GetHitDamage() / targetList);
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_piercing_barb_damage_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_TARGET_ENEMY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_piercing_barb_damage_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);

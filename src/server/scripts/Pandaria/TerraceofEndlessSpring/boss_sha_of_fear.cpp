@@ -511,7 +511,7 @@ public:
             // and some more, but no idea why, just complete it
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason w) override
         {
             if (m_canEvade)
             {
@@ -614,7 +614,7 @@ public:
             }
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             switch (action)
             {
@@ -725,7 +725,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* /*dealer*/, uint32& uiDamage)
+        void DamageTaken(Unit* /*dealer*/, uint32& uiDamage) override
         {
             if (me->HealthBelowPct(67) && !failSafe)
             {
@@ -1952,7 +1952,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 }
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             if (action == ACTION_BOWMAN_AGGRESSIVE)
             {

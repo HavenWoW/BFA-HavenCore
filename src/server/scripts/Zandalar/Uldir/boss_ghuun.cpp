@@ -364,8 +364,8 @@ private:
         CleanEncounter(instance, me);
     }
 
-    void JustDied(Unit* /*killer*/)
-    {        
+    void JustDied(Unit* /*killer*/) override
+    {
         _JustDied();
     }
 };

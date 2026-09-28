@@ -402,7 +402,7 @@ public:
 
         /*** NORMAL FUNCTIONS ***/
 
-        void Reset()
+        void Reset() override
         {
             RemoveAllAurasAndDespawnSummons();
 
@@ -422,7 +422,7 @@ public:
             RemoveFeathers();
         }
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             nests = 0; // just to be sure its reseted
             DoCast(me, SPELL_INFECTED_TALONS_AURA);
@@ -442,7 +442,7 @@ public:
             //SummonEggs();
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason w) override
         {
             me->RemoveAllAuras();
             Reset();
@@ -457,7 +457,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me); // Remove.
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature* summon) override
         {
             summons.Summon(summon);
             //summon->setActive(true);
@@ -528,7 +528,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 id)
+        void MovementInform(uint32 type, uint32 id) override
         {
             switch (id)
             {
@@ -769,7 +769,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (!UpdateVictim())
                 return;

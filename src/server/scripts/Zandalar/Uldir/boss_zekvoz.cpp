@@ -228,7 +228,7 @@ private:
         }
     }
 
-    void JustDied(Unit* /*killer*/)
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(SAY_DEATH);
         Talk(SAY_DEATH_WHISPER);

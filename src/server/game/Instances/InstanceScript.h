@@ -266,8 +266,8 @@ class TC_GAME_API InstanceScript : public ZoneScript
         virtual void OnCompletedCriteriaTree(CriteriaTree const* /*tree*/) { }
 
         // Handle open / close objects
-        virtual void OnGameObjectCreateForScript(GameObject* go);
-        virtual void OnGameObjectRemoveForScript(GameObject* go);
+        virtual void OnGameObjectCreateForScript(GameObject* go) override;
+        virtual void OnGameObjectRemoveForScript(GameObject* go) override;
         // * use HandleGameObject(0, boolen, GO); in OnObjectCreate in instance scripts
         // * use HandleGameObject(GUID, boolen, nullptr); in any other script
         void HandleGameObject(ObjectGuid guid, bool open, GameObject* go = nullptr);

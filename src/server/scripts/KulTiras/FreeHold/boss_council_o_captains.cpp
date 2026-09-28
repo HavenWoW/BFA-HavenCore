@@ -158,7 +158,7 @@ struct npc_captains_controller : public ScriptedAI
         Initialize();
     }
     
-     void DoAction(int32 action)
+     void DoAction(int32 action) override
     {
         switch (action)
         {
@@ -676,7 +676,7 @@ struct npc_rummy_mancomb : public ScriptedAI
 {
     npc_rummy_mancomb(Creature* creature) : ScriptedAI(creature) { }
 
-    void Reset()
+    void Reset() override
     {
         me->SetReactState(REACT_PASSIVE);
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);

@@ -1756,7 +1756,7 @@ struct npc_master_mathias_shaw_132255 : public ScriptedAI
                 player->AddQuest(quest_gift, me);
     }
     ///22009	33712	0 ClientToServer: CMSG_TALK_TO_GOSSIP (0x3495) 
-    void sGossipHello(Player* player)
+    void sGossipHello(Player* player) override
     {
         if (player->HasQuest(QUEST_SUMMONS_TO_STORMWIND)) {
             player->ForceCompleteQuest(QUEST_SUMMONS_TO_STORMWIND);
@@ -1784,7 +1784,7 @@ struct npc_master_mathias_shaw_132255 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_GIFTS_OF_THE_FALLEN))
@@ -1847,7 +1847,7 @@ struct npc_zidormi_128607 : public ScriptedAI
         }
     }
 
-    void sGossipHello(Player* player)
+    void sGossipHello(Player* player) override
     {
         ClearGossipMenuFor(player);
         if (player->GetMapId() == 1)
@@ -1864,7 +1864,7 @@ struct npc_zidormi_128607 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
 
@@ -2179,7 +2179,7 @@ struct npc_nathanos_blightcaller_132254 : public ScriptedAI
         }
     }
 
-    void sGossipHello(Player* player)
+    void sGossipHello(Player* player) override
     {
         if (player->HasQuest(QUEST_SUMMONS_TO_ORGRIMMAR)) {
             player->ForceCompleteQuest(QUEST_SUMMONS_TO_ORGRIMMAR);
@@ -2202,7 +2202,7 @@ struct npc_nathanos_blightcaller_132254 : public ScriptedAI
             SendGossipMenuFor(player, player->GetGossipTextId(me), me->GetGUID());
         }
     }
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
 
@@ -2213,13 +2213,13 @@ struct npc_nathanos_blightcaller_132254 : public ScriptedAI
         }
     }
 
-    void sQuestAccept(Player* player, Quest const* quest)
+    void sQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_H_WITNESS_TO_THE_WOUND)
             player->AddConversationDelayedTeleport(5000, 6610, 1817, -6467.526f, -219.9097f, 5.90872f, 2.209932f);
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)
+    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/) override
     {
         if (quest->GetQuestId() == QUEST_SUMMONS_TO_ORGRIMMAR)
             if (const Quest* quest_gift = sObjectMgr->GetQuestTemplate(QUEST_A_RECENT_DISCOVERY))

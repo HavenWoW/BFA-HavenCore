@@ -90,7 +90,7 @@ public:
         }
     }*/
 
-    void OnSuccessfulSpellCast(Player* player, Spell* spell)
+    void OnSuccessfulSpellCast(Player* player, Spell* spell) override
     {
         if (player->GetAreaId() == 9333)
         {
@@ -148,7 +148,7 @@ struct boss_essence_of_eonar : public BossAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, 240796, true);

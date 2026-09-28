@@ -1032,7 +1032,7 @@ public:
             }
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectHitTarget += SpellEffectFn(spell_dk_death_strike_SpellScript::HandleHit, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
             OnHit += SpellHitFn(spell_dk_death_strike_SpellScript::HandleOnHits);

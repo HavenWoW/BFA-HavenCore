@@ -469,7 +469,7 @@ public:
                 playerGuid = player->GetGUID();
         }
 
-        void MovementInform(uint32 type, uint32 id)
+        void MovementInform(uint32 type, uint32 id) override
         {
             if (type != POINT_MOTION_TYPE || id != count || paused)
                 return;
@@ -1391,7 +1391,7 @@ public:
     struct npc_agapant_90543AI : public ScriptedAI
     {
         npc_agapant_90543AI(Creature* creature) : ScriptedAI(creature) { }
-        void Reset()
+        void Reset() override
         {
             say = false;
         }
@@ -1464,7 +1464,7 @@ struct mana_drained_90880 : public ScriptedAI
 {
     mana_drained_90880(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -1515,7 +1515,7 @@ struct mana_drained_900880 : public ScriptedAI
 {
     mana_drained_900880(Creature* creature) : ScriptedAI(creature) { me->SetAIAnimKitId(0); }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {

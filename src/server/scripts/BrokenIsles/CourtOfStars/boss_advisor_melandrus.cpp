@@ -113,7 +113,7 @@ struct boss_advisor_melandrus : public BossAI
 {
     boss_advisor_melandrus(Creature* creature) : BossAI(creature, DATA_MELANDRUS) { }
 
-    void Reset()
+    void Reset() override
     {
         _Reset();
     }
@@ -363,7 +363,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             _timerMoved += diff;
             _timerDmg += diff;

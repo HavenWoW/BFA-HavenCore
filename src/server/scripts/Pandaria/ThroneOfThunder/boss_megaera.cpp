@@ -800,7 +800,7 @@ public:
 
         /*** GENERAL AI FUNCTIONS ***/
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             summons.DespawnAll();
@@ -826,7 +826,7 @@ public:
             RPevents.ScheduleEvent(EVENT_START_HEADS, 10000);
         }
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             // Just Berserk scheduled here, the other events are handled by the specific heads / through happenings (ex. a head dies -> Rampage, etc).
             events.ScheduleEvent(EVENT_BERSERK, (me->GetMap()->IsHeroic() ? TIMER_BERSERK_H : TIMER_BERSERK));
@@ -872,7 +872,7 @@ public:
             _JustEngagedWith();
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             switch (action)
             {
@@ -928,7 +928,7 @@ public:
             return headEntry;
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason w) override
         {
             DespawnSummon(NPC_CINDERS);
             DespawnSummon(NPC_TORRENT_OF_ICE);
@@ -958,7 +958,7 @@ public:
             _EnterEvadeMode();
         }
 
-        void JustReachedHome()
+        void JustReachedHome() override
         {
             me->ClearUnitState(UNIT_STATE_EVADE);
 
@@ -973,7 +973,7 @@ public:
             summons.Despawn(pSummoned);
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature* summon) override
         {
             summons.Summon(summon);
             summon->setActive(true);
@@ -990,7 +990,7 @@ public:
                 summon->SetInCombatWithZone();
         }
 
-        void SummonedCreatureDies(Creature* summon, Unit* killer)
+        void SummonedCreatureDies(Creature* summon, Unit* killer) override
         {
             uint8 newFrontHeadSpawnPos = 0;
 
@@ -1050,7 +1050,7 @@ public:
             }
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* /*killer*/) override
         {
             if (isDead)
                 return;
@@ -1119,7 +1119,7 @@ public:
                 }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (me->IsInCombat())
             {
@@ -1292,7 +1292,7 @@ public:
         InstanceScript* instance;
         EventMap events;
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
         }
@@ -1328,7 +1328,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data)
+        void SetData(uint32 type, uint32 data) override
         {
             if (type == 1)
             {
@@ -1339,7 +1339,7 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_CHECK_MEGAERAS_RAGE, 18000);
             events.ScheduleEvent(EVENT_CINDERS, urand(10000, 15000));
@@ -1350,7 +1350,7 @@ public:
                     Megaera->AI()->DoAction(ACTION_SET_IN_COMBAT);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STATE_CASTING) || me->HasAura(SPELL_EMERGE))
                 return;
@@ -1449,7 +1449,7 @@ public:
         InstanceScript* instance;
         EventMap events;
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
         }
@@ -1485,7 +1485,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data)
+        void SetData(uint32 type, uint32 data) override
         {
             if (type == 1)
             {
@@ -1496,7 +1496,7 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_CHECK_MEGAERAS_RAGE, 18900);
             events.ScheduleEvent(EVENT_TORRENT_OF_ICE, 14000);
@@ -1545,7 +1545,7 @@ public:
             return nullptr;
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STATE_CASTING) || me->HasAura(SPELL_EMERGE))
                 return;
@@ -1658,7 +1658,7 @@ public:
         InstanceScript* instance;
         EventMap events;
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
         }
@@ -1694,7 +1694,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data)
+        void SetData(uint32 type, uint32 data) override
         {
             if (type == 1)
             {
@@ -1705,7 +1705,7 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_CHECK_MEGAERAS_RAGE, 19800);
             events.ScheduleEvent(EVENT_ACID_RAIN, urand(12000, 17000));
@@ -1716,7 +1716,7 @@ public:
                     Megaera->AI()->DoAction(ACTION_SET_IN_COMBAT);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STATE_CASTING) || me->HasAura(SPELL_EMERGE))
                 return;
@@ -1804,7 +1804,7 @@ public:
         InstanceScript* instance;
         EventMap events;
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
         }
@@ -1840,7 +1840,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data)
+        void SetData(uint32 type, uint32 data) override
         {
             if (type == 1)
             {
@@ -1851,7 +1851,7 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit* /*who*/)
+        void JustEngagedWith(Unit* /*who*/) override
         {
             events.ScheduleEvent(EVENT_CHECK_MEGAERAS_RAGE, 20600);
             events.ScheduleEvent(EVENT_NETHER_TEAR, urand(12000, 17000));
@@ -1862,7 +1862,7 @@ public:
                     Megaera->AI()->DoAction(ACTION_SET_IN_COMBAT);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (!UpdateVictim() || me->HasUnitState(UNIT_STATE_CASTING) || me->HasAura(SPELL_EMERGE))
                 return;

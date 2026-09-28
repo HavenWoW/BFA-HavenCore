@@ -387,7 +387,7 @@ public:
             return &loc_res_pla;
         }
         */
-        ObjectGuid GetGuidData(uint32 type) const
+        ObjectGuid GetGuidData(uint32 type) const override
         {
             switch (type)
             {
@@ -408,7 +408,7 @@ public:
             return 0;
         }
 
-         void Update(uint32 diff) 
+         void Update(uint32 diff) override
         {
             // Challenge
             InstanceScript::Update(diff);

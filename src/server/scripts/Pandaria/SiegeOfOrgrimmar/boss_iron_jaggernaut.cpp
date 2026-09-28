@@ -244,7 +244,7 @@ class boss_iron_juggernaut : public CreatureScript
                 me->SetCombatReach(BOSS_COMBAT_REACH_SIZE);
             }
 
-            void Reset()
+            void Reset() override
             {
                 _Reset();
 
@@ -257,7 +257,7 @@ class boss_iron_juggernaut : public CreatureScript
                 m_CurrentPhase = PHASE_NONE;
             }
 
-            void JustEngagedWith(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/) override
             {
                 SendIronJuggernautStart();
 
@@ -303,14 +303,14 @@ class boss_iron_juggernaut : public CreatureScript
                 BossAI::SummonedCreatureDespawn(summon);
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 SendIronJuggernautDead();
 
                 _JustDied();
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -737,7 +737,7 @@ class npc_iron_juggernaut_borer_drill : public CreatureScript
                 isMoved = false;
             }
 
-            void SetGUID(ObjectGuid guid, int32 type)
+            void SetGUID(ObjectGuid guid, int32 type) override
             {
                 if (type == DATA_BORER_DRILL_TARGET)
                 {
@@ -834,7 +834,7 @@ class npc_iron_juggernaut_crawler_mine : public CreatureScript
                 damage = 0;
             }
 
-            void MovementInform(uint32 /*type*/, uint32 id)
+            void MovementInform(uint32 /*type*/, uint32 id) override
             {
                 if (id == EVENT_JUMP)
                 {
@@ -845,7 +845,7 @@ class npc_iron_juggernaut_crawler_mine : public CreatureScript
                 }
             }
 
-            void OnSpellClick(Unit* clicker, bool& /*result*/)
+            void OnSpellClick(Unit* clicker, bool& /*result*/) override
             {
                 if (isExploded)
                     return;
@@ -894,7 +894,7 @@ class npc_iron_juggernaut_cutter_laser : public CreatureScript
                 damageTimer = 2000;
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->SetSpeed(MOVE_RUN, 0.5f);
 
@@ -910,7 +910,7 @@ class npc_iron_juggernaut_cutter_laser : public CreatureScript
                 }
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 UpdateMove(diff);
 

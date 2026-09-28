@@ -1080,7 +1080,7 @@ class boss_sha_of_pride : public CreatureScript
                 m_CombatHelper.RegisterCombatAura(SPELL_PRIDE);
             }
 
-            void Reset()
+            void Reset() override
             {
                 _Reset();
 
@@ -1100,7 +1100,7 @@ class boss_sha_of_pride : public CreatureScript
                 isUnleashed = false;
             }
 
-            void AttackStart(Unit* who)
+            void AttackStart(Unit* who) override
             {
                 if (!who)
                     return;
@@ -1166,7 +1166,7 @@ class boss_sha_of_pride : public CreatureScript
                     m_BanishController.ClearBanishByFragment(p_Summon->GetGUID());
             }
 
-            void KilledUnit(Unit* victim)
+            void KilledUnit(Unit* victim) override
             {
                 if (!victim || !victim->IsPlayer())
                     return;
@@ -1176,7 +1176,7 @@ class boss_sha_of_pride : public CreatureScript
                 m_PrisonController.FreePlayer(victim->GetGUID());
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
 
@@ -1511,7 +1511,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 SpawnVortexAndLingeringCorruption();
             }
 
-            void Reset()
+            void Reset() override
             {
                 introDone = false;
                 shaSpawned = false;
@@ -1520,7 +1520,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 //shaVortexGuid = 0; do not do it
             }
 
-            void MoveInLineOfSight(Unit* who)
+            void MoveInLineOfSight(Unit* who) override
             {
                 if (introDone)
                     return;
@@ -1536,7 +1536,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 }
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 switch (action)
                 {
@@ -1568,7 +1568,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 events.Reset();
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 events.Update(diff);
 
@@ -1734,11 +1734,6 @@ class npc_sha_of_pride_lingering_corruption : public CreatureScript
                 pInstance = me->GetInstanceScript();
             }
 
-            void Reset()
-            {
-
-            }
-
             void JustDied(Unit* /*killer*/)
             {
                 DoCastAOE(SPELL_CORRUPTED_TOUCH, true);
@@ -1873,11 +1868,6 @@ class npc_sha_of_pride_reflection : public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
 
                 pInstance = me->GetInstanceScript();
-            }
-
-            void Reset()
-            {
-
             }
 
             void IsSummonedBy(Unit* owner)
@@ -2027,7 +2017,7 @@ class go_sha_of_pride_shadow_prison_trap : public GameObjectScript
                 }
             }
 
-            void UpdateAI(uint32 diff)
+            void UpdateAI(uint32 diff) override
             {
                 UpdatePlayers(diff);
             }
@@ -2247,11 +2237,6 @@ class npc_sha_of_pride_jaina_proudmoore : public CreatureScript
                 pInstance = creature->GetInstanceScript();
             }
 
-            void Reset()
-            {
-
-            }
-
             void DoAction(const int32 action)
             {
                 if (action == ACTION_SHA_OF_PRIDE_JAINA)
@@ -2311,11 +2296,6 @@ class npc_sha_of_pride_lorthemar_theron : public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
 
                 pInstance = creature->GetInstanceScript();
-            }
-
-            void Reset()
-            {
-
             }
 
             void DoAction(const int32 action)
@@ -2378,16 +2358,6 @@ class npc_sha_of_pride_portal_to_orgrimmar : public CreatureScript
                 me->SetUnitFlags2(UnitFlags2(UNIT_FLAG_NOT_SELECTABLE));
 
                 pInstance = creature->GetInstanceScript();
-            }
-
-            void Reset()
-            {
-
-            }
-
-            void UpdateAI(const uint32 diff)
-            {
-
             }
 
             void sGossipHello(Player* player) override
@@ -3432,7 +3402,7 @@ class spell_sha_of_pride_banishment_aoe_1 : public SpellScriptLoader
                 }
             }
 
-            void Register()
+            void Register() override
             {
                 OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_sha_of_pride_banishment_aoe_1_SpellScript::FilterTargets, SpellEffIndex::EFFECT_0, Targets::TARGET_UNIT_SRC_AREA_ENEMY);
                 OnEffectHit += SpellEffectFn(spell_sha_of_pride_banishment_aoe_1_SpellScript::DoEffectHit, SpellEffIndex::EFFECT_0, SPELL_EFFECT_DUMMY);

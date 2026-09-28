@@ -264,7 +264,7 @@ public:
             me->SummonCreature(NPC_HUMMING_CRYSTAL, 6007.39f, 4991.19f, -61.52f, 2.36f, TEMPSUMMON_MANUAL_DESPAWN);
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason w) override
         {
             me->AddUnitState(UNIT_STATE_EVADE);
 
@@ -355,7 +355,7 @@ public:
             DespawnCrystals();
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
 
             if (!UpdateVictim() || !CheckInRoom())
@@ -488,14 +488,14 @@ public:
         bool shellBlocked;
         bool failSafe;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* summoner) override
         {
             me->SetInCombatWithZone();
             me->SetReactState(REACT_PASSIVE);
             //me->SetSpeed(MOVE_RUN, 3.0f, true);
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             events.ScheduleEvent(EVENT_DAMAGE_PLAYERS_SPIN, 500);
             events.ScheduleEvent(EVENT_MOVE, 3000, 0, 0);
@@ -569,7 +569,7 @@ public:
                 events.RescheduleEvent(EVENT_MOVE, 200);
         }
 
-        void Reset()
+        void Reset() override
         {
             me->SetInCombatWithZone();
             me->SetReactState(REACT_PASSIVE);
@@ -580,7 +580,7 @@ public:
             shellBlocked = false;
         }
 
-        void SpellHit(Unit* caster, SpellInfo const* spell)
+        void SpellHit(Unit* caster, SpellInfo const* spell) override
         {
             if (spell->Id == SPELL_KICK_SHELL_TRIGGER)
             {
@@ -595,7 +595,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* who, uint32& damage) override
         {
             if (me->HealthBelowPct(3) && !shellBlocked)
             {
@@ -619,7 +619,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 
@@ -1461,7 +1461,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 
