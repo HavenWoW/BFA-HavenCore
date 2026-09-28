@@ -198,7 +198,6 @@ void AddSC_boss_bd_nefarian();
 void AddSC_blackwing_descent();
 void AddSC_instance_deadmines();                //Deadmines
 void AddSC_boss_helix_gearbreaker();
-void AddSC_boss_mr_smite();
 void AddSC_boss_admiral_ripsnarl();
 void AddSC_boss_captain_cookie();
 void AddSC_boss_foe_reaper_5000();
@@ -444,7 +443,6 @@ void AddEasternKingdomsScripts()
     AddSC_blackwing_descent();
     AddSC_instance_deadmines();                 //Deadmines
     AddSC_boss_helix_gearbreaker();
-    AddSC_boss_mr_smite();
     AddSC_boss_admiral_ripsnarl();
     AddSC_boss_captain_cookie();
     AddSC_boss_foe_reaper_5000();

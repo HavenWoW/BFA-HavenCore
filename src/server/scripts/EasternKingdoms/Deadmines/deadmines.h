@@ -103,8 +103,9 @@ enum eCreatures
     NPC_ALLIANCE_HUNTER             = 42701,
     NPC_ALLIANCE_MAGE               = 42702,
     NPC_ALLIANCE_PRIEST             = 42703,
-    NPC_ALLIANCE_ROGUE              = 42700
+    NPC_ALLIANCE_ROGUE              = 42700,
 
+    NPC_MR_SMITE                    = 646
 };
 
 enum GameObjects
@@ -117,6 +118,11 @@ enum GameObjects
 
     GO_DEFIAS_CANNON                = 16398,
     GO_MR_SMITE_CHEST               = 144111
+};
+
+enum MrSmiteData
+{
+    DATA_MR_SMITE_IRONCLAD_ALARM    = 1
 };
 
 enum eSound

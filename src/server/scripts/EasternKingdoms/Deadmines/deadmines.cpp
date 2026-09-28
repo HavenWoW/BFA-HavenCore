@@ -261,6 +261,9 @@ public:
             {
                 bunny->AI()->Talk(0);
             }
+
+            if (Creature* smite = go->FindNearestCreature(NPC_MR_SMITE, 170.0f))
+                smite->AI()->SetData(DATA_MR_SMITE_IRONCLAD_ALARM, DONE);
         }
         return true;
     }
