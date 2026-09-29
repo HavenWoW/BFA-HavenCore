@@ -2672,7 +2672,7 @@ class npc_foundry_rapid_fire_stalker : public CreatureScript
                 m_TargetGUID = p_Guid;
             }
 
-            void UpdateAI(uint32 p_Diff) override
+            void UpdateAI(uint32 /*p_Diff*/) override
             {
                 if (Unit* l_Target = ObjectAccessor::GetUnit(*me, m_TargetGUID))
                 {

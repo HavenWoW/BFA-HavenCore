@@ -418,7 +418,7 @@ struct npc_courier_larkspur_103741 : public ScriptedAI
 {
     npc_courier_larkspur_103741(Creature* creature) : ScriptedAI(creature) {}
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_CALL_OF_THE_MARKSMAN)
         {
@@ -471,25 +471,25 @@ struct npc_vereesa_windrunner_100190 : public ScriptedAI
         if (quest->GetQuestId() == QUEST_CLANDESTINE_OPERATION)
         {
             Talk(0);
-            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext /*context*/)
                 {
                     me->Say(101867);
                 });
-            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
                 {
                     if (Creature* eruisi = me->FindNearestCreature(100193, 25.0f))
                         eruisi->Say(101870);
                 });
-            me->GetScheduler().Schedule(Milliseconds(14000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(14000), [this](TaskContext /*context*/)
                 {
                     me->Say(101869);
                 });
-            me->GetScheduler().Schedule(Milliseconds(18000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(18000), [this](TaskContext /*context*/)
                 {
                     if (Creature* eruisi = me->FindNearestCreature(100193, 25.0f))
                         eruisi->Say(101876);
                 });
-            me->GetScheduler().Schedule(Milliseconds(22000), [this, player](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(22000), [this, player](TaskContext /*context*/)
                 {
                     me->Say(101877);
                     player->KilledMonsterCredit(100229);
@@ -497,19 +497,19 @@ struct npc_vereesa_windrunner_100190 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
         if (player->HasQuest(QUEST_RESCUE_MISSION))
         {
             Talk(1);
-            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext /*context*/)
                 {
                     if (Creature* target = me->FindNearestCreature(100172, 25.0f))
                         target->AI()->Talk(0);
                 });
-            me->GetScheduler().Schedule(Milliseconds(8000), [this, player](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(8000), [this, player](TaskContext /*context*/)
                 {
                     player->KilledMonsterCredit(103481);
                     PhasingHandler::AddPhase(player, 5951);
@@ -680,7 +680,7 @@ struct npc_degar_bloodtotem_110685 : public ScriptedAI
             apata->SetStandState(UnitStandStateType::UNIT_STAND_STATE_STAND);
             apata->Say(119324);
             
-                me->GetScheduler().Schedule(Milliseconds(6000), [apata](TaskContext context)
+                me->GetScheduler().Schedule(Milliseconds(6000), [apata](TaskContext /*context*/)
                      {
                 if (!apata->SelectNearestPlayers(25.f, true).empty())
                      for (auto player : apata->SelectNearestPlayers(25.f, true))

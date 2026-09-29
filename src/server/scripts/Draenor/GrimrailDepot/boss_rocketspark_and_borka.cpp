@@ -171,7 +171,7 @@ private:
     int m_Event;
 };
 
-static void StartRocketSparkAndBorka(InstanceScript* p_Instance, Creature* p_Me, ObjectGuid p_TargetGuid)
+static void StartRocketSparkAndBorka(InstanceScript* p_Instance, Creature* /*p_Me*/, ObjectGuid /*p_TargetGuid*/)
 {
     if (p_Instance == nullptr)
         return;
@@ -184,7 +184,7 @@ static void StartRocketSparkAndBorka(InstanceScript* p_Instance, Creature* p_Me,
         l_Rocketspark->SetInCombatWithZone();
 }
 
-static void WipingConditionRocketSparkAndBorka(InstanceScript* p_Instance, Creature* p_Me)
+static void WipingConditionRocketSparkAndBorka(InstanceScript* p_Instance, Creature* /*p_Me*/)
 {
     if (p_Instance == nullptr)
         return;
@@ -202,7 +202,7 @@ static void WipingConditionRocketSparkAndBorka(InstanceScript* p_Instance, Creat
     }
 }
 
-static void WiningConditionRocketsparkAndBurka(InstanceScript* p_Instance, Creature* p_Me, Unit* l_Killer)
+static void WiningConditionRocketsparkAndBurka(InstanceScript* p_Instance, Creature* /*p_Me*/, Unit* l_Killer)
 {
     if (p_Instance == nullptr)
         return;
@@ -857,7 +857,7 @@ public:
     {
         PrepareSpellScript(grimrail_depot_rocketspark_spell_vx18_target_eliminator_SpellScript);
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (GetCaster())
             {
@@ -894,7 +894,7 @@ public:
             SpellX2101AMissileBarrage = 162422,
         };
 
-        void HandlePeriodic(AuraEffect const* p_AurEff)
+        void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
         {
             PreventDefaultAction();
 
@@ -951,7 +951,7 @@ class grimrail_depot_rocketspark_spell_new_plan : public SpellScriptLoader
             SpellNewPlanMissile01 = 163930
         };
 
-        void HandlePeriodic(AuraEffect const* p_AurEff)
+        void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
         {
             PreventDefaultAction();
 

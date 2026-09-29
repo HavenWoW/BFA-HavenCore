@@ -488,7 +488,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void OnSpellCastInterrupt(SpellInfo const* spell) override
+        void OnSpellCastInterrupt(SpellInfo const* /*spell*/) override
         {
             if (me->HasAura(SPELL_BLESSING_OF_THE_TEMPEST))
             {

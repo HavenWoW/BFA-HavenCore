@@ -169,7 +169,7 @@ struct scenario_the_secrets_of_ragefire : public InstanceScript
     }
 
 
-    void OnPlayerAreaUpdate(Player* /*player*/, uint32 newAreaId, uint32 /*oldAreaId*/ ) override
+    void OnPlayerAreaUpdate(Player* /*player*/, uint32 /*newAreaId*/, uint32 /*oldAreaId*/ ) override
     {
         if (!isLoadScenaro)
         {
@@ -496,7 +496,7 @@ struct scenario_the_secrets_of_ragefire : public InstanceScript
     }
 
 
-    void OnUnitDeath(Unit* l_unit) override
+    void OnUnitDeath(Unit* /*l_unit*/) override
     {
        // if (l_unit->GetEntry() == 98011)
        //     if (GetData(DATA_STAGE_1) == NOT_STARTED)
@@ -541,7 +541,7 @@ public:
             me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
         }
 
-        void OnSpellClick(Unit* clicker, bool& /*result*/) override
+        void OnSpellClick(Unit* /*clicker*/, bool& /*result*/) override
         {
             me->RemoveNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
             if (!startTicking)
@@ -1941,7 +1941,7 @@ public:
             }
         }
 
-        void OnSpellClick(Unit* clicker, bool& /*result*/) override
+        void OnSpellClick(Unit* /*clicker*/, bool& /*result*/) override
         {
             if (spawned)
                 return;
@@ -2388,7 +2388,7 @@ public:
 
         InstanceScript* instance;
 
-        void DoAction(const int32 action) override
+        void DoAction(const int32 /*action*/) override
         {
         }
 

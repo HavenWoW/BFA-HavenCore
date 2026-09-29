@@ -921,7 +921,7 @@ class grimrail_depot_nitrogg_thundertower_spell_suppressive_fire : public SpellS
             CreatureIronTurretNitroggSuppressiveFire = 324265
         };
 
-        void HandlePeriodic(AuraEffect const* p_AurEff)
+        void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
         {
             PreventDefaultAction();
 
@@ -984,7 +984,7 @@ class grimrail_depot_nitrogg_thundertower_spell_blackrock_bomb : public SpellScr
             SpellBlackRockTriggerMissile = 163541
         };
 
-        void HandlePeriodic(AuraEffect const* p_AurEff)
+        void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
         {
             PreventDefaultAction();
 

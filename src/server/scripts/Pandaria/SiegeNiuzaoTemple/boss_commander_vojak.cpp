@@ -169,7 +169,7 @@ public:
             me->DespawnOrUnsummon();
         }*/
 
-        void UpdateAI(uint32 const diff)
+        void UpdateAI(uint32 const /*diff*/)
         {
             // No melee.
         }
@@ -226,7 +226,7 @@ public:
                 me->AI()->AttackStart(Warden);
         }
 
-        void DamageDealt(Unit* target, uint32& damage, DamageEffectType damageType)
+        void DamageDealt(Unit* target, uint32& damage, DamageEffectType /*damageType*/)
         {
             if (target->ToCreature())
                 if (target->ToCreature()->GetEntry() == NPC_SIKTHIK_WARDEN)

@@ -1019,7 +1019,7 @@ struct npc_thorim_trashAI : public ScriptedAI
             bool _exclSelf;
         };
 
-        static Unit* GetUnitWithMostMissingHp(SpellInfo const* spellInfo, Unit* caster)
+        static Unit* GetUnitWithMostMissingHp(SpellInfo const* spellInfo, Unit* /*caster*/)
         {
             // use positive range, it's a healing spell
             float const range = spellInfo->GetMaxRange(true);

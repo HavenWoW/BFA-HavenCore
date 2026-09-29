@@ -621,7 +621,7 @@ struct npc_ravenous_stalker : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AI()->DoZoneInCombat(nullptr);        
     }

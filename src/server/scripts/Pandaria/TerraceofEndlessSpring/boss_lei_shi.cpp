@@ -953,7 +953,7 @@ public:
     {
         PrepareSpellScript(bfa_spell_toes_impl);
 
-        void ModifyDamage(SpellEffIndex effIndex)
+        void ModifyDamage(SpellEffIndex /*effIndex*/)
         {
             Unit* caster = GetCaster();
             Player* victim = GetHitPlayer();

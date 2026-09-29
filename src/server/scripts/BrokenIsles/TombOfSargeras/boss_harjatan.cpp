@@ -685,7 +685,7 @@ class spell_tos_fixate : public AuraScript
 {
     PrepareAuraScript(spell_tos_fixate);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         Unit* target = GetTarget();
         Unit* caster = GetCaster();

@@ -327,7 +327,7 @@ public:
 				events.ScheduleEvent(EVENT_CRUSHING_DEPTHS, TIMER_CRUSHING_DEPTHS);
 		}
 
-		void KilledUnit(Unit* unit) override
+		void KilledUnit(Unit* /*unit*/) override
 		{
 			SelectSoundAndText(me, 3);
 		}
@@ -620,7 +620,7 @@ public:
 	public:
 		PrepareAuraScript(bfa_spell_arcane_bomb_AuraScript);
 
-		void HandleDispel(DispelInfo* dispelInfo)
+		void HandleDispel(DispelInfo* /*dispelInfo*/)
 		{
 			if (!GetCaster() || !GetUnitOwner())
 				return;

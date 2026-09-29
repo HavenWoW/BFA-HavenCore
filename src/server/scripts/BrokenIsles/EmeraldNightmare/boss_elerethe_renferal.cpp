@@ -566,13 +566,13 @@ struct npc_elerethe_venomous_spiderling : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->SetDisableGravity(true);
         moveTimer = 500;
     }
 
-    void MovementInform(uint32 type, uint32 id) override
+    void MovementInform(uint32 type, uint32 /*id*/) override
     {
         if (type != POINT_MOTION_TYPE)
             return;
@@ -691,7 +691,7 @@ struct npc_elerethe_surging_egg_sac : public ScriptedAI
         events.RescheduleEvent(2, 500);
     }
 
-    void SpellHit(Unit* caster, const SpellInfo* spell) override
+    void SpellHit(Unit* /*caster*/, const SpellInfo* spell) override
     {
         if (spell->Id == SPELL_EGG_DUMMY_1)
         {
@@ -750,7 +750,7 @@ struct npc_en_venomous_spider : public ScriptedAI
 
     EventMap events;
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
         std::list<Creature*> creatureList;
@@ -902,7 +902,7 @@ struct npc_en_shadowfeather : public ScriptedAI
 
     EventMap events;
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
     }
@@ -963,7 +963,7 @@ struct npc_en_venomous_spiderling : public ScriptedAI
     InstanceScript* instance;
     uint32 checkBossState = 0;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         checkBossState = 2000;
         DoZoneInCombat(me, 150.0f);
@@ -1033,7 +1033,7 @@ class spell_elerethe_energy_tracker_transform : public AuraScript
 
     uint8 powerTick = 0;
 
-    void OnTick(AuraEffect const* aurEff)
+    void OnTick(AuraEffect const* /*aurEff*/)
     {
         auto caster = GetCaster()->ToCreature();
         if (!caster || !caster->IsInCombat())
@@ -1134,7 +1134,7 @@ class spell_elerethe_web_of_pain : public AuraScript
         amount = 100;
     }
 
-    void Absorb(AuraEffect* aurEff, DamageInfo& dmgInfo, float& absorbAmount)
+    void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, float& absorbAmount)
     {
         absorbAmount = 0;
 
@@ -1145,7 +1145,7 @@ class spell_elerethe_web_of_pain : public AuraScript
         //    GetTarget()->CastCustomSpell(GetCaster(), 233485, &dmg, nullptr, nullptr, true);
     }
 
-    void OnTick(AuraEffect const* aurEff)
+    void OnTick(AuraEffect const* /*aurEff*/)
     {
         if (!GetCaster() || !GetTarget() || GetCaster()->GetMap()->GetDifficultyID() != DIFFICULTY_MYTHIC_RAID)
             return;
@@ -1233,7 +1233,7 @@ class spell_elerethe_necrotic_venom : public AuraScript
 {
     PrepareAuraScript(spell_elerethe_necrotic_venom);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
        // if (!GetCaster() || !GetTarget() || GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_EXPIRE)
             return;
@@ -1252,7 +1252,7 @@ class spell_elerethe_shimmering_feather_proc : public AuraScript
 {
     PrepareAuraScript(spell_elerethe_shimmering_feather_proc);
 
-    void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+    void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
     {
         if (GetCaster())
             GetCaster()->CastSpell(GetCaster(), SPELL_SHIMMERING_FEATHER_OVERRIDE, true);

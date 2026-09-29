@@ -1011,7 +1011,7 @@ struct npc_tos_hopeless_reflection : public ScriptedAI
     uint32 timePassed = 0;
     uint32 despawnTimer = 0;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
        // me->CastSpellDelay(me, SPELL_HOPELESSNESS_DUMMY, false, 500);
         checkTimer = 500;
@@ -1095,7 +1095,7 @@ struct npc_tos_shadowsoul : public ScriptedAI
 
     EventMap events;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_SPAWN_VISUAL, true);
         me->SetReactState(REACT_AGGRESSIVE);
@@ -1170,7 +1170,7 @@ struct npc_tos_demonic_obelisk : public ScriptedAI
     uint32 animTimer = 0;
     uint32 obeliskDmgTimer = 0;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         obeliskVisualTimer = 9000;
         animTimer = 12000;
@@ -1513,7 +1513,7 @@ class spell_tos_gravity_squeeze : public AuraScript
         }
     }
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (GetTarget())
             GetTarget()->RemoveAurasDueToSpell(SPELL_GRAVITY_SQUEEZE_DOT);
@@ -1561,7 +1561,7 @@ class spell_tos_lingering_wail : public AuraScript
 {
     PrepareAuraScript(spell_tos_lingering_wail);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_ENEMY_SPELL)
             return;

@@ -153,7 +153,7 @@ private:
 		me->RemoveAllAreaTriggers();
 	}
 
-	void DamageTaken(Unit* done_by, uint32& damage) override
+	void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
 	{
 		if (me->HealthBelowPct(67) && this->phase == 1)
 		{
@@ -379,7 +379,7 @@ class aura_debilatiting_spit : public AuraScript
 {
 	PrepareAuraScript(aura_debilatiting_spit);
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();

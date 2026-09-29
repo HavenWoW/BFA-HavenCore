@@ -357,7 +357,7 @@ struct npc_sister_kasparian : ScriptedAI
     uint8 healthPct = 71;
     bool achieveAddData = false;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_CORPOREAL_GHOST_MOUNT, true);
     }
@@ -418,7 +418,7 @@ struct npc_sister_kasparian : ScriptedAI
         }
     }
         */
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -471,7 +471,7 @@ struct npc_sister_kasparian : ScriptedAI
         }
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (healthPct && me->HealthBelowPct(healthPct))
         {
@@ -571,7 +571,7 @@ struct npc_sister_lunaspyre : ScriptedAI
     EventMap events;
     uint8 phase = 0;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_LUNAR_GHOST, true);
     }
@@ -609,7 +609,7 @@ struct npc_sister_lunaspyre : ScriptedAI
         }
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -1000,7 +1000,7 @@ struct npc_sistersmoon_moontalon : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_MOONTALON_DISSOLVE_IN, true);
         DoZoneInCombat(me, 100.0f);
@@ -1017,7 +1017,7 @@ struct npc_sistersmoon_moontalon : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (!screech && me->HealthBelowPct(26))
         {
@@ -1072,7 +1072,7 @@ struct npc_sistersmoon_glaive_target : public ScriptedAI
         }
     }*/
 
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //121498
@@ -1234,7 +1234,7 @@ class spell_sistersmoon_embrace_eclipse : public AuraScript
         damage = amount;
     }
 
-    void Absorb(AuraEffect* /*AuraEffect**/, DamageInfo& dmgInfo, float& absorbAmount)
+    void Absorb(AuraEffect* /*AuraEffect**/, DamageInfo& /*dmgInfo*/, float& absorbAmount)
     {
         damage = absorbAmount;
     }
@@ -1269,7 +1269,7 @@ class spell_sistersmoon_side_moon : public AuraScript
 {
     PrepareAuraScript(spell_sistersmoon_side_moon);
 
-    void OnTick(AuraEffect const* aurEff)
+    void OnTick(AuraEffect const* /*aurEff*/)
     {
         auto target = GetUnitOwner();
         if (!target)
@@ -1325,7 +1325,7 @@ class spell_sistersmoon_lunar_barrage : public AuraScript
 {
     PrepareAuraScript(spell_sistersmoon_lunar_barrage);
 
-    void OnTick(AuraEffect const* aurEff)
+    void OnTick(AuraEffect const* /*aurEff*/)
     {
         auto target = GetUnitOwner();
         if (!target)

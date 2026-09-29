@@ -59,7 +59,7 @@ struct npc_queen_azshara_154480 : public ScriptedAI
 					szalira->AI()->Talk(0);
 				});
 
-				me->GetScheduler().Schedule(17s, [this, szalira](TaskContext context)
+				me->GetScheduler().Schedule(17s, [this, szalira](TaskContext /*context*/)
 				{
 					//Gaze upon true devotion, landwalkers! Behold the rage of a queen!
 					me->AI()->Talk(1);
@@ -69,7 +69,7 @@ struct npc_queen_azshara_154480 : public ScriptedAI
 
 				if (Creature* radiance = me->FindNearestCreature(NPC_RADIANCE_OF_AZSHARA, 100.0f, true))
 				{
-					radiance->GetScheduler().Schedule(27s, [this, radiance, szalira](TaskContext context)
+					radiance->GetScheduler().Schedule(27s, [this, radiance, szalira](TaskContext /*context*/)
 					{
 						szalira->KillSelf(true);
 						radiance->SetVisible(true);

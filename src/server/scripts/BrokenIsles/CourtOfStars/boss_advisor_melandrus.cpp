@@ -308,16 +308,6 @@ public:
             else if (action == ACTION_SLICING_MAELSTROM)
                 DoCast(me, SPELL_SLICING_MAELSTROM_IMAGE_AURA);
         }
-
-        void EnterEvadeMode(EvadeReason /*reason*/) override
-        {
-
-        }
-
-        void UpdateAI(uint32 diff) override
-        {
-
-        }
     };
 
     CreatureAI* GetAI(Creature* creature) const override

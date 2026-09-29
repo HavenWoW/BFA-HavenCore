@@ -37,7 +37,7 @@ struct scenario_the_defense_of_karabor : public InstanceScript
 
     }
 
-    void Update(uint32 diff) override
+    void Update(uint32 /*diff*/) override
     {
 
     }

@@ -257,23 +257,23 @@ class npc_signal_lantern : public CreatureScript
 public:
     npc_signal_lantern() : CreatureScript("npc_signal_lantern") { }
 
-    bool OnGossipHello(Player* player, Creature* creature) override
-    {
-        if (!player->HasAura(210295))
-        {
+    //bool OnGossipHello(Player* player, Creature* /*creature*/) override
+    //{
+        //if (!player->HasAura(210295))
+        //{
             //player->ADD_GOSSIP_ITEM_DB(19515, 0, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
            // player->SEND_GOSSIP_MENU(28836, creature->GetGUID());
-        }
-        return true;
-    }
+        //}
+        //return true;
+    //}
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*sender*/, uint32 /*action*/) override
     {
-      //  if (action != GOSSIP_ACTION_INFO_DEF + 1)
-            return false;
+        //if (action != GOSSIP_ACTION_INFO_DEF + 1)
+        //  return false;
         player->AddAura(210295, player);
         player->CastSpell(player, 209524);    //213505
-       // player->CLOSE_GOSSIP_MENU();
+        //player->CLOSE_GOSSIP_MENU();
 
         return true;
     }
@@ -292,7 +292,7 @@ public:
         uint32 timer;
         bool event;
 
-        void IsSummonedBy(Unit* summoner) override
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             me->GetMotionMaster()->MovePath(9100402, false);  //213505
             timer = 13000;
@@ -366,8 +366,8 @@ public:
                 {
                     if (timer <= diff)
                     {
-                        if (owner)
-                         //   Talk(talk, owner->GetGUID());
+                        //if (owner)
+                        //  Talk(talk, owner->GetGUID());
                         talk++;
                         timer = 16000;
                     }
@@ -437,7 +437,7 @@ public:
 
         void Reset() override {}
 
-        void OnSpellClick(Unit* clicker, bool& result) override
+        void OnSpellClick(Unit* clicker, bool& /*result*/) override
         {
             if (!me->HasAura(SPELL_BEACON_DISABLED))
                 clicker->CastSpell(me, SPELL_CAST_DISABLE_BEACON);
@@ -478,7 +478,7 @@ public:
 
         void JustEngagedWith(Unit* /*unit*/) override {}
 
-        void IsSummonedBy(Unit* summoner) override
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             DoCast(me, SPELL_STREETSWEEPER_VISUAL, true);
             events.RescheduleEvent(1, 500);
@@ -529,7 +529,7 @@ public:
 
         uint8 stack = 0;
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetTarget())
                 return;
@@ -538,23 +538,23 @@ public:
                 //ura->SetStackAmount(aura->GetStackAmount() + 2);
         }
 
-        void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
-        {
-            if (Aura* aura = GetTarget()->GetAura(GetId()))
-            {
+        //void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        //{
+            //if (Aura* aura = GetTarget()->GetAura(GetId()))
+            //{
                 //stack = aura->GetStackAmount();
 
               //  if (stack > 1)
                  //   aura->SetStackAmount(stack - 1);
                // else
                //     aurEff->GetBase()->Remove();
-            }
-        }
+            //}
+        //}
 
         void Register() override
         {
             OnEffectApply += AuraEffectApplyFn(spell_patrol_arcane_lockdown_AuraScript::OnApply, EFFECT_1, SPELL_AURA_MOD_DECREASE_SPEED, AURA_EFFECT_HANDLE_REAL);
-            OnEffectProc += AuraEffectProcFn(spell_patrol_arcane_lockdown_AuraScript::OnProc, EFFECT_1, SPELL_AURA_MOD_DECREASE_SPEED);
+            //OnEffectProc += AuraEffectProcFn(spell_patrol_arcane_lockdown_AuraScript::OnProc, EFFECT_1, SPELL_AURA_MOD_DECREASE_SPEED);
         }
     };
 

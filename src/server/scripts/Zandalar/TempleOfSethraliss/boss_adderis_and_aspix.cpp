@@ -453,7 +453,7 @@ public:
             _DespawnAtEvade(15);
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32& damage) override
         {
             if (me->HasAura(SPELL_LIGHTNING_SHIELD_AURA))
                 damage = 0;

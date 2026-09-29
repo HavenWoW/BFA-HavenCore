@@ -1019,7 +1019,7 @@ class at_soo_lorewalker_cho_intro : public AreaTriggerScript
     public:
         at_soo_lorewalker_cho_intro() : AreaTriggerScript("at_soo_lorewalker_cho_intro") { }
 
-        bool OnTrigger(Player* pPlayer, const AreaTriggerEntry* /*pAt*/, bool p_Enter)
+        bool OnTrigger(Player* pPlayer, const AreaTriggerEntry* /*pAt*/, bool /*p_Enter*/)
         {
             if (InstanceScript* pInstance = pPlayer->GetInstanceScript())
             {

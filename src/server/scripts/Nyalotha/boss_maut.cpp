@@ -259,7 +259,7 @@ private:
 		}
 	}
 
-    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HasAura(OBSIDIAN_SKIN_LOSE_MANA_INSTEAD_OF_HP))
         {
@@ -446,8 +446,8 @@ struct npc_mana_orb : public ScriptedAI
         }
     }
 
-	void IsSummonedBy(Unit* unit) override
-	{        
+	void IsSummonedBy(Unit* /*unit*/) override
+	{
         me->SetReactState(REACT_PASSIVE);
 		if (Creature* maut = me->FindNearestCreature(NPC_MAUT, 500.0f, true))
 		{

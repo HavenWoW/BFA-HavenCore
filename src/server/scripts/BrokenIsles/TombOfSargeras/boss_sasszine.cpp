@@ -600,7 +600,7 @@ struct npc_sasszine_abyss_stalker : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         if (IsHeroic())
             events.RescheduleEvent(1, 10000); //Dark Depths
@@ -657,7 +657,7 @@ struct npc_sasszine_slicing_tornado : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_SLICING_TORNADO_AT_2, true);
         startTimer = 1000;
@@ -696,7 +696,7 @@ struct npc_sasszine_electrifying_jellyfish : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
       //  me->CastSpellDelay(me, SPELL_THUNDERING_SHOCK, false, 100);
     }
@@ -712,7 +712,7 @@ struct npc_sasszine_electrifying_jellyfish : public ScriptedAI
         }
     }
     */
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //115902
@@ -729,7 +729,7 @@ struct npc_sasszine_razorjaw_waverunner : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         checkVehicleTimer = 3000;
     }
@@ -875,7 +875,7 @@ struct npc_sasszine_ossunet : public ScriptedAI
 
     void Reset() override {}
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
         if (spell->Id == SPELL_SUMMON_OSSUNET)
         {
@@ -893,7 +893,7 @@ struct npc_sasszine_ossunet : public ScriptedAI
         }
     }
 
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //116841
@@ -915,7 +915,7 @@ struct npc_sasszine_piranhado : public ScriptedAI
         }
     }
 
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //119791
@@ -928,7 +928,7 @@ struct npc_sasszine_delicious_bufferfish : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_DELICIOUS_BUFFERFISH_AT, true);
     }
@@ -948,7 +948,7 @@ struct npc_sasszine_delicious_bufferfish : public ScriptedAI
         }
     }
     */
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //230143
@@ -1037,7 +1037,7 @@ class spell_sasszine_delicious_bufferfish : public AuraScript
         }
     }*/
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (GetTarget())
         {
@@ -1077,7 +1077,7 @@ class spell_sasszine_befouling_ink : public AuraScript
 {
     PrepareAuraScript(spell_sasszine_befouling_ink);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_EXPIRE)
             return;

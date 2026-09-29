@@ -665,7 +665,7 @@ public:
             _events.ScheduleEvent(EVENT_FEL_FIREBALL, 1000);
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
         {
             /*if (HealthBelowPct(60))
                 _events.ScheduleEvent(EVENT_SUMMON_FEL_FAMILIARS, 500);*/
@@ -783,7 +783,7 @@ public:
             _events.ScheduleEvent(EVENT_FEL_CLEAVE, 500);
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32& damage) override
         {
             if (damage >= me->GetHealth())
                 Talk(3);
@@ -981,7 +981,7 @@ public:
                 instance->SetData(DATA_STAGE_6, DONE);
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage) override
+        void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
         {
             if (HealthBelowPct(25) && !jumpPosition)
             {

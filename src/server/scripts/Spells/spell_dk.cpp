@@ -2332,7 +2332,7 @@ class spell_dk_vampiric_blood : public AuraScript
 {
     PrepareAuraScript(spell_dk_vampiric_blood);
 
-    void CalcAmount(AuraEffect const* aurEff, int32& amount, bool& /*canBeRecalculated*/)
+    void CalcAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
     {
         if (Unit* caster = GetCaster())
         amount = int32((caster->GetMaxHealth()*30.0f) / 100.0f);
@@ -2362,7 +2362,7 @@ public:
             amount = -1;
         }
      
-        void Absorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
+        void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& absorbAmount)
         {
             absorbAmount = 0;
             Unit* target = GetTarget();
@@ -2405,7 +2405,7 @@ public:
             }
         }
 
-        void OnStackChange(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void OnStackChange(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* target = GetTarget();
             if (!target)

@@ -289,7 +289,7 @@ class spell_cannon_barrage_aura : public AuraScript
 {
     PrepareAuraScript(spell_cannon_barrage_aura);
 
-    void OnPeriodic(AuraEffect const* aurEff)
+    void OnPeriodic(AuraEffect const* /*aurEff*/)
     {
         if (Unit* caster = GetCaster())
             if (Unit* target = GetTarget())

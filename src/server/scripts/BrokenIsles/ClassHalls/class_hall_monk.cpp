@@ -514,7 +514,7 @@ struct npc_li_li_stormstout_100475 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
+    void sGossipSelect(Player* player, uint32 menuId, uint32 /*gossipListId*/) override
     {
         if (player->HasQuest(QUEST_THE_LEGEND_OF_THE_SANDS) && menuId == 19128)
             player->KilledMonsterCredit(100475);

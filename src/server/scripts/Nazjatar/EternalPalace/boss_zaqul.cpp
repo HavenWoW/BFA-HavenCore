@@ -262,7 +262,7 @@ public:
                 me->RemoveAura(SPELL_DARK_SHIELD);
         }
 
-        void DamageTaken(Unit* target, uint32& damage) override
+        void DamageTaken(Unit* /*target*/, uint32& /*damage*/) override
         {
             if (me->HealthBelowPct(85) && !phase2)
             {
@@ -652,7 +652,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_delirium_realm_aura_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -662,7 +662,7 @@ public:
                 hysteria->SetStackAmount(hysteria->GetStackAmount() + 1);
         }
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -894,7 +894,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_fear_realm_hysteria_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aureff)
+        void HandlePeriodic(AuraEffect const* /*aureff*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -959,7 +959,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_dread_aura_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -1043,7 +1043,7 @@ public:
             return true;
         }
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -1284,7 +1284,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* target, uint32& damage) override
+        void DamageTaken(Unit* /*target*/, uint32& damage) override
         {
             if (_dead)
                 damage = 0;
@@ -1587,7 +1587,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_manic_dread_aura_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -1627,7 +1627,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_caustic_delirium_aura_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -1679,7 +1679,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_dark_pulse_shield_AuraScript);
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1688,7 +1688,7 @@ public:
             caster->CastSpell(caster, SPELL_DARK_PULSE_CAST_DAMAGE);
         }
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1701,12 +1701,12 @@ public:
             }
         }
 
-        void CalculateAmount(AuraEffect const* auraEffect, int32& amount, bool& /*canBeRecalculated*/)
+        void CalculateAmount(AuraEffect const* /*auraEffect*/, int32& amount, bool& /*canBeRecalculated*/)
         {
             amount += GetCaster()->CountPctFromMaxHealth(5);
         }
 
-        void OnAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
+        void OnAbsorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& absorbAmount)
         {
             if (dmgInfo.GetDamage() >= absorbAmount)
                 this->Remove(AURA_REMOVE_BY_INTERRUPT);
@@ -1787,7 +1787,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_dark_shield_AuraScript);
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1802,7 +1802,7 @@ public:
             caster->CastSpell(caster, SPELL_PSYCHOTIC_SPLIT);
         }
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1851,7 +1851,7 @@ public:
             return me->FindNearestCreature(BOSS_ZAQUL, 20.0f, true);
         }
 
-        void DamageTaken(Unit* target, uint32& damage) override
+        void DamageTaken(Unit* /*target*/, uint32& damage) override
         {
             if (damage >= me->GetHealth() && !_died)
             {
@@ -1924,7 +1924,7 @@ public:
             return me->FindNearestCreature(BOSS_ZAQUL, 20.0f, true);
         }
 
-        void DamageTaken(Unit* target, uint32& damage) override
+        void DamageTaken(Unit* /*target*/, uint32& damage) override
         {
             if (damage >= me->GetHealth() && !_died)
             {
@@ -2012,7 +2012,7 @@ public:
             events.ScheduleEvent(EVENT_FEAR_GATE, TIMER_FEAR_GATE);
         }
 
-        void DamageTaken(Unit* target, uint32& damage) override
+        void DamageTaken(Unit* /*target*/, uint32& damage) override
         {
             if (damage >= me->GetHealth())
                 summons.DespawnAll();
@@ -2096,7 +2096,7 @@ public:
     {
         bfa_npc_fear_gate_AI(Creature* creature) : ScriptedAI(creature) { }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
             std::list<Player*> playerList;
             me->GetPlayerListInGrid(playerList, 5.0f);
@@ -2189,7 +2189,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_mind_tether_damage_share_AuraScript);
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)

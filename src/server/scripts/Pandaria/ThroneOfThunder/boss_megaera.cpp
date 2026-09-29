@@ -928,7 +928,7 @@ public:
             return headEntry;
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             DespawnSummon(NPC_CINDERS);
             DespawnSummon(NPC_TORRENT_OF_ICE);
@@ -1317,7 +1317,7 @@ public:
             }
         }
 
-        void SpellHit(Unit* pCaster, SpellInfo const* pSpell) override
+        void SpellHit(Unit* /*pCaster*/, SpellInfo const* pSpell) override
         {
             if (pSpell->Id == SPELL_SUBMERGE)
             {
@@ -1328,7 +1328,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data) override
+        void SetData(uint32 type, uint32 /*data*/) override
         {
             if (type == 1)
             {
@@ -1474,7 +1474,7 @@ public:
             }
         }
 
-        void SpellHit(Unit* pCaster, SpellInfo const* pSpell) override
+        void SpellHit(Unit* /*pCaster*/, SpellInfo const* pSpell) override
         {
             if (pSpell->Id == SPELL_SUBMERGE)
             {
@@ -1485,7 +1485,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data) override
+        void SetData(uint32 type, uint32 /*data*/) override
         {
             if (type == 1)
             {
@@ -1683,7 +1683,7 @@ public:
             }
         }
 
-        void SpellHit(Unit* pCaster, SpellInfo const* pSpell) override
+        void SpellHit(Unit* /*pCaster*/, SpellInfo const* pSpell) override
         {
             if (pSpell->Id == SPELL_SUBMERGE)
             {
@@ -1694,7 +1694,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data) override
+        void SetData(uint32 type, uint32 /*data*/) override
         {
             if (type == 1)
             {
@@ -1829,7 +1829,7 @@ public:
             }
         }
 
-        void SpellHit(Unit* pCaster, SpellInfo const* pSpell) override
+        void SpellHit(Unit* /*pCaster*/, SpellInfo const* pSpell) override
         {
             if (pSpell->Id == SPELL_SUBMERGE)
             {
@@ -1840,7 +1840,7 @@ public:
             }
         }
 
-        void SetData(uint32 type, uint32 data) override
+        void SetData(uint32 type, uint32 /*data*/) override
         {
             if (type == 1)
             {
@@ -2533,7 +2533,7 @@ public:
     {
         PrepareAuraScript(spell_arctic_freeze_megaera_AuraScript);
 
-            void OnPeriodic(AuraEffect const* aurEff)
+            void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget();

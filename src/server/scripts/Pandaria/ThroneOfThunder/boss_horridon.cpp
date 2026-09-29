@@ -1169,7 +1169,7 @@ public:
             RemovePhase();
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             //if (me->HasUnitState(UNIT_STATE_CANNOT_TURN))
               //  me->SetControlled(false, UNIT_STATE_CANNOT_TURN);
@@ -1304,7 +1304,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* who, uint32& damage) override
+        void DamageTaken(Unit* /*who*/, uint32& /*damage*/) override
         {
             if (me->HealthBelowPct(30) && !bJalakCalled)
             {
@@ -1430,7 +1430,7 @@ public:
             KillTriggersandHelpers();
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId) override
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId) override
         {
             switch (uiMovementId)
             {
@@ -1628,7 +1628,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void KilledUnit(Unit* pKilled) override
+        void KilledUnit(Unit* /*pKilled*/) override
         {
             Talk(TALK_ON_JALAK_KILLED_UNIT);
         }
@@ -1708,7 +1708,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             float x, y, z, o;
 
@@ -1719,7 +1719,7 @@ public:
             ScriptedAI::EnterEvadeMode();
         }
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             DoZoneInCombat(me, 1000.f);
 
@@ -1758,7 +1758,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId) override
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId) override
         {
             if (uiMovementId == MOTION_MAJOR_JUMP)
             {
@@ -1978,7 +1978,7 @@ public:
             return 0;
         }
 
-        void SetData(uint32 uiIndex, uint32 uiValue) override
+        void SetData(uint32 uiIndex, uint32 /*uiValue*/) override
         {
             if (uiIndex == DATA_AMANI_BEAST_SHAMAN_LIGHTNING_COUNT)
             {
@@ -2017,7 +2017,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* pSummoner)
+        void IsSummonedBy(Unit* /*pSummoner*/)
         {
             me->SetInCombatWithZone();
             switch (me->GetEntry())
@@ -2117,7 +2117,7 @@ public:
             return me->FindNearestCreature(BOSS_HORRIDON, 500.0f, true);
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId)
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId)
         {
             if (uiMovementId == MOTION_DINOMANCER_JUMP)
             {
@@ -2224,7 +2224,7 @@ public:
 
         EventMap events;
         // REWORK
-        void IsSummonedBy(Unit* pSummoner)
+        void IsSummonedBy(Unit* /*pSummoner*/)
         {
             events.ScheduleEvent(EVENT_TARGET_A_RANDOM_PLAYER, 500, 0, 0);
             me->SetInCombatWithZone();
@@ -2240,7 +2240,7 @@ public:
         }
 
         //failsale?
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& /*damage*/)
         {
             me->CastSpell(me, 140949, true); //knockback spell
         }
@@ -2340,7 +2340,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             me->SetSpeed(MOVE_RUN, 2.0f);
             me->SetSpeed(MOVE_WALK, 2.0f);
@@ -2447,7 +2447,7 @@ public:
             return me->FindNearestCreature(BOSS_HORRIDON, 500.0f, true);
         }
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             events.ScheduleEvent(EVENT_VOLLEY, 3000 + rand() % 2000);
 
@@ -2511,7 +2511,7 @@ public:
             return me->FindNearestCreature(MOB_AMANI_SHI_BEAST_SHAMAN, 500.0f, true);
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             float x, y, z, o;
 
@@ -2544,7 +2544,7 @@ public:
             me->SummonCreature(MOB_AMANI_SHI_BEAST_SHAMAN, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId) override
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId) override
         {
             if (uiMovementId == MOTION_MAJOR_JUMP)
             {
@@ -2709,7 +2709,7 @@ public:
     {
         PrepareSpellScript(spell_horridon_chain_lightning_SpellScript)
 
-            void HandleEffectHitTarget(SpellEffIndex effectIndex)
+            void HandleEffectHitTarget(SpellEffIndex /*effectIndex*/)
         {
             if (Unit* pHitUnit = GetHitUnit())
             {
@@ -2813,7 +2813,7 @@ public:
     {
         PrepareAuraScript(aura_impl);
 
-        void HandleAuraRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleAuraRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Creature* Horridon = GetOwner()->ToCreature())
             {
@@ -2843,7 +2843,7 @@ public:
     {
         PrepareAuraScript(aura_impl);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Creature* owner = GetOwner()->ToCreature())
             {
@@ -2865,7 +2865,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* owner = GetOwner()->ToUnit())
                 owner->SetControlled(false, UNIT_STATE_CANNOT_TURN);
@@ -2914,7 +2914,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_horridon_charge_AuraScript);
 
-        void HandleRemove(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleRemove(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Unit* caster = GetCaster();
 

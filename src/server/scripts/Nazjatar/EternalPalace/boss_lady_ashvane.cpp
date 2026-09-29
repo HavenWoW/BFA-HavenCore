@@ -233,7 +233,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             _DespawnAtEvade(15);
         }
@@ -631,7 +631,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 /*diff*/) override
         {
         }
     };
@@ -709,7 +709,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_hardened_carapace_aura_AuraScript);
 
-        void CalculateAmount(AuraEffect const* auraEffect, int32& amount, bool& /*canBeRecalculated*/)
+        void CalculateAmount(AuraEffect const* /*auraEffect*/, int32& amount, bool& /*canBeRecalculated*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -734,7 +734,7 @@ public:
             amount += GetCaster()->CountPctFromMaxHealth(40) * totalAmount;
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -797,7 +797,7 @@ public:
             at->InitSplines(points, 10000);
         }
 
-        void OnUnitEnter(Unit* unit) override
+        void OnUnitEnter(Unit* /*unit*/) override
         {
             if (Creature* lady = GetLady())
             {
@@ -922,7 +922,7 @@ public:
             at->InitSplines(points, 10000);
         }
 
-        void OnUnitEnter(Unit* unit) override
+        void OnUnitEnter(Unit* /*unit*/) override
         {
             if (Creature* lady = GetLady())
             {
@@ -937,7 +937,7 @@ public:
             }
         }
 
-        void OnUnitExit(Unit* unit) override
+        void OnUnitExit(Unit* /*unit*/) override
         {
             currentTarget = ObjectGuid::Empty; //clears when players exists
         }
@@ -1037,7 +1037,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_briny_bubble_aura_AuraScript);
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -1069,7 +1069,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_briny_bubble_aura_mythic_AuraScript);
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -1156,7 +1156,7 @@ public:
             return fabs(sin(angle)) * source.GetExactDist2d(obj->GetPositionX(), obj->GetPositionY()) < beamWidth;
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();

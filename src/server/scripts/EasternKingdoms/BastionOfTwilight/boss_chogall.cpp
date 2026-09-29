@@ -1020,18 +1020,6 @@ public:
         {
             DoCast(me, SPELL_CORRUPTION_OF_THE_OLD_GOD_VISUAL);
         }
-
-        void Reset()
-        {
-        }
-
-        void JustDied(Unit* /*killer*/)
-        {
-        }
-
-        void UpdateAI(uint32 diff)
-        {
-        }
     };
 };
 
@@ -1056,13 +1044,9 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* owner)
+        void IsSummonedBy(Unit* /*owner*/)
         {
             events.RescheduleEvent(EVENT_ORDER_SUM, 3000);
-        }
-
-        void Reset()
-        {
         }
 
         void UpdateAI(uint32 diff)
@@ -1107,16 +1091,7 @@ public:
 
         InstanceScript* instance;
 
-        void IsSummonedBy(Unit* owner)
-        {
-        }
-
-        void Reset()
-        {
-        }
-
-
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
             if (instance && instance->GetBossState(DATA_CHOGALL) != IN_PROGRESS)
                 me->DespawnOrUnsummon();
@@ -1151,14 +1126,10 @@ public:
         InstanceScript* instance;
         EventMap events;
 
-        void IsSummonedBy(Unit* owner)
+        void IsSummonedBy(Unit* /*owner*/)
         {
             DoZoneInCombat(me);
             events.RescheduleEvent(EVENT_SHADOW_BOLT, 2000);
-        }
-
-        void Reset()
-        {
         }
 
         void JustDied(Unit* /*killer*/)
@@ -1225,17 +1196,9 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* owner)
+        void IsSummonedBy(Unit* /*owner*/)
         {
             events.RescheduleEvent(EVENT_ORDER_SUM, 3000);
-        }
-
-        void Reset()
-        {
-        }
-
-        void JustDied(Unit* /*killer*/)
-        {
         }
 
         void UpdateAI(uint32 diff)

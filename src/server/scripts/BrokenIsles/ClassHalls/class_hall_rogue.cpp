@@ -334,9 +334,9 @@ struct npc_valeera_sanguinar_98102 : public ScriptedAI
         }
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override { }
+    void sQuestAccept(Player* /*player*/, Quest const* /*quest*/) override { }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/) override { }
+    void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/) override { }
 
 private:
 
@@ -374,7 +374,7 @@ struct npc_fleet_admiral_tethys_94159 : public ScriptedAI
 {
     npc_fleet_admiral_tethys_94159(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param) override
+    void DoAction(int32 /*param*/) override
     {
         /*switch (param)
         {
@@ -400,9 +400,9 @@ struct npc_fleet_admiral_tethys_94159 : public ScriptedAI
         }
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override { }
+    void sQuestAccept(Player* /*player*/, Quest const* /*quest*/) override { }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/) override { }
+    void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/) override { }
 
 private:
 
@@ -413,7 +413,7 @@ struct npc_princess_tess_greymane_94138 : public ScriptedAI
 {
     npc_princess_tess_greymane_94138(Creature* creature) : ScriptedAI(creature) {  }
 
-    void DoAction(int32 param) override
+    void DoAction(int32 /*param*/) override
     {
         /*switch (param)
         {
@@ -427,9 +427,9 @@ struct npc_princess_tess_greymane_94138 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override { }
+    void sQuestAccept(Player* /*player*/, Quest const* /*quest*/) override { }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/) override { }
+    void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/) override { }
 
     void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
     {

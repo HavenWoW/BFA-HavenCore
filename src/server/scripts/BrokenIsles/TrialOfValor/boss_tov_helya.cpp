@@ -647,7 +647,7 @@ public:
     {
         PrepareSpellScript(spell_helya_bilewater_breath_SpellScript);
 
-        void HandleHitTarget(SpellEffIndex effIndex)
+        void HandleHitTarget(SpellEffIndex /*effIndex*/)
         {
             if (Unit* caster = GetCaster())
             {

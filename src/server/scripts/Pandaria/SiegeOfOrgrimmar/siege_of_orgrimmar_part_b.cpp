@@ -484,7 +484,7 @@ class npc_siege_of_orgrimmar_lorthemar_theron_2 : public CreatureScript
                 }
             }
 
-            void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
+            void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
             {
                 player->PlayerTalkClass->SendCloseGossip();
 
@@ -877,7 +877,7 @@ class npc_siege_of_orgrimmar_healing_tide_totem : public CreatureScript
                 me->AddAura(SPELL_HEALING_TIDE_AURA, me);
             }
 
-            void UpdateAI(const uint32 diff) override
+            void UpdateAI(const uint32 /*diff*/) override
             {
 
             }
@@ -992,7 +992,7 @@ class npc_siege_of_orgrimmar_korkron_cannon : public CreatureScript
         }
 
         // prevent menu
-        bool OnGossipHello(Player* player, Creature* creature) override
+        bool OnGossipHello(Player* /*player*/, Creature* /*creature*/) override
         {
             return true;
         }
@@ -2516,7 +2516,7 @@ class spell_siege_of_orgrimmar_fracture_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -2552,7 +2552,7 @@ class spell_siege_of_orgrimmar_tidal_wave_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;

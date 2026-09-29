@@ -222,7 +222,7 @@ struct boss_dread_captain_lockwood : public BossAI
 		}
 	}
 
-	void SummonedCreatureDies(Creature* summon, Unit* killer) override
+	void SummonedCreatureDies(Creature* summon, Unit* /*killer*/) override
 	{
 		switch (summon->GetEntry())
 		{
@@ -322,7 +322,7 @@ struct npc_dread_cannon_bunny : public ScriptedAI
 		me->SetDisplayId(16925, 1.0f);
 	}
 
-	void DamageTaken(Unit* done_by, uint32& damage) override
+	void DamageTaken(Unit* /*done_by*/, uint32& damage) override
 	{
 		damage = 0;
 		if (me->HealthBelowPct(99))

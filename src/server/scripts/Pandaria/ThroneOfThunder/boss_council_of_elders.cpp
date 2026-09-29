@@ -447,7 +447,7 @@ public:
         InitStandartEvents();
     }
 
-    void EnterEvadeMode(EvadeReason w)
+    void EnterEvadeMode(EvadeReason /*w*/)
     {
         me->SetFullHealth();
     }
@@ -486,7 +486,7 @@ public:
         }
     }
 
-    void DamageTaken(Unit* pAttacker, uint32& ruiAmount)
+    void DamageTaken(Unit* /*pAttacker*/, uint32& ruiAmount)
     {
         // Heroic only shit..
         // if (Aura* pAura = me->GetAura(SPELL_DISCHARGE))
@@ -552,7 +552,7 @@ public:
         }
     }
 
-    void KilledUnit(Unit* pKilled)
+    void KilledUnit(Unit* /*pKilled*/)
     {
         switch (me->GetEntry())
         {
@@ -828,7 +828,7 @@ public:
             events.ScheduleEvent(EVENT_RECKLESS_CAHRGE_INITIALIZE, 10 * IN_MILLISECONDS);
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/)
         {
             me->GetMotionMaster()->Clear();
             me->GetMotionMaster()->MoveTargetedHome();
@@ -936,7 +936,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMotionPointId)
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMotionPointId)
         {
             if (uiMotionPointId == POINT_RECKLESS_CHARGE_LAND)
             {
@@ -1442,12 +1442,12 @@ public:
         {
         }
 
-        void SetData(uint32 uiType, uint32 uiData) override
+        void SetData(uint32 /*uiType*/, uint32 uiData) override
         {
             m_uiDeadCouncillors += uiData;
         }
 
-        uint32 GetData(uint32 uiType) const override
+        uint32 GetData(uint32 /*uiType*/) const override
         {
             return m_uiDeadCouncillors;
         }
@@ -1741,7 +1741,7 @@ public:
             me->SetWalk(false);
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             uiCouncillorEntry = 0; // Reset councillor entry to prevent bug
             me->GetMotionMaster()->MovementExpired(); // Reset movement so we will not continue to follow a councillor
@@ -1935,7 +1935,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             me->AddAura(SPELL_QUICKSAND_AT_VISUAL_INIT, me);
             Initialize();
@@ -2041,7 +2041,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void DamageTaken(Unit* pDealer, uint32& uiDamage) override
+        void DamageTaken(Unit* /*pDealer*/, uint32& uiDamage) override
         {
             if (me->HasUnitState(UNIT_STATE_ROOT))
             {
@@ -2101,9 +2101,9 @@ public:
         }
 
         // Override function to be sure there won't be any call to MoveChase (at least in AttackStart)
-        void AttackStart(Unit* pTarget) override { }
+        void AttackStart(Unit* /*pTarget*/) override { }
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             HandleTargetSelection();
         }
@@ -2241,9 +2241,9 @@ public:
         }
 
         // Override function to be sure there won't be any call to MoveChase (at least in AttackStart)
-        void AttackStart(Unit* pTarget) override { }
+        void AttackStart(Unit* /*pTarget*/) override { }
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             me->ApplySpellImmune(0, IMMUNITY_ID, 108199, true); // Gorefiend's Grasp
             events.ScheduleEvent(EVENT_TARGET_A_RANDOM_PLAYER, 1500, 0, 0);
@@ -2302,7 +2302,7 @@ public:
             uiTargetGuid = guid;
         }*/
 
-        void SetGUID(ObjectGuid guid, int32 id = 0) override
+        void SetGUID(ObjectGuid guid, int32 /*id*/ = 0) override
         {
             playerGuid = guid;
         }
@@ -2376,7 +2376,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMotionPointId) override
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMotionPointId) override
         {
             // no longer used POINT_BLOSSED_LOA_SPIRIT_CONCILOR for this AI, handled in updateAI via event
             if (uiMotionPointId == POINT_BLESSED_LOA_SPIRIT_COUNCILLOR)
@@ -2577,7 +2577,7 @@ public:
         }
 
         // Add a new TwistedFate_t to the helper
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             Creature* pHelper = ObjectAccessor::GetCreature(*me, pInstance->GetObjectGuid(NPC_TWISTED_FATE_HELPER));
             if (!pHelper)
@@ -2690,7 +2690,7 @@ public:
     {
         PrepareAuraScript(spell_garajal_possessed_AuraScript);
 
-            void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+            void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (GetOwner() && GetOwner()->ToCreature())
             {
@@ -2699,7 +2699,7 @@ public:
             }
         }
 
-        void HandleRemove(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleRemove(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (GetOwner())
             {
@@ -2748,7 +2748,7 @@ public:
     {
         PrepareAuraScript(spell_malakk_frigid_assault_AuraScript);
 
-            void HandleEffectApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+            void HandleEffectApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Player* pOwner;
             if (GetOwner() && GetOwner()->ToPlayer())
@@ -2788,7 +2788,7 @@ public:
     {
         PrepareSpellScript(spell_malakk_biting_cold_SpellScript)
 
-            void HandleEffectHitTarget(SpellEffIndex effIndex)
+            void HandleEffectHitTarget(SpellEffIndex /*effIndex*/)
         {
             // Since spell selects one random target, there is no way we can handle this another way
             if (Unit* pHit = GetHitUnit())
@@ -2862,7 +2862,7 @@ public:
     {
         PrepareAuraScript(spell_malakk_frostbite_periodic_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* pAuraEffect)
+            void HandlePeriodic(AuraEffect const* /*pAuraEffect*/)
         {
             if (!GetOwner())
                 return;
@@ -2989,7 +2989,7 @@ public:
         }
 
         // Handler to apply the visual
-        void HandleOnHit(SpellEffIndex eEffIndex)
+        void HandleOnHit(SpellEffIndex /*eEffIndex*/)
         {
             if (Unit* pHit = GetHitUnit())
             {
@@ -3045,7 +3045,7 @@ public:
             return false;
         }
 
-        void HandleEffectHitTarget(SpellEffIndex eff_idx)
+        void HandleEffectHitTarget(SpellEffIndex /*eff_idx*/)
         {
             Unit* pTarget = GetHitUnit();
             Unit* pCaster = GetCaster();
@@ -3127,7 +3127,7 @@ public:
     {
         PrepareAuraScript(spell_malakk_body_heat_AuraScript);
 
-        void HandleEffectRemove(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleEffectRemove(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (!GetOwner())
                 return;
@@ -3159,7 +3159,7 @@ public:
     {
         PrepareSpellScript(spell_kazrajin_reckless_charge_SpellScript)
 
-            void HandleCast(SpellEffIndex eff_idx)
+            void HandleCast(SpellEffIndex /*eff_idx*/)
         {
             if (Unit* pCaster = GetCaster())
             {
@@ -3259,12 +3259,12 @@ public:
     {
         PrepareAuraScript(spell_kazrajin_reckless_charge_AuraScript);
 
-            void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+            void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             GetCaster()->AddAura(137121, GetCaster());
         }
 
-        void HandleRemove(AuraEffect const* AuraEffct, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*AuraEffct*/, AuraEffectHandleModes /*mode*/)
         {
             GetCaster()->RemoveAura(137121);
             GetCaster()->RemoveAurasDueToSpell(137117);
@@ -3332,7 +3332,7 @@ public:
                 std::copy(std::begin(tempTargets), std::end(tempTargets), std::inserter(targets, targets.begin()));
         }
 
-        void HandleEffectHitTarget(SpellEffIndex eff_idx)
+        void HandleEffectHitTarget(SpellEffIndex /*eff_idx*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetHitUnit();
@@ -3366,7 +3366,7 @@ public:
     {
         PrepareAuraScript(spell_kazrajin_overload_AuraScript);
 
-            void HandleEffectApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+            void HandleEffectApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (!GetOwner())
                 return;
@@ -3379,7 +3379,7 @@ public:
             }
         }
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             if (Unit* pCaster = eventInfo.GetActor())
             {
@@ -3396,7 +3396,7 @@ public:
             }
         }
 
-        void HandleEffectRemove(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleEffectRemove(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (!GetOwner())
                 return;
@@ -3436,7 +3436,7 @@ public:
     {
         PrepareAuraScript(spell_kazrajin_discharge_AuraScript);
 
-            void HandleEffectApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+            void HandleEffectApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (!GetOwner())
                 return;
@@ -3447,7 +3447,7 @@ public:
         }
 
         // omg this shit isn't working, made a new (WORKING) one below
-        void HandlePeriodic(AuraEffect const* pAuraEffect)
+        void HandlePeriodic(AuraEffect const* /*pAuraEffect*/)
         {
             if (!GetOwner())
                 return;
@@ -3465,7 +3465,7 @@ public:
             }
         }
 
-        void OnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void OnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             Unit* caster = eventInfo.GetActor();
             Unit* target = eventInfo.GetActionTarget();
@@ -3484,7 +3484,7 @@ public:
             //target->CastSpell(caster, SPELL_DISCHARGE_VISUAL, true); //visual target to caster because caster has no target when is stunned
         }
 
-        void HandleEffectRemove(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleEffectRemove(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (!GetOwner())
                 return;
@@ -3520,7 +3520,7 @@ public:
     {
         PrepareAuraScript(spell_quicksand_periodic_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* pAuraEffect)
+            void HandlePeriodic(AuraEffect const* /*pAuraEffect*/)
         {
             Unit* caster = GetCaster();
             Unit* pTarget = GetOwner()->ToUnit();
@@ -3544,7 +3544,7 @@ public:
                 caster->AddAura(SPELL_ENSNARED, pTarget);
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* pTarget = GetOwner()->ToUnit();
@@ -3656,7 +3656,7 @@ public:
     {
         PrepareSpellScript(spell_marli_summon_blessed_loa_spirit_SpellScript)
 
-            void HandleDummy(SpellEffIndex eEffIndex)
+            void HandleDummy(SpellEffIndex /*eEffIndex*/)
         {
             if (Unit* pCaster = GetCaster())
             {
@@ -3690,7 +3690,7 @@ public:
     {
         PrepareSpellScript(spell_marli_summon_shadowed_loa_spirit_SpellScript)
 
-            void HandleDummy(SpellEffIndex eEffIndex)
+            void HandleDummy(SpellEffIndex /*eEffIndex*/)
         {
             if (Unit* pCaster = GetCaster())
             {
@@ -3892,7 +3892,7 @@ public:
     {
         PrepareSpellScript(spell_dark_power_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex eEffectIndex)
+            void HandleHitTarget(SpellEffIndex /*eEffectIndex*/)
         {
             if (Unit* pUnit = GetCaster())
             {
@@ -4076,7 +4076,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_reckless_charge_initialize_AuraScript);
 
-            void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+            void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             if (!GetCaster())
                 return;
@@ -4084,7 +4084,7 @@ public:
             GetCaster()->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_ATTACK_ME, true);
         }
 
-        void HandleRemove(AuraEffect const* AuraEffct, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*AuraEffct*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster())
                 return;
@@ -4103,7 +4103,7 @@ public:
             }
         }
 
-        void HandlePeriodic(AuraEffect const* aurEff)
+        void HandlePeriodic(AuraEffect const* /*aurEff*/)
         {
             if (!GetCaster())
                 return;
@@ -4136,7 +4136,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_biting_cold_immunities_AuraScript);
 
-        void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -4146,7 +4146,7 @@ public:
             target->ApplySpellImmune(0, IMMUNITY_ID, 136991, true);
         }
 
-        void HandleRemove(AuraEffect const* AuraEffct, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*AuraEffct*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -4209,7 +4209,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             events.ScheduleEvent(EVENT_LINK_FATES, 1000, 0, 0);
         }
@@ -4306,7 +4306,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             events.ScheduleEvent(EVENT_LINK_FATES, 1000, 0, 0);
         }
@@ -4387,7 +4387,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_treacherous_ground_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
 
@@ -4434,7 +4434,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_chilled_to_the_bone_AuraScript);
 
-        void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -4442,7 +4442,7 @@ public:
             caster->ApplySpellImmune(0, IMMUNITY_ID, 137084, true); // Body Heat
         }
 
-        void HandleRemove(AuraEffect const* AuraEffct, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*AuraEffct*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -4473,13 +4473,13 @@ public:
     {
         PrepareAuraScript(bfa_spell_soul_fragment_shadowed_soul_AuraScript);
 
-        void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Unit* caster = GetCaster();
             caster->AddAura(SPELL_SHADOWED_SOUL, caster);
         }
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
 
@@ -4509,7 +4509,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_reckless_charge_failsafe_AuraScript);
 
-        void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -4518,7 +4518,7 @@ public:
             caster->ApplySpellImmune(0, IMMUNITY_ID, 137133, true);
         }
 
-        void HandleRemove(AuraEffect const* AuraEffct, AuraEffectHandleModes mode)
+        void HandleRemove(AuraEffect const* /*AuraEffct*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -4583,7 +4583,7 @@ public:
     {
         PrepareAuraScript(spell_malakk_frostbite_visual_AuraScript);
 
-            void VisualPeriodic(AuraEffect const* pAuraEffect)
+            void VisualPeriodic(AuraEffect const* /*pAuraEffect*/)
         {
             Unit* target = GetTarget()->ToPlayer();
 

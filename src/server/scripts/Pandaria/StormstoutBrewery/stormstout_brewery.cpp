@@ -262,7 +262,7 @@ public:
             me->AddAura(SPELL_GUSHING_BREW_A, me);
         }
 
-        void UpdateAI(const uint32 diff) { }
+        void UpdateAI(const uint32 /*diff*/) { }
     };
 
     CreatureAI* GetAI(Creature* creature) const

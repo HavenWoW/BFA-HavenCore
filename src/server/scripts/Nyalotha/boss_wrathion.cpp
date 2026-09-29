@@ -584,7 +584,7 @@ class spell_wrathion_searing_breath_targets : public SpellScript
 {
     PrepareSpellScript(spell_wrathion_searing_breath_targets);
 
-    void HandleHitTarget(SpellEffIndex effIndex)
+    void HandleHitTarget(SpellEffIndex /*effIndex*/)
     {
         if (Unit* target = GetHitUnit())
         {
@@ -617,7 +617,7 @@ class spell_wrathion_incineration_targets : public SpellScript
         targetsList = tempTargets;
     }
 
-    void HandleHitTarget(SpellEffIndex effIndex)
+    void HandleHitTarget(SpellEffIndex /*effIndex*/)
     {
         if (Unit* target = GetHitUnit())
             GetCaster()->CastSpell(target, SPELL_INCINERATION, true);
@@ -670,7 +670,7 @@ class spell_wrathion_burning_cataclysm_teleport : public SpellScript
 {
     PrepareSpellScript(spell_wrathion_burning_cataclysm_teleport);
 
-    void HandleHitTarget(SpellEffIndex effIndex)
+    void HandleHitTarget(SpellEffIndex /*effIndex*/)
     {
         Unit* caster = GetCaster();
 
@@ -732,7 +732,7 @@ class spell_wrathion_creeping_madness_targets : public SpellScript
         targetsList = tempTargets;
     }
 
-    void HandleHitTarget(SpellEffIndex effIndex)
+    void HandleHitTarget(SpellEffIndex /*effIndex*/)
     {
         if (Unit* target = GetHitUnit())
             GetCaster()->CastSpell(target, SPELL_CREEPING_MADNESS, true);
@@ -869,7 +869,7 @@ struct at_wrathion_smoke_and_mirrors : public AreaTriggerAI
         if (unit->GetEntry() != NPC_WRATHION)
             return;
 
-        unit->GetScheduler().Schedule(1s, [this, unit](TaskContext context)
+        unit->GetScheduler().Schedule(1s, [this, unit](TaskContext /*context*/)
         {
             if (!unit->HasUnitFlag(UNIT_FLAG_NOT_SELECTABLE) || !unit->HasUnitFlag2(UNIT_FLAG2_SELECTION_DISABLED))
             {

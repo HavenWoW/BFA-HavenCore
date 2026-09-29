@@ -301,7 +301,7 @@ public:
             SelectSoundAndText(me, 3);
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/)
         {
             _DespawnAtEvade(15);
         }
@@ -682,7 +682,7 @@ public:
             }
         }
 
-        void HandleAfterCast(SpellEffIndex index)
+        void HandleAfterCast(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -727,7 +727,7 @@ public:
             targetList = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex index)
+        void RecalculateDamage(SpellEffIndex /*index*/)
         {
             SetHitDamage(GetHitDamage() / targetList);
         }
@@ -757,7 +757,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_overflowing_chill_venom_aura_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -862,7 +862,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_septic_ground_aura_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!GetCaster() || !target)
@@ -893,7 +893,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_frozen_ground_aura_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!GetCaster() || !target)
@@ -924,7 +924,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_frostvenom_tipped_AuraScript);
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             Unit* caster = eventInfo.GetActor();
             Unit* target = eventInfo.GetActionTarget();
@@ -959,7 +959,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_rimefrost_aura_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -990,7 +990,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_septic_taint_aura_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1037,7 +1037,7 @@ public:
             return fabs(sin(angle)) * source.GetExactDist2d(obj->GetPositionX(), obj->GetPositionY()) < beamWidth;
         }
 
-        void AfterCast(SpellEffIndex index)
+        void AfterCast(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
             Unit* target = caster->GetVictim();
@@ -1102,7 +1102,7 @@ public:
             return fabs(sin(angle)) * source.GetExactDist2d(obj->GetPositionX(), obj->GetPositionY()) < beamWidth;
         }
 
-        void AfterCast(SpellEffIndex index)
+        void AfterCast(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
             Unit* target = caster->GetVictim();
@@ -1151,7 +1151,7 @@ public:
     {
         PrepareSpellScript(bfa_spell_inversion_SpellScript);
 
-        void HandleInversion(SpellEffIndex index)
+        void HandleInversion(SpellEffIndex /*index*/)
         {
             std::list<Player*> frostList;
             std::list<Player*> toxicList;
@@ -1241,7 +1241,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_inversion_sickness_venom_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1282,7 +1282,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_inversion_sickness_frost_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1323,7 +1323,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_frost_mark_AuraScript);
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget();
@@ -1336,7 +1336,7 @@ public:
             }
         }
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget();
@@ -1347,7 +1347,7 @@ public:
                 target->RemoveAura(SPELL_FROZEN_BLOOD_BAR);
         }
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* newTarget = NULL;
             Player* caster = GetCaster()->ToPlayer();
@@ -1415,7 +1415,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_toxic_brand_AuraScript);
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget();
@@ -1428,7 +1428,7 @@ public:
             }
         }
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget();
@@ -1439,7 +1439,7 @@ public:
                 target->RemoveAura(SPELL_VENOMOUS_BLOOD_BAR);
         }
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* newTarget = NULL;
             Player* caster = GetCaster()->ToPlayer();
@@ -1527,7 +1527,7 @@ public:
             targetList = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex index)
+        void RecalculateDamage(SpellEffIndex /*index*/)
         {
             SetHitDamage(GetHitDamage() / targetList);
         }
@@ -1565,7 +1565,7 @@ public:
             return true;
 
         }
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget();
@@ -1652,7 +1652,7 @@ public:
             SetupSpline();
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             Map::PlayerList const& playerList = at->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)

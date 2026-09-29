@@ -1556,11 +1556,11 @@ class areatrigger_foundry_explosive_shard : public AreaTriggerEntityScript
             ExplosiveShardAoE = 156374
         };
 
-        void OnRemove(AreaTrigger* /*p_AreaTrigger*/, uint32 /*p_Time*/)
-        {
+        //void OnRemove(AreaTrigger* /*p_AreaTrigger*/, uint32 /*p_Time*/)
+        //{
            // if (Unit* l_Caster = p_AreaTrigger->GetCaster())
                // l_Caster->CastSpell(*p_AreaTrigger, eSpell::ExplosiveShardAoE, true);
-        }
+        //}
         /*
         AreaTriggerEntityScript* GetAI() 
         {
@@ -1607,10 +1607,10 @@ class go_foundry_volatile_blackrock_ore : public GameObjectScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
-            {
+            //void UpdateAI(uint32 /*p_Diff*/) override
+            //{
               //  UpdateOperations(p_Diff);
-            }
+            //}
         };
 
         GameObjectAI* GetAI(GameObject* p_GameObject) const override

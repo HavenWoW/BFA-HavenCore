@@ -319,7 +319,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason why) override
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             ClearCombatfromPlayers();
             MakeStatuesPassive();
@@ -417,7 +417,7 @@ public:
           
         }
 
-        void KilledUnit(Unit* pVictim) override
+        void KilledUnit(Unit* /*pVictim*/) override
         {
             Talk(TALK_SLAY);
         }
@@ -471,7 +471,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 uiType, uint32 uiPointId) override
+        void MovementInform(uint32 /*uiType*/, uint32 uiPointId) override
         {
             if (uiPointId == 1948)
             {
@@ -638,7 +638,7 @@ public:
             playerGuid = 0;
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_INIT_FOCUED_SCRIPT, 2500, 0, 0);
@@ -1000,7 +1000,7 @@ public:
             targets.remove_if(focusedLightningPredicate());
         }
 
-        void HandleEffectHitTarget(SpellEffIndex eff_idx)
+        void HandleEffectHitTarget(SpellEffIndex /*eff_idx*/)
         {
             if (Unit* pCaster = GetCaster())
             {
@@ -1072,7 +1072,7 @@ public:
     {
         PrepareAuraScript(spell_focused_lightning_speed_AuraScript);
 
-        void HandleOnPeriodic(AuraEffect const* aurEff)
+        void HandleOnPeriodic(AuraEffect const* /*aurEff*/)
         {
             if (WorldObject* pOwner = GetOwner())
             {
@@ -1174,24 +1174,24 @@ public:
 
         uint32 m_timer;
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Aura* pAura = GetAura())
                 pAura->SetStackAmount(10);
         }
 
-        void HandleOnReApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnReApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Aura* pAura = GetAura())
                 pAura->SetStackAmount(pAura->GetStackAmount() + 10 > 30 ? 30 : pAura->GetStackAmount() + 10);
         }
 
-        void HandleOnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
         {
             uint32 m_stacks = GetAura()->GetStackAmount();
         }
 
-        void HandleOnUpdate(AuraEffect const* aurEff)
+        void HandleOnUpdate(AuraEffect const* /*aurEff*/)
         {
             // Static Wound already has 0 to 3 seconds periodic dummy script so we just remove the old script and leave -1 stacks every 3s
             ModStackAmount(-1);
@@ -1222,7 +1222,7 @@ public:
     {
         PrepareSpellScript(spell_static_wound_damage_SpellScript);
 
-        void HandleEffectHitTarget(SpellEffIndex eff_idx)
+        void HandleEffectHitTarget(SpellEffIndex /*eff_idx*/)
         {
             Unit* target = GetHitUnit();
             Unit* caster = GetCaster();
@@ -1260,7 +1260,7 @@ public:
     {
         PrepareAuraScript(spell_static_burst_AuraScript);
 
-        void HandleOnPeriodic(AuraEffect const* aurEff)
+        void HandleOnPeriodic(AuraEffect const* /*aurEff*/)
         {
             if (Unit* pUnit = GetOwner()->ToUnit())
             {
@@ -1295,7 +1295,7 @@ public:
     {
         PrepareAuraScript(spell_lightning_storm_visual_AuraScript);
 
-        void OnAuraEffectApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnAuraEffectApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (GetCaster())
             {
@@ -1342,7 +1342,7 @@ public:
             }
         }
 
-        void HandleOnEffectHit(SpellEffIndex effIdx)
+        void HandleOnEffectHit(SpellEffIndex /*effIdx*/)
         {
             Unit* caster = GetCaster();
             Creature* target = GetHitCreature();
@@ -1381,7 +1381,7 @@ public:
     {
         PrepareSpellScript(spell_impl);
 
-        void HandleOnEffectHit(SpellEffIndex effIdx)
+        void HandleOnEffectHit(SpellEffIndex /*effIdx*/)
         {
             if (Unit* pUnit = GetHitUnit())
                 pUnit->CastSpell(pUnit, SPELL_THUNDERING_THROW_STUN, true);
@@ -1655,7 +1655,7 @@ public:
             return 0;
         }
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* owner = GetTarget();
             Unit* caster = GetCaster();
@@ -1674,7 +1674,7 @@ public:
                 caster->AddAura(spellId(), owner);
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* owner = GetTarget();
             Unit* caster = GetCaster();
@@ -1723,7 +1723,7 @@ public:
     {
         PrepareAuraScript(aura_impl);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* owner = GetOwner()->ToUnit())
             {
@@ -1739,7 +1739,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* owner = GetOwner()->ToUnit())
                 owner->RemoveAurasDueToSpell(SPELL_CONDUCTIVE_WATERS);
@@ -1917,7 +1917,7 @@ public:
             }
         }
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -2005,7 +2005,7 @@ public:
     {
         PrepareSpellScript(bfa_spell_jinrokh_ionization_damage_SpellScript);
 
-        void OnHit(SpellEffIndex index)
+        void OnHit(SpellEffIndex /*index*/)
         {
             if (Unit* target = GetHitUnit())
             {
@@ -2062,7 +2062,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* caster)
+        void IsSummonedBy(Unit* /*caster*/)
         {
             me->CastSpell(me, SPELL_LIGHTNING_STRIKE_VISUAL, true);
             events.ScheduleEvent(EVENT_HANDLE_SUMMON_AND_DAMAGE, 5000, 0, 0);
@@ -2115,7 +2115,7 @@ public:
         float west = 1.561388f;
         float east = 4.778380f;
 
-        void IsSummonedBy(Unit* caster)
+        void IsSummonedBy(Unit* /*caster*/)
         {
             events.ScheduleEvent(EVENT_LIGHTNING_STRIKE_DAMAGE_PATH, 500);
 
@@ -2217,7 +2217,7 @@ public:
         }
 
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster())
                 return;
@@ -2225,7 +2225,7 @@ public:
             GetCaster()->AddAura(42716, GetCaster());
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster())
                 return;

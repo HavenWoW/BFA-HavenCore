@@ -1016,7 +1016,7 @@ class npc_siege_of_orgrimmar_manifestation : public CreatureScript
                 }
             }
 
-            void DamageTaken(Unit* who, uint32& damage) override
+            void DamageTaken(Unit* /*who*/, uint32& damage) override
             {
                 if (m_IsUnkillable && me->GetHealth() <= damage)
                 {
@@ -1040,7 +1040,7 @@ class spell_siege_of_orgrimmar_frenzied_assault_aoe : public SpellScriptLoader
         {
             PrepareSpellScript(spell_siege_of_orgrimmar_frenzied_assault_aoe_SpellScript);
 
-            void HandleScript(SpellEffIndex effIndex)
+            void HandleScript(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1069,7 +1069,7 @@ class spell_siege_of_orgrimmar_resonating_amber_aoe : public SpellScriptLoader
         {
             PrepareSpellScript(spell_siege_of_orgrimmar_resonating_amber_aoe_SpellScript);
 
-            void HandleScript(SpellEffIndex effIndex)
+            void HandleScript(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1136,7 +1136,7 @@ class spell_siege_of_orgrimmar_grasp_of_yshaarj : public SpellScriptLoader
         {
             PrepareSpellScript(spell_siege_of_orgrimmar_grasp_of_yshaarj_SpellScript);
 
-            void HandleScript(SpellEffIndex effIndex)
+            void HandleScript(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;

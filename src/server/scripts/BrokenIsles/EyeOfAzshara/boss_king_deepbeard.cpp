@@ -459,7 +459,7 @@ public:
 			}
 		}
 
-		void HandleDmgAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
+		void HandleDmgAbsorb(AuraEffect* /*aurEff*/, DamageInfo& /*dmgInfo*/, uint32& absorbAmount)
 		{
 			_amountAbsorbed += absorbAmount;
 		}

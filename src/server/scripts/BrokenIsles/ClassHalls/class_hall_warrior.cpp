@@ -1129,7 +1129,7 @@ struct npc_high_overlord_saurfang_93773 : public ScriptedAI
         }
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)  override
+    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/)  override
     {
         if (quest->GetQuestId() == QUEST_H_A_DESPERATE_PLEA)
         {

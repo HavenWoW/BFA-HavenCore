@@ -1490,10 +1490,10 @@ struct instance_blackrock_foundry : public InstanceScript
         }
     }
 
-    void OnPlayerExit(Player* p_Player) override
-    {
+    //void OnPlayerExit(Player* /*p_Player*/) override
+    //{
         //   InstanceScript::OnPlayerExit(p_Player);
-    }
+    //}
 
     void SendUpdateWorldState(uint32 p_Field, uint32 p_Value)
     {

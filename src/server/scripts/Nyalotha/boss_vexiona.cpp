@@ -204,7 +204,7 @@ private:
 		this->phase = 1;
 	}
 
-	void DamageTaken(Unit* attacker, uint32& damage) override
+	void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
 	{
 		if (this->phase == 1 && this->twilightDecimator == 3)
 		{
@@ -302,7 +302,7 @@ private:
 		}
 	}
 
-	void SpellHitTarget(Unit* target, const SpellInfo* spellInfo) override
+	void SpellHitTarget(Unit* /*target*/, const SpellInfo* spellInfo) override
 	{
 		switch (spellInfo->Id)
 		{
@@ -352,7 +352,7 @@ class aura_despair : public AuraScript
 {
 	PrepareAuraScript(aura_despair);
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();
@@ -552,7 +552,7 @@ class aura_encroaching_shadows : public AuraScript
 				caster->CastSpell(target, SPELL_ENCROACHING_SHADOWS_DAMAGE, true);
 	}
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();
@@ -578,7 +578,7 @@ public:
 private:
 	uint32 checkTimer = 1000;
 
-	void OnUpdate(Player* player, uint32 diff) override
+	void OnUpdate(Player* player, uint32 /*diff*/) override
 	{
 		if (player->GetAreaId() != 12877)
 			return;

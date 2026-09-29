@@ -672,7 +672,7 @@ public:
 	public:
 		PrepareAuraScript(bfa_spell_curse_of_witch_AuraScript);
 
-		void HandleEffectRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+		void HandleEffectRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 		{
 			if (!GetUnitOwner() || !GetCaster())
 				return;

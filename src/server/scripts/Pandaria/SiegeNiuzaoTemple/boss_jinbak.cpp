@@ -165,9 +165,6 @@ class npc_sap_globule : public CreatureScript
             }
         }
 
-        void UpdateAI(uint32 const diff) override
-        {
-        }
     private:
         bool done;
     };

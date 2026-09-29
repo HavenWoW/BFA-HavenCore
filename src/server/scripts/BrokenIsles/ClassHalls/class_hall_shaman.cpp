@@ -446,7 +446,7 @@ public:
             say = false;
         }
 
-        void MoveInLineOfSight(Unit* who) override
+        void MoveInLineOfSight(Unit* /*who*/) override
         {
             if (Creature* Thralls = me->FindNearestCreature(NPC_THRALL_RINGS, 30.0f, true))
             {
@@ -714,7 +714,7 @@ public:
             say = false;
         }
 
-        void MoveInLineOfSight(Unit* who) override
+        void MoveInLineOfSight(Unit* /*who*/) override
         {
             if (Creature* Eranak = me->FindNearestCreature(NPC_ERANAK_STONSPEAK, 7.0f, true))
             {

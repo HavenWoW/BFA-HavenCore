@@ -350,7 +350,7 @@ struct npc_void_orb : public ScriptedAI
 		me->GetSpeed(MOVE_WALK);		
 	}
 
-	void IsSummonedBy(Unit* summoner) override
+	void IsSummonedBy(Unit* /*summoner*/) override
 	{
 		if (me->GetMapId() == MAP_NYALOTHA)
 			me->GetMotionMaster()->MovePoint(1, azshara_pos, true);

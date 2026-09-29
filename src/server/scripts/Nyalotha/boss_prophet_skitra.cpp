@@ -197,7 +197,7 @@ private:
              {
                  DoCast(SPELL_SHRED_PSYCHE_DUMMY);
                  DoCast(tar, SPELL_SHRED_PSYCHE_AURA);
-                 tar->GetScheduler().Schedule(5s, [tar] (TaskContext context)
+                 tar->GetScheduler().Schedule(5s, [tar] (TaskContext /*context*/)
                  {
                     tar->CastSpell(nullptr, SPELL_SHRED_PSYCHE_SUMMON, true);
                  });      
@@ -280,7 +280,7 @@ struct npc_shredded_psyche : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->SetDisplayId(me->GetNativeDisplayId());
         me->AddAura(309681);

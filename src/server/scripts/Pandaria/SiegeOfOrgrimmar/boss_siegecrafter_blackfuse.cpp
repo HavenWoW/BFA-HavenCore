@@ -3199,7 +3199,7 @@ class spell_siegecrafter_blackfuse_launch_sawblade : public SpellScriptLoader
         {
             PrepareSpellScript(spell_siegecrafter_blackfuse_launch_sawblade_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3251,7 +3251,7 @@ class spell_siegecrafter_blackfuse_death_from_above : public SpellScriptLoader
         {
             PrepareSpellScript(spell_siegecrafter_blackfuse_death_from_above_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -3309,7 +3309,7 @@ class spell_siegecrafter_blackfuse_pipe_transfer_jump : public SpellScriptLoader
                 target = nearest;
             }
 
-            void FilterTargets(std::list<WorldObject*>& targets)
+            void FilterTargets(std::list<WorldObject*>& /*targets*/)
             {
                 if (!GetCaster())
                     return;
@@ -3352,7 +3352,7 @@ struct spell_area_siegecrafter_blackfuse_laser_ground_effect : AreaTriggerAI
         caster->AddAura(SPELL_SUPERHEATED_AURA, p_Target);
     }
 
-    bool OnRemoveTarget(Unit* target, bool /*byExpire*/)
+    bool OnRemoveTarget(Unit* /*target*/, bool /*byExpire*/)
     {
         return true;
     }
@@ -3362,7 +3362,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush : AreaTriggerAI
 {
     spell_area_siegecrafter_blackfuse_magnetic_crush(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUpdate(uint32 p_Diff) override
+    void OnUpdate(uint32 /*p_Diff*/) override
     {
         if (m_IsUpdated)
             return;
@@ -3413,7 +3413,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_pull : AreaTriggerAI
 {
     spell_area_siegecrafter_blackfuse_magnetic_crush_pull(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUpdate(uint32 p_Diff) override
+    void OnUpdate(uint32 /*p_Diff*/) override
     {
         if (m_IsUpdated)
             return;
@@ -3464,7 +3464,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_push : AreaTriggerAI
 {
     spell_area_siegecrafter_blackfuse_magnetic_crush_push(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUpdate(uint32 p_Diff) override
+    void OnUpdate(uint32 /*p_Diff*/) override
     {
         if (m_IsUpdated)
             return;
@@ -3581,7 +3581,7 @@ class at_siegecrafter_blackfuse_pipe_entrance : public AreaTriggerScript
 
     private:
 
-        bool CanMoveToInstance(Player* player) const
+        bool CanMoveToInstance(Player* /*player*/) const
         {
             // TODO: maybe need to check 'in progress'
             return true;
@@ -3864,7 +3864,7 @@ class achievement_lasers_and_magnets_and_drills_mines : public AchievementCriter
     public:
         achievement_lasers_and_magnets_and_drills_mines() : AchievementCriteriaScript("achievement_lasers_and_magnets_and_drills_mines") { }
 
-        bool OnCheck(Player* source, Unit* target) override
+        bool OnCheck(Player* source, Unit* /*target*/) override
         {
             if (Creature* pBlackfuse = GetBlackfuse(source))
             {
@@ -3880,7 +3880,7 @@ class achievement_lasers_and_magnets_and_drills_magnet : public AchievementCrite
     public:
         achievement_lasers_and_magnets_and_drills_magnet() : AchievementCriteriaScript("achievement_lasers_and_magnets_and_drills_magnet") { }
 
-        bool OnCheck(Player* source, Unit* target) override
+        bool OnCheck(Player* source, Unit* /*target*/) override
         {
             if (Creature* pBlackfuse = GetBlackfuse(source))
             {
@@ -3896,7 +3896,7 @@ class achievement_lasers_and_magnets_and_drills_shockwave : public AchievementCr
     public:
         achievement_lasers_and_magnets_and_drills_shockwave() : AchievementCriteriaScript("achievement_lasers_and_magnets_and_drills_shockwave") { }
 
-        bool OnCheck(Player* source, Unit* target) override
+        bool OnCheck(Player* source, Unit* /*target*/) override
         {
             if (Creature* pBlackfuse = GetBlackfuse(source))
             {

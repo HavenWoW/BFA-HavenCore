@@ -1343,7 +1343,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 return 0;
             }
 
-            void DamageTaken(Unit* who, uint32& damage) override
+            void DamageTaken(Unit* /*who*/, uint32& damage) override
             {
                 if (m_Phase != (IsHeroic() ? PHASE_4 : PHASE_3))
                 {

@@ -1576,7 +1576,7 @@ public:
     {
         PrepareSpellScript(spell_hun_rapid_fire_damage_SpellScript);
 
-        bool Validate(SpellInfo const* spellInfo) override
+        bool Validate(SpellInfo const* /*spellInfo*/) override
         {
             return ValidateSpellInfo({ SPELL_HUNTER_RAPID_FIRE_ENERGIZE });
         }
@@ -3674,7 +3674,7 @@ class spell_hun_aimed_shot : public SpellScript
 {
     PrepareSpellScript(spell_hun_aimed_shot);
 
-    void HandleDamage(SpellEffIndex effIndex)
+    void HandleDamage(SpellEffIndex /*effIndex*/)
     {
         float distance = 30.0f;
         int32 damagePct = 50;

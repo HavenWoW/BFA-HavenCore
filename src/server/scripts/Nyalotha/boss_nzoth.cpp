@@ -148,7 +148,7 @@ struct boss_nzoth : public BossAI
         Talk(SAY_AGGRO);
         _JustEngagedWith();
         this->phase1 = true;
-        me->GetScheduler().Schedule(3s, [this] (TaskContext context)
+        me->GetScheduler().Schedule(3s, [this] (TaskContext /*context*/)
         {
             me->AddUnitState(UNIT_STAND_STATE_SUBMERGED);
             for (uint8 i = 0; i < 13; i++)
@@ -276,7 +276,7 @@ struct boss_nzoth : public BossAI
 
         case EVENT_BERSERK:
             me->AddAura(SPELL_BERSERK);
-            me->GetScheduler().Schedule(5s, [this](TaskContext context)
+            me->GetScheduler().Schedule(5s, [this](TaskContext /*context*/)
             {
                 instance->DoKillPlayersWithAura(SPELL_TRANDESCENT_POWER);
             });
@@ -322,7 +322,7 @@ struct boss_nzoth : public BossAI
         _DespawnAtEvade();
     }
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(3))
         {
@@ -408,7 +408,7 @@ struct npc_psychus : public ScriptedAI
             {
                 synapses->AddAura(SPELL_SHATTERED_EGO_STUN);
             }
-            nzoth->GetScheduler().Schedule(30s, [this, nzoth] (TaskContext context)
+            nzoth->GetScheduler().Schedule(30s, [this, nzoth] (TaskContext /*context*/)
             {
                 me->ClearUnitState(UNIT_STAND_STATE_SUBMERGED);               
                 nzoth->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
@@ -438,7 +438,7 @@ struct npc_exposed_synapse : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void IsSummonedBy(Unit* u) override
+    void IsSummonedBy(Unit* /*u*/) override
     {
         me->SetObjectScale(0.5f);
         //me->SetDisplayId(95373);
@@ -557,7 +557,7 @@ struct npc_spike_tentacle : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void IsSummonedBy(Unit* u) override
+    void IsSummonedBy(Unit* /*u*/) override
     {
         events.ScheduleEvent(EVENT_PAIN_SPIKE, 3s);    
     }
@@ -601,7 +601,7 @@ struct npc_corruptor_tentacle_158375 : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void IsSummonedBy(Unit* u) override
+    void IsSummonedBy(Unit* /*u*/) override
     {
         events.ScheduleEvent(EVENT_CORRUPTED_MIND, 3s);
     }

@@ -66,7 +66,7 @@ struct boss_viqgoth : public BossAI
 		this->encountered = 0;
 	}
 
-	void EnterEvadeMode(EvadeReason why) override
+	void EnterEvadeMode(EvadeReason /*why*/) override
 	{
 		if (me->GetThreatManager().IsThreatListEmpty() && this->encountered == 1 && me->HealthAbovePct(1) && instance->GetBossState(DATA_VIQGOTH) == IN_PROGRESS)
 		{

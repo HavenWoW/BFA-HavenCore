@@ -366,7 +366,7 @@ private:
 		}
 	}
 
-	void DamageTaken(Unit* done_by, uint32& damage) override
+	void DamageTaken(Unit* done_by, uint32& /*damage*/) override
 	{
 		switch (me->GetEntry())
 		{
@@ -416,7 +416,7 @@ private:
 		_DespawnAtEvade();
 	}
 
-	void CleanEncounter(InstanceScript* instance, Creature* me)
+	void CleanEncounter(InstanceScript* /*instance*/, Creature* me)
 	{
 		me->DespawnCreaturesInArea(NPC_AQIR_DRONE, 125.0f);
 		me->DespawnCreaturesInArea(NPC_AQIR_DARTER, 125.0f);

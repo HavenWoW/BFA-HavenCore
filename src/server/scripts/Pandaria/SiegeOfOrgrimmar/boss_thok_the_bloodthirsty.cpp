@@ -1104,7 +1104,7 @@ class npc_thok_the_bloodthirsty_tesla_coil : public CreatureScript
                 pInstance = creature->GetInstanceScript();
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 /*diff*/)
             {
                 UpdateCoilOnThok();
             }
@@ -1423,7 +1423,7 @@ class npc_thok_the_bloodthirsty_starved_yeti : public CreatureScript
                 events.ScheduleEvent(EVENT_WRECKING_BALL, TIMER_WRECKING_BALL_FIRST);
             }
 
-            void MovementInform(uint32 type, uint32 data) override
+            void MovementInform(uint32 /*type*/, uint32 data) override
             {
                 if (data == EVENT_JUMP)
                 {
@@ -1553,7 +1553,7 @@ class spell_thok_the_bloodthirsty_deafening_screech : public SpellScriptLoader
         {
             PrepareSpellScript(spell_thok_the_bloodthirsty_deafening_screech_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1603,7 +1603,7 @@ class spell_thok_the_bloodthirsty_bloodied : public SpellScriptLoader
         {
             PrepareAuraScript(spell_thok_the_bloodthirsty_bloodied_AuraScript);
 
-            void HandleApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+            void HandleApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1611,7 +1611,7 @@ class spell_thok_the_bloodthirsty_bloodied : public SpellScriptLoader
                 GetUnitOwner()->AddAura(SPELL_BLOODIED_WOUNDS, GetUnitOwner());
             }
 
-            void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1648,7 +1648,7 @@ class spell_thok_the_bloodthirsty_bloodied_wounds : public SpellScriptLoader
                 return true;
             }
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -1747,7 +1747,7 @@ class spell_thok_the_bloodthirsty_fixate : public SpellScriptLoader
         {
             PrepareSpellScript(spell_thok_the_bloodthirsty_fixate_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1782,7 +1782,7 @@ class spell_thok_the_bloodthirsty_prisoner_threat_spell : public SpellScriptLoad
         {
             PrepareSpellScript(spell_thok_the_bloodthirsty_prisoner_threat_spell_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1815,7 +1815,7 @@ class spell_thok_the_bloodthirsty_chomp_prisoner : public SpellScriptLoader
         {
             PrepareAuraScript(spell_thok_the_bloodthirsty_chomp_prisoner_AuraScript);
 
-            void HandleRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetCaster() || !GetUnitOwner())
                     return;
@@ -1858,7 +1858,7 @@ class spell_thok_the_bloodthirsty_wrecking_ball_dummy : public SpellScriptLoader
         {
             PrepareSpellScript(spell_thok_the_bloodthirsty_wrecking_ball_dummy_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -1967,7 +1967,7 @@ public:
     {
         PrepareSpellScript(spell_thok_the_bloodthirsty_chomp_checker_SpellScript);
 
-        void HandleHitTarget(SpellEffIndex effIndex)
+        void HandleHitTarget(SpellEffIndex /*effIndex*/)
         {
             if (GetHitUnit())
                 GetHitUnit()->CastSpell(GetHitUnit(), SPELL_CHOMP, true);

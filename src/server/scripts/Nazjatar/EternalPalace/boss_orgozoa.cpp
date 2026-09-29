@@ -340,7 +340,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* at, uint32& damage) override
+        void DamageTaken(Unit* /*at*/, uint32& /*damage*/) override
         {
             if (me->HealthBelowPct(40) && !intermission)
             {
@@ -366,7 +366,7 @@ public:
             HandlePhases(1);
         }
 
-        void MovementInform(uint32 type, uint32 pointId) override
+        void MovementInform(uint32 /*type*/, uint32 pointId) override
         {
             switch (pointId)
             {
@@ -681,7 +681,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_desensiizing_sting_AuraScript);
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -807,7 +807,7 @@ public:
             events.Reset();
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage)
         {
             if (damage >= me->GetHealth() && !_dead)
             {
@@ -1049,7 +1049,7 @@ public:
             targetList = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex index)
+        void RecalculateDamage(SpellEffIndex /*index*/)
         {
             if (targetList > 1)
                 SetHitDamage(GetHitDamage() / targetList);
@@ -1173,7 +1173,7 @@ public:
     {
         bfa_at_aqua_lance_AI(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-        void OnUpdate(uint32 diff)
+        void OnUpdate(uint32 /*diff*/)
         {
             std::list<Player*> playerList;
             at->GetPlayerListInGrid(playerList, 5.0f);
@@ -1221,7 +1221,7 @@ public:
         {
             eggxploded = false;
         }
-        void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 /*diff*/) override
         {
             Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)

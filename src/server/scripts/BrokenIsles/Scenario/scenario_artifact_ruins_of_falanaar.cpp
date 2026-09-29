@@ -510,12 +510,12 @@ struct npc_verstok_darkbough_108053 : public ScriptedAI
         case 1:
             me->Say(113191);
 
-            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
             {
                 me->Say(113193);
             });
 
-            me->GetScheduler().Schedule(Milliseconds(6000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(6000), [this](TaskContext /*context*/)
             {
                 //summon fang
                 me->SummonCreature(107385, Position(2063.92f, 5403.93f, -34.7028f, 0.715101f));
