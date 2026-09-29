@@ -60,17 +60,11 @@ CreatureAI::~CreatureAI()
 
 void CreatureAI::Talk(uint8 id, WorldObject const* whisperTarget /*= nullptr*/)
 {
-    if (!this)
-        return;
-
     sCreatureTextMgr->SendChat(me, id, whisperTarget);
 }
 
 void CreatureAI::ZoneTalk(uint8 id, WorldObject const* whisperTarget /*= nullptr*/)
 {
-    if (!this)
-        return;
-
     sCreatureTextMgr->SendChat(me, id, whisperTarget, CHAT_MSG_ADDON, LANG_ADDON, TEXT_RANGE_ZONE);
 }
 

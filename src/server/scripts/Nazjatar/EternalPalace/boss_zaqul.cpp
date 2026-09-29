@@ -430,45 +430,46 @@ public:
 
         void SelectRandomPosition()
         {
-            float x, y, z, o;
-            float newy;
+            float x = 160.59f, y = 1988.48f, z = 756.12f, o = 0.57f;
+            float newy = y + 5.0f;
             switch (rand() % 6)
             {
-            case 1:
+            case 0:
                 x = 160.59f;
                 y = 1988.48f;
                 newy = y + 5.0f;
                 z = 756.12f;
                 o = 0.57f;
                 break;
-            case 2:
+            case 1:
                 x = 214.99f;
                 y = 1971.42f;
                 newy = y + 5.0f;
                 z = 756.23f;
                 o = 1.98f;
                 break;
-            case 3:
+            case 2:
                 x = 241.93f;
                 y = 2013.60f;
                 newy = y + 5.0f;
                 z = 756.23f;
                 o = 3.05f;
                 break;
-            case 4:
+            case 3:
                 x = 225.99f;
                 y = 2056.41f;
+                newy = y + 5.0f;
                 z = 756.18f;
                 o = 4.03f;
                 break;
-            case 5:
+            case 4:
                 x = 186.24f;
                 y = 2054.84f;
                 newy = y + 5.0f;
                 z = 755.98f;
                 o = 4.97f;
                 break;
-            case 6:
+            case 5:
                 x = 156.92f;
                 y = 2029.49f;
                 newy = y + 5.0f;
@@ -754,12 +755,12 @@ public:
 
         uint32 timer;
 
-        void OnInitialize()
+        void OnInitialize() override
         {
             timer = 1000;
         }
 
-        void OnRemove()
+        void OnRemove() override
         {
             std::list<Player*> playerList;
             at->GetPlayerListInGrid(playerList, 3.0f);
@@ -829,7 +830,7 @@ public:
         bfa_npc_maddening_eruption_trigger_AI(Creature* creature) : ScriptedAI(creature)
         {
         }
-        void Reset()
+        void Reset() override
         {
             events.ScheduleEvent(EVENT_MADDENING_ERUPTION_TRIGGER, TIMER_MADDENING_ERUPTION_TRIGGER);
         }
@@ -1384,7 +1385,7 @@ public:
 
         uint32 timer;
 
-        void OnInitialize()
+        void OnInitialize() override
         {
             timer = 1000;
         }

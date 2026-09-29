@@ -1658,67 +1658,67 @@ public:
                     me->AI()->DoAction(ACTION_CAST_SPELL_MOVER);
                     break;
                 case EVENT_1:
-                    me->GetMotionMaster()->MovePoint(POINT_1, YellowEyeWay[1]);
+                    me->GetMotionMaster()->MovePoint(POINT_1, YellowEyeWay[0]);
                     //sWorld->SendWorldText(3, "gopoint 1 c");
                     break;
                 case EVENT_2:
-                    me->GetMotionMaster()->MovePoint(POINT_2, YellowEyeWay[2]);
+                    me->GetMotionMaster()->MovePoint(POINT_2, YellowEyeWay[1]);
                     //sWorld->SendWorldText(3, "gopoint 2 c");
                     break;
                 case EVENT_3:
-                    me->GetMotionMaster()->MovePoint(POINT_3, YellowEyeWay[3]);
+                    me->GetMotionMaster()->MovePoint(POINT_3, YellowEyeWay[2]);
                     //sWorld->SendWorldText(3, "go point3 c");
                     break;
                 case EVENT_4:
-                    me->GetMotionMaster()->MovePoint(POINT_4, YellowEyeWay[4]);
+                    me->GetMotionMaster()->MovePoint(POINT_4, YellowEyeWay[3]);
                     //sWorld->SendWorldText(3, "go point 4 c");
                     break;
                 case EVENT_5:
-                    me->GetMotionMaster()->MovePoint(POINT_5, YellowEyeWay[5]);
+                    me->GetMotionMaster()->MovePoint(POINT_5, YellowEyeWay[4]);
                     //sWorld->SendWorldText(3, "go point 5 c");
                     break;
                 case EVENT_6:
-                    me->GetMotionMaster()->MovePoint(POINT_6, YellowEyeWay[6]);
+                    me->GetMotionMaster()->MovePoint(POINT_6, YellowEyeWay[5]);
                     //sWorld->SendWorldText(3, "go point 6 c");
                     break;
                 case EVENT_7:
-                    me->GetMotionMaster()->MovePoint(POINT_7, YellowEyeWay[7]);
+                    me->GetMotionMaster()->MovePoint(POINT_7, YellowEyeWay[6]);
                     //sWorld->SendWorldText(3, "go point 7 c");
                     break;
                 case EVENT_8:
-                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[7]);
                     //sWorld->SendWorldText(3, "go point 8 c");
                     break;
                 case EVENT_1_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_1_REVERSE, YellowEyeWay2[1]);
+                    me->GetMotionMaster()->MovePoint(POINT_1_REVERSE, YellowEyeWay2[0]);
                     //sWorld->SendWorldText(3, "gopoint 1 cc");
                     break;
                 case EVENT_2_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_2_REVERSE, YellowEyeWay2[2]);
+                    me->GetMotionMaster()->MovePoint(POINT_2_REVERSE, YellowEyeWay2[1]);
                     //sWorld->SendWorldText(3, "gopoint 2 cc");
                     break;
                 case EVENT_3_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_3_REVERSE, YellowEyeWay2[3]);
+                    me->GetMotionMaster()->MovePoint(POINT_3_REVERSE, YellowEyeWay2[2]);
                     //sWorld->SendWorldText(3, "gopoint 3 cc");
                     break;
                 case EVENT_4_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_4_REVERSE, YellowEyeWay2[4]);
+                    me->GetMotionMaster()->MovePoint(POINT_4_REVERSE, YellowEyeWay2[3]);
                     //sWorld->SendWorldText(3, "gopoint 4 cc");
                     break;
                 case EVENT_5_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_5_REVERSE, YellowEyeWay2[5]);
+                    me->GetMotionMaster()->MovePoint(POINT_5_REVERSE, YellowEyeWay2[4]);
                     //sWorld->SendWorldText(3, "gopoint 5 cc");
                     break;
                 case EVENT_6_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_6_REVERSE, YellowEyeWay2[6]);
+                    me->GetMotionMaster()->MovePoint(POINT_6_REVERSE, YellowEyeWay2[5]);
                     //sWorld->SendWorldText(3, "gopoint 6 cc");
                     break;
                 case EVENT_7_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_7_REVERSE, YellowEyeWay2[7]);
+                    me->GetMotionMaster()->MovePoint(POINT_7_REVERSE, YellowEyeWay2[6]);
                     //sWorld->SendWorldText(3, "gopoint 7 cc");
                     break;
                 case EVENT_8_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[7]);
                     //sWorld->SendWorldText(3, "gopoint 8 cc");
                     break;
                 }
@@ -2924,7 +2924,6 @@ public:
 
             Unit* durumu = GetCaster();
             Unit* triggerTarget = GetTarget();
-            Unit* targetPlayer = NULL;
 
             if (!durumu || !triggerTarget)
                 return;
@@ -3323,7 +3322,7 @@ public:
                     me->GetMotionMaster()->MovePoint(POINT_7, YellowEyeWay[7]);
                     break;
                 case EVENT_8:
-                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[0]);
                     break;
                 case EVENT_1_REVERSE:
                     me->GetMotionMaster()->MovePoint(POINT_1_REVERSE, YellowEyeWay2[1]);
@@ -3347,7 +3346,7 @@ public:
                     me->GetMotionMaster()->MovePoint(POINT_7_REVERSE, YellowEyeWay2[7]);
                     break;
                 case EVENT_8_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[0]);
                     break;
                 }
             }
@@ -3483,7 +3482,7 @@ public:
         {
             if (Unit* caster = GetCaster())
             {
-                if (Unit* target = GetHitUnit())
+                if (GetHitUnit())
                 {
                     uint32 damage = 0;
 

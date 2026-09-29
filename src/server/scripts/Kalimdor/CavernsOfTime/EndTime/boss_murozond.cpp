@@ -406,7 +406,7 @@ public:
                         std::list<Creature*> playerClones;
                         player->GetCreatureListWithEntryInGrid(playerClones, NPC_PLAYER_CLONE_ENTRY, 200.0f);
 
-                        Creature* myClone;
+                        Creature* myClone = nullptr;
                         for (std::list<Creature*>::iterator iter = playerClones.begin(); iter != playerClones.end(); ++iter)
                         {
                             if (!(*iter) || (*iter)->isDead())

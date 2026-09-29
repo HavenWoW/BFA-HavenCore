@@ -248,7 +248,7 @@ public:
     WorldSafeLocsEntry const* GetClosestGraveYard(Player* player) override;
 
     /* Scorekeeping */
-    bool UpdatePlayerScore(Player* Source, uint32 type, uint32 value, bool doAddHonor = true);
+    bool UpdatePlayerScore(Player* Source, uint32 type, uint32 value, bool doAddHonor = true) override;
 
     void FillInitialWorldStates(WorldPackets::WorldState::InitWorldStates& packet) override;
 

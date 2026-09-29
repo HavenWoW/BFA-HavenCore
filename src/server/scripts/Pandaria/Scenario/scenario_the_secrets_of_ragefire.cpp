@@ -1614,7 +1614,7 @@ public:
             switch (action)
             {
             case 1:
-                if (Creature* boss = me->FindNearestCreature(70683, 28.0f))
+                if (me->FindNearestCreature(70683, 28.0f))
                 {
                     me->SetInCombatWithZone();
                 }
@@ -1721,7 +1721,7 @@ public:
             switch (action)
             {
             case 1:
-                if (Creature* boss = me->FindNearestCreature(70683, 28.0f))
+                if (me->FindNearestCreature(70683, 28.0f))
                 {
                     me->SetInCombatWithZone();
                 }

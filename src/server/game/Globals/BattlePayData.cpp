@@ -82,7 +82,7 @@ void BattlePayDataStoreMgr::LoadDisplayInfos()
         _displayInfos.insert(std::make_pair(fields[0].GetUInt32(), displaInfo));
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %lu Battlepay display info in %u ms.", uint64(_displayInfos.size()), GetMSTimeDiffToNow(oldMsTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %u Battlepay display info in %u ms.", uint32(_displayInfos.size()), GetMSTimeDiffToNow(oldMsTime));
 }
 
 void BattlePayDataStoreMgr::LoadDisplayInfoVisuals()
@@ -107,7 +107,7 @@ void BattlePayDataStoreMgr::LoadDisplayInfoVisuals()
         _visuals[fields[0].GetUInt32()].emplace_back(displaInfo);
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %lu Battlepay display info visuals in %u ms.", uint64(_visuals.size()), GetMSTimeDiffToNow(oldMsTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %u Battlepay display info visuals in %u ms.", uint32(_visuals.size()), GetMSTimeDiffToNow(oldMsTime));
 }
 
 void BattlePayDataStoreMgr::LoadProductGroups()
@@ -134,7 +134,7 @@ void BattlePayDataStoreMgr::LoadProductGroups()
         _productGroups.push_back(productGroup);
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %lu Battlepay product groups in %u ms", uint64(_productGroups.size()), GetMSTimeDiffToNow(oldMsTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %u Battlepay product groups in %u ms", uint32(_productGroups.size()), GetMSTimeDiffToNow(oldMsTime));
 }
 
 void BattlePayDataStoreMgr::LoadProduct()
@@ -203,7 +203,7 @@ void BattlePayDataStoreMgr::LoadProduct()
         _products[productID].Items.push_back(productItem);
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %lu Battlepay products in %u ms", uint64(_products.size()), GetMSTimeDiffToNow(oldMsTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %u Battlepay products in %u ms", uint32(_products.size()), GetMSTimeDiffToNow(oldMsTime));
 }
 
 void BattlePayDataStoreMgr::LoadShopEntries()
@@ -232,7 +232,7 @@ void BattlePayDataStoreMgr::LoadShopEntries()
         _shopEntries.push_back(shopEntry);
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %lu Battlepay shop entries in %u ms", uint64(_shopEntries.size()), GetMSTimeDiffToNow(oldMsTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %u Battlepay shop entries in %u ms", uint32(_shopEntries.size()), GetMSTimeDiffToNow(oldMsTime));
 }
 
 void BattlePayDataStoreMgr::LoadProductGroupLocales()
@@ -259,7 +259,7 @@ void BattlePayDataStoreMgr::LoadProductGroupLocales()
         sObjectMgr->AddLocaleString(fields[2].GetString(), locale, data.Name);
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %lu Battlepay product group locales strings in %u ms", uint64(_productGroupLocales.size()), GetMSTimeDiffToNow(oldMsTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %u Battlepay product group locales strings in %u ms", uint32(_productGroupLocales.size()), GetMSTimeDiffToNow(oldMsTime));
 }
 
 void BattlePayDataStoreMgr::LoadDisplayInfoLocales()
@@ -290,7 +290,7 @@ void BattlePayDataStoreMgr::LoadDisplayInfoLocales()
         sObjectMgr->AddLocaleString(fields[6].GetString(), locale, data.Name5);
     } while (result->NextRow());
 
-    TC_LOG_INFO("server.loading", ">> Loaded %lu Battlepay display info locales strings in %u ms", uint64(_displayInfoLocales.size()), GetMSTimeDiffToNow(oldMsTime));
+    TC_LOG_INFO("server.loading", ">> Loaded %u Battlepay display info locales strings in %u ms", uint32(_displayInfoLocales.size()), GetMSTimeDiffToNow(oldMsTime));
 }
 
 std::vector<Battlepay::ProductGroup> const& BattlePayDataStoreMgr::GetProductGroups() const

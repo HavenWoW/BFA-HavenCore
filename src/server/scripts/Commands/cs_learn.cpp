@@ -160,7 +160,7 @@ public:
 
         // Keep one concise audit log entry that the command was used.
         TC_LOG_INFO("commands.gm",
-            "GM %s (GUID: %u) executed .learn all gm",
+            "GM %s (GUID: " UI64FMTD ") executed .learn all gm",
             player->GetName().c_str(), player->GetGUID().GetCounter());
 
         for (uint32 spellId : confirmedGMSpells)

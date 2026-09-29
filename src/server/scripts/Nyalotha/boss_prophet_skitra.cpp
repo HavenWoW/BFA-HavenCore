@@ -245,7 +245,7 @@ private:
             Talk(SAY_ILLUSIONARY_PROJECTIONS);
             for (uint8 i = 0; i < 5; ++i)
             {
-                auto* projections = DoSummon(NPC_PROPGET_SKITRA_PROJECTION, me->GetRandomPoint(middle_pos, 60.0f), TEMPSUMMON_MANUAL_DESPAWN);               
+                DoSummon(NPC_PROPGET_SKITRA_PROJECTION, me->GetRandomPoint(middle_pos, 60.0f), TEMPSUMMON_MANUAL_DESPAWN);
             }
             me->AddUnitState(UNIT_STATE_CASTING);
             break;

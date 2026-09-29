@@ -992,7 +992,6 @@ public:
 
         void SummonedCreatureDies(Creature* summon, Unit* killer) override
         {
-            uint8 newFrontHeadSpawnPos = 0;
 
             // Just a sanity check. If headKills = 6 -> gets increased to 7 -> Megaera dead.
             if (headKills < 6 && (summon->GetEntry() == NPC_FLAMING_HEAD || summon->GetEntry() == NPC_FROZEN_HEAD ||
@@ -2803,7 +2802,7 @@ public:
 
                 for (auto pCreature : acidRains)
                 {
-                    if (Aura* pAura = pCreature->GetAura(SPELL_ACID_RAIN_VISUAL, caster->GetGUID()))
+                    if (pCreature->GetAura(SPELL_ACID_RAIN_VISUAL, caster->GetGUID()))
                         targets.push_back((WorldObject*)pCreature);
                 }
             }

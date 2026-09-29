@@ -487,7 +487,7 @@ class grimrail_depot_mob_grimrail_scout : public CreatureScript
             switch (events.ExecuteEvent())
             {
             case eGrimrailScoutEvents::EventArcaneBlitz:
-                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true))
+                if (SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true))
                      me->CastSpell(me, eGrimrailScoutSpells::SpellArcaneBlitzAura);
 
                 events.ScheduleEvent(eGrimrailScoutEvents::EventArcaneBlitz, 0 * TimeConstants::IN_MILLISECONDS);

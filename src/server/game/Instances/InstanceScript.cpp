@@ -141,7 +141,7 @@ bool InstanceScript::IsEncounterInProgress() const
 
 void InstanceScript::RepopPlayersAtGraveyard()
 {
-    if (!this || !instance)
+    if (!instance)
         return;
 
     instance->ApplyOnEveryPlayer([&](Player* player)
@@ -222,7 +222,7 @@ Creature* InstanceScript::GetCreature(uint32 type)
 
 void InstanceScript::DoResetAchievementCriteria(CriteriaTypes type, uint64 miscValue1 /*= 0*/, uint64 miscValue2 /*= 0*/, bool evenIfCriteriaComplete /*= false*/)
 {
-    if (!this || !instance)
+    if (!instance)
         return;
 
     instance->ApplyOnEveryPlayer([&](Player* player)
@@ -849,7 +849,7 @@ void InstanceScript::DoResurrectPlayers(float restore_percent)
 // Update Achievement Criteria for all players in instance
 void InstanceScript::DoUpdateCriteria(CriteriaTypes type, uint32 miscValue1 /*= 0*/, uint32 miscValue2 /*= 0*/, Unit* unit /*= nullptr*/)
 {
-    if (!this || !instance)
+    if (!instance)
         return;
 
     instance->ApplyOnEveryPlayer([&](Player* player)
@@ -873,7 +873,7 @@ void InstanceScript::DoSendEventScenario(uint32 eventId /*= 0*/)
 // Start timed achievement for all players in instance
 void InstanceScript::DoStartCriteriaTimer(CriteriaTimedTypes type, uint32 entry)
 {
-    if (!this || !instance)
+    if (!instance)
         return;
 
     instance->ApplyOnEveryPlayer([&](Player* player)
@@ -892,7 +892,7 @@ void InstanceScript::DoStartCriteriaTimer(CriteriaTimedTypes type, uint32 entry)
 // Stop timed achievement for all players in instance
 void InstanceScript::DoStopCriteriaTimer(CriteriaTimedTypes type, uint32 entry)
 {
-    if (!this || !instance)
+    if (!instance)
         return;
 
     instance->ApplyOnEveryPlayer([&](Player* player)
@@ -1105,7 +1105,7 @@ void InstanceScript::DoCompleteAchievement(uint32 achievement)
   //      return;
   //  }
   //
-    if (!this || !instance)
+    if (!instance)
         return;
 
     auto pAE = sAchievementStore.LookupEntry(achievement);
@@ -1256,7 +1256,7 @@ void InstanceScript::SetEntranceLocation(uint32 worldSafeLocationId)
 
 void InstanceScript::SendEncounterUnit(uint32 type, Unit* unit /*= nullptr*/, uint8 priority /*= 0*/, uint8 param2 /*= 0*/)
 {
-    if (!this || !instance)
+    if (!instance)
         return;
 
     switch (type)

@@ -392,7 +392,7 @@ public:
         {
             if (me->HasAura(SPELL_GRASP_OF_THE_SUNKEN_CITY_CHANNEL))
             {
-                bool checkAlive;
+                bool checkAlive = false;
 
                 Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
                 for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)

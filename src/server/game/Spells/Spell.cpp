@@ -163,7 +163,7 @@ SpellCastTargets::SpellCastTargets(Unit* caster, WorldPackets::Spells::SpellCast
 
     if (spellCastRequest.SendCastFlags == 8)   // Archaeology
     {
-        uint32 kEntry, kCount, fEntry, fCount;
+        uint32 kEntry = 0, kCount = 0, fEntry = 0, fCount = 0;
         uint8 type;
 
         for (auto const& weight : spellCastRequest.Weight)
@@ -4248,7 +4248,7 @@ void Spell::SendSpellStart()
         {
             castData.RemainingRunes->Start = 0;
             castData.RemainingRunes->Count = 0;
-            for (uint8 i = 0; i < player->GetMaxPower(POWER_RUNES); ++i)
+            for (uint8 i = 0; i < MAX_RUNES; ++i)
                 castData.RemainingRunes->Cooldowns.push_back(0);
         }
     }
@@ -4367,7 +4367,7 @@ void Spell::SendSpellGo()
         {
             castData.RemainingRunes->Start = 0;
             castData.RemainingRunes->Count = 0;
-            for (uint8 i = 0; i < player->GetMaxPower(POWER_RUNES); ++i)
+            for (uint8 i = 0; i < MAX_RUNES; ++i)
                 castData.RemainingRunes->Cooldowns.push_back(0);
         }
     }

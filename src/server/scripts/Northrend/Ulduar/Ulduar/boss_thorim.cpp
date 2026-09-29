@@ -1022,7 +1022,6 @@ struct npc_thorim_trashAI : public ScriptedAI
         static Unit* GetUnitWithMostMissingHp(SpellInfo const* spellInfo, Unit* caster)
         {
             // use positive range, it's a healing spell
-            float const range = spellInfo->GetMaxRange(true);
 
             Unit* target = nullptr;
 
@@ -1064,7 +1063,7 @@ struct npc_thorim_trashAI : public ScriptedAI
         return true;
     }
 
-    void UpdateAI(uint32 diff) final override
+    void UpdateAI(uint32 diff) override
     {
         if (!UpdateVictim())
             return;
@@ -1087,8 +1086,6 @@ struct npc_thorim_trashAI : public ScriptedAI
         else
             DoMeleeAttackIfReady();
     }
-
-    virtual void ExecuteEvent(uint32 eventId) = 0;
 
 protected:
     InstanceScript* _instance;

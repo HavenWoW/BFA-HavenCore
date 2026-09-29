@@ -1188,7 +1188,6 @@ public:
 
         void HandleOnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
         {
-            uint32 m_stacks = GetAura()->GetStackAmount();
         }
 
         void HandleOnUpdate(AuraEffect const* aurEff)
@@ -1838,7 +1837,6 @@ public:
         void HandleAfterCast()
         {
             Unit* pCaster = GetCaster();
-            Unit* pHit = GetHitUnit();
 
             Position pos;
             pCaster->GetRandomNearPosition(20.0f);

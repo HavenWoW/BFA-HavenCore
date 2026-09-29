@@ -1554,7 +1554,7 @@ public:
 
             if (!_playerParticipating && attacker->ToPlayer())
             {
-                if (Creature* creature = me->FindNearestCreature(NPC_KAYN_TYRANNA, me->GetVisibilityRange(), true))
+                if (me->FindNearestCreature(NPC_KAYN_TYRANNA, me->GetVisibilityRange(), true))
                 {
                     _playerParticipating = true;
                 }
@@ -1768,7 +1768,6 @@ public:
         {
             for (uint8 i = 0; i < count; i++)
             {
-                uint8 rand = urand(1, 2);
                 float angle = frand(0.0f, 2.0f * float(M_PI));
                 float x = targetPos.GetPositionX() + (5.0f * std::cos(angle));
                 float y = targetPos.GetPositionY() + (5.0f * std::sin(angle));

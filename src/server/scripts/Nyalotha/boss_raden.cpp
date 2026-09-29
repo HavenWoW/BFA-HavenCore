@@ -601,7 +601,7 @@ class aura_unstable_vita : public AuraScript
 
 		if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_EXPIRE)
 		{
-			if (Player* player = target->SelectNearestPlayer(100.0f))
+			if (target->SelectNearestPlayer(100.0f))
 			{
 				caster->CastSpell(target, SPELL_UNSTABLE_VITA_DAMAGE, true);
 				caster->CastSpell(target, SPELL_UNSTABLE_VITA_AURA, true);

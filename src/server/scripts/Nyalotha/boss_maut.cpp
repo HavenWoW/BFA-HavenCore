@@ -468,7 +468,7 @@ class aura_consuming_shadows : public AuraScript
 
 	void HandlePeriodic(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
-		if (Unit* caster = GetCaster())
+		if (GetCaster())
 		{
 			GetCaster()->CastSpell(GetTarget(), CONSUMING_SHADOWS_DAMAGE, true);
 		}
@@ -529,7 +529,7 @@ class aura_ancient_curse : public AuraScript
 		if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_EXPIRE)
 		{
             Unit* target = GetTarget();
-			if (Unit* caster = GetCaster())
+			if (GetCaster())
 			{                
                 target->CastSpell(nullptr, ANCIENT_CURSE_DAMAGE, true);
                 target->CastSpell(nullptr, ANCIENT_CURSE_INSTAKILL, true);

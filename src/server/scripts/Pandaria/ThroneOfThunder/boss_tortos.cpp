@@ -1285,7 +1285,6 @@ public:
                 return;
             if (caster->GetMap()->IsHeroic())
             {
-                uint32 damage = target->CountPctFromMaxHealth(100);
                 // resilience/armor/absorb
                 //SpellNonMeleeDamage damageInfo(caster, target, GetSpellInfo()->Id, GetSpellInfo()->SchoolMask);
                 //caster->CalculateSpellDamageTaken(&damageInfo, damage, GetSpellInfo());
@@ -1296,7 +1295,6 @@ public:
             }
             else
             {
-                uint32 damage = target->CountPctFromMaxHealth(65);
                 // resilience/armor/absorb
                // SpellNonMeleeDamage damageInfo(caster, target, GetSpellInfo()->Id, GetSpellInfo()->SchoolMask);
                 //caster->CalculateSpellDamageTaken(&damageInfo, damage, GetSpellInfo());

@@ -190,7 +190,7 @@ namespace
         update.Context = context;
         update.Applications.push_back(BuildApplicationUpdate(guild, request));
         WorldPacket const* packet = update.Write();
-        TC_LOG_INFO("guild", "[CF-APP] push UPDATE_APPLICATIONS receiver=%s guild=%u player=%s status=%u(%s) closed=%u context=0x%02X size=%u",
+        TC_LOG_INFO("guild", "[CF-APP] push UPDATE_APPLICATIONS receiver=%s guild=" UI64FMTD " player=%s status=%u(%s) closed=%u context=0x%02X size=%u",
             receiver->GetName().c_str(), guild->GetId(), request.GetPlayerGUID().ToString().c_str(),
             uint32(request.GetStatus()), GetApplicationStatusName(request.GetStatus()), GetClosedToken(request),
             uint32(context), uint32(packet->size()));
@@ -394,7 +394,7 @@ void WorldSession::HandleClubFinderRequestMembershipToClub(WorldPackets::ClubFin
     if (!player || player->GetGuildId())
         return;
 
-    TC_LOG_INFO("guild", "[CF-APP] C->S REQUEST_MEMBERSHIP player=%s finderGuid=%s specMask=%llu commentLen=%u",
+    TC_LOG_INFO("guild", "[CF-APP] C->S REQUEST_MEMBERSHIP player=%s finderGuid=%s specMask=" UI64FMTD " commentLen=%u",
         GetPlayerInfo().c_str(), request.ClubFinderGUID.ToString().c_str(), uint64(request.SpecMask), uint32(request.Comment.size()));
 
     Guild* guild = ResolveGuildFromClubFinderGuid(request.ClubFinderGUID);
@@ -419,7 +419,7 @@ void WorldSession::HandleClubFinderRequestMembershipToClub(WorldPackets::ClubFin
         uint32(ALL_INTERESTS), request.Comment, time_t(now), request.SpecMask, itemLevel,
         uint8(WorldPackets::ClubFinder::RequestStatusPending), now);
     sClubFinderMgr->AddMembershipRequest(guild->GetGUID(), membershipRequest);
-    TC_LOG_INFO("guild", "[CF-APP] state ADD guild=%u player=%s status=%u(%s) update=%u",
+    TC_LOG_INFO("guild", "[CF-APP] state ADD guild=" UI64FMTD " player=%s status=%u(%s) update=%u",
         guild->GetId(), player->GetGUID().ToString().c_str(), uint32(membershipRequest.GetStatus()),
         GetApplicationStatusName(membershipRequest.GetStatus()), membershipRequest.GetUpdateTime());
 
@@ -564,7 +564,7 @@ void WorldSession::HandleClubFinderRespondToApplicant(WorldPackets::ClubFinder::
     if (!updated)
         return;
 
-    TC_LOG_INFO("guild", "[CF-APP] state RECRUITER_RESPONSE guild=%u player=%s status=%u(%s) update=%u",
+    TC_LOG_INFO("guild", "[CF-APP] state RECRUITER_RESPONSE guild=" UI64FMTD " player=%s status=%u(%s) update=%u",
         guild->GetId(), request.PlayerGUID.ToString().c_str(), uint32(updated->GetStatus()),
         GetApplicationStatusName(updated->GetStatus()), updated->GetUpdateTime());
 
@@ -590,7 +590,7 @@ void WorldSession::HandleClubFinderApplicationResponse(WorldPackets::ClubFinder:
     if (!player)
         return;
 
-    TC_LOG_INFO("guild", "[CF-APP] C->S APPLICATION_RESPONSE player=%s finderGuid=%s flags=0x%02X accept=%u guildId=%u",
+    TC_LOG_INFO("guild", "[CF-APP] C->S APPLICATION_RESPONSE player=%s finderGuid=%s flags=0x%02X accept=%u guildId=" UI64FMTD,
         GetPlayerInfo().c_str(), request.ClubFinderGUID.ToString().c_str(), uint32(request.Flags),
         request.IsAccept() ? 1u : 0u, player->GetGuildId());
 
@@ -621,7 +621,7 @@ void WorldSession::HandleClubFinderApplicationResponse(WorldPackets::ClubFinder:
         if (!updated)
             return;
 
-        TC_LOG_INFO("guild", "[CF-APP] state APPLICANT_DECLINE guild=%u player=%s status=%u(%s) update=%u",
+        TC_LOG_INFO("guild", "[CF-APP] state APPLICANT_DECLINE guild=" UI64FMTD " player=%s status=%u(%s) update=%u",
             guild->GetId(), player->GetGUID().ToString().c_str(), uint32(updated->GetStatus()),
             GetApplicationStatusName(updated->GetStatus()), updated->GetUpdateTime());
 
@@ -632,7 +632,7 @@ void WorldSession::HandleClubFinderApplicationResponse(WorldPackets::ClubFinder:
 
     if (!request.IsAccept() || player->GetGuildId())
     {
-        TC_LOG_INFO("guild", "[CF-APP] APPLICATION_RESPONSE ignored: flags=0x%02X currentGuild=%u",
+        TC_LOG_INFO("guild", "[CF-APP] APPLICATION_RESPONSE ignored: flags=0x%02X currentGuild=" UI64FMTD,
             uint32(request.Flags), player->GetGuildId());
         return;
     }
@@ -653,7 +653,7 @@ void WorldSession::HandleClubFinderApplicationResponse(WorldPackets::ClubFinder:
     MembershipRequest const* joinedRequest = sClubFinderMgr->GetMembershipRequest(player->GetGUID(), guild->GetGUID());
     if (joinedRequest)
     {
-        TC_LOG_INFO("guild", "[CF-APP] state APPLICANT_ACCEPT guild=%u player=%s status=%u(%s) update=%u",
+        TC_LOG_INFO("guild", "[CF-APP] state APPLICANT_ACCEPT guild=" UI64FMTD " player=%s status=%u(%s) update=%u",
             guild->GetId(), player->GetGUID().ToString().c_str(), uint32(joinedRequest->GetStatus()),
             GetApplicationStatusName(joinedRequest->GetStatus()), joinedRequest->GetUpdateTime());
         SendApplicationUpdate(player, guild, *joinedRequest, 0x60);

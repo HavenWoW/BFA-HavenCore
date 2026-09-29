@@ -539,7 +539,7 @@ struct boss_elerethe_renferal : public BossAI
                     platformId = 0;
                 break;
             case EVENT_CHECH_PLAYER:
-                if (Unit* target = SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 30.0f, true))
+                if (SelectTarget(SELECT_TARGET_MINDISTANCE, 0, 30.0f, true))
                 {
                     me->SetReactState(REACT_AGGRESSIVE);
                     events.RescheduleEvent(EVENT_RAKING_TALONS, 7000);
@@ -939,7 +939,7 @@ struct npc_en_shadowfeather : public ScriptedAI
                 break;
             case 2:
                 DoCastVictim(222996);
-                if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT))
+                if (SelectTarget(SELECT_TARGET_MAXTHREAT))
                 {
                   //  me->CastSpellDelay(target, 222996, false, 4000);
                  //   me->CastSpellDelay(target, 222996, false, 8000);
@@ -1081,7 +1081,7 @@ class spell_elerethe_web_of_pain_filter : public SpellScript
 
             for (auto plrTarget : targetsList)
             {
-                if (auto plr = plrTarget->ToPlayer())
+                if (plrTarget->ToPlayer())
                 {
                    // if (plr->isInTankSpec())
                         tankList.push_front(plrTarget);

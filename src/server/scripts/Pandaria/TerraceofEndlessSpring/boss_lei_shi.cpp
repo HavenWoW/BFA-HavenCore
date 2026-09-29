@@ -387,7 +387,7 @@ public:
 
                 [[maybe_unused]] Creature* protector = NULL;
 
-                for (auto itr : animatedProtectors)
+                for ([[maybe_unused]] auto itr : animatedProtectors)
                 {
                     if (Creature* elemental = me->FindNearestCreature(NPC_ANIMATED_PROTECTOR, 500.0f))
                     {
@@ -413,7 +413,7 @@ public:
                 shielded = true;
 
                 uint8 protectorsActivated = 0;
-                for (auto itr : animatedProtectors)
+                for ([[maybe_unused]] auto itr : animatedProtectors)
                 {
                     // 3 Animated Protectors at 80% and 60%
                     if (((me->GetMap()->IsHeroic() && protectorsActivated >= 3) ||
@@ -486,7 +486,7 @@ public:
                 shielded = true;
 
                 uint8 protectorsActivated = 0;
-                for (auto itr : animatedProtectors)
+                for ([[maybe_unused]] auto itr : animatedProtectors)
                 {
                     if ((me->GetMap()->IsHeroic() && protectorsActivated >= 4) ||
                         (!me->GetMap()->IsHeroic() && protectorsActivated >= 4))

@@ -164,11 +164,11 @@ class boss_general_pavalak : public CreatureScript
                     if (bladeprepare <= diff)
                     {
                         bladeprepare = 0;
-                        if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0, true))
+                        if (SelectTarget(SELECT_TARGET_RANDOM, 0, 0, true))
                         {
                             Position pos;
                             //target->GetPosition(&pos);
-                            if (Creature* blade = me->SummonCreature(63720, pos, TEMPSUMMON_TIMED_DESPAWN, 10000))
+                            if (me->SummonCreature(63720, pos, TEMPSUMMON_TIMED_DESPAWN, 10000))
                             {
                               //  bladeguid = blade->GetGUID();
                                 bladeprogress = 4000;

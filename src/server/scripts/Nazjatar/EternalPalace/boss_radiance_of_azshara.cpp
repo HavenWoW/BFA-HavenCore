@@ -359,11 +359,11 @@ public:
                 case EVENT_SQAULL_TRAP:
                 {
                     for (uint8 i = 0; i < 7; ++i)
+                        me->CastSpell(squallTrapPosition[0][i], SPELL_SQUALL_TRAP_AT);
+                    for (uint8 i = 0; i < 5; ++i)
                         me->CastSpell(squallTrapPosition[1][i], SPELL_SQUALL_TRAP_AT);
                     for (uint8 i = 0; i < 5; ++i)
                         me->CastSpell(squallTrapPosition[2][i], SPELL_SQUALL_TRAP_AT);
-                    for (uint8 i = 0; i < 5; ++i)
-                        me->CastSpell(squallTrapPosition[3][i], SPELL_SQUALL_TRAP_AT);
                     break;
                 }
                 }

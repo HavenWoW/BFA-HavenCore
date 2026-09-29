@@ -527,7 +527,7 @@ public:
     {
         PrepareAuraScript(spell_patrol_arcane_lockdown_AuraScript);
 
-        uint8 stack = 0;
+        //uint8 stack = 0;
 
         void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
         {
@@ -538,23 +538,23 @@ public:
                 //ura->SetStackAmount(aura->GetStackAmount() + 2);
         }
 
-        void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
-        {
-            if (Aura* aura = GetTarget()->GetAura(GetId()))
-            {
-                //stack = aura->GetStackAmount();
+        //void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        //{
+        //    if (Aura* aura = GetTarget()->GetAura(GetId()))
+        //    {
+        //      stack = aura->GetStackAmount();
 
-              //  if (stack > 1)
-                 //   aura->SetStackAmount(stack - 1);
-               // else
-               //     aurEff->GetBase()->Remove();
-            }
-        }
+        //      if (stack > 1)
+        //          aura->SetStackAmount(stack - 1);
+        //      else
+        //          aurEff->GetBase()->Remove();
+        //    }
+        //}
 
         void Register() override
         {
             OnEffectApply += AuraEffectApplyFn(spell_patrol_arcane_lockdown_AuraScript::OnApply, EFFECT_1, SPELL_AURA_MOD_DECREASE_SPEED, AURA_EFFECT_HANDLE_REAL);
-            OnEffectProc += AuraEffectProcFn(spell_patrol_arcane_lockdown_AuraScript::OnProc, EFFECT_1, SPELL_AURA_MOD_DECREASE_SPEED);
+            //OnEffectProc += AuraEffectProcFn(spell_patrol_arcane_lockdown_AuraScript::OnProc, EFFECT_1, SPELL_AURA_MOD_DECREASE_SPEED);
         }
     };
 
