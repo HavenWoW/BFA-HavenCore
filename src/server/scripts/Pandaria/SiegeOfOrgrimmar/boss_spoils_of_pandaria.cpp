@@ -5047,7 +5047,6 @@ class spell_spoils_of_pandaria_set_to_blow_override : public SpellScriptLoader
 
                 int stacks = GetAura()->GetStackAmount();
 
-                Difficulty difficulty = GetUnitOwner()->GetMap()->GetDifficultyID();
                 SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_SET_TO_BLOW_DMG);
                 int basepoints = spellInfo->GetEffect(EFFECT_0)->BasePoints * stacks;
 

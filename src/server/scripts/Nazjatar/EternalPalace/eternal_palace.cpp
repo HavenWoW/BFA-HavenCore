@@ -42,7 +42,7 @@ struct npc_queen_azshara_154480 : public ScriptedAI
 	}
 
 	//I had some issues with pre-event, so i used this
-	void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+	void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
 	{
 		CloseGossipMenuFor(player);
 		me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);

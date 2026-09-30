@@ -999,7 +999,7 @@ class mob_gale_winds_stalker : public CreatureScript
 
                         if (pInstance)
                         {
-                            if (Creature* tayak = pInstance->GetCreature(NPC_TAYAK))
+                            if (pInstance->GetCreature(NPC_TAYAK))
                             {
                                 std::list<Player*> playerList;
                                 GetPlayerListInGrid(playerList, me, 200.0f);

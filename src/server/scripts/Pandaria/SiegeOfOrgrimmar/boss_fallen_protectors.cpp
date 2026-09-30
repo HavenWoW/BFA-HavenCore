@@ -2251,7 +2251,7 @@ struct spell_area_rook_stonetoe_defiled_ground : public AreaTriggerAI
         if (l_DefiledGround /*&& l_DefiledGround->GetScriptGuid(0) == trigger->GetGUID() */ && !l_HasInArc)
             l_DefiledGround->Remove();
         else if (l_HasInArc && l_DefiledGround == nullptr)
-            if (auto l_Aura = target->AddAura(Spells::SPELL_DEFILED_GROUND_AURA, target))
+            if (target->AddAura(Spells::SPELL_DEFILED_GROUND_AURA, target))
                 //l_Aura->SetScriptGuid(0, at->GetGUID());
                 return;
     }

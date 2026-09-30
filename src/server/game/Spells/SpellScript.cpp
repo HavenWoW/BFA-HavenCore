@@ -151,9 +151,7 @@ std::string _SpellScript::EffectNameCheck::ToString() const
         case SPELL_EFFECT_ANY:
             return "SPELL_EFFECT_ANY";
         default:
-            char num[10];
-            sprintf (num, "%u", effName);
-            return num;
+            return std::to_string(effName);
     }
 }
 
@@ -176,9 +174,7 @@ std::string _SpellScript::EffectAuraNameCheck::ToString() const
         case SPELL_AURA_ANY:
             return "SPELL_AURA_ANY";
         default:
-            char num[10];
-            sprintf (num, "%u", effAurName);
-            return num;
+            return std::to_string(effAurName);
     }
 }
 

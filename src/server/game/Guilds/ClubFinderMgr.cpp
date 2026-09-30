@@ -388,7 +388,7 @@ void ClubFinderMgr::AddMembershipRequest(ObjectGuid const& guildGuid, Membership
     uint32 postingId = GetPostingId(guildGuid);
     if (!postingId)
     {
-        TC_LOG_ERROR("guild", "ClubFinderMgr: cannot persist application for guild %llu without a posting id.",
+        TC_LOG_ERROR("guild", "ClubFinderMgr: cannot persist application for guild " UI64FMTD " without a posting id.",
             uint64(guildGuid.GetCounter()));
         return;
     }
@@ -742,7 +742,7 @@ void ClubFinderMgr::SendApplicantListUpdate(Guild* guild)
     }
 
     WorldPacket const* clubPacket = clubUpdate.Write();
-    TC_LOG_INFO("guild", "[CF-APP] manager UPDATE_APPLICATIONS guild=%u applications=%u context=0x%02X size=%u bytes=[%s]",
+    TC_LOG_INFO("guild", "[CF-APP] manager UPDATE_APPLICATIONS guild=" UI64FMTD " applications=%u context=0x%02X size=%u bytes=[%s]",
         guild->GetId(), uint32(clubUpdate.Applications.size()), uint32(clubUpdate.Context),
         uint32(clubPacket->size()), HexDumpApplicationPacket(*clubPacket).c_str());
     guild->BroadcastPacketToRank(clubPacket, GR_OFFICER);

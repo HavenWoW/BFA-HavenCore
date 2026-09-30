@@ -1304,9 +1304,7 @@ public:
         {
             events.Update(diff);
 
-            if (uint32 eventId = events.ExecuteEvent())
-            {
-            }
+            events.ExecuteEvent();
         }
 
     private:

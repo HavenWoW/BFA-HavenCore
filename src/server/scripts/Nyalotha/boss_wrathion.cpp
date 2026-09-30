@@ -654,7 +654,7 @@ class aura_wrathion_burning_cataclysm : public AuraScript
 
     void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
-        if (Unit* caster = GetCaster())
+        if (GetCaster())
             for (uint8 i = 0; i < 15; ++i)
                 GetCaster()->CastSpell(GetRandomRoomPosition(), SPELL_MOLTEN_ERUPTION_MISSILE, true);
     }

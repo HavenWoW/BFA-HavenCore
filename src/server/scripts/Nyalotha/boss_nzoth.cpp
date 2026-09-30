@@ -153,7 +153,7 @@ struct boss_nzoth : public BossAI
             me->AddUnitState(UNIT_STAND_STATE_SUBMERGED);
             for (uint8 i = 0; i < 13; i++)
             {
-                auto exposedSynapses = DoSummon(NPC_EXPOSED_SYNAPSE, me->GetRandomPoint(synapses_pos, 40.0f));
+                DoSummon(NPC_EXPOSED_SYNAPSE, me->GetRandomPoint(synapses_pos, 40.0f));
             }
             me->SummonCreature(NPC_PSYCHUS, psychus_pos, TEMPSUMMON_MANUAL_DESPAWN);
         });
@@ -200,10 +200,10 @@ struct boss_nzoth : public BossAI
             events.ScheduleEvent(EVENT_ETERNAL_HUNGER, 3s);
             events.ScheduleEvent(EVENT_MINDGRASP, 8s);
             me->SummonCreature(NPC_BASHER_TENTACLE, basher_tentacle_pos_1, TEMPSUMMON_MANUAL_DESPAWN);
-            auto* corrupted = DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
+            DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
             for (uint8 i = 0; i < 3; i++)
             {
-                auto spike = DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
+                DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
             }
             this->phase1 = false;
             this->phase2 = true;
@@ -213,10 +213,10 @@ struct boss_nzoth : public BossAI
         case ACTION_MINDGATE:
         {
             me->SummonCreature(NPC_BASHER_TENTACLE, basher_tentacle_pos_1, TEMPSUMMON_MANUAL_DESPAWN);
-            auto* corrupted_wave_2 = DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
+            DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
             for (uint8 i = 0; i < 3; i++)
             {
-                auto spike_2 = DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
+                DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
             }
             break;
         }
@@ -285,7 +285,7 @@ struct boss_nzoth : public BossAI
         case EVENT_HARVESTER:
             if (this->phase3 == true)
             {
-                auto* harvest = DoSummon(NPC_THOUGHT_HARVESTER, me->GetRandomPoint(harvester_pos, 30.0f));
+                DoSummon(NPC_THOUGHT_HARVESTER, me->GetRandomPoint(harvester_pos, 30.0f));
             }            
             break;
 
@@ -415,7 +415,7 @@ struct npc_psychus : public ScriptedAI
                 nzoth->AI()->DoAction(ACTION_INIT_PHASE_2);
                 for (uint8 i = 0; i < 13; i++)
                 {
-                    auto exposedSynapses = DoSummon(NPC_CORRUPTED_NEURON, me->GetRandomPoint(synapses_pos, 40.0f));
+                    DoSummon(NPC_CORRUPTED_NEURON, me->GetRandomPoint(synapses_pos, 40.0f));
                 }
             });
         }

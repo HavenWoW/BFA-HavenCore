@@ -491,8 +491,6 @@ public:
 
             if (instance)
             {
-                Creature* lulin = instance->GetCreature(instance->GetData64(NPC_LULIN));
-                Creature* suen = instance->GetCreature(instance->GetData64(NPC_SUEN));
 
                 switch (TwinActive(instance, me))
                 {
@@ -901,8 +899,6 @@ public:
 
             if (instance)
             {
-                Creature* lulin = instance->GetCreature(instance->GetData64(NPC_LULIN));
-                Creature* suen = instance->GetCreature(instance->GetData64(NPC_SUEN));
 
                 switch (TwinActive(instance, me))
                 {

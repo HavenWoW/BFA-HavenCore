@@ -2873,7 +2873,7 @@ public:
 
     bool OnGossipHello(Player* player, GameObject* go)
     {
-        if (Garrison* garrison = player->GetGarrison(GARRISON_TYPE_CLASS_HALL))
+        if (player->GetGarrison(GARRISON_TYPE_CLASS_HALL))
         {
             /*switch (go->GetEntry())
             {

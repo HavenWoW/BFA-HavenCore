@@ -337,7 +337,7 @@ void WorldSession::HandleClubFinderPost(WorldPackets::GuildFinder::ClubFinderPos
     // Captures show 0x04 for the first post and 0x24 for an update/repost.
     response.Flags = updatingExistingPosting ? 0x24 : 0x04;
 
-    TC_LOG_DEBUG("guild", "Stored BFA Club Finder post for guild %u (flags=0x%08X, minIlvl=%u, unknown32=%u, header5=%u, finder=%s)",
+    TC_LOG_DEBUG("guild", "Stored BFA Club Finder post for guild " UI64FMTD " (flags=0x%08X, minIlvl=%u, unknown32=%u, header5=%u, finder=%s)",
         guild->GetId(), packet.RecruitmentFlags, packet.MinItemLevel, packet.Unknown32, uint32(packet.Unknown5), response.ClubFinderGUID.ToString().c_str());
 
     SendPacket(response.Write());

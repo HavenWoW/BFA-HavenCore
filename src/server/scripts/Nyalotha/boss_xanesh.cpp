@@ -358,7 +358,7 @@ struct npc_void_orb : public ScriptedAI
 
 	void OnSpellClick(Unit* clicker, bool& /*result*/) override
 	{
-		if (Player* player = clicker->ToPlayer())
+		if (clicker->ToPlayer())
 		{
 			if (clicker->HasAura(SPELL_VOIDWOKEN))
 			{

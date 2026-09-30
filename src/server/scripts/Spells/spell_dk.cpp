@@ -905,10 +905,10 @@ public:
             {
                 if (Aura* l_Aura = l_Player->GetAura(eSpells::FrozenRunebladeStacks))
                 {
-                    if (Item* l_MainHand = l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_MAINHAND))
+                    if (l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_MAINHAND))
                         l_Player->CastSpell(l_Target, eSpells::FrozenRunebladeMainHand, true);
 
-                    if (Item* l_OffHand = l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_OFFHAND))
+                    if (l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_OFFHAND))
                         l_Player->CastSpell(l_Target, eSpells::FrozenRunebladeOffHand, true);
 
                     l_Aura->DropCharge();

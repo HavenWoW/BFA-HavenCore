@@ -176,7 +176,7 @@ public:
 
         uint32 ChooseRandomLick()
         {
-            uint32 lick;
+            uint32 lick = SPELL_FLAME_LICK;
             switch (urand(0, 2))
             {
             case 0:

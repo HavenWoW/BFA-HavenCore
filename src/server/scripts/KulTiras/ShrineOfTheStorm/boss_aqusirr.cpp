@@ -226,8 +226,8 @@ public:
 
             me->GetScheduler().Schedule(4s, [this](TaskContext /*context*/)
                 {
-                    float x;
-                    float y;
+                    float x = 3929.14f;
+                    float y = -1262.38f;
 
                     switch (rand() % 5)
                     {

@@ -1015,7 +1015,7 @@ public:
             {
                 for (auto player : playerList)
                 {
-                    if (!player->HasAura(SPELL_BIOLUMINESCENCE) && !player->GetRoleForGroup() == ROLE_TANK)
+                    if (!player->HasAura(SPELL_BIOLUMINESCENCE) && player->GetRoleForGroup() != ROLE_TANK)
                         player->AddAura(SPELL_BIOLUMINESCENCE, player);
                     else if (!player->HasAura(SPELL_BIOLUMINESCENCE) && player->GetRoleForGroup() == ROLE_TANK)
                         player->AddAura(SPELL_RADIANT_BIOMASS_AURA, player);

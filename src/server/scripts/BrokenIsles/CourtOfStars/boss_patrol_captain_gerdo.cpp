@@ -527,7 +527,7 @@ public:
     {
         PrepareAuraScript(spell_patrol_arcane_lockdown_AuraScript);
 
-        uint8 stack = 0;
+        //uint8 stack = 0;
 
         void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
@@ -548,7 +548,7 @@ public:
                  //   aura->SetStackAmount(stack - 1);
                // else
                //     aurEff->GetBase()->Remove();
-            //}
+        //    }
         //}
 
         void Register() override

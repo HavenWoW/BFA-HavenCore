@@ -5050,7 +5050,7 @@ public:
         {
             if (Unit* owner = GetUnitOwner())
             {
-                if (Player* plr = owner->ToPlayer())
+                if (owner->ToPlayer())
                    // if (dmgInfo.GetAbsorb() < owner->GetHealth() || owner->HasAura(148010) || !plr->isInTankSpec())
                     {
                         dmgInfo.AbsorbDamage(-(int32(absorbAmount)));
@@ -5481,7 +5481,7 @@ class spell_legion_hearty_feast : public AuraScript
     {
         if (auto caster = GetUnitOwner())
         {
-            if (auto plr = caster->ToPlayer())
+            if (caster->ToPlayer())
             {
                 uint32 spellId = 0;
 
@@ -5534,7 +5534,7 @@ class spell_legion_food_table : public AuraScript
     {
         if (auto caster = GetUnitOwner())
         {
-            if (auto plr = caster->ToPlayer())
+            if (caster->ToPlayer())
             {
                 uint32 spellId = 0;
 
@@ -6686,7 +6686,7 @@ public:
 
         void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
         {
-            if (Player* player = GetCaster()->ToPlayer())
+            if (GetCaster()->ToPlayer())
             {
                // if (player->GetBattleground() && player->GetBattleground()->GetJoinType() == MS::Battlegrounds::JoinType::Arena2v2)
                 {

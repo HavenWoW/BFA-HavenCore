@@ -339,7 +339,7 @@ public:
                     Position summonPos;
                     me->GetRandomPoint(NestPositionsGround[i], 7.0f);
 
-                    Creature* egg = me->SummonCreature(NPC_YOUNG_EGG_OF_JIKUN, summonPos.GetPositionX(), summonPos.GetPositionY(), summonPos.GetPositionZ());
+                    me->SummonCreature(NPC_YOUNG_EGG_OF_JIKUN, summonPos.GetPositionX(), summonPos.GetPositionY(), summonPos.GetPositionZ());
                 }
 
                 // top places 10 eggs in nest

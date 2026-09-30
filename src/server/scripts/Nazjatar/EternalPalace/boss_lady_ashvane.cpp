@@ -716,7 +716,7 @@ public:
                 return;
 
             float base_multiplier;
-            uint32 carapaceCasted;
+            uint32 carapaceCasted = 0;
 
             if (Creature* lady = caster->ToCreature())
             {

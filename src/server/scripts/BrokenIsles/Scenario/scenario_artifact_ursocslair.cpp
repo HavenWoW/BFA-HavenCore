@@ -181,8 +181,9 @@ struct scenario_artifact_ursocslair : public InstanceScript
             return DATA_STEP_8;
             break;
         default:
-            break;
+            return 0;
         }
+        return 0;
     }
 
     void LoadNPC(uint32 event, const SpawnData* data)

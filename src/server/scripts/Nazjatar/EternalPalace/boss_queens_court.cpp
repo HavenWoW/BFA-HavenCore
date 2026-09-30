@@ -1126,7 +1126,7 @@ public:
             else SetHitDamage(GetHitDamage());
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_form_ranks_damage_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_TARGET_ANY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_form_ranks_damage_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);

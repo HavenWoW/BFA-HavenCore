@@ -3898,7 +3898,7 @@ public:
             {
                 if (Creature* pCaster = pUnit->ToCreature())
                 {
-                    if (CreatureAI* pAI = pCaster->AI())
+                    if (pCaster->AI())
                     {
                         SetHitDamage(1.1f * 1.0f);
                     }

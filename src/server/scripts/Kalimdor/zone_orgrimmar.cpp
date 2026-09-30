@@ -107,7 +107,7 @@ struct  npc_nathanos_team_meeting : public ScriptedAI
         player->SummonGameObject(GOB_BLIGHTCALLER_EASY_DEATH, 1577.965f, -4455.622f, 16.55939f, 0.f, QuaternionData(0.f, 0.f, 0.f, 1.f), 0, true);
     }
     
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         if (player->getLevel() >= 110 && player->GetQuestStatus(50769) == QUEST_STATUS_INCOMPLETE)
         {            

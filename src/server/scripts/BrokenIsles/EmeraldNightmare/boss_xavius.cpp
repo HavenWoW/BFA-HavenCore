@@ -822,8 +822,6 @@ public:
                             float dist = me->GetDistance(target) + 20.0f;
                             target->GetNearPosition(dist, angle);
 
-                            float angle2 = pos.GetRelativeAngle(target);
-                            float dist2 = 8.0f;
                             for (uint8 i = 0; i < 18; i++)
                             {
                                 // pos.SimplePosXYRelocationByAngle(pos, dist2, angle2);
@@ -1541,20 +1539,20 @@ public:
     {
         PrepareSpellScript(spell_xavius_nightmare_blades_dmg_filter_SpellScript);
 
-        void FilterTargets(std::list<WorldObject*>& targets)
-        {
-            if (Unit* caster = GetCaster())
-            {
+        //void FilterTargets(std::list<WorldObject*>& targets)
+        //{
+        //    if (Unit* caster = GetCaster())
+        //    {
                 /*for (std::list<WorldObject*>::const_iterator itr = targets.begin(); itr != targets.end(); ++itr)
                     if (caster->GetAI()->GetObjectData((*itr)->GetGUID()))
                         targets.remove(*itr++);*/
-            }
-        }
+        //    }
+        //}
 
         void Register() override
         {
-            OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_xavius_nightmare_blades_dmg_filter_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_DEST_AREA_ENEMY);
-            OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_xavius_nightmare_blades_dmg_filter_SpellScript::FilterTargets, EFFECT_1, TARGET_UNIT_DEST_AREA_ENEMY);
+            //OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_xavius_nightmare_blades_dmg_filter_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_DEST_AREA_ENEMY);
+            //OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_xavius_nightmare_blades_dmg_filter_SpellScript::FilterTargets, EFFECT_1, TARGET_UNIT_DEST_AREA_ENEMY);
         }
     };
 
@@ -1610,8 +1608,6 @@ public:
             {
                 Position pos;
                 caster->GetNearPosition(frand(15.0f, 25.0f), (urand(0, 6)));
-                uint32 spellId = GetSpellInfo()->GetEffect(effIndex)->TriggerSpell;
-                uint32 delay = GetSpellInfo()->GetEffect(effIndex)->MiscValue;
                // caster->m_Events.AddEvent(new DelayDestCastEvent(*caster, pos, spellId, true), caster->m_Events.CalculateTime(delay));
             }
         }

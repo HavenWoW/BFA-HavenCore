@@ -516,6 +516,7 @@ public:
             uiMajorCycle = MAJOR_CYCLE_FIRST;
             uiDrakkariCycle = DRAKKARI_CYCLE_FIRST;
 
+            summonPositions = nullptr;
             jumpPositions = NULL;
         }
 
@@ -783,7 +784,7 @@ public:
         SummonList summons;
         EventMap                events;
         InstanceScript* pInstance;
-        Position         summonPositions[3];
+        const Position* summonPositions;
         const Position* jumpPositions;
         std::list<Creature*>    jumpers;
         uint32                  uiTrashPhase;
@@ -855,6 +856,7 @@ public:
             uiMajorCycle = MAJOR_CYCLE_FIRST;
             uiDrakkariCycle = DRAKKARI_CYCLE_FIRST;
 
+            summonPositions = nullptr;
             jumpPositions = NULL;
         }
 
@@ -909,8 +911,7 @@ public:
                     uiMediumTrashId[0] = MOB_FARRAKI_SKIRMISHER;
                     uiMediumTrashId[1] = 0;
                     uiMajorTrashId = MOB_FARRAKI_WASTEWALKER;
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = farrakiTrashSummonPositions[i];
+                    summonPositions = farrakiTrashSummonPositions;
                     jumpPositions = farrakiWastewalkerJumpPositions;
                     if (Creature* pJalak = GetJalak())
                         pJalak->AI()->Talk(TALK_FARRAKI);
@@ -920,16 +921,14 @@ public:
                     uiMinorTrashId = MOB_GURUBASHI_BLOODLORD;
                     uiMajorTrashId = MOB_GURUBASHI_VENOM_PRIEST;
                     memset(&uiMediumTrashId, 0, sizeof(uiMediumTrashId));
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = gurubashiTrashSummonPositions[i];
+                    summonPositions = gurubashiTrashSummonPositions;
                     jumpPositions = gurubashiVenomPriestJumpPositions;
                     pJalak->AI()->Talk(TALK_GURUBASHI);
                     break;
 
                 case TRASH_PHASE_DRAKKARI:
                     uiMajorTrashId = MOB_DRAKKARI_FROZEN_WARLORD;
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = drakkariTrashSummonPositions[i];
+                    summonPositions = drakkariTrashSummonPositions;
                     jumpPositions = drakkariFrozenWarlordJumpPositions;
                     pJalak->AI()->Talk(TALK_DRAKKARI);
                     DemoralizeLivingPoison();
@@ -940,8 +939,7 @@ public:
                     uiMediumTrashId[0] = MOB_AMANI_SHI_FLAME_CASTER;
                     uiMediumTrashId[1] = 0;
                     uiMajorTrashId = MOB_AMANI_WARBEAR;
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = amaniTrashSummonPositions[i];
+                    summonPositions = amaniTrashSummonPositions;
                     jumpPositions = amaniWarbearJumpPositions;
                     pJalak->AI()->Talk(TALK_AMANI);
                     break;

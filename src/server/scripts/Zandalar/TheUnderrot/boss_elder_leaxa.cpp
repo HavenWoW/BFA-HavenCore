@@ -213,20 +213,20 @@ public:
 
         void HandleBloodMirrorSpawns()
         {
-            float x;
-            float y;
+            float x = 875.113159f;
+            float y = 1240.381958f;
 
             switch (rand() % 3)
             {
-            case 1:
+            case 0:
                 x = 875.113159f;
                 y = 1240.381958f;
                 break;
-            case 2:
+            case 1:
                 x = 879.703979f;
                 y = 1224.49646f;
                 break;
-            case 3:
+            case 2:
                 x = 858.541931f;
                 y = 1221.745239f;
                 break;

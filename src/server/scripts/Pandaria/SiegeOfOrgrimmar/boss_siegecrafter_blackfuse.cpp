@@ -3373,7 +3373,6 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush : AreaTriggerAI
         if (!l_Caster)
             return;
 
-        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_MAGNETIC_CRUSH_DMG);
 
         /*l_Caster->GetMap()->ForEachPlayer([&](Player* p_Player) -> void
         {
@@ -3424,7 +3423,6 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_pull : AreaTriggerAI
         if (!l_Caster)
             return;
 
-        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_MAGNETIC_CRUSH_DMG);
 
         /*l_Caster->GetMap()->ForEachPlayer([&](Player* p_Player) -> void
         {
@@ -3475,7 +3473,6 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_push : AreaTriggerAI
         if (!l_Caster)
             return;
 
-        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_MAGNETIC_CRUSH_DMG);
 
         /*l_Caster->GetMap()->ForEachPlayer([&](Player* p_Player) -> void
         {
@@ -3787,7 +3784,6 @@ class at_siegecrafter_blackfuse_platform : public AreaTriggerScript
 
         void AppyOnPlatform(Player* player, bool apply)
         {
-            const float force = 3.f;
 
             if (apply)
             {
@@ -3817,7 +3813,6 @@ class at_siegecrafter_blackfuse_conveyor : public AreaTriggerScript
 
         void AppyOnConveyor(Player* player, bool apply)
         {
-            const float force = 7.f;
 
             if (apply)
             {

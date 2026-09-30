@@ -1996,9 +1996,7 @@ class npc_siege_of_orgrimmar_overseer_komak : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                if (uint32 eventId = events.ExecuteEvent())
-                {
-                }
+                events.ExecuteEvent();
 
                 DoMeleeAttackIfReady();
             }

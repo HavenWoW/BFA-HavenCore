@@ -2671,7 +2671,6 @@ public:
     void SummonHiFirepawHelper(Player* summoner, uint32 /*entry*/)
     {
         //uint32 phase = summoner->GetPhaseMask();
-        uint32 team = summoner->GetTeam();
         Position pos;
 
        // summoner->GetPosition(&pos);
@@ -2701,7 +2700,7 @@ public:
         std::list<Creature*> summonList;
         GetCreatureListWithEntryInGrid(summonList, player, 59960, 6.0f);
 
-        for (auto summoned : summonList)
+        for ([[maybe_unused]] auto summoned : summonList)
             isSummoned = true;
 
         if (isSummoned == false)
