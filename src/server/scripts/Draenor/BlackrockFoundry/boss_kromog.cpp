@@ -121,7 +121,7 @@ class boss_kromog : public CreatureScript
 
             uint32 m_CheckZTimer;
 
-            bool CanRespawn()
+            bool CanRespawn() override
             {
                 return false;
             }
@@ -221,7 +221,7 @@ class boss_kromog : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventCrushingEarth, eTimers::TimerCrushingEarth);
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 if (m_Instance != nullptr)
                 {
@@ -592,7 +592,7 @@ class npc_foundry_rippling_smash : public CreatureScript
         {
             npc_foundry_rippling_smashAI(Creature* p_Creature) : ScriptedAI(p_Creature) { }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (p_Action == eAction::ActionRipplingSmash)
                 {
@@ -702,7 +702,7 @@ class npc_foundry_grasping_earth : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::RuneOfGraspingEarthSpawn)
                 {
@@ -838,7 +838,7 @@ class npc_foundry_rune_of_crushing_earth : public CreatureScript
                 p_Summon->SetFacingTo(p_Summon->GetAngle(me));
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (p_Action == eAction::ActionCrushingEarth)
                 {
@@ -920,7 +920,7 @@ class npc_foundry_stone_wall : public CreatureScript
                 me->CastSpell(me, eSpells::StoneWallRockHandVisual, true);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 if (p_Action == eAction::ActionCrushingEarth)
                 {

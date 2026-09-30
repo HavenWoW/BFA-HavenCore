@@ -157,7 +157,7 @@ public:
         };
 
         // Called on each AreaTrigger update
-        void OnUpdate(uint32 diff)
+        void OnUpdate(uint32 diff) override
         {
             if (checkTimer <= diff)
             {

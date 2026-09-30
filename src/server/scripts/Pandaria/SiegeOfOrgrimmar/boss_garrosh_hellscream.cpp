@@ -1343,7 +1343,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 return 0;
             }
 
-            void DamageTaken(Unit* who, uint32& damage) override
+            void DamageTaken(Unit* /*who*/, uint32& damage) override
             {
                 if (m_Phase != (IsHeroic() ? PHASE_4 : PHASE_3))
                 {
@@ -1464,7 +1464,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC));
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2268,7 +2268,7 @@ struct npc_garrosh_hellscream_orcsAI : public ScriptedAI
 
 protected:
 
-    virtual void ExecuteEvent(const uint32 eventId)
+    virtual void ExecuteEvent(const uint32 eventId) override
     {
         if (eventId == EVENT_RESUME_FIGHT)
             ResumeFight();
@@ -2399,7 +2399,7 @@ class npc_garrosh_hellscream_farseer_wolf_rider : public CreatureScript
                 events.ScheduleEvent(EVENT_ANCESTRAL_CHAIN_HEAL, TIMER_ANCESTRAL_CHAIN_HEAL);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 OrcAI::ExecuteEvent(eventId);
 
@@ -3749,7 +3749,7 @@ class spell_garrosh_hellscream_touch_of_yshaarj : public SpellScriptLoader
                 }
             }
 
-            void Register()
+            void Register() override
             {
                 if (m_scriptSpellId == SPELL_TOUCH_OF_YSHAARJ_SINGLE || m_scriptSpellId == SPELL_TOUCH_OF_YSHAARJ_AOE)
                 {

@@ -16286,7 +16286,6 @@ void Player::AddQuest(Quest const* quest, Object* questGiver)
     questStatusData.ObjectiveData.resize(maxStorageIndex+1, 0);
 
     GiveQuestSourceItem(quest);
-    AdjustQuestReqItemCount(quest);
 
     for (QuestObjective const& obj : quest->GetObjectives())
     {
@@ -16343,6 +16342,7 @@ void Player::AddQuest(Quest const* quest, Object* questGiver)
     }
 
     SetQuestSlot(log_slot, quest_id, qtime);
+    AdjustQuestReqItemCount(quest);
 
     m_QuestStatusSave[quest_id] = QUEST_DEFAULT_SAVE_TYPE;
 

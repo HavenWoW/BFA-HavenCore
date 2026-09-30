@@ -66,7 +66,7 @@ struct boss_viqgoth : public BossAI
 		this->encountered = 0;
 	}
 
-	void EnterEvadeMode(EvadeReason why) override
+	void EnterEvadeMode(EvadeReason /*why*/) override
 	{
 		if (me->GetThreatManager().IsThreatListEmpty() && this->encountered == 1 && me->HealthAbovePct(1) && instance->GetBossState(DATA_VIQGOTH) == IN_PROGRESS)
 		{
@@ -230,7 +230,7 @@ struct npc_cannon_viq : public ScriptedAI
 
 	}
 
-	void sGossipHello(Player* player)
+	void sGossipHello(Player* player) override
 	{	
 		CloseGossipMenuFor(player);
 		//me->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
@@ -341,7 +341,7 @@ struct npc_jaina_sob_outro_ali : public ScriptedAI
 		}
 	}
 
-	void UpdateAI(uint32 diff)
+	void UpdateAI(uint32 diff) override
 	{
 		scheduler.Update(diff);
 	}

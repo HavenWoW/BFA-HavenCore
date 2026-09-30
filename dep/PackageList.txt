@@ -8,10 +8,6 @@ Boost Process (Proposed for boost, but its not an official part of it yet. Used 
   http://www.highscore.de/boost/process0.5/
   Version: 0.5
 
-cotire (CMake module to speed up builds)
-  https://github.com/sakra/cotire
-  Version: 1.7.10 516d78476f6dda336181fc5514f72774e1e0a8e2
-
 efws (Entropia File System Watcher - crossplatform file system watcher)
   https://bitbucket.org/SpartanJ/efsw
   Version: 1.5.0+ f94a6616aba85fc9375fdff7ee69609d223a0672
@@ -55,6 +51,10 @@ gSOAP (a portable development toolkit for C and C++ XML Web services and XML dat
 recastnavigation (Recast is state of the art navigation mesh construction toolset for games)
   https://github.com/recastnavigation/recastnavigation
   Version: 2c85309280dbc9c82029e7ab16dfb01b9235c74e
+
+argon2
+  https://github.com/P-H-C/phc-winner-argon2
+  Version: 62358ba
 
 CascLib (An open-source implementation of library for reading CASC storage from Blizzard games since 2014)
   https://github.com/ladislav-zezula/CascLib

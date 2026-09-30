@@ -1088,7 +1088,7 @@ struct npc_tos_touch_of_sargeras : public ScriptedAI
 
     EventMap events;
 
-    void IsSummonedBy(Unit* owner) override
+    void IsSummonedBy(Unit* /*owner*/) override
     {
         me->SetReactState(REACT_PASSIVE);
         DoCast(SPELL_TOUCH_OF_SARGERAS_AT);
@@ -1136,7 +1136,7 @@ struct npc_tos_rain_of_destroyer : public ScriptedAI
 
     EventMap events;
 
-    void IsSummonedBy(Unit* owner) override
+    void IsSummonedBy(Unit* /*owner*/) override
     {
         me->SetReactState(REACT_PASSIVE);
         me->CastSpell(me, SPELL_RAIN_OF_THE_DESTROYER_AT);

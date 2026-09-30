@@ -549,7 +549,7 @@ class aura_mutterings_of_insanity : public AuraScript
 		}
 	}
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();
@@ -572,7 +572,7 @@ class aura_volatile_seed : public AuraScript
 {
 	PrepareAuraScript(aura_volatile_seed);
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();

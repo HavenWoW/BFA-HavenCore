@@ -2289,12 +2289,12 @@ class npc_spoils_of_pandaria_lift_hook : public CreatureScript
     public:
         npc_spoils_of_pandaria_lift_hook() : CreatureScript("npc_spoils_of_pandaria_lift_hook") { }
 
-        CreatureAI* GetAI(Creature* creature) const
+        CreatureAI* GetAI(Creature* creature) const override
         {
             return new npc_spoils_of_pandaria_lift_hookAI(creature);
         }
 
-        bool OnGossipHello(Player* player, Creature* creature) override
+        bool OnGossipHello(Player* /*player*/, Creature* /*creature*/) override
         {
             // prevent from gossip menu
             return true;
@@ -2400,12 +2400,12 @@ class npc_spoils_of_pandaria_unstable_spark : public CreatureScript
                 //ApplyAllImmunities(true);
             }
 
-            void Reset()
+            void Reset() override
             {
                 DoCast(me, SPELL_UNSTABLE_SPARK_VISUAL, true);
             }
 
-            void IsSummonedBy(Unit* owner) override
+            void IsSummonedBy(Unit* /*owner*/) override
             {
 
                 DoCast(me, SPELL_SUPERNOVA);
@@ -2416,7 +2416,7 @@ class npc_spoils_of_pandaria_unstable_spark : public CreatureScript
                 me->DespawnOrUnsummon(2000);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 UpdateCastingSupernova(diff);
             }
@@ -2696,7 +2696,7 @@ class npc_spoils_of_pandaria_animated_stone_mogu : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_EARTHEN_SHARD, eTimers::TIMER_EARTHEN_SHARD_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2877,7 +2877,7 @@ class npc_spoils_of_pandaria_quilen_guardian : public CreatureScript
                 return !IsAnyQuilenAlive();
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2932,7 +2932,7 @@ class npc_spoils_of_pandaria_quilen_guardians : public CreatureScript
                 me->SetUnitFlags(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC));
             }
 
-            void IsSummonedBy(Unit* p_Owner) override
+            void IsSummonedBy(Unit* /*p_Owner*/) override
             {
                 Creature* l_Spoils = GetSpoilsOfPandaria(me);
                 if (!l_Spoils)
@@ -3038,7 +3038,7 @@ class npc_spoils_of_pandaria_mogu_shadow_ritualist : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_MOGU_RUNE_OF_POWER, eTimers::TIMER_MOGU_RUNE_OF_POWER_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3159,7 +3159,7 @@ class npc_spoils_of_pandaria_modified_anima_golem : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_MATTER_SCRAMBLE, eTimers::TIMER_MATTER_SCRAMBLE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3331,7 +3331,7 @@ class npc_spoils_of_pandaria_jun_wei : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3451,7 +3451,7 @@ class npc_spoils_of_pandaria_zu_yin : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3571,7 +3571,7 @@ class npc_spoils_of_pandaria_xiang_lin : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3691,7 +3691,7 @@ class npc_spoils_of_pandaria_kun_da : public CreatureScript
                 events.ScheduleEvent(eEvents::EVENT_RETURN_TO_STONE, eTimers::TIMER_RETURN_TO_STONE_FIRST);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3754,7 +3754,7 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 me->SetReactState(ReactStates::REACT_PASSIVE);
             }
 
-            void IsSummonedBy(Unit* p_Owner) override
+            void IsSummonedBy(Unit* /*p_Owner*/) override
             {
                 me->AddAura(Spells::SPELL_RETURN_TO_STONE_VISUAL_3, me);
             }
@@ -3776,7 +3776,7 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 me->DespawnOrUnsummon(1 * IN_MILLISECONDS);
             }
 
-            void UpdateAI(const uint32 p_Diff)
+            void UpdateAI(const uint32 p_Diff) override
             {
                 UpdateVisual(p_Diff);
 
@@ -3814,7 +3814,7 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 }
             }
 
-            void ExecuteEvent(uint32 p_EventId)
+            void ExecuteEvent(uint32 p_EventId) override
             {
                 if (p_EventId == eEvents::EVENT_ANIMATED_STRIKE)
                 {
@@ -3870,7 +3870,7 @@ class npc_spoils_of_pandaria_srithik_bombardier : public CreatureScript
 
             }
 
-            void SetObjectGuid(ObjectGuid p_Guid, int32 l_Type)
+            void SetObjectGuid(ObjectGuid p_Guid, int32 /*l_Type*/)
             {
                 if (Unit* l_Target = ObjectAccessor::GetUnit(*me, p_Guid))
                 {
@@ -4500,7 +4500,7 @@ class npc_spoils_of_pandaria_wise_mistweaver_spirit : public CreatureScript
 
             }
 
-            void Reset()
+            void Reset() override
             {
                 npc_spoils_of_pandaria_mobAI::Reset();
 
@@ -4610,7 +4610,7 @@ class npc_spoils_of_pandaria_nameless_windwalker_spirit : public CreatureScript
 
             }
 
-            void MovementInform(uint32 type, uint32 id) override
+            void MovementInform(uint32 /*type*/, uint32 id) override
             {
                 if (id == EVENT_JUMP)
                 {
@@ -4734,7 +4734,7 @@ class go_spoils_of_pandaria_stockpile : public GameObjectScript
             return true;
         }
 
-        bool OnGossipSelect(Player* pPlayer, GameObject* pGo, uint32 /*sender*/, uint32 action) override
+        bool OnGossipSelect(Player* pPlayer, GameObject* pGo, uint32 /*sender*/, uint32 /*action*/) override
         {
             pPlayer->PlayerTalkClass->SendCloseGossip();
 
@@ -4760,7 +4760,7 @@ class go_spoils_of_pandaria_lever : public GameObjectScript
     public:
         go_spoils_of_pandaria_lever() : GameObjectScript("go_spoils_of_pandaria_lever") { }
 
-        bool OnGossipHello(Player* pPlayer, GameObject* pGo) override
+        bool OnGossipHello(Player* /*pPlayer*/, GameObject* pGo) override
         {
             if (Creature* pSpoils = GetSpoilsOfPandaria(pGo))
             {
@@ -4882,7 +4882,7 @@ class spell_spoils_of_pandaria_unstable_defense_systems_dmg : public SpellScript
         {
             PrepareAuraScript(spell_spoils_of_pandaria_unstable_defense_systems_dmg_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetCaster() || !GetUnitOwner())
                     return;
@@ -4911,7 +4911,7 @@ class spell_spoils_of_pandaria_mantid_swarm : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_mantid_swarm_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -4942,7 +4942,7 @@ class spell_spoils_of_pandaria_residue : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_residue_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -4971,7 +4971,7 @@ class spell_spoils_of_pandaria_rage_of_the_empress : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_rage_of_the_empress_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -5000,7 +5000,7 @@ class spell_spoils_of_pandaria_set_to_blow : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_set_to_blow_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -5037,7 +5037,7 @@ class spell_spoils_of_pandaria_set_to_blow_override : public SpellScriptLoader
         {
             PrepareAuraScript(spell_spoils_of_pandaria_set_to_blow_override_AuraScript);
 
-            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes mode)
+            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -5047,7 +5047,6 @@ class spell_spoils_of_pandaria_set_to_blow_override : public SpellScriptLoader
 
                 int stacks = GetAura()->GetStackAmount();
 
-                Difficulty difficulty = GetUnitOwner()->GetMap()->GetDifficultyID();
                 SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_SET_TO_BLOW_DMG);
                 int basepoints = spellInfo->GetEffect(EFFECT_0)->BasePoints * stacks;
 
@@ -5080,7 +5079,7 @@ class spell_spoils_of_pandaria_throw_bomb : public SpellScriptLoader
                 GetCaster()->RemoveAuraFromStack(SPELL_SET_TO_BLOW_OVERRIDE);
             }
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -5113,7 +5112,7 @@ class spell_spoils_of_pandaria_breath_of_fire : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_breath_of_fire_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -5147,7 +5146,7 @@ class spell_spoils_of_pandaria_eminence : public SpellScriptLoader
         {
             PrepareAuraScript(spell_spoils_of_pandaria_eminence_AuraScript);
 
-            void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+            void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
             {
                 PreventDefaultAction();
 
@@ -5190,7 +5189,7 @@ class spell_spoils_of_pandaria_massive_mogu_aoe : public SpellScriptLoader
 
             spell_spoils_of_pandaria_massive_mogu_aoe_SpellScript(uint32 dmgSpellId) : SpellScript(), _dmgSpellId(dmgSpellId) { }
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -5254,7 +5253,7 @@ class spell_spoils_of_pandaria_unstable_spark : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_unstable_spark_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 // the caster is 'spoils of pandaria mob', he will be despawned in 10 secs after death
                 if (!GetCaster())
@@ -5289,7 +5288,7 @@ class spell_spoils_of_pandaria_blade_of_the_thousand_steps : public SpellScriptL
         {
             PrepareAuraScript(spell_spoils_of_pandaria_blade_of_the_thousand_steps_AuraScript);
 
-            void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+            void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
             {
                 PreventDefaultAction();
 
@@ -5324,7 +5323,7 @@ class spell_spoils_of_pandaria_gusting_bomb : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_gusting_bomb_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -5362,7 +5361,7 @@ class spell_spoils_of_pandaria_gusting_bomb_periodic : public SpellScriptLoader
         {
             PrepareAuraScript(spell_spoils_of_pandaria_gusting_bomb_periodic_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetCaster() || !GetUnitOwner())
                     return;
@@ -5391,7 +5390,7 @@ class spell_spoils_of_pandaria_spark_of_life_periodic: public SpellScriptLoader
         {
             PrepareAuraScript(spell_spoils_of_pandaria_spark_of_life_periodic_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 Unit* l_Owner = GetUnitOwner();
                 if (!l_Owner)
@@ -5466,7 +5465,7 @@ class spell_spoils_of_pandaria_harden_flesh : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_harden_flesh_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 Unit* l_Caster = GetCaster();
                 if (!l_Caster)
@@ -5504,7 +5503,7 @@ class spell_spoils_of_pandaria_torment : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_torment_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 Unit* l_Caster = GetCaster();
                 if (!l_Caster)
@@ -5542,7 +5541,7 @@ class spell_spoils_of_pandaria_torment_dummy : public SpellScriptLoader
         {
             PrepareSpellScript(spell_spoils_of_pandaria_torment_dummy_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 Unit* l_OriginalCaster = GetOriginalCaster();
                 Unit* l_Target = GetHitUnit();
@@ -5591,7 +5590,7 @@ class spell_spoils_of_pandaria_torment_dmg : public SpellScriptLoader
                 l_Caster->DealSpellDamage(&l_DamageInfo, false);
             }
 
-            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes mode)
+            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 Unit* l_Caster = GetCaster();
                 Unit* l_Target = GetUnitOwner();
@@ -5664,7 +5663,7 @@ class spell_spoils_of_pandaria_mogu_rune_of_power : public SpellScriptLoader
             }
 
             //void HandleDummy(SpellEffIndex effIndex)
-            void DoEffectHitTarget(SpellEffIndex effIndex)
+            void DoEffectHitTarget(SpellEffIndex /*effIndex*/)
             {
                 Unit* l_Caster = GetCaster();
                 Unit* l_Target = GetHitUnit();
@@ -5727,7 +5726,7 @@ class spell_spoils_of_pandaria_crimson_reconstitution : public SpellScriptLoader
             }
 
             //void HandleDummy(SpellEffIndex effIndex)
-            void DoEffectHitTarget(SpellEffIndex effIndex)
+            void DoEffectHitTarget(SpellEffIndex /*effIndex*/)
             {
                 Unit* l_Caster = GetCaster();
                 Unit* l_Target = GetHitUnit();
@@ -5760,7 +5759,7 @@ class spell_spoils_of_pandaria_matter_scramble : public SpellScriptLoader
         {
             PrepareAuraScript(spell_spoils_of_pandaria_matter_scramble_AuraScript);
 
-            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes mode)
+            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_EXPIRE)
                     return;
@@ -5881,7 +5880,7 @@ class spell_spoils_of_pandaria_pheromone_cloud : public SpellScriptLoader
         {
             PrepareAuraScript(spell_spoils_of_pandaria_pheromone_cloud_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* p_AurEff)
+            void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
             {
                 Unit* l_Caster = GetCaster();
                 if (!l_Caster)
@@ -5997,7 +5996,7 @@ class spell_spoils_of_pandaria_strength_of_the_stone : public SpellScriptLoader
         {
             PrepareAuraScript(spell_spoils_of_pandaria_strength_of_the_stone_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -6140,7 +6139,7 @@ struct spell_area_spoils_of_pandaria_set_to_blow : AreaTriggerAI
         return;
     }
 
-    void OnRemove()
+    void OnRemove() override
     {
         Unit* caster = at->GetCaster();
         if (!caster)
@@ -6211,7 +6210,7 @@ struct spell_area_spoils_of_pandaria_encapsulated_pheromones : AreaTriggerAI
         return;
     }
 
-    void OnUnitExit(Unit* target)
+    void OnUnitExit(Unit* target) override
     {
         target->RemoveAura(SPELL_ENCAPSULATED_PHEROMONES_AURA);
         return;
@@ -6239,7 +6238,7 @@ struct spell_area_spoils_of_pandaria_staff_of_resonating_water : AreaTriggerAI
         //trigger->SetTrajectory(AreatriggerInterpolation::AREATRIGGER_INTERPOLATION_LINEAR);
     }
 
-    void OnUnitEnter(Unit* target)
+    void OnUnitEnter(Unit* target) override
     {
         if (at->GetDuration() == 0)
             return;
@@ -6343,7 +6342,7 @@ struct spell_area_spoils_of_pandaria_crimson_reconstitution : AreaTriggerAI
 {
     spell_area_spoils_of_pandaria_crimson_reconstitution(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUnitEnter(Unit* target)
+    void OnUnitEnter(Unit* target) override
     {
         Unit* l_Caster = at->GetCaster();
         if (!l_Caster || !l_Caster->IsInCombat())
@@ -6355,7 +6354,7 @@ struct spell_area_spoils_of_pandaria_crimson_reconstitution : AreaTriggerAI
         l_Caster->AddAura(Spells::SPELL_CRIMSON_RECONSTITUTION_HEAL, target);
     }
 
-    void OnUnitExit(Unit* target)
+    void OnUnitExit(Unit* target) override
     {
         target->RemoveAura(Spells::SPELL_CRIMSON_RECONSTITUTION_HEAL);
     }

@@ -302,7 +302,7 @@ struct npc_lightforged_beacon_129449 : public ScriptedAI
         me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {

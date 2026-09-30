@@ -1230,7 +1230,7 @@ public:
             at->SetDuration(0);
         }
 
-        void DoAction(int32 param)
+        void DoAction(int32 param) override
         {
             _posIndex = param;
         }

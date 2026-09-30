@@ -201,7 +201,7 @@ struct auchindoun_mob_tuulani : public ScriptedAI
         }
     }
 
-    void MovementInform(uint32 /*p_Type*/, uint32 p_Id)
+    void MovementInform(uint32 /*p_Type*/, uint32 p_Id) override
     {
         if (instance)
         {
@@ -267,20 +267,20 @@ struct auchindoun_mob_sargerei_soulbinder : public ScriptedAI
     EventMap events;
     InstanceScript* m_Instance;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         if (Creature* target = me->FindNearestCreature(CreatureSoulAegis, 50.0f))
             me->CastSpell(target, SpellVoidBeam, true);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eSargereiSoulbinderEvents::EventMindShear, 8 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eSargereiSoulbinderEvents::EventBendWill, 18 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance)
         {
@@ -343,19 +343,19 @@ struct auchindoun_mob_sargerei_cleric : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         if (Creature* target = me->FindNearestCreature(CreatureSoulAegis, 50.0f))
             me->CastSpell(target, SpellVoidBeam, true);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eSargereiClericEvents::EventVoidShell, 15 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance)
         {
@@ -414,7 +414,7 @@ struct auchindoun_mob_sargerei_ritualist : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
 
@@ -424,14 +424,14 @@ struct auchindoun_mob_sargerei_ritualist : public ScriptedAI
         me->AddAura(eSargereiRitualistSpells::SpellDarkFire, me);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         me->CastStop();
         me->RemoveAllAuras();
         events.ScheduleEvent(eSargereiRitualistEvents::EventMindSpike, urand(6 * TimeConstants::IN_MILLISECONDS, 8 * TimeConstants::IN_MILLISECONDS));
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance != nullptr)
         {
@@ -487,17 +487,17 @@ struct auchindoun_mob_sargerei_zealot : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eAuchindounEvents::EventSeverTendom, 5 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance != nullptr)
         {
@@ -557,20 +557,20 @@ struct auchindoun_mob_sargerei_spirit_tender : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         if (Creature* target = me->FindNearestCreature(CreatureSoulAegis, 50.0f))
             me->CastSpell(target, SpellVoidBeam, true);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eSpiritTenderEvents::EventVoidMending, 10 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eSpiritTenderEvents::EventVoidShift, 16 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance != nullptr)
         {
@@ -634,18 +634,18 @@ struct auchindoun_mob_sargerei_hopilite : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eSargereiHopiliteEvents::EventShieldBash, urand(8 * TimeConstants::IN_MILLISECONDS, 12 * TimeConstants::IN_MILLISECONDS));
         events.ScheduleEvent(eSargereiHopiliteEvents::EventVoidStrikes, 18 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance != nullptr)
         {
@@ -712,7 +712,7 @@ struct auchindoun_mob_sargerei_defender : public ScriptedAI
     EventMap events;
     bool m_False;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
 
@@ -720,7 +720,7 @@ struct auchindoun_mob_sargerei_defender : public ScriptedAI
             m_False = false;
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eSargereiDefenderEvents::EventAvengersShield, urand(10 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));
         events.ScheduleEvent(eSargereiDefenderEvents::EventCrusaderStirke, urand(5 * TimeConstants::IN_MILLISECONDS, 9 * TimeConstants::IN_MILLISECONDS));
@@ -784,7 +784,7 @@ struct auchindoun_mob_sargerei_magus : public ScriptedAI
     bool m_False;
     std::list<ObjectGuid> l_Prisoners;
 
-    void Reset()
+    void Reset() override
     {
         if (m_False)
             m_False = false;
@@ -793,7 +793,7 @@ struct auchindoun_mob_sargerei_magus : public ScriptedAI
         me->CastSpell(me, eSargereiMagusSpells::SpellArcaneChanneling);
     }
 
-    void MovementInform(uint32 /*p_Type*/, uint32 p_Id)
+    void MovementInform(uint32 /*p_Type*/, uint32 p_Id) override
     {
         switch (p_Id)
         {
@@ -819,7 +819,7 @@ struct auchindoun_mob_sargerei_magus : public ScriptedAI
         }
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         me->RemoveAura(eSargereiMagusSpells::SpellArcaneChanneling);
         events.ScheduleEvent(eSargereiMagusEvents::EventArcaneBomb, 13 * TimeConstants::IN_MILLISECONDS);
@@ -893,7 +893,7 @@ struct auchindoun_mob_soul_priest : public ScriptedAI
 
     bool m_False;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
 
@@ -903,7 +903,7 @@ struct auchindoun_mob_soul_priest : public ScriptedAI
         }
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eSoulPriestEvents::EventPsychicTerrors, 15 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eSoulPriestEvents::EventShadowWordPainSoulPriest, urand(8 * TimeConstants::IN_MILLISECONDS, 10 * TimeConstants::IN_MILLISECONDS));
@@ -964,7 +964,7 @@ struct auchindoun_mob_sargeri_warden : public ScriptedAI
     EventMap events;
     bool m_False;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
 
@@ -972,7 +972,7 @@ struct auchindoun_mob_sargeri_warden : public ScriptedAI
             m_False = false;
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eWardenEvents::EventWardenChain, 5 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eWardenEvents::EventWardenHammer, urand(12 * TimeConstants::IN_MILLISECONDS, 16 * TimeConstants::IN_MILLISECONDS));
@@ -1031,7 +1031,7 @@ struct auchindoun_mob_felborne_abyssal : public ScriptedAI
     bool m_Fixated;
     ObjectGuid m_FixatedTargetGUID;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         m_Fixated = false;
@@ -1039,12 +1039,12 @@ struct auchindoun_mob_felborne_abyssal : public ScriptedAI
         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eFelborneAbyssalEvents::EventFixate, urand(16 * TimeConstants::IN_MILLISECONDS, 20 * TimeConstants::IN_MILLISECONDS));
     }
 
-    void DoAction(int32 p_Action)
+    void DoAction(int32 p_Action) override
     {
         switch (p_Action)
         {
@@ -1124,18 +1124,18 @@ struct auchindoun_mob_cackling_pyromaniac : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         me->CastSpell(me, eCacklingPyromaniacSpells::SpellAbyssalVisual);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eCacklingPyromaniacEvents::EventFelBlast, 6 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance != nullptr)
         {
@@ -1195,7 +1195,7 @@ struct auchindoun_mob_blazing_trickster : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
@@ -1203,7 +1203,7 @@ struct auchindoun_mob_blazing_trickster : public ScriptedAI
         events.ScheduleEvent(eBlazingTricksterEvents::EventConfligrate, urand(8 * TimeConstants::IN_MILLISECONDS, 15 * TimeConstants::IN_MILLISECONDS));
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance != nullptr)
         {
@@ -1261,18 +1261,18 @@ struct auchindoun_mob_felguard : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         me->SetReactState(ReactStates::REACT_AGGRESSIVE);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eFelguardEvents::EventFelStomp, 10 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void JustDied(Unit* /*p_Killer*/)
+    void JustDied(Unit* /*p_Killer*/) override
     {
         if (m_Instance != nullptr)
         {
@@ -1327,7 +1327,7 @@ struct auchindoun_mob_warden_hammer : public ScriptedAI
     InstanceScript* m_Instance;
     uint32 m_DiffHammer;
 
-    void Reset()
+    void Reset() override
     {
         me->SetFaction(HostileFaction);
         m_DiffHammer = 1 * TimeConstants::IN_MILLISECONDS;

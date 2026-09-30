@@ -208,7 +208,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 summons.DespawnAll();
 
@@ -271,7 +271,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -342,7 +342,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                     Talk(eTalks::MeltWarning);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -397,7 +397,7 @@ class boss_heart_of_the_mountain : public CreatureScript
                 }
             }
 
-            uint32 GetData(uint32 p_ID) const
+            uint32 GetData(uint32 p_ID) const override
             {
                 switch (p_ID)
                 {
@@ -923,7 +923,7 @@ class boss_foreman_feldspar : public CreatureScript
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 if (m_InEvadeMode)
                     return;
@@ -1155,7 +1155,7 @@ class npc_foundry_blackhand_cosmetic : public CreatureScript
                 m_ElementalistKilled = 0;
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1335,7 +1335,7 @@ class npc_foundry_primal_elementalist : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 if (m_Instance != nullptr)
                     m_Instance->SendEncounterUnit(EncounterFrameType::ENCOUNTER_FRAME_DISENGAGE, me);
@@ -1413,7 +1413,7 @@ class npc_foundry_primal_elementalist : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 if (p_SpellInfo->Id == eSpells::ShieldsDown)
                     m_Events.ScheduleEvent(eEvent::EventReactiveEerthShield, urand(1 * TimeConstants::IN_MILLISECONDS, 15 * TimeConstants::IN_MILLISECONDS));
@@ -1506,7 +1506,7 @@ class npc_foundry_bellows_operator : public CreatureScript
                 me->ApplySpellImmune(0, SpellImmunity::IMMUNITY_MECHANIC, Mechanics::MECHANIC_FREEZE, true);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1548,7 +1548,7 @@ class npc_foundry_bellows_operator : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 me->RemoveAllAuras();
 
@@ -1678,7 +1678,7 @@ class npc_foundry_heat_regulator : public CreatureScript
                // });
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 me->ClearUnitState(UnitState::UNIT_STATE_STUNNED);
                 me->ClearUnitState(UnitState::UNIT_STATE_ROOT);
@@ -2027,7 +2027,7 @@ class npc_foundry_cluster_of_lit_bombs : public CreatureScript
                // });
             }
 
-            void OnSpellClick(Unit* p_Clicker, bool& /*result*/)
+            void OnSpellClick(Unit* p_Clicker, bool& /*result*/) override
             {
                 if (p_Clicker->HasAura(eSpells::BombOverrider))
                     return;
@@ -2139,7 +2139,7 @@ class npc_foundry_slag_elemental : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers p_Power, int32& p_Value)
+            void RegeneratePower(Powers p_Power, int32& p_Value) override
             {
                 if (p_Power != Powers::POWER_ENERGY)
                     return;
@@ -2147,7 +2147,7 @@ class npc_foundry_slag_elemental : public CreatureScript
                 p_Value = 0;
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -2180,7 +2180,7 @@ class npc_foundry_slag_elemental : public CreatureScript
                 }
             }
 
-            void OnSpellFinished(SpellInfo const* /*p_SpellInfo*/)
+            void OnSpellFinished(SpellInfo const* /*p_SpellInfo*/) override
             {
                 /// This prevent some movements issues
                 me->ClearUnitState(UnitState::UNIT_STATE_CASTING);

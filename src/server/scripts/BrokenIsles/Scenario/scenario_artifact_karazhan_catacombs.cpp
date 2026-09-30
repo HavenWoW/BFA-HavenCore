@@ -230,7 +230,7 @@ struct npc_revil_kost_101282 : public ScriptedAI
         ACTION_STAGE_3_kill_conservator = 3,
         ACTION_STAGE_7 = 4,
     };
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -368,7 +368,7 @@ struct npc_the_conservator_101257 : public ScriptedAI
         SPELL_HATEFUL_BOLT = 201693,
         SPELL_EVOCATION = 201692 ,
     };
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -390,7 +390,7 @@ struct npc_the_conservator_101257 : public ScriptedAI
         islow = false;
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(SPELL_HATEFUL_BOLT, 2 * IN_MILLISECONDS);
     }
@@ -474,7 +474,7 @@ struct npc_ariden_100850 : public ScriptedAI
         ACTION_STAGE_4_COMPLETE = 3,
     };
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -563,7 +563,7 @@ struct npc_ariden_102200 : public ScriptedAI
         SPELL_EXHAUSTION = 204661,
     };
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -581,7 +581,7 @@ struct npc_ariden_102200 : public ScriptedAI
             instance->SetData(DATA_STAGE_6, DONE);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         Talk(0);
         me->GetScheduler().Schedule(Milliseconds(1000), [](TaskContext context)

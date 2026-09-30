@@ -148,12 +148,12 @@ struct boss_nzoth : public BossAI
         Talk(SAY_AGGRO);
         _JustEngagedWith();
         this->phase1 = true;
-        me->GetScheduler().Schedule(3s, [this] (TaskContext context)
+        me->GetScheduler().Schedule(3s, [this] (TaskContext /*context*/)
         {
             me->AddUnitState(UNIT_STAND_STATE_SUBMERGED);
             for (uint8 i = 0; i < 13; i++)
             {
-                auto exposedSynapses = DoSummon(NPC_EXPOSED_SYNAPSE, me->GetRandomPoint(synapses_pos, 40.0f));
+                DoSummon(NPC_EXPOSED_SYNAPSE, me->GetRandomPoint(synapses_pos, 40.0f));
             }
             me->SummonCreature(NPC_PSYCHUS, psychus_pos, TEMPSUMMON_MANUAL_DESPAWN);
         });
@@ -200,10 +200,10 @@ struct boss_nzoth : public BossAI
             events.ScheduleEvent(EVENT_ETERNAL_HUNGER, 3s);
             events.ScheduleEvent(EVENT_MINDGRASP, 8s);
             me->SummonCreature(NPC_BASHER_TENTACLE, basher_tentacle_pos_1, TEMPSUMMON_MANUAL_DESPAWN);
-            auto* corrupted = DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
+            DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
             for (uint8 i = 0; i < 3; i++)
             {
-                auto spike = DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
+                DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
             }
             this->phase1 = false;
             this->phase2 = true;
@@ -213,10 +213,10 @@ struct boss_nzoth : public BossAI
         case ACTION_MINDGATE:
         {
             me->SummonCreature(NPC_BASHER_TENTACLE, basher_tentacle_pos_1, TEMPSUMMON_MANUAL_DESPAWN);
-            auto* corrupted_wave_2 = DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
+            DoSummon(NPC_CORRUPTOR_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 10.0f));
             for (uint8 i = 0; i < 3; i++)
             {
-                auto spike_2 = DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
+                DoSummon(NPC_SPIKE_TENTACLE, me->GetRandomPoint(basher_tentacle_pos_1, 15.0f));
             }
             break;
         }
@@ -276,7 +276,7 @@ struct boss_nzoth : public BossAI
 
         case EVENT_BERSERK:
             me->AddAura(SPELL_BERSERK);
-            me->GetScheduler().Schedule(5s, [this](TaskContext context)
+            me->GetScheduler().Schedule(5s, [this](TaskContext /*context*/)
             {
                 instance->DoKillPlayersWithAura(SPELL_TRANDESCENT_POWER);
             });
@@ -285,7 +285,7 @@ struct boss_nzoth : public BossAI
         case EVENT_HARVESTER:
             if (this->phase3 == true)
             {
-                auto* harvest = DoSummon(NPC_THOUGHT_HARVESTER, me->GetRandomPoint(harvester_pos, 30.0f));
+                DoSummon(NPC_THOUGHT_HARVESTER, me->GetRandomPoint(harvester_pos, 30.0f));
             }            
             break;
 
@@ -322,7 +322,7 @@ struct boss_nzoth : public BossAI
         _DespawnAtEvade();
     }
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(3))
         {
@@ -408,14 +408,14 @@ struct npc_psychus : public ScriptedAI
             {
                 synapses->AddAura(SPELL_SHATTERED_EGO_STUN);
             }
-            nzoth->GetScheduler().Schedule(30s, [this, nzoth] (TaskContext context)
+            nzoth->GetScheduler().Schedule(30s, [this, nzoth] (TaskContext /*context*/)
             {
                 me->ClearUnitState(UNIT_STAND_STATE_SUBMERGED);               
                 nzoth->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
                 nzoth->AI()->DoAction(ACTION_INIT_PHASE_2);
                 for (uint8 i = 0; i < 13; i++)
                 {
-                    auto exposedSynapses = DoSummon(NPC_CORRUPTED_NEURON, me->GetRandomPoint(synapses_pos, 40.0f));
+                    DoSummon(NPC_CORRUPTED_NEURON, me->GetRandomPoint(synapses_pos, 40.0f));
                 }
             });
         }
@@ -438,7 +438,7 @@ struct npc_exposed_synapse : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void IsSummonedBy(Unit* u) override
+    void IsSummonedBy(Unit* /*u*/) override
     {
         me->SetObjectScale(0.5f);
         //me->SetDisplayId(95373);
@@ -557,7 +557,7 @@ struct npc_spike_tentacle : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void IsSummonedBy(Unit* u) override
+    void IsSummonedBy(Unit* /*u*/) override
     {
         events.ScheduleEvent(EVENT_PAIN_SPIKE, 3s);    
     }
@@ -601,7 +601,7 @@ struct npc_corruptor_tentacle_158375 : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void IsSummonedBy(Unit* u) override
+    void IsSummonedBy(Unit* /*u*/) override
     {
         events.ScheduleEvent(EVENT_CORRUPTED_MIND, 3s);
     }

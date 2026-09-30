@@ -339,7 +339,7 @@ public:
                     Position summonPos;
                     me->GetRandomPoint(NestPositionsGround[i], 7.0f);
 
-                    Creature* egg = me->SummonCreature(NPC_YOUNG_EGG_OF_JIKUN, summonPos.GetPositionX(), summonPos.GetPositionY(), summonPos.GetPositionZ());
+                    me->SummonCreature(NPC_YOUNG_EGG_OF_JIKUN, summonPos.GetPositionX(), summonPos.GetPositionY(), summonPos.GetPositionZ());
                 }
 
                 // top places 10 eggs in nest
@@ -402,7 +402,7 @@ public:
 
         /*** NORMAL FUNCTIONS ***/
 
-        void Reset()
+        void Reset() override
         {
             RemoveAllAurasAndDespawnSummons();
 
@@ -422,7 +422,7 @@ public:
             RemoveFeathers();
         }
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             nests = 0; // just to be sure its reseted
             DoCast(me, SPELL_INFECTED_TALONS_AURA);
@@ -442,7 +442,7 @@ public:
             //SummonEggs();
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             me->RemoveAllAuras();
             Reset();
@@ -457,7 +457,7 @@ public:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me); // Remove.
         }
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature* summon) override
         {
             summons.Summon(summon);
             //summon->setActive(true);
@@ -528,7 +528,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id) override
         {
             switch (id)
             {
@@ -769,7 +769,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (!UpdateVictim())
                 return;
@@ -956,7 +956,7 @@ public:
             me->AddAura(SPELL_BEAM_VISUAL, me);
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             if (me->GetPositionZ() > -31.86f)
             {
@@ -1098,7 +1098,7 @@ public:
                 DoMeleeAttackIfReady();
         }
 
-        void MovementInform(uint32 type, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id)
         {
             switch (id)
             {
@@ -1265,7 +1265,7 @@ public:
             me->SetFaction(summoner->getFaction());
         }
 
-        void OnSpellClick(Unit* clicker, bool& result)
+        void OnSpellClick(Unit* /*clicker*/, bool& /*result*/)
         {
             std::list<Creature*> JiKun;
             GetCreatureListWithEntryInGrid(JiKun, me, 69712, 500.0f);
@@ -1366,7 +1366,7 @@ public:
     {
         PrepareAuraScript(spell_infected_talons_AuraScript);
 
-        void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+        void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
         {
             PreventDefaultAction();
 
@@ -1540,7 +1540,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             events.ScheduleEvent(EVENT_FEED_POOL_DAMAGE, 3500, 0, 0);
         }
@@ -1589,7 +1589,7 @@ public:
         {
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             if (me->GetEntry() == NPC_FEED_HATCHLINGS)
             {
@@ -1598,7 +1598,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
             // When eat flyed, player may get it when move to it
             Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
@@ -1627,7 +1627,7 @@ public:
             }
             }
         }
-        void MovementInform(uint32 type, uint32 id)
+        void MovementInform(uint32 /*type*/, uint32 id)
         {
             switch (id)
             {
@@ -1734,7 +1734,7 @@ public:
             me->SetCanFly(true);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
             Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)
@@ -1783,7 +1783,7 @@ public:
     {
     }
 
-    bool OnGossipHello(Player* player, GameObject* go)
+    bool OnGossipHello(Player* player, GameObject* /*go*/)
     {
         if (player->HasAura(SPELL_LESSON_OF_ICARUS) || player->IsGameMaster())
             return true;
@@ -1827,7 +1827,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             events.ScheduleEvent(EVENT_CHECK_MELEE, 20000, 0, 0);
         }
@@ -1923,7 +1923,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_screech_slow_AuraScript);
 
-        void OnProc(AuraEffect const* aurEff, ProcEventInfo& /*eventInfo*/)
+        void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& /*eventInfo*/)
         {
             if (Player* player = GetTarget()->ToPlayer())
             {
@@ -2062,7 +2062,7 @@ public:
             }
         }
 
-        void HandleHit(SpellEffIndex index)
+        void HandleHit(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetHitUnit();

@@ -209,7 +209,7 @@ struct boss_jadefire_masters : public BossAI
        }      
    }
 
-   void SpellHitDest(SpellDestination const* /*dest*/, SpellInfo const* spellInfo)
+   void SpellHitDest(SpellDestination const* /*dest*/, SpellInfo const* spellInfo) override
    {
        if (spellInfo->Id == MAGMA_TRAP_MISSILE_TRIGGER)
        {       

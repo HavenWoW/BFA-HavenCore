@@ -64,7 +64,7 @@ struct boss_raal_the_gluttonous : public BossAI
 		events.ScheduleEvent(EVENT_CALL_SERVANT, 9s);
 	}
 
-	void JustSummoned(Creature* summon)
+	void JustSummoned(Creature* summon) override
 	{
 		if (summon->GetEntry() == NPC_BILE_OOZELING)
 			summon->AI()->DoZoneInCombat();
@@ -179,7 +179,7 @@ struct npc_wasting_servant : public ScriptedAI
 		ScriptedAI::Reset();
 	}
 
-	void IsSummonedBy(Unit* /*u*/)
+	void IsSummonedBy(Unit* /*u*/) override
 	{		
 		me->SetReactState(REACT_PASSIVE);
 		me->SetWalk(true);

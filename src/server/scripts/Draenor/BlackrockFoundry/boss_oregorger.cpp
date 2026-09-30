@@ -248,7 +248,7 @@ class boss_oregorger : public CreatureScript
                 BossAI::SummonedCreatureDespawn(p_Summon);
             }
 
-            bool CanRespawn()
+            bool CanRespawn() override
             {
                 return false;
             }
@@ -463,7 +463,7 @@ class boss_oregorger : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) 
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Oregorger only regens by script
                 p_Value = 0;
@@ -498,7 +498,7 @@ class boss_oregorger : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 m_Events.Reset();
                 m_CosmeticEvents.Reset();
@@ -628,7 +628,7 @@ class boss_oregorger : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -1556,11 +1556,11 @@ class areatrigger_foundry_explosive_shard : public AreaTriggerEntityScript
             ExplosiveShardAoE = 156374
         };
 
-        void OnRemove(AreaTrigger* /*p_AreaTrigger*/, uint32 /*p_Time*/)
-        {
+        //void OnRemove(AreaTrigger* /*p_AreaTrigger*/, uint32 /*p_Time*/)
+        //{
            // if (Unit* l_Caster = p_AreaTrigger->GetCaster())
                // l_Caster->CastSpell(*p_AreaTrigger, eSpell::ExplosiveShardAoE, true);
-        }
+        //}
         /*
         AreaTriggerEntityScript* GetAI() 
         {
@@ -1585,7 +1585,7 @@ class go_foundry_volatile_blackrock_ore : public GameObjectScript
 
             bool m_Activated;
 
-            bool GossipHello(Player* p_Player , bool /*isUse*/)
+            bool GossipHello(Player* p_Player , bool /*isUse*/) override
             {
                 if (!m_Activated)
                 {
@@ -1596,7 +1596,7 @@ class go_foundry_volatile_blackrock_ore : public GameObjectScript
                 return false;
             }
 
-            void OnStateChanged(uint32 /*p_State*/, Unit* /*unit*/)
+            void OnStateChanged(uint32 /*p_State*/, Unit* /*unit*/) override
             {
                 if (m_Activated)
                 {
@@ -1607,10 +1607,10 @@ class go_foundry_volatile_blackrock_ore : public GameObjectScript
                 }
             }
 
-            void UpdateAI(uint32 p_Diff) override
-            {
+            //void UpdateAI(uint32 /*p_Diff*/) override
+            //{
               //  UpdateOperations(p_Diff);
-            }
+            //}
         };
 
         GameObjectAI* GetAI(GameObject* p_GameObject) const override

@@ -306,7 +306,7 @@ public:
             _JustDied();
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             if (action == ACTION_START_TSULONG_WAYPOINT)
             {
@@ -494,7 +494,7 @@ public:
 
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             CreatureAI::EnterEvadeMode();
 
@@ -713,7 +713,7 @@ public:
             creature->CastSpell(creature, SPELL_SUNBEAM_DUMMY, true);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
         }
 
@@ -763,7 +763,7 @@ class npc_embodied_terror : public CreatureScript
             }
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             terrorizeTimer = urand(3000, 6000);
         }
@@ -1137,7 +1137,7 @@ public:
     {
         PrepareAuraScript(script_impl);
 
-        void HandleEffectPeriodic(AuraEffect const* aurEff)
+        void HandleEffectPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* target = GetUnitOwner();
             if (!target)
@@ -1252,7 +1252,7 @@ public:
             me->SetSpeed(MOVE_RUN, 0.7f);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
             me->AddAura(SPELL_DARK_FIXATE_AURA, me);
 
@@ -1305,7 +1305,7 @@ public:
 
         std::list<Unit*> targetList;
 
-        void CalcPeriodic(AuraEffect const* /*aurEff*/, bool& isPeriodic, int32& amplitude)
+        void CalcPeriodic(AuraEffect const* /*aurEff*/, bool& /*isPeriodic*/, int32& amplitude)
         {
             Unit* caster = GetCaster();
 

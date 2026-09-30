@@ -692,7 +692,7 @@ public:
                     Map::PlayerList const& players = instance->GetPlayers();
                     for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                     {
-                        if (Player* player = itr->GetSource())
+                        if (itr->GetSource())
                         {
                             for (uint8 slot = EQUIPMENT_SLOT_START; slot < EQUIPMENT_SLOT_END; ++slot)
                             {

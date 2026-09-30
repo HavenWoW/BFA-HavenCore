@@ -64,6 +64,12 @@ public:
         return _sslSocket.write_some(buffers, error);
     }
 
+    template<typename WaitHandlerType>
+    void async_wait(boost::asio::socket_base::wait_type type, WaitHandlerType&& handler)
+    {
+        _socket.async_wait(type, std::forward<WaitHandlerType>(handler));
+    }
+
     template<typename SettableSocketOption>
     void set_option(SettableSocketOption const& option, boost::system::error_code& error)
     {

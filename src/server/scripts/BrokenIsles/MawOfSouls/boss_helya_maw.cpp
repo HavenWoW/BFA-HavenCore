@@ -872,7 +872,7 @@ public:
             me->SetReactState(REACT_PASSIVE);
         }
 
-        void DoAction(int32 action) override
+        void DoAction(int32 /*action*/) override
         {
         }
 
@@ -999,7 +999,7 @@ public:
     public:
         PrepareAuraScript(spell_helya_maw_taint_of_sea_AuraScript);
 
-        void HandleDispel(DispelInfo* dispelInfo)
+        void HandleDispel(DispelInfo* /*dispelInfo*/)
         {
             if (!GetCaster() || !GetUnitOwner())
                 return;
@@ -1081,7 +1081,7 @@ public:
     public:
         PrepareAuraScript(spell_helya_maw_turbulent_waters_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aurEff)
+        void HandlePeriodic(AuraEffect const* /*aurEff*/)
         {
             if (!GetCaster())
                 return;

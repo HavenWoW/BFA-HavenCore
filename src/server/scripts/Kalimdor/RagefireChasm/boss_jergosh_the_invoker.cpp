@@ -51,17 +51,9 @@ public:
             instance->SetData(BOSS_JERGOSH_THE_INVOKER, IN_PROGRESS);
         }
 
-        void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) 
-        {
-        }
-
         void JustDied(Unit* /*killer*/)
         {
             instance->SetData(BOSS_JERGOSH_THE_INVOKER, DONE);
-        }
-
-        void KilledUnit(Unit* Victim)
-        {
         }
 
         void UpdateAI(uint32 diff)
@@ -73,10 +65,8 @@ public:
                 {
                 case 1:
                 {
-                    // if (GameObject* door = ObjectAccessor::GetGameObject(*me, m_instance->GetData64(DATA_FACTORY_DOOR)))
-                    // door->UseDoorOrButton();
-
-
+                    //if (GameObject* door = ObjectAccessor::GetGameObject(*me, m_instance->GetData64(DATA_FACTORY_DOOR)))
+                    //  door->UseDoorOrButton();
 
                     m_events.ScheduleEvent(1, 10000);
                     break;

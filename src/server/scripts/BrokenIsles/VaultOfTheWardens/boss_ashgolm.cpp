@@ -250,13 +250,13 @@ public:
 
         void Reset() override {}
 
-        void SpellHit(Unit* caster, const SpellInfo* spell) override
+        void SpellHit(Unit* /*caster*/, const SpellInfo* spell) override
         {
             if (spell->Id == SPELL_FIRED_UP)
                 events.RescheduleEvent(1, 500);
         }
 
-        void IsSummonedBy(Unit* summoner) override
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             DoCast(me, SPELL_EMBER_SMOLDERING, true);
             events.RescheduleEvent(2, 2000);
@@ -315,7 +315,7 @@ public:
 
         void Reset() override {}
 
-        void IsSummonedBy(Unit* summoner) override
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             DoCast(me, SPELL_ACTIVATE_SYSTEM_VIS, true);
         }
@@ -329,7 +329,7 @@ public:
                 instance->SetData(DATA_ASHGOLM_SYSTEM, IN_PROGRESS);
         }
 */
-        void DoAction(int32 const action) override
+        void DoAction(int32 const /*action*/) override
             //45
         {
             DoCast(me, SPELL_ACTIVATE_SYSTEM, true);
@@ -363,13 +363,13 @@ public:
     {
         PrepareAuraScript(spell_ashgolm_frozen_AuraScript);
 
-        void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Creature* caster = GetCaster()->ToCreature())
                 caster->SetReactState(REACT_PASSIVE);
         }
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Creature* caster = GetCaster()->ToCreature())
                 caster->SetReactState(REACT_AGGRESSIVE);
@@ -398,7 +398,7 @@ public:
     {
         PrepareAuraScript(spell_brittle_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Creature* caster = GetCaster()->ToCreature())
                 if (caster->GetEntry() == 95886)

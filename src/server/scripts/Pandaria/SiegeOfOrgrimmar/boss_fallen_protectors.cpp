@@ -610,7 +610,7 @@ class boss_rook_stonetoe : public CreatureScript
                 Talk(SAY_ROOK_DEATH);
             }
 
-            void MovementInform(uint32 type, uint32 id) override
+            void MovementInform(uint32 /*type*/, uint32 id) override
             {
                 if (id == EVENT_JUMP)
                 {
@@ -987,7 +987,7 @@ class boss_sun_tenderheart : public CreatureScript
                 me->RemoveAllAreaTriggers();
             }
 
-            void DespawnCreaturesInArea(int entry, Unit* unit)
+            void DespawnCreaturesInArea(int entry, Unit* /*unit*/)
             {
                 std::list<Creature*> creatureList = me->FindNearestCreatures(entry, 200);
                 for (Creature* creature : creatureList)
@@ -1209,7 +1209,7 @@ struct rook_stonetoe_embodiedAI : public ScriptedAI
     }
 
 protected:
-    virtual void _Update(uint32 p_Diff) { }
+    virtual void _Update(uint32 /*p_Diff*/) { }
 };
 
 /// Embodied Misery - 71476
@@ -1217,7 +1217,7 @@ struct npc_rook_stonetoe_embodied_misery : public rook_stonetoe_embodiedAI
 {
     npc_rook_stonetoe_embodied_misery(Creature* p_Creature) : rook_stonetoe_embodiedAI(p_Creature) { }
 
-    void _Update(uint32 p_Diff) override
+    void _Update(uint32 /*p_Diff*/) override
     {
         if (uint32 l_EventId = events.ExecuteEvent())
         {
@@ -1243,7 +1243,7 @@ struct npc_rook_stonetoe_embodied_sorrow : public rook_stonetoe_embodiedAI
 {
     npc_rook_stonetoe_embodied_sorrow(Creature* p_Creature) : rook_stonetoe_embodiedAI(p_Creature) { }
 
-    void _Update(uint32 p_Diff) override
+    void _Update(uint32 /*p_Diff*/) override
     {
         if (uint32 l_EventId = events.ExecuteEvent())
         {
@@ -1272,7 +1272,7 @@ struct npc_rook_stonetoe_embodied_gloom : public rook_stonetoe_embodiedAI
         p_Creature->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_INTERRUPT, false);
     }
 
-    void _Update(uint32 p_Diff) override
+    void _Update(uint32 /*p_Diff*/) override
     {
         if (uint32 l_EventId = events.ExecuteEvent())
         {
@@ -1542,7 +1542,7 @@ struct npc_sun_tenderheart_spawn : public ScriptedAI
         SpiritBound = 143723
     };
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
     }
@@ -1554,7 +1554,7 @@ struct npc_sun_tenderheart_spawn : public ScriptedAI
         events.ScheduleEvent(Events::EVENT_AGGRO, 2000);
     }
 
-    void JustDied(Unit* /*p_Who*/)
+    void JustDied(Unit* /*p_Who*/) override
     {
         events.Reset();
         summons.DespawnAll();
@@ -1562,7 +1562,7 @@ struct npc_sun_tenderheart_spawn : public ScriptedAI
         me->DespawnOrUnsummon(3000);
     }
 
-    void UpdateAI(const uint32 p_Diff)
+    void UpdateAI(const uint32 p_Diff) override
     {
         if (!UpdateVictim())
             return;
@@ -1592,7 +1592,7 @@ class spell_sun_tenderheart_calamity : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sun_tenderheart_calamity_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1704,7 +1704,7 @@ class spell_sun_tenderheart_shadow_word_bane_dmg : public AuraScript
         GetAura()->SetCharges(p_AurEff->GetAmount());
     }
 
-    void HandlePeriodic(AuraEffect const* p_AurEff)
+    void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
     {
         if (GetAura()->GetCharges() > 1)
             if (auto l_Caster = GetCaster())
@@ -1805,7 +1805,7 @@ class spell_rook_stonetoe_inferno_strike : public SpellScriptLoader
         {
             PrepareSpellScript(spell_rook_stonetoe_inferno_strike_SpellScript);
 
-            void HandleDamage(SpellEffIndex effIndex)
+            void HandleDamage(SpellEffIndex /*effIndex*/)
             {
                 //int32 multiplier = GetSpellInfo()->Effects[EFFECT_0].BasePoints;
                 int32 multiplier = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
@@ -1885,7 +1885,7 @@ class spell_rook_stonetoe_clash_aoe : public SpellScriptLoader
         {
             PrepareSpellScript(spell_rook_stonetoe_clash_aoe_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -1916,7 +1916,7 @@ class spell_rook_stonetoe_corruption_shock_aoe : public SpellScript
 {
     PrepareSpellScript(spell_rook_stonetoe_corruption_shock_aoe);
 
-    void HandleDummy(SpellEffIndex p_EffIndex)
+    void HandleDummy(SpellEffIndex /*p_EffIndex*/)
     {
         if (auto l_Target = GetHitUnit())
             GetCaster()->CastSpell(l_Target, GetSpellValue()->EffectBasePoints[0], true);
@@ -1937,7 +1937,7 @@ class spell_he_softfoot_mark_of_anguish_aoe : public SpellScriptLoader
         {
             PrepareSpellScript(spell_he_softfoot_mark_of_anguish_aoe_SpellScript);
 
-            void HandleDummy(SpellEffIndex effIndex)
+            void HandleDummy(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -2001,7 +2001,7 @@ class spell_he_softfoot_shadow_weakness_aoe : public SpellScriptLoader
         {
             PrepareSpellScript(spell_he_softfoot_shadow_weakness_aoe_SpellScript);
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -2047,7 +2047,7 @@ class spell_he_softfoot_instant_poison : public SpellScriptLoader
         {
             PrepareAuraScript(spell_he_softfoot_instant_poison_AuraScript);
 
-            void OnProc(AuraEffect const* /*p_AurEff*/, ProcEventInfo & p_EventInfo)
+            void OnProc(AuraEffect const* /*p_AurEff*/, ProcEventInfo & /*p_EventInfo*/)
             {
                 PreventDefaultAction();
 
@@ -2088,7 +2088,7 @@ class spell_he_softfoot_noxious_poison : public SpellScriptLoader
         {
             PrepareAuraScript(spell_he_softfoot_noxious_poison_AuraScript);
 
-            void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+            void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
             {
                 PreventDefaultAction();
 
@@ -2146,7 +2146,7 @@ class spell_he_softfoot_shadow_weakness : public SpellScriptLoader
         {
             PrepareAuraScript(spell_he_softfoot_shadow_weakness_AuraScript);
 
-            void HandleProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+            void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
             {
                 PreventDefaultAction();
 
@@ -2251,7 +2251,7 @@ struct spell_area_rook_stonetoe_defiled_ground : public AreaTriggerAI
         if (l_DefiledGround /*&& l_DefiledGround->GetScriptGuid(0) == trigger->GetGUID() */ && !l_HasInArc)
             l_DefiledGround->Remove();
         else if (l_HasInArc && l_DefiledGround == nullptr)
-            if (auto l_Aura = target->AddAura(Spells::SPELL_DEFILED_GROUND_AURA, target))
+            if (target->AddAura(Spells::SPELL_DEFILED_GROUND_AURA, target))
                 //l_Aura->SetScriptGuid(0, at->GetGUID());
                 return;
     }
@@ -2299,7 +2299,7 @@ class spell_rook_stonetoe_vengeful_strikes : public AuraScript
         return GetCaster()->IsCreature();
     }
 
-    void OnRemove(AuraEffect const* p_AurEff, AuraEffectHandleModes /*p_Mode*/)
+    void OnRemove(AuraEffect const* /*p_AurEff*/, AuraEffectHandleModes /*p_Mode*/)
     {
         if (auto l_Caster = GetCaster())
             if (GetTargetApplication()->GetRemoveMode() != AuraRemoveMode::AURA_REMOVE_BY_EXPIRE)

@@ -144,7 +144,7 @@ public:
         InstanceScript* instance;
         bool introText;
 
-        void MoveInLineOfSight(Unit* /*who*/)
+        void MoveInLineOfSight(Unit* /*who*/) override
         {
             if (!introText)
             {
@@ -210,14 +210,14 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void JustDied(Unit*)
+        void JustDied(Unit*) override
         {
             DespawnAurasWipe();
             SelectSoundAndText(me, 4);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason /*why*/)
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             Reset();
             _DespawnAtEvade(15);
@@ -246,7 +246,7 @@ public:
             return true;
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             SelectSoundAndText(me, 1);
             events.ScheduleEvent(EVENT_SHOCKWAVE, TIMER_SHOCKWAVE);
@@ -336,7 +336,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 

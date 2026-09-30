@@ -263,7 +263,7 @@ public:
                     }
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/)
         {
             _DespawnAtEvade(15);
         }
@@ -528,7 +528,7 @@ public:
     {
         PrepareSpellScript(bfa_spell_toxic_spine_SpellScript);
 
-        void AfterCast(SpellEffIndex index)
+        void AfterCast(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetHitUnit();
@@ -589,7 +589,7 @@ public:
             return true;
         }
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             Unit* caster = eventInfo.GetActor(); // boss
             Unit* target = eventInfo.GetActionTarget(); // current target
@@ -606,7 +606,7 @@ public:
                 caster->CastSpell(caster, SPELL_FEEDING_FRENZY_AURA, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectProc += AuraEffectProcFn(bfa_spell_feeding_frenzy_AuraScript::HandleOnProc, EFFECT_0, SPELL_AURA_DUMMY);
         }
@@ -628,7 +628,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_bioelectric_feelers_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -692,7 +692,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_gaze_from_below_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -725,7 +725,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_glowing_stinger_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget()->ToPlayer();
@@ -786,7 +786,7 @@ public:
             dead = false;
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage)
         {
             if (damage >= me->GetHealth() && !dead)
             {
@@ -818,7 +818,7 @@ public:
             creature->AddUnitState(UNIT_STATE_ROOT);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
             Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)
@@ -871,12 +871,12 @@ public:
             targetList = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex index)
+        void RecalculateDamage(SpellEffIndex /*index*/)
         {
             SetHitDamage(GetHitDamage() / targetList);
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_piercing_barb_damage_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_TARGET_ENEMY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_piercing_barb_damage_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
@@ -1007,7 +1007,7 @@ public:
     {
         bfa_at_bioluminescence_AI(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-        void OnUpdate(uint32 diff)
+        void OnUpdate(uint32 /*diff*/)
         {
             std::list<Player*> playerList;
             at->GetPlayerListInGrid(playerList, 8.0f);
@@ -1015,7 +1015,7 @@ public:
             {
                 for (auto player : playerList)
                 {
-                    if (!player->HasAura(SPELL_BIOLUMINESCENCE) && !player->GetRoleForGroup() == ROLE_TANK)
+                    if (!player->HasAura(SPELL_BIOLUMINESCENCE) && player->GetRoleForGroup() != ROLE_TANK)
                         player->AddAura(SPELL_BIOLUMINESCENCE, player);
                     else if (!player->HasAura(SPELL_BIOLUMINESCENCE) && player->GetRoleForGroup() == ROLE_TANK)
                         player->AddAura(SPELL_RADIANT_BIOMASS_AURA, player);
@@ -1041,7 +1041,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_radiant_biomass_AuraScript);
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             Unit* caster = eventInfo.GetActor();
             Unit* target = eventInfo.GetActionTarget();

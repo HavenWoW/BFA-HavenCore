@@ -500,7 +500,7 @@ struct bfa_boss_queen_azshara : public BossAI
             }
         }
 
-        void DamageTaken(Unit* /*target*/, uint32& damage) override
+        void DamageTaken(Unit* /*target*/, uint32& /*damage*/) override
         {
             if (me->HealthBelowPct(70) && !phase3)
             {
@@ -578,7 +578,7 @@ struct bfa_boss_queen_azshara : public BossAI
             }
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             Talk(13);
             RemoveFrames();
@@ -944,7 +944,7 @@ private:
         SendGossipMenuFor(player, 1, me);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
+    void sGossipSelect(Player* /*player*/, uint32 /*menuId*/, uint32 gossipListId) override
     { 
         if (gossipListId == 0)
             me->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
@@ -1139,7 +1139,7 @@ class bfa_spell_cursed_heart : public AuraScript
 {
     PrepareAuraScript(bfa_spell_cursed_heart);
 
-    void HandlePeriodic(AuraEffect const* aureff)
+    void HandlePeriodic(AuraEffect const* /*aureff*/)
     {
         Unit* caster = GetCaster();
         if (!caster)
@@ -1201,7 +1201,7 @@ class bfa_spell_longing_aura : public AuraScript
         caster->RemoveAura(SPELL_CURSED_HEART_PERIODIC);
     }
 
-    void HandlePeriodic(AuraEffect const* aureff)
+    void HandlePeriodic(AuraEffect const* /*aureff*/)
     {
         Unit* caster = GetCaster()->ToCreature();
         if (!caster)
@@ -1257,7 +1257,7 @@ class bfa_spell_painful_memories_aura : public AuraScript
         caster->RemoveAura(SPELL_CURSED_HEART_PERIODIC);
     }
 
-    void HandlePeriodic(AuraEffect const* aureff)
+    void HandlePeriodic(AuraEffect const* /*aureff*/)
     {
         Unit* caster = GetCaster()->ToCreature();
         if (!caster)
@@ -1310,7 +1310,7 @@ private:
             events.ScheduleEvent(EVENT_SELECT_RANDOM_WARD, TIMER_SELECT_WARD);
         }
 
-        void MovementInform(uint32 type, uint32 pointId) override
+        void MovementInform(uint32 /*type*/, uint32 pointId) override
         {
             switch (pointId)
             {
@@ -1416,7 +1416,7 @@ class bfa_spell_ground_pound : public AuraScript
 {
     PrepareAuraScript(bfa_spell_ground_pound);
 
-   void HandlePeriodic(AuraEffect const* aureff)
+   void HandlePeriodic(AuraEffect const* /*aureff*/)
    {
         Unit* caster = GetCaster();
         if (!caster)
@@ -1472,7 +1472,7 @@ public:
             }
         }
 
-        void HandlePeriodic(AuraEffect const* aureff)
+        void HandlePeriodic(AuraEffect const* /*aureff*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -1554,7 +1554,7 @@ struct bfa_npc_crushing_depths_stalker : public ScriptedAI
 {
     bfa_npc_crushing_depths_stalker(Creature* creature) : ScriptedAI(creature) { }
 
-    void DamageTaken(Unit* target, uint32& damage) override
+    void DamageTaken(Unit* /*target*/, uint32& damage) override
     {
         if (damage >= me->GetHealth())
             if (Unit* owner = me->GetOwner())
@@ -1730,7 +1730,7 @@ class bfa_spell_arcane_mastery_periodic : public AuraScript
 {
     PrepareAuraScript(bfa_spell_arcane_mastery_periodic);
 
-    void HandlePeriodic(AuraEffect const* aureff)
+    void HandlePeriodic(AuraEffect const* /*aureff*/)
     {
         Unit* caster = GetCaster();
             if (!caster)
@@ -1843,7 +1843,7 @@ struct bfa_npc_azshara_indomitable_devoted : public ScriptedAI
         events.ScheduleEvent(EVENT_CHARGE_WARD, 2000);
     }
 
-    void MovementInform(uint32 type, uint32 pointId) override
+    void MovementInform(uint32 /*type*/, uint32 pointId) override
     {
         switch (pointId)
         {
@@ -1943,7 +1943,7 @@ class bfa_spell_march : public AuraScript
 {
     PrepareAuraScript(bfa_spell_march);
 
-    void HandlePeriodic(AuraEffect const* aureff)
+    void HandlePeriodic(AuraEffect const* /*aureff*/)
     {
         Unit* caster = GetCaster();
         if (!caster)
@@ -1963,7 +1963,7 @@ class bfa_spell_stay : public AuraScript
 {
     PrepareAuraScript(bfa_spell_stay);
 
-    void HandlePeriodic(AuraEffect const* aureff)
+    void HandlePeriodic(AuraEffect const* /*aureff*/)
     {
         Unit* caster = GetCaster();
         if (!caster)
@@ -2247,7 +2247,7 @@ struct npc_lightning_orbs_ep : public ScriptedAI
 private:
     uint8 bounceCount;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         this->bounceCount = 0;

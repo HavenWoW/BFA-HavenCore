@@ -222,7 +222,7 @@ struct boss_dread_captain_lockwood : public BossAI
 		}
 	}
 
-	void SummonedCreatureDies(Creature* summon, Unit* killer) override
+	void SummonedCreatureDies(Creature* summon, Unit* /*killer*/) override
 	{
 		switch (summon->GetEntry())
 		{
@@ -267,7 +267,7 @@ struct npc_unstable_ordnace : public ScriptedAI
 		ScriptedAI::Reset();		
 	}
 
-	void sGossipHello(Player* player) 
+	void sGossipHello(Player* player) override
 	{ 
 		me->RemoveNpcFlag(UNIT_NPC_FLAG_GOSSIP);
 		CloseGossipMenuFor(player);
@@ -287,7 +287,7 @@ struct npc_dread_cannon : public ScriptedAI
 		me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
 	}
 
-	void OnSuccessfulSpellCast(SpellInfo const* spell)
+	void OnSuccessfulSpellCast(SpellInfo const* spell) override
 	{
 		switch (spell->Id)
 		{
@@ -299,7 +299,7 @@ struct npc_dread_cannon : public ScriptedAI
 		}
 	}
 
-	void UpdateAI(uint32 diff)
+	void UpdateAI(uint32 diff) override
 	{
 		scheduler.Update(diff);
 	}
@@ -322,7 +322,7 @@ struct npc_dread_cannon_bunny : public ScriptedAI
 		me->SetDisplayId(16925, 1.0f);
 	}
 
-	void DamageTaken(Unit* done_by, uint32& damage) override
+	void DamageTaken(Unit* /*done_by*/, uint32& damage) override
 	{
 		damage = 0;
 		if (me->HealthBelowPct(99))
@@ -331,7 +331,7 @@ struct npc_dread_cannon_bunny : public ScriptedAI
 		}
 	}
 
-	void UpdateAI(uint32 diff)
+	void UpdateAI(uint32 diff) override
 	{
 		scheduler.Update(diff);
 	}

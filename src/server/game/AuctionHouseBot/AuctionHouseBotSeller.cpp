@@ -272,7 +272,7 @@ bool AuctionBotSeller::Initialize()
 
             case ITEM_CLASS_MISCELLANEOUS:
             {
-                if (!prototype->GetSubClass() == ITEM_SUBCLASS_BATTLE_PET)  // misc items cause crashes, battlepets for example... so lets skip bpets for now. -Varjgard
+                if (prototype->GetSubClass() != ITEM_SUBCLASS_BATTLE_PET)  // misc items cause crashes, battlepets for example... so lets skip bpets for now. -Varjgard
                 {
                     if (prototype->GetSubClass() == ITEM_SUBCLASS_MISCELLANEOUS_MOUNT)
                     {

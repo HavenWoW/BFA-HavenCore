@@ -233,7 +233,7 @@ struct boss_rawani_kanae : public BossAI
        }
    }
    
-   void OnSpellFinished(SpellInfo const* spellInfo) 
+   void OnSpellFinished(SpellInfo const* spellInfo) override
    {
        if (spellInfo->Id == CALL_TO_ARMS)
        {

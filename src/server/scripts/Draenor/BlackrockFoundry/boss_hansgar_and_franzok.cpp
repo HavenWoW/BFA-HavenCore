@@ -105,7 +105,7 @@ class boss_hansgar : public CreatureScript
             ObjectGuid m_ExitTankGuid;
             std::vector<uint32> m_TankHealths;
 
-            bool CanRespawn()
+            bool CanRespawn() override
             {
                 return false;
             }
@@ -186,7 +186,7 @@ class boss_hansgar : public CreatureScript
                 m_Events.ScheduleEvent(eEvents::EventBodySlam, 20 * TimeConstants::IN_MILLISECONDS + 500);
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 m_Vehicle->RemoveAllPassengers();
 
@@ -237,7 +237,7 @@ class boss_hansgar : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -399,7 +399,7 @@ class boss_hansgar : public CreatureScript
                 p_Passenger->RemoveAura(VEHICLE_SPELL_RIDE_HARDCODED);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -526,7 +526,7 @@ class boss_hansgar : public CreatureScript
                 }
             }
 
-            uint32 GetData(uint32 p_ID)const
+            uint32 GetData(uint32 p_ID)const override
             {
                 switch (p_ID)
                 {
@@ -541,7 +541,7 @@ class boss_hansgar : public CreatureScript
                 return 0;
             }
 
-            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/) 
+            void SetGUID(ObjectGuid p_Guid, int32 /*p_ID*/) override
             {
                 if (m_IntroTrashs.find(p_Guid) != m_IntroTrashs.end())
                     m_IntroTrashs.erase(p_Guid);
@@ -579,7 +579,7 @@ class boss_hansgar : public CreatureScript
                 }
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Hans'gar only regens by script
                 p_Value = 0;
@@ -1059,7 +1059,7 @@ class boss_franzok : public CreatureScript
 
             StampingPressList m_StampingPresses;
 
-            bool CanRespawn() 
+            bool CanRespawn() override
             {
                 return false;
             }
@@ -1136,7 +1136,7 @@ class boss_franzok : public CreatureScript
                     me->AddAura(eSpells::BoundByBlood, l_Other);
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 m_Vehicle->RemoveAllPassengers();
 
@@ -1177,7 +1177,7 @@ class boss_franzok : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -1343,7 +1343,7 @@ class boss_franzok : public CreatureScript
                     p_Passenger->RemoveAura(VEHICLE_SPELL_RIDE_HARDCODED);
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -1437,7 +1437,7 @@ class boss_franzok : public CreatureScript
                 }
             }
 
-            uint32 GetData(uint32 p_ID)const
+            uint32 GetData(uint32 p_ID) const override
             {
                 switch (p_ID)
                 {
@@ -1452,7 +1452,7 @@ class boss_franzok : public CreatureScript
                 return 0;
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Hans'gar only regens by script
                 p_Value = 0;
@@ -1946,7 +1946,7 @@ class npc_foundry_scorching_burns : public CreatureScript
                 }
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -2103,7 +2103,7 @@ class npc_foundry_stamping_presses : public CreatureScript
                     m_StampTimer = p_Value;
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {

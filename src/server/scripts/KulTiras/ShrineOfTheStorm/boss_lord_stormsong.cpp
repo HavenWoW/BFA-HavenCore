@@ -258,12 +258,12 @@ public:
             amount = -1;
         }
 
-        void OnAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
+        void OnAbsorb(AuraEffect* /*aurEff*/, DamageInfo& /*dmgInfo*/, uint32& absorbAmount)
         {
             absorbAmount = 0;
         }
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Player* plr = GetTarget()->ToPlayer())
             {
@@ -272,7 +272,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetTarget())
                 return;
@@ -303,7 +303,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_disciple_of_the_volzith_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
 
@@ -389,7 +389,7 @@ public:
 
         void Reset()
         {
-            me->GetScheduler().Schedule(500ms, [this](TaskContext context)
+            me->GetScheduler().Schedule(500ms, [this](TaskContext /*context*/)
                 {
                     me->CastSpell(me, SPELL_WAKEN_THE_VOID_MISSILE, true);
                 });

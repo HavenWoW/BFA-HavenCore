@@ -2694,7 +2694,7 @@ public:
             me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
         }
 
-        void OnSpellClick(Unit* clicker, bool& /*result*/)
+        void OnSpellClick(Unit* clicker, bool& /*result*/) override
         {
             if (Player* player = clicker->ToPlayer())
                 if (player->GetQuestStatus(QUEST_GASPING_FOR_BREATH) == QUEST_STATUS_INCOMPLETE)
@@ -4278,7 +4278,7 @@ public:
     npc_stagecoach_carriage_44928() : CreatureScript("npc_stagecoach_carriage_44928") { }
 
     /* the spell SPELL_SUMMON_CARRIAGE has failure. player mount not as passenger on carriage, but as horse in harness */
-    bool OnGossipHello(Player* player, Creature* creature) override
+    bool OnGossipHello(Player* player, Creature* /*creature*/) override
     {
         if (player->GetQuestStatus(QUEST_EXODUS) == QUEST_STATUS_INCOMPLETE)
         {

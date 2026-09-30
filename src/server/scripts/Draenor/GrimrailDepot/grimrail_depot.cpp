@@ -487,7 +487,7 @@ class grimrail_depot_mob_grimrail_scout : public CreatureScript
             switch (events.ExecuteEvent())
             {
             case eGrimrailScoutEvents::EventArcaneBlitz:
-                if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true))
+                if (SelectTarget(SelectAggroTarget::SELECT_TARGET_RANDOM, 0, 100.0f, true))
                      me->CastSpell(me, eGrimrailScoutSpells::SpellArcaneBlitzAura);
 
                 events.ScheduleEvent(eGrimrailScoutEvents::EventArcaneBlitz, 0 * TimeConstants::IN_MILLISECONDS);
@@ -1077,7 +1077,7 @@ public:
 
     grimrail_depot_mob_board_to_grimrail() : CreatureScript("grimrail_depot_mob_board_to_grimrail") { }
 
-    bool OnGossipHello(Player * p_Player, Creature * p_Creature) override
+    bool OnGossipHello(Player * p_Player, Creature * /*p_Creature*/) override
     {
         /// Cut scene and teleport.
         p_Player->GetSceneMgr().PlayScene(GrimrailDepotScenes::SceneBoardToGrimrail);
@@ -1195,7 +1195,7 @@ public:
     {
         PrepareAuraScript(grimrail_depot_spell_activating_AuraScript);
 
-        void OnProc(AuraEffect const* p_AurEff, ProcEventInfo& p_EventInfo)
+        void OnProc(AuraEffect const* /*p_AurEff*/, ProcEventInfo& /*p_EventInfo*/)
         {
             PreventDefaultAction();
 
@@ -1234,7 +1234,7 @@ class grimrail_depot_spell_sharpnel_blast : public SpellScriptLoader
     {
         PrepareSpellScript(grimrail_depot_spell_sharpnel_blast_SpellScript);
 
-        void HandleDamage(SpellEffIndex p_EffIndex)
+        void HandleDamage(SpellEffIndex /*p_EffIndex*/)
         {
             if (Unit* l_Caster = GetCaster())
             {
@@ -1276,7 +1276,7 @@ class grimrail_depot_spell_arcane_blitz : public SpellScriptLoader
             SpellArcaneBlitzTriggerMissile = 166398
         };
 
-        void HandlePeriodic(AuraEffect const* p_AurEff)
+        void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
         {
             if (Unit* l_Target = GetTarget())
                 l_Target->AddAura(eWardenChainAuras::SpellArcaneBlitzTriggerMissile, l_Target);

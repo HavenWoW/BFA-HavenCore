@@ -905,10 +905,10 @@ public:
             {
                 if (Aura* l_Aura = l_Player->GetAura(eSpells::FrozenRunebladeStacks))
                 {
-                    if (Item* l_MainHand = l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_MAINHAND))
+                    if (l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_MAINHAND))
                         l_Player->CastSpell(l_Target, eSpells::FrozenRunebladeMainHand, true);
 
-                    if (Item* l_OffHand = l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_OFFHAND))
+                    if (l_Player->GetItemByPos(INVENTORY_SLOT_BAG_0, EquipmentSlots::EQUIPMENT_SLOT_OFFHAND))
                         l_Player->CastSpell(l_Target, eSpells::FrozenRunebladeOffHand, true);
 
                     l_Aura->DropCharge();
@@ -1032,7 +1032,7 @@ public:
             }
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectHitTarget += SpellEffectFn(spell_dk_death_strike_SpellScript::HandleHit, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
             OnHit += SpellHitFn(spell_dk_death_strike_SpellScript::HandleOnHits);
@@ -2332,7 +2332,7 @@ class spell_dk_vampiric_blood : public AuraScript
 {
     PrepareAuraScript(spell_dk_vampiric_blood);
 
-    void CalcAmount(AuraEffect const* aurEff, int32& amount, bool& /*canBeRecalculated*/)
+    void CalcAmount(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
     {
         if (Unit* caster = GetCaster())
         amount = int32((caster->GetMaxHealth()*30.0f) / 100.0f);
@@ -2362,7 +2362,7 @@ public:
             amount = -1;
         }
      
-        void Absorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
+        void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, uint32& absorbAmount)
         {
             absorbAmount = 0;
             Unit* target = GetTarget();
@@ -2405,7 +2405,7 @@ public:
             }
         }
 
-        void OnStackChange(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void OnStackChange(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* target = GetTarget();
             if (!target)

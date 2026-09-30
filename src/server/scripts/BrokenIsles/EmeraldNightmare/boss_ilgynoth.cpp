@@ -451,7 +451,7 @@ struct npc_eye_of_ilgynoth : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void DoAction(int32 const action) override
+    void DoAction(int32 const /*action*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
@@ -568,13 +568,13 @@ struct npc_ilgynoth_tentacles : public ScriptedAI
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void DoAction(int32 const action) override
+    void DoAction(int32 const /*action*/) override
     {
         if (me->GetEntry() == NPC_DOMINATOR_TENTACLE)
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         if (me->GetEntry() != NPC_DOMINATOR_TENTACLE)
             DoZoneInCombat();
@@ -674,7 +674,7 @@ struct npc_ilgynoth_nightmare_horror : public ScriptedAI
         tickPower_Timer = 1000;
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoZoneInCombat(me, 120.0f);
         events.RescheduleEvent(1, 5000);
@@ -755,7 +755,7 @@ struct npc_ilgynoth_nightmare_ichor : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoZoneInCombat(me, 120.0f);
         events.RescheduleEvent(1, 1000);
@@ -864,7 +864,7 @@ class spell_ilgynoth_cursed_blood : public AuraScript
 {
     PrepareAuraScript(spell_ilgynoth_cursed_blood);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
      //   if (!GetCaster() || !GetTarget() || GetTargetApplication()->GetRemoveMode() != AURA_REMOVE_BY_EXPIRE)
        //     return;
@@ -902,7 +902,7 @@ class spell_ilgynoth_nightmare_explosion_pct : public SpellScript
 
     uint8 dmgPct = 0;
 
-    void HandleDamage(SpellEffIndex effIndex)
+    void HandleDamage(SpellEffIndex /*effIndex*/)
     {
         if (GetHitUnit())
         {

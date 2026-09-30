@@ -422,7 +422,7 @@ class go_244455 : public GameObjectScript
 public:
     go_244455() : GameObjectScript("go_244455") { }
 
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* player, GameObject* /*go*/) override
     {
         if (player->IsActiveQuest(40373))
         {
@@ -446,7 +446,7 @@ public:
         QUEST_BETWEEN_US_VENGEANCE    = 40255, // "Between Us and Freedom" - Vengeance variant (RewardDisplaySpell 185245)
     };
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest) override
+    bool OnQuestAccept(Player* player, Creature* /*creature*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_POOL_OF_JUDGEMENTS)
             player->CastSpell(player, 196650, true); // cast player choice window
@@ -574,7 +574,7 @@ class npc_92718 : public CreatureScript
 public:
     npc_92718() : CreatureScript("npc_92718") { }
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest) override
+    bool OnQuestAccept(Player* player, Creature* /*creature*/, Quest const* quest) override
     {
         //if (quest->GetQuestId() == 38672)
             //creature->AI()->Talk(1);
@@ -649,7 +649,7 @@ class go_244923 : public GameObjectScript
 public:
     go_244923() : GameObjectScript("go_244923") { }
 
-    bool OnQuestReward(Player* player, GameObject* go, Quest const* quest, uint32) override
+    bool OnQuestReward(Player* player, GameObject* /*go*/, Quest const* quest, uint32) override
     {
         if (quest->GetQuestId() == 38672)
         {
@@ -754,7 +754,7 @@ public:
     {
         go_244925AI(GameObject* go) : GameObjectAI(go) {}
 
-        void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 /*diff*/) override
         {
             std::list<Player*> list;
             list.clear();
@@ -801,7 +801,7 @@ public:
     {
         go_245467AI(GameObject* go) : GameObjectAI(go) {}
 
-        void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 /*diff*/) override
         {
             std::list<Player*> list;
             list.clear();
@@ -830,7 +830,7 @@ public:
         SPELL_TELEPORT_TO_STORMWIND = 258310,
         SPELL_TELEPORT_TO_ORGRIMMAR = 192758,
     };
-    bool OnQuestReward(Player* player, Creature* creature, Quest const* quest, uint32 /*opt*/) override
+    bool OnQuestReward(Player* player, Creature* /*creature*/, Quest const* quest, uint32 /*opt*/) override
     {
         if (quest->GetQuestId() == QUEST_ILLIDARI_LEAVING_H)
         {

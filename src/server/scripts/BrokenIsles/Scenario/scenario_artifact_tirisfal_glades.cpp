@@ -85,7 +85,7 @@ struct scenario_artifact_tirisfal_glades : public InstanceScript
         isComplete = false;
     }
 
-    void OnPlayerAreaUpdate(Player* player, uint32 newAreaId, uint32 /*oldAreaId*/)
+    void OnPlayerAreaUpdate(Player* player, uint32 newAreaId, uint32 /*oldAreaId*/) override
     {
         
         if (newAreaId == 7796 && player->HasQuest(QUEST__RETURN_TO_THE_BROKEN_SHORE) && player->getClass() == CLASS_WARRIOR)

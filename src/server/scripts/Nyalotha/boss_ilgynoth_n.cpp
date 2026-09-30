@@ -123,7 +123,7 @@ private:
 			summon->AI()->DoZoneInCombat(nullptr);
 	}
 
-	void DamageTaken(Unit* done_by, uint32& damage) override
+	void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
 	{
 		if (me->HealthBelowPct(2) && this->phase == 1)
 		{
@@ -158,7 +158,7 @@ private:
 		CleanEncounter(instance, me);
 	}
 
-	void CleanEncounter(InstanceScript* instance, Creature* me)
+	void CleanEncounter(InstanceScript* /*instance*/, Creature* me)
 	{
 		me->DespawnCreaturesInArea(NPC_ORGAN_OF_CORRUPTION, 125.0f);
 		me->DespawnCreaturesInArea(NPC_BLOOD_OF_NYALOTHA, 125.0f);
@@ -173,12 +173,12 @@ private:
 				Talk(SAY_KILL);
 	}
 
-	void SpellHit(Unit* unit, const SpellInfo* spellInfo)
+	void SpellHit(Unit* /*unit*/, const SpellInfo* spellInfo) override
 	{
 		if (spellInfo->Id == SPELL_EYE_OF_NZOTH)
 		{
 			me->RemoveAura(SPELL_EYE_OF_NZOTH);
-			uint64 GetHit = 59147.63f;
+			uint64 GetHit = 59147;
 			me->SetHealth(me->GetHealth() + GetHit);
 		}
 	}
@@ -251,7 +251,7 @@ private:
 			for (Unit* targets : tarlist)
 			{
 				me->CastSpell(nullptr, SPELL_TOUCH_OF_THE_CORRUPTOR, false);
-				me->GetScheduler().Schedule(3100ms, [this, targets](TaskContext context)
+				me->GetScheduler().Schedule(3100ms, [this, targets](TaskContext /*context*/)
 				{
 					me->CastSpell(nullptr, SPELL_TOUCH_OF_THE_CORRUPTOR_MIND_CONTROL, true);
 				});
@@ -314,7 +314,7 @@ private:
 		}
 	}
 
-	void JustDied(Unit* /*killer*/ override)
+	void JustDied(Unit* /*killer*/) override
 	{
 		_JustDied();
 		instance->DoModifyPlayerCurrencies(CURRENCY_ECHOES_OF_NYALOTHA, 16);
@@ -339,7 +339,7 @@ struct npc_organ_of_corruption : public ScriptedAI
 		me->AddAura(AURA_OVERRIDE_POWER_COLOR_RAGE);		
 	}
 
-	void IsSummonedBy(Unit* summoner) override
+	void IsSummonedBy(Unit* /*summoner*/) override
 	{
 		if (instance)
 		{
@@ -388,7 +388,7 @@ struct npc_blood_of_nyalotha : public ScriptedAI
 		}
 	}
 
-	void SpellHit(Unit* unit, const SpellInfo* spellInfo) 
+	void SpellHit(Unit* unit, const SpellInfo* spellInfo) override
 	{ 
 		if (spellInfo->Id == SPELL_ABSORBING_CHARGE)
 			unit->KillSelf();
@@ -405,7 +405,7 @@ class aura_cursed_blood : public AuraScript
 {
 	PrepareAuraScript(aura_cursed_blood);
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();

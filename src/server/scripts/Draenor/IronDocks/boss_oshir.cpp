@@ -1422,7 +1422,7 @@ public:
             SpellAcidSpitTriggerMissile = 178155
         };
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (Unit* l_Caster = GetCaster())
             {

@@ -40,7 +40,7 @@ struct boss_gorak_tul : public BossAI
 {
 	boss_gorak_tul(Creature* creature) : BossAI(creature, DATA_GORAK_TUL) { }
 
-	void Reset()
+	void Reset() override
 	{
 		BossAI::Reset();
 		me->SetPowerType(POWER_LUNAR_POWER);

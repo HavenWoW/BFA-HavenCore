@@ -909,7 +909,7 @@ struct mob_clone_player : public ScriptedAI
         events.ScheduleEvent(EVENT_CLONE_TAKEOFF, 3000);
     }
 
-    void UpdateAI(const uint32 diff) override
+    void UpdateAI(const uint32 /*diff*/) override
     {
         while (uint32 eventId = events.ExecuteEvent())
         {

@@ -89,7 +89,7 @@ public:
         {
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             _events.Update(diff);
 
@@ -166,7 +166,7 @@ public:
 
         void OnInitialize() override
         {
-            timer = 0.5 * IN_MILLISECONDS;
+            timer = 0.5 * AsUnderlyingType(IN_MILLISECONDS);
         }
 
         void OnUpdate(uint32 diff) override
@@ -191,7 +191,7 @@ public:
                             itr->CastSpell(itr, 217206, true);
                     }
 
-                timer = 0.5 * IN_MILLISECONDS;
+                timer = 0.5 * AsUnderlyingType(IN_MILLISECONDS);
             }
             else
                 timer -= diff;

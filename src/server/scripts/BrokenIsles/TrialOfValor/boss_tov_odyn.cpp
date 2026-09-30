@@ -272,7 +272,7 @@ public:
             }
         }
 
-        void SpellHitTarget(Unit* target, SpellInfo const* spell)
+        void SpellHitTarget(Unit* target, SpellInfo const* spell) override
         {
             if (!inPhase2)
                 return;
@@ -292,7 +292,7 @@ public:
                 lastTargetGUID = target->GetGUID();
         }
 
-        void EnterEvadeMode(EvadeReason why) override
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             BossAI::EnterEvadeMode();
 
@@ -576,13 +576,13 @@ public:
 
         bool flag = true;
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             GetCaster()->EnergizeBySpell(GetCaster(), GetId(), flag ? 3 : 4, POWER_ENERGY);
             flag = !flag;
         }
 
-        void AfterRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void AfterRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             GetCaster()->CastSpell(GetCaster(), SPELL_UNERRING_BLAST);
         }
@@ -786,7 +786,7 @@ public:
     {
         areatrigger_glowing_fragment_tovAI(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-        void OnInitialize()
+        void OnInitialize() override
         {
             //UPDATE `areatrigger_template` SET `Flags`= 4 WHERE `Id` IN(12897, 12879);
             //AreaTriggerTemplate const* attemplate = at->GetTemplate();
@@ -826,7 +826,7 @@ public:
     {
         PrepareAuraScript(spell_odyn_arcing_storm_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             if (Unit* caster = GetCaster())
             {

@@ -417,7 +417,7 @@ public:
                     player->RemoveAura(136193);
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/)
         {
             ScriptedAI::EnterEvadeMode();
             Talk(TALK_WIPE);
@@ -830,7 +830,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& /*damage*/)
         {
             if (me->GetMap()->IsHeroic())
             {
@@ -850,7 +850,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {
@@ -1170,7 +1170,7 @@ public:
         }
 
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& /*damage*/)
         {
             if (me->GetMap()->IsHeroic())
             {
@@ -1190,7 +1190,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {
@@ -1769,7 +1769,7 @@ public:
         float orientation3 = 5.68f;
         float orientation4 = 4.20f;
 
-        void IsSummonedBy(Unit* caster)
+        void IsSummonedBy(Unit* /*caster*/)
         {
             me->DespawnOrUnsummon(50000); // manual despawn because when our main summoner is despawning, it will despawn this too
 
@@ -1832,7 +1832,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* owner)
+        void IsSummonedBy(Unit* /*owner*/)
         {
             me->AddAura(SPELL_RUSHING_WINDS_VISUAL, me);
             events.ScheduleEvent(EVENT_INIT_WINDSTORM, 2000);
@@ -1902,7 +1902,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_molten_overload_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             if (!GetCaster())
                 return;
@@ -1932,7 +1932,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_lightning_storm_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!GetCaster() || !target)
@@ -1954,7 +1954,7 @@ public:
                 }
         }
 
-        void HandleApply(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleApply(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Unit* target = GetTarget()->ToPlayer();
             if (!target)
@@ -2038,7 +2038,7 @@ public:
             targetsPlayers = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex effIndex)
+        void RecalculateDamage(SpellEffIndex /*effIndex*/)
         {
             SetHitDamage(GetHitDamage() / targetsPlayers);
         }
@@ -2067,7 +2067,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_frozen_resilience_AuraScript);
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             if (Unit* pCaster = eventInfo.GetActor())
             {
@@ -2198,7 +2198,7 @@ public:
         EventMap events;
         bool playerIn;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             playerIn = false;
             if (Vehicle* meVehicle = me->GetVehicleKit())
@@ -2269,7 +2269,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {
@@ -2328,7 +2328,7 @@ public:
         EventMap events;
         bool playerIn;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             playerIn = false;
             if (Vehicle* meVehicle = me->GetVehicleKit())
@@ -2396,7 +2396,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {
@@ -2452,7 +2452,7 @@ public:
         EventMap events;
         bool playerIn;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             playerIn = false;
             if (Vehicle* meVehicle = me->GetVehicleKit())
@@ -2546,7 +2546,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {
@@ -2602,7 +2602,7 @@ public:
         EventMap events;
         bool playerIn;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             playerIn = false;
             if (Vehicle* meVehicle = me->GetVehicleKit())
@@ -2667,7 +2667,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {
@@ -2720,7 +2720,7 @@ public:
         EventMap events;
         bool playerIn;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             playerIn = false;
             if (Vehicle* meVehicle = me->GetVehicleKit())
@@ -2832,7 +2832,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_arcing_lightning_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetTarget();
@@ -2892,13 +2892,13 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             events.ScheduleEvent(EVENT_WHIRLING, 1000);
             events.ScheduleEvent(EVENT_WHIRL_AT, 500);
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {

@@ -970,7 +970,7 @@ struct npc_immerseus_sha_bolt : public ScriptedAI
         m_IsMovingToPool = false;
     }
 
-    void DoAction(const int32 action)
+    void DoAction(const int32 action) override
     {
         if (action == ACTION_MOVE_SHA_BOLT)
             MoveToPool();
@@ -1542,7 +1542,7 @@ struct spell_area_immerseus_sha_splash : public AreaTriggerAI
             target->CastSpell(target, SPELL_SHA_SPLASH, true);
     }
 
-    void OnUnitExit(Unit* unit)
+    void OnUnitExit(Unit* unit) override
     {
         if (unit->HasAura(SPELL_SHA_SPLASH))
             unit->RemoveAura(SPELL_SHA_SPLASH);

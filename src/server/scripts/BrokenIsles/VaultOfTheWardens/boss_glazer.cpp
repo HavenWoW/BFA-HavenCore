@@ -289,7 +289,7 @@ public:
             me->DespawnOrUnsummon();
         }
 
-        void UpdateAI(uint32 diff) override {}
+        void UpdateAI(uint32 /*diff*/) override {}
     };
 
     CreatureAI* GetAI(Creature* creature) const override
@@ -317,14 +317,14 @@ public:
 
         void Reset() override {}
 
-        void IsSummonedBy(Unit* summoner) override
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             events.RescheduleEvent(1, 500);
             events.RescheduleEvent(2, 1000);
             events.RescheduleEvent(3, 3000);
         }
 
-        void DoAction(int32 const action) override
+        void DoAction(int32 const /*action*/) override
         {
             InterruptBeam();
             me->RemoveAurasDueToSpell(SPELL_LENS_SPAWN_VIS);

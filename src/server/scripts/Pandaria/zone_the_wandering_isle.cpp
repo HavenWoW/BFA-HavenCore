@@ -2632,7 +2632,7 @@ public:
             me->GetMotionMaster()->MoveFollow(summoner, 1.0f, 1.0f, MOTION_SLOT_ACTIVE);
         }
 
-        void UpdateAI(const uint32 /*diff*/)
+        void UpdateAI(const uint32 /*diff*/) override
         {
             Player* summoner;
             //Player* summoner = sObjectAccessor->FindPlayer(playerGuid);
@@ -2668,10 +2668,9 @@ public:
 
     bool isSummoned;
 
-    void SummonHiFirepawHelper(Player* summoner, uint32 entry)
+    void SummonHiFirepawHelper(Player* summoner, uint32 /*entry*/)
     {
         //uint32 phase = summoner->GetPhaseMask();
-        uint32 team = summoner->GetTeam();
         Position pos;
 
        // summoner->GetPosition(&pos);
@@ -2696,12 +2695,12 @@ public:
 
     }
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest)
+    bool OnQuestAccept(Player* player, Creature* /*creature*/, Quest const* quest)
     {
         std::list<Creature*> summonList;
         GetCreatureListWithEntryInGrid(summonList, player, 59960, 6.0f);
 
-        for (auto summoned : summonList)
+        for ([[maybe_unused]] auto summoned : summonList)
             isSummoned = true;
 
         if (isSummoned == false)
@@ -2752,7 +2751,7 @@ public:
 
         EventMap events;
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             me->SetReactState(REACT_DEFENSIVE);
@@ -2760,7 +2759,7 @@ public:
             events.RescheduleEvent(EVENT_2, 5000);
         }
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.RescheduleEvent(EVENT_1, 5000);
             events.CancelEvent(EVENT_2);
@@ -2781,7 +2780,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             UpdateVictim();
 
@@ -2920,13 +2919,13 @@ public:
         bool isInFalcon;
         bool fightEnd;
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.RescheduleEvent(EVENT_JAOMIN_JUMP, 1000);
             events.RescheduleEvent(EVENT_HIT_CIRCLE, 2000);
         }
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             me->SetReactState(REACT_DEFENSIVE);
@@ -2971,7 +2970,7 @@ public:
                 damage = 0;
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             if (!UpdateVictim())
                 return;

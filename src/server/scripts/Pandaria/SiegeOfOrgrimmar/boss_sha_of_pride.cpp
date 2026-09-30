@@ -405,7 +405,7 @@ Creature* GetShaOfPride(WorldObject* p_Searcher)
 
 /// Check if players can be damaged by maze walls
 // todo fix this
-bool IsPlayerInMaze(Player* p_Player)
+bool IsPlayerInMaze(Player* /*p_Player*/)
 {
     /*if (!Trinity::IsPositionInZone(*p_Player, s_MazeOuterPos))
         return false;
@@ -830,7 +830,7 @@ class BanishController
             std::list<AreaTrigger*> &m_AreaTriggers;
             Check& m_Check;
 
-            OrbOfLightSearcher(WorldObject const* p_Searcher, std::list<AreaTrigger*>& p_AreaTriggers, Check& p_Check)
+            OrbOfLightSearcher(WorldObject const* /*p_Searcher*/, std::list<AreaTrigger*>& p_AreaTriggers, Check& p_Check)
                 : m_AreaTriggers(p_AreaTriggers), m_Check(p_Check) {}
 
             void Visit(AreaTriggerMapType& p_AreaTriggerMap)
@@ -1080,7 +1080,7 @@ class boss_sha_of_pride : public CreatureScript
                 m_CombatHelper.RegisterCombatAura(SPELL_PRIDE);
             }
 
-            void Reset()
+            void Reset() override
             {
                 _Reset();
 
@@ -1100,7 +1100,7 @@ class boss_sha_of_pride : public CreatureScript
                 isUnleashed = false;
             }
 
-            void AttackStart(Unit* who)
+            void AttackStart(Unit* who) override
             {
                 if (!who)
                     return;
@@ -1160,13 +1160,13 @@ class boss_sha_of_pride : public CreatureScript
                 return m_BanishController.GetFragmentGUID(p_PlayerGuid);
             }
 
-            void SummonedCreatureDies(Creature* p_Summon, Unit* p_Killer) override
+            void SummonedCreatureDies(Creature* p_Summon, Unit* /*p_Killer*/) override
             {
                 if (p_Summon->GetEntry() == Adds::NPC_CORRUPTED_FRAGMENT)
                     m_BanishController.ClearBanishByFragment(p_Summon->GetGUID());
             }
 
-            void KilledUnit(Unit* victim)
+            void KilledUnit(Unit* victim) override
             {
                 if (!victim || !victim->IsPlayer())
                     return;
@@ -1176,7 +1176,7 @@ class boss_sha_of_pride : public CreatureScript
                 m_PrisonController.FreePlayer(victim->GetGUID());
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
 
@@ -1511,7 +1511,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 SpawnVortexAndLingeringCorruption();
             }
 
-            void Reset()
+            void Reset() override
             {
                 introDone = false;
                 shaSpawned = false;
@@ -1520,7 +1520,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 //shaVortexGuid = 0; do not do it
             }
 
-            void MoveInLineOfSight(Unit* who)
+            void MoveInLineOfSight(Unit* who) override
             {
                 if (introDone)
                     return;
@@ -1536,7 +1536,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 }
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 switch (action)
                 {
@@ -1568,7 +1568,7 @@ class npc_sha_of_pride_norushen : public CreatureScript
                 events.Reset();
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 events.Update(diff);
 
@@ -1734,11 +1734,6 @@ class npc_sha_of_pride_lingering_corruption : public CreatureScript
                 pInstance = me->GetInstanceScript();
             }
 
-            void Reset()
-            {
-
-            }
-
             void JustDied(Unit* /*killer*/)
             {
                 DoCastAOE(SPELL_CORRUPTED_TOUCH, true);
@@ -1748,7 +1743,7 @@ class npc_sha_of_pride_lingering_corruption : public CreatureScript
                 me->DespawnOrUnsummon(2000);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 /*diff*/)
             {
                 if (!UpdateVictim())
                     return;
@@ -1800,7 +1795,7 @@ class npc_sha_of_pride_manifestation_of_pride : public CreatureScript
                 me->AddUnitState(UNIT_STATE_ROOT);
             }
 
-            void IsSummonedBy(Unit* owner)
+            void IsSummonedBy(Unit* /*owner*/)
             {
                 DoCast(me, SPELL_MANIFESTATION_SPAWN, true);
             }
@@ -1875,12 +1870,7 @@ class npc_sha_of_pride_reflection : public CreatureScript
                 pInstance = me->GetInstanceScript();
             }
 
-            void Reset()
-            {
-
-            }
-
-            void IsSummonedBy(Unit* owner)
+            void IsSummonedBy(Unit* /*owner*/)
             {
                 DoCast(me, SPELL_SELF_REFLECTION_SPAWN, true);
             }
@@ -2027,7 +2017,7 @@ class go_sha_of_pride_shadow_prison_trap : public GameObjectScript
                 }
             }
 
-            void UpdateAI(uint32 diff)
+            void UpdateAI(uint32 diff) override
             {
                 UpdatePlayers(diff);
             }
@@ -2247,11 +2237,6 @@ class npc_sha_of_pride_jaina_proudmoore : public CreatureScript
                 pInstance = creature->GetInstanceScript();
             }
 
-            void Reset()
-            {
-
-            }
-
             void DoAction(const int32 action)
             {
                 if (action == ACTION_SHA_OF_PRIDE_JAINA)
@@ -2311,11 +2296,6 @@ class npc_sha_of_pride_lorthemar_theron : public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
 
                 pInstance = creature->GetInstanceScript();
-            }
-
-            void Reset()
-            {
-
             }
 
             void DoAction(const int32 action)
@@ -2378,16 +2358,6 @@ class npc_sha_of_pride_portal_to_orgrimmar : public CreatureScript
                 me->SetUnitFlags2(UnitFlags2(UNIT_FLAG_NOT_SELECTABLE));
 
                 pInstance = creature->GetInstanceScript();
-            }
-
-            void Reset()
-            {
-
-            }
-
-            void UpdateAI(const uint32 diff)
-            {
-
             }
 
             void sGossipHello(Player* player) override
@@ -2489,7 +2459,7 @@ class spell_sha_of_pride_corrupted_touch : public SpellScriptLoader
         {
             PrepareAuraScript(spell_sha_of_pride_corrupted_touch_AuraScript);
 
-            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes mode)
+            void HandleRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -2518,7 +2488,7 @@ class spell_sha_of_pride_swelling_pride : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_swelling_pride_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -2640,7 +2610,7 @@ class spell_sha_of_pride_bursting_pride_dmg : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_bursting_pride_dmg_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -2669,7 +2639,7 @@ class spell_sha_of_pride_projection_missile : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_projection_missile_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -2721,7 +2691,7 @@ class spell_sha_of_pride_projection_dmg : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_projection_dmg_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -2750,7 +2720,7 @@ class spell_sha_of_pride_aura_of_pride_dmg : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_aura_of_pride_dmg_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -2779,7 +2749,7 @@ class spell_sha_of_pride_pride : public SpellScriptLoader
         {
             PrepareAuraScript(spell_sha_of_pride_pride_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner() || !GetCaster())
                     return;
@@ -2813,7 +2783,7 @@ class spell_sha_of_pride_wounded_pride : public SpellScriptLoader
         {
             PrepareAuraScript(spell_sha_of_pride_wounded_pride_AuraScript);
 
-            void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+            void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
             {
                 PreventDefaultAction();
 
@@ -2851,7 +2821,7 @@ class spell_sha_of_pride_mocking_blast : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_mocking_blast_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -2906,7 +2876,7 @@ class spell_sha_of_pride_last_word : public SpellScriptLoader
                 }
             }
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -2950,7 +2920,7 @@ class spell_sha_of_pride_self_reflection : public SpellScriptLoader
                 }
             }
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -3011,7 +2981,7 @@ class spell_sha_of_pride_self_reflection_dmg : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_self_reflection_dmg_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3040,7 +3010,7 @@ class spell_sha_of_pride_corrupted_prison_periodic : public SpellScriptLoader
         {
             PrepareAuraScript(spell_sha_of_pride_corrupted_prison_periodic_AuraScript);
 
-            void HandlePeriodic(AuraEffect const* aurEff)
+            void HandlePeriodic(AuraEffect const* /*aurEff*/)
             {
                 if (!GetUnitOwner())
                     return;
@@ -3069,7 +3039,7 @@ class spell_sha_of_pride_corrupted_prison_dmg : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_corrupted_prison_dmg_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3132,7 +3102,7 @@ class spell_sha_of_pride_unleashed_dmg : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_unleashed_dmg_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3201,7 +3171,7 @@ class spell_sha_of_pride_gift_of_the_titans_aura : public SpellScriptLoader
         {
             PrepareAuraScript(spell_sha_of_pride_gift_of_the_titans_aura_AuraScript);
 
-            void HandlePeriodicTick(AuraEffect const* aurEff)
+            void HandlePeriodicTick(AuraEffect const* /*aurEff*/)
             {
                 PreventDefaultAction();
 
@@ -3248,7 +3218,7 @@ class spell_sha_of_pride_unstable_corruption_dmg : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_unstable_corruption_dmg_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3277,7 +3247,7 @@ class spell_sha_of_pride_collapsing_rift : public SpellScriptLoader
         {
             PrepareSpellScript(spell_sha_of_pride_collapsing_rift_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetHitUnit())
                     return;
@@ -3306,7 +3276,7 @@ public:
     {
         PrepareAuraScript(spell_sha_unstable_corruiption_periodic_summon_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aurEff)
+        void HandlePeriodic(AuraEffect const* /*aurEff*/)
         {
             if (!GetUnitOwner() || !GetUnitOwner()->GetAI())
                 return;
@@ -3335,7 +3305,7 @@ public:
     {
         PrepareAuraScript(spell_sha_unstable_corruiption_periodic_trigger_missile_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aurEff)
+        void HandlePeriodic(AuraEffect const* /*aurEff*/)
         {
             PreventDefaultAction();
 
@@ -3432,7 +3402,7 @@ class spell_sha_of_pride_banishment_aoe_1 : public SpellScriptLoader
                 }
             }
 
-            void Register()
+            void Register() override
             {
                 OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(spell_sha_of_pride_banishment_aoe_1_SpellScript::FilterTargets, SpellEffIndex::EFFECT_0, Targets::TARGET_UNIT_SRC_AREA_ENEMY);
                 OnEffectHit += SpellEffectFn(spell_sha_of_pride_banishment_aoe_1_SpellScript::DoEffectHit, SpellEffIndex::EFFECT_0, SPELL_EFFECT_DUMMY);

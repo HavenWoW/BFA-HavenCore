@@ -612,7 +612,7 @@ class grimrail_depot_skylord_tovra_spell_thunder_zone : public SpellScriptLoader
             SpellThunderZoneAura = 166340
         };
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (Unit* l_Caster = GetCaster())
             {
@@ -651,7 +651,7 @@ class grimrail_depot_skylord_tovra_at_diffused_energy : public AreaTriggerEntity
 
         std::set<ObjectGuid> m_AffectedPlayers;
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             if (Unit* caster = at->GetCaster())
             {
@@ -771,7 +771,7 @@ class grimrail_depot_skylord_torva_at_freezing_snare : public AreaTriggerEntityS
                     if (Player* l_Player = at->SelectNearestPlayer(l_Radius))
                     {
                         caster->CastSpell(l_Player, eSpell::SpellFreezingSnareDamage);
-                        caster->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+                        caster->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
                         {
                             if (at->IsInWorld())
                                 at->Remove();

@@ -98,7 +98,7 @@ public:
 		bool enrage;
 		InstanceScript* instance;
 
-		void Reset()
+		void Reset() override
 		{
 			events.Reset();
 			enrage = false;
@@ -109,7 +109,7 @@ public:
 			me->SetPower(POWER_ENERGY, 30);
 		}
 
-		void JustDied(Unit* /**/) 
+		void JustDied(Unit* /**/) override
 		{
 			SelectSoundAndText(me, 2);
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -156,12 +156,12 @@ public:
 			}
 		}
 
-		void KilledUnit(Unit* /*victim*/)
+		void KilledUnit(Unit* /*victim*/) override
 		{
 			SelectSoundAndText(me, 6);
 		}
 
-		void JustEngagedWith(Unit* /**/)
+		void JustEngagedWith(Unit* /**/) override
 		{
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -174,7 +174,7 @@ public:
 			me->SetPower(POWER_ENERGY, 30);
 		}
 
-		void DamageTaken(Unit* /**/, uint32 & /**/) 
+		void DamageTaken(Unit* /**/, uint32 & /**/) override
 		{
 			if (me->HealthBelowPct(30) && !enrage)
 			{
@@ -183,7 +183,7 @@ public:
 			}
 		}
 
-		void EnterEvadeMode(EvadeReason /*reason*/)
+		void EnterEvadeMode(EvadeReason /*reason*/) override
 		{
 			me->RemoveAllAreaTriggers();
 			summons.DespawnAll();
@@ -350,7 +350,7 @@ public:
 
 		}
 
-		void Reset()
+		void Reset() override
 		{
 			me->SetReactState(REACT_PASSIVE);
 			me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
@@ -459,12 +459,12 @@ public:
 			}
 		}
 
-		void HandleDmgAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
+		void HandleDmgAbsorb(AuraEffect* /*aurEff*/, DamageInfo& /*dmgInfo*/, uint32& absorbAmount)
 		{
 			_amountAbsorbed += absorbAmount;
 		}
 
-		void Register()
+		void Register() override
 		{
 			AfterEffectAbsorb += AuraEffectAbsorbFn(bfa_spell_gaseous_bubbles_AuraScript::HandleDmgAbsorb, EFFECT_0);
 			AfterEffectRemove += AuraEffectRemoveFn(bfa_spell_gaseous_bubbles_AuraScript::HandleEffectRemove, EFFECT_0, SPELL_AURA_SCHOOL_ABSORB, AURA_EFFECT_HANDLE_REAL);

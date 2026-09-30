@@ -611,7 +611,7 @@ public:
             SetBoundary(&ArenaBoundaries);
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
            // BossAI::JustEngagedWith(who);
             Talk(SAY_AGGRO_1);
@@ -1019,10 +1019,9 @@ struct npc_thorim_trashAI : public ScriptedAI
             bool _exclSelf;
         };
 
-        static Unit* GetUnitWithMostMissingHp(SpellInfo const* spellInfo, Unit* caster)
+        static Unit* GetUnitWithMostMissingHp(SpellInfo const* spellInfo, Unit* /*caster*/)
         {
             // use positive range, it's a healing spell
-            float const range = spellInfo->GetMaxRange(true);
 
             Unit* target = nullptr;
 
@@ -1064,7 +1063,7 @@ struct npc_thorim_trashAI : public ScriptedAI
         return true;
     }
 
-    void UpdateAI(uint32 diff) final override
+    void UpdateAI(uint32 diff) override
     {
         if (!UpdateVictim())
             return;
@@ -1087,8 +1086,6 @@ struct npc_thorim_trashAI : public ScriptedAI
         else
             DoMeleeAttackIfReady();
     }
-
-    virtual void ExecuteEvent(uint32 eventId) = 0;
 
 protected:
     InstanceScript* _instance;
@@ -1222,7 +1219,7 @@ public:
                 _events.ScheduleEvent(EVENT_ABILITY_CHARGE, 8s);
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
             if (_info->Type == DARK_RUNE_WARBRINGER)
                 DoCast(me, SPELL_AURA_OF_CELERITY);
@@ -1382,7 +1379,7 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
             _events.Reset();
@@ -1469,7 +1466,7 @@ public:
                 me->SummonCreature(s.entry, s.pos, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 3000);
         }
 
-        void JustEngagedWith(Unit* /*who*/) 
+        void JustEngagedWith(Unit* /*who*/) override
         {
             DoZoneInCombat();
             _events.Reset();

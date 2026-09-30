@@ -241,7 +241,7 @@ struct boss_avatar_of_sethraliss : public BossAI
         }        
     }
 
-    void JustSummoned(Creature* summon)
+    void JustSummoned(Creature* summon) override
     {
         switch (summon->GetEntry())
         {
@@ -267,8 +267,8 @@ struct boss_avatar_of_sethraliss : public BossAI
         }
     }
 
-    void sGossipSelect(Player* /*player*/, uint32 /*menuId*/, uint32 /*gossipListId*/) 
-    { 
+    void sGossipSelect(Player* /*player*/, uint32 /*menuId*/, uint32 /*gossipListId*/) override
+    {
         if (instance->GetBossState(DATA_AVATAR_OF_SETHRALISS) == NOT_STARTED)
         {
             instance->SetBossState(DATA_AVATAR_OF_SETHRALISS, IN_PROGRESS);
@@ -411,8 +411,8 @@ struct npc_energy_fragment : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void sGossipHello(Player* player) 
-    { 
+    void sGossipHello(Player* player) override
+    {
         CloseGossipMenuFor(player);
         if (Creature* avatar = instance->GetCreature(NPC_AVATAR_OF_SETHRALISS))
         {

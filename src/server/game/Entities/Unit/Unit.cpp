@@ -4232,7 +4232,7 @@ void Unit::RemoveAurasWithInterruptFlags(InterruptFlags flag, uint32 except)
         Aura* aura = (*iter)->GetBase();
         ++iter;
         if (aura->GetSpellInfo()->AuraInterruptFlags[AuraInterruptFlagIndex<InterruptFlags>::value] & flag && (!except || aura->GetId() != except)
-            && !(flag & AURA_INTERRUPT_FLAG_MOVE && HasAuraTypeWithAffectMask(SPELL_AURA_CAST_WHILE_WALKING, aura->GetSpellInfo())))
+            && !(flag & AsUnderlyingType(AURA_INTERRUPT_FLAG_MOVE) && HasAuraTypeWithAffectMask(SPELL_AURA_CAST_WHILE_WALKING, aura->GetSpellInfo())))
         {
             uint32 removedAuras = m_removedAurasCount;
             RemoveAura(aura, AURA_REMOVE_BY_INTERRUPT);
@@ -4246,7 +4246,7 @@ void Unit::RemoveAurasWithInterruptFlags(InterruptFlags flag, uint32 except)
         if (spell->getState() == SPELL_STATE_CASTING
             && (spell->GetSpellInfo()->ChannelInterruptFlags[AuraInterruptFlagIndex<InterruptFlags>::value] & flag)
             && spell->GetSpellInfo()->Id != except
-            && !(flag & AURA_INTERRUPT_FLAG_MOVE && HasAuraTypeWithAffectMask(SPELL_AURA_CAST_WHILE_WALKING, spell->GetSpellInfo())))
+            && !(flag & AsUnderlyingType(AURA_INTERRUPT_FLAG_MOVE) && HasAuraTypeWithAffectMask(SPELL_AURA_CAST_WHILE_WALKING, spell->GetSpellInfo())))
             InterruptNonMeleeSpells(false);
 
     UpdateInterruptMask();
@@ -9685,7 +9685,7 @@ float Unit::GetModifierValue(UnitMods unitMod, UnitModifierType modifierType) co
 
 float Unit::GetTotalStatValue(Stats stat) const
 {
-    UnitMods unitMod = UnitMods(UNIT_MOD_STAT_START + stat);
+    UnitMods unitMod = UnitMods(UNIT_MOD_STAT_START + AsUnderlyingType(stat));
 
     if (m_auraModifiersGroup[unitMod][TOTAL_PCT] <= 0.0f)
         return 0.0f;

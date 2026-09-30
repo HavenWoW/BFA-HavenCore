@@ -200,7 +200,7 @@ public:
                 player->Variables.Set("PHASE_2_WELCOMING_ACTIVE", false);
             });
 
-            creature->GetScheduler().Schedule(Milliseconds(11000), [creature](TaskContext context)
+            creature->GetScheduler().Schedule(Milliseconds(11000), [creature](TaskContext /*context*/)
             {
                 if (Creature* npc = creature->FindNearestCreature(98228, 100.0f, true))
                 {
@@ -473,7 +473,7 @@ struct npc_inquisitor_baleful : public ScriptedAI
                     context.Repeat(5s);
             });
 
-            me->GetScheduler().Schedule(15s, [this](TaskContext context) /// End Legion Aegis event
+            me->GetScheduler().Schedule(15s, [this](TaskContext /*context*/) /// End Legion Aegis event
             {
                 me->SetReactState(REACT_AGGRESSIVE);
                 me->SetDisableGravity(true);
@@ -804,7 +804,7 @@ public:
     {
         go_q39495AI(GameObject* go) : GameObjectAI(go){}
 
-        void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 /*diff*/) override
         {
             std::list<Player*> list;
             list.clear();
@@ -1025,7 +1025,7 @@ class npc_kayn_sunfury : public CreatureScript
 public:
     npc_kayn_sunfury() : CreatureScript("npc_kayn_sunfury") { }
 
-    bool OnQuestAccept(Player* player, Creature* creature, Quest const* quest)
+    bool OnQuestAccept(Player* /*player*/, Creature* creature, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_CRY_HAVOC)
             creature->AI()->Talk(SAY_KAYN_SUNFURY_TEXT_1);
@@ -1079,7 +1079,7 @@ struct npc_allari : public ScriptedAI
 {
     npc_allari(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(QUEST_VENGEANCE))
         {
@@ -1098,7 +1098,7 @@ struct npc_cyana : public ScriptedAI
 {
     npc_cyana(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(QUEST_VENGEANCE))
         {
@@ -1117,7 +1117,7 @@ struct npc_korvas : public ScriptedAI
 {
     npc_korvas(Creature* creature) : ScriptedAI(creature) {  }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
     {
         if (player->HasQuest(QUEST_VENGEANCE))
         {
@@ -1232,7 +1232,7 @@ public:
                 me->SetHealth(me->GetMaxHealth() * 0.85f);
         }
 
-        void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}
+        void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override {}
 
         void SetData(uint32 id, uint32 /*value*/) override
         {
@@ -1298,7 +1298,7 @@ public:
                 me->SetHealth(me->GetMaxHealth() * 0.85f);
         }
 
-        void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}
+        void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override {}
 
         void SetData(uint32 id, uint32 /*value*/) override
         {
@@ -1363,7 +1363,7 @@ public:
                 me->SetHealth(me->GetMaxHealth() * 0.85f);
         }
 
-        void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}
+        void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override {}
 
         void SetData(uint32 id, uint32 /*value*/) override
         {
@@ -1426,7 +1426,7 @@ public:
                 me->SetHealth(me->GetMaxHealth() * 0.85f);
         }
 
-        void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override {}
+        void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override {}
 
         void SetData(uint32 id, uint32 /*value*/) override
         {
@@ -1554,7 +1554,7 @@ public:
 
             if (!_playerParticipating && attacker->ToPlayer())
             {
-                if (Creature* creature = me->FindNearestCreature(NPC_KAYN_TYRANNA, me->GetVisibilityRange(), true))
+                if (me->FindNearestCreature(NPC_KAYN_TYRANNA, me->GetVisibilityRange(), true))
                 {
                     _playerParticipating = true;
                 }
@@ -1768,7 +1768,6 @@ public:
         {
             for (uint8 i = 0; i < count; i++)
             {
-                uint8 rand = urand(1, 2);
                 float angle = frand(0.0f, 2.0f * float(M_PI));
                 float x = targetPos.GetPositionX() + (5.0f * std::cos(angle));
                 float y = targetPos.GetPositionY() + (5.0f * std::sin(angle));
@@ -2018,7 +2017,7 @@ public:
     uint32 MAP_MARDUM = 1481;
     uint32 ZONE_MARDUM_SHATTERED_ABYSS = 7705;
 
-    void OnLogin(Player* player, bool firstLogin)
+    void OnLogin(Player* player, bool /*firstLogin*/) override
     {
         if (player->GetMapId() == MAP_MARDUM)
         {

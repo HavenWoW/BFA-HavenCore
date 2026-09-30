@@ -1185,12 +1185,7 @@ class spell_malkorok_ancient_miasma_heal_absorb : public SpellScriptLoader
                 if (AuraEffect* aurEffect = GetUnitOwner()->GetAuraEffect(SPELL_ANCIENT_BARRIER, EFFECT_0))
                 {
                     uint32 oldAmount = aurEffect->GetAmount();
-                    //uint32 newAmount = std::min(GetUnitOwner()->GetMaxHealth(), oldAmount + absorbAmount);
-                    uint32 newAmount;
-                    if (GetUnitOwner()->GetMaxHealth() < oldAmount + absorbAmount)
-                        newAmount = uint32(GetUnitOwner()->GetMaxHealth());
-                    else if (oldAmount + absorbAmount < GetUnitOwner()->GetMaxHealth())
-                        newAmount = oldAmount + absorbAmount;
+                    uint32 newAmount = std::min(uint32(GetUnitOwner()->GetMaxHealth()), oldAmount + absorbAmount);
 
                     if (oldAmount != newAmount)
                     {

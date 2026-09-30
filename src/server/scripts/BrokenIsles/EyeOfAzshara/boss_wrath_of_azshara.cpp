@@ -205,7 +205,7 @@ public:
 			return true;
 		}
 
-		void MoveInLineOfSight(Unit* /*who*/)
+		void MoveInLineOfSight(Unit* /*who*/) override
 		{
 			if (!introText)
 			{
@@ -327,7 +327,7 @@ public:
 				events.ScheduleEvent(EVENT_CRUSHING_DEPTHS, TIMER_CRUSHING_DEPTHS);
 		}
 
-		void KilledUnit(Unit* unit) override
+		void KilledUnit(Unit* /*unit*/) override
 		{
 			SelectSoundAndText(me, 3);
 		}
@@ -454,7 +454,7 @@ public:
 
 		EventMap events;
 
-		void Reset()
+		void Reset() override
 		{
 			me->SetSpeed(MOVE_RUN, 1.2f);
 
@@ -620,7 +620,7 @@ public:
 	public:
 		PrepareAuraScript(bfa_spell_arcane_bomb_AuraScript);
 
-		void HandleDispel(DispelInfo* dispelInfo)
+		void HandleDispel(DispelInfo* /*dispelInfo*/)
 		{
 			if (!GetCaster() || !GetUnitOwner())
 				return;
@@ -687,7 +687,7 @@ public:
 			SetHitDamage(GetHitDamage() / _targetsSize);
 		}
 
-		void Register()
+		void Register() override
 		{
 			OnEffectLaunchTarget += SpellEffectFn(bfa_spell_crushing_depths_SpellScript::HandleDamage, EFFECT_0, SPELL_EFFECT_DAMAGE_FROM_MAX_HEALTH_PCT);
 			OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_crushing_depths_SpellScript::FilterTargets, EFFECT_0, TARGET_UNIT_DEST_AREA_ENEMY);

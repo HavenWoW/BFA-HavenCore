@@ -139,7 +139,7 @@ public:
         CONVERSATION_KHADGAR_BLINK_OF_EYE = 3827,
     };
 
-    void OnQuestStatusChange(Player* player, uint32 /*questId*/)
+    void OnQuestStatusChange(Player* player, uint32 /*questId*/) override
     {
         if ((player->IsInAlliance() && player->GetQuestStatus(QUEST_THE_LEGION_RETURNS_A) == QUEST_STATUS_REWARDED) || (player->IsInHorde() && player->GetQuestStatus(QUEST_THE_LEGION_RETURNS_H) == QUEST_STATUS_REWARDED))
         {
@@ -232,7 +232,7 @@ public:
             HandleGetAfterBlinkOfAnEye(player);
     }
 
-    void OnQuestComplete(Player* player, Quest const* quest)
+    void OnQuestComplete(Player* player, Quest const* quest) override
     {
         /* demon hunters legionarrival */
         if (player->getClass()==CLASS_DEMON_HUNTER)

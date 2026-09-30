@@ -83,7 +83,7 @@ struct npc_meryl_felstorm_102700 : public ScriptedAI
     }
 
     ///107589
-    void sGossipHello(Player* player)
+    void sGossipHello(Player* player) override
     {
 
         if (player->HasQuest(QUEST_FINDING_BONCHILL) && (player->GetQuestObjectiveData(QUEST_FINDING_BONCHILL, 0)) && !player->GetQuestObjectiveData(QUEST_FINDING_BONCHILL, 6))
@@ -103,7 +103,7 @@ struct npc_meryl_felstorm_102700 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_FINDING_BONCHILL) && (player->GetQuestObjectiveData(QUEST_FINDING_BONCHILL, 0)) && !player->GetQuestObjectiveData(QUEST_FINDING_BONCHILL, 6))
@@ -187,7 +187,7 @@ struct npc_meryl_felstorm_102700 : public ScriptedAI
             }
     }
 
-    void sQuestAccept(Player* player, Quest const* quest)
+    void sQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_THE_DREADLORDS_PRIZE)
         {
@@ -210,7 +210,7 @@ struct npc_meryl_felstorm_102700 : public ScriptedAI
         }
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)
+    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/) override
     {
         if (quest->GetQuestId() == QUEST_A_MAGES_WEAPON)
         {
@@ -240,7 +240,7 @@ struct npc_meryl_felstorm_102700 : public ScriptedAI
     }
 
     ///ACTION_RESPONSEID_1
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {

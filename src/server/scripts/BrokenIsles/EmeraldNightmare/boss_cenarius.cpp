@@ -512,7 +512,7 @@ struct npc_cenarius_force_summoner : public ScriptedAI
         events.RescheduleEvent(5, 10000);
     }
 
-    void SpellHit(Unit* target, const SpellInfo* spell) override
+    void SpellHit(Unit* /*target*/, const SpellInfo* spell) override
     {
         if (spell->Id == SPELL_CLEANSED_GROUND)
         {
@@ -592,7 +592,7 @@ struct npc_cenarius_forces_of_nightmare : public ScriptedAI
             me->CastSpell(me, SPELL_CORRUPTED_DETONATE, true);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoZoneInCombat();
 
@@ -629,7 +629,7 @@ struct npc_cenarius_forces_of_nightmare : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void SpellHitTarget(Unit* target, const SpellInfo* spell) override
+    void SpellHitTarget(Unit* /*target*/, const SpellInfo* spell) override
     {
         switch (spell->Id)
         {
@@ -648,7 +648,7 @@ struct npc_cenarius_forces_of_nightmare : public ScriptedAI
         }
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (me->GetEntry() == NPC_ROTTEN_DRAKE)
             if (me->HealthBelowPct(46) && !buffet)
@@ -658,7 +658,7 @@ struct npc_cenarius_forces_of_nightmare : public ScriptedAI
             }
     }
 
-    void SwitchTarget(bool allowTank = false)
+    void SwitchTarget(bool /*allowTank*/ = false)
     {
         if (switchTarget)
             return;
@@ -766,7 +766,7 @@ struct npc_cenarius_allies_of_nature : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void SpellHit(Unit* caster, const SpellInfo* spell) override
+    void SpellHit(Unit* /*caster*/, const SpellInfo* spell) override
     {
         if (spell->Id == SPELL_CLEANSING_DETONATE_AT)
             me->DespawnOrUnsummon(500);
@@ -1052,7 +1052,7 @@ struct npc_cenarius_nightmare_brambles : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         events.RescheduleEvent(1, 1000);
     }
@@ -1122,7 +1122,7 @@ struct npc_cenarius_entangling_roots : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_ENTANGLING_NIGHTMARES_VIS, true);
         DoCast(me, SPELL_NIGHTMARE_DISSOLVE_IN, true);
@@ -1144,7 +1144,7 @@ struct npc_cenarius_entangling_roots : public ScriptedAI
             malfurion->RemoveAurasDueToSpell(SPELL_ENTANGLING_NIGHTMARES_STUN);
     }
 
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //108208
@@ -1160,12 +1160,12 @@ struct npc_cenarius_beast_of_nightmare : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         moveTimer = 2000;
     }
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
         if (spell->Id == SPELL_GRIPPING_FOG_AT)
         {
@@ -1175,7 +1175,7 @@ struct npc_cenarius_beast_of_nightmare : public ScriptedAI
         }
     }
 
-    void MovementInform(uint32 type, uint32 id) override
+    void MovementInform(uint32 /*type*/, uint32 id) override
     {
         if (id == 1)
             me->DespawnOrUnsummon();
@@ -1283,7 +1283,7 @@ class spell_cenarius_allies_periodic_energize : public AuraScript
 
     uint8 powerTick = 0;
 
-    void OnTick(AuraEffect const* aurEff)
+    void OnTick(AuraEffect const* /*aurEff*/)
     {
         auto caster = GetCaster();
         if (!caster)
@@ -1414,7 +1414,7 @@ class spell_cenarius_ancient_dream : public AuraScript
         amount = -1;
     }
 
-    void Absorb(AuraEffect* aurEff, DamageInfo& dmgInfo, float& absorbAmount)
+    void Absorb(AuraEffect* /*aurEff*/, DamageInfo& dmgInfo, float& /*absorbAmount*/)
     {
         if (auto target = GetTarget())
         {
@@ -1498,7 +1498,7 @@ class spell_cenarius_dread_thorns_reflects : public AuraScript
 {
     PrepareAuraScript(spell_cenarius_dread_thorns_reflects);
 
-    void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+    void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
     {
         if (!GetCaster())
             return;
@@ -1530,7 +1530,6 @@ class spell_cenarius_spear_of_nightmares : public SpellScript
         if (!GetCaster() || !GetHitUnit())
             return;
 
-        float scale = GetHitDamage() / GetSpellInfo()->GetEffect(EFFECT_0, GetCaster()->GetMap()->GetDifficultyID())->CalcValue();
        // GetCaster()->CastCustomSpell(GetHitUnit(), SPELL_NIGHTMARES_AT, &scale, nullptr, nullptr, true);
     }
 

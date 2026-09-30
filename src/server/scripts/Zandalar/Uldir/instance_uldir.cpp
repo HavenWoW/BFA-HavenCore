@@ -35,7 +35,7 @@ struct instance_uldir : public InstanceScript
         SetBossNumber(EncounterCount);
     }
 
-    void Initialize()
+    void Initialize() override
     {
         LoadDoorData(doorData);
     }

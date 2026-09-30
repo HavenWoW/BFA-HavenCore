@@ -230,12 +230,12 @@ class npc_siege_of_orgrimmar_jaina_proudmoore_2 : public CreatureScript
                 secondGalakrasIntroDone = false;
             }
 
-            void Reset()
+            void Reset() override
             {
 
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 if (action == ACTION_FIRST_INTRO_GALAKRAS)
                 {
@@ -273,7 +273,7 @@ class npc_siege_of_orgrimmar_jaina_proudmoore_2 : public CreatureScript
                 me->RemoveUnitFlag(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 m_SceneHelper.UpdateSceneHelper(diff);
             }
@@ -459,12 +459,12 @@ class npc_siege_of_orgrimmar_lorthemar_theron_2 : public CreatureScript
                 secondGalakrasIntroDone = false;
             }
 
-            void Reset()
+            void Reset() override
             {
 
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 if (action == ACTION_FIRST_INTRO_GALAKRAS)
                 {
@@ -484,7 +484,7 @@ class npc_siege_of_orgrimmar_lorthemar_theron_2 : public CreatureScript
                 }
             }
 
-            void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
+            void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
             {
                 player->PlayerTalkClass->SendCloseGossip();
 
@@ -502,7 +502,7 @@ class npc_siege_of_orgrimmar_lorthemar_theron_2 : public CreatureScript
                 me->RemoveUnitFlag(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 m_SceneHelper.UpdateSceneHelper(diff);
             }
@@ -872,12 +872,12 @@ class npc_siege_of_orgrimmar_healing_tide_totem : public CreatureScript
                 pInstance = creature->GetInstanceScript();
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->AddAura(SPELL_HEALING_TIDE_AURA, me);
             }
 
-            void UpdateAI(const uint32 diff) override
+            void UpdateAI(const uint32 /*diff*/) override
             {
 
             }
@@ -986,13 +986,13 @@ class npc_siege_of_orgrimmar_korkron_cannon : public CreatureScript
     public:
         npc_siege_of_orgrimmar_korkron_cannon() : CreatureScript("npc_siege_of_orgrimmar_korkron_cannon") { }
 
-        CreatureAI* GetAI(Creature* creature) const
+        CreatureAI* GetAI(Creature* creature) const override
         {
             return new npc_siege_of_orgrimmar_korkron_cannonAI(creature);
         }
 
         // prevent menu
-        bool OnGossipHello(Player* player, Creature* creature) override
+        bool OnGossipHello(Player* /*player*/, Creature* /*creature*/) override
         {
             return true;
         }
@@ -1006,7 +1006,7 @@ class npc_siege_of_orgrimmar_korkron_cannon : public CreatureScript
                 isMineActivated = false;
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->SetUnitFlags(UnitFlags(UNIT_NPC_FLAG_GOSSIP));
             }
@@ -1996,9 +1996,7 @@ class npc_siege_of_orgrimmar_overseer_komak : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                if (uint32 eventId = events.ExecuteEvent())
-                {
-                }
+                events.ExecuteEvent();
 
                 DoMeleeAttackIfReady();
             }
@@ -2516,7 +2514,7 @@ class spell_siege_of_orgrimmar_fracture_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -2552,7 +2550,7 @@ class spell_siege_of_orgrimmar_tidal_wave_aoe : public SpellScriptLoader
                 Trinity::Containers::RandomResize(targets, 1);
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;

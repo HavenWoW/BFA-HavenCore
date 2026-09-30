@@ -166,7 +166,7 @@ public:
             }
         }
 
-        void DoAction(int32 const action)
+        void DoAction(int32 const action) override
         {
             if (action == ACTION_COMPLETE)
                 achievecomplete = true;
@@ -685,7 +685,7 @@ class spell_tos_fixate : public AuraScript
 {
     PrepareAuraScript(spell_tos_fixate);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         Unit* target = GetTarget();
         Unit* caster = GetCaster();

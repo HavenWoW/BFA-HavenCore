@@ -126,7 +126,7 @@ struct scenario_the_violet_hold : public InstanceScript
     }
 
 
-    void OnUnitDeath(Unit* who)
+    void OnUnitDeath(Unit* who) override
     {
         if (who->GetEntry() == NPC_SIPHONING_RIFT_102787)
         {
@@ -241,7 +241,7 @@ struct npc_kathra_natir_102785 : public ScriptedAI
         }
     }
     //in com 1419
-    void JustEngagedWith(Unit* /*victim*/)
+    void JustEngagedWith(Unit* /*victim*/) override
     {
         if (Player* player = ObjectAccessor::GetPlayer(*me, m_playerGUID))
             player->CastSpell(player, SPELL_CONVERSATION_KATHRA_FIGHT2, true);

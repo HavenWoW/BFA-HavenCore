@@ -921,8 +921,8 @@ struct at_shell_bounce : AreaTriggerAI
 
     void OnCreate() override
     {
-        float rotation;
-        float range;
+        float rotation = 0.0f;
+        float range = 0.0f;
 
         std::list<Player*> listPlayer;
         GetPlayerListInGrid(listPlayer, at, 100.0f);

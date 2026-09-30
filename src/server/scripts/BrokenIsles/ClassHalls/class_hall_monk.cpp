@@ -121,7 +121,7 @@ struct npc_iron_body_ponshu_100438 : public ScriptedAI
 {
     npc_iron_body_ponshu_100438(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -255,7 +255,7 @@ struct npc_tak_tak_101880 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId) override
     {
         CloseGossipMenuFor(player);
         player->KilledMonsterCredit(101880);
@@ -514,7 +514,7 @@ struct npc_li_li_stormstout_100475 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 menuId, uint32 /*gossipListId*/) override
     {
         if (player->HasQuest(QUEST_THE_LEGEND_OF_THE_SANDS) && menuId == 19128)
             player->KilledMonsterCredit(100475);

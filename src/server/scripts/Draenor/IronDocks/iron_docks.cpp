@@ -1459,7 +1459,7 @@ public:
             me->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC));
         }
 
-        void DamageTaken(Unit* p_Attacker, uint32& p_Damage) override
+        void DamageTaken(Unit* /*p_Attacker*/, uint32& p_Damage) override
         {
             p_Damage = 0;
         }
@@ -1526,7 +1526,7 @@ public:
             events.ScheduleEvent(eClefthoofEvents::EventClefthoofStampede, 12 * TimeConstants::IN_MILLISECONDS);
         }
 
-        void DamageTaken(Unit* p_Attacker, uint32& p_Damage) override
+        void DamageTaken(Unit* /*p_Attacker*/, uint32& /*p_Damage*/) override
         {
             if (!m_Frenzied && me->GetHealthPct() <= 30)
             {
@@ -1726,7 +1726,7 @@ public:
             SpellFlurryDamage = 178414
         };
 
-        void HandlePeriodic(AuraEffect const* p_AurEff)
+        void HandlePeriodic(AuraEffect const* /*p_AurEff*/)
         {
             PreventDefaultAction();
 
@@ -1898,7 +1898,7 @@ public:
             SpellBarbedArrowAura = 164370
         };
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (Unit* l_Caster = GetCaster())
                 l_Caster->CastSpell(l_Caster, eBarbedArrowSpells::SpellBarbedArrowAura);
@@ -1943,7 +1943,7 @@ public:
                 GetCaster()->AddAura(eTramplingStampedeSpells::SpellClefthoofStampedeVisualMovement, GetCaster());
         }
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (Unit* l_Caster = GetCaster())
             {
@@ -2069,7 +2069,7 @@ public:
             SpellLavaBarrageDoT = 173489
         };
 
-        void HandleDummy(SpellEffIndex p_EffIndex)
+        void HandleDummy(SpellEffIndex /*p_EffIndex*/)
         {
             if (Unit* l_Caster = GetCaster())
             {

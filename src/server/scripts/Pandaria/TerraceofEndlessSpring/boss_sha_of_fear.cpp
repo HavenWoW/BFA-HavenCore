@@ -511,7 +511,7 @@ public:
             // and some more, but no idea why, just complete it
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             if (m_canEvade)
             {
@@ -614,7 +614,7 @@ public:
             }
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             switch (action)
             {
@@ -725,7 +725,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* /*dealer*/, uint32& uiDamage)
+        void DamageTaken(Unit* /*dealer*/, uint32& uiDamage) override
         {
             if (me->HealthBelowPct(67) && !failSafe)
             {
@@ -1733,7 +1733,7 @@ public:
 
         }
 
-        void ApplyMorph(SpellEffIndex effIndex)
+        void ApplyMorph(SpellEffIndex /*effIndex*/)
         {
             Unit* caster = GetCaster();
             Player* victim = GetHitPlayer();
@@ -1952,7 +1952,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
                 }
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             if (action == ACTION_BOWMAN_AGGRESSIVE)
             {
@@ -1974,7 +1974,7 @@ class npc_sha_of_fear_bowman : public CreatureScript
             lastHealthPct = me->GetHealthPct();
         }*/
 
-        void DamageTaken(Unit*, uint32& damage) override
+        void DamageTaken(Unit*, uint32& /*damage*/) override
         {
             /*if (me->HealthBelowPctDamaged(lastHealthPct, damage))
             {
@@ -2885,7 +2885,7 @@ class npc_sha_globe : public CreatureScript
         {
         }
 
-        void SpellHitTarget(Unit* target, SpellInfo const* spell) override
+        void SpellHitTarget(Unit* /*target*/, SpellInfo const* spell) override
         {
             if (spell->Id == SPELL_SHA_GLOBE_DMG)
             {
@@ -3125,7 +3125,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->CastSpell(me, SPELL_WATERSPOUT_VISUAL, true);
             events.ScheduleEvent(EVENT_CAST_WATERS, 3000, 0, 0);
@@ -3331,7 +3331,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_toes_ominous_cackle_immunities_AuraScript);
 
-        void OnApply(AuraEffect const* aurFf, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurFf*/, AuraEffectHandleModes /*mode*/)
         {
             Player* player = GetTarget()->ToPlayer();
 
@@ -3405,7 +3405,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_toes_fearless_AuraScript);
 
-        void OnApply(AuraEffect const* aurFf, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurFf*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
 
@@ -3448,7 +3448,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_toes_fearless_pet_AuraScript);
 
-        void OnApply(AuraEffect const* aurFf, AuraEffectHandleModes mode)
+        void OnApply(AuraEffect const* /*aurFf*/, AuraEffectHandleModes /*mode*/)
         {
             Player* player = GetTarget()->ToPlayer();
 

@@ -149,7 +149,7 @@ private:
             DoCastAOE(TANTRUM);
     }
 
-    void OnSpellFinished(SpellInfo const* spellInfo)
+    void OnSpellFinished(SpellInfo const* spellInfo) override
     {
         if (spellInfo->Id == FEROCIOUS_ROAR)
         {
@@ -245,13 +245,13 @@ private:
                 if (Unit* target = SelectTarget(SELECT_TARGET_MAXTHREAT, 0, 10.0f, true))
                 {
                     me->CastSpell(nullptr, RENDERING_BITE_CAST, false);
-                    me->GetScheduler().Schedule(3100ms, [this, target](TaskContext context)
+                    me->GetScheduler().Schedule(3100ms, [this, target](TaskContext /*context*/)
                     {
                         me->CastSpell(target, RENDERING_BITE, true);
-                    }).Schedule(6200ms, [this, target](TaskContext context)
+                    }).Schedule(6200ms, [this, target](TaskContext /*context*/)
                     {
                         me->CastSpell(nullptr, RENDERING_BITE_CAST, false);
-                    }).Schedule(9300ms, [this, target](TaskContext context)
+                    }).Schedule(9300ms, [this, target](TaskContext /*context*/)
                     {
                         me->CastSpell(nullptr, RENDERING_BITE_CAST, true);
                     });

@@ -392,7 +392,7 @@ public:
         {
             if (me->HasAura(SPELL_GRASP_OF_THE_SUNKEN_CITY_CHANNEL))
             {
-                bool checkAlive;
+                bool checkAlive = false;
 
                 Map::PlayerList const& playerList = me->GetMap()->GetPlayers();
                 for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)
@@ -410,7 +410,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage)
+        void DamageTaken(Unit* /*attacker*/, uint32& damage)
         {
             if (me->HasAura(SPELL_GRASP_OF_THE_SUNKEN_CITY_CHANNEL))
             {
@@ -893,7 +893,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_call_the_abyss_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Position const dest = manifestSpawnPoints[urand(0, 15)];
             GetCaster()->CastSpell(dest, SPELL_CALL_THE_ABYSS_SUMMON, true);

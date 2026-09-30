@@ -197,7 +197,7 @@ private:
              {
                  DoCast(SPELL_SHRED_PSYCHE_DUMMY);
                  DoCast(tar, SPELL_SHRED_PSYCHE_AURA);
-                 tar->GetScheduler().Schedule(5s, [tar] (TaskContext context)
+                 tar->GetScheduler().Schedule(5s, [tar] (TaskContext /*context*/)
                  {
                     tar->CastSpell(nullptr, SPELL_SHRED_PSYCHE_SUMMON, true);
                  });      
@@ -245,7 +245,7 @@ private:
             Talk(SAY_ILLUSIONARY_PROJECTIONS);
             for (uint8 i = 0; i < 5; ++i)
             {
-                auto* projections = DoSummon(NPC_PROPGET_SKITRA_PROJECTION, me->GetRandomPoint(middle_pos, 60.0f), TEMPSUMMON_MANUAL_DESPAWN);               
+                DoSummon(NPC_PROPGET_SKITRA_PROJECTION, me->GetRandomPoint(middle_pos, 60.0f), TEMPSUMMON_MANUAL_DESPAWN);
             }
             me->AddUnitState(UNIT_STATE_CASTING);
             break;
@@ -280,7 +280,7 @@ struct npc_shredded_psyche : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->SetDisplayId(me->GetNativeDisplayId());
         me->AddAura(309681);

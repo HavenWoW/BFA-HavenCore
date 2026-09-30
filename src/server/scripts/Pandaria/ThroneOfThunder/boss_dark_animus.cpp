@@ -200,7 +200,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage)
+        void DamageTaken(Unit* /*attacker*/, uint32& damage)
         {
             if (damage >= me->GetHealth())
             {
@@ -351,7 +351,7 @@ public:
         }
 
 
-        void DamageTaken(Unit* attacker, uint32& damage)
+        void DamageTaken(Unit* /*attacker*/, uint32& damage)
         {
             if (damage >= me->GetHealth())
             {
@@ -442,7 +442,7 @@ public:
         EventMap events;
         uint64 playerGuid;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->AddAura(SPELL_CIRMSON_WAKE_SLOW, me);
             me->DespawnOrUnsummon(30000);
@@ -577,7 +577,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage)
+        void DamageTaken(Unit* /*attacker*/, uint32& damage)
         {
             if (damage >= me->GetHealth())
             {
@@ -819,7 +819,7 @@ public:
             DespawnCreature(NPC_MASSIVE_ANIMA_GOLEM);
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/)
         {
             float x, y, z, o;
             events.ScheduleEvent(EVENT_ADD_ROOT_TO_ME_AND_ADDS, 7000);
@@ -1530,7 +1530,7 @@ public:
             me->SetUnitFlags(UNIT_FLAG_NOT_SELECTABLE);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 /*diff*/)
         {
             if (me->HasAura(9454))
             {
@@ -1582,14 +1582,14 @@ public:
     {
         PrepareAuraScript(bfa_spell_powered_down_AuraScript);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster())
                 return;
             GetCaster()->SetUnitFlags(UNIT_FLAG_NON_ATTACKABLE);
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster())
                 return;
@@ -1619,7 +1619,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_critically_damaged_AuraScript);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetCaster())
                 return;
@@ -1661,7 +1661,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_matter_swap_AuraScript);
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             Player* target = GetTarget()->ToPlayer();
@@ -1692,7 +1692,7 @@ public:
             }
         }
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Player* target = GetTarget()->ToPlayer();
             Player* mostDistant = GetTarget()->ToPlayer();
@@ -1746,7 +1746,7 @@ public:
     {
         PrepareSpellScript(bfa_spell_siphon_anima_SpellScript);
 
-        void OnHit(SpellEffIndex index)
+        void OnHit(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
 
@@ -1791,7 +1791,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_full_power_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             if (!GetCaster())
                 return;
@@ -1821,7 +1821,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_acceleration_link_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
 

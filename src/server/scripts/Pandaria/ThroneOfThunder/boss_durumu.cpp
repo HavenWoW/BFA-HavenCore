@@ -509,7 +509,7 @@ public:
                 instance->SetBossState(DATA_DURUMU_THE_FORGOTTEN, NOT_STARTED);
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/)
         {
   
 
@@ -729,8 +729,8 @@ public:
             events.ScheduleEvent(EVENT_SUMMON_MINDS_EYE, 19000, 0, 0);
             events.ScheduleEvent(EVENT_SUMMON_APPRAISIING_EYE, 15000, 0, 0);
             //events.ScheduleEvent(EVENT_SUMMON_HUNGRY_EYE, 40000, 0, 0);
-            events.ScheduleEvent(EVENT_DISINTEGRATION_BEAM, 2.5 * MINUTE * IN_MILLISECONDS); // 2.5 * MINUTE * IN_MILLISECONDS
-            events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, 2.3 * MINUTE * IN_MILLISECONDS);
+            events.ScheduleEvent(EVENT_DISINTEGRATION_BEAM, 2.5 * AsUnderlyingType(MINUTE) * AsUnderlyingType(IN_MILLISECONDS)); // 2.5 * MINUTE * IN_MILLISECONDS
+            events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, 2.3 * AsUnderlyingType(MINUTE) * AsUnderlyingType(IN_MILLISECONDS));
             events.ScheduleEvent(EVENT_LIGHT_SPECTRUM, 30000, 0, 0);
             if (me->GetMap()->IsHeroic())
                 events.ScheduleEvent(EVENT_SUMMON_EVIL_EYE, 90000, 0, 0);
@@ -887,7 +887,7 @@ public:
                 events.CancelEvent(EVENT_KILL_PLAYERS);
                 events.CancelEvent(EVENT_KEEP_TARGET_MOVER);
                 events.ScheduleEvent(EVENT_DISINTEGRATION_BEAM, 3 * MINUTE * IN_MILLISECONDS);
-                events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, 2.8 * MINUTE * IN_MILLISECONDS);
+                events.ScheduleEvent(EVENT_ADD_WALLS_BEFORE_MAZE, 2.8 * AsUnderlyingType(MINUTE) * AsUnderlyingType(IN_MILLISECONDS));
                 events.ScheduleEvent(EVENT_SUMMON_HUNGRY_EYE, 4000, 0, 0);
                 break;
             case EVENT_LIGHT_SPECTRUM:
@@ -896,7 +896,7 @@ public:
                 me->SummonCreature(BLUE_EYE, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
                 me->SummonCreature(RED_EYE, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
                 me->SummonCreature(YELLOW_EYE, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
-                events.ScheduleEvent(EVENT_LIGHT_SPECTRUM, 3.5 * MINUTE * IN_MILLISECONDS);
+                events.ScheduleEvent(EVENT_LIGHT_SPECTRUM, 3.5 * AsUnderlyingType(MINUTE) * AsUnderlyingType(IN_MILLISECONDS));
                 events.ScheduleEvent(EVENT_SUMMON_FOGS_CRIMSON, 500, 0, 0);
                 events.ScheduleEvent(EVENT_SUMMON_FOGS_AZURE, 550, 0, 0);
                 if (me->GetMap()->IsHeroic())
@@ -1054,7 +1054,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_DRAIN_LIFE, 3000, 0, 0);
@@ -1158,7 +1158,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_LINGERING_MARKER, 1000, 0, 0);
@@ -1279,7 +1279,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_FORCE_OF_WILL, 1000, 0, 0);
@@ -1422,7 +1422,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_DARK_PARASITE, 1000, 0, 0);
@@ -1476,7 +1476,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_dark_parasite_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             if (Unit* target = GetTarget()->ToPlayer())
             {
@@ -1495,7 +1495,7 @@ public:
             }
         }
 
-        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
 
@@ -1540,7 +1540,7 @@ public:
         EventMap events;
         uint64 owner;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             //owner = summoner->GetGUID();
             me->SetInCombatWithZone();
@@ -1611,7 +1611,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             me->SetReactState(REACT_PASSIVE);
@@ -1658,74 +1658,74 @@ public:
                     me->AI()->DoAction(ACTION_CAST_SPELL_MOVER);
                     break;
                 case EVENT_1:
-                    me->GetMotionMaster()->MovePoint(POINT_1, YellowEyeWay[1]);
+                    me->GetMotionMaster()->MovePoint(POINT_1, YellowEyeWay[0]);
                     //sWorld->SendWorldText(3, "gopoint 1 c");
                     break;
                 case EVENT_2:
-                    me->GetMotionMaster()->MovePoint(POINT_2, YellowEyeWay[2]);
+                    me->GetMotionMaster()->MovePoint(POINT_2, YellowEyeWay[1]);
                     //sWorld->SendWorldText(3, "gopoint 2 c");
                     break;
                 case EVENT_3:
-                    me->GetMotionMaster()->MovePoint(POINT_3, YellowEyeWay[3]);
+                    me->GetMotionMaster()->MovePoint(POINT_3, YellowEyeWay[2]);
                     //sWorld->SendWorldText(3, "go point3 c");
                     break;
                 case EVENT_4:
-                    me->GetMotionMaster()->MovePoint(POINT_4, YellowEyeWay[4]);
+                    me->GetMotionMaster()->MovePoint(POINT_4, YellowEyeWay[3]);
                     //sWorld->SendWorldText(3, "go point 4 c");
                     break;
                 case EVENT_5:
-                    me->GetMotionMaster()->MovePoint(POINT_5, YellowEyeWay[5]);
+                    me->GetMotionMaster()->MovePoint(POINT_5, YellowEyeWay[4]);
                     //sWorld->SendWorldText(3, "go point 5 c");
                     break;
                 case EVENT_6:
-                    me->GetMotionMaster()->MovePoint(POINT_6, YellowEyeWay[6]);
+                    me->GetMotionMaster()->MovePoint(POINT_6, YellowEyeWay[5]);
                     //sWorld->SendWorldText(3, "go point 6 c");
                     break;
                 case EVENT_7:
-                    me->GetMotionMaster()->MovePoint(POINT_7, YellowEyeWay[7]);
+                    me->GetMotionMaster()->MovePoint(POINT_7, YellowEyeWay[6]);
                     //sWorld->SendWorldText(3, "go point 7 c");
                     break;
                 case EVENT_8:
-                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[7]);
                     //sWorld->SendWorldText(3, "go point 8 c");
                     break;
                 case EVENT_1_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_1_REVERSE, YellowEyeWay2[1]);
+                    me->GetMotionMaster()->MovePoint(POINT_1_REVERSE, YellowEyeWay2[0]);
                     //sWorld->SendWorldText(3, "gopoint 1 cc");
                     break;
                 case EVENT_2_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_2_REVERSE, YellowEyeWay2[2]);
+                    me->GetMotionMaster()->MovePoint(POINT_2_REVERSE, YellowEyeWay2[1]);
                     //sWorld->SendWorldText(3, "gopoint 2 cc");
                     break;
                 case EVENT_3_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_3_REVERSE, YellowEyeWay2[3]);
+                    me->GetMotionMaster()->MovePoint(POINT_3_REVERSE, YellowEyeWay2[2]);
                     //sWorld->SendWorldText(3, "gopoint 3 cc");
                     break;
                 case EVENT_4_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_4_REVERSE, YellowEyeWay2[4]);
+                    me->GetMotionMaster()->MovePoint(POINT_4_REVERSE, YellowEyeWay2[3]);
                     //sWorld->SendWorldText(3, "gopoint 4 cc");
                     break;
                 case EVENT_5_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_5_REVERSE, YellowEyeWay2[5]);
+                    me->GetMotionMaster()->MovePoint(POINT_5_REVERSE, YellowEyeWay2[4]);
                     //sWorld->SendWorldText(3, "gopoint 5 cc");
                     break;
                 case EVENT_6_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_6_REVERSE, YellowEyeWay2[6]);
+                    me->GetMotionMaster()->MovePoint(POINT_6_REVERSE, YellowEyeWay2[5]);
                     //sWorld->SendWorldText(3, "gopoint 6 cc");
                     break;
                 case EVENT_7_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_7_REVERSE, YellowEyeWay2[7]);
+                    me->GetMotionMaster()->MovePoint(POINT_7_REVERSE, YellowEyeWay2[6]);
                     //sWorld->SendWorldText(3, "gopoint 7 cc");
                     break;
                 case EVENT_8_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[7]);
                     //sWorld->SendWorldText(3, "gopoint 8 cc");
                     break;
                 }
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId)
         {
             switch (pointId)
             {
@@ -1805,7 +1805,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_DAMAGE_PLAYERS, 1000, 0, 0);
@@ -1864,7 +1864,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_RED_EYE, 1000, 0, 0);
@@ -1968,7 +1968,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_BLUE_EYE, 1000, 0, 0);
@@ -2071,7 +2071,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_YELLOW_EYE, 1000, 0, 0);
@@ -2161,7 +2161,7 @@ public:
             active = false;
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             me->CastSpell(me, SPELL_RED_FOG, true);
@@ -2261,7 +2261,7 @@ public:
             active = false;
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             me->CastSpell(me, SPELL_BLUE_FOG, true);
@@ -2380,7 +2380,7 @@ public:
             healthLost10 = false;
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             me->CastSpell(me, SPELL_YELLOW_FOG, true);
@@ -2404,7 +2404,7 @@ public:
                 }
         }
 
-        void DamageTaken(Unit*, uint32& damage)
+        void DamageTaken(Unit*, uint32& /*damage*/)
         {
             if (me->HealthBelowPct(90) && !healthLost1)
             {
@@ -2514,7 +2514,7 @@ public:
     {
         PrepareSpellScript(bfa_spell_lingering_gaze_SpellScript);
 
-        void HandleHitScript(SpellEffIndex index)
+        void HandleHitScript(SpellEffIndex /*index*/)
         {
             if (!GetHitUnit())
                 return;
@@ -2551,7 +2551,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetObjectScale(0.4f);
             me->CastSpell(me, SPELL_ICE_WALL);
@@ -2594,7 +2594,7 @@ public:
                     (*itr)->Delete();
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             std::list<Creature*> creatures;
             me->GetCreatureListWithEntryInGrid(creatures, NPC_WALL_OF_ICE_1, 500.0f);
@@ -2645,7 +2645,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetObjectScale(0.4f);
             me->CastSpell(me, SPELL_ICE_WALL);
@@ -2688,7 +2688,7 @@ public:
                     (*itr)->Delete();
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             std::list<Creature*> creatures;
             me->GetCreatureListWithEntryInGrid(creatures, NPC_WALL_OF_ICE_2, 500.0f);
@@ -2739,7 +2739,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             me->SetObjectScale(0.4f);
@@ -2782,7 +2782,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             std::list<Creature*> creatures;
             me->GetCreatureListWithEntryInGrid(creatures, NPC_WALL_OF_ICE_3, 500.0f);
@@ -2839,7 +2839,7 @@ public:
             targetsPlayers = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex effIndex)
+        void RecalculateDamage(SpellEffIndex /*effIndex*/)
         {
             SetHitDamage(GetHitDamage() / targetsPlayers);
         }
@@ -2910,7 +2910,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_disintegration_beam_AuraScript);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             /*PreventDefaultAction();
             Unit* caster = GetCaster();
@@ -2924,7 +2924,6 @@ public:
 
             Unit* durumu = GetCaster();
             Unit* triggerTarget = GetTarget();
-            Unit* targetPlayer = NULL;
 
             if (!durumu || !triggerTarget)
                 return;
@@ -3028,7 +3027,7 @@ public:
         {
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_STERN_GAZE, 1000, 0, 0);
@@ -3120,7 +3119,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             events.ScheduleEvent(EVENT_ADD_VIZUAL, 1000, 0, 0);
             events.ScheduleEvent(EVENT_EYE_SORES_PLAYERS, 5000, 0, 0);
@@ -3274,14 +3273,14 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
             me->SetInCombatWithZone();
             me->SetUnitFlags(UNIT_FLAG_NOT_SELECTABLE);
             me->SetReactState(REACT_PASSIVE);
         }
 
-        void SpellHit(Unit* pCaster, SpellInfo const* pSpell) override
+        void SpellHit(Unit* /*pCaster*/, SpellInfo const* pSpell) override
         {
             if (pSpell->Id == SPELL_DESINTEGRATION_BEAM)
             {
@@ -3293,7 +3292,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 
@@ -3323,7 +3322,7 @@ public:
                     me->GetMotionMaster()->MovePoint(POINT_7, YellowEyeWay[7]);
                     break;
                 case EVENT_8:
-                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8, YellowEyeWay[0]);
                     break;
                 case EVENT_1_REVERSE:
                     me->GetMotionMaster()->MovePoint(POINT_1_REVERSE, YellowEyeWay2[1]);
@@ -3347,13 +3346,13 @@ public:
                     me->GetMotionMaster()->MovePoint(POINT_7_REVERSE, YellowEyeWay2[7]);
                     break;
                 case EVENT_8_REVERSE:
-                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[8]);
+                    me->GetMotionMaster()->MovePoint(POINT_8_REVERSE, YellowEyeWay2[0]);
                     break;
                 }
             }
         }
 
-        void MovementInform(uint32 type, uint32 pointId)
+        void MovementInform(uint32 /*type*/, uint32 pointId) override
         {
             switch (pointId)
             {
@@ -3483,7 +3482,7 @@ public:
         {
             if (Unit* caster = GetCaster())
             {
-                if (Unit* target = GetHitUnit())
+                if (GetHitUnit())
                 {
                     uint32 damage = 0;
 
@@ -3544,7 +3543,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             switch (me->GetEntry())
             {
@@ -3720,7 +3719,7 @@ class bfa_npc_durumu_platform_teleport : public CreatureScript
 public:
     bfa_npc_durumu_platform_teleport() : CreatureScript("bfa_npc_durumu_platform_teleport") { }
 
-    bool OnGossipHello(Player* player, Creature* pCreature)
+    bool OnGossipHello(Player* player, Creature* /*pCreature*/)
     {
         player->NearTeleportTo(5957.48f, 4514.05f, -6.27f, 3.21f, false);
         return true;
@@ -3733,7 +3732,7 @@ class bfa_npc_jikun_teleport_to_durumu : public CreatureScript
 public:
     bfa_npc_jikun_teleport_to_durumu() : CreatureScript("bfa_npc_jikun_teleport_to_durumu") { }
 
-    bool OnGossipHello(Player* player, Creature* pCreature)
+    bool OnGossipHello(Player* player, Creature* /*pCreature*/)
     {
         player->NearTeleportTo(6096.00f, 4408.77f, -6.25f, 2.06f, false);
         return true;

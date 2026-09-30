@@ -181,8 +181,9 @@ struct scenario_artifact_ursocslair : public InstanceScript
             return DATA_STEP_8;
             break;
         default:
-            break;
+            return 0;
         }
+        return 0;
     }
 
     void LoadNPC(uint32 event, const SpawnData* data)
@@ -579,7 +580,7 @@ struct npc_lea_stonepaw_105243 : public ScriptedAI
         isStep1 = true;
     }
 
-    void JustEngagedWith(Unit* victim)
+    void JustEngagedWith(Unit* victim) override
     {
         TC_LOG_ERROR("server.worldserver", "====================scenario_artifact_ursocslair  JustEngagedWith====================== ");
         if (!me->HasAura(186588))
@@ -689,13 +690,13 @@ class go_claws_of_ursoc_248853 : public GameObjectScript
 public:
     go_claws_of_ursoc_248853() : GameObjectScript("go_claws_of_ursoc_248853") { }
 
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* /*player*/, GameObject* /*go*/) override
     {
 
         return false;
     }
 
-    void OnLootStateChanged(GameObject* go, uint32 state, Unit* unit)
+    void OnLootStateChanged(GameObject* go, uint32 state, Unit* unit) override
     {
         if (state == GO_ACTIVATED && unit)
             if (Player* player = unit->ToPlayer())
@@ -716,13 +717,13 @@ public:
                     {
                         ///TO DO
                         //lea->AI()->DoAction(1);
-                        lea->GetScheduler().Schedule(10s, 11s, [lea, player](TaskContext context)
+                        lea->GetScheduler().Schedule(10s, 11s, [lea, player](TaskContext /*context*/)
                         {
                             lea->RemoveAurasDueToSpell(208707);
                             lea->Say(108061, player);
                         });
 
-                        lea->GetScheduler().Schedule(14s, 15s, [lea, player](TaskContext context)
+                        lea->GetScheduler().Schedule(14s, 15s, [lea, player](TaskContext /*context*/)
                         {
                             lea->Say("balarabala", LANG_UNIVERSAL, player);
                             ///player->TeleportTo();

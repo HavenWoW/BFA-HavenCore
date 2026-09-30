@@ -215,7 +215,7 @@ struct npc_archdruid_hamuul_runetotem_101064 : public ScriptedAI
 {
     npc_archdruid_hamuul_runetotem_101064(Creature* creature) : ScriptedAI(creature) {  }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -309,7 +309,7 @@ struct npc_zentabra_103135 : public ScriptedAI
 {
     npc_zentabra_103135(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -328,7 +328,7 @@ struct npc_zentabra_103135 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_CALL_OF_THE_WILDS))
@@ -443,7 +443,7 @@ struct npc_zentabra_103136 : public ScriptedAI
     }
 
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_CALL_OF_THE_WILDS))
@@ -519,7 +519,7 @@ struct npc_naralex_103133 : public ScriptedAI
         DoCastSelf(204637, true);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId) override
     {
         player->CastSpell(player, 204250, true);
         CloseGossipMenuFor(player);
@@ -528,7 +528,7 @@ struct npc_naralex_103133 : public ScriptedAI
             me->RemoveAurasDueToSpell(204637);
             player->KilledMonsterCredit(me->GetEntry());
             Talk(0, player);
-            _scheduler.Schedule(Milliseconds(2000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(2000), [this, player](TaskContext /*context*/)
             {
                 Talk(1);
                 DoCastSelf(204270, true);
@@ -539,39 +539,39 @@ struct npc_naralex_103133 : public ScriptedAI
                 me->GetMotionMaster()->MovePoint(1, Position(7392.571f, -2316.646f, 493.6733f), true);
             });
 
-            _scheduler.Schedule(Milliseconds(4000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(4000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(2, Position(7387.746f, -2320.948f, 491.073f), true);
             });
 
-            _scheduler.Schedule(Milliseconds(7000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(7000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(3, Position(7385.798f, -2327.387f, 486.7766f), true);
             });
-            _scheduler.Schedule(Milliseconds(9000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(9000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(4, Position(7388.854f, -2331.33f, 484.655f), true);
             });
 
-            _scheduler.Schedule(Milliseconds(12000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(12000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(5, Position(7391.678f, -2343.4f, 478.5645f), true);
             });
-            _scheduler.Schedule(Milliseconds(14000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(14000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(6, Position(7391.092f, -2353.993f, 476.7569f), true);
             });
 
-            _scheduler.Schedule(Milliseconds(16000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(16000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(7, Position(7387.592f, -2364.859f, 475.9466f), true);
             });
-            _scheduler.Schedule(Milliseconds(18000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(18000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(8, Position(7388.452f, -2371.531f, 474.5436f), true);
             });
 
-            _scheduler.Schedule(Milliseconds(25000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(25000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MoveTargetedHome();
                 Initialize();
@@ -621,7 +621,7 @@ struct npc_malfurion_stormrage_103875 : public ScriptedAI
                     {
 
                         player->CastSpell(player, SPELL_DRUID_ORDER_FORMATION, true);
-                        me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext context)
+                        me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext /*context*/)
                         {
                             player->CastSpell(player, SPELL_ASSIGN_DRUID_SPELL_BAR, true);
                             player->KilledMonsterCredit(KILLED_MONSTER_CREDIT_40644);
@@ -639,7 +639,7 @@ struct npc_malfurion_stormrage_103875 : public ScriptedAI
         }
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_TO_THE_DREAMGROVE)
             if (Creature* keeper_remulos = me->FindNearestCreature(NPC_KEEPER_REMULOS_101065, 25.0f, true))
@@ -720,7 +720,7 @@ struct npc_keeper_remulos_103489 : public ScriptedAI
 {
     npc_keeper_remulos_103489(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -782,20 +782,20 @@ struct npc_keeper_remulos_103489 : public ScriptedAI
             me->SetWalk(false);
             me->GetMotionMaster()->MovePoint(1, Position(7391.678f, -2343.4f, 478.5645f), true);
             DoAction(1);
-            _scheduler.Schedule(Milliseconds(1000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(1000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(1, Position(1536.2015f, 1622.9069f, 25.22f, 6.209f), true);
             });
-            _scheduler.Schedule(Milliseconds(6000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(6000), [this, player](TaskContext /*context*/)
             {
                 Talk(1);
                 me->GetMotionMaster()->MovePoint(2, Position(1582.712646f, 1618.0842f, 15.145f, 5.721f), true);
             });
-            _scheduler.Schedule(Milliseconds(11000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(11000), [this, player](TaskContext /*context*/)
             {
                 Talk(2);
             });
-            _scheduler.Schedule(Milliseconds(20000), [this, player](TaskContext context)
+            _scheduler.Schedule(Milliseconds(20000), [this, player](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(3, Position(1700.725f, 1547.835f, 2.549316f, 5.72f), true);
             });
@@ -821,7 +821,7 @@ struct npc_keeper_remulos_103488 : public ScriptedAI
         ACTION_3 = 3,
     };
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -841,23 +841,23 @@ struct npc_keeper_remulos_103488 : public ScriptedAI
             Talk(1);
             me->SetWalk(false);
             me->GetMotionMaster()->MovePoint(1, Position(1734.642456f, 1381.86731f, 4.024f, 1.6092f), true);
-            _scheduler.Schedule(Milliseconds(5000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(2, Position(1728.859741f, 1431.163208f, 10.0241f, 1.412877f), true);
             });
-            _scheduler.Schedule(Milliseconds(10000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(10000), [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(3, Position(1738.126709f, 1474.335815f, 10.189967f, 1.090864f), true);
             });
-            _scheduler.Schedule(Milliseconds(18000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(18000), [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(4, Position(1758.78125f, 1508.856445f, 6.571756f, 6.237577f), true);
             });
-            _scheduler.Schedule(Milliseconds(25000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(25000), [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(4, Position(1781.30957f, 1504.709f, 9.361588f, 5.992398f), true);
             });
-            _scheduler.Schedule(Milliseconds(30000), [this](TaskContext context)
+            _scheduler.Schedule(Milliseconds(30000), [this](TaskContext /*context*/)
             {
                 me->DespawnOrUnsummon(1000);
             });
@@ -881,7 +881,7 @@ struct npc_keeper_remulos_103488 : public ScriptedAI
             {
                 action = true;
                 DoAction(ACTION_1);
-                _scheduler.Schedule(30s, 31s, [this](TaskContext context)
+                _scheduler.Schedule(30s, 31s, [this](TaskContext /*context*/)
                 {
                     DoAction(ACTION_2);
                 });
@@ -891,7 +891,7 @@ struct npc_keeper_remulos_103488 : public ScriptedAI
                 PhasingHandler::RemovePhase(player, 6122, true);
                 action = true;
                 Talk(0);
-                _scheduler.Schedule(2s, 3s, [this](TaskContext context)
+                _scheduler.Schedule(2s, 3s, [this](TaskContext /*context*/)
                 {
                     DoAction(ACTION_3);
                 });
@@ -929,7 +929,7 @@ struct npc_nightmare_blight_103246 : public ScriptedAI
 
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         ///
     }
@@ -999,7 +999,7 @@ struct npc_skycaller_faeb_122095 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (CanSwitch)
@@ -1131,23 +1131,23 @@ struct npc_rensar_greathoof_101195 : public ScriptedAI
                     if (Creature* remulos = me->FindNearestCreature(NPC_KEEPER_REMULOS_103832, 15.0f))
                     {
                         remulos->Say(103622, me);
-                        me->GetScheduler().Schedule(5s, [this, remulos](TaskContext context)
+                        me->GetScheduler().Schedule(5s, [this, remulos](TaskContext /*context*/)
                         {
                             me->Say("Ishnu-alah, son of Cenarius. I'm well aware of what brings you. I've heard the screams of the land as it is defiled by the Legion.", LANG_UNIVERSAL, remulos);
                         });
-                        me->GetScheduler().Schedule(10s, [this, remulos](TaskContext context)
+                        me->GetScheduler().Schedule(10s, [this, remulos](TaskContext /*context*/)
                         {
                             remulos->Say("We must act swiftly and prepare the weapons of old for war once again.", LANG_UNIVERSAL, me);
                         });
-                        me->GetScheduler().Schedule(15s, [this, remulos](TaskContext context)
+                        me->GetScheduler().Schedule(15s, [this, remulos](TaskContext /*context*/)
                         {
                             me->Say("The weapons of the first druids can surely turn the tide in our favor, but is there anyone with the strength to wield them?", LANG_UNIVERSAL, remulos);
                         });
-                        me->GetScheduler().Schedule(20s, [this, remulos, player](TaskContext context)
+                        me->GetScheduler().Schedule(20s, [this, remulos, player](TaskContext /*context*/)
                         {
                             remulos->Say(103626, player);
                         });
-                        me->GetScheduler().Schedule(25s, [this, remulos, player](TaskContext context)
+                        me->GetScheduler().Schedule(25s, [this, remulos, player](TaskContext /*context*/)
                         {
                             me->Say("Very well, your task will not be easy but I shall do all that I can to aid you.", LANG_UNIVERSAL, player);
                             player->KilledMonsterCredit(101246);
@@ -1166,7 +1166,7 @@ struct npc_rensar_greathoof_101195 : public ScriptedAI
                     if (Creature* remulos = me->FindNearestCreature(NPC_KEEPER_REMULOS_103832, 15.0f))
                     {
                         me->Say("g'hanir will not last much longer.It must be cleansed.", LANG_UNIVERSAL, remulos);
-                        me->GetScheduler().Schedule(4s, [remulos, player](TaskContext context)
+                        me->GetScheduler().Schedule(4s, [remulos, player](TaskContext /*context*/)
                         {
                             remulos->Say("We must aid Bashana in clearing out the remaining nightmare here. G'Hanir's fate rests with Lyessa and $n.", LANG_UNIVERSAL, player);
                         });
@@ -1181,7 +1181,7 @@ struct npc_rensar_greathoof_101195 : public ScriptedAI
     {
         if (quest->GetQuestId() == QUEST_WEAPONS_OF_LEGEND || quest->GetQuestId() == QUEST_ANOTHER_WEAPON_OF_OLD || quest->GetQuestId() == QUEST_MORE_WEAPONS_OF_OLD || quest->GetQuestId() == QUEST_WEAPONS_OF_THE_ANCIENTS)
         {
-            me->GetScheduler().Schedule(2s, [player](TaskContext context)
+            me->GetScheduler().Schedule(2s, [player](TaskContext /*context*/)
             {
                 player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
             });
@@ -1233,7 +1233,7 @@ struct npc_rensar_greathoof_101195 : public ScriptedAI
             }
     }
     */
-    void sGossipSelect(Player* player, uint32 menuId, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -1249,7 +1249,7 @@ class druid_weapons_of_legend_player_choice : public PlayerScript {
 public:
     druid_weapons_of_legend_player_choice() : PlayerScript("druid_weapons_of_legend_player_choice") {}
 
-    void OnQuestStatusChange(Player* player, uint32 /*questId*/)
+    void OnQuestStatusChange(Player* /*player*/, uint32 /*questId*/)
     {
        // if (player->getClass() == CLASS_DRUID || player->getLevel() >= 98)
       //      OnCheckPhase(player);
@@ -1361,7 +1361,7 @@ struct npc_keeper_remulos_103832 : public ScriptedAI
 {
     npc_keeper_remulos_103832(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -1375,13 +1375,13 @@ struct npc_keeper_remulos_103832 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* /*quest*/) override
     {
         //if (quest->GetQuestId() == QUEST_WITNESS_TO_THE_WOUND)
        // {   }
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)  override
+    void sQuestReward(Player* /*player*/, Quest const* /*quest*/, uint32 /*opt*/)  override
     {
         //if (quest->GetQuestId() == QUEST_WITNESS_TO_THE_WOUND)
         //{ }
@@ -1419,7 +1419,7 @@ struct npc_lea_stonepaw_101259 : public ScriptedAI
         }
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_TO_THE_HILLS)
             Talk(1);
@@ -1439,7 +1439,7 @@ struct npc_lea_stonepaw_104535 : public ScriptedAI
 {
     npc_lea_stonepaw_104535(Creature* creature) : ScriptedAI(creature) {  }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -1478,19 +1478,19 @@ struct npc_lea_stonepaw_104535 : public ScriptedAI
             me->Say(107322, player);
             me->TextEmote(107346, player);
 
-            _scheduler.Schedule(1s, 2s, [this, player](TaskContext context)
+            _scheduler.Schedule(1s, 2s, [this, player](TaskContext /*context*/)
             {
                 me->TextEmote(107346, player);
             });
             if (Creature* ursol = me->FindNearestCreature(NPC_KEEPER_REMULOS_103832, 15.0f))
             {
-                _scheduler.Schedule(3s, 4s, [this, ursol, player](TaskContext context)
+                _scheduler.Schedule(3s, 4s, [this, ursol, player](TaskContext /*context*/)
                 {
                     ursol->Yell(107080, player);
                 });
             }
 
-            _scheduler.Schedule(5s, 6s, [this, player](TaskContext context)
+            _scheduler.Schedule(5s, 6s, [this, player](TaskContext /*context*/)
             {
                 me->Say(107402, player);
             });
@@ -1529,14 +1529,14 @@ struct npc_ursol_104385 : public ScriptedAI
 {
     npc_ursol_104385(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
         case ACTION_TRIAL_OF_URSOL_1:
             killedCount = 0;
             restSummonCount = 1;
-            me->GetScheduler().Schedule(1s, 2s, [this](TaskContext context)
+            me->GetScheduler().Schedule(1s, 2s, [this](TaskContext /*context*/)
             {
                 Position pos;
                 GetRandPosFromCenterInDist(me, 30.f, pos);
@@ -1570,18 +1570,18 @@ struct npc_ursol_104385 : public ScriptedAI
         case ACTION_TRIAL_OF_URSOL_2:
             killedCount = 0;
             restSummonCount = 9;
-            _scheduler.Schedule(1s, 2s, [this](TaskContext context)
+            _scheduler.Schedule(1s, 2s, [this](TaskContext /*context*/)
             {
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
             });
-            _scheduler.Schedule(11s, 12s, [this](TaskContext context)
+            _scheduler.Schedule(11s, 12s, [this](TaskContext /*context*/)
             {
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
                 sSummonCreature(NPC_ANCESTRAL_SHAMAN_104937);
             });
-            _scheduler.Schedule(22s, 23s, [this](TaskContext context)
+            _scheduler.Schedule(22s, 23s, [this](TaskContext /*context*/)
             {
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
@@ -1592,43 +1592,43 @@ struct npc_ursol_104385 : public ScriptedAI
         case ACTION_TRIAL_OF_URSOL_3:
             killedCount = 0;
             restSummonCount = 8;
-            _scheduler.Schedule(3s, 4s, [this](TaskContext context)
+            _scheduler.Schedule(3s, 4s, [this](TaskContext /*context*/)
             {
                 me->Say("Is there anyone who would fight at your side, druid?", LANG_UNIVERSAL);
             });
-            _scheduler.Schedule(5s, 6s, [this](TaskContext context)
+            _scheduler.Schedule(5s, 6s, [this](TaskContext /*context*/)
             {
                 if (Creature* lea = me->FindNearestCreature(NPC_LEA_STONEPAW_104535, 50.0f))
                     lea->Say(107513);
             });
-            _scheduler.Schedule(8s, 10s, [this](TaskContext context)
+            _scheduler.Schedule(8s, 10s, [this](TaskContext /*context*/)
             {
                 me->Say(107157);
             });
-            _scheduler.Schedule(10s, 12s, [this](TaskContext context)
+            _scheduler.Schedule(10s, 12s, [this](TaskContext /*context*/)
             {
                 me->Say(107158);
             });
-            _scheduler.Schedule(12s, 13s, [this](TaskContext context)
+            _scheduler.Schedule(12s, 13s, [this](TaskContext /*context*/)
             {
                 me->Say(107160);
             });
-            _scheduler.Schedule(15s, 16s, [this](TaskContext context)
+            _scheduler.Schedule(15s, 16s, [this](TaskContext /*context*/)
             {
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
             });
-            _scheduler.Schedule(20s, 21s, [this](TaskContext context)
+            _scheduler.Schedule(20s, 21s, [this](TaskContext /*context*/)
             {
                 sSummonCreature(NPC_ANCESTRAL_SHAMAN_104937);
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
             });
-            _scheduler.Schedule(25s, 26s, [this](TaskContext context)
+            _scheduler.Schedule(25s, 26s, [this](TaskContext /*context*/)
             {
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
             });
-            _scheduler.Schedule(30s, 31s, [this](TaskContext context)
+            _scheduler.Schedule(30s, 31s, [this](TaskContext /*context*/)
             {
                 sSummonCreature(NPC_ANCESTRAL_SHAMAN_104937);
                 sSummonCreature(NPC_ANCESTRAL_WARRIOR_104936);
@@ -1659,7 +1659,7 @@ struct npc_ursol_104385 : public ScriptedAI
         _scheduler.Update(diff);
     }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* player, Quest const* /*quest*/) override
     {
         if (player->HasQuest(QUEST_THE_FIRST_TRIAL_OF_URSOL))
         {
@@ -1681,7 +1681,7 @@ struct npc_ursol_104385 : public ScriptedAI
         if (quest->GetQuestId() == QUEST_THE_SECOND_TRIAL_OF_URSOL)
         {
             me->Say(107155, player);
-            _scheduler.Schedule(3s, 4s, [this](TaskContext context)
+            _scheduler.Schedule(3s, 4s, [this](TaskContext /*context*/)
             {
                 if (Creature* lea = me->FindNearestCreature(NPC_LEA_STONEPAW_104535, 50.0f))
                     lea->Say(107662);
@@ -1701,7 +1701,7 @@ struct npc_ursol_104385 : public ScriptedAI
         m_playerGUID = player->GetGUID();
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_THE_THIRD_TRIAL_OF_URSOL))
@@ -1827,7 +1827,7 @@ struct npc_ancestral_shaman_104937 : public ScriptedAI
         }
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         if (!UpdateVictim())
             return;
@@ -2072,7 +2072,7 @@ struct npc_bashana_runetotem_104398 : public ScriptedAI
         Initialize();
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         if (IsYellHelp && !me->HasAura(206625) && IsHaveAura)
         {
@@ -2115,7 +2115,7 @@ struct npc_lyessa_bloomwatcher_104573 : public ScriptedAI
 {
     npc_lyessa_bloomwatcher_104573(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -2131,7 +2131,7 @@ struct npc_lyessa_bloomwatcher_104573 : public ScriptedAI
         }
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
 
     }
@@ -2179,7 +2179,7 @@ public:
             if (Player* player = unit->ToPlayer())
             {
                 player->KilledMonsterCredit(113098);
-                go->GetScheduler().Schedule(Milliseconds(5000), [player](TaskContext context)
+                go->GetScheduler().Schedule(Milliseconds(5000), [player](TaskContext /*context*/)
                 {
                     player->TeleportTo(1220, Position(4299.72f, 7422.46f, -17.13f, 2.535614f));
                 });
@@ -2199,7 +2199,7 @@ struct npc_lyessa_bloomwatcher_104577 : public ScriptedAI
         if (quest->GetQuestId() == QUEST_CLEANSING_THE_MOTHER_TREE)
         {
             Talk(0);
-            me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(5000), [this, player](TaskContext /*context*/)
             {
                 me->Say(107059, player);
             });
@@ -2247,7 +2247,7 @@ struct npc_delandros_shimmermoon_107392 : public ScriptedAI
                 });
             }
 
-            me->GetScheduler().Schedule(Milliseconds(30000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(30000), [this](TaskContext /*context*/)
             {
                 issay = false;
             });
@@ -2257,11 +2257,11 @@ struct npc_delandros_shimmermoon_107392 : public ScriptedAI
         {
             issay = true;
             Talk(1);
-            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(3000), [this](TaskContext /*context*/)
             {
                 Talk(2);
             });
-            me->GetScheduler().Schedule(Milliseconds(30000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(30000), [this](TaskContext /*context*/)
             {
                 issay = false;
             });
@@ -2273,7 +2273,7 @@ struct npc_delandros_shimmermoon_107392 : public ScriptedAI
         if (quest->GetQuestId() == QUEST_THE_SHRINE_IN_PERIL)
         {
             player->GetSceneMgr().PlayScene(1285);
-            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext context)
+            me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext /*context*/)
             {
                 Talk(0);
             });
@@ -2479,7 +2479,7 @@ struct npc_valorn_stillbough_101656 : public ScriptedAI
 {
     npc_valorn_stillbough_101656(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -2502,13 +2502,13 @@ struct npc_valorn_stillbough_101656 : public ScriptedAI
                     {
                         belysra->Yell(104056);
 
-                        belysra->GetScheduler().Schedule(Milliseconds(2000), [belysra](TaskContext context)
+                        belysra->GetScheduler().Schedule(Milliseconds(2000), [belysra](TaskContext /*context*/)
                         {
                             belysra->Say(104059);
                         });
                     }
 
-                    me->GetScheduler().Schedule(Milliseconds(3000), [player, ariden](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(3000), [player, ariden](TaskContext /*context*/)
                     {
                         PhasingHandler::AddPhase(player, QUEST_ITS_RIGHTFUL_PLACE_PHASE_2);
                         PhasingHandler::RemovePhase(player, QUEST_ITS_RIGHTFUL_PLACE_PHASE_1);
@@ -2516,7 +2516,7 @@ struct npc_valorn_stillbough_101656 : public ScriptedAI
                     });
 
                     ariden->GetMotionMaster()->MoveAwayAndDespawn(50.0f, 5000);
-                    me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext context)
+                    me->GetScheduler().Schedule(Milliseconds(4000), [this](TaskContext /*context*/)
                     {
                         issay = false;
                     });
@@ -2650,7 +2650,7 @@ struct npc_revil_kost_100578 : public ScriptedAI
 {
     npc_revil_kost_100578(Creature* creature) : ScriptedAI(creature) { }
 
-    void DoAction(int32 param)
+    void DoAction(int32 /*param*/)
     {
         //_sceneHelper.Clear();
         //_sceneHelper.SetDefaultActorGuid(me->GetGUID());
@@ -2719,7 +2719,7 @@ struct npc_revil_kost_100729 : public ScriptedAI
         }
     }
 
-    void sQuestReward(Player* player, Quest const* quest, uint32 /*opt*/)  override
+    void sQuestReward(Player* /*player*/, Quest const* quest, uint32 /*opt*/)  override
     {
         if (quest->GetQuestId() == QUEST_DISTURBING_THE_PAST)
         {
@@ -2842,7 +2842,7 @@ struct npc_yaris_darkclaw_106442 : public ScriptedAI
    //     me->SetShipmentContainerID(141);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* /*player*/, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         //CloseGossipMenuFor(player);
       //  player->SendShipmentCrafterUI(me->GetGUID(), me->GetShipmentContainerID());
@@ -2858,7 +2858,7 @@ struct npc_sister_lilith_108393 : public ScriptedAI
      //   me->SetShipmentContainerID(140);
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* /*player*/, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         //CloseGossipMenuFor(player);
      //   player->SendShipmentCrafterUI(me->GetGUID(), me->GetShipmentContainerID());
@@ -2873,7 +2873,7 @@ public:
 
     bool OnGossipHello(Player* player, GameObject* go)
     {
-        if (Garrison* garrison = player->GetGarrison(GARRISON_TYPE_CLASS_HALL))
+        if (player->GetGarrison(GARRISON_TYPE_CLASS_HALL))
         {
             /*switch (go->GetEntry())
             {
@@ -2934,7 +2934,7 @@ struct npc_thisalee_crow_106299 : public ScriptedAI
             player->ForceCompleteQuest(QUEST_DEFENSE_OF_AVIANA);
             player->AddItem(146798, 1);
             player->NearTeleportTo(4250.738f, 7523.942f, 78.70f, 2.23f, false);
-            player->GetScheduler().Schedule(1s, [this, player] (TaskContext context)
+            player->GetScheduler().Schedule(1s, [this, player] (TaskContext /*context*/)
             {
                 player->GetSceneMgr().PlaySceneByPackageId(1821);
             }); 

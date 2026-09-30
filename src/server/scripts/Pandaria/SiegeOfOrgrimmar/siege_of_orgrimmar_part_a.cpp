@@ -889,7 +889,7 @@ class npc_siege_of_orgrimmar_zeal : public CreatureScript
                 }
             }
 
-            void Reset()
+            void Reset() override
             {
                 events.Reset();
 
@@ -898,7 +898,7 @@ class npc_siege_of_orgrimmar_zeal : public CreatureScript
                 CheckArroganceAlive();
             }
 
-            void JustEngagedWith(Unit* /*who*/)
+            void JustEngagedWith(Unit* /*who*/) override
             {
                 events.ScheduleEvent(EVENT_SHA_SPLASH, urand(5000, 10000));
 
@@ -920,14 +920,14 @@ class npc_siege_of_orgrimmar_zeal : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* /*who*/)
+            void JustDied(Unit* /*who*/) override
             {
                 events.Reset();
 
                 SendZealDied();
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -1019,7 +1019,7 @@ class at_soo_lorewalker_cho_intro : public AreaTriggerScript
     public:
         at_soo_lorewalker_cho_intro() : AreaTriggerScript("at_soo_lorewalker_cho_intro") { }
 
-        bool OnTrigger(Player* pPlayer, const AreaTriggerEntry* /*pAt*/, bool p_Enter)
+        bool OnTrigger(Player* pPlayer, const AreaTriggerEntry* /*pAt*/, bool /*p_Enter*/)
         {
             if (InstanceScript* pInstance = pPlayer->GetInstanceScript())
             {

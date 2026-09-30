@@ -312,7 +312,7 @@ public:
         EventMap events;
         InstanceScript* instance;
 
-        void JustDied(Unit*)
+        void JustDied(Unit*) override
         {
             if (instance)
             {
@@ -350,7 +350,7 @@ public:
             }
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             switch (action)
             {
@@ -394,13 +394,13 @@ public:
                 me->CastSpell(ironhullBoss, SPELL_SWIFTNESS_WARD);
         }
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason /*why*/)
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             _DespawnAtEvade(15);
             Reset();
@@ -429,7 +429,7 @@ public:
             events.ScheduleEvent(EVENT_REGEN_MANA, TIMER_REGEN_MANA);
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             if (Creature* iron = Ironhull())
                 iron->SetInCombatWithZone();
@@ -441,7 +441,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 
@@ -488,7 +488,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void OnSpellCastInterrupt(SpellInfo const* spell) override
+        void OnSpellCastInterrupt(SpellInfo const* /*spell*/) override
         {
             if (me->HasAura(SPELL_BLESSING_OF_THE_TEMPEST))
             {

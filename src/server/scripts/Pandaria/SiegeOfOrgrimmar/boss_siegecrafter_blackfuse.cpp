@@ -931,7 +931,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 Talk(SAY_DEATH_1);
 
@@ -1534,7 +1534,7 @@ class npc_siegecrafter_blackfuse_automated_shredder : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -1954,7 +1954,7 @@ class npc_siegecrafter_blackfuse_laser_turret : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2285,7 +2285,7 @@ class npc_siegecrafter_blackfuse_crawler_mine : public CreatureScript
                 me->ApplySpellImmune(0, IMMUNITY_MECHANIC, MECHANIC_FREEZE, apply);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2304,7 +2304,7 @@ class npc_siegecrafter_blackfuse_crawler_mine : public CreatureScript
                 }
             }
 
-            void DoActivateWeapon()
+            void DoActivateWeapon() override
             {
                 events.ScheduleEvent(EVENT_CRAWLER_MINE_PREPARE, 100);
                 events.ScheduleEvent(EVENT_CRAWLER_MINE, m_CrawlerMineCounter == 0 ? TIMER_CRAWLER_MINE_ACTIVATION_FIRST : m_CrawlerMineCounter * TIMER_CRAWLER_MINE_ACTIVATION);
@@ -2453,7 +2453,7 @@ class npc_siegecrafter_blackfuse_electromagnet : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2550,7 +2550,7 @@ class npc_siegecrafter_blackfuse_shockwave_missile_turret : public CreatureScrip
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2656,7 +2656,7 @@ class npc_siegecrafter_blackfuse_shockwave_missile : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3199,7 +3199,7 @@ class spell_siegecrafter_blackfuse_launch_sawblade : public SpellScriptLoader
         {
             PrepareSpellScript(spell_siegecrafter_blackfuse_launch_sawblade_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -3251,7 +3251,7 @@ class spell_siegecrafter_blackfuse_death_from_above : public SpellScriptLoader
         {
             PrepareSpellScript(spell_siegecrafter_blackfuse_death_from_above_SpellScript);
 
-            void HandleHit(SpellEffIndex effIndex)
+            void HandleHit(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster())
                     return;
@@ -3309,7 +3309,7 @@ class spell_siegecrafter_blackfuse_pipe_transfer_jump : public SpellScriptLoader
                 target = nearest;
             }
 
-            void FilterTargets(std::list<WorldObject*>& targets)
+            void FilterTargets(std::list<WorldObject*>& /*targets*/)
             {
                 if (!GetCaster())
                     return;
@@ -3337,7 +3337,7 @@ struct spell_area_siegecrafter_blackfuse_laser_ground_effect : AreaTriggerAI
         at->SetDuration(Timers::TIMER_SUPERHEATED_DURATION);
     }
 
-    void OnUnitEnter(Unit* p_Target)
+    void OnUnitEnter(Unit* p_Target) override
     {
         Unit* caster = at->GetCaster();
         if (!caster)
@@ -3352,7 +3352,7 @@ struct spell_area_siegecrafter_blackfuse_laser_ground_effect : AreaTriggerAI
         caster->AddAura(SPELL_SUPERHEATED_AURA, p_Target);
     }
 
-    bool OnRemoveTarget(Unit* target, bool /*byExpire*/)
+    bool OnRemoveTarget(Unit* /*target*/, bool /*byExpire*/)
     {
         return true;
     }
@@ -3362,7 +3362,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush : AreaTriggerAI
 {
     spell_area_siegecrafter_blackfuse_magnetic_crush(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUpdate(uint32 p_Diff) override
+    void OnUpdate(uint32 /*p_Diff*/) override
     {
         if (m_IsUpdated)
             return;
@@ -3373,7 +3373,6 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush : AreaTriggerAI
         if (!l_Caster)
             return;
 
-        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_MAGNETIC_CRUSH_DMG);
 
         /*l_Caster->GetMap()->ForEachPlayer([&](Player* p_Player) -> void
         {
@@ -3389,7 +3388,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush : AreaTriggerAI
         });*/
     }
 
-    void OnRemove()
+    void OnRemove() override
     {
         Unit* l_Caster = at->GetCaster();
         if (!l_Caster)
@@ -3413,7 +3412,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_pull : AreaTriggerAI
 {
     spell_area_siegecrafter_blackfuse_magnetic_crush_pull(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUpdate(uint32 p_Diff) override
+    void OnUpdate(uint32 /*p_Diff*/) override
     {
         if (m_IsUpdated)
             return;
@@ -3424,7 +3423,6 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_pull : AreaTriggerAI
         if (!l_Caster)
             return;
 
-        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_MAGNETIC_CRUSH_DMG);
 
         /*l_Caster->GetMap()->ForEachPlayer([&](Player* p_Player) -> void
         {
@@ -3440,7 +3438,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_pull : AreaTriggerAI
         });*/
     }
 
-    void OnRemove()
+    void OnRemove() override
     {
         Unit* l_Caster = at->GetCaster();
         if (!l_Caster)
@@ -3464,7 +3462,7 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_push : AreaTriggerAI
 {
     spell_area_siegecrafter_blackfuse_magnetic_crush_push(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-    void OnUpdate(uint32 p_Diff) override
+    void OnUpdate(uint32 /*p_Diff*/) override
     {
         if (m_IsUpdated)
             return;
@@ -3475,7 +3473,6 @@ struct spell_area_siegecrafter_blackfuse_magnetic_crush_push : AreaTriggerAI
         if (!l_Caster)
             return;
 
-        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_MAGNETIC_CRUSH_DMG);
 
         /*l_Caster->GetMap()->ForEachPlayer([&](Player* p_Player) -> void
         {
@@ -3581,7 +3578,7 @@ class at_siegecrafter_blackfuse_pipe_entrance : public AreaTriggerScript
 
     private:
 
-        bool CanMoveToInstance(Player* player) const
+        bool CanMoveToInstance(Player* /*player*/) const
         {
             // TODO: maybe need to check 'in progress'
             return true;
@@ -3787,7 +3784,6 @@ class at_siegecrafter_blackfuse_platform : public AreaTriggerScript
 
         void AppyOnPlatform(Player* player, bool apply)
         {
-            const float force = 3.f;
 
             if (apply)
             {
@@ -3817,7 +3813,6 @@ class at_siegecrafter_blackfuse_conveyor : public AreaTriggerScript
 
         void AppyOnConveyor(Player* player, bool apply)
         {
-            const float force = 7.f;
 
             if (apply)
             {
@@ -3864,7 +3859,7 @@ class achievement_lasers_and_magnets_and_drills_mines : public AchievementCriter
     public:
         achievement_lasers_and_magnets_and_drills_mines() : AchievementCriteriaScript("achievement_lasers_and_magnets_and_drills_mines") { }
 
-        bool OnCheck(Player* source, Unit* target) override
+        bool OnCheck(Player* source, Unit* /*target*/) override
         {
             if (Creature* pBlackfuse = GetBlackfuse(source))
             {
@@ -3880,7 +3875,7 @@ class achievement_lasers_and_magnets_and_drills_magnet : public AchievementCrite
     public:
         achievement_lasers_and_magnets_and_drills_magnet() : AchievementCriteriaScript("achievement_lasers_and_magnets_and_drills_magnet") { }
 
-        bool OnCheck(Player* source, Unit* target) override
+        bool OnCheck(Player* source, Unit* /*target*/) override
         {
             if (Creature* pBlackfuse = GetBlackfuse(source))
             {
@@ -3896,7 +3891,7 @@ class achievement_lasers_and_magnets_and_drills_shockwave : public AchievementCr
     public:
         achievement_lasers_and_magnets_and_drills_shockwave() : AchievementCriteriaScript("achievement_lasers_and_magnets_and_drills_shockwave") { }
 
-        bool OnCheck(Player* source, Unit* target) override
+        bool OnCheck(Player* source, Unit* /*target*/) override
         {
             if (Creature* pBlackfuse = GetBlackfuse(source))
             {

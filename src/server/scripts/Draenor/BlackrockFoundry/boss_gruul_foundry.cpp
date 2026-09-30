@@ -133,12 +133,12 @@ class boss_gruul_foundry : public CreatureScript
                 }
             }
 
-            bool CanRespawn()
+            bool CanRespawn() override
             {
                 return false;
             }
 
-            void DoAction(int32 p_Action)
+            void DoAction(int32 p_Action) override
             {
                 switch (p_Action)
                 {
@@ -235,7 +235,7 @@ class boss_gruul_foundry : public CreatureScript
                 }
             }
 
-            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER)
+            void EnterEvadeMode(EvadeReason /*why*/ = EVADE_REASON_OTHER) override
             {
                 me->RemoveAllAuras();
 
@@ -296,7 +296,7 @@ class boss_gruul_foundry : public CreatureScript
                 }
             }
 
-            void OnSpellCasted(SpellInfo const* p_SpellInfo)
+            void OnSpellCasted(SpellInfo const* p_SpellInfo) override
             {
                 switch (p_SpellInfo->Id)
                 {
@@ -372,7 +372,7 @@ class boss_gruul_foundry : public CreatureScript
                     m_Events.ScheduleEvent(eEvents::EventOverwhelmingBlows, 3 * TimeConstants::IN_MILLISECONDS);
             }
 
-            void RegeneratePower(Powers /*p_Power*/, int32& p_Value)
+            void RegeneratePower(Powers /*p_Power*/, int32& p_Value) override
             {
                 /// Gruul only regens by script
                 p_Value = 0;

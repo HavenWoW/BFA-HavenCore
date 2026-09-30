@@ -960,8 +960,8 @@ class Player;
 /// Holder for Battleground data
 struct BGData
 {
-    BGData() : bgInstanceID(0), bgTypeID(BATTLEGROUND_TYPE_NONE), bgAfkReportedCount(0), bgAfkReportedTimer(0),
-        bgTeam(0), mountSpell(0), joinRole(0) { ClearTaxiPath(); }
+    BGData() : joinRole(0), bgInstanceID(0), bgTypeID(BATTLEGROUND_TYPE_NONE), bgAfkReportedCount(0), bgAfkReportedTimer(0),
+        bgTeam(0), mountSpell(0) { ClearTaxiPath(); }
 
     uint8 joinRole;
 

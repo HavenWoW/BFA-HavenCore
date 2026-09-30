@@ -590,7 +590,7 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(31) && !phaseTwo)
         {
@@ -921,7 +921,7 @@ struct npc_tos_reanimated_templar : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (IsHeroic() && me->HealthBelowPct(51) && !armor)
         {
@@ -1026,7 +1026,7 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
             summoner->GetAI()->DoAction(2);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (IsHeroic() && me->HealthBelowPct(51) && !armor)
         {

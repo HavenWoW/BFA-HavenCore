@@ -267,7 +267,7 @@ private:
 		}
 	}
 
-	void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+	void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
 	{
 		if (this->phase == 1 && me->HealthBelowPct(50))
 		{
@@ -500,7 +500,7 @@ class aura_madness_bomb : public AuraScript
 {
 	PrepareAuraScript(aura_madness_bomb);
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();
@@ -522,7 +522,7 @@ class aura_insanity_bomb : public AuraScript
 {
 	PrepareAuraScript(aura_insanity_bomb);
 
-	void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+	void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
 		Unit* target = GetTarget();
 		Unit* caster = GetCaster();
@@ -568,7 +568,7 @@ struct npc_nightmare_antigen : public ScriptedAI
 {
 	npc_nightmare_antigen(Creature* c) : ScriptedAI(c) { }
 
-	void IsSummonedBy(Unit* summoner) override
+	void IsSummonedBy(Unit* /*summoner*/) override
 	{
 		if (me->GetMapId() == MAP_NYALOTHA)
 			me->AI()->DoZoneInCombat(nullptr);

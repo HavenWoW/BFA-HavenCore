@@ -47,9 +47,10 @@ enum Spells
 
 enum Misc
 {
-    CREATURE_TREANT    = 19949,
-    TREANT_SPAWN_DIST  = 50 //50 yards from Warp Splinter's spawn point
+    CREATURE_TREANT    = 19949
 };
+
+static constexpr float TREANT_SPAWN_DIST = 50.0f; //50 yards from Warp Splinter's spawn point
 
 float treant_pos[6][3] =
 {

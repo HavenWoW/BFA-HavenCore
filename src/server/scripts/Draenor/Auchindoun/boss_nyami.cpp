@@ -362,7 +362,7 @@ struct auchindoun_nyami_mob_bubble : public ScriptedAI
     uint32 m_SpellDiff;
     bool m_Visual;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         m_Visual = false;
@@ -414,7 +414,7 @@ struct auchindoun_nyami_mob_bubble : public ScriptedAI
         }
     }
 
-    void DoAction(int32 p_Action)
+    void DoAction(int32 p_Action) override
     {
         switch (p_Action)
         {
@@ -454,7 +454,7 @@ struct auchindoun_nyami_mob_malefic_defender : public ScriptedAI
 
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         me->AddAura(eNyamiSpells::SpellSpiritVisual, me);
@@ -508,7 +508,7 @@ struct auchindoun_nyami_mob_spiteful_arbitrer : public ScriptedAI
     bool m_Radiant;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         m_Radiant = false;
@@ -516,13 +516,13 @@ struct auchindoun_nyami_mob_spiteful_arbitrer : public ScriptedAI
         m_RadiantDiff = 1 * TimeConstants::IN_MILLISECONDS;
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eNyamiEvents::EventRadiantFury, 8 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eNyamiEvents::EventArbitrerHammer, 14 * TimeConstants::IN_MILLISECONDS);
     }
 
-    void MovementInform(uint32 /*p_Type*/, uint32 p_Id)
+    void MovementInform(uint32 /*p_Type*/, uint32 p_Id) override
     {
         switch (p_Id)
         {
@@ -614,13 +614,13 @@ struct auchindoun_nyami_mob_twisted_magus : public ScriptedAI
     InstanceScript* m_Instance;
     EventMap events;
 
-    void Reset()
+    void Reset() override
     {
         events.Reset();
         me->AddAura(eNyamiSpells::SpellSpiritVisual, me);
     }
 
-    void JustEngagedWith(Unit* /*unit*/)
+    void JustEngagedWith(Unit* /*unit*/) override
     {
         events.ScheduleEvent(eTwistedMagusEvents::EventArcaneBolt, 4 * TimeConstants::IN_MILLISECONDS);
         events.ScheduleEvent(eTwistedMagusEvents::EventArcaneBomb, 12 * TimeConstants::IN_MILLISECONDS);

@@ -508,7 +508,7 @@ class npc_kara_fel_cannon : public CreatureScript
             {
                 _timerCheck += diff;
 
-                if (_timerCheck >= 1.5 * IN_MILLISECONDS)
+                if (_timerCheck >= 1.5 * AsUnderlyingType(IN_MILLISECONDS))
                 {
                     _timerCheck = 0;
                     Player* ptr = ObjectAccessor::GetPlayer(*me, _TargetGuid);

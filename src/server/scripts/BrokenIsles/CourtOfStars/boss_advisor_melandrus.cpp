@@ -113,7 +113,7 @@ struct boss_advisor_melandrus : public BossAI
 {
     boss_advisor_melandrus(Creature* creature) : BossAI(creature, DATA_MELANDRUS) { }
 
-    void Reset()
+    void Reset() override
     {
         _Reset();
     }
@@ -308,16 +308,6 @@ public:
             else if (action == ACTION_SLICING_MAELSTROM)
                 DoCast(me, SPELL_SLICING_MAELSTROM_IMAGE_AURA);
         }
-
-        void EnterEvadeMode(EvadeReason /*reason*/) override
-        {
-
-        }
-
-        void UpdateAI(uint32 diff) override
-        {
-
-        }
     };
 
     CreatureAI* GetAI(Creature* creature) const override
@@ -363,7 +353,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             _timerMoved += diff;
             _timerDmg += diff;

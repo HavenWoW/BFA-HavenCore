@@ -190,7 +190,7 @@ struct npc_swiftclaw_37989 : public ScriptedAI
 {
     npc_swiftclaw_37989(Creature* c) : ScriptedAI(c) { }
 
-    void OnSpellClick(Unit* clicker, bool& result) override
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         Player* player = clicker->ToPlayer();
         if (player->GetQuestStatus(QUEST_YOUNG_AND_VICIOUS) == QUEST_STATUS_INCOMPLETE)

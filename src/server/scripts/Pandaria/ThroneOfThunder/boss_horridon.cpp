@@ -516,6 +516,7 @@ public:
             uiMajorCycle = MAJOR_CYCLE_FIRST;
             uiDrakkariCycle = DRAKKARI_CYCLE_FIRST;
 
+            summonPositions = nullptr;
             jumpPositions = NULL;
         }
 
@@ -620,7 +621,7 @@ public:
             return true;
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             CheckFlyingHacks();
 
@@ -764,12 +765,12 @@ public:
             }
         }
 
-        void JustSummoned(Creature* pSummoned)
+        void JustSummoned(Creature* pSummoned) override
         {
             summons.Summon(pSummoned);
         }
 
-        void SummonedCreatureDespawn(Creature* pSummoned)
+        void SummonedCreatureDespawn(Creature* pSummoned) override
         {
             summons.Despawn(pSummoned);
         }
@@ -783,7 +784,7 @@ public:
         SummonList summons;
         EventMap                events;
         InstanceScript* pInstance;
-        Position         summonPositions[3];
+        const Position* summonPositions;
         const Position* jumpPositions;
         std::list<Creature*>    jumpers;
         uint32                  uiTrashPhase;
@@ -855,6 +856,7 @@ public:
             uiMajorCycle = MAJOR_CYCLE_FIRST;
             uiDrakkariCycle = DRAKKARI_CYCLE_FIRST;
 
+            summonPositions = nullptr;
             jumpPositions = NULL;
         }
 
@@ -909,8 +911,7 @@ public:
                     uiMediumTrashId[0] = MOB_FARRAKI_SKIRMISHER;
                     uiMediumTrashId[1] = 0;
                     uiMajorTrashId = MOB_FARRAKI_WASTEWALKER;
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = farrakiTrashSummonPositions[i];
+                    summonPositions = farrakiTrashSummonPositions;
                     jumpPositions = farrakiWastewalkerJumpPositions;
                     if (Creature* pJalak = GetJalak())
                         pJalak->AI()->Talk(TALK_FARRAKI);
@@ -920,16 +921,14 @@ public:
                     uiMinorTrashId = MOB_GURUBASHI_BLOODLORD;
                     uiMajorTrashId = MOB_GURUBASHI_VENOM_PRIEST;
                     memset(&uiMediumTrashId, 0, sizeof(uiMediumTrashId));
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = gurubashiTrashSummonPositions[i];
+                    summonPositions = gurubashiTrashSummonPositions;
                     jumpPositions = gurubashiVenomPriestJumpPositions;
                     pJalak->AI()->Talk(TALK_GURUBASHI);
                     break;
 
                 case TRASH_PHASE_DRAKKARI:
                     uiMajorTrashId = MOB_DRAKKARI_FROZEN_WARLORD;
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = drakkariTrashSummonPositions[i];
+                    summonPositions = drakkariTrashSummonPositions;
                     jumpPositions = drakkariFrozenWarlordJumpPositions;
                     pJalak->AI()->Talk(TALK_DRAKKARI);
                     DemoralizeLivingPoison();
@@ -940,8 +939,7 @@ public:
                     uiMediumTrashId[0] = MOB_AMANI_SHI_FLAME_CASTER;
                     uiMediumTrashId[1] = 0;
                     uiMajorTrashId = MOB_AMANI_WARBEAR;
-                    for (int i = 0; i < 3; ++i)
-                        summonPositions[i] = amaniTrashSummonPositions[i];
+                    summonPositions = amaniTrashSummonPositions;
                     jumpPositions = amaniWarbearJumpPositions;
                     pJalak->AI()->Talk(TALK_AMANI);
                     break;
@@ -1142,7 +1140,7 @@ public:
         }
 
 
-        void Reset()
+        void Reset() override
         {
             const_orientation = 0.0f;
             m_mBerserkEvents.Reset();
@@ -1169,7 +1167,7 @@ public:
             RemovePhase();
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             //if (me->HasUnitState(UNIT_STATE_CANNOT_TURN))
               //  me->SetControlled(false, UNIT_STATE_CANNOT_TURN);
@@ -1254,7 +1252,7 @@ public:
                 trigger2->Kill(trigger2);
         }
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_TRIPLE_PUNCTURE, 10 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_DOUBLE_SWIPE, 15 * IN_MILLISECONDS);
@@ -1304,7 +1302,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& /*damage*/) override
         {
             if (me->HealthBelowPct(30) && !bJalakCalled)
             {
@@ -1313,7 +1311,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             if (!UpdateVictim())
             {
@@ -1414,7 +1412,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* /*killer*/) override
         {
             pInstance->SetBossState(DATA_HORRIDON, DONE);
             if (Creature* pController = GetHorridonHelper())
@@ -1430,7 +1428,7 @@ public:
             KillTriggersandHelpers();
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId)
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId) override
         {
             switch (uiMovementId)
             {
@@ -1523,7 +1521,7 @@ public:
         }
 
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             uiPhase = BOSS_PHASE_SUMMONS;
@@ -1560,7 +1558,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId)
+        void MovementInform(uint32 uiMotionType, uint32 uiMovementId) override
         {
             if (uiMotionType == EFFECT_MOTION_TYPE)
             {
@@ -1593,12 +1591,12 @@ public:
             }
         }
 
-        void JustEngagedWith(Unit* /*unit*/)
+        void JustEngagedWith(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_BESTIAL_CRY, 10 * IN_MILLISECONDS);
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             if (uiPhase == BOSS_PHASE_SUMMONS)
                 return;
@@ -1628,12 +1626,12 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void KilledUnit(Unit* pKilled)
+        void KilledUnit(Unit* /*pKilled*/) override
         {
             Talk(TALK_ON_JALAK_KILLED_UNIT);
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* /*killer*/) override
         {
             if (GetHorridon() && GetHorridon()->isDead())
             {
@@ -1708,7 +1706,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             float x, y, z, o;
 
@@ -1719,7 +1717,7 @@ public:
             ScriptedAI::EnterEvadeMode();
         }
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             DoZoneInCombat(me, 1000.f);
 
@@ -1758,7 +1756,7 @@ public:
             }
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId) override
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId) override
         {
             if (uiMovementId == MOTION_MAJOR_JUMP)
             {
@@ -1838,7 +1836,7 @@ public:
         }
         */
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             if (!UpdateVictim())
                 return;
@@ -1970,7 +1968,7 @@ public:
             }
         }
 
-        uint32 GetData(uint32 uiIndex) const
+        uint32 GetData(uint32 uiIndex) const override
         {
             if (uiIndex == DATA_AMANI_BEAST_SHAMAN_LIGHTNING_COUNT)
                 return uiChainLightningCount;
@@ -1978,7 +1976,7 @@ public:
             return 0;
         }
 
-        void SetData(uint32 uiIndex, uint32 uiValue) override
+        void SetData(uint32 uiIndex, uint32 /*uiValue*/) override
         {
             if (uiIndex == DATA_AMANI_BEAST_SHAMAN_LIGHTNING_COUNT)
             {
@@ -2017,7 +2015,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* pSummoner)
+        void IsSummonedBy(Unit* /*pSummoner*/)
         {
             me->SetInCombatWithZone();
             switch (me->GetEntry())
@@ -2117,7 +2115,7 @@ public:
             return me->FindNearestCreature(BOSS_HORRIDON, 500.0f, true);
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId)
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId)
         {
             if (uiMovementId == MOTION_DINOMANCER_JUMP)
             {
@@ -2224,7 +2222,7 @@ public:
 
         EventMap events;
         // REWORK
-        void IsSummonedBy(Unit* pSummoner)
+        void IsSummonedBy(Unit* /*pSummoner*/)
         {
             events.ScheduleEvent(EVENT_TARGET_A_RANDOM_PLAYER, 500, 0, 0);
             me->SetInCombatWithZone();
@@ -2240,7 +2238,7 @@ public:
         }
 
         //failsale?
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& /*damage*/)
         {
             me->CastSpell(me, 140949, true); //knockback spell
         }
@@ -2340,7 +2338,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             me->SetSpeed(MOVE_RUN, 2.0f);
             me->SetSpeed(MOVE_WALK, 2.0f);
@@ -2351,7 +2349,7 @@ public:
         }
 
         // this AI should only move RANDOM so .. we make this simple
-        void Reset()
+        void Reset() override
         {
             me->GetMotionMaster()->MoveRandom(20.0f);
         }
@@ -2447,7 +2445,7 @@ public:
             return me->FindNearestCreature(BOSS_HORRIDON, 500.0f, true);
         }
 
-        void IsSummonedBy(Unit* pSummoner) override
+        void IsSummonedBy(Unit* /*pSummoner*/) override
         {
             events.ScheduleEvent(EVENT_VOLLEY, 3000 + rand() % 2000);
 
@@ -2460,7 +2458,7 @@ public:
             DoZoneInCombat(me, 100.f);
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             if (!UpdateVictim())
                 return;
@@ -2511,7 +2509,7 @@ public:
             return me->FindNearestCreature(MOB_AMANI_SHI_BEAST_SHAMAN, 500.0f, true);
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             float x, y, z, o;
 
@@ -2544,7 +2542,7 @@ public:
             me->SummonCreature(MOB_AMANI_SHI_BEAST_SHAMAN, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
         }
 
-        void MovementInform(uint32 uiMotionType, uint32 uiMovementId) override
+        void MovementInform(uint32 /*uiMotionType*/, uint32 uiMovementId) override
         {
             if (uiMovementId == MOTION_MAJOR_JUMP)
             {
@@ -2566,7 +2564,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 uiDiff) override
         {
             if (!UpdateVictim())
                 return;
@@ -2709,7 +2707,7 @@ public:
     {
         PrepareSpellScript(spell_horridon_chain_lightning_SpellScript)
 
-            void HandleEffectHitTarget(SpellEffIndex effectIndex)
+            void HandleEffectHitTarget(SpellEffIndex /*effectIndex*/)
         {
             if (Unit* pHitUnit = GetHitUnit())
             {
@@ -2813,7 +2811,7 @@ public:
     {
         PrepareAuraScript(aura_impl);
 
-        void HandleAuraRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleAuraRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Creature* Horridon = GetOwner()->ToCreature())
             {
@@ -2843,7 +2841,7 @@ public:
     {
         PrepareAuraScript(aura_impl);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Creature* owner = GetOwner()->ToCreature())
             {
@@ -2865,7 +2863,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* owner = GetOwner()->ToUnit())
                 owner->SetControlled(false, UNIT_STATE_CANNOT_TURN);
@@ -2914,7 +2912,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_horridon_charge_AuraScript);
 
-        void HandleRemove(AuraEffect const* pAuraEffect, AuraEffectHandleModes eMode)
+        void HandleRemove(AuraEffect const* /*pAuraEffect*/, AuraEffectHandleModes /*eMode*/)
         {
             Unit* caster = GetCaster();
 

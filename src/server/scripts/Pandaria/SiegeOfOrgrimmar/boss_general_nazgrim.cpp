@@ -886,12 +886,12 @@ class npc_general_nazgrim_korkron_arcweaver : public CreatureScript
             {
             }
 
-            void Reset()
+            void Reset() override
             {
                 npc_nazgrim_korkron_addAI::Reset();
             }
 
-            void AttackStart(Unit* who)
+            void AttackStart(Unit* who) override
             {
                 if (!who)
                     return;
@@ -900,7 +900,7 @@ class npc_general_nazgrim_korkron_arcweaver : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -965,7 +965,7 @@ class npc_general_nazgrim_korkron_assassin : public CreatureScript
             {
             }
 
-            void Reset()
+            void Reset() override
             {
                 npc_nazgrim_korkron_addAI::Reset();
 
@@ -973,7 +973,7 @@ class npc_general_nazgrim_korkron_assassin : public CreatureScript
                 me->ApplySpellImmune(0, IMMUNITY_EFFECT, SPELL_EFFECT_ATTACK_ME, true);
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -1039,16 +1039,16 @@ class npc_general_nazgrim_korkron_warshaman : public CreatureScript
             {
             }
 
-            void Reset()
+            void Reset() override
             {
                 npc_nazgrim_korkron_addAI::Reset();
             }
 
-            void JustEngagedWith(Unit* /*unit*/)
+            void JustEngagedWith(Unit* /*unit*/) override
             {
             }
 
-            void UpdateAI(const uint32 diff)
+            void UpdateAI(const uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -1123,7 +1123,7 @@ class npc_general_nazgrim_korkron_sniper : public CreatureScript
                 m_TargetGuid = ObjectGuid::Empty;
             }
 
-            void Reset()
+            void Reset() override
             {
                 npc_nazgrim_korkron_addAI::Reset();
 
@@ -1235,12 +1235,12 @@ class npc_general_nazgrim_healing_tide_totem : public CreatureScript
                 pInstance = creature->GetInstanceScript();
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->AddAura(SPELL_HEALING_TIDE, me);
             }
 
-            void UpdateAI(const uint32 diff) override
+            void UpdateAI(const uint32 /*diff*/) override
             {
 
             }
@@ -1269,7 +1269,7 @@ class npc_general_nazgrim_aftershock : public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
             }
 
-            void IsSummonedBy(Unit* owner)
+            void IsSummonedBy(Unit* /*owner*/)
             {
                 if (InstanceScript* pInstance = me->GetInstanceScript())
                 {
@@ -1309,13 +1309,13 @@ class npc_general_nazgrim_ravager : public CreatureScript
                 me->SetReactState(REACT_PASSIVE);
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->SetSpeed(MOVE_RUN, 0.3f);
                 me->AddAura(SPELL_RAVAGER_AURA, me);
             }
 
-            void MovementInform(uint32 type, uint32 id) override
+            void MovementInform(uint32 /*type*/, uint32 id) override
             {
                 if (id == POINT_RAVAGER)
                 {
@@ -1387,7 +1387,7 @@ class npc_general_nazgrim_korkron_banner : public CreatureScript
                 me->SetControlled(true, UNIT_STATE_ROOT);
             }
 
-            void Reset()
+            void Reset() override
             {
                 me->AddAura(SPELL_KORKRON_BANNER_AURA, me);
             }
@@ -1397,7 +1397,7 @@ class npc_general_nazgrim_korkron_banner : public CreatureScript
                 me->DespawnOrUnsummon(1000);
             }
 
-            void UpdateAI(const uint32 diff) override
+            void UpdateAI(const uint32 /*diff*/) override
             {
 
             }
@@ -1551,7 +1551,7 @@ class spell_general_nazgrim_defensive_stance : public SpellScriptLoader
                 return true;
             }
 
-            void OnProc(AuraEffect const* aurEff, ProcEventInfo& eventInfo)
+            void OnProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
             {
                 PreventDefaultAction();
 
@@ -1577,7 +1577,7 @@ class spell_general_nazgrim_defensive_stance : public SpellScriptLoader
         private:
 
             // HACK: use this functions untill creatures have spell cooldown impletentation
-            void AddCooldown(ObjectGuid guid)
+            void AddCooldown(ObjectGuid /*guid*/)
             {
 
                 /*uint64 currTime = 0;
@@ -1585,7 +1585,7 @@ class spell_general_nazgrim_defensive_stance : public SpellScriptLoader
                 m_Cooldowns[guid] = currTime + 1000;*/
             }
 
-            bool HasCooldown(ObjectGuid guid)
+            bool HasCooldown(ObjectGuid /*guid*/)
             {
                 /*if (m_Cooldowns.find(guid) == m_Cooldowns.end())
                     return false;
@@ -1618,7 +1618,7 @@ class spell_general_nazgrim_earth_shield : public SpellScriptLoader
         {
             PrepareAuraScript(spell_general_nazgrim_earth_shield_AuraScript);
 
-            bool HandleCheckProc(ProcEventInfo& eventInfo)
+            bool HandleCheckProc(ProcEventInfo& /*eventInfo*/)
             {
                 if (HasCooldown())
                 {

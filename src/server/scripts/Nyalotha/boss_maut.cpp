@@ -239,7 +239,7 @@ private:
         }
 	}
 
-	void DoAction(int32 param)
+	void DoAction(int32 param) override
 	{
 		switch (param)
 		{
@@ -259,7 +259,7 @@ private:
 		}
 	}
 
-    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HasAura(OBSIDIAN_SKIN_LOSE_MANA_INSTEAD_OF_HP))
         {
@@ -446,8 +446,8 @@ struct npc_mana_orb : public ScriptedAI
         }
     }
 
-	void IsSummonedBy(Unit* unit) override
-	{        
+	void IsSummonedBy(Unit* /*unit*/) override
+	{
         me->SetReactState(REACT_PASSIVE);
 		if (Creature* maut = me->FindNearestCreature(NPC_MAUT, 500.0f, true))
 		{
@@ -468,7 +468,7 @@ class aura_consuming_shadows : public AuraScript
 
 	void HandlePeriodic(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
 	{
-		if (Unit* caster = GetCaster())
+		if (GetCaster())
 		{
 			GetCaster()->CastSpell(GetTarget(), CONSUMING_SHADOWS_DAMAGE, true);
 		}
@@ -529,7 +529,7 @@ class aura_ancient_curse : public AuraScript
 		if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_EXPIRE)
 		{
             Unit* target = GetTarget();
-			if (Unit* caster = GetCaster())
+			if (GetCaster())
 			{                
                 target->CastSpell(nullptr, ANCIENT_CURSE_DAMAGE, true);
                 target->CastSpell(nullptr, ANCIENT_CURSE_INSTAKILL, true);

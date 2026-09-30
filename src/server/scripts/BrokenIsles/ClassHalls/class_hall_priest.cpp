@@ -104,7 +104,7 @@ struct npc_alonsus_faol_101314 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->CastSpell(player, SPELL_WEAPONS_OF_LEGEND_PLAYER_CHOICE, true);
@@ -247,7 +247,7 @@ struct npc_brother_larry_105769 : public ScriptedAI
 {
     npc_brother_larry_105769(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->AddDelayedTeleport(4000, 1220, -835.32f, 4276.66f, 746.252f, 1.05569f);
@@ -459,7 +459,7 @@ struct npc_defender_barrem_105586 : public ScriptedAI
             if (Creature* boros = me->FindNearestCreature(105602, 25.f, true))
             {
                 boros->Say(108657, player);
-                boros->GetScheduler().Schedule(Milliseconds(1000), [boros](TaskContext context)
+                boros->GetScheduler().Schedule(Milliseconds(1000), [boros](TaskContext /*context*/)
                 {
                     boros->Say(108658);
                 });
@@ -467,7 +467,7 @@ struct npc_defender_barrem_105586 : public ScriptedAI
         }
     }
 
-    void DoAction(int32 param)
+    void DoAction(int32 /*param*/) override
     {
         me->RemoveAurasDueToSpell(209190);
         me->ReenableHealthRegen();
@@ -558,7 +558,7 @@ struct npc_alora_105649 : public ScriptedAI
         me->SetStandState(UnitStandStateType::UNIT_STAND_STATE_SLEEP);
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -611,7 +611,7 @@ struct npc_jace_darkweaver_105890 : public ScriptedAI
                     {
                         IsLock = true;
                         Talk(0);
-                        me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext context)
+                        me->GetScheduler().Schedule(Milliseconds(5000), [this](TaskContext /*context*/)
                         {
                             Talk(1);
                         });
@@ -627,7 +627,7 @@ struct npc_jace_darkweaver_106011 : public ScriptedAI
 {
     npc_jace_darkweaver_106011(Creature* creature) : ScriptedAI(creature) { }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_RETURN_OF_THE_LIGHT)
         {

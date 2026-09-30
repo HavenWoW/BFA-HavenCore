@@ -127,7 +127,7 @@ public:
             return ObjectGuid::Empty;
         }
 
-        uint32 GetData(uint32 type) const override
+        uint32 GetData(uint32 /*type*/) const override
         {
             return 0;
         }
@@ -155,7 +155,7 @@ public:
             return &loc_res_pla;
         }
         */
-         void Update(uint32 diff)
+         void Update(uint32 diff) override
         {
             // Challenge
             InstanceScript::Update(diff);

@@ -801,7 +801,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             if (me->HasAura(SPELL_SUPERCHARGE_CONDUITS))
                 damage = 0;
@@ -1737,14 +1737,14 @@ public:
     {
         PrepareAuraScript(bfa_spell_violent_gale_winds_pushback_AuraScript);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
                 return;
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Map::PlayerList const& playerList = GetCaster()->GetMap()->GetPlayers();
             for (Map::PlayerList::const_iterator i = playerList.begin(); i != playerList.end(); ++i)
@@ -1777,7 +1777,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_helm_of_command_AuraScript);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -1841,7 +1841,7 @@ public:
         EventMap events;
         bool active;
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             damage = 0;
         }
@@ -2046,7 +2046,7 @@ public:
         EventMap events;
         bool active;
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             damage = 0;
         }
@@ -2251,7 +2251,7 @@ public:
         EventMap events;
         bool active;
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             damage = 0;
         }
@@ -2462,7 +2462,7 @@ public:
             active = false;
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             damage = 0;
         }
@@ -2652,7 +2652,7 @@ public:
             return GetCaster()->FindNearestCreature(NPC_LEI_SHEN, 500.0f, true);
         }
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2666,7 +2666,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2708,7 +2708,7 @@ public:
             return GetCaster()->FindNearestCreature(NPC_LEI_SHEN, 500.0f, true);
         }
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2722,7 +2722,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2764,7 +2764,7 @@ public:
             return GetCaster()->FindNearestCreature(NPC_LEI_SHEN, 500.0f, true);
         }
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2778,7 +2778,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2820,7 +2820,7 @@ public:
             return GetCaster()->FindNearestCreature(NPC_LEI_SHEN, 500.0f, true);
         }
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2834,7 +2834,7 @@ public:
             }
         }
 
-        void HandleOnRemove(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (Unit* caster = GetCaster())
             {
@@ -2884,7 +2884,7 @@ public:
             targetsPlayers = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex effIndex)
+        void RecalculateDamage(SpellEffIndex /*effIndex*/)
         {
             SetHitDamage(GetHitDamage() / targetsPlayers);
         }
@@ -3010,7 +3010,7 @@ public:
             return GetCaster()->FindNearestCreature(NPC_DIFFUSION_CHAIN_CONDUIT, 500.0f, true);
         }
 
-        void OnHit(SpellEffIndex index)
+        void OnHit(SpellEffIndex /*index*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetHitUnit();
@@ -3178,7 +3178,7 @@ public:
             targetsPlayers = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex effIndex)
+        void RecalculateDamage(SpellEffIndex /*effIndex*/)
         {
             SetHitDamage(GetHitDamage() / targetsPlayers);
         }
@@ -3317,7 +3317,7 @@ public:
             events.Reset();
         }
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->SetInCombatWithZone();
             events.ScheduleEvent(EVENT_BOUNCE_AGAIN, 500);
@@ -3396,7 +3396,7 @@ class bfa_npc_lei_shen_teleport_players : public CreatureScript
 public:
     bfa_npc_lei_shen_teleport_players() : CreatureScript("bfa_npc_lei_shen_teleport_players") { }
 
-    bool OnGossipHello(Player* player, Creature* pCreature)
+    bool OnGossipHello(Player* player, Creature* /*pCreature*/)
     {
         player->NearTeleportTo(5676.32f, 4059.78f, 158.00f, 0.74f, false);
         return true;
@@ -3424,7 +3424,7 @@ public:
 
         EventMap events;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             events.ScheduleEvent(EVENT_CONDUIT, 500);
         }
@@ -3481,7 +3481,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_discharged_energy_duration_AuraScript);
 
-        void HandleOnApply(AuraEffect const* aurEff, AuraEffectHandleModes mode)
+        void HandleOnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -3517,7 +3517,7 @@ class bfa_npc_lei_shen_teleport_after_encounter : public CreatureScript
 public:
     bfa_npc_lei_shen_teleport_after_encounter() : CreatureScript("bfa_npc_lei_shen_teleport_after_encounter") { }
 
-    bool OnGossipHello(Player* player, Creature* pCreature)
+    bool OnGossipHello(Player* player, Creature* /*pCreature*/)
     {
         player->NearTeleportTo(5576.05322f, 4655.958984f, -0.865f, 3.14f, false);
         return true;

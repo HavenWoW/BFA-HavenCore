@@ -132,7 +132,7 @@ public:
                 instance->SetBossState(DATA_GUARM, IN_PROGRESS);
             }
 
-            events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 20.5 * IN_MILLISECONDS);
+            events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 20.5 * AsUnderlyingType(IN_MILLISECONDS));
             events.ScheduleEvent(EVENT_FLASHING_FANGS, 6 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_ROARING_LEAP, 45 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_HEADLONG_CHARGE, 60 * IN_MILLISECONDS);
@@ -176,7 +176,7 @@ public:
 
         uint32 ChooseRandomLick()
         {
-            uint32 lick;
+            uint32 lick = SPELL_FLAME_LICK;
             switch (urand(0, 2))
             {
             case 0:
@@ -193,7 +193,7 @@ public:
             return lick;
         }
 
-        void MovementInform(uint32 type, uint32 id)
+        void MovementInform(uint32 type, uint32 id) override
         {
             if (type != POINT_MOTION_TYPE)
                 return;
@@ -213,7 +213,7 @@ public:
                 if (Unit* target = me->GetVictim())
                     me->CanStartAttack(target, true);
 
-                events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 30.5 * IN_MILLISECONDS);
+                events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 30.5 * AsUnderlyingType(IN_MILLISECONDS));
                 events.ScheduleEvent(EVENT_FLASHING_FANGS, 12 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_ROARING_LEAP, 45 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_HEADLONG_CHARGE, 45 * IN_MILLISECONDS);

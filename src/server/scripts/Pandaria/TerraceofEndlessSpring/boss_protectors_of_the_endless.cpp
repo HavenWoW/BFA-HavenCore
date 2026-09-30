@@ -1407,7 +1407,7 @@ public:
             //me->CastSpell(me, SPELL_CORRUPTED_ESSENCE, true);
         }
 
-        void DamageTaken(Unit* who, uint32& damage)
+        void DamageTaken(Unit* /*who*/, uint32& damage)
         {
             if (damage > me->GetHealth())
             {
@@ -1752,7 +1752,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_toes_corrupted_essence_AuraScript);
 
-        void OnTick(AuraEffect const* aurEff)
+        void OnTick(AuraEffect const* /*aurEff*/)
         {
         }
 
@@ -1771,7 +1771,7 @@ public:
     {
         PrepareSpellScript(bfa_spell_toes_corrupted_essence_SpellScript);
 
-        void CorrectRange(std::list<WorldObject*>& targets)
+        void CorrectRange(std::list<WorldObject*>& /*targets*/)
         {
         }
 
@@ -1797,7 +1797,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_toes_superior_corrupted_essence_AuraScript);
 
-        void OnTick(AuraEffect const* aurEff)
+        void OnTick(AuraEffect const* /*aurEff*/)
         {
         }
 

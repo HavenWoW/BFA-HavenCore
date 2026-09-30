@@ -33,12 +33,12 @@ class npc_expedition_map : public CreatureScript
 public:
     npc_expedition_map() : CreatureScript("npc_expedition_map") { }
 
-    bool OnGossipHello(Player* /*player*/, Creature* creature) override
+    bool OnGossipHello(Player* /*player*/, Creature* /*creature*/) override
     {
         return false;
     }
 
-    bool OnGossipSelect(Player* player, Creature* creature, uint32 /*uiSender*/, uint32 uiAction) override
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*uiSender*/, uint32 /*uiAction*/) override
     {
         lfg::LfgDungeonSet newDungeons;
         newDungeons.insert(1768);
@@ -68,7 +68,7 @@ class go_pouch_of_azerite : public GameObjectScript
 public:
     go_pouch_of_azerite() : GameObjectScript("go_pouch_of_azerite") { }
 
-    bool OnGossipHello(Player* player, GameObject* go) override
+    bool OnGossipHello(Player* player, GameObject* /*go*/) override
     {
         if (Item* item = player->GetItemByEntry(158075)) // Heart of Azeroth
             item->ToAzeriteItem()->GiveXP(50);

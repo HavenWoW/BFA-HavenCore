@@ -212,12 +212,12 @@ public:
             }
         }
 
-        void KilledUnit(Unit* /*t*/)
+        void KilledUnit(Unit* /*t*/) override
         {
             SelectSoundAndText(me, 3);
         }
 
-        void Reset()
+        void Reset() override
         {
             _dead = false;
             events.Reset();
@@ -226,7 +226,7 @@ public:
             me->AddAura(AURA_OVERRIDE_POWER_COLOR_DEMONIC);
         }
 
-        void JustDied(Unit*)
+        void JustDied(Unit*) override
         {
             DespawnCreature(NPC_QUEEN_AZSHARA_DECREE, 500);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -255,7 +255,7 @@ public:
             return true;
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage) override
         {
             if (damage >= me->GetHealth() && !_dead)
             {
@@ -294,7 +294,7 @@ public:
             }
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             switch (action)
             {
@@ -309,12 +309,12 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             _DespawnAtEvade(15);
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             me->SetPower(POWER_ENERGY, 0);
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -332,7 +332,7 @@ public:
             return me->FindNearestCreature(BOSS_PASHMAR_THE_FANATICAL, 200.0f, true);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 
@@ -426,7 +426,7 @@ public:
             return true;
         }
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             Unit* caster = eventInfo.GetActor(); // boss
             Unit* target = eventInfo.GetActionTarget(); // current target
@@ -443,7 +443,7 @@ public:
                 caster->CastSpell(caster, SPELL_COMMANDERS_FURY_AURA, true);
         }
 
-        void Register()
+        void Register() override
         {
             OnEffectProc += AuraEffectProcFn(bfa_spell_commanders_fury_AuraScript::HandleOnProc, EFFECT_0, SPELL_AURA_PROC_TRIGGER_SPELL);
         }
@@ -540,12 +540,12 @@ public:
             targetList = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex index)
+        void RecalculateDamage(SpellEffIndex /*index*/)
         {
             SetHitDamage(GetHitDamage() / targetList);
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_frenetic_charge_damage_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_DEST_AREA_ENEMY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_frenetic_charge_damage_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
@@ -569,7 +569,7 @@ public:
     {
         bfa_at_flags_spell_AI(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-        void OnUpdate(uint32 diff)
+        void OnUpdate(uint32 /*diff*/)
         {
             std::list<Player*> playerList;
             at->GetPlayerListInGrid(playerList, 30.0f);
@@ -610,7 +610,7 @@ public:
     {
         bfa_at_mighty_rupture_AI(AreaTrigger* areatrigger) : AreaTriggerAI(areatrigger) { }
 
-        void OnUpdate(uint32 diff)
+        void OnUpdate(uint32 /*diff*/)
         {
             std::list<Player*> playerList;
             at->GetPlayerListInGrid(playerList, 5.0f);
@@ -648,7 +648,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_zealous_eruption_periodic_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aureff)
+        void HandlePeriodic(AuraEffect const* /*aureff*/)
         {
             Unit* caster = GetCaster();
             if (!caster)
@@ -702,7 +702,7 @@ public:
         SummonList summons;
         bool _dead;
 
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature* summon) override
         {
             summons.Summon(summon);
 
@@ -718,12 +718,12 @@ public:
             }
         }
 
-        void JustDied(Unit* /*killer*/)
+        void JustDied(Unit* /*killer*/) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void SummonedCreatureDies(Creature* summon, Unit* at)
+        void SummonedCreatureDies(Creature* summon, Unit* /*at*/) override
         {
             switch (summon->GetEntry())
             {
@@ -733,7 +733,7 @@ public:
             }
         }
 
-        void Reset()
+        void Reset() override
         {
             _dead = false;
             events.Reset();
@@ -741,7 +741,7 @@ public:
             me->AddAura(AURA_OVERRIDE_POWER_COLOR_OCEAN);
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage) override
         {
             if (damage >= me->GetHealth() && !_dead)
             {
@@ -770,7 +770,7 @@ public:
             }
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             switch (action)
             {
@@ -785,7 +785,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason w)
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             _DespawnAtEvade(15);
         }
@@ -813,12 +813,12 @@ public:
             }
         }
 
-        void KilledUnit(Unit* t)
+        void KilledUnit(Unit* /*t*/) override
         {
             SelectSoundAndText(me, 3);
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             SelectSoundAndText(me, 2);
             me->SummonCreature(NPC_QUEEN_AZSHARA_DECREE, decreeSpawnTrigger, TEMPSUMMON_MANUAL_DESPAWN);
@@ -840,7 +840,7 @@ public:
             return me->FindNearestCreature(BOSS_SILIVAZ_THE_ZEALOUS, 200.0f, true);
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 
@@ -956,7 +956,7 @@ public:
             me->AddAura(SPELL_POTENT_SPARK_AURA_SELF, me);
         }
 
-        void DamageTaken(Unit* at, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage)
         {
             if (damage >= me->GetHealth() && _died)
             {
@@ -1117,7 +1117,7 @@ public:
             targetList = targets.size();
         }
 
-        void RecalculateDamage(SpellEffIndex index)
+        void RecalculateDamage(SpellEffIndex /*index*/)
         {
             if (targetList < 1)
             {
@@ -1126,7 +1126,7 @@ public:
             else SetHitDamage(GetHitDamage());
         }
 
-        void Register()
+        void Register() override
         {
             OnObjectAreaTargetSelect += SpellObjectAreaTargetSelectFn(bfa_spell_form_ranks_damage_SpellScript::CheckTargets, EFFECT_0, TARGET_UNIT_TARGET_ANY);
             OnEffectHitTarget += SpellEffectFn(bfa_spell_form_ranks_damage_SpellScript::RecalculateDamage, EFFECT_0, SPELL_EFFECT_SCHOOL_DAMAGE);
@@ -1236,7 +1236,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* d, uint32& damage)
+        void DamageTaken(Unit* /*d*/, uint32& damage)
         {
             damage = 0;
         }
@@ -1499,7 +1499,7 @@ public:
             return true;
         }
 
-        void HandleOnProc(const AuraEffect* aurEff, ProcEventInfo& eventInfo)
+        void HandleOnProc(const AuraEffect* /*aurEff*/, ProcEventInfo& eventInfo)
         {
             Unit* caster = eventInfo.GetActor();
             Unit* target = eventInfo.GetActionTarget();
@@ -1535,7 +1535,7 @@ public:
     {
         PrepareAuraScript(spell_deferred_sentence_periodic_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aureff)
+        void HandlePeriodic(AuraEffect const* /*aureff*/)
         {
             Unit* target = GetCaster();
             if (!target)
@@ -1614,7 +1614,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_stand_alone_court_AuraScript);
 
-        void HandlePeriodic(AuraEffect const* aureff)
+        void HandlePeriodic(AuraEffect const* /*aureff*/)
         {
             Unit* caster = GetCaster();
             if (!caster)

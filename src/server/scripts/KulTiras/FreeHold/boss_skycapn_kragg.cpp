@@ -194,7 +194,7 @@ struct boss_skycap_kragg : public BossAI
         events.ScheduleEvent(KraggEvents::EventChaaarrge, 8000);
     }
 
-    void OnSpellCastInterrupt(SpellInfo const* spell)
+    void OnSpellCastInterrupt(SpellInfo const* spell) override
     {
         if (spell->Id == KraggSpells::RevitalizingBrewSkyCap)
         {
@@ -232,7 +232,7 @@ struct boss_skycap_kragg : public BossAI
         }
     }
 
-    void SetData(uint32 id, uint32 value)
+    void SetData(uint32 id, uint32 value) override
     {
         if (id == KraggDatas::DataCharge)
             charge = value;
@@ -363,7 +363,7 @@ struct npc_sharkbait : public ScriptedAI
         me->DespawnOrUnsummon();
     }
 
-    void SetData(uint32 id, uint32 value)
+    void SetData(uint32 id, uint32 value) override
     {
         if (id == KraggDatas::DataMountInCombat)
             InCombat = value;

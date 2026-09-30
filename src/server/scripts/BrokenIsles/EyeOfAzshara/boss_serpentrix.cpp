@@ -118,7 +118,7 @@ public:
 		bool adds2;
 		InstanceScript* instance;
 
-		void JustSummoned(Creature* summon)
+		void JustSummoned(Creature* summon) override
 		{
 			summons.Summon(summon);
 
@@ -152,7 +152,7 @@ public:
 			return true;
 		}
 
-		void Reset()
+		void Reset() override
 		{
 			me->RemoveAllAuras();
 			nextHole.clear();
@@ -252,7 +252,7 @@ public:
 			}
 		}
 
-		void EnterEvadeMode(EvadeReason /*why*/)
+		void EnterEvadeMode(EvadeReason /*why*/) override
 		{
 			Reset();
 		}
@@ -377,7 +377,7 @@ public:
 			}
 		}
 
-		void DamageTaken(Unit* /*attacker*/, uint32& damage)
+		void DamageTaken(Unit* /*attacker*/, uint32& damage) override
 		{
 			uint32 damageToDeal = damage;
 
@@ -387,7 +387,7 @@ public:
 			}
 		}
 
-		void JustDied(Unit*)
+		void JustDied(Unit*) override
 		{
 			instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 		}
@@ -442,7 +442,7 @@ public:
 		uint32 damageTimer;
 		std::list<Unit*> targets;
 
-		void OnInitialize()
+		void OnInitialize() override
 		{
 			damageTimer = 0;
 		}

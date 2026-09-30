@@ -281,7 +281,7 @@ struct npc_yotnar_96258 : public ScriptedAI
 {
     npc_yotnar_96258(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
@@ -418,7 +418,7 @@ public:
         //printf("spell = %d\n", spell->GetSpellInfo()->Id);
     }
 
-    void OnQuestAccept(Player* player, Quest const* quest)
+    void OnQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->ID == 38612)
             player->ForceCompleteQuest(38612);
@@ -436,7 +436,7 @@ struct npc_grapple_point_92017 : public ScriptedAI
         me->setActive(true);
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -505,7 +505,7 @@ struct npc_vethir_96465 : public ScriptedAI
     };
     using Path01Size = std::extent<decltype(Path01)>;
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         CloseGossipMenuFor(player);
         player->TalkedToCreature(me->GetEntry(), me->GetGUID());
@@ -830,7 +830,7 @@ struct npc_ironhorn_buck_98230 : public ScriptedAI
         me->AddUnitFlag(UnitFlags(UNIT_NPC_FLAG_SPELLCLICK));
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
             if (player->GetQuestStatus(39804) == QUEST_STATUS_INCOMPLETE)
@@ -868,7 +868,7 @@ struct npc_runestone_93343 : public ScriptedAI
         me->AddUnitFlag(UnitFlags(UNIT_NPC_FLAG_SPELLCLICK));
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -1070,7 +1070,7 @@ struct npc_drowning_valkyra_97469 : public ScriptedAI
         me->AddUnitFlag(UnitFlags(UNIT_NPC_FLAG_SPELLCLICK));
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -1104,7 +1104,7 @@ struct npc_forsaken_catapult_95212 : public ScriptedAI
         me->AddUnitFlag(UnitFlags(UNIT_NPC_FLAG_SPELLCLICK));
     }
 
-    void OnSpellClick(Unit* clicker, bool& /*result*/)
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
             player->CastSpell(player, 189100, true);

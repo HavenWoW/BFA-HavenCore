@@ -707,9 +707,7 @@ class boss_generic_guardian : public CreatureScript
                     }
                     case ACTION_PETRIFICATION:
                     {
-                        char buf[128];
-                        sprintf(buf, "%s begins to petrify all players !", me->GetName().c_str());
-                        me->TextEmote(buf, 0, true);
+                        me->TextEmote(Trinity::StringFormat("%s begins to petrify all players !", me->GetName()), nullptr, true);
                         me->CastSpell(me, spellPetrificationId, true);
                         pInstance->DoCastSpellOnPlayers(spellPetrificationBarId);
                         break;
@@ -832,9 +830,7 @@ class boss_generic_guardian : public CreatureScript
                         // About to overload
                         else if (me->GetPower(POWER_ENERGY) >= 85 && !warnedForOverload)
                         {
-                            char buf[128];
-                            sprintf(buf, "%s is about to Overload !", me->GetName().c_str());
-                            me->TextEmote(buf, 0, true);
+                            me->TextEmote(Trinity::StringFormat("%s is about to Overload !", me->GetName()), nullptr, true);
                             warnedForOverload = true;
                         }
                         events.ScheduleEvent(EVENT_CHECK_ENERGY, 1000);

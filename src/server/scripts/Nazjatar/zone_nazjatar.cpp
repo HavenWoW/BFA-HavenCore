@@ -62,7 +62,7 @@ struct npc_jaina_150101 : public ScriptedAI
 {
     npc_jaina_150101(Creature* c) : ScriptedAI(c) { }
 
-    void sQuestAccept(Player* player, Quest const* quest)
+    void sQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->ID == QUEST_DESCENT_ALLIANCE)
         {
@@ -84,7 +84,7 @@ struct npc_jaina_150101 : public ScriptedAI
         }
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
         me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
@@ -141,7 +141,7 @@ struct npc_chief_telemancer_oculeth : public ScriptedAI
         me->AddAura(1706); //Levitate
     }
 
-    void sQuestAccept(Player* player, Quest const* quest)
+    void sQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->ID == QUEST_DESCENT_HORDE)
         {
@@ -163,7 +163,7 @@ struct npc_generic_soldier_fortunate_souls : public ScriptedAI
         me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
     }
 
-    void OnSpellClick(Unit* clicker, bool& result) override
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (Player* player = clicker->ToPlayer())
         {
@@ -264,7 +264,7 @@ struct boss_wekemara : public BossAI
         }
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(51) && !submerged)
         {
@@ -329,7 +329,7 @@ struct boss_wekemara : public BossAI
             for (Unit* targets : tarlist)
             {
                 DoCast(targets, SPELL_SHOCK_BURST_PERIODIC, true);
-                targets->GetScheduler().Schedule(12s, [this, targets] (TaskContext context)
+                targets->GetScheduler().Schedule(12s, [this, targets] (TaskContext /*context*/)
                 {
                     me->CastSpell(targets, SPELL_SHOCK_BURST_EXP, true);
                 });
@@ -344,7 +344,7 @@ struct boss_wekemara : public BossAI
             events.CancelEvent(EVENT_BIOELETRIC_BLAST);
             events.CancelEvent(EVENT_SHOCK_BURST);
             events.ScheduleEvent(EVENT_SUBMERGE_END, 30s);
-            me->GetScheduler().Schedule(30s, [this] (TaskContext context)
+            me->GetScheduler().Schedule(30s, [this] (TaskContext /*context*/)
             {
                 me->RemoveAura(SPELL_ELETRIFIED_SPLASH_TRIGGER);
             });
@@ -676,7 +676,7 @@ struct npc_lorthemar_theron_151848 : public ScriptedAI
 {
     npc_lorthemar_theron_151848(Creature* creature) : ScriptedAI(creature) { }
 
-    void sQuestAccept(Player* plr, Quest const* que) override
+    void sQuestAccept(Player* plr, Quest const* /*que*/) override
     {        
         if (plr->GetQuestStatus(QUEST_SCOUTING_THE_PALACE_HORDE) == QUEST_STATUS_INCOMPLETE)
         {
@@ -691,7 +691,7 @@ struct npc_spiritwalker_ussoh : public ScriptedAI
 {
     npc_spiritwalker_ussoh(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* plr, uint32 /*menuId*/, uint32 /*gossipListId*/) override
+    void sGossipSelect(Player* /*plr*/, uint32 /*menuId*/, uint32 /*gossipListId*/) override
     {
         return;
     }
@@ -749,7 +749,7 @@ struct npc_shandris_feathermoon : public ScriptedAI
 {
     npc_shandris_feathermoon(Creature* creature) : ScriptedAI(creature) { }
 
-    void sQuestAccept(Player* plr, Quest const* que) override
+    void sQuestAccept(Player* plr, Quest const* /*que*/) override
     {
         //Tempfix
         if (plr->GetQuestStatus(QUEST_SECRETS_IN_THE_RUINS) == QUEST_STATUS_INCOMPLETE) 

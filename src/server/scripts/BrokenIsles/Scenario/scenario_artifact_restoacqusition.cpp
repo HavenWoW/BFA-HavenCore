@@ -368,7 +368,7 @@ struct npc_zen_tabra_104658 : public ScriptedAI
 {
     npc_zen_tabra_104658(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -412,7 +412,7 @@ struct npc_celestine_of_the_harvest_104657 : public ScriptedAI
 {
     npc_celestine_of_the_harvest_104657(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -488,7 +488,7 @@ struct npc_archdruid_hamuul_runetotem_104659 : public ScriptedAI
 {
     npc_archdruid_hamuul_runetotem_104659(Creature* creature) : ScriptedAI(creature) { Initialize(); }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {
@@ -666,7 +666,7 @@ struct npc_destromath_104619 : public BossAI
         events.ScheduleEvent(SPELL_FEL_SLIME, 12s);
     }
 
-    void DoAction(int32 param)
+    void DoAction(int32 param) override
     {
         switch (param)
         {

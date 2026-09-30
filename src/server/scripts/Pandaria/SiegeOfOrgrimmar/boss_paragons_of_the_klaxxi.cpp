@@ -1387,7 +1387,7 @@ class npc_kilruk_the_wind_reaver : public CreatureScript
                 }
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -1579,7 +1579,7 @@ class npc_xaril_the_poisoned_mind : public CreatureScript
                 }
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -1758,7 +1758,7 @@ class npc_kaztik_the_manipulator : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -1924,7 +1924,7 @@ class npc_korven_the_prime : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2058,7 +2058,7 @@ class npc_iyyokuk_the_lucid : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2209,7 +2209,7 @@ class npc_karoz_the_locust : public CreatureScript
 
          private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2378,7 +2378,7 @@ class npc_skeer_the_bloodseeker : public CreatureScript
                 }
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2487,7 +2487,7 @@ class npc_rikkal_the_dissector : public CreatureScript
                 }
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2590,7 +2590,7 @@ class npc_hisek_the_swarmkeeper : public CreatureScript
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -2642,7 +2642,7 @@ class npc_paragons_of_the_klaxxi_mantid_amber : public CreatureScript
     public:
         npc_paragons_of_the_klaxxi_mantid_amber() : CreatureScript("npc_paragons_of_the_klaxxi_mantid_amber") { }
 
-        CreatureAI* GetAI(Creature* creature) const
+        CreatureAI* GetAI(Creature* creature) const override
         {
             return new npc_paragons_of_the_klaxxi_mantid_amberAI(creature);
         }
@@ -2780,7 +2780,7 @@ class npc_paragons_of_the_klaxxi_hungry_kunchong : public CreatureScript
                 m_PreviousHealthPct = 100.0f;
             }
 
-            void DoAction(const int32 action)
+            void DoAction(const int32 action) override
             {
                 if (action == ACTION_MESMERIZE)
                 {
@@ -2814,17 +2814,14 @@ class npc_paragons_of_the_klaxxi_hungry_kunchong : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                if (uint32 eventId = events.ExecuteEvent())
-                {
-
-                }
+                events.ExecuteEvent();
 
                 DoMeleeAttackIfReady();
             }
 
         private:
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3126,7 +3123,7 @@ class npc_paragons_of_the_klaxxi_blood : public CreatureScript
                 events.ScheduleEvent(EVENT_CHANGE_TARGET, 1000);
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 me->DespawnOrUnsummon(100);
             }
@@ -3138,7 +3135,7 @@ class npc_paragons_of_the_klaxxi_blood : public CreatureScript
                 if (UpdateBloodInfusion(diff))
                     return;
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch (events.ExecuteEvent())
                 {
                     case EVENT_CHANGE_TARGET:
                         UpdateFollowing();
@@ -3261,12 +3258,12 @@ class npc_paragons_of_the_klaxxi_amber_parasite : public CreatureScript
                 DoCast(me, SPELL_GENETIC_MODIFICATIONS, true);
             }
 
-            void IsSummonedBy(Unit* /*owner*/)
+            void IsSummonedBy(Unit* /*owner*/) override
             {
                 events.ScheduleEvent(EVENT_HUNGER, TIMER_HUNGER);
             }
 
-            void JustDied(Unit* /*killer*/)
+            void JustDied(Unit* /*killer*/) override
             {
                 me->DespawnOrUnsummon(100);
             }
@@ -3294,7 +3291,7 @@ class npc_paragons_of_the_klaxxi_amber_parasite : public CreatureScript
                 me->SetPower(POWER_ENERGY, 0);
             }
 
-            void ExecuteEvent(const uint32 eventId)
+            void ExecuteEvent(const uint32 eventId) override
             {
                 switch (eventId)
                 {
@@ -3972,7 +3969,7 @@ class spell_paragons_of_the_klaxxi_fiery_edge : public SpellScriptLoader
                 }
             }
 
-            void HandleHitTarget(SpellEffIndex effIndex)
+            void HandleHitTarget(SpellEffIndex /*effIndex*/)
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
@@ -5070,7 +5067,7 @@ struct spell_area_paragons_of_the_klaxxi_sonic_projection : AreaTriggerAI
         //at->SetTrajectory(AreatriggerInterpolation::AREATRIGGER_INTERPOLATION_LINEAR);
     }
 
-    void OnUnitEnter(Unit* target)
+    void OnUnitEnter(Unit* target) override
     {
         // Enable damage after few seconds
         if (at->GetDuration() > (at->GetTotalDuration() - 2000))
@@ -5161,7 +5158,7 @@ struct spel_area_paragons_of_the_klaxxi_sonic_pulse : AreaTriggerAI
         //at->SetTrajectory(AreatriggerInterpolation::AREATRIGGER_INTERPOLATION_LINEAR);
     }
 
-    void OnUnitEnter(Unit* target)
+    void OnUnitEnter(Unit* target) override
     {
         Unit* caster = at->GetCaster();
         if (!caster)
@@ -5173,7 +5170,7 @@ struct spel_area_paragons_of_the_klaxxi_sonic_pulse : AreaTriggerAI
         caster->AddAura(SPELL_SONIC_PULSE_DMG, target);
     }
 
-    void OnUnitExit(Unit* target)
+    void OnUnitExit(Unit* target) override
     {
         target->RemoveAura(SPELL_SONIC_PULSE_DMG);
     }

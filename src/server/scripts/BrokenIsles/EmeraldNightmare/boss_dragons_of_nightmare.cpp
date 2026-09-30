@@ -832,7 +832,7 @@ struct npc_ysondre_shade_of_taerar : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_NIGHTMARE_VISAGE, true); //Scale
         DoZoneInCombat(me, 150.0f);
@@ -981,7 +981,7 @@ struct npc_ysondre_dread_horror : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         if (IsHeroic())
         {
@@ -1027,7 +1027,7 @@ struct npc_ysondre_corrupted_mushroom : public ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         switch (me->GetEntry())
         {
@@ -1097,7 +1097,7 @@ struct npc_en_rothos : public ScriptedAI
         DespawnTrash();
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
        // SetFlyMode(true);
         ScriptedAI::EnterEvadeMode();
@@ -1150,7 +1150,7 @@ class spell_ysondre_periodic_energize : public AuraScript
 
     bool fullPower = false;
 
-    void OnTick(AuraEffect const* aurEff)
+    void OnTick(AuraEffect const* /*aurEff*/)
     {
         auto caster = GetCaster()->ToCreature();
         if (!caster || !caster->IsInCombat())
@@ -1189,7 +1189,7 @@ class spell_ysondre_marks : public AuraScript
 {
     PrepareAuraScript(spell_ysondre_marks);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (!GetTarget())
             return;
@@ -1257,7 +1257,7 @@ class spell_ysondre_shadow_burst_filter : public SpellScript
 {
     PrepareSpellScript(spell_ysondre_shadow_burst_filter);
 
-    void FilterTargets(std::list<WorldObject*>& targets)
+    void FilterTargets(std::list<WorldObject*>& /*targets*/)
     {
       //  if (GetCaster())
            // targets.sort(Trinity::UnitSortDistance(true, GetCaster()));
@@ -1294,7 +1294,7 @@ class spell_ysondre_bellowing_roar : public AuraScript
 {
     PrepareAuraScript(spell_ysondre_bellowing_roar);
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
     {
         if (!GetCaster())
             return;

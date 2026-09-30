@@ -163,7 +163,7 @@ public:
                 }
         }
 
-        void Reset()
+        void Reset() override
         {
             events.Reset();
             summons.DespawnAll();
@@ -171,7 +171,7 @@ public:
             me->RemoveAllAreaTriggers();
         }
         
-        void JustSummoned(Creature* summon)
+        void JustSummoned(Creature* summon) override
         {
             summons.Summon(summon);
 
@@ -188,7 +188,7 @@ public:
             }
         }
 
-        void JustDied(Unit*)
+        void JustDied(Unit*) override
         {
             SelectSoundAndText(me, 2);
             if (Creature* titan = GetTitan())
@@ -202,14 +202,14 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason /*why*/)
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             if (Creature* titan = GetTitan())
                 titan->DespawnOrUnsummon();
             _DespawnAtEvade(15);
         }
 
-        void DoAction(int32 action)
+        void DoAction(int32 action) override
         {
             switch (action)
             {
@@ -233,7 +233,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* /*at*/, uint32& damage)
+        void DamageTaken(Unit* /*at*/, uint32& damage) override
         {
             if (me->HasAura(SPELL_BLOOD_BARRIER))
             {
@@ -247,7 +247,7 @@ public:
             return me->FindNearestCreature(NPC_TITAN_KEEPER_HEZREL, 500.0f, true);
         }
 
-        void JustEngagedWith(Unit*)
+        void JustEngagedWith(Unit*) override
         {
             SelectSoundAndText(me, 1);
             visage = 0;
@@ -287,7 +287,7 @@ public:
             }
         }
 
-        void UpdateAI(uint32 diff)
+        void UpdateAI(uint32 diff) override
         {
             events.Update(diff);
 

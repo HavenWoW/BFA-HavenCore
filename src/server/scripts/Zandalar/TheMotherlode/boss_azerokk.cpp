@@ -171,7 +171,7 @@ struct bfa_boss_azerokk : public BossAI {
         Talk(SAY_DEAD);
     }
 
-    void JustEngagedWith(Unit*) /*override*/
+    void JustEngagedWith(Unit*) override
     {
         Talk(SAY_AGGRO);
         PlayAnimKits();
@@ -202,14 +202,14 @@ struct bfa_boss_azerokk : public BossAI {
             reager->SetInCombatWithZone();
     }
 
-    void EnterEvadeMode(EvadeReason /*why*/)
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         BossAI::EnterEvadeMode();
         me->GetMotionMaster()->MoveTargetedHome();
         Reset();
     }
 
-    void OnSpellFinished(SpellInfo const* spellInfo) /*override*/
+    void OnSpellFinished(SpellInfo const* spellInfo) override
     {
         switch (spellInfo->Id)
         {

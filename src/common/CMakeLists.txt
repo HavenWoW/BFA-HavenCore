@@ -55,6 +55,7 @@ target_link_libraries(common
   PRIVATE
     trinity-core-interface
   PUBLIC
+    argon2
     boost
     fmt
     g3dlib
