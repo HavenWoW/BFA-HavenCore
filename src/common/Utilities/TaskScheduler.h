@@ -113,7 +113,7 @@ class TC_COMMON_API TaskScheduler
         }
 
         // Compare tasks with its end
-        inline bool operator== (Task const& other)
+        inline bool operator== (Task const& other) const
         {
             return _end == other._end;
         }

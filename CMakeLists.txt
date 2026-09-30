@@ -20,9 +20,9 @@ project(BfaCore)
 
 # CMake policies (can not be handled elsewhere)
 cmake_policy(SET CMP0005 NEW)
-cmake_policy(SET CMP0043 NEW)
-cmake_policy(SET CMP0054 NEW)
-cmake_policy(SET CMP0074 NEW)
+cmake_policy(SET CMP0043 NEW) # Ignore COMPILE_DEFINITIONS_<Config> properties
+cmake_policy(SET CMP0054 NEW) # Only interpret if() arguments as variables or keywords when unquoted - prevents intepreting if(SOME_STRING_VARIABLE MATCHES "MSVC") as if(SOME_STRING_VARIABLE MATCHES "1")
+cmake_policy(SET CMP0074 NEW) # find_package() uses <PackageName>_ROOT variables
 
 # Set RPATH-handing (CMake parameters)
 set(CMAKE_SKIP_BUILD_RPATH 0)

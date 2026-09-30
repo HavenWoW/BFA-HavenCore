@@ -178,7 +178,7 @@ private:
 		if (spellInfo->Id == SPELL_EYE_OF_NZOTH)
 		{
 			me->RemoveAura(SPELL_EYE_OF_NZOTH);
-			uint64 GetHit = 59147.63f;
+			uint64 GetHit = 59147;
 			me->SetHealth(me->GetHealth() + GetHit);
 		}
 	}
@@ -314,7 +314,7 @@ private:
 		}
 	}
 
-	void JustDied(Unit* /*killer*/ /*override*/)
+	void JustDied(Unit* /*killer*/) override
 	{
 		_JustDied();
 		instance->DoModifyPlayerCurrencies(CURRENCY_ECHOES_OF_NYALOTHA, 16);

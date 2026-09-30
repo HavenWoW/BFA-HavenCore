@@ -452,7 +452,7 @@ float LFGListMgr::GetPlayerItemLevelForActivity(GroupFinderActivityEntry const* 
     if (player == nullptr)
         return 0.0f;
 
-    return player->GetAverageItemLevelEquipped() + (IsActivityPvP(activity) ? PlayerAvgItemLevelOffsets::PLAYER_AVG_ITEM_LEVEL_PVP : PlayerAvgItemLevelOffsets::PLAYER_AVG_ITEM_LEVEL_NON_PVP);
+    return player->GetAverageItemLevelEquipped() + AsUnderlyingType(IsActivityPvP(activity) ? PlayerAvgItemLevelOffsets::PLAYER_AVG_ITEM_LEVEL_PVP : PlayerAvgItemLevelOffsets::PLAYER_AVG_ITEM_LEVEL_NON_PVP);
 }
 
 float LFGListMgr::GetLowestItemLevelInGroup(LFGListEntry* entry) const

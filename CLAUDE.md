@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-BFA-HavenCore — a TrinityCore-derived World of Warcraft server emulator targeting client **8.3.7 (build 35662)**. C++17, CMake ≥ 3.27. Two server binaries: `worldserver` (game) and `bnetserver` (Battle.net login). Open source under GPL-3.0 and community-maintained: changes arrive as pull requests from many contributors, so a change has to be legible to someone who was not in the room when it was written.
+BFA-HavenCore — a TrinityCore-derived World of Warcraft server emulator targeting client **8.3.7 (build 35662)**. C++20, CMake ≥ 3.27. Two server binaries: `worldserver` (game) and `bnetserver` (Battle.net login). Open source under GPL-3.0 and community-maintained: changes arrive as pull requests from many contributors, so a change has to be legible to someone who was not in the room when it was written.
 
 **This file is the repository-wide rule file.** It is tracked, it applies to every branch and every contributor, and it is **not** one of the AI planning artefacts covered by the hygiene rule below — never delete or gitignore it when cleaning a branch for merge.
 

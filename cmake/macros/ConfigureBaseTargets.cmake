@@ -24,7 +24,7 @@ add_library(trinity-feature-interface INTERFACE)
 
 target_compile_features(trinity-feature-interface
   INTERFACE
-    cxx_std_17)
+    cxx_std_20)
 
 # An interface library to make the warnings level available to other targets
 # This interface taget is set-up through the platform specific script

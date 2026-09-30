@@ -566,7 +566,7 @@ class spell_warl_immolate_aura : public AuraScript
         if (eventInfo.GetSpellInfo() && eventInfo.GetSpellInfo()->Id == SPELL_WARLOCK_IMMOLATE_DOT)
         {
             int32 rollChance = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints;
-            rollChance = GetCaster()->ModifyPower(POWER_SOUL_SHARDS, 2.5f);
+            rollChance = GetCaster()->ModifyPower(POWER_SOUL_SHARDS, 2);
             bool crit = (eventInfo.GetHitMask() & PROC_HIT_CRITICAL) != 0;
             return crit ? roll_chance_i(rollChance * 2) : roll_chance_i(rollChance);
         }
@@ -648,7 +648,7 @@ class spell_warl_conflagrate : public SpellScript
         if (caster->HasAura(SPELL_WARLOCK_BACKDRAFT_AURA))
             caster->CastSpell(caster, SPELL_WARLOCK_BACKDRAFT, true);
 
-        caster->ModifyPower(POWER_SOUL_SHARDS, 7.5f);
+        caster->ModifyPower(POWER_SOUL_SHARDS, 7);
 
         if (caster->HasAura(SPELL_WARLOCK_ROARING_BLAZE))
         {

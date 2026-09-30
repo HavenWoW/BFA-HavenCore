@@ -132,7 +132,7 @@ public:
                 instance->SetBossState(DATA_GUARM, IN_PROGRESS);
             }
 
-            events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 20.5 * IN_MILLISECONDS);
+            events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 20.5 * AsUnderlyingType(IN_MILLISECONDS));
             events.ScheduleEvent(EVENT_FLASHING_FANGS, 6 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_ROARING_LEAP, 45 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_HEADLONG_CHARGE, 60 * IN_MILLISECONDS);
@@ -213,7 +213,7 @@ public:
                 if (Unit* target = me->GetVictim())
                     me->CanStartAttack(target, true);
 
-                events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 30.5 * IN_MILLISECONDS);
+                events.ScheduleEvent(EVENT_GUARDIANS_BREATH, 30.5 * AsUnderlyingType(IN_MILLISECONDS));
                 events.ScheduleEvent(EVENT_FLASHING_FANGS, 12 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_ROARING_LEAP, 45 * IN_MILLISECONDS);
                 events.ScheduleEvent(EVENT_HEADLONG_CHARGE, 45 * IN_MILLISECONDS);

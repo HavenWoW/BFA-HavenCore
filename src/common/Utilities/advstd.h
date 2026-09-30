@@ -18,20 +18,10 @@
 #ifndef TRINITY_ADVSTD_H
 #define TRINITY_ADVSTD_H
 
-#include <cstddef>
-#include <type_traits>
-#include <compare>
-
 // this namespace holds implementations of upcoming stdlib features that our c++ version doesn't have yet
 namespace advstd
 {
-    // C++20 std::remove_cvref_t
-    template <class T>
-    using remove_cvref_t = std::remove_cv_t<std::remove_reference_t<T>>;
-
-    // libc++ is missing these two
-    [[nodiscard]] constexpr bool is_eq(std::partial_ordering cmp) noexcept { return cmp == 0; }
-    [[nodiscard]] constexpr bool is_neq(std::partial_ordering cmp) noexcept { return cmp != 0; }
+    
 }
 
 #endif
