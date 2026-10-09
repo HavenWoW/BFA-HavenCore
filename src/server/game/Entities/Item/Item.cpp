@@ -1218,6 +1218,20 @@ bool Item::IsEquipped() const
     return !IsInBag() && m_slot < EQUIPMENT_SLOT_END;
 }
 
+bool Item::IsInInventoryOrEquipment() const
+{
+    uint8 const bag = GetBagSlot();
+    if (bag >= INVENTORY_SLOT_BAG_START && bag < INVENTORY_SLOT_BAG_END)
+        return true;
+    if (bag != INVENTORY_SLOT_BAG_0)
+        return false;
+    if (GetSlot() < EQUIPMENT_SLOT_END)
+        return true;
+    Player const* owner = GetOwner();
+    return owner && GetSlot() >= INVENTORY_SLOT_ITEM_START
+        && uint32(GetSlot()) < uint32(INVENTORY_SLOT_ITEM_START) + owner->GetInventorySlotCount();
+}
+
 bool Item::CanBeTraded(bool mail, bool trade) const
 {
     if (m_lootGenerated)

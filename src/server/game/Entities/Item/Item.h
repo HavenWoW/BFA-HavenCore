@@ -290,6 +290,7 @@ public:
 
     bool IsInBag() const { return m_container != nullptr; }
     bool IsEquipped() const;
+    bool IsInInventoryOrEquipment() const;
 
     uint32 GetSkill();
 

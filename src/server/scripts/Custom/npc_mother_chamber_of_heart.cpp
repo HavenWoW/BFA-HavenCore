@@ -39,7 +39,6 @@ public:
     {
         player->PrepareQuestMenu(creature->GetGUID());
 
-        // Mode=1 contaminant rows live in mGameEventVendors, not npc_vendor. Core PrepareGossipMenu hides vendor on an empty static list.
         AddGossipItemFor(player, GOSSIP_ICON_VENDOR, GOSSIP_TEXT_BROWSE_GOODS, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TRADE);
 
         QuestStatus curiousStatus = player->GetQuestStatus(QUEST_CURIOUS_CORRUPTION);
