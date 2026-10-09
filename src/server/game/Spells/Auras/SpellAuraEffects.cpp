@@ -644,9 +644,6 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                     AddPct(amount, bonus->GetAmount());
             }
 
-            // Taken-side reads the shielded unit, not the shield's caster —
-            // Inevitable Doom (315179) reduces absorbs on the corrupted player
-            // regardless of who cast the shield.
             if (Unit* shieldOwner = GetBase()->GetUnitOwner())
             {
                 Unit::AuraEffectList const& absorbTaken = shieldOwner->GetAuraEffectsByType(SPELL_AURA_MOD_ABSORB_EFFECTS_TAKEN_PCT);
