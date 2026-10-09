@@ -562,6 +562,14 @@ void SpellHistory::ModifyCooldown(uint32 spellId, Clock::duration offset)
 
     Clock::time_point now = GameTime::GetGameTimeSystemPoint();
 
+    if (itr->second.CategoryEnd > now)
+    {
+        if (itr->second.CategoryEnd + offset > now)
+            itr->second.CategoryEnd += offset;
+        else
+            itr->second.CategoryEnd = now;
+    }
+
     if (itr->second.CooldownEnd + offset > now)
         itr->second.CooldownEnd += offset;
     else
@@ -871,6 +879,40 @@ void SpellHistory::ReduceChargeCooldown(SpellCategoryEntry const* chargeCategory
         entry.RechargeStart -= std::chrono::milliseconds(reductionTime);
         entry.RechargeEnd -= std::chrono::milliseconds(reductionTime);
     }
+    UpdateCharge(chargeCategoryEntry);
+    ForceSendSpellCharge(chargeCategoryEntry);
+}
+
+void SpellHistory::ScaleChargeRecovery(uint32 chargeCategoryId, int32 pct, bool apply)
+{
+    if (pct <= 0)
+        return;
+
+    SpellCategoryEntry const* chargeCategoryEntry = sSpellCategoryStore.LookupEntry(chargeCategoryId);
+    auto itr = _categoryCharges.find(chargeCategoryId);
+    if (!chargeCategoryEntry || itr == _categoryCharges.end() || itr->second.empty())
+        return;
+
+    Clock::time_point now = GameTime::GetGameTimeSystemPoint();
+    Clock::time_point nextStart = now;
+    bool first = true;
+    for (ChargeEntry& entry : itr->second)
+    {
+        if (entry.RechargeEnd <= now)
+            continue;
+
+        // Only the active segment has elapsed time. Queued charges retain
+        // their complete segment duration and begin when the prior one ends.
+        Clock::time_point oldStart = first ? now : entry.RechargeStart;
+        int64 remaining = std::chrono::duration_cast<std::chrono::milliseconds>(entry.RechargeEnd - oldStart).count();
+        int64 factor = int64(100) + pct;
+        int64 scaled = apply ? (remaining * 100) / factor : (remaining * factor) / 100;
+        entry.RechargeStart = nextStart;
+        entry.RechargeEnd = nextStart + std::chrono::milliseconds(std::max<int64>(scaled, 0));
+        nextStart = entry.RechargeEnd;
+        first = false;
+    }
+
     UpdateCharge(chargeCategoryEntry);
     ForceSendSpellCharge(chargeCategoryEntry);
 }
