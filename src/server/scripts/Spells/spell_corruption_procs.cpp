@@ -255,11 +255,9 @@ void CastInfiniteStar(Unit* caster, Unit* target)
         return;
 
     SpellInfo const* missile = sSpellMgr->GetSpellInfo(SPELL_INFINITE_STARS_MISSILE);
-    uint32 visual = missile ? missile->GetSpellVisual(caster) : 0;
     float delay = (missile && missile->Speed > 0.0f) ? missile->Speed : 1.0f;
 
     // One visual path: DEST_DEST (87) CastSpell at the target's feet.
-    false;
     if (missile)
         caster->CastSpell(target->GetPosition(), SPELL_INFINITE_STARS_MISSILE, InfiniteStarsCastFlags());
 
@@ -320,7 +318,7 @@ void CastTwilightDevastation(Unit* caster)
 
     // SpellGo plays visual 93766. CREATE_AREATRIGGER is prevented in the SpellScript
     // so we spawn exactly one AT (Haven's dest-HIT path often skipped the effect).
-    bool beamOk = caster->CastSpell(caster->GetPosition(), SPELL_TWILIGHT_BEAM, InfiniteStarsCastFlags());
+    caster->CastSpell(caster->GetPosition(), SPELL_TWILIGHT_BEAM, InfiniteStarsCastFlags());
 
     // Damage lives in at_twilight_devastation::OnUnitEnter, driven by the AT's own
     // spline position (spell_areatrigger_splines 19034: 0 -> 28 yd over 4s).
@@ -449,7 +447,6 @@ void CastTwistedAppendage(Unit* caster)
         return;
 
     caster->CastSpell(caster, SPELL_TWISTED_APPENDAGE_SUMMON, InfiniteStarsCastFlags());
-    Unit* target = ResolveTentacleTarget(caster);
 
 }
 
@@ -570,7 +567,6 @@ void CastRacingPulse(Unit* caster)
     if (!caster || !caster->IsAlive())
         return;
 
-    int32 rating = RacingPulseRating(caster);
     caster->CastSpell(caster, SPELL_RACING_PULSE_BUFF, InfiniteStarsCastFlags());
 
 }
@@ -587,7 +583,6 @@ void CastHonedMind(Unit* caster)
     if (!caster || !caster->IsAlive())
         return;
 
-    int32 rating = HonedMindRating(caster);
     caster->CastSpell(caster, SPELL_HONED_MIND_BUFF, InfiniteStarsCastFlags());
 
 }
@@ -605,12 +600,6 @@ void CastDeadlyMomentum(Unit* caster)
         return;
 
     caster->CastSpell(caster, SPELL_DEADLY_MOMENTUM_BUFF, InfiniteStarsCastFlags());
-    uint32 stacks = 1;
-    if (Aura const* aura = caster->GetAura(SPELL_DEADLY_MOMENTUM_BUFF))
-        stacks = aura->GetStackAmount();
-    if (stacks < 1)
-        stacks = 1;
-    int32 rating = DeadlyMomentumRatingPerStack(caster) * int32(stacks);
 
 }
 
@@ -626,7 +615,6 @@ void CastSurgingVitality(Unit* caster)
     if (!caster || !caster->IsAlive())
         return;
 
-    int32 rating = SurgingVitalityRating(caster);
     caster->CastSpell(caster, SPELL_SURGING_VITALITY_BUFF, InfiniteStarsCastFlags());
 
 }
@@ -1261,15 +1249,6 @@ class spell_void_ritual_end_is_coming : public AuraScript
         amount = VoidRitualRatingPerStack(owner);
     }
 
-    void HandleApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
-    {
-        Unit* owner = GetUnitOwner();
-        if (!owner || !owner->HasAura(SPELL_VOID_RITUAL_PROC))
-            return;
-
-        uint32 stacks = GetAura() ? GetAura()->GetStackAmount() : 1;
-
-    }
 
     void HandlePeriodic(AuraEffect const* /*aurEff*/)
     {
@@ -1287,16 +1266,12 @@ class spell_void_ritual_end_is_coming : public AuraScript
         if (before < maxStacks)
             aura->ModStackAmount(1, AURA_REMOVE_BY_DEFAULT, false, false);
 
-        uint32 stacks = aura->GetStackAmount();
-        int32 rating = VoidRitualRatingPerStack(owner) * int32(stacks);
-        if (stacks != before)
 
     }
 
     void Register() override
     {
         DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_void_ritual_end_is_coming::CalculateAmount, EFFECT_0, SPELL_AURA_MOD_RATING);
-        AfterEffectApply += AuraEffectApplyFn(spell_void_ritual_end_is_coming::HandleApply, EFFECT_0, SPELL_AURA_MOD_RATING, AURA_EFFECT_HANDLE_REAL);
         OnEffectPeriodic += AuraEffectPeriodicFn(spell_void_ritual_end_is_coming::HandlePeriodic, EFFECT_1, SPELL_AURA_PERIODIC_DUMMY);
     }
 };
