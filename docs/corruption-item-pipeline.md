@@ -10,7 +10,11 @@ The stacked MOTHER branch implements contaminant effect 223, item ownership and
 target checks, purification, UiItemInteraction storage and packets, and gossip
 on existing MOTHER creatures. Group 158 membership and corruption stat bonuses
 identify removable corruption; unrelated bonus-granted effects are preserved.
-Normal vendor/event purchase paths remain in use. The automatic world update
+Normal vendor/event purchase paths remain in use. Targets must be in equipped
+slots, unlocked backpack slots or normal equipped bags; bank, reagent, child
+equipment and buyback locations are rejected. Closing gossip preserves the
+purification token only while the same MOTHER remains interactable; each
+purification request rechecks the NPC and distance. The automatic world update
 binds existing templates and quest enders without adding creatures.
 
 The item interaction packet layout has no recorded 8.3.7 sniff in the original
@@ -23,7 +27,8 @@ The full original eight-window, 52-item vendor rotation is retained in
 `docs/sql/examples/mother-contaminant-rotation.sql.example`, outside the updater.
 A maintainer must first verify an existing MOTHER spawn, allocate eight distinct
 unused event IDs, check both event tables and validate reset timezone and costs.
-Its NULL parameters prevent accidental installation with local identifiers.
+Every INSERT contains invalid SQL placeholder tokens, so the template cannot
+execute until explicitly adapted, even with non-strict SQL mode.
 
 Excluded local behavior remains in the contributor's integration branch:
 HavenLab notifications and bonus dumps; QA all-rotation vendor mode and its

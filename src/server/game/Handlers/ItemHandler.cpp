@@ -1502,7 +1502,7 @@ void WorldSession::HandlePerformItemInteraction(WorldPackets::ItemInteraction::P
         return;
 
     Item* item = _player->GetItemByGuid(packet.Item);
-    if (!item || item->GetOwnerGUID() != _player->GetGUID() || item->IsInTrade())
+    if (!item || item->GetOwnerGUID() != _player->GetGUID() || item->IsInTrade() || !item->IsInInventoryOrEquipment())
         return;
 
     bool hasCorruption = false;

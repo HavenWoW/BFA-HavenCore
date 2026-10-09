@@ -6079,7 +6079,7 @@ SpellCastResult Spell::CheckChangeItemBonusesTarget(Item const* item, SpellEffec
     if (!proto)
         return SPELL_FAILED_BAD_TARGETS;
 
-    if (item->IsInTrade() || (proto->GetClass() != ITEM_CLASS_ARMOR && proto->GetClass() != ITEM_CLASS_WEAPON))
+    if (!item->IsInInventoryOrEquipment() || item->IsInTrade() || (proto->GetClass() != ITEM_CLASS_ARMOR && proto->GetClass() != ITEM_CLASS_WEAPON))
         return SPELL_FAILED_BAD_TARGETS;
     switch (proto->GetInventoryType())
     {
