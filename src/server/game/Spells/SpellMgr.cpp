@@ -3865,6 +3865,18 @@ void SpellMgr::LoadSpellInfoCorrections()
         spellInfo->CasterAuraSpell = 0;
     });
 
+    // The scripted contact hit does not use the unsupported aura-361 attack chain.
+    ApplySpellFix({ 315197 }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->TargetAuraSpell = 0;
+    });
+
+    // The scripted contact hit does not use the unsupported aura-361 attack chain.
+    ApplySpellFix({ 315197 }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->TargetAuraSpell = 0;
+    });
+
     // DH - Felblade - Charge damage
     ApplySpellFix({ 213241 }, [](SpellInfo* spellInfo)
     {

@@ -20,6 +20,8 @@ void AddSC_deathknight_spell_scripts();
 void AddSC_demon_hunter_spell_scripts();
 void AddSC_druid_spell_scripts();
 void AddSC_generic_spell_scripts();
+void AddSC_corruption_drawbacks();
+void AddSC_corruption_drawbacks();
 void AddSC_hunter_spell_scripts();
 void AddSC_mage_spell_scripts();
 void AddSC_monk_spell_scripts();
@@ -43,6 +45,8 @@ void AddSpellsScripts()
     AddSC_demon_hunter_spell_scripts();
     AddSC_druid_spell_scripts();
     AddSC_generic_spell_scripts();
+    AddSC_corruption_drawbacks();
+    AddSC_corruption_drawbacks();
     AddSC_hunter_spell_scripts();
     AddSC_mage_spell_scripts();
     AddSC_monk_spell_scripts();
