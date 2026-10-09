@@ -246,7 +246,7 @@ int32 SumCorruptionRankDummy(Unit const* owner, uint32 const* rankIds, uint8 ran
                 if (!rankIds[i])
                     continue;
                 for (ItemEffectEntry const* itemEffect : item->GetEffects())
-                    if (itemEffect && itemEffect->SpellID == rankIds[i]
+                    if (itemEffect && uint32(itemEffect->SpellID) == rankIds[i]
                         && itemEffect->TriggerType == ITEM_SPELLTRIGGER_ON_EQUIP)
                     {
                         addRank(rankIds[i], item);
