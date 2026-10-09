@@ -5480,22 +5480,12 @@ void Player::ApplyRatingMod(CombatRating combatRating, int32 value, bool apply)
     UpdateRating(combatRating);
 }
 
-// 315607 Wowhead: dest Avoidance = Amount% of haste ratings (mask 917504).
-// Dump MiscValue/MiscValueB once; do not hardcode 8/12/16.
 static void DecodeCombatRatingFromCombatRating(AuraEffect const* aurEff, uint32& destMask, uint32& srcMask)
 {
     uint32 const hasteMask = (1u << CR_HASTE_MELEE) | (1u << CR_HASTE_RANGED) | (1u << CR_HASTE_SPELL);
     uint32 const avoidMask = (1u << CR_AVOIDANCE);
     uint32 const mv = uint32(aurEff->GetMiscValue());
     uint32 const mvb = uint32(aurEff->GetMiscValueB());
-
-    static bool logged = false;
-    if (!logged)
-    {
-        logged = true;
-        TC_LOG_INFO("entities.player", "ModCombatRatingFromCombatRating: spell=%u amount=%d misc=%u miscB=%u",
-            aurEff->GetId(), aurEff->GetAmount(), mv, mvb);
-    }
 
     if ((mv & hasteMask) && !(mv & avoidMask))
     {
