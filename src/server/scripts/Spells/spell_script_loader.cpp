@@ -23,6 +23,7 @@ void AddSC_generic_spell_scripts();
 void AddSC_corruption_procs();
 void AddSC_corruption_cooldowns();
 void AddSC_corruption_drawbacks();
+void AddSC_corruption_weapons();
 void AddSC_hunter_spell_scripts();
 void AddSC_mage_spell_scripts();
 void AddSC_monk_spell_scripts();
@@ -49,6 +50,7 @@ void AddSpellsScripts()
     AddSC_corruption_procs();
     AddSC_corruption_cooldowns();
     AddSC_corruption_drawbacks();
+    AddSC_corruption_weapons();
     AddSC_hunter_spell_scripts();
     AddSC_mage_spell_scripts();
     AddSC_monk_spell_scripts();
