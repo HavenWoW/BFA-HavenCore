@@ -7601,6 +7601,16 @@ void Spell::DoAllEffectOnLaunchTarget(TargetInfo& targetInfo, float* multiplier)
                     m_damage = int32(float(m_damage) * unit->GetTotalAuraMultiplierByMiscMask(SPELL_AURA_MOD_AOE_DAMAGE_AVOIDANCE, m_spellInfo->SchoolMask));
                     if (m_caster->GetTypeId() != TYPEID_PLAYER)
                         m_damage = int32(float(m_damage) * unit->GetTotalAuraMultiplierByMiscMask(SPELL_AURA_MOD_CREATURE_AOE_DAMAGE_AVOIDANCE, m_spellInfo->SchoolMask));
+                    if (Player* victimPlayer = unit->ToPlayer())
+                    {
+                        float avoidance = victimPlayer->m_activePlayerData->Avoidance;
+                        if (avoidance > 0.0f)
+                        {
+                            if (avoidance > 100.0f)
+                                avoidance = 100.0f;
+                            m_damage = int32(float(m_damage) * (100.0f - avoidance) / 100.0f);
+                        }
+                    }
 
                     if (m_caster->GetTypeId() == TYPEID_PLAYER)
                     {

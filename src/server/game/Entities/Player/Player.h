@@ -1994,6 +1994,7 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         void UpdateRangedHitChances();
         void UpdateSpellHitChances();
         void UpdateLeechPercentage();
+        void UpdateAvoidancePercentage();
 
         void UpdateSpellCritChance();
         void UpdateCorruption();
