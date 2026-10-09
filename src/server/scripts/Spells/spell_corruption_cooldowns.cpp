@@ -196,7 +196,6 @@ void TryGlimpseTrim(Player* player, Spell* spell)
     if (info->GetRecoveryTime() > 0 || before > 0)
         history->ModifyCooldown(info->Id, -trim);
 
-    uint32 after = history->GetRemainingCooldown(info);
     ConsumeGlimpseStack(player);
 
 }
@@ -256,7 +255,6 @@ class spell_ineffable_truth : public AuraScript
             }
         }
 
-        int32 mult = pct > 0 ? (100 * 100 / (100 + pct)) : 100;
 
     }
 
