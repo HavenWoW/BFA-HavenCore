@@ -141,6 +141,7 @@ TC_GAME_API extern DB2Storage<ItemArmorQualityEntry>                sItemArmorQu
 TC_GAME_API extern DB2Storage<ItemArmorShieldEntry>                 sItemArmorShieldStore;
 TC_GAME_API extern DB2Storage<ItemArmorTotalEntry>                  sItemArmorTotalStore;
 TC_GAME_API extern DB2Storage<ItemBagFamilyEntry>                   sItemBagFamilyStore;
+TC_GAME_API extern DB2Storage<ItemBonusListGroupEntryEntry>         sItemBonusListGroupEntryStore;
 TC_GAME_API extern DB2Storage<ItemDamageAmmoEntry>                  sItemDamageAmmoStore;
 TC_GAME_API extern DB2Storage<ItemDamageOneHandEntry>               sItemDamageOneHandStore;
 TC_GAME_API extern DB2Storage<ItemDamageOneHandCasterEntry>         sItemDamageOneHandCasterStore;
@@ -347,8 +348,11 @@ public:
     std::vector<uint32> const* GetGlyphRequiredSpecs(uint32 glyphPropertiesId) const;
     static bool HasBattlePetSpeciesFlag(uint16 species, uint16 flag);
     ItemBonusList const* GetItemBonusList(uint32 bonusListId) const;
+    std::vector<ItemBonusListGroupEntryEntry const*> const* GetItemBonusListGroupEntries(uint32 groupId) const;
     uint32 GetItemBonusListForItemLevelDelta(int16 delta) const;
     std::set<uint32> GetDefaultItemBonusTree(uint32 itemId, ItemContext itemContext) const;
+    void AppendCorruptionLootBonuses(uint32 itemId, ItemContext context, std::vector<int32>& bonusListIDs) const;
+    static uint32 GetNyAlothaFixedCorruptionBonus(uint32 itemId);
     bool HasItemContext(uint32 itemId) const;
     bool HasItemContext(uint32 itemId, ItemContext itemContext) const;
     std::vector<int32> GetItemBonusTreeVector(uint32 itemId, ItemContext itemContext) const;

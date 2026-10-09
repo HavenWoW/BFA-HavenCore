@@ -2954,6 +2954,26 @@ struct ItemBonusLoadInfo
     }
 };
 
+struct ItemBonusListGroupEntryLoadInfo
+{
+    static DB2LoadInfo const* Instance()
+    {
+        static DB2FieldMeta const fields[] =
+        {
+            { false, FT_INT, "ID" },
+            { true, FT_INT, "ItemBonusListID" },
+            { true, FT_INT, "ItemLevelSelectorID" },
+            { true, FT_INT, "SequenceValue" },
+            { true, FT_INT, "ItemExtendedCostID" },
+            // ParentIndexField 4: DB2FileLoader treats parent keys as unsigned.
+            { false, FT_INT, "ItemBonusListGroupID" },
+        };
+        static DB2LoadInfo const loadInfo(&fields[0], std::extent<decltype(fields)>::value,
+            ItemBonusListGroupEntryMeta::Instance(), HOTFIX_SEL_ITEM_BONUS_LIST_GROUP_ENTRY);
+        return &loadInfo;
+    }
+};
+
 struct ItemBonusListLevelDeltaLoadInfo
 {
     static DB2LoadInfo const* Instance()

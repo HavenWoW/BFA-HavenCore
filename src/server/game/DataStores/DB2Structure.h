@@ -1865,16 +1865,15 @@ struct ItemBonusEntry
     uint8 OrderIndex;
 };
 
-// new item upgrade system
-//struct ItemBonusListGroupEntryEntry
-//{
-//    uint32 ID;
-//    int32 ItemBonusListID;
-//    int32 ItemLevelSelectorID;
-//    int32 OrderIndex;
-//    int32 ItemExtendedCostID;
-//    int32 ItemBonusListGroupID;
-//};
+struct ItemBonusListGroupEntryEntry
+{
+    uint32 ID;
+    int32 ItemBonusListID;
+    int32 ItemLevelSelectorID;
+    int32 SequenceValue;
+    int32 ItemExtendedCostID;
+    int32 ItemBonusListGroupID;
+};
 
 struct ItemBonusListLevelDeltaEntry
 {
