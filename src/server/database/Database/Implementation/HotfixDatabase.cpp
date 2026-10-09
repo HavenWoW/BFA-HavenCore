@@ -1249,6 +1249,13 @@ void HotfixDatabaseConnection::DoPrepareStatements()
     PrepareStatement(HOTFIX_SEL_TRANSPORT_ROTATION, "SELECT ID, Rot1, Rot2, Rot3, Rot4, TimeIndex, GameObjectsID FROM transport_rotation"
         " WHERE (`VerifiedBuild` > 0) = ? ORDER BY ID DESC", CONNECTION_SYNCH);
 
+    // UiItemInteraction.db2
+    PrepareStatement(HOTFIX_SEL_UI_ITEM_INTERACTION, "SELECT TutorialText, TitleText, Description, ButtonText, ID, UiTextureKitID, OpenSoundKitID, "
+        "CloseSoundKitID, Cost, ItemInteractionFrameType, InteractionSpellID, CurrencyTypeID, Flags, DropInSlotSoundKitID, TakeOutSlotSoundKitID "
+        "FROM ui_item_interaction WHERE (`VerifiedBuild` > 0) = ? ORDER BY ID DESC", CONNECTION_SYNCH);
+    PREPARE_LOCALE_STMT(HOTFIX_SEL_UI_ITEM_INTERACTION, "SELECT ID, TutorialText_lang, TitleText_lang, Description_lang, ButtonText_lang "
+        "FROM ui_item_interaction_locale WHERE (`VerifiedBuild` > 0) = ? AND locale = ?", CONNECTION_SYNCH);
+
     // UiMap.db2
     PrepareStatement(HOTFIX_SEL_UI_MAP, "SELECT Name, ID, ParentUiMapID, Flags, `System`, Type, LevelRangeMin, LevelRangeMax, BountySetID, "
         "BountyDisplayLocation, VisibilityPlayerConditionID, HelpTextPosition, BkgAtlasID, AlternateUiMapGroup FROM ui_map WHERE (`VerifiedBuild` > 0) = ? ORDER BY ID DESC", CONNECTION_SYNCH);

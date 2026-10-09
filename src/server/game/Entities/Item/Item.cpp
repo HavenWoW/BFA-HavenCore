@@ -2441,6 +2441,19 @@ void Item::SetBonuses(std::vector<int32> bonusListIDs)
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::ItemAppearanceModID), _bonusData.AppearanceModID);
 }
 
+void Item::RemoveCorruptionBonusLists()
+{
+    std::vector<int32> kept;
+    kept.reserve(m_itemData->BonusListIDs->size());
+    for (int32 id : *m_itemData->BonusListIDs)
+        if (id > 0 && !sDB2Manager.BonusListIsCorruption(uint32(id)))
+            kept.push_back(id);
+
+    // SetBonuses does not Initialize first; stacking onto the old _bonusData would keep stripped effects.
+    _bonusData.Initialize(GetTemplate());
+    SetBonuses(std::move(kept));
+}
+
 void Item::ClearBonuses()
 {
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::BonusListIDs), std::vector<int32>());

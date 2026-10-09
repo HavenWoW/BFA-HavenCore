@@ -6162,6 +6162,33 @@ struct TransportRotationLoadInfo
     }
 };
 
+struct UiItemInteractionLoadInfo
+{
+    static DB2LoadInfo const* Instance()
+    {
+        static DB2FieldMeta const fields[] =
+        {
+            { false, FT_STRING, "TutorialText" },
+            { false, FT_STRING, "TitleText" },
+            { false, FT_STRING, "Description" },
+            { false, FT_STRING, "ButtonText" },
+            { false, FT_INT, "ID" },
+            { true, FT_INT, "UiTextureKitID" },
+            { true, FT_INT, "OpenSoundKitID" },
+            { true, FT_INT, "CloseSoundKitID" },
+            { true, FT_INT, "Cost" },
+            { true, FT_BYTE, "ItemInteractionFrameType" },
+            { true, FT_INT, "InteractionSpellID" },
+            { true, FT_INT, "CurrencyTypeID" },
+            { true, FT_BYTE, "Flags" },
+            { true, FT_INT, "DropInSlotSoundKitID" },
+            { true, FT_INT, "TakeOutSlotSoundKitID" },
+        };
+        static DB2LoadInfo const loadInfo(&fields[0], std::extent<decltype(fields)>::value, UiItemInteractionMeta::Instance(), HOTFIX_SEL_UI_ITEM_INTERACTION);
+        return &loadInfo;
+    }
+};
+
 struct UiMapLoadInfo
 {
     static DB2LoadInfo const* Instance()

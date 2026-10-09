@@ -1067,6 +1067,7 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_GM_CHAT]               = sConfigMgr->GetIntDefault("GM.Chat", 2);
     m_int_configs[CONFIG_GM_WHISPERING_TO]      = sConfigMgr->GetIntDefault("GM.WhisperingTo", 2);
     m_int_configs[CONFIG_GM_FREEZE_DURATION]    = sConfigMgr->GetIntDefault("GM.FreezeAuraDuration", 0);
+    m_int_configs[CONFIG_MOTHER_REQUIRE_CURIOUS_CORRUPTION] = sConfigMgr->GetIntDefault("Mother.RequireCuriousCorruption", 1);
 
     m_int_configs[CONFIG_GM_LEVEL_IN_GM_LIST] = sConfigMgr->GetIntDefault("GM.InGMList.Level", SEC_ADMINISTRATOR);
     m_int_configs[CONFIG_GM_LEVEL_IN_WHO_LIST] = sConfigMgr->GetIntDefault("GM.InWhoList.Level", SEC_ADMINISTRATOR);

@@ -318,6 +318,7 @@ DB2Storage<TransmogSetGroupEntry>               sTransmogSetGroupStore("Transmog
 DB2Storage<TransmogSetItemEntry>                sTransmogSetItemStore("TransmogSetItem.db2", TransmogSetItemLoadInfo::Instance());
 DB2Storage<TransportAnimationEntry>             sTransportAnimationStore("TransportAnimation.db2", TransportAnimationLoadInfo::Instance());
 DB2Storage<TransportRotationEntry>              sTransportRotationStore("TransportRotation.db2", TransportRotationLoadInfo::Instance());
+DB2Storage<UiItemInteractionEntry>              sUiItemInteractionStore("UiItemInteraction.db2", UiItemInteractionLoadInfo::Instance());
 DB2Storage<UiMapEntry>                          sUiMapStore("UiMap.db2", UiMapLoadInfo::Instance());
 DB2Storage<UiMapAssignmentEntry>                sUiMapAssignmentStore("UiMapAssignment.db2", UiMapAssignmentLoadInfo::Instance());
 DB2Storage<UiMapLinkEntry>                      sUiMapLinkStore("UiMapLink.db2", UiMapLinkLoadInfo::Instance());
@@ -893,6 +894,7 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
     LOAD_DB2(sTransmogSetItemStore);
     LOAD_DB2(sTransportAnimationStore);
     LOAD_DB2(sTransportRotationStore);
+    LOAD_DB2(sUiItemInteractionStore);
     LOAD_DB2(sUiMapStore);
     LOAD_DB2(sUiMapAssignmentStore);
     LOAD_DB2(sUiMapLinkStore);
@@ -906,6 +908,16 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
     LOAD_DB2(sWorldStateExpressionStore);
 
 #undef LOAD_DB2
+
+    if (UiItemInteractionEntry const* purify = sUiItemInteractionStore.LookupEntry(UI_ITEM_INTERACTION_TITANIC_PURIFICATION))
+    {
+        // Retail 8.3.7 row 3 is Cost=5 / CurrencyTypeID=1719. Handler reads the row, never substitutes these values.
+        if (purify->Cost != 5 || purify->CurrencyTypeID != int32(CURRENCY_CORRUPTED_MEMENTOS))
+            TC_LOG_ERROR("server.loading", "UiItemInteraction.db2 id %u Cost=%d CurrencyTypeID=%d (expected Cost=5 CurrencyTypeID=%u)",
+                UI_ITEM_INTERACTION_TITANIC_PURIFICATION, purify->Cost, purify->CurrencyTypeID, uint32(CURRENCY_CORRUPTED_MEMENTOS));
+    }
+    else
+        TC_LOG_ERROR("server.loading", "UiItemInteraction.db2 is missing id %u (Titanic Purification)", UI_ITEM_INTERACTION_TITANIC_PURIFICATION);
 
     for (AreaGroupMemberEntry const* areaGroupMember : sAreaGroupMemberStore)
         _areaGroupMembers[areaGroupMember->AreaGroupID].push_back(areaGroupMember->AreaID);
@@ -2379,12 +2391,6 @@ constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_17 = 6612;
 constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_28 = 6613;
 constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_45 = 6614;
 
-bool IsNyAlothaUniqueWeaponBonus(uint32 listId)
-{
-    return listId >= ITEM_BONUS_LIST_NYALOTHA_DEVOUR_VITALITY
-        && listId <= ITEM_BONUS_LIST_NYALOTHA_OBSIDIAN_SKIN;
-}
-
 bool IsExcludedCorruptionCatalogList(uint32 listId)
 {
     if (listId == ITEM_BONUS_LIST_CORRUPTION_EMPTY)
@@ -2446,19 +2452,8 @@ bool ItemAlreadyHasCorruptionEffect(std::vector<int32> const& bonusListIDs)
     {
         if (listId <= 0)
             continue;
-
-        DB2Manager::ItemBonusList const* bonuses = sDB2Manager.GetItemBonusList(uint32(listId));
-        if (!bonuses)
-            continue;
-
-        for (ItemBonusEntry const* bonus : *bonuses)
-        {
-            if (bonus->Type == ITEM_BONUS_STAT && bonus->Value[0] == ITEM_MOD_CORRUPTION)
-                return true;
-            // 8.3.7 corruption good effects are type-23 ItemEffect rows; ilvl/quality trees do not use type 23.
-            if (bonus->Type == ITEM_BONUS_ITEM_EFFECT_ID && sItemEffectStore.LookupEntry(uint32(bonus->Value[0])))
-                return true;
-        }
+        if (sDB2Manager.BonusListIsCorruption(uint32(listId)))
+            return true;
     }
 
     return false;
@@ -2483,6 +2478,48 @@ uint32 DB2Manager::GetNyAlothaFixedCorruptionBonus(uint32 itemId)
         case 172196: return ITEM_BONUS_LIST_CORRUPTION_RITUAL_2;
         default:     return 0;
     }
+}
+
+bool DB2Manager::BonusListIsCorruption(uint32 listId) const
+{
+    if (!listId)
+        return false;
+
+    ItemBonusList const* bonuses = GetItemBonusList(listId);
+    if (!bonuses)
+        return false;
+
+    for (ItemBonusEntry const* bonus : *bonuses)
+    {
+        if (bonus->Type == ITEM_BONUS_STAT && bonus->Value[0] == ITEM_MOD_CORRUPTION)
+            return true;
+        if (bonus->Type == ITEM_BONUS_ITEM_EFFECT_ID)
+            if (auto const* group = GetItemBonusListGroupEntries(ITEM_BONUS_LIST_GROUP_CORRUPTION))
+                for (ItemBonusListGroupEntryEntry const* entry : *group)
+                    if (entry->ItemBonusListID == int32(listId))
+                        return true;
+    }
+
+    return false;
+}
+
+bool DB2Manager::IsNyAlothaUniqueWeaponBonus(uint32 listId) const
+{
+    return listId >= ITEM_BONUS_LIST_NYALOTHA_DEVOUR_VITALITY
+        && listId <= ITEM_BONUS_LIST_NYALOTHA_OBSIDIAN_SKIN;
+}
+
+void DB2Manager::CollectBonusListIdsFromTree(uint32 bonusTreeId, std::vector<int32>& out) const
+{
+    VisitItemBonusTree(bonusTreeId, true, [&out](ItemBonusTreeNodeEntry const* node)
+    {
+        if (!node->ChildItemBonusListID)
+            return;
+        // Tree 2821's only child list is the empty placeholder; effect 223 must not write it onto gear.
+        if (uint32(node->ChildItemBonusListID) == ITEM_BONUS_LIST_CORRUPTION_EMPTY)
+            return;
+        out.push_back(int32(node->ChildItemBonusListID));
+    });
 }
 
 void DB2Manager::AppendCorruptionLootBonuses(uint32 itemId, ItemContext /*context*/, std::vector<int32>& bonusListIDs) const

@@ -4464,3 +4464,6 @@ Solocraft.Raid40 = 40
 
 #
 ###################################################################################################
+
+# Require Curious Corruption to be rewarded before Titanic Purification.
+Mother.RequireCuriousCorruption = 1

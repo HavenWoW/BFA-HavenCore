@@ -237,6 +237,7 @@ public:
 
     void AddBonuses(uint32 bonusListID);
     void SetBonuses(std::vector<int32> bonusListIDs);
+    void RemoveCorruptionBonusLists();
     void ClearBonuses();
 
     static void DeleteFromDB(CharacterDatabaseTransaction& trans, ObjectGuid::LowType itemGuid);

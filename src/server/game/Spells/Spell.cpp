@@ -6840,6 +6840,13 @@ SpellCastResult Spell::CheckItems(uint32* param1 /*= nullptr*/, uint32* param2 /
                 }
                 break;
             }
+            case SPELL_EFFECT_CHANGE_ITEM_BONUSES:
+            {
+                SpellCastResult changeResult = CheckChangeItemBonusesTarget(m_targets.GetItemTarget(), effect);
+                if (changeResult != SPELL_CAST_OK)
+                    return changeResult;
+                break;
+            }
             case SPELL_EFFECT_ENCHANT_HELD_ITEM:
                 // check item existence in effect code (not output errors at offhand hold item effect to main hand for example
                 break;
