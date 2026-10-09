@@ -642,9 +642,12 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 Unit::AuraEffectList const& absorbBonuses = caster->GetAuraEffectsByType(SPELL_AURA_MOD_ABSORB_EFFECTS_AMOUNT_PCT);
                 for (AuraEffect const* bonus : absorbBonuses)
                     AddPct(amount, bonus->GetAmount());
+            }
 
-                Unit::AuraEffectList const& absorbBonuses2 = caster->GetAuraEffectsByType(SPELL_AURA_MOD_ABSORB_EFFECTS_TAKEN_PCT);
-                for (AuraEffect const* bonus : absorbBonuses2)
+            if (Unit* shieldOwner = GetBase()->GetUnitOwner())
+            {
+                Unit::AuraEffectList const& absorbTaken = shieldOwner->GetAuraEffectsByType(SPELL_AURA_MOD_ABSORB_EFFECTS_TAKEN_PCT);
+                for (AuraEffect const* bonus : absorbTaken)
                     AddPct(amount, bonus->GetAmount());
             }
             break;
