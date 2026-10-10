@@ -264,7 +264,7 @@ NonDefaultConstructible<pAuraEffectHandler> AuraEffectHandler[TOTAL_AURAS]=
     &AuraEffect::HandleNoImmediateEffect,                         //195 SPELL_AURA_MOD_TARGET_ABILITY_ABSORB_SCHOOL implemented in Unit::CalcAbsorbResist
     &AuraEffect::HandleNULL,                                      //196 SPELL_AURA_MOD_COOLDOWN - flat mod of spell cooldowns
     &AuraEffect::HandleNoImmediateEffect,                         //197 SPELL_AURA_MOD_ATTACKER_SPELL_AND_WEAPON_CRIT_CHANCE implemented in Unit::SpellCriticalBonus Unit::GetUnitCriticalChance
-    &AuraEffect::HandleUnused,                                    //198 unused (4.3.4) old SPELL_AURA_MOD_ALL_WEAPON_SKILLS
+    &AuraEffect::HandleModCombatRatingFromCombatRating,           //198 SPELL_AURA_MOD_COMBAT_RATING_FROM_COMBAT_RATING implemented in Player::UpdateRating
     &AuraEffect::HandleUnused,                                    //199 unused (4.3.4) old SPELL_AURA_MOD_INCREASES_SPELL_PCT_TO_HIT
     &AuraEffect::HandleNoImmediateEffect,                         //200 SPELL_AURA_MOD_XP_PCT implemented in Player::RewardPlayerAndGroupAtKill
     &AuraEffect::HandleAuraAllowFlight,                           //201 SPELL_AURA_FLY                             this aura enable flight mode...
@@ -509,7 +509,7 @@ NonDefaultConstructible<pAuraEffectHandler> AuraEffectHandler[TOTAL_AURAS]=
     &AuraEffect::HandleNULL,                                      //440 SPELL_AURA_MOD_MULTISTRIKE_DAMAGE
     &AuraEffect::HandleNULL,                                      //441 SPELL_AURA_MOD_MULTISTRIKE_CHANCE
     &AuraEffect::HandleNULL,                                      //442 SPELL_AURA_MOD_READINESS
-    &AuraEffect::HandleNULL,                                      //443 SPELL_AURA_MOD_LEECH
+    &AuraEffect::HandleAuraLeech,                                 //443 SPELL_AURA_MOD_LEECH
     &AuraEffect::HandleNULL,                                      //444
     &AuraEffect::HandleNULL,                                      //445
     &AuraEffect::HandleNULL,                                      //446
@@ -642,9 +642,12 @@ int32 AuraEffect::CalculateAmount(Unit* caster)
                 Unit::AuraEffectList const& absorbBonuses = caster->GetAuraEffectsByType(SPELL_AURA_MOD_ABSORB_EFFECTS_AMOUNT_PCT);
                 for (AuraEffect const* bonus : absorbBonuses)
                     AddPct(amount, bonus->GetAmount());
+            }
 
-                Unit::AuraEffectList const& absorbBonuses2 = caster->GetAuraEffectsByType(SPELL_AURA_MOD_ABSORB_EFFECTS_TAKEN_PCT);
-                for (AuraEffect const* bonus : absorbBonuses2)
+            if (Unit* shieldOwner = GetBase()->GetUnitOwner())
+            {
+                Unit::AuraEffectList const& absorbTaken = shieldOwner->GetAuraEffectsByType(SPELL_AURA_MOD_ABSORB_EFFECTS_TAKEN_PCT);
+                for (AuraEffect const* bonus : absorbTaken)
                     AddPct(amount, bonus->GetAmount());
             }
             break;
@@ -4268,6 +4271,15 @@ void AuraEffect::HandleModRatingFromStat(AuraApplication const* aurApp, uint8 mo
     for (uint32 rating = 0; rating < MAX_COMBAT_RATING; ++rating)
         if (GetMiscValue() & (1 << rating))
             target->ToPlayer()->UpdateRating(CombatRating(rating));
+}
+
+void AuraEffect::HandleModCombatRatingFromCombatRating(AuraApplication const* aurApp, uint8 mode, bool /*apply*/) const
+{
+    if (!(mode & (AURA_EFFECT_HANDLE_CHANGE_AMOUNT_MASK | AURA_EFFECT_HANDLE_STAT)))
+        return;
+
+    if (Player* player = aurApp->GetTarget()->ToPlayer())
+        player->UpdateAllRatings();
 }
 
 void AuraEffect::HandleModRatingPct(AuraApplication const* aurApp, uint8 mode, bool /*apply*/) const

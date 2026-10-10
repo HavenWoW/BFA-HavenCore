@@ -25,10 +25,13 @@
 #include "Log.h"
 #include "ObjectDefines.h"
 #include "Regex.h"
+#include "Random.h"
 #include "Timer.h"
 #include "Util.h"
+#include "World.h"
 #include <boost/filesystem/directory.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <numeric>
@@ -173,6 +176,7 @@ DB2Storage<ItemArmorShieldEntry>                sItemArmorShieldStore("ItemArmor
 DB2Storage<ItemArmorTotalEntry>                 sItemArmorTotalStore("ItemArmorTotal.db2", ItemArmorTotalLoadInfo::Instance());
 DB2Storage<ItemBagFamilyEntry>                  sItemBagFamilyStore("ItemBagFamily.db2", ItemBagFamilyLoadInfo::Instance());
 DB2Storage<ItemBonusEntry>                      sItemBonusStore("ItemBonus.db2", ItemBonusLoadInfo::Instance());
+DB2Storage<ItemBonusListGroupEntryEntry>        sItemBonusListGroupEntryStore("ItemBonusListGroupEntry.db2", ItemBonusListGroupEntryLoadInfo::Instance());
 DB2Storage<ItemBonusListLevelDeltaEntry>        sItemBonusListLevelDeltaStore("ItemBonusListLevelDelta.db2", ItemBonusListLevelDeltaLoadInfo::Instance());
 DB2Storage<ItemBonusTreeNodeEntry>              sItemBonusTreeNodeStore("ItemBonusTreeNode.db2", ItemBonusTreeNodeLoadInfo::Instance());
 DB2Storage<ItemChildEquipmentEntry>             sItemChildEquipmentStore("ItemChildEquipment.db2", ItemChildEquipmentLoadInfo::Instance());
@@ -314,6 +318,7 @@ DB2Storage<TransmogSetGroupEntry>               sTransmogSetGroupStore("Transmog
 DB2Storage<TransmogSetItemEntry>                sTransmogSetItemStore("TransmogSetItem.db2", TransmogSetItemLoadInfo::Instance());
 DB2Storage<TransportAnimationEntry>             sTransportAnimationStore("TransportAnimation.db2", TransportAnimationLoadInfo::Instance());
 DB2Storage<TransportRotationEntry>              sTransportRotationStore("TransportRotation.db2", TransportRotationLoadInfo::Instance());
+DB2Storage<UiItemInteractionEntry>              sUiItemInteractionStore("UiItemInteraction.db2", UiItemInteractionLoadInfo::Instance());
 DB2Storage<UiMapEntry>                          sUiMapStore("UiMap.db2", UiMapLoadInfo::Instance());
 DB2Storage<UiMapAssignmentEntry>                sUiMapAssignmentStore("UiMapAssignment.db2", UiMapAssignmentLoadInfo::Instance());
 DB2Storage<UiMapLinkEntry>                      sUiMapLinkStore("UiMapLink.db2", UiMapLinkLoadInfo::Instance());
@@ -439,6 +444,7 @@ namespace
     GlyphBindableSpellsContainer _glyphBindableSpells;
     GlyphRequiredSpecsContainer _glyphRequiredSpecs;
     ItemBonusListContainer _itemBonusLists;
+    std::unordered_map<uint32, std::vector<ItemBonusListGroupEntryEntry const*>> _itemBonusListGroups;
     ItemBonusListLevelDeltaContainer _itemLevelDeltaToBonusListContainer;
     ItemBonusTreeContainer _itemBonusTrees;
     ItemChildEquipmentContainer _itemChildEquipment;
@@ -746,6 +752,7 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
     LOAD_DB2(sItemArmorTotalStore);
     LOAD_DB2(sItemBagFamilyStore);
     LOAD_DB2(sItemBonusStore);
+    LOAD_DB2(sItemBonusListGroupEntryStore);
     LOAD_DB2(sItemBonusListLevelDeltaStore);
     LOAD_DB2(sItemBonusTreeNodeStore);
     LOAD_DB2(sItemChildEquipmentStore);
@@ -887,6 +894,7 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
     LOAD_DB2(sTransmogSetItemStore);
     LOAD_DB2(sTransportAnimationStore);
     LOAD_DB2(sTransportRotationStore);
+    LOAD_DB2(sUiItemInteractionStore);
     LOAD_DB2(sUiMapStore);
     LOAD_DB2(sUiMapAssignmentStore);
     LOAD_DB2(sUiMapLinkStore);
@@ -900,6 +908,16 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
     LOAD_DB2(sWorldStateExpressionStore);
 
 #undef LOAD_DB2
+
+    if (UiItemInteractionEntry const* purify = sUiItemInteractionStore.LookupEntry(UI_ITEM_INTERACTION_TITANIC_PURIFICATION))
+    {
+        // Retail 8.3.7 row 3 is Cost=5 / CurrencyTypeID=1719. Handler reads the row, never substitutes these values.
+        if (purify->Cost != 5 || purify->CurrencyTypeID != int32(CURRENCY_CORRUPTED_MEMENTOS))
+            TC_LOG_ERROR("server.loading", "UiItemInteraction.db2 id %u Cost=%d CurrencyTypeID=%d (expected Cost=5 CurrencyTypeID=%u)",
+                UI_ITEM_INTERACTION_TITANIC_PURIFICATION, purify->Cost, purify->CurrencyTypeID, uint32(CURRENCY_CORRUPTED_MEMENTOS));
+    }
+    else
+        TC_LOG_ERROR("server.loading", "UiItemInteraction.db2 is missing id %u (Titanic Purification)", UI_ITEM_INTERACTION_TITANIC_PURIFICATION);
 
     for (AreaGroupMemberEntry const* areaGroupMember : sAreaGroupMemberStore)
         _areaGroupMembers[areaGroupMember->AreaGroupID].push_back(areaGroupMember->AreaID);
@@ -1085,6 +1103,9 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
 
     for (ItemBonusEntry const* bonus : sItemBonusStore)
         _itemBonusLists[bonus->ParentItemBonusListID].push_back(bonus);
+
+    for (ItemBonusListGroupEntryEntry const* entry : sItemBonusListGroupEntryStore)
+        _itemBonusListGroups[uint32(entry->ItemBonusListGroupID)].push_back(entry);
 
     for (ItemBonusListLevelDeltaEntry const* itemBonusListLevelDelta : sItemBonusListLevelDeltaStore)
         _itemLevelDeltaToBonusListContainer[itemBonusListLevelDelta->ItemLevelDelta] = itemBonusListLevelDelta->ID;
@@ -2191,6 +2212,15 @@ DB2Manager::ItemBonusList const* DB2Manager::GetItemBonusList(uint32 bonusListId
     return nullptr;
 }
 
+std::vector<ItemBonusListGroupEntryEntry const*> const* DB2Manager::GetItemBonusListGroupEntries(uint32 groupId) const
+{
+    auto itr = _itemBonusListGroups.find(groupId);
+    if (itr != _itemBonusListGroups.end())
+        return &itr->second;
+
+    return nullptr;
+}
+
 uint32 DB2Manager::GetItemBonusListForItemLevelDelta(int16 delta) const
 {
     auto itr = _itemLevelDeltaToBonusListContainer.find(delta);
@@ -2302,6 +2332,279 @@ std::set<uint32> DB2Manager::GetDefaultItemBonusTree(uint32 itemId, ItemContext 
     }
 
     return bonusListIDs;
+}
+
+
+namespace
+{
+constexpr uint32 ITEM_BONUS_LIST_GROUP_CORRUPTION = 158;
+
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_STRIKETHROUGH_1 = 6437;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_STRIKETHROUGH_2 = 6438;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_STRIKETHROUGH_3 = 6439;
+
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_POINTS_10 = 6455;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_POINTS_15 = 6462;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_POINTS_20 = 6470;
+
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_MASTERFUL_1 = 6471;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_MASTERFUL_2 = 6472;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_MASTERFUL_3 = 6473;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_EXPEDIENT_1 = 6474;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_EXPEDIENT_2 = 6475;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_EXPEDIENT_3 = 6476;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_VERSATILE_1 = 6477;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_VERSATILE_2 = 6478;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_VERSATILE_3 = 6479;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SEVERE_1 = 6480;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SEVERE_2 = 6481;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SEVERE_3 = 6482;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_AVOIDANT_1 = 6483;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_AVOIDANT_2 = 6484;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_AVOIDANT_3 = 6485;
+// 6486 is the Glimpse proc-driver list (ItemEffect 315574). 6546 already bundles +15 corruption.
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_GLIMPSE_PROC = 6486;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_FIRST = 6487;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_LAST = 6492;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_1 = 6493;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_2 = 6494;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_3 = 6495;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_TAIL_FIRST = 6496;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_TAIL_LAST = 6498;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_EMPTY = 6516;
+
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_TWILIGHT_3 = 6539;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_RITUAL_2 = 6541;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_APPENDAGE_2 = 6544;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_TRUTH_2 = 6548;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_ECHOING_2 = 6550;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_STARS_2 = 6553;
+
+constexpr uint32 ITEM_BONUS_LIST_NYALOTHA_DEVOUR_VITALITY = 6567;
+constexpr uint32 ITEM_BONUS_LIST_NYALOTHA_WHISPERED_TRUTHS = 6568;
+constexpr uint32 ITEM_BONUS_LIST_NYALOTHA_LASH_OF_THE_VOID = 6569;
+constexpr uint32 ITEM_BONUS_LIST_NYALOTHA_FLASH_OF_INSIGHT = 6570;
+constexpr uint32 ITEM_BONUS_LIST_NYALOTHA_SEARING_FLAMES = 6571;
+constexpr uint32 ITEM_BONUS_LIST_NYALOTHA_OBSIDIAN_SKIN = 6572;
+
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_17 = 6612;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_28 = 6613;
+constexpr uint32 ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_45 = 6614;
+
+bool IsExcludedCorruptionCatalogList(uint32 listId)
+{
+    if (listId == ITEM_BONUS_LIST_CORRUPTION_EMPTY)
+        return true;
+    if (listId >= ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_FIRST
+        && listId <= ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_LAST)
+        return true;
+    if (listId >= ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_TAIL_FIRST
+        && listId <= ITEM_BONUS_LIST_CORRUPTION_UNMATCHED_TAIL_LAST)
+        return true;
+    return false;
+}
+
+int32 GetPassiveCorruptionCompanionList(uint32 effectListId)
+{
+    switch (effectListId)
+    {
+        case ITEM_BONUS_LIST_CORRUPTION_STRIKETHROUGH_1:
+        case ITEM_BONUS_LIST_CORRUPTION_MASTERFUL_1:
+        case ITEM_BONUS_LIST_CORRUPTION_EXPEDIENT_1:
+        case ITEM_BONUS_LIST_CORRUPTION_VERSATILE_1:
+        case ITEM_BONUS_LIST_CORRUPTION_SEVERE_1:
+        case ITEM_BONUS_LIST_CORRUPTION_AVOIDANT_1:
+            return int32(ITEM_BONUS_LIST_CORRUPTION_POINTS_10);
+        case ITEM_BONUS_LIST_CORRUPTION_STRIKETHROUGH_2:
+        case ITEM_BONUS_LIST_CORRUPTION_MASTERFUL_2:
+        case ITEM_BONUS_LIST_CORRUPTION_EXPEDIENT_2:
+        case ITEM_BONUS_LIST_CORRUPTION_VERSATILE_2:
+        case ITEM_BONUS_LIST_CORRUPTION_SEVERE_2:
+        case ITEM_BONUS_LIST_CORRUPTION_AVOIDANT_2:
+        case ITEM_BONUS_LIST_CORRUPTION_GLIMPSE_PROC:
+            return int32(ITEM_BONUS_LIST_CORRUPTION_POINTS_15);
+        case ITEM_BONUS_LIST_CORRUPTION_STRIKETHROUGH_3:
+        case ITEM_BONUS_LIST_CORRUPTION_MASTERFUL_3:
+        case ITEM_BONUS_LIST_CORRUPTION_EXPEDIENT_3:
+        case ITEM_BONUS_LIST_CORRUPTION_VERSATILE_3:
+        case ITEM_BONUS_LIST_CORRUPTION_SEVERE_3:
+        case ITEM_BONUS_LIST_CORRUPTION_AVOIDANT_3:
+            return int32(ITEM_BONUS_LIST_CORRUPTION_POINTS_20);
+        case ITEM_BONUS_LIST_CORRUPTION_SIPHONER_1:
+            return int32(ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_17);
+        case ITEM_BONUS_LIST_CORRUPTION_SIPHONER_2:
+            return int32(ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_28);
+        case ITEM_BONUS_LIST_CORRUPTION_SIPHONER_3:
+            return int32(ITEM_BONUS_LIST_CORRUPTION_SIPHONER_POINTS_45);
+        default:
+            return 0;
+    }
+}
+
+bool ItemAlreadyHasBonus(std::vector<int32> const& bonusListIDs, uint32 listId)
+{
+    return std::find(bonusListIDs.begin(), bonusListIDs.end(), int32(listId)) != bonusListIDs.end();
+}
+
+bool ItemAlreadyHasCorruptionEffect(std::vector<int32> const& bonusListIDs)
+{
+    for (int32 listId : bonusListIDs)
+    {
+        if (listId <= 0)
+            continue;
+        if (sDB2Manager.BonusListIsCorruption(uint32(listId)))
+            return true;
+    }
+
+    return false;
+}
+}
+
+uint32 DB2Manager::GetNyAlothaFixedCorruptionBonus(uint32 itemId)
+{
+    switch (itemId)
+    {
+        case 172191: return ITEM_BONUS_LIST_NYALOTHA_DEVOUR_VITALITY;
+        case 172193: return ITEM_BONUS_LIST_NYALOTHA_WHISPERED_TRUTHS;
+        case 172197: return ITEM_BONUS_LIST_NYALOTHA_LASH_OF_THE_VOID;
+        case 172198: return ITEM_BONUS_LIST_NYALOTHA_FLASH_OF_INSIGHT;
+        case 172199: return ITEM_BONUS_LIST_NYALOTHA_SEARING_FLAMES;
+        case 172200: return ITEM_BONUS_LIST_NYALOTHA_OBSIDIAN_SKIN;
+        case 172187: return ITEM_BONUS_LIST_CORRUPTION_TWILIGHT_3;
+        case 172189: return ITEM_BONUS_LIST_CORRUPTION_TRUTH_2;
+        case 174106: return ITEM_BONUS_LIST_CORRUPTION_ECHOING_2;
+        case 172227: return ITEM_BONUS_LIST_CORRUPTION_APPENDAGE_2;
+        case 174108: return ITEM_BONUS_LIST_CORRUPTION_STARS_2;
+        case 172196: return ITEM_BONUS_LIST_CORRUPTION_RITUAL_2;
+        default:     return 0;
+    }
+}
+
+bool DB2Manager::BonusListIsCorruption(uint32 listId) const
+{
+    if (!listId)
+        return false;
+
+    ItemBonusList const* bonuses = GetItemBonusList(listId);
+    if (!bonuses)
+        return false;
+
+    for (ItemBonusEntry const* bonus : *bonuses)
+    {
+        if (bonus->Type == ITEM_BONUS_STAT && bonus->Value[0] == ITEM_MOD_CORRUPTION)
+            return true;
+        if (bonus->Type == ITEM_BONUS_ITEM_EFFECT_ID)
+            if (auto const* group = GetItemBonusListGroupEntries(ITEM_BONUS_LIST_GROUP_CORRUPTION))
+                for (ItemBonusListGroupEntryEntry const* entry : *group)
+                    if (entry->ItemBonusListID == int32(listId))
+                        return true;
+    }
+
+    return false;
+}
+
+bool DB2Manager::IsNyAlothaUniqueWeaponBonus(uint32 listId) const
+{
+    return listId >= ITEM_BONUS_LIST_NYALOTHA_DEVOUR_VITALITY
+        && listId <= ITEM_BONUS_LIST_NYALOTHA_OBSIDIAN_SKIN;
+}
+
+void DB2Manager::CollectBonusListIdsFromTree(uint32 bonusTreeId, std::vector<int32>& out) const
+{
+    VisitItemBonusTree(bonusTreeId, true, [&out](ItemBonusTreeNodeEntry const* node)
+    {
+        if (!node->ChildItemBonusListID)
+            return;
+        // Tree 2821's only child list is the empty placeholder; effect 223 must not write it onto gear.
+        if (uint32(node->ChildItemBonusListID) == ITEM_BONUS_LIST_CORRUPTION_EMPTY)
+            return;
+        out.push_back(int32(node->ChildItemBonusListID));
+    });
+}
+
+void DB2Manager::AppendCorruptionLootBonuses(uint32 itemId, ItemContext /*context*/, std::vector<int32>& bonusListIDs) const
+{
+    if (uint32 fixed = GetNyAlothaFixedCorruptionBonus(itemId))
+    {
+        if (!ItemAlreadyHasBonus(bonusListIDs, fixed))
+            bonusListIDs.push_back(int32(fixed));
+        return;
+    }
+
+    ItemSparseEntry const* sparse = sItemSparseStore.LookupEntry(itemId);
+    ItemEntry const* item = sItemStore.LookupEntry(itemId);
+    if (!sparse || !item || sparse->ExpansionID != EXPANSION_BATTLE_FOR_AZEROTH)
+        return;
+    if (item->ClassID != ITEM_CLASS_ARMOR && item->ClassID != ITEM_CLASS_WEAPON)
+        return;
+    switch (sparse->InventoryType)
+    {
+        case INVTYPE_HEAD:
+        case INVTYPE_SHOULDERS:
+        case INVTYPE_CHEST:
+        case INVTYPE_WAIST:
+        case INVTYPE_LEGS:
+        case INVTYPE_FEET:
+        case INVTYPE_WRISTS:
+        case INVTYPE_HANDS:
+        case INVTYPE_FINGER:
+        case INVTYPE_CLOAK:
+        case INVTYPE_ROBE:
+        case INVTYPE_WEAPON:
+        case INVTYPE_2HWEAPON:
+        case INVTYPE_WEAPONMAINHAND:
+        case INVTYPE_WEAPONOFFHAND:
+        case INVTYPE_RANGED:
+        case INVTYPE_RANGEDRIGHT:
+        case INVTYPE_SHIELD:
+        case INVTYPE_HOLDABLE:
+            break;
+        default:
+            return;
+    }
+    // IsAzeriteItem is Heart of Azeroth only; empowered armor is AzeriteEmpoweredItem.db2.
+    if (GetAzeriteEmpoweredItem(itemId) || IsAzeriteItem(itemId))
+        return;
+    if (sparse->InventoryType == INVTYPE_TRINKET)
+        return;
+
+    if (ItemAlreadyHasCorruptionEffect(bonusListIDs))
+        return;
+
+    // Source eligibility and retail probabilities are not verified; random rolls are opt-in.
+    if (!roll_chance_f(sWorld->getRate(RATE_CORRUPTION_DROP) * 100.0f))
+        return;
+
+    std::vector<ItemBonusListGroupEntryEntry const*> const* entries = GetItemBonusListGroupEntries(ITEM_BONUS_LIST_GROUP_CORRUPTION);
+    if (!entries || entries->empty())
+    {
+        TC_LOG_ERROR("entities.item", "AppendCorruptionLootBonuses: item %u group 158 missing", itemId);
+        return;
+    }
+
+    std::vector<int32> pool;
+    pool.reserve(entries->size());
+    for (ItemBonusListGroupEntryEntry const* e : *entries)
+    {
+        if (e->ItemExtendedCostID != 0)
+            continue;
+        uint32 listId = uint32(e->ItemBonusListID);
+        if (IsNyAlothaUniqueWeaponBonus(listId))
+            continue;
+        if (IsExcludedCorruptionCatalogList(listId))
+            continue;
+        pool.push_back(int32(listId));
+    }
+    if (pool.empty())
+    {
+        TC_LOG_ERROR("entities.item", "AppendCorruptionLootBonuses: item %u group 158 pool empty", itemId);
+        return;
+    }
+
+    int32 picked = pool[urand(0, uint32(pool.size() - 1))];
+    bonusListIDs.push_back(picked);
+    if (int32 corList = GetPassiveCorruptionCompanionList(uint32(picked)))
+        bonusListIDs.push_back(corList);
 }
 
 void LoadAzeriteEmpoweredItemUnlockMappings(std::unordered_map<int32, std::vector<AzeriteUnlockMappingEntry const*>> const& azeriteUnlockMappingsBySet, uint32 itemId)

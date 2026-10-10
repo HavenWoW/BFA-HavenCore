@@ -5480,6 +5480,30 @@ void Player::ApplyRatingMod(CombatRating combatRating, int32 value, bool apply)
     UpdateRating(combatRating);
 }
 
+static void DecodeCombatRatingFromCombatRating(AuraEffect const* aurEff, uint32& destMask, uint32& srcMask)
+{
+    uint32 const hasteMask = (1u << CR_HASTE_MELEE) | (1u << CR_HASTE_RANGED) | (1u << CR_HASTE_SPELL);
+    uint32 const avoidMask = (1u << CR_AVOIDANCE);
+    uint32 const mv = uint32(aurEff->GetMiscValue());
+    uint32 const mvb = uint32(aurEff->GetMiscValueB());
+
+    if ((mv & hasteMask) && !(mv & avoidMask))
+    {
+        srcMask = mv;
+        destMask = (mvb & avoidMask) ? mvb : (mvb > 31 ? mvb : avoidMask);
+        return;
+    }
+    if (mv & avoidMask)
+    {
+        destMask = mv;
+        srcMask = mvb ? mvb : hasteMask;
+        return;
+    }
+
+    destMask = mv;
+    srcMask = mvb;
+}
+
 void Player::UpdateRating(CombatRating cr)
 {
     int32 amount = m_baseRatingValue[cr];
@@ -5489,6 +5513,22 @@ void Player::UpdateRating(CombatRating cr)
     for (AuraEffect const* aurEff : modRatingFromStat)
         if (aurEff->GetMiscValue() & (1 << cr))
             amount += int32(CalculatePct(GetStat(Stats(aurEff->GetMiscValueB())), aurEff->GetAmount()));
+
+    AuraEffectList const& modRatingFromRating = GetAuraEffectsByType(SPELL_AURA_MOD_COMBAT_RATING_FROM_COMBAT_RATING);
+    for (AuraEffect const* aurEff : modRatingFromRating)
+    {
+        uint32 destMask = 0;
+        uint32 srcMask = 0;
+        DecodeCombatRatingFromCombatRating(aurEff, destMask, srcMask);
+        if (!(destMask & (1u << cr)))
+            continue;
+
+        int32 source = 0;
+        for (uint32 src = 0; src < MAX_COMBAT_RATING; ++src)
+            if (srcMask & (1u << src))
+                source = std::max(source, int32(m_baseRatingValue[src]));
+        amount += int32(CalculatePct(source, aurEff->GetAmount()));
+    }
 
     AuraEffectList const& modRatingPct = GetAuraEffectsByType(SPELL_AURA_MOD_RATING_PCT);
     for (AuraEffect const* aurEff : modRatingPct)
@@ -5584,6 +5624,8 @@ void Player::UpdateRating(CombatRating cr)
             break;
         }
         case CR_AVOIDANCE:
+            UpdateAvoidancePercentage();
+            break;
         case CR_STURDINESS:
         case CR_UNUSED_7:
             break;
@@ -5612,6 +5654,30 @@ void Player::UpdateRating(CombatRating cr)
         case CR_CLEAVE:
         case CR_UNUSED_12:
             break;
+    }
+
+    // Haste (and other source ratings) must rebuild dest ratings such as Avoidance.
+    static thread_local bool updatingFromRating = false;
+    if (!updatingFromRating)
+    {
+        uint32 destMask = 0;
+        AuraEffectList const& fromRating = GetAuraEffectsByType(SPELL_AURA_MOD_COMBAT_RATING_FROM_COMBAT_RATING);
+        for (AuraEffect const* aurEff : fromRating)
+        {
+            uint32 dest = 0;
+            uint32 src = 0;
+            DecodeCombatRatingFromCombatRating(aurEff, dest, src);
+            if (src & (1u << cr))
+                destMask |= dest;
+        }
+        if (destMask)
+        {
+            updatingFromRating = true;
+            for (uint32 rating = 0; rating < MAX_COMBAT_RATING; ++rating)
+                if ((destMask & (1u << rating)) && CombatRating(rating) != cr)
+                    UpdateRating(CombatRating(rating));
+            updatingFromRating = false;
+        }
     }
 }
 
@@ -8446,9 +8512,11 @@ void Player::ApplyItemEquipSpell(Item* item, bool apply, bool formChange /*= fal
     if (!proto)
         return;
 
-    for (uint8 i = 0; i < proto->Effects.size(); ++i)
+    // Bonus type 23 (ITEM_BONUS_ITEM_EFFECT_ID) lives on the instance, not the template.
+    for (ItemEffectEntry const* effectData : item->GetEffects())
     {
-        ItemEffectEntry const* effectData = proto->Effects[i];
+        if (!effectData)
+            continue;
 
         // wrong triggering type
         if (apply && effectData->TriggerType != ITEM_SPELLTRIGGER_ON_EQUIP)
@@ -8787,9 +8855,10 @@ void Player::CastItemCombatSpell(DamageInfo const& damageInfo, Item* item, ItemT
     bool canTrigger = (damageInfo.GetHitMask() & (PROC_HIT_NORMAL | PROC_HIT_CRITICAL | PROC_HIT_ABSORB)) != 0;
     if (canTrigger)
     {
-        for (uint8 i = 0; i < proto->Effects.size(); ++i)
+        for (ItemEffectEntry const* effectData : item->GetEffects())
         {
-            ItemEffectEntry const* effectData = proto->Effects[i];
+            if (!effectData)
+                continue;
 
             // wrong triggering type
             if (effectData->TriggerType != ITEM_SPELLTRIGGER_CHANCE_ON_HIT)
@@ -25644,9 +25713,10 @@ void Player::ApplyEquipCooldown(Item* pItem)
         return;
 
     std::chrono::steady_clock::time_point now = GameTime::GetGameTimeSteadyPoint();
-    for (uint8 i = 0; i < proto->Effects.size(); ++i)
+    for (ItemEffectEntry const* effectData : pItem->GetEffects())
     {
-        ItemEffectEntry const* effectData = proto->Effects[i];
+        if (!effectData)
+            continue;
 
         // apply proc cooldown to equip auras if we have any
         if (effectData->TriggerType == ITEM_SPELLTRIGGER_ON_EQUIP)

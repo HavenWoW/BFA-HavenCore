@@ -263,11 +263,13 @@ class InteractionData
             SourceGuid.Clear();
             TrainerId = 0;
             PlayerChoiceId = 0;
+            UiItemInteractionId = 0;
         }
 
         ObjectGuid SourceGuid;
         uint32 TrainerId;
         uint32 PlayerChoiceId;
+        uint32 UiItemInteractionId; // set only by SendUiItemInteractionNpc; CMSG_CLOSE_INTERACTION clears it via Reset()
 };
 
 class TC_GAME_API PlayerMenu

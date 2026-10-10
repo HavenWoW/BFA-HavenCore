@@ -20,6 +20,7 @@ void AddSC_custom_npcs();
 void AddSC_custom_player_script();
 void AddSC_XpWeekend();
 void AddSC_solocraft();
+void AddSC_npc_mother_chamber_of_heart();
 
 // ADM declaration begin
 // ADM declaration end
@@ -32,6 +33,7 @@ void AddCustomScripts()
     AddSC_custom_player_script();
 	AddSC_XpWeekend();
     AddSC_solocraft();
+    AddSC_npc_mother_chamber_of_heart();
 
     // ADM call begin
     // ADM call end

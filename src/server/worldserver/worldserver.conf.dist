@@ -2278,6 +2278,14 @@ Rate.Drop.Item.Referenced       = 1
 Rate.Drop.Money                 = 1
 
 #
+#    Rate.CorruptionDrop
+#        Experimental chance that filtered BFA armor or weapons receive corruption on loot.
+#        Retail source eligibility and probabilities are unverified. Disabled by default.
+#        Value is a probability in [0, 1] (0.25 = 25 percent). Set to 1.0 to always roll.
+#        Default: 0
+Rate.CorruptionDrop = 0
+
+#
 #    Rate.Drop.Item.ReferencedAmount
 #        Description: Multiplier for referenced loot amount.
 #        Default:     1
@@ -4456,3 +4464,6 @@ Solocraft.Raid40 = 40
 
 #
 ###################################################################################################
+
+# Require Curious Corruption to be rewarded before Titanic Purification.
+Mother.RequireCuriousCorruption = 1

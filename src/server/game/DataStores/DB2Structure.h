@@ -1865,16 +1865,15 @@ struct ItemBonusEntry
     uint8 OrderIndex;
 };
 
-// new item upgrade system
-//struct ItemBonusListGroupEntryEntry
-//{
-//    uint32 ID;
-//    int32 ItemBonusListID;
-//    int32 ItemLevelSelectorID;
-//    int32 OrderIndex;
-//    int32 ItemExtendedCostID;
-//    int32 ItemBonusListGroupID;
-//};
+struct ItemBonusListGroupEntryEntry
+{
+    uint32 ID;
+    int32 ItemBonusListID;
+    int32 ItemLevelSelectorID;
+    int32 SequenceValue;
+    int32 ItemExtendedCostID;
+    int32 ItemBonusListGroupID;
+};
 
 struct ItemBonusListLevelDeltaEntry
 {
@@ -3613,6 +3612,25 @@ struct TransportRotationEntry
     float Rot[4];
     uint32 TimeIndex;
     uint32 GameObjectsID;
+};
+
+struct UiItemInteractionEntry
+{
+    LocalizedString* TutorialText;
+    LocalizedString* TitleText;
+    LocalizedString* Description;
+    LocalizedString* ButtonText;
+    uint32 ID;
+    int32 UiTextureKitID;
+    int32 OpenSoundKitID;
+    int32 CloseSoundKitID;
+    int32 Cost;
+    int8 ItemInteractionFrameType;
+    int32 InteractionSpellID;
+    int32 CurrencyTypeID;
+    int8 Flags; // Meta field 12 is FT_BYTE signed. Plan sample used int32 — that is wrong; sizeof must equal DB2Meta::GetRecordSize()
+    int32 DropInSlotSoundKitID;
+    int32 TakeOutSlotSoundKitID;
 };
 
 struct UiMapEntry
