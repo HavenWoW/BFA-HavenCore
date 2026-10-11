@@ -1530,6 +1530,8 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         void SetQuestSlotCounter(uint16 slot, uint8 counter, uint16 count);
         void SetQuestSlotState(uint16 slot, uint32 state);
         void RemoveQuestSlotState(uint16 slot, uint32 state);
+        void SetQuestSlotObjectiveFlag(uint16 slot, int8 objectiveIndex);
+        void RemoveQuestSlotObjectiveFlag(uint16 slot, int8 objectiveIndex);
         void SetQuestSlotTimer(uint16 slot, uint32 timer);
         void SetQuestCompletedBit(uint32 questBit, bool completed);
 

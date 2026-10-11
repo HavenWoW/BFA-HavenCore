@@ -17739,6 +17739,20 @@ void Player::RemoveQuestSlotState(uint16 slot, uint32 state)
         .ModifyValue(&UF::QuestLog::StateFlags), state);
 }
 
+void Player::SetQuestSlotObjectiveFlag(uint16 slot, int8 objectiveIndex)
+{
+    SetUpdateFieldFlagValue(m_values.ModifyValue(&Player::m_playerData)
+        .ModifyValue(&UF::PlayerData::QuestLog, slot)
+        .ModifyValue(&UF::QuestLog::Field_10), 1 << objectiveIndex);
+}
+
+void Player::RemoveQuestSlotObjectiveFlag(uint16 slot, int8 objectiveIndex)
+{
+    RemoveUpdateFieldFlagValue(m_values.ModifyValue(&Player::m_playerData)
+        .ModifyValue(&UF::PlayerData::QuestLog, slot)
+        .ModifyValue(&UF::QuestLog::Field_10), 1 << objectiveIndex);
+}
+
 void Player::SetQuestSlotTimer(uint16 slot, uint32 timer)
 {
     SetUpdateFieldValue(m_values.ModifyValue(&Player::m_playerData)
@@ -17763,37 +17777,36 @@ void Player::SetQuestCompletedBit(uint32 questBit, bool completed)
 }
 
 void Player::AreaExploredOrEventHappens(uint32 questId)
-{
-    if (questId)
+{   
+    if(!questId){
+        return;
+    }
+
+    uint16 log_slot = FindQuestSlot(questId);
+    if (log_slot < MAX_QUEST_LOG_SIZE)
     {
-        uint16 log_slot = FindQuestSlot(questId);
-        if (log_slot < MAX_QUEST_LOG_SIZE)
+        Quest const* qInfo = sObjectMgr->GetQuestTemplate(questId);
+        if (qInfo && GetQuestStatus(questId) == QUEST_STATUS_INCOMPLETE)
         {
-            Quest const* qInfo = sObjectMgr->GetQuestTemplate(questId);
-            if (qInfo && GetQuestStatus(questId) == QUEST_STATUS_INCOMPLETE)
+            QuestStatusMap::const_iterator itr = m_QuestStatus.find(questId);
+            if (itr == m_QuestStatus.end())
+                return;
+            QuestStatusData& q_status = m_QuestStatus[questId];
+            q_status.Explored = true;
+            m_QuestStatusSave[questId] = QUEST_DEFAULT_SAVE_TYPE;
+            for (QuestObjective const& obj : qInfo->Objectives)
             {
-                QuestStatusMap::const_iterator itr = m_QuestStatus.find(questId);
-                if (itr == m_QuestStatus.end())
-                    return;
-
-                QuestStatusData& q_status = m_QuestStatus[questId];
-                q_status.Explored = true;
-                m_QuestStatusSave[questId] = QUEST_DEFAULT_SAVE_TYPE;
-
-                for (QuestObjective const& obj : qInfo->Objectives)
+                if (obj.Type == QUEST_OBJECTIVE_AREATRIGGER && !IsQuestObjectiveComplete(obj))
                 {
-                    if (obj.Type == QUEST_OBJECTIVE_AREATRIGGER && !IsQuestObjectiveComplete(obj))
-                    {
-                        SetQuestObjectiveData(obj, 1);
-                        SendQuestUpdateAddCreditSimple(obj);
-                        break;
-                    }
+                    SetQuestObjectiveData(obj, 1);
+                    SendQuestUpdateAddCreditSimple(obj);
+                    break;
                 }
             }
         }
-        if (CanCompleteQuest(questId))
-            CompleteQuest(questId);
     }
+    if (CanCompleteQuest(questId))
+        CompleteQuest(questId);
 }
 
 //not used in BfaCored, function for external script library
@@ -18481,9 +18494,9 @@ void Player::SetQuestObjectiveData(QuestObjective const& objective, int32 data)
         if (!objective.IsStoringFlag())
             SetQuestSlotCounter(log_slot, objective.StorageIndex, status.ObjectiveData[objective.StorageIndex]);
         else if (data)
-            SetQuestSlotState(log_slot, 256 << objective.StorageIndex);
+            SetQuestSlotObjectiveFlag(log_slot, objective.StorageIndex);
         else
-            RemoveQuestSlotState(log_slot, 256 << objective.StorageIndex);
+            RemoveQuestSlotObjectiveFlag(log_slot, objective.StorageIndex);
     }
 }
 
