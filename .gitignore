@@ -8,3 +8,5 @@ docs/superpowers/
 TODO.md
 /.cache
 .DS_Store
+/.vs
+/.gitignore
