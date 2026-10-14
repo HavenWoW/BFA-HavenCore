@@ -438,6 +438,7 @@ void PlayerMenu::SendQuestGiverQuestDetails(Quest const* quest, ObjectGuid npcGU
     packet.QuestGiverGUID = npcGUID;
     packet.InformUnit = _session->GetPlayer()->GetDivider();
     packet.QuestID = quest->GetQuestId();
+    packet.QuestStartItemID = quest->GetSrcItemId();
     packet.PortraitGiver = quest->GetQuestGiverPortrait();
     packet.PortraitGiverMount = quest->GetQuestGiverPortraitMount();
     packet.PortraitTurnIn = quest->GetQuestTurnInPortrait();

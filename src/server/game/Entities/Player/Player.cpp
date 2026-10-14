@@ -12877,6 +12877,7 @@ Item* Player::StoreNewItem(ItemPosCountVec const& pos, uint32 itemId, bool updat
         item->SetBonuses(bonusListIDs);
 
         item = StoreItem(pos, item, update);
+        ItemAddedStartQuestCheck(item);
 
         item->SetFixedLevel(getLevel());
         item->SetItemRandomBonusList(randomBonusListId);
@@ -17825,6 +17826,26 @@ void Player::GroupEventHappens(uint32 questId, WorldObject const* pEventObject)
     }
     else
         AreaExploredOrEventHappens(questId);
+}
+
+void Player::ItemAddedStartQuestCheck(Item* item)
+{
+    if (!item)
+        return;
+
+    uint32 questId = item->GetTemplate()->GetStartQuest();
+    if (!questId)
+        return;
+
+    Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+    if (!quest)
+        return;
+
+    if (!CanTakeQuest(quest, false) || !CanAddQuest(quest, false))
+        return;
+
+    AddQuestAndCheckCompletion(quest, item);
+    PlayerTalkClass->SendQuestGiverQuestDetails(quest, item->GetGUID(), true /*autoLaunched*/, true /*displayPopup*/);
 }
 
 void Player::ItemAddedQuestCheck(uint32 entry, uint32 count)
