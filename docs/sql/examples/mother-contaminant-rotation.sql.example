@@ -1,0 +1,84 @@
+-- NON-EXECUTABLE TEMPLATE: every INSERT contains invalid SQL placeholder tokens.
+-- Replace every {{EXISTING_MOTHER_GUID}} with a verified EXISTING entry 152194 spawn.
+-- Replace {{UNUSED_EVENT_1}} through {{UNUSED_EVENT_8}} with eight distinct unused IDs.
+-- Confirm each is valid and absent in BOTH game_event and game_event_npc_vendor.
+-- This template has no session variables and cannot insert zero IDs in non-strict mode.
+-- No spawn coordinates, global event reservations, deletions or schema changes.
+-- Verify reset timezone and all ItemExtendedCost rows before manually adapting this data.
+-- Original anchor dates are retained without asserting regional reset correctness.
+
+INSERT INTO `game_event`
+(`eventEntry`, `start_time`, `end_time`, `occurence`, `length`, `holiday`, `description`, `world_event`, `announce`)
+VALUES
+({{UNUSED_EVENT_1}}, '2020-05-19 00:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 1', 0, 0),
+({{UNUSED_EVENT_2}}, '2020-05-22 12:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 2', 0, 0),
+({{UNUSED_EVENT_3}}, '2020-05-26 00:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 3', 0, 0),
+({{UNUSED_EVENT_4}}, '2020-05-29 12:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 4', 0, 0),
+({{UNUSED_EVENT_5}}, '2020-06-02 00:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 5', 0, 0),
+({{UNUSED_EVENT_6}}, '2020-06-05 12:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 6', 0, 0),
+({{UNUSED_EVENT_7}}, '2020-06-09 00:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 7', 0, 0),
+({{UNUSED_EVENT_8}}, '2020-06-12 12:00:00', '2030-12-31 17:00:00', 40320, 5040, 0, 'MOTHER Contaminants Rotation 8', 0, 0);
+
+INSERT INTO `game_event_npc_vendor`
+(`eventEntry`, `guid`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`, `type`, `BonusListIDs`, `PlayerConditionId`, `IgnoreFiltering`)
+VALUES
+
+({{UNUSED_EVENT_1}}, {{EXISTING_MOTHER_GUID}}, 0, 177981, 0, 0, 6797, 1, '', 0, 0),
+({{UNUSED_EVENT_1}}, {{EXISTING_MOTHER_GUID}}, 1, 177978, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_1}}, {{EXISTING_MOTHER_GUID}}, 2, 177999, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_1}}, {{EXISTING_MOTHER_GUID}}, 3, 177987, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_1}}, {{EXISTING_MOTHER_GUID}}, 4, 178009, 0, 0, 6809, 1, '', 0, 0),
+({{UNUSED_EVENT_1}}, {{EXISTING_MOTHER_GUID}}, 5, 177975, 0, 0, 6801, 1, '', 0, 0),
+
+({{UNUSED_EVENT_2}}, {{EXISTING_MOTHER_GUID}}, 0, 178013, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_2}}, {{EXISTING_MOTHER_GUID}}, 1, 177986, 0, 0, 6796, 1, '', 0, 0),
+({{UNUSED_EVENT_2}}, {{EXISTING_MOTHER_GUID}}, 2, 177996, 0, 0, 6803, 1, '', 0, 0),
+({{UNUSED_EVENT_2}}, {{EXISTING_MOTHER_GUID}}, 3, 177965, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_2}}, {{EXISTING_MOTHER_GUID}}, 4, 177982, 0, 0, 6804, 1, '', 0, 0),
+({{UNUSED_EVENT_2}}, {{EXISTING_MOTHER_GUID}}, 5, 178012, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_2}}, {{EXISTING_MOTHER_GUID}}, 6, 177971, 0, 0, 6797, 1, '', 0, 0),
+
+({{UNUSED_EVENT_3}}, {{EXISTING_MOTHER_GUID}}, 0, 177983, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_3}}, {{EXISTING_MOTHER_GUID}}, 1, 178001, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_3}}, {{EXISTING_MOTHER_GUID}}, 2, 177976, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_3}}, {{EXISTING_MOTHER_GUID}}, 3, 177993, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_3}}, {{EXISTING_MOTHER_GUID}}, 4, 177997, 0, 0, 6806, 1, '', 0, 0),
+({{UNUSED_EVENT_3}}, {{EXISTING_MOTHER_GUID}}, 5, 177991, 0, 0, 6805, 1, '', 0, 0),
+({{UNUSED_EVENT_3}}, {{EXISTING_MOTHER_GUID}}, 6, 177972, 0, 0, 6800, 1, '', 0, 0),
+
+({{UNUSED_EVENT_4}}, {{EXISTING_MOTHER_GUID}}, 0, 177995, 0, 0, 6799, 1, '', 0, 0),
+({{UNUSED_EVENT_4}}, {{EXISTING_MOTHER_GUID}}, 1, 177992, 0, 0, 6796, 1, '', 0, 0),
+({{UNUSED_EVENT_4}}, {{EXISTING_MOTHER_GUID}}, 2, 178005, 0, 0, 6807, 1, '', 0, 0),
+({{UNUSED_EVENT_4}}, {{EXISTING_MOTHER_GUID}}, 3, 177974, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_4}}, {{EXISTING_MOTHER_GUID}}, 4, 178000, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_4}}, {{EXISTING_MOTHER_GUID}}, 5, 177980, 0, 0, 6805, 1, '', 0, 0),
+
+({{UNUSED_EVENT_5}}, {{EXISTING_MOTHER_GUID}}, 0, 178007, 0, 0, 6796, 1, '', 0, 0),
+({{UNUSED_EVENT_5}}, {{EXISTING_MOTHER_GUID}}, 1, 177973, 0, 0, 6796, 1, '', 0, 0),
+({{UNUSED_EVENT_5}}, {{EXISTING_MOTHER_GUID}}, 2, 177968, 0, 0, 6805, 1, '', 0, 0),
+({{UNUSED_EVENT_5}}, {{EXISTING_MOTHER_GUID}}, 3, 177990, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_5}}, {{EXISTING_MOTHER_GUID}}, 4, 177985, 0, 0, 6810, 1, '', 0, 0),
+({{UNUSED_EVENT_5}}, {{EXISTING_MOTHER_GUID}}, 5, 177994, 0, 0, 6801, 1, '', 0, 0),
+
+({{UNUSED_EVENT_6}}, {{EXISTING_MOTHER_GUID}}, 0, 177998, 0, 0, 6796, 1, '', 0, 0),
+({{UNUSED_EVENT_6}}, {{EXISTING_MOTHER_GUID}}, 1, 177989, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_6}}, {{EXISTING_MOTHER_GUID}}, 2, 178014, 0, 0, 6805, 1, '', 0, 0),
+({{UNUSED_EVENT_6}}, {{EXISTING_MOTHER_GUID}}, 3, 178002, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_6}}, {{EXISTING_MOTHER_GUID}}, 4, 178006, 0, 0, 6793, 1, '', 0, 0),
+({{UNUSED_EVENT_6}}, {{EXISTING_MOTHER_GUID}}, 5, 177988, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_6}}, {{EXISTING_MOTHER_GUID}}, 6, 177970, 0, 0, 6795, 1, '', 0, 0),
+
+({{UNUSED_EVENT_7}}, {{EXISTING_MOTHER_GUID}}, 0, 177969, 0, 0, 6802, 1, '', 0, 0),
+({{UNUSED_EVENT_7}}, {{EXISTING_MOTHER_GUID}}, 1, 178010, 0, 0, 6796, 1, '', 0, 0),
+({{UNUSED_EVENT_7}}, {{EXISTING_MOTHER_GUID}}, 2, 177984, 0, 0, 6807, 1, '', 0, 0),
+({{UNUSED_EVENT_7}}, {{EXISTING_MOTHER_GUID}}, 3, 177979, 0, 0, 6801, 1, '', 0, 0),
+({{UNUSED_EVENT_7}}, {{EXISTING_MOTHER_GUID}}, 4, 178015, 0, 0, 6809, 1, '', 0, 0),
+({{UNUSED_EVENT_7}}, {{EXISTING_MOTHER_GUID}}, 5, 177966, 0, 0, 6805, 1, '', 0, 0),
+({{UNUSED_EVENT_7}}, {{EXISTING_MOTHER_GUID}}, 6, 177977, 0, 0, 6798, 1, '', 0, 0),
+
+({{UNUSED_EVENT_8}}, {{EXISTING_MOTHER_GUID}}, 0, 178004, 0, 0, 6802, 1, '', 0, 0),
+({{UNUSED_EVENT_8}}, {{EXISTING_MOTHER_GUID}}, 1, 177955, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_8}}, {{EXISTING_MOTHER_GUID}}, 2, 178008, 0, 0, 6805, 1, '', 0, 0),
+({{UNUSED_EVENT_8}}, {{EXISTING_MOTHER_GUID}}, 3, 178011, 0, 0, 6798, 1, '', 0, 0),
+({{UNUSED_EVENT_8}}, {{EXISTING_MOTHER_GUID}}, 4, 177967, 0, 0, 6808, 1, '', 0, 0),
+({{UNUSED_EVENT_8}}, {{EXISTING_MOTHER_GUID}}, 5, 178003, 0, 0, 6805, 1, '', 0, 0);

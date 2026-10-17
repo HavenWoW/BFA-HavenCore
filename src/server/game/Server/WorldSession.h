@@ -529,6 +529,11 @@ namespace WorldPackets
         class RemoveNewItem;
     }
 
+    namespace ItemInteraction
+    {
+        class PerformItemInteraction;
+    }
+
     namespace LFG
     {
         class DFJoin;
@@ -1171,6 +1176,7 @@ class TC_GAME_API WorldSession
         void SendTrainerListLegacy(ObjectGuid guid, uint32 index);
         void SendListInventory(ObjectGuid guid);
         void SendShowBank(ObjectGuid guid);
+        void SendUiItemInteractionNpc(ObjectGuid const& npcGuid, int32 interactionId);
         bool CanOpenMailBox(ObjectGuid guid);
         void SendShowMailBox(ObjectGuid guid);
         void SendTabardVendorActivate(ObjectGuid guid);
@@ -1844,6 +1850,7 @@ class TC_GAME_API WorldSession
         void HandleSortBankBags(WorldPackets::Item::SortBankBags& sortBankBags);
         void HandleSortReagentBankBags(WorldPackets::Item::SortReagentBankBags& sortReagentBankBags);
         void HandleRemoveNewItem(WorldPackets::Item::RemoveNewItem& removeNewItem);
+        void HandlePerformItemInteraction(WorldPackets::ItemInteraction::PerformItemInteraction& packet);
 
         void HandleCancelTempEnchantmentOpcode(WorldPackets::Item::CancelTempEnchantment& cancelTempEnchantment);
 
