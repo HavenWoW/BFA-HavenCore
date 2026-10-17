@@ -62,7 +62,7 @@ Join our **Discord** to collaborate with other developers and contributors.
 - CMake 3.20+ (Recommended 3.31.5)
 - Boost ≥ 1.74.0 (1.78.0 for Windows)
 - MySQL ≥ 8.0 (Recommended 8.4)
-- OpenSSL 3.x.x
+- OpenSSL ≥ 3.x.x
 - Microsoft Visual Studio 2022 (Version 17+) with Desktop Development with C++ installed (Preview versions are not recommended.)
  
 ## License
