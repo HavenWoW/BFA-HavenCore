@@ -141,6 +141,7 @@ TC_GAME_API extern DB2Storage<ItemArmorQualityEntry>                sItemArmorQu
 TC_GAME_API extern DB2Storage<ItemArmorShieldEntry>                 sItemArmorShieldStore;
 TC_GAME_API extern DB2Storage<ItemArmorTotalEntry>                  sItemArmorTotalStore;
 TC_GAME_API extern DB2Storage<ItemBagFamilyEntry>                   sItemBagFamilyStore;
+TC_GAME_API extern DB2Storage<ItemBonusListGroupEntryEntry>         sItemBonusListGroupEntryStore;
 TC_GAME_API extern DB2Storage<ItemDamageAmmoEntry>                  sItemDamageAmmoStore;
 TC_GAME_API extern DB2Storage<ItemDamageOneHandEntry>               sItemDamageOneHandStore;
 TC_GAME_API extern DB2Storage<ItemDamageOneHandCasterEntry>         sItemDamageOneHandCasterStore;
@@ -243,6 +244,7 @@ TC_GAME_API extern DB2Storage<TransmogSetGroupEntry>                sTransmogSet
 TC_GAME_API extern DB2Storage<TransmogSetItemEntry>                 sTransmogSetItemStore;
 TC_GAME_API extern DB2Storage<TransportAnimationEntry>              sTransportAnimationStore;
 TC_GAME_API extern DB2Storage<TransportRotationEntry>               sTransportRotationStore;
+TC_GAME_API extern DB2Storage<UiItemInteractionEntry>               sUiItemInteractionStore;
 TC_GAME_API extern DB2Storage<UnitPowerBarEntry>                    sUnitPowerBarStore;
 TC_GAME_API extern DB2Storage<VehicleEntry>                         sVehicleStore;
 TC_GAME_API extern DB2Storage<VehicleSeatEntry>                     sVehicleSeatStore;
@@ -347,8 +349,14 @@ public:
     std::vector<uint32> const* GetGlyphRequiredSpecs(uint32 glyphPropertiesId) const;
     static bool HasBattlePetSpeciesFlag(uint16 species, uint16 flag);
     ItemBonusList const* GetItemBonusList(uint32 bonusListId) const;
+    std::vector<ItemBonusListGroupEntryEntry const*> const* GetItemBonusListGroupEntries(uint32 groupId) const;
     uint32 GetItemBonusListForItemLevelDelta(int16 delta) const;
     std::set<uint32> GetDefaultItemBonusTree(uint32 itemId, ItemContext itemContext) const;
+    void CollectBonusListIdsFromTree(uint32 bonusTreeId, std::vector<int32>& out) const;
+    bool BonusListIsCorruption(uint32 listId) const;
+    bool IsNyAlothaUniqueWeaponBonus(uint32 listId) const;
+    void AppendCorruptionLootBonuses(uint32 itemId, ItemContext context, std::vector<int32>& bonusListIDs) const;
+    static uint32 GetNyAlothaFixedCorruptionBonus(uint32 itemId);
     bool HasItemContext(uint32 itemId) const;
     bool HasItemContext(uint32 itemId, ItemContext itemContext) const;
     std::vector<int32> GetItemBonusTreeVector(uint32 itemId, ItemContext itemContext) const;

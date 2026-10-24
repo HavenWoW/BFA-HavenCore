@@ -301,6 +301,7 @@ class TC_GAME_API AuraEffect
         //   combat rating
         void HandleModRating(AuraApplication const* aurApp, uint8 mode, bool apply) const;
         void HandleModRatingFromStat(AuraApplication const* aurApp, uint8 mode, bool apply) const;
+        void HandleModCombatRatingFromCombatRating(AuraApplication const* aurApp, uint8 mode, bool apply) const;
         void HandleModRatingPct(AuraApplication const* aurApp, uint8 mode, bool apply) const;
         void HandleEnableExtraTalent(AuraApplication const* aurApp, uint8 mode, bool apply) const;
         //   attack power
