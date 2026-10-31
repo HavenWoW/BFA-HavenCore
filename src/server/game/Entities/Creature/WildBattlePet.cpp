@@ -289,10 +289,6 @@ void WildBattlePetMgr::EnableWildBattle(Creature* creature)
 
     // Select level
     battlePetInstance->Level = std::max(urand(minlevel, maxlevel), static_cast<uint32>(1));
-    if (zoneId == ZONE_DUROTAR)
-        TC_LOG_INFO("server.loading", "WildBattlePet Durotar: entry %u pool %u-%u area %u-%u selected %u", creature->GetEntry(), poolMinLevel, poolMaxLevel, areaMinLevel, areaMaxLevel, battlePetInstance->Level);
-    if (!poolMinLevel && !poolMaxLevel && !areaMinLevel && !areaMaxLevel)
-        TC_LOG_INFO("server.loading", "WildBattlePet: no level range for entry %u in zone %u (map %u), using template %u-%u", creature->GetEntry(), zoneId, creature->GetMapId(), temp->minlevel, temp->maxlevel);
 
     // Select breed
     battlePetInstance->Breed = sBattlePetDataStore->GetRandomBreedID(temp->BreedIDs);
