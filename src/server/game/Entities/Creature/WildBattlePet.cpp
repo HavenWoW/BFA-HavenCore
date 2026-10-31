@@ -40,6 +40,8 @@ void WildBattlePetZonePools::LoadPoolTemplate(Field* fields)
     poolTemplate.MinLevel = fields[5].GetUInt32();
     poolTemplate.MaxLevel = fields[6].GetUInt32();
     poolTemplate.CreatureEntry = fields[7].GetUInt32();
+
+    m_BattlePetLevels[poolTemplate.BattlePetEntry] = { uint8(poolTemplate.MinLevel), uint8(poolTemplate.MaxLevel) };
 }
 
 WildBattlePetMgr* WildBattlePetMgr::Instance()
@@ -236,16 +238,61 @@ void WildBattlePetMgr::EnableWildBattle(Creature* creature)
 
     uint8 minlevel = temp->minlevel;
     uint8 maxlevel = temp->maxlevel;
-    if (AreaTableEntry const* areaInfo = sAreaTableStore.LookupEntry(creature->GetZoneId()))
+    uint32 zoneId = creature->GetZoneId();
+    uint32 areaId = creature->GetAreaId();
+    if (!zoneId)
     {
-        if (minlevel < areaInfo->WildBattlePetLevelMin)
-            minlevel = areaInfo->WildBattlePetLevelMin;
-        if (maxlevel < areaInfo->WildBattlePetLevelMax)
-            maxlevel = areaInfo->WildBattlePetLevelMax;
+        creature->GetMap()->GetZoneAndAreaId(creature->GetPhaseShift(), zoneId, areaId, creature->GetPositionX(), creature->GetPositionY(), creature->GetPositionZ());
+        if (!zoneId)
+            if (CreatureData const* data = creature->GetCreatureData())
+                zoneId = data->zoneId;
     }
+
+    uint8 poolMinLevel = 0;
+    uint8 poolMaxLevel = 0;
+    if (creature->GetMapId() < m_PoolsByMap.size())
+    {
+        auto zoneItr = m_PoolsByMap[creature->GetMapId()].find(zoneId);
+        if (zoneItr != m_PoolsByMap[creature->GetMapId()].end())
+        {
+            auto levelItr = zoneItr->second.m_BattlePetLevels.find(creature->GetEntry());
+            if (levelItr != zoneItr->second.m_BattlePetLevels.end())
+            {
+                poolMinLevel = levelItr->second.first;
+                poolMaxLevel = levelItr->second.second;
+            }
+        }
+    }
+
+    uint8 areaMinLevel = 0;
+    uint8 areaMaxLevel = 0;
+    if (AreaTableEntry const* areaInfo = sAreaTableStore.LookupEntry(zoneId))
+    {
+        areaMinLevel = areaInfo->WildBattlePetLevelMin;
+        areaMaxLevel = areaInfo->WildBattlePetLevelMax;
+    }
+
+    // Prefer the zone pool table: it is the server-side source of the level range shown on the map.
+    if (poolMinLevel || poolMaxLevel)
+    {
+        minlevel = poolMinLevel ? poolMinLevel : 1;
+        maxlevel = poolMaxLevel ? poolMaxLevel : minlevel;
+    }
+    else if (areaMinLevel || areaMaxLevel)
+    {
+        minlevel = areaMinLevel ? areaMinLevel : 1;
+        maxlevel = areaMaxLevel ? areaMaxLevel : minlevel;
+    }
+
+    if (maxlevel < minlevel)
+        maxlevel = minlevel;
 
     // Select level
     battlePetInstance->Level = std::max(urand(minlevel, maxlevel), static_cast<uint32>(1));
+    if (zoneId == ZONE_DUROTAR)
+        TC_LOG_INFO("server.loading", "WildBattlePet Durotar: entry %u pool %u-%u area %u-%u selected %u", creature->GetEntry(), poolMinLevel, poolMaxLevel, areaMinLevel, areaMaxLevel, battlePetInstance->Level);
+    if (!poolMinLevel && !poolMaxLevel && !areaMinLevel && !areaMaxLevel)
+        TC_LOG_INFO("server.loading", "WildBattlePet: no level range for entry %u in zone %u (map %u), using template %u-%u", creature->GetEntry(), zoneId, creature->GetMapId(), temp->minlevel, temp->maxlevel);
 
     // Select breed
     battlePetInstance->Breed = sBattlePetDataStore->GetRandomBreedID(temp->BreedIDs);
@@ -280,6 +327,8 @@ void WildBattlePetMgr::EnableWildBattle(Creature* creature)
     // Set creature flags
     creature->AddNpcFlag(UNIT_NPC_FLAG_WILD_BATTLE_PET);
     creature->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
+    // The client displays the unit level in the world; wild pets must show their battle pet level
+    creature->SetLevel(static_cast<uint8>(battlePetInstance->Level));
     creature->SetWildBattlePetLevel(battlePetInstance->Level);
 }
 
