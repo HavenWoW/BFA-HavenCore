@@ -439,7 +439,6 @@ void PlayerMenu::SendQuestGiverQuestDetails(Quest const* quest, ObjectGuid npcGU
     packet.InformUnit = _session->GetPlayer()->GetDivider();
     packet.QuestID = quest->GetQuestId();
     packet.QuestStartItemID = quest->GetSrcItemId();
-    packet.PortraitGiver = quest->GetQuestGiverPortrait();
     packet.PortraitGiverMount = quest->GetQuestGiverPortraitMount();
     packet.PortraitTurnIn = quest->GetQuestTurnInPortrait();
     packet.QuestSessionBonus = 0; //quest->GetQuestSessionBonus(); // this is only sent while quest session is active
@@ -448,6 +447,9 @@ void PlayerMenu::SendQuestGiverQuestDetails(Quest const* quest, ObjectGuid npcGU
     packet.QuestFlags[0] = quest->GetFlags() & (sWorld->getBoolConfig(CONFIG_QUEST_IGNORE_AUTO_ACCEPT) ? ~QUEST_FLAGS_AUTO_ACCEPT : ~0);
     packet.QuestFlags[1] = quest->GetFlagsEx();
     packet.SuggestedPartyMembers = quest->GetSuggestedPlayers();
+
+    if (npcGUID.IsItem())
+        packet.QuestStartItemID = quest->GetSrcItemId();
 
     // RewardSpell can teach multiple spells in trigger spell effects. But not all effects must be SPELL_EFFECT_LEARN_SPELL. See example spell 33950
     if (quest->GetRewSpell())
