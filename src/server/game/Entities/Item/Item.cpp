@@ -1218,6 +1218,20 @@ bool Item::IsEquipped() const
     return !IsInBag() && m_slot < EQUIPMENT_SLOT_END;
 }
 
+bool Item::IsInInventoryOrEquipment() const
+{
+    uint8 const bag = GetBagSlot();
+    if (bag >= INVENTORY_SLOT_BAG_START && bag < INVENTORY_SLOT_BAG_END)
+        return true;
+    if (bag != INVENTORY_SLOT_BAG_0)
+        return false;
+    if (GetSlot() < EQUIPMENT_SLOT_END)
+        return true;
+    Player const* owner = GetOwner();
+    return owner && GetSlot() >= INVENTORY_SLOT_ITEM_START
+        && uint32(GetSlot()) < uint32(INVENTORY_SLOT_ITEM_START) + owner->GetInventorySlotCount();
+}
+
 bool Item::CanBeTraded(bool mail, bool trade) const
 {
     if (m_lootGenerated)
@@ -2439,6 +2453,19 @@ void Item::SetBonuses(std::vector<int32> bonusListIDs)
 
     SeedSpellCharges(oldEffectCount);
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::ItemAppearanceModID), _bonusData.AppearanceModID);
+}
+
+void Item::RemoveCorruptionBonusLists()
+{
+    std::vector<int32> kept;
+    kept.reserve(m_itemData->BonusListIDs->size());
+    for (int32 id : *m_itemData->BonusListIDs)
+        if (id > 0 && !sDB2Manager.BonusListIsCorruption(uint32(id)))
+            kept.push_back(id);
+
+    // SetBonuses does not Initialize first; stacking onto the old _bonusData would keep stripped effects.
+    _bonusData.Initialize(GetTemplate());
+    SetBonuses(std::move(kept));
 }
 
 void Item::ClearBonuses()

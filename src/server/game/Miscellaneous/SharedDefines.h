@@ -299,9 +299,19 @@ enum PowerColorOverrides
 enum Currencies
 {
     CURRENCY_TITAN_RESIDUUM = 1718,
+    CURRENCY_CORRUPTED_MEMENTOS = 1719,
     CURRENCY_AZERITE = 1553,
     CURRENCY_ECHOES_OF_NYALOTHA = 1803,
 };
+
+// Chamber of Heart MOTHER vendor (not Uldir NPC_MOTHER 135452).
+constexpr uint32 NPC_MOTHER_CHAMBER_OF_HEART = 152194;
+constexpr uint32 UI_ITEM_INTERACTION_TITANIC_PURIFICATION = 3;
+constexpr uint32 QUEST_CURIOUS_CORRUPTION = 58991;
+constexpr uint32 NPC_CREDIT_WRATHION_INSIGHT = 163274;
+constexpr uint32 NPC_CREDIT_MOTHER_INSIGHT = 163275;
+// Legendary cloak is corruption-immune by item id; do not refuse every INVTYPE_CLOAK.
+constexpr uint32 ITEM_ASHJRAKAMAS = 169223;
 
 enum Pathfinder
 {

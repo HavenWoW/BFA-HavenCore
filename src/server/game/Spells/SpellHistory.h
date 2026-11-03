@@ -143,6 +143,7 @@ public:
     void UpdateCharge(SpellCategoryEntry const* chargeCategoryEntry);
     void ReduceChargeCooldown(uint32 chargeCategoryId, uint32 reductionTime);
     void ReduceChargeCooldown(SpellCategoryEntry const* chargeCategoryEntry, uint32 reductionTime);
+    void ScaleChargeRecovery(uint32 chargeCategoryId, int32 pct, bool apply);
     bool ConsumeCharge(uint32 chargeCategoryId);
     void RestoreCharge(uint32 chargeCategoryId);
     void ResetCharges(uint32 chargeCategoryId);
