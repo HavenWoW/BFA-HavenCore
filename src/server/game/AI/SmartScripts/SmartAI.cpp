@@ -49,6 +49,15 @@ SmartAI::SmartAI(Creature* c) : CreatureAI(c)
     mEvadeDisabled = false;
 
     mLastOOCPos = me->GetPosition();
+    mRemtravelCombatLeashMs = 1500;
+    mRemtravelPostEvadeMs = 0;
+    mRemtravelReturnCheckMs = 10000;
+    mRemtravelReturnCheckPos = me->GetPosition();
+    mRemtravelSafeEscortPos = me->GetPosition();
+    mRemtravelCombatStallMs = 12000;
+    mRemtravelCombatStallPos = me->GetPosition();
+    mRemtravelRouteStallMs = 15000;
+    mRemtravelRouteStallPos = me->GetPosition();
 
     mCanAutoAttack = true;
     mCanCombatMove = true;
@@ -77,6 +86,7 @@ SmartAI::SmartAI(Creature* c) : CreatureAI(c)
 
     _gossipReturn = false;
 }
+
 
 bool SmartAI::IsAIControlled() const
 {
@@ -144,6 +154,15 @@ void SmartAI::StartPath(bool run, uint32 path, bool repeat, Unit* invoker)
     {
         AddEscortState(SMART_ESCORT_ESCORTING);
         mCanRepeatPath = repeat;
+        mRemtravelCombatLeashMs = 1500;
+        mRemtravelPostEvadeMs = 0;
+        mRemtravelReturnCheckMs = 10000;
+        mRemtravelReturnCheckPos = me->GetPosition();
+        mRemtravelSafeEscortPos = me->GetPosition();
+        mRemtravelCombatStallMs = 12000;
+        mRemtravelCombatStallPos = me->GetPosition();
+        mRemtravelRouteStallMs = 15000;
+        mRemtravelRouteStallPos = me->GetPosition();
 
         SetRun(run);
 
@@ -294,7 +313,6 @@ void SmartAI::ReturnToLastOOCPos()
 {
     if (!IsAIControlled())
         return;
-
     SetRun(mRun);
     me->GetMotionMaster()->MovePoint(SMART_ESCORT_LAST_OOC_POINT, mLastOOCPos);
 }
@@ -303,6 +321,155 @@ void SmartAI::UpdatePath(const uint32 diff)
 {
     if (!HasEscortState(SMART_ESCORT_ESCORTING))
         return;
+
+    // Quest 13911: bound combat movement and recover stalled escort movement. Let the NPC fight/chase normally,
+    // but do not allow an unreachable/dead victim or a long chase away from
+    // the pre-combat position to strand the escort in the water.
+    if (me->GetEntry() == 34343 && mEscortQuestID == 13911 && IsAIControlled())
+    {
+        // One short grace interval following a legitimate evade prevents
+        // an orphaned combat flag from initiating a second return-to-route.
+        // New real threats and excessive off-route chases remain recoverable.
+        if (mRemtravelPostEvadeMs > diff)
+            mRemtravelPostEvadeMs -= diff;
+        else
+            mRemtravelPostEvadeMs = 0;
+
+        // Compute the off-route leash from the most recent genuinely safe
+        // waypoint position, NOT mLastOOCPos, which can be several steps old.
+        float dx = me->GetPositionX() - mRemtravelSafeEscortPos.GetPositionX();
+        float dy = me->GetPositionY() - mRemtravelSafeEscortPos.GetPositionY();
+        // Preserve the last known position on the real waypoint route.
+        // A fresh aggro event during a chase must not redefine the return
+        // destination as a place out in the water.
+        // Update the last SAFE return position only during actual waypoint
+        // travel. A chase generator can outlive combat and must not become
+        // our return anchor while the creature is still off its route.
+        if (!me->IsInCombat() && !HasEscortState(SMART_ESCORT_RETURNING | SMART_ESCORT_PAUSED)
+            && me->GetMotionMaster()->GetCurrentMovementGeneratorType() == POINT_MOTION_TYPE)
+            mRemtravelSafeEscortPos = me->GetPosition();
+
+        bool orphanedCombat = me->IsInCombat() && (!me->GetVictim() || !me->GetVictim()->IsAlive());
+        bool excessiveChase = me->IsInCombat() && (dx * dx + dy * dy > 196.0f); // 14 yards
+        // If we just returned from an evade, a momentary stale combat flag
+        // without a living victim is not sufficient reason to turn around
+        // again. After 6 seconds the original orphan recovery still applies.
+        bool recoverOrphan = orphanedCombat && mRemtravelPostEvadeMs == 0;
+
+        // An alive victim can still be unreachable while Remtravel stands
+        // motionless nearby. Do not evade normal close-range fighting.
+        // Check total displacement over the 12-second interval, not one tick.
+        bool stationaryChase = false;
+        Unit* combatVictim = me->GetVictim();
+        if (me->IsInCombat() && combatVictim && combatVictim->IsAlive()
+            && !me->IsWithinMeleeRange(combatVictim))
+        {
+            float sx = me->GetPositionX() - mRemtravelCombatStallPos.GetPositionX();
+            float sy = me->GetPositionY() - mRemtravelCombatStallPos.GetPositionY();
+            if (sx * sx + sy * sy > 1.0f)
+            {
+                mRemtravelCombatStallPos = me->GetPosition();
+                mRemtravelCombatStallMs = 12000;
+            }
+            else if (mRemtravelCombatStallMs <= diff)
+            {
+                stationaryChase = true;
+                mRemtravelCombatStallMs = 12000;
+            }
+            else
+                mRemtravelCombatStallMs -= diff;
+        }
+        else
+        {
+            mRemtravelCombatStallPos = me->GetPosition();
+            mRemtravelCombatStallMs = 12000;
+        }
+
+        if (recoverOrphan || excessiveChase || stationaryChase)
+        {
+            if (stationaryChase || mRemtravelCombatLeashMs <= diff)
+            {
+                mRemtravelCombatLeashMs = 1500;
+                EnterEvadeMode(EVADE_REASON_OTHER); // use the existing SmartAI return-to-path mechanism
+            }
+            else
+                mRemtravelCombatLeashMs -= diff;
+        }
+        else
+            mRemtravelCombatLeashMs = 1500;
+
+        // If pathfinding stalls while returning from a fight, retry the
+        // original return point. Never teleport or advance quest waypoints.
+        if (HasEscortState(SMART_ESCORT_RETURNING) && !me->IsInCombat() && !mWPReached)
+        {
+            if (mRemtravelReturnCheckMs <= diff)
+            {
+                float rx = me->GetPositionX() - mRemtravelReturnCheckPos.GetPositionX();
+                float ry = me->GetPositionY() - mRemtravelReturnCheckPos.GetPositionY();
+                if (rx * rx + ry * ry < 0.25f)
+                {
+                    float ox = me->GetPositionX() - mLastOOCPos.GetPositionX();
+                    float oy = me->GetPositionY() - mLastOOCPos.GetPositionY();
+                    float oz = me->GetPositionZ() - mLastOOCPos.GetPositionZ();
+                    if (ox * ox + oy * oy < 2.25f && oz * oz < 4.0f)
+                    {
+                        // At the return point, but no movement callback arrived.
+                        MovepointReached(SMART_ESCORT_LAST_OOC_POINT);
+                    }
+                    else
+                    {
+                        ReturnToLastOOCPos();
+                    }
+                }
+                mRemtravelReturnCheckPos = me->GetPosition();
+                mRemtravelReturnCheckMs = 10000;
+            }
+            else
+                mRemtravelReturnCheckMs -= diff;
+        }
+        else
+        {
+            mRemtravelReturnCheckPos = me->GetPosition();
+            mRemtravelReturnCheckMs = 10000;
+        }
+
+        // OOC and unpaused but not moving to the next waypoint: resend the
+        // movement or recover an already-reached point. Never skip a point.
+        if (!me->IsInCombat() && !HasEscortState(SMART_ESCORT_PAUSED | SMART_ESCORT_RETURNING)
+            && !mWPReached && mLastWP)
+        {
+            float mx = me->GetPositionX() - mRemtravelRouteStallPos.GetPositionX();
+            float my = me->GetPositionY() - mRemtravelRouteStallPos.GetPositionY();
+            if (mx * mx + my * my > 1.0f)
+            {
+                mRemtravelRouteStallPos = me->GetPosition();
+                mRemtravelRouteStallMs = 15000;
+            }
+            else if (mRemtravelRouteStallMs <= diff)
+            {
+                float wx = me->GetPositionX() - mLastWP->x;
+                float wy = me->GetPositionY() - mLastWP->y;
+                float wz = me->GetPositionZ() - mLastWP->z;
+                if (wx * wx + wy * wy < 2.25f && wz * wz < 4.0f)
+                {
+                    MovepointReached(mLastWP->id);
+                }
+                else
+                {
+                    ResumePath();
+                }
+                mRemtravelRouteStallPos = me->GetPosition();
+                mRemtravelRouteStallMs = 15000;
+            }
+            else
+                mRemtravelRouteStallMs -= diff;
+        }
+        else
+        {
+            mRemtravelRouteStallPos = me->GetPosition();
+            mRemtravelRouteStallMs = 15000;
+        }
+    }
     if (mEscortInvokerCheckTimer < diff)
     {
         // Escort failed, no players in range 
@@ -486,6 +653,15 @@ void SmartAI::EnterEvadeMode(EvadeReason /*why*/)
     if (!_EnterEvadeMode())
         return;
 
+    // Remtravel: guard against a second orphan-combat
+    // recovery right after this legitimate evade. The guard never blocks
+    // an attack with a real victim or recovery beyond the 14-yard leash.
+    if (me->GetEntry() == 34343 && mEscortQuestID == 13911
+        && HasEscortState(SMART_ESCORT_ESCORTING))
+    {
+        mRemtravelPostEvadeMs = 6000;
+    }
+
     me->AddUnitState(UNIT_STATE_EVADE);
 
     GetScript()->ProcessEventsFor(SMART_EVENT_EVADE);//must be after aura clear so we can cast spells from db
@@ -493,6 +669,20 @@ void SmartAI::EnterEvadeMode(EvadeReason /*why*/)
     SetRun(mRun);
     if (HasEscortState(SMART_ESCORT_ESCORTING))
     {
+        // Quest 13911: a later evade can occur
+        // without JustEngagedWith being called again. In that case the
+        // original mLastOOCPos may belong to a fight several waypoints ago.
+        // The safe anchor is refreshed only while moving on the waypoint
+        // route, so return to the most recent genuine OOC path position.
+        if (me->GetEntry() == 34343 && mEscortQuestID == 13911)
+        {
+            float anchorDx = mLastOOCPos.GetPositionX() - mRemtravelSafeEscortPos.GetPositionX();
+            float anchorDy = mLastOOCPos.GetPositionY() - mRemtravelSafeEscortPos.GetPositionY();
+            if (anchorDx * anchorDx + anchorDy * anchorDy > 1.0f)
+            {
+                mLastOOCPos = mRemtravelSafeEscortPos;
+            }
+        }
         AddEscortState(SMART_ESCORT_RETURNING);
         ReturnToLastOOCPos();
     }
@@ -618,6 +808,9 @@ void SmartAI::JustEngagedWith(Unit* enemy)
     if (!IsAIControlled())
         return;
     mLastOOCPos = me->GetPosition();
+    if (me->GetEntry() == 34343 && mEscortQuestID == 13911
+        && HasEscortState(SMART_ESCORT_ESCORTING))
+        mLastOOCPos = mRemtravelSafeEscortPos;
     SetRun(mRun);
     if (me->GetMotionMaster()->GetMotionSlotType(MOTION_SLOT_ACTIVE) == POINT_MOTION_TYPE)
         me->GetMotionMaster()->MovementExpired();
@@ -652,6 +845,19 @@ void SmartAI::AttackStart(Unit* who)
         if (who && mCanAutoAttack)
             me->Attack(who, true);
         return;
+    }
+
+    if (who && me->GetEntry() == 34343 && mEscortQuestID == 13911
+        && HasEscortState(SMART_ESCORT_ESCORTING))
+    {
+        // Do not go chasing an unrelated mob at the edge of sight range.
+        // During an evade/return, allow only threats very close to the NPC.
+        // A creature actively attacking Remtravel must always be defended.
+        float maxNewTargetDistance = HasEscortState(SMART_ESCORT_RETURNING) ? 6.0f : 14.0f;
+        if (who->GetVictim() != me && me->GetDistance(who) > maxNewTargetDistance)
+        {
+            return;
+        }
     }
 
     if (who && me->Attack(who, me->IsWithinMeleeRange(who)))

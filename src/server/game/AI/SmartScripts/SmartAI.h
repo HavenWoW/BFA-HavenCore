@@ -212,7 +212,6 @@ class TC_GAME_API SmartAI : public CreatureAI
         ObjectGuid mFollowGuid;
         float mFollowDist;
         float mFollowAngle;
-
         void ReturnToLastOOCPos();
         void UpdatePath(const uint32 diff);
         SmartScript mScript;
@@ -225,6 +224,19 @@ class TC_GAME_API SmartAI : public CreatureAI
         uint32 mEscortNPCFlags;
         WayPoint* mLastWP;
         Position mLastOOCPos;//set on enter combat
+        // Quest 13911 only: keep combat roaming and return recovery bounded.
+        uint32 mRemtravelCombatLeashMs;
+        // Suppress only duplicate orphan-combat recovery for 6 seconds
+        // after a genuine Remtravel evade; normal combat remains enabled.
+        uint32 mRemtravelPostEvadeMs;
+        uint32 mRemtravelReturnCheckMs;
+        Position mRemtravelReturnCheckPos;
+        // Quest 13911: keep a position from the actual escort route, not a chase.
+        Position mRemtravelSafeEscortPos;
+        uint32 mRemtravelCombatStallMs;
+        Position mRemtravelCombatStallPos;
+        uint32 mRemtravelRouteStallMs;
+        Position mRemtravelRouteStallPos;
         uint32 GetWPCount() const { return mWayPoints ? uint32(mWayPoints->size()) : 0; }
         bool mCanRepeatPath;
         bool mRun;
