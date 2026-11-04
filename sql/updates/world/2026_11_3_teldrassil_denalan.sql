@@ -36,3 +36,11 @@ INSERT INTO smart_scripts (entryorguid, source_type, id, link, event_type, event
 (208002, 9, 11, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, '', 12, 3569, 1, 300000, 0, 0, 0, 8, 0, 0, 0, 9504.07, 720.209, 1256.47, 0.890118, 'Denalan - Summon creature 3'),
 (208002, 9, 12, 0, 0, 0, 100, 0, 1000, 1000, 0, 0, 0, '', 19, 33554432, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 'Denalan - Remove uninteractible'),
 (208002, 9, 13, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, '', 82, 2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 'Denalan - Add questgiver flag');
+
+-- Bogling - set Bogling Root loot to 100%
+UPDATE creature_loot_template SET Chance=100.0 WHERE Entry=3569 AND Item=5206;
+
+-- Remove existing summon
+DELETE FROM creature WHERE guid=302864 AND id=3569;
+DELETE FROM creature WHERE guid=302865 AND id=3569;
+DELETE FROM creature WHERE guid=302866 AND id=3569;
