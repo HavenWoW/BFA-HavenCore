@@ -9063,7 +9063,17 @@ void Unit::SetSpeedRate(UnitMoveType mtype, float rate)
                 pet->SetSpeedRate(mtype, m_speed_rate[mtype]);
     }
 
-    if (Player* playerMover = GetPlayerBeingMoved()) // unit controlled by a player.
+    // unit controlled by a player
+    Player* playerMover = GetPlayerBeingMoved();
+
+    // Fallback: a player-controlled vehicle where the mover lookup returns null.
+    if (!playerMover && GetVehicleKit())
+        if (Unit* charmer = GetCharmer())
+            if (Player* charmerPlayer = charmer->ToPlayer())
+                if (charmerPlayer->GetUnitBeingMoved() == this)
+                    playerMover = charmerPlayer;
+
+    if (playerMover) // unit controlled by a player.
     {
         // Send notification to self
         WorldPackets::Movement::MoveSetSpeed selfpacket(moveTypeToOpcode[mtype][1]);

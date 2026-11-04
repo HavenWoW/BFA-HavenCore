@@ -51,6 +51,7 @@ class WildBattlePetZonePools
 public:
     void LoadPoolTemplate(Field* fields);
     std::map<uint32, WildPetPoolTemplate> m_Templates;
+    std::map<uint32, std::pair<uint8, uint8>> m_BattlePetLevels;
 };
 
 class WildBattlePetMgr

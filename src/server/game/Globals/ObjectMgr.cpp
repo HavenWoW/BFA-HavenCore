@@ -1089,9 +1089,10 @@ void ObjectMgr::CheckCreatureTemplate(CreatureTemplate const* cInfo)
     FactionTemplateEntry const* factionTemplate = sFactionTemplateStore.LookupEntry(cInfo->faction);
     if (!factionTemplate)
     {
-        TC_LOG_ERROR("sql.sql", "Creature (Entry: %u) has non-existing faction template (%u). This can lead to crashes, set to faction 35.", cInfo->Entry, cInfo->faction);
-        const_cast<CreatureTemplate*>(cInfo)->faction = sFactionTemplateStore.AssertEntry(35)->ID; // this might seem stupid but all shit will would break if faction 35 did not exist
+       TC_LOG_ERROR("sql.sql", "Creature (Entry: %u) has non-existing faction template (%u). This can lead to crashes, set to faction 35.", cInfo->Entry, cInfo->faction);
+       const_cast<CreatureTemplate*>(cInfo)->faction = sFactionTemplateStore.AssertEntry(35)->ID; // this might seem stupid but all shit will would break if faction 35 did not exist
     }
+
 
     for (uint8 k = 0; k < MAX_KILL_CREDIT; ++k)
     {
@@ -2084,8 +2085,8 @@ void ObjectMgr::LoadCreatures()
     QueryResult result = WorldDatabase.Query("SELECT creature.guid, id, map, position_x, position_y, position_z, orientation, modelid, equipment_id, spawntimesecs, spawndist, "
     //   11               12         13       14            15                 16          17          18                19                   20                    21
         "currentwaypoint, curhealth, curmana, MovementType, spawnDifficulties, eventEntry, pool_entry, creature.npcflag, creature.unit_flags, creature.unit_flags2, creature.unit_flags3, "
-    //   22                     23                      24                25                   26                       27
-        "creature.dynamicflags, creature.phaseUseFlags, creature.phaseid, creature.phasegroup, creature.terrainSwapMap, creature.ScriptName "
+    //   22                     23                      24                25                   26                       27             28
+        "creature.dynamicflags, creature.phaseUseFlags, creature.phaseid, creature.phasegroup, creature.terrainSwapMap, creature.ScriptName, creature.zoneId "
         "FROM creature "
         "LEFT OUTER JOIN game_event_creature ON creature.guid = game_event_creature.guid "
         "LEFT OUTER JOIN pool_creature ON creature.guid = pool_creature.guid");
@@ -2157,6 +2158,7 @@ void ObjectMgr::LoadCreatures()
         data.phaseGroup     = fields[25].GetUInt32();
         data.terrainSwapMap = fields[26].GetInt32();
         data.scriptId       = GetScriptIdOrAdd(fields[27].GetString());
+        data.zoneId         = fields[28].GetUInt32();
         data.spawnGroupData = &_spawnGroupDataStore[0];
 
         MapEntry const* mapEntry = sMapStore.LookupEntry(data.spawnPoint.GetMapId());
