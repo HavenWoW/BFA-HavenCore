@@ -394,15 +394,7 @@ namespace RemtravelQuest13911
                 float dx = me->GetPositionX() - _returnWatchPosition.GetPositionX();
                 float dy = me->GetPositionY() - _returnWatchPosition.GetPositionY();
                 if (dx * dx + dy * dy < 0.25f)
-                {
-                    float ax = me->GetPositionX() - _safeEscortPosition.GetPositionX();
-                    float ay = me->GetPositionY() - _safeEscortPosition.GetPositionY();
-                    float az = me->GetPositionZ() - _safeEscortPosition.GetPositionZ();
-                    if (ax * ax + ay * ay < 2.25f && az * az < 4.0f)
-                        npc_escortAI::MovementInform(POINT_MOTION_TYPE, REMTRAVEL_RETURN_POINT);
-                    else
-                        ReturnToLastPoint(); // Reissue the existing safe return destination.
-                }
+                    ReturnToLastPoint(); // Let the movement generator report actual arrival.
                 _returnWatchPosition = me->GetPosition();
                 _returnWatchTimer = 10000;
             }
@@ -431,15 +423,7 @@ namespace RemtravelQuest13911
 
                 float x, y, z;
                 if (GetWaypointPosition(_expectedWaypoint, x, y, z))
-                {
-                    float wx = me->GetPositionX() - x;
-                    float wy = me->GetPositionY() - y;
-                    float wz = me->GetPositionZ() - z;
-                    if (wx * wx + wy * wy < 2.25f && wz * wz < 4.0f)
-                        npc_escortAI::MovementInform(POINT_MOTION_TYPE, _expectedWaypoint);
-                    else
-                        me->GetMotionMaster()->MovePoint(_expectedWaypoint, x, y, z);
-                }
+                    me->GetMotionMaster()->MovePoint(_expectedWaypoint, x, y, z);
 
                 _routeWatchPosition = me->GetPosition();
                 _routeWatchTimer = 15000;

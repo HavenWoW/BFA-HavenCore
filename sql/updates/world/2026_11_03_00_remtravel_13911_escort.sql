@@ -62,6 +62,12 @@ INSERT INTO `creature_text` (`CreatureID`, `GroupID`, `ID`, `Text`, `Type`, `Lan
 (34343, 7, 0, 'What do you make of this, Ferd?', 12, 0, 100, 1, 0, 0, 34532, 'Prospector Remtravel');
 
 
--- Quest rewards, starter/ender relations, creature spawns and all other SmartAI scripts unchanged.
+-- Ensure quest 13911 can be picked up and turned in on a stock database as
+-- well as on local test servers carrying the earlier starter/ender correction.
+-- Each INSERT IGNORE affects only its intended quest/NPC pair.
+INSERT IGNORE INTO `creature_queststarter` (`id`, `quest`) VALUES (34343, 13911);
+INSERT IGNORE INTO `creature_questender` (`id`, `quest`) VALUES (34342, 13911);
+
+-- Quest reward templates, creature spawns and all other SmartAI scripts unchanged.
 
 COMMIT;
