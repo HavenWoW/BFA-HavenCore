@@ -1,3 +1,4 @@
+#include "CellImpl.h"
 #include "grimrail_depot.h"
 #include "Vehicle.h"
 #include "GameObject.h"
