@@ -19,9 +19,12 @@
 
 #include "ScriptMgr.h"
 #include "Creature.h"
+#include "CreatureAI.h"
 #include "MotionMaster.h"
+#include "ObjectAccessor.h"
 #include "Player.h"
 #include "ScriptedEscortAI.h"
+#include "Vehicle.h"
 
 namespace RemtravelQuest13911
 {
@@ -437,7 +440,122 @@ namespace RemtravelQuest13911
     };
 }
 
+enum FoolhardyAdventurer
+{
+    SPELL_EXPLOSION_AURA     = 62684,
+    SPELL_DETONATION         = 62682,
+    SPELL_EXPLOSION_CREDIT   = 62683,
+
+};
+
+class vehicle_foolhardy_adventurer : public VehicleScript
+{
+public:
+    vehicle_foolhardy_adventurer() : VehicleScript("vehicle_foolhardy_adventurer") { }
+
+    // Replaces SAI "Passenger Boarded", "On Reset" and "On Update - Enable Run"
+    void OnAddPassenger(Vehicle* veh, Unit* passenger, int8 /*seatId*/) override
+    {
+        if (!passenger || !passenger->IsPlayer())
+            return;
+
+        Creature* owner = veh->GetBase()->ToCreature();
+        if (!owner)
+            return;
+
+        owner->SetWalk(false);
+        owner->m_Events.AddEventAtOffset([owner]() { PollExplosionAura(owner); }, 100ms);
+    }
+
+    // Replaces SAI "Passenger Left - Run Teleport List"
+    void OnRemovePassenger(Vehicle* /*veh*/, Unit* passenger) override
+    {
+        if (!passenger || !passenger->IsPlayer())
+            return;
+
+        ObjectGuid guid = passenger->GetGUID();
+
+        passenger->m_Events.AddEventAtOffset([guid]() { TeleportPlayer(guid); }, 500ms);
+    }
+
+private:
+    static constexpr uint32 TeleMap = 1;
+    static constexpr float  TeleX   = 7746.35f;
+    static constexpr float  TeleY   = -405.84f;
+    static constexpr float  TeleZ   = 1.5f;
+    static constexpr float  TeleO   = 6.088f;
+
+    static void TeleportPlayer(ObjectGuid guid)
+    {
+        if (Player* player = ObjectAccessor::FindPlayer(guid))
+            player->TeleportTo(TeleMap, TeleX, TeleY, TeleZ, TeleO);
+    }
+
+    static void PollExplosionAura(Creature* owner)
+    {
+        if (!owner->IsAlive())
+            return;
+
+        Vehicle* vehicle = owner->GetVehicleKit();
+        Unit* passenger = vehicle ? vehicle->GetPassenger(0) : nullptr;
+        if (!passenger)
+            return; // nobody riding anymore, stop polling
+
+        if (owner->HasAura(SPELL_EXPLOSION_AURA))
+        {
+            StartExplosionSequence(owner, passenger->GetGUID());
+            return;
+        }
+
+        owner->m_Events.AddEventAtOffset([owner]() { PollExplosionAura(owner); }, 100ms);
+    }
+
+    static void StartExplosionSequence(Creature* owner, ObjectGuid playerGuid)
+    {
+        // After 4s - Say Line 0
+        owner->m_Events.AddEventAtOffset([owner]()
+        {
+            if (owner->IsAlive() && owner->AI())
+                owner->AI()->Talk(0);
+        }, 4s);
+
+        // After 4s - Say Line 1
+        owner->m_Events.AddEventAtOffset([owner]()
+        {
+            if (owner->IsAlive() && owner->AI())
+                owner->AI()->Talk(1);
+        }, 8s);
+
+        // After 9s - Cast Detonation
+        owner->m_Events.AddEventAtOffset([owner]()
+        {
+            owner->CastSpell(owner, SPELL_DETONATION, true);
+        }, 9s);
+
+        // After 9.2s - Credit cast by the player on the vehicle
+        owner->m_Events.AddEventAtOffset([owner, playerGuid]()
+        {
+            if (Player* player = ObjectAccessor::FindPlayer(playerGuid))
+                player->CastSpell(owner, SPELL_EXPLOSION_CREDIT, true);
+        }, 9200ms);
+
+        // After 9.5s - Kick the player out; OnRemovePassenger does the teleport
+        owner->m_Events.AddEventAtOffset([playerGuid]()
+        {
+            if (Player* player = ObjectAccessor::FindPlayer(playerGuid))
+                player->ExitVehicle();
+        }, 9500ms);
+
+        // After 10s - Despawn
+        owner->m_Events.AddEventAtOffset([owner]()
+        {
+            owner->DespawnOrUnsummon();
+        }, 10s);
+    }
+};
+
 void AddSC_darkshore()
 {
     new RemtravelQuest13911::npc_prospector_remtravel();
+    new vehicle_foolhardy_adventurer();
 }
