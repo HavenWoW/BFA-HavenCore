@@ -20,6 +20,7 @@
 #include "MotionMaster.h"
 #include "ScriptedCreature.h"
 #include "WaypointMovementGenerator.h"
+#include "GameObject.h"
 
 enum eAgitatedEarthSpirit
 {
@@ -88,58 +89,121 @@ private:
     ObjectGuid _playerGUID;
 };
 
-enum eKyleTheFrenzied
+
+enum KyleTheFrenzied
 {
     SPELL_LUNCH_FOR_KYLE    = 42222,
     NPC_KYLE_THE_FRENZIED   = 23616,
-    NPC_KYLE_THE_FRIENDLY   = 23622
+    NPC_KYLE_THE_FRIENDLY   = 23622,
+    GO_KYLES_LUNCH          = 186265,
+    POINT_LUNCH             = 1,
+    SAY_LUNCH_ARRIVE        = 0,
+    SAY_LUNCH_EATING        = 1,
+    SAY_LUNCH_DONE          = 2,
+    LUNCH_SEARCH_RADIUS     = 15
 };
 
 // 23616
 struct npc_kyle_the_frenzied : public ScriptedAI
 {
-    npc_kyle_the_frenzied(Creature* creature) : ScriptedAI(creature) { }
+    npc_kyle_the_frenzied(Creature* creature) : ScriptedAI(creature), _busy(false), _pathId(0) { }
+
+    void Reset() override
+    {
+        _busy = false;
+        _scheduler.CancelAll();
+    }
+
     void SpellHit(Unit* caster, SpellInfo const* spell) override
     {
-        if (spell->Id == SPELL_LUNCH_FOR_KYLE)
-        {
-            Position pos;
-            caster->GetNearPoint(caster, pos.m_positionX, pos.m_positionY, pos.m_positionZ, 0.0f, 0.5f, caster->GetAngle(me));
-            me->GetMotionMaster()->MovePoint(1, pos);
-            _playerGUID = caster->GetGUID();
-        }
+        // Ignore the spell while the lunch event is running
+        if (_busy || spell->Id != SPELL_LUNCH_FOR_KYLE)
+            return;
+
+        Player* player = caster->ToPlayer();
+        if (!player)
+            return;
+
+        _busy = true;
+        _playerGUID = player->GetGUID();
+        _pathId = me->GetWaypointPath();
+
+        Position pos;
+        caster->GetNearPoint(caster, pos.m_positionX, pos.m_positionY, pos.m_positionZ, 0.0f, 0.5f, caster->GetAngle(me));
+        me->GetMotionMaster()->MovePoint(POINT_LUNCH, pos);
     }
+
     void MovementInform(uint32 type, uint32 pointId) override
     {
-        if (type == POINT_MOTION_TYPE && pointId == 1)
-        {
-            // Wait 15 seconds then resume path
-            if (WaypointMovementGenerator<Creature>* move = dynamic_cast<WaypointMovementGenerator<Creature>*>(me->GetMotionMaster()->top()))
-                move->GetTrackerTimer().Reset(15000);
-            Talk(0);
-            me->GetScheduler().Schedule(4s, [this](TaskContext /*context*/)
-            {
-                Talk(1);
-            });
-            me->GetScheduler().Schedule(9s, [this](TaskContext context)
-            {
-                Creature* ctxCrea = GetContextCreature();
-                Talk(2);
-                ctxCrea->UpdateEntry(NPC_KYLE_THE_FRIENDLY);
-                ctxCrea->HandleEmoteCommand(EMOTE_STATE_DANCE);
-                if (Player* player = ObjectAccessor::GetPlayer(*ctxCrea, _playerGUID))
-                    player->KilledMonsterCredit(NPC_KYLE_THE_FRENZIED);
-            });
-            me->GetScheduler().Schedule(15s, [](TaskContext context)
-            {
-                Creature* ctxCrea = GetContextCreature();
-                ctxCrea->UpdateEntry(NPC_KYLE_THE_FRENZIED);
-                ctxCrea->HandleEmoteCommand(EMOTE_STATE_NONE);
-            });
-        }
+        if (type != POINT_MOTION_TYPE || pointId != POINT_LUNCH)
+            return;
+
+        me->GetMotionMaster()->MoveIdle();
+        Talk(SAY_LUNCH_ARRIVE);
+
+        ScheduleLunchSequence();
     }
+
+    void UpdateAI(uint32 diff) override
+    {
+        _scheduler.Update(diff);
+    }
+
 private:
+
+    TaskScheduler _scheduler;
     ObjectGuid _playerGUID;
+    bool _busy;
+    uint32 _pathId;
+
+    void ScheduleLunchSequence()
+    {
+        _scheduler
+            .Schedule(200ms, [this](TaskContext /*context*/)
+            {
+                FaceLunch();
+            })
+            .Schedule(4s, [this](TaskContext /*context*/)
+            {
+                Talk(SAY_LUNCH_EATING);
+            })
+            .Schedule(9s, [this](TaskContext /*context*/)
+            {
+                FinishEating();
+            })
+            .Schedule(15s, [this](TaskContext /*context*/)
+            {
+                ResumePatrol();
+            });
+    }
+
+    void FaceLunch()
+    {
+        if (GameObject* lunch = me->FindNearestGameObject(GO_KYLES_LUNCH, LUNCH_SEARCH_RADIUS))
+            me->SetFacingToObject(lunch);
+    }
+
+    void FinishEating()
+    {
+        Talk(SAY_LUNCH_DONE);
+
+        if (Player* player = ObjectAccessor::GetPlayer(*me, _playerGUID))
+            player->KilledMonsterCredit(NPC_KYLE_THE_FRENZIED);
+
+        me->UpdateEntry(NPC_KYLE_THE_FRIENDLY);
+        FaceLunch();
+        me->HandleEmoteCommand(EMOTE_STATE_DANCE);
+    }
+
+    void ResumePatrol()
+    {
+        me->HandleEmoteCommand(EMOTE_STATE_NONE);
+        me->UpdateEntry(NPC_KYLE_THE_FRENZIED);
+        me->GetMotionMaster()->Clear();
+        me->GetMotionMaster()->MovePath(_pathId, true); // restart original path
+
+        _busy = false; // can be fed again
+    }
 };
 
 enum EagleSpirit
