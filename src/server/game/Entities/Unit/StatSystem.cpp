@@ -539,6 +539,12 @@ void Player::UpdateLeechPercentage()
     SetUpdateFieldValue(m_values.ModifyValue(&Player::m_unitData).ModifyValue(&UF::UnitData::Lifesteal), value);
 }
 
+void Player::UpdateAvoidancePercentage()
+{
+    SetUpdateFieldValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::Avoidance),
+        GetRatingBonusValue(CR_AVOIDANCE));
+}
+
 void Player::UpdateAllCritPercentages()
 {
     float value = 5.0f;

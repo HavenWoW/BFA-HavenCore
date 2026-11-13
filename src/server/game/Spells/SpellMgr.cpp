@@ -1479,6 +1479,8 @@ void SpellMgr::LoadSpellProcs()
     isTriggerAura[SPELL_AURA_MOD_BLOCK_PERCENT] = true;
     isTriggerAura[SPELL_AURA_MOD_ROOT_2] = true;
     isTriggerAura[SPELL_AURA_MOD_FEAR_2] = true;
+    // 8.3.7 Ny'alotha 316780 / 316717 put ProcFlags on LINKED_2; without this the default generator skips them and AuraScript OnProc never runs
+    isTriggerAura[SPELL_AURA_LINKED_2] = true;
 
     isAlwaysTriggeredAura[SPELL_AURA_OVERRIDE_CLASS_SCRIPTS] = true;
     isAlwaysTriggeredAura[SPELL_AURA_MOD_STEALTH] = true;
@@ -1524,6 +1526,9 @@ void SpellMgr::LoadSpellProcs()
 
         bool addTriggerFlag = false;
         uint32 procSpellTypeMask = PROC_SPELL_TYPE_NONE;
+        bool foundLinked2 = false;
+        uint32 linked2SpellTypeMask = PROC_SPELL_TYPE_NONE;
+        bool linked2AlwaysTriggered = false;
         for (SpellEffectInfo const* effect : spellInfo->GetEffectsForDifficulty(DIFFICULTY_NONE))
         {
             if (!effect || !effect->IsEffect())
@@ -1535,6 +1540,17 @@ void SpellMgr::LoadSpellProcs()
 
             if (!isTriggerAura[auraName])
                 continue;
+
+            // 8.3.7 Ny'alotha 316780/316717 put ProcFlags on LINKED_2; treating
+            // LINKED_2 as the first match would hide a later real trigger aura
+            // and drop charges on unrelated LINKED_2+charges spells.
+            if (auraName == SPELL_AURA_LINKED_2)
+            {
+                foundLinked2 = true;
+                linked2SpellTypeMask = spellTypeMask[auraName];
+                linked2AlwaysTriggered = isAlwaysTriggeredAura[auraName];
+                continue;
+            }
 
             procSpellTypeMask |= spellTypeMask[auraName];
             if (isAlwaysTriggeredAura[auraName])
@@ -1555,6 +1571,13 @@ void SpellMgr::LoadSpellProcs()
                 }
             }
             break;
+        }
+
+        if (!procSpellTypeMask && foundLinked2)
+        {
+            procSpellTypeMask |= linked2SpellTypeMask;
+            if (linked2AlwaysTriggered)
+                addTriggerFlag = true;
         }
 
         if (!procSpellTypeMask)
@@ -3863,6 +3886,18 @@ void SpellMgr::LoadSpellInfoCorrections()
     ApplySpellFix({ 48020 }, [](SpellInfo* spellInfo)
     {
         spellInfo->CasterAuraSpell = 0;
+    });
+
+    // The scripted contact hit does not use the unsupported aura-361 attack chain.
+    ApplySpellFix({ 315197 }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->TargetAuraSpell = 0;
+    });
+
+    // The scripted contact hit does not use the unsupported aura-361 attack chain.
+    ApplySpellFix({ 315197 }, [](SpellInfo* spellInfo)
+    {
+        spellInfo->TargetAuraSpell = 0;
     });
 
     // DH - Felblade - Charge damage

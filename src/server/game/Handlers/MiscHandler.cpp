@@ -30,6 +30,8 @@
 #include "DB2Stores.h"
 #include "GameTime.h"
 #include "GossipDef.h"
+#include "Creature.h"
+#include "SharedDefines.h"
 #include "Group.h"
 #include "Guild.h"
 #include "GuildMgr.h"
@@ -1157,8 +1159,17 @@ void WorldSession::HandleMountSetFavorite(WorldPackets::Misc::MountSetFavorite& 
 
 void WorldSession::HandleCloseInteraction(WorldPackets::Misc::CloseInteraction& closeInteraction)
 {
-    if (_player->PlayerTalkClass->GetInteractionData().SourceGuid == closeInteraction.SourceGuid)
-        _player->PlayerTalkClass->GetInteractionData().Reset();
+    InteractionData& data = _player->PlayerTalkClass->GetInteractionData();
+    if (data.SourceGuid != closeInteraction.SourceGuid)
+        return;
+
+    // Closing gossip follows opening the purification UI for the same NPC.
+    if (data.UiItemInteractionId == UI_ITEM_INTERACTION_TITANIC_PURIFICATION)
+        if (Creature* npc = _player->GetNPCIfCanInteractWith(data.SourceGuid, UNIT_NPC_FLAG_GOSSIP, UNIT_NPC_FLAG_2_NONE))
+            if (npc->GetEntry() == NPC_MOTHER_CHAMBER_OF_HEART)
+                return;
+
+    data.Reset();
 }
 
 void WorldSession::HandleAdventureJournalOpenQuest(WorldPackets::Misc::AdventureJournalOpenQuest& packet)
