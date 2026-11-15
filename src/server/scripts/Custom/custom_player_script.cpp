@@ -567,6 +567,36 @@ public:
 };
 
 
+class death_knight_starter_chain : public PlayerScript
+{
+public:
+    death_knight_starter_chain() : PlayerScript("death_knight_starter_chain") {}
+
+    enum
+    {
+        QUEST_RUNEFORGING_PREPARATION = 12842,
+        QUEST_THE_ENDLESS_HUNGER      = 12848
+    };
+
+    // Razuvious hands out "The Endless Hunger" right after "Runeforging: Preparation for Battle"
+    // is turned in. The quest is not being offered to death knights on this core, so add it
+    // directly instead of leaving the starter chain stuck.
+    void OnQuestReward(Player* player, Quest const* quest) override
+    {
+        if (quest->GetQuestId() != QUEST_RUNEFORGING_PREPARATION || player->getClass() != CLASS_DEATH_KNIGHT)
+            return;
+
+        if (player->GetQuestStatus(QUEST_THE_ENDLESS_HUNGER) != QUEST_STATUS_NONE)
+            return;
+
+        Quest const* nextQuest = sObjectMgr->GetQuestTemplate(QUEST_THE_ENDLESS_HUNGER);
+        if (!nextQuest || !player->CanAddQuest(nextQuest, false))
+            return;
+
+        player->AddQuest(nextQuest, nullptr);
+    }
+};
+
 void AddSC_custom_player_script()
 {
     RegisterPlayerScript(playerscript_recruiter);
@@ -577,6 +607,7 @@ void AddSC_custom_player_script()
     RegisterPlayerScript(WorgenRunningWild);
 	new PlayerScript_Weekly_Spells();
 	RegisterPlayerScript(player_level_rewards);
+    RegisterPlayerScript(death_knight_starter_chain);
 
 }
 

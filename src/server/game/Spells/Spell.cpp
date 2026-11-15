@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 2026 BFA-HavenCore
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -646,11 +646,46 @@ m_spellValue(new SpellValue(caster->GetMap()->GetDifficultyID(), m_spellInfo, ca
     m_castId = ObjectGuid::Create<HighGuid::Cast>(SPELL_CAST_SOURCE_NORMAL, m_caster->GetMapId(), m_spellInfo->Id, m_caster->GetMap()->GenerateLowGuid<HighGuid::Cast>());
     memset(m_misc.Raw.Data, 0, sizeof(m_misc.Raw.Data));
     m_SpellVisual = caster->GetCastSpellXSpellVisualId(m_spellInfo);
+
+    // Some BfA client builds have no SpellXSpellVisual row for the wand Shoot
+    // spell (5019), so the cast would be sent with visual 0 and the client
+    // would play no animation/projectile. Borrow the visual of another ranged
+    // spell as a fallback.
+    if (!m_SpellVisual && (m_spellInfo->Id == 5019 || m_spellInfo->Id == 75))
+    {
+        static uint32 const fallbackVisualSpells[] = { 75, 116, 133, 686 }; // Auto Shot, Frostbolt, Fireball, Shadow Bolt
+        for (uint32 fallbackId : fallbackVisualSpells)
+        {
+            if (fallbackId == m_spellInfo->Id)
+                continue;
+
+            if (SpellInfo const* fallbackInfo = sSpellMgr->GetSpellInfo(fallbackId))
+            {
+                if (uint32 visual = fallbackInfo->GetSpellXSpellVisualId(caster))
+                {
+                    m_SpellVisual = visual;
+                    static bool loggedFallback = false;
+                    if (!loggedFallback)
+                    {
+                        loggedFallback = true;
+                        TC_LOG_ERROR("spells", "Spell %u has no visual, using fallback visual %u from spell %u",
+                            m_spellInfo->Id, visual, fallbackId);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
     m_triggeredByAuraSpell  = nullptr;
     m_spellAura = nullptr;
 
     //Auto Shot & Shoot (wand)
     m_autoRepeat = m_spellInfo->IsAutoRepeatRangedSpell();
+    // Wand Shoot: the server drives the repeat casts as normal spells so the
+    // client plays the spell visual each shot.
+    if (m_spellInfo->Id == 5019)
+        m_autoRepeat = false;
 
     m_runesState = 0;
     m_casttime = 0;                                         // setup to correct value in Spell::prepare, must not be used before.
@@ -3898,6 +3933,12 @@ void Spell::finish(bool ok)
         }
     }
 
+    // Auto-repeat ranged attacks (wand Shoot / Auto Shot) must use the ranged
+    // weapon speed between shots, otherwise the next repeat tick can land
+    // inside the global cooldown and cancel the whole auto-repeat.
+    if (m_autoRepeat)
+        m_caster->resetAttackTimer(RANGED_ATTACK);
+
     // potions disabled by client, send event "not in combat" if need
     if (m_caster->GetTypeId() == TYPEID_PLAYER)
     {
@@ -4109,6 +4150,10 @@ void Spell::SendCastResult(SpellCastResult result, uint32* param1 /*= nullptr*/,
     if (result == SPELL_CAST_OK)
         return;
 
+    if (m_spellInfo->Id == 5019 || m_spellInfo->Id == 75)
+        TC_LOG_INFO("spells", "Auto-repeat spell %u cast result %u for %s", m_spellInfo->Id, uint32(result),
+            m_caster->GetTypeId() == TYPEID_PLAYER ? m_caster->ToPlayer()->GetName().c_str() : m_caster->GetName().c_str());
+
     if (m_caster->GetTypeId() != TYPEID_PLAYER)
         return;
 
@@ -4187,6 +4232,13 @@ void Spell::SendSpellStart()
 
     if (m_spellInfo->HasAttribute(SPELL_ATTR0_REQ_AMMO) || m_spellInfo->HasAttribute(SPELL_ATTR0_CU_NEEDS_AMMO_DATA))
         castFlags |= CAST_FLAG_PROJECTILE;
+
+    // Wands/auto-shot must always send the projectile flag, even in client
+    // builds where the shoot spell no longer carries REQ_AMMO.
+    if (m_autoRepeat || m_spellInfo->Id == 5019 || m_spellInfo->Id == 75)
+    {
+        castFlags |= CAST_FLAG_PROJECTILE;
+    }
 
     if ((m_caster->GetTypeId() == TYPEID_PLAYER ||
         (m_caster->GetTypeId() == TYPEID_UNIT && m_caster->IsPet()))
@@ -4289,6 +4341,9 @@ void Spell::SendSpellGo()
 
     if (m_spellInfo->HasAttribute(SPELL_ATTR0_REQ_AMMO) || m_spellInfo->HasAttribute(SPELL_ATTR0_CU_NEEDS_AMMO_DATA))
         castFlags |= CAST_FLAG_PROJECTILE;                        // arrows/bullets visual
+
+    if (m_autoRepeat || m_spellInfo->Id == 5019 || m_spellInfo->Id == 75)
+        castFlags |= CAST_FLAG_PROJECTILE;
 
     if ((m_caster->GetTypeId() == TYPEID_PLAYER ||
         (m_caster->GetTypeId() == TYPEID_UNIT && m_caster->IsPet()))
@@ -6447,6 +6502,12 @@ std::pair<float, float> Spell::GetMinMaxRange(bool strict) const
         if (Item* ranged = m_caster->ToPlayer()->GetWeaponForAttack(RANGED_ATTACK, true))
             maxRange *= ranged->GetTemplate()->GetRangedModRange() * 0.01f;
 
+    // Wand Shoot / Auto Shot are implicit ranged attacks. Some client DB2
+    // builds have no RangeEntry for them, leaving maxRange at 0 and making
+    // every auto-repeat tick fail the range check (reported as "interrupted").
+    if (maxRange <= 0.0f && (m_spellInfo->Id == 5019 || m_spellInfo->Id == 75 || m_spellInfo->IsAutoRepeatRangedSpell()))
+        maxRange = 30.0f;
+
     if (Player* modOwner = m_caster->GetSpellModOwner())
         modOwner->ApplySpellMod(m_spellInfo->Id, SPELLMOD_RANGE, maxRange, const_cast<Spell*>(this));
 
@@ -7378,7 +7439,9 @@ bool Spell::IsAutoActionResetSpell() const
 
 bool Spell::IsNeedSendToClient() const
 {
-    return m_SpellVisual || m_spellInfo->IsChanneled() ||
+    // Auto-repeat ranged attacks are triggered spells, but the client still
+    // needs SMSG_SPELL_START/GO for each shot's animation and projectile.
+    return m_autoRepeat || m_SpellVisual || m_spellInfo->IsChanneled() ||
         (m_spellInfo->HasAttribute(SPELL_ATTR8_AURA_SEND_AMOUNT)) || m_spellInfo->HasHitDelay() || (!m_triggeredByAuraSpell && !IsTriggered());
 }
 

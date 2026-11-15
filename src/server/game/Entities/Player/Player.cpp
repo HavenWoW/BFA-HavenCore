@@ -1082,6 +1082,41 @@ void Player::SetDrunkValue(uint8 newDrunkValue, uint32 itemId /*= 0*/)
     SendMessageToSet(data.Write(), true);
 }
 
+bool Player::StartWandAutoRepeat(ObjectGuid target)
+{
+    bool wasActive = m_wandAutoRepeat && m_wandAutoRepeatTarget == target;
+    m_wandAutoRepeat = true;
+    m_wandAutoRepeatTarget = target;
+    return !wasActive;
+}
+
+void Player::UpdateWandAutoRepeat()
+{
+    if (!m_wandAutoRepeat)
+        return;
+
+    Unit* target = ObjectAccessor::GetUnit(*this, m_wandAutoRepeatTarget);
+    if (!IsAlive() || !target || !target->IsAlive() || !IsValidAttackTarget(target) ||
+        isMoving() || !IsWithinDistInMap(target, 30.0f))
+    {
+        m_wandAutoRepeat = false;
+        m_wandAutoRepeatTarget.Clear();
+        return;
+    }
+
+    if (isAttackReady(RANGED_ATTACK))
+    {
+        // The client's own first Shoot cast can still be in progress here; casting
+        // now would fail with SPELL_FAILED_SPELL_IN_PROGRESS and interrupt it.
+        if (GetCurrentSpell(CURRENT_GENERIC_SPELL) || GetCurrentSpell(CURRENT_CHANNELED_SPELL))
+            return;
+
+        // Normal (non-triggered) cast so the client plays the shoot visual.
+        CastSpell(target, 5019, false);
+        resetAttackTimer(RANGED_ATTACK);
+    }
+}
+
 void Player::Update(uint32 p_time)
 {
     if (!IsInWorld())
@@ -1109,6 +1144,8 @@ void Player::Update(uint32 p_time)
     SetCanDelayTeleport(true);
     Unit::Update(p_time);
     SetCanDelayTeleport(false);
+
+    UpdateWandAutoRepeat();
 
     time_t now = time(nullptr);
 
@@ -9277,7 +9314,16 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type, bool aeLooting/* = fa
                     loot->GenerateMoneyLoot(addon->mingold, addon->maxgold);
 
             if (loot_type == LOOT_FISHING)
+            {
                 go->getFishLoot(loot, this);
+
+                // Several zones (including most BfA zones) have no entry in
+                // `fishing_loot_template`, so all normal fishing rolls can
+                // fail and the client would open an empty loot window. Use
+                // the junk table as a guaranteed fallback in that case.
+                if (loot->empty())
+                    go->getFishLootJunk(loot, this);
+            }
             else if (loot_type == LOOT_FISHING_JUNK)
                 go->getFishLootJunk(loot, this);
 
@@ -9480,7 +9526,10 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type, bool aeLooting/* = fa
                 }
                 else
                 {
-                    SendLootError(loot->GetGUID(), guid, LOOT_ERROR_ALREADY_PICKPOCKETED);
+                    // Nothing left to pickpocket (cooldown refill not ready yet).
+                    // Do not answer with a failure packet, the client turns it
+                    // into an error voice line ("you can't pickpocket that").
+                    SendLootRelease(guid);
                     return;
                 }
             } // else - still has pickpocket loot generated & not fully taken
@@ -9490,14 +9539,23 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type, bool aeLooting/* = fa
             // exploit fix
             if (!creature->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE))
             {
-                SendLootError(loot->GetGUID(), guid, LOOT_ERROR_DIDNT_KILL);
+                // The corpse was already emptied: the client is only
+                // re-requesting an old loot window. Stay silent unless the
+                // player really is not allowed to loot it.
+                if (creature->IsTappedBy(this) && loot->isLooted(this))
+                    SendLootRelease(guid);
+                else
+                    SendLootError(loot->GetGUID(), guid, LOOT_ERROR_DIDNT_KILL);
                 return;
             }
 
             // the player whose group may loot the corpse
             if (!creature->GetLootRecipients().size())
             {
-                SendLootError(loot->GetGUID(), guid, LOOT_ERROR_DIDNT_KILL);
+                if (creature->IsTappedBy(this) && loot->isLooted(this))
+                    SendLootRelease(guid);
+                else
+                    SendLootError(loot->GetGUID(), guid, LOOT_ERROR_DIDNT_KILL);
                 return;
             }
 
@@ -9584,7 +9642,16 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type, bool aeLooting/* = fa
             AddUnitFlag(UNIT_FLAG_LOOTING);
     }
     else
-        SendLootError(loot->GetGUID(), guid, LOOT_ERROR_DIDNT_KILL);
+    {
+        // Already looted corpses (and area loot targets that turned out to be
+        // invalid) must not produce a loot failure packet, otherwise the client
+        // plays a spurious error voice every time the player clicks the corpse.
+        Creature* lootCreature = guid.IsCreatureOrVehicle() ? GetMap()->GetCreature(guid) : nullptr;
+        if (aeLooting || (lootCreature && lootCreature->IsTappedBy(this) && loot->isLooted(this)))
+            SendLootRelease(guid);
+        else
+            SendLootError(loot->GetGUID(), guid, LOOT_ERROR_DIDNT_KILL);
+    }
 }
 
 void Player::SendLootError(ObjectGuid const& lootObj, ObjectGuid const& owner, LootError error) const
@@ -15627,6 +15694,19 @@ void Player::OnGossipSelect(WorldObject* source, uint32 optionIndex, uint32 menu
     {
         case GOSSIP_OPTION_GOSSIP:
         {
+            // Stable masters offer "I'd like to heal and revive my battle pets." as a plain gossip
+            // option without any action menu (icon 0), so it used to do nothing but close the
+            // window and the "On The Mend" quests could never be finished.
+            if (Creature* creature = source->ToCreature())
+            {
+                if (creature->HasNpcFlag(UNIT_NPC_FLAG_STABLEMASTER) && item->MenuItemIcon == 0)
+                {
+                    PlayerTalkClass->SendCloseGossip();
+                    HealAndReviveBattlePets();
+                    break;
+                }
+            }
+
             if (menuItemData->GossipActionPoi)
                 PlayerTalkClass->SendPointOfInterest(menuItemData->GossipActionPoi);
 
@@ -27568,7 +27648,10 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot, AELootResult* aeResult/* 
 
     if (!item)
     {
-        SendEquipError(EQUIP_ERR_LOOT_GONE, nullptr, nullptr);
+        // The client keeps sending loot requests for slots it still displays
+        // (double click, "loot all" batches, or a loot window that was not
+        // refreshed yet). Answering those with EQUIP_ERR_LOOT_GONE makes the
+        // client play a bogus "you can't loot that" error, so stay silent.
         return;
     }
 
@@ -31252,6 +31335,59 @@ void Player::SaveBattlePets(CharacterDatabaseTransaction& trans)
     for (BattlePetMap::iterator itr = _battlePets.begin(); itr != _battlePets.end(); ++itr)
         if (std::shared_ptr<BattlePet> pet = itr->second)
             pet->Save(trans);
+}
+
+void Player::HealAndReviveBattlePets()
+{
+    bool changed = false;
+
+    for (BattlePetMap::iterator itr = _battlePets.begin(); itr != _battlePets.end(); ++itr)
+    {
+        std::shared_ptr<BattlePet> pet = itr->second;
+        if (!pet)
+            continue;
+
+        if (pet->InfoMaxHealth <= 0)
+            pet->UpdateStats();
+
+        if (pet->Health == pet->InfoMaxHealth)
+            continue;
+
+        pet->Health = pet->InfoMaxHealth;
+        pet->needSave = true;
+        changed = true;
+    }
+
+    if (changed)
+    {
+        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+        SaveBattlePets(trans);
+        CharacterDatabase.CommitTransaction(trans);
+
+        GetSession()->SendBattlePetUpdates();
+    }
+
+    /// Stable masters are also the quest givers for the "On The Mend" quests, which are
+    /// completed by one hidden kill credit dummy per starting zone. Crediting all of them is
+    /// harmless - only the quest the player actually has in the log will advance.
+    static uint32 const healCreditEntries[] =
+    {
+        64320, // Elwynn Forest
+        65020, // Dun Morogh
+        65041, // Teldrassil
+        65179, // Azuremyst
+        65180, // Durotar
+        65184, // Mulgore
+        65193, // Tirisfal Glades
+        65198, // Eversong Woods
+        65199, // Darkshore
+        65200, // Orgrimmar / Goblin
+        65212, // Orgrimmar
+        65214  // Stormwind
+    };
+
+    for (uint32 entry : healCreditEntries)
+        KilledMonsterCredit(entry);
 }
 
 void Player::PetBattleCountBattleSpecies()

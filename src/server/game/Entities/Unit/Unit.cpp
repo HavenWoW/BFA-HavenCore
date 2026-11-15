@@ -3028,6 +3028,11 @@ void Unit::_UpdateAutoRepeatSpell()
     if (((GetTypeId() == TYPEID_PLAYER && ToPlayer()->isMoving() && autoRepeatSpellInfo->Id != 75) || IsNonMeleeSpellCast(false, false, true, autoRepeatSpellInfo->Id == 75)) &&
         !HasAuraTypeWithAffectMask(SPELL_AURA_CAST_WHILE_WALKING, autoRepeatSpellInfo))
     {
+        if (autoRepeatSpellInfo->Id == 5019 || autoRepeatSpellInfo->Id == 75)
+            TC_LOG_INFO("spells", "AutoRepeat %u interrupted: moving=%d nonMeleeCast=%d",
+                autoRepeatSpellInfo->Id, GetTypeId() == TYPEID_PLAYER ? int(ToPlayer()->isMoving()) : -1,
+                int(IsNonMeleeSpellCast(false, false, true, autoRepeatSpellInfo->Id == 75)));
+
         // cancel wand shoot
         if (autoRepeatSpellInfo->Id != 75)
             InterruptSpell(CURRENT_AUTOREPEAT_SPELL);
@@ -3047,6 +3052,19 @@ void Unit::_UpdateAutoRepeatSpell()
         SpellCastResult result = m_currentSpells[CURRENT_AUTOREPEAT_SPELL]->CheckCast(true);
         if (result != SPELL_CAST_OK && result != SPELL_FAILED_MOVING)
         {
+            // The initial auto-repeat cast starts the global cooldown; the
+            // first repeat tick can land inside it. Waiting for the next tick
+            // is correct here, cancelling the whole wand/auto-shot instead
+            // shows a bogus "interrupted" message.
+            if (result == SPELL_FAILED_NOT_READY)
+                return;
+
+            if (autoRepeatSpellInfo->Id == 5019 || autoRepeatSpellInfo->Id == 75)
+                TC_LOG_INFO("spells", "AutoRepeat %u CheckCast failed: %u (target %s)",
+                    autoRepeatSpellInfo->Id, uint32(result),
+                    m_currentSpells[CURRENT_AUTOREPEAT_SPELL]->m_targets.GetUnitTarget()
+                        ? m_currentSpells[CURRENT_AUTOREPEAT_SPELL]->m_targets.GetUnitTarget()->GetName().c_str() : "<none>");
+
             if (autoRepeatSpellInfo->Id != 75)
                 InterruptSpell(CURRENT_AUTOREPEAT_SPELL);
             else if (GetTypeId() == TYPEID_PLAYER)

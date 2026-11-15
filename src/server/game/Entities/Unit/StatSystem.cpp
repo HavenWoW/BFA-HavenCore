@@ -1111,9 +1111,9 @@ void Guardian::UpdateArmor()
 
     if (pctFromOwnerArmor)
         armor = CalculatePct(m_owner->GetArmor(), pctFromOwnerArmor);
-    else
-        TC_LOG_ERROR("entities.pet", "Pet (%s, entry %d) has no pctFromOwnerArmor defined. Armor set to 1.",
-            GetGUID().ToString().c_str(), GetEntry());
+    // Guardians and summons that are not listed above simply keep their own armor value
+    // (armor was initialised from GetArmor() above). No log here: this is the normal case
+    // for every quest/item guardian the player can summon, and it used to flood the log.
 
     // Pets do not have static base values
     if (!(GetModifierValue(unitMod, BASE_VALUE) == armor))

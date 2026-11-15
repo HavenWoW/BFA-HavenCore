@@ -1136,6 +1136,8 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         bool Create(ObjectGuid::LowType guidlow, WorldPackets::Character::CharacterCreateInfo const* createInfo);
 
         void Update(uint32 time) override;
+        bool StartWandAutoRepeat(ObjectGuid target);
+        void UpdateWandAutoRepeat();
 
         bool IsImmunedToSpellEffect(SpellInfo const* spellInfo, uint32 index, Unit* caster) const override;
 
@@ -2719,6 +2721,7 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
 
         uint32 GetBattlePetTrapLevel();
         void SaveBattlePets(CharacterDatabaseTransaction& trans);
+        void HealAndReviveBattlePets();
         void UnsummonCurrentBattlePetIfAny(bool p_Unvolontary);
         void PetBattleCountBattleSpecies();
         uint8 GetBattlePetCountForSpecies(uint32 speciesID);
@@ -3010,6 +3013,8 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
         uint32 m_hostileReferenceCheckTimer;
         uint32 m_drunkTimer;
         uint32 m_weaponChangeTimer;
+        bool m_wandAutoRepeat = false;
+        ObjectGuid m_wandAutoRepeatTarget;
 
         uint32 m_zoneUpdateId;
         uint32 m_zoneUpdateTimer;

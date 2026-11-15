@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 2026 BFA-HavenCore
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -287,7 +287,14 @@ void WorldSession::HandleCastSpellOpcode(WorldPackets::Spells::CastSpell& cast)
         return;
     }
 
-    if (spellInfo->IsPassive())
+    // Auto-repeat ranged attacks (wand Shoot / Auto Shot) can be flagged as
+    // passive in some client builds but still have to be processed server-side.
+    if (spellInfo->IsPassive() && !spellInfo->IsAutoRepeatRangedSpell())
+        return;
+
+    // Wand shooting is driven by Player::UpdateWandAutoRepeat once started;
+    // ignore the client's repeated Shoot casts to avoid double shots.
+    if (spellInfo->Id == 5019 && !_player->StartWandAutoRepeat(cast.Cast.Target.Unit))
         return;
 
     Unit* caster = mover;
@@ -303,10 +310,39 @@ void WorldSession::HandleCastSpellOpcode(WorldPackets::Spells::CastSpell& cast)
 
     // check known spell or raid marker spell (which not requires player to know it) or current archaeology project crafting
     if (caster->GetTypeId() == TYPEID_PLAYER && !caster->ToPlayer()->HasActiveSpell(spellInfo->Id) && !spellInfo->HasEffect(SPELL_EFFECT_CHANGE_RAID_MARKER) && !spellInfo->HasAttribute(SPELL_ATTR8_RAID_MARKER) && !caster->ToPlayer()->GetArchaeologyMgr().IsCurrentArtifactSpell(spellInfo->Id))
-        return;
+    {
+        // Auto-repeat ranged attacks (wand "Shoot", hunter "Auto Shot") are
+        // implicit abilities of the equipped weapon and are not stored in the
+        // spellbook, so the client casts them without HasActiveSpell().
+        // The client only sends these when a ranged weapon is actually in use,
+        // and some BfA DB2 item records do not expose the expected subclass
+        // here, so do not gate them on the weapon subclass.
+        bool implicitRangedAttack = spellInfo->Id == 5019 || spellInfo->Id == 75 || spellInfo->IsAutoRepeatRangedSpell();
+
+        if (!implicitRangedAttack)
+            return;
+    }
 
     // Check possible spell cast overrides
     spellInfo = caster->GetCastSpellInfo(spellInfo);
+
+    // client provided targets
+    SpellCastTargets targets(caster, cast.Cast);
+
+    // The BfA client only sends the Shoot spell for wand attacks, not
+    // CMSG_ATTACK_SWING. Enter the attack state and send SMSG_ATTACK_START so
+    // the client plays the ranged shoot animation and projectile.
+    if (spellInfo->IsAutoRepeatRangedSpell())
+    {
+        if (Unit* target = targets.GetUnitTarget())
+        {
+            if (caster->GetVictim() != target)
+            {
+                caster->Attack(target, false);
+                caster->SendMeleeAttackStart(target);
+            }
+        }
+    }
 
     // Client is resending autoshot cast opcode when other spell is cast during shoot rotation
     // Skip it to prevent "interrupt" message
@@ -317,9 +353,6 @@ void WorldSession::HandleCastSpellOpcode(WorldPackets::Spells::CastSpell& cast)
     // can't use our own spells when we're in possession of another unit,
     if (_player->isPossessing())
         return;
-
-    // client provided targets
-    SpellCastTargets targets(caster, cast.Cast);
 
     // auto-selection buff level base at target level (in spellInfo)
     if (targets.GetUnitTarget())
@@ -456,6 +489,9 @@ void WorldSession::HandleCancelMountAuraOpcode(WorldPackets::Spells::CancelMount
 
 void WorldSession::HandleCancelAutoRepeatSpellOpcode(WorldPackets::Spells::CancelAutoRepeatSpell& /*cancelAutoRepeatSpell*/)
 {
+    if (Spell* spell = _player->GetCurrentSpell(CURRENT_AUTOREPEAT_SPELL))
+        TC_LOG_INFO("spells", "Player %s cancelled auto-repeat spell %u", _player->GetName().c_str(), spell->m_spellInfo->Id);
+
     // may be better send SMSG_CANCEL_AUTO_REPEAT?
     // cancel and prepare for deleting
     _player->InterruptSpell(CURRENT_AUTOREPEAT_SPELL);

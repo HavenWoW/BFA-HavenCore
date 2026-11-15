@@ -73,6 +73,11 @@ void WorldSession::HandleAutostoreLootItemOpcode(WorldPackets::Loot::LootItem& p
         Loot* loot = nullptr;
         ObjectGuid lguid = player->GetLootWorldObjectGUID(req.Object);
 
+        // Stale loot object (view already released or corpse despawned).
+        // Ignore the request instead of answering with a loot failure.
+        if (lguid.IsEmpty())
+            continue;
+
         if (lguid.IsGameObject())
         {
             GameObject* go = player->GetMap()->GetGameObject(lguid);
@@ -113,10 +118,27 @@ void WorldSession::HandleAutostoreLootItemOpcode(WorldPackets::Loot::LootItem& p
         {
             Creature* creature = GetPlayer()->GetMap()->GetCreature(lguid);
 
-            bool lootAllowed = creature && creature->IsAlive() == (player->getClass() == CLASS_ROGUE && creature->loot.loot_type == LOOT_PICKPOCKETING);
-            if (!lootAllowed || !creature->IsWithinDistInMap(_player, AELootCreatureCheck::LootDistance))
+            if (!creature)
             {
-                player->SendLootError(req.Object, lguid, lootAllowed ? LOOT_ERROR_TOO_FAR : LOOT_ERROR_DIDNT_KILL);
+                player->SendLootRelease(lguid);
+                continue;
+            }
+
+            bool lootAllowed = creature->IsAlive() == (player->getClass() == CLASS_ROGUE && creature->loot.loot_type == LOOT_PICKPOCKETING);
+            if (!lootAllowed)
+            {
+                // Dead but not lootable any more (emptied corpse / old pickpocket
+                // loot type) - just close the stale window.
+                if (creature->IsAlive())
+                    player->SendLootError(req.Object, lguid, LOOT_ERROR_DIDNT_KILL);
+                else
+                    player->SendLootRelease(lguid);
+                continue;
+            }
+
+            if (!creature->IsWithinDistInMap(_player, AELootCreatureCheck::LootDistance))
+            {
+                player->SendLootError(req.Object, lguid, LOOT_ERROR_TOO_FAR);
                 continue;
             }
 
@@ -191,14 +213,18 @@ void WorldSession::HandleLootMoneyOpcode(WorldPackets::Loot::LootMoney& /*packet
             case HighGuid::Vehicle:
             {
                 Creature* creature = player->GetMap()->GetCreature(guid);
-                bool lootAllowed = creature && creature->IsAlive() == (player->getClass() == CLASS_ROGUE && creature->loot.loot_type == LOOT_PICKPOCKETING);
+                if (!creature)
+                    break;
+
+                bool lootAllowed = creature->IsAlive() == (player->getClass() == CLASS_ROGUE && creature->loot.loot_type == LOOT_PICKPOCKETING);
                 if (lootAllowed && creature->IsWithinDistInMap(player, AELootCreatureCheck::LootDistance))
                 {
                     loot = &creature->loot;
                     if (creature->IsAlive())
                         shareMoney = false;
                 }
-                else
+                // Only answer with an error when there really is money left to take.
+                else if (creature->loot.gold)
                     player->SendLootError(lootView.first, lootView.second, lootAllowed ? LOOT_ERROR_TOO_FAR : LOOT_ERROR_DIDNT_KILL);
                 break;
             }

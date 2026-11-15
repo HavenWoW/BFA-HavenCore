@@ -4398,6 +4398,14 @@ uint32 SpellInfo::GetSpellXSpellVisualId(Unit const* caster /*= nullptr*/) const
         }
     }
 
+    // Some client DB2 rows are stored under a non-default difficulty or carry a
+    // caster condition that the current unit does not meet. Fall back to the
+    // first available visual instead of sending 0 (which disables the client
+    // spell visual entirely).
+    for (auto const& visualPair : _visuals)
+        if (!visualPair.second.empty())
+            return visualPair.second.front()->ID;
+
     return 0;
 }
 

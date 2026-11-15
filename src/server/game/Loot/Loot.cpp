@@ -140,7 +140,7 @@ uint32 Loot::GetUnlootedCount(Player const* player /*= nullptr*/) const
             for (LootItem const& item : itr->second)
             {
                 // Match the visibility rules used by BuildLootResponse().
-                if (!item.is_looted && item.conditions.empty() && item.AllowedForPlayer(player))
+                if (!item.is_looted && item.AllowedForPlayer(player))
                     ++unlootedCount;
             }
         }
@@ -396,7 +396,7 @@ void Loot::BuildLootResponse(WorldPackets::Loot::LootResponse& packet, Player* v
     for (LootItem const& item : playerItems)
     {
         ++lootIndex;
-        if (!item.is_looted && item.conditions.empty() && item.AllowedForPlayer(viewer))
+        if (!item.is_looted && item.AllowedForPlayer(viewer))
         {
             if (!item.currency)
             {
