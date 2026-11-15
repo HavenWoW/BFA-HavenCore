@@ -563,7 +563,13 @@ void WorldSession::HandleQuestgiverCompleteQuest(WorldPackets::Quest::QuestGiver
             if (quest->IsRepeatable())
                 _player->PlayerTalkClass->SendQuestGiverRequestItems(quest, packet.QuestGiverGUID, _player->CanCompleteRepeatableQuest(quest), false);
             else
-                _player->PlayerTalkClass->SendQuestGiverRequestItems(quest, packet.QuestGiverGUID, _player->CanRewardQuest(quest, false), false);
+                // CanRewardQuest() only returns true once the quest is already QUEST_STATUS_COMPLETE,
+                // so using it here always reported the quest as incomplete and greyed out the
+                // "continue" button for quests whose objectives are done but whose status has not
+                // been promoted yet (e.g. item objectives finished while the quest was blocked).
+                // CanCompleteQuest() is the correct check - the reward request handler promotes
+                // the quest to COMPLETE afterwards.
+                _player->PlayerTalkClass->SendQuestGiverRequestItems(quest, packet.QuestGiverGUID, _player->CanCompleteQuest(packet.QuestID), false);
         }
         else
         {
