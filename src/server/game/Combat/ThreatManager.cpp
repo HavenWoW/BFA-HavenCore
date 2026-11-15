@@ -500,10 +500,29 @@ void ThreatManager::ClearThreat(ThreatReference* ref)
 void ThreatManager::ClearAllThreat()
 {
     _ownerEngaged = false;
+
+    /// Always tell the client about it, even when our own list is already empty.
+    /// The client keeps its own threat table per unit and drops it only when it receives
+    /// threat update packets.  Sending just THREAT_CLEAR is not enough on this client:
+    /// after a single killing blow the 8.3.7 client keeps showing the target frame aggro
+    /// marker (UnitThreatSituation == 3) until the corpse leaves visibility.  Per victim
+    /// THREAT_REMOVE plus an empty THREAT_UPDATE reliably clear that table.
+    if (CanHaveThreatList())
+    {
+        for (auto const& pair : _myThreatListEntries)
+            if (pair.second && pair.second->GetVictim())
+                SendRemoveToClients(pair.second->GetVictim());
+
+        SendClearAllThreatToClients();
+
+        WorldPackets::Combat::ThreatUpdate emptyUpdate;
+        emptyUpdate.UnitGUID = _owner->GetGUID();
+        _owner->SendMessageToSet(emptyUpdate.Write(), false);
+    }
+
     if (_myThreatListEntries.empty())
         return;
 
-    SendClearAllThreatToClients();
     do
         _myThreatListEntries.begin()->second->UnregisterAndFree();
     while (!_myThreatListEntries.empty());
