@@ -2542,23 +2542,67 @@ void Spell::EffectLearnSkill(SpellEffIndex /*effIndex*/)
     if (effectHandleMode != SPELL_EFFECT_HANDLE_HIT_TARGET)
         return;
 
-    if (!unitTarget->IsPlayer())
+    if (!unitTarget || !unitTarget->IsPlayer())
         return;
 
-    if (damage < 1)
-        return;
+    Player* player = unitTarget->ToPlayer();
 
+    uint16 step = uint16(std::max<int32>(damage, 1));
     uint32 skillid = effectInfo->MiscValue;
-    SkillRaceClassInfoEntry const* rcEntry = sDB2Manager.GetSkillRaceClassInfo(skillid, unitTarget->getRace(), unitTarget->getClass());
+    SkillRaceClassInfoEntry const* rcEntry = sDB2Manager.GetSkillRaceClassInfo(skillid, player->getRace(), player->getClass());
+
+    // BfA moved profession progression to expansion-specific child skill lines
+    // (Fishing 356 -> 2592, Cooking 185 -> 2548, ...). Trainer spells still
+    // reference the classic parent line, which no longer has a
+    // SkillRaceClassInfo record, so the skill was never added to the player.
+    if (!rcEntry)
+    {
+        if (skillid == SKILL_FISHING)
+        {
+            skillid = SKILL_FISHING_2;
+            rcEntry = sDB2Manager.GetSkillRaceClassInfo(skillid, player->getRace(), player->getClass());
+        }
+
+        if (!rcEntry)
+        {
+            if (std::vector<SkillLineEntry const*> const* childSkillLines = sDB2Manager.GetSkillLinesForParentSkill(skillid))
+            {
+                for (SkillLineEntry const* childSkillLine : *childSkillLines)
+                {
+                    SkillRaceClassInfoEntry const* childEntry = sDB2Manager.GetSkillRaceClassInfo(childSkillLine->ID, player->getRace(), player->getClass());
+                    if (!childEntry)
+                        continue;
+
+                    skillid = childSkillLine->ID;
+                    rcEntry = childEntry;
+                    break;
+                }
+            }
+        }
+    }
+
     if (!rcEntry)
         return;
 
-    SkillTiersEntry const* tier = sObjectMgr->GetSkillTier(rcEntry->SkillTierID);
-    if (!tier)
-        return;
+    uint16 skillval = player->GetPureSkillValue(skillid);
+    uint16 maxValue = uint16(std::min<uint32>(uint32(step) * 75, 1000));
 
-    uint16 skillval = unitTarget->ToPlayer()->GetPureSkillValue(skillid);
-    unitTarget->ToPlayer()->SetSkill(skillid, damage, std::max<uint16>(skillval, 1), tier->Value[damage - 1]);
+    if (SkillTiersEntry const* tier = sObjectMgr->GetSkillTier(rcEntry->SkillTierID))
+    {
+        uint32 tierIndex = std::min<uint32>(step, MAX_SKILL_STEP) - 1;
+        if (tier->Value[tierIndex])
+            maxValue = uint16(tier->Value[tierIndex]);
+    }
+
+    player->SetSkill(skillid, step, std::max<uint16>(skillval, 1), maxValue);
+
+    // Keep the classic parent skill and the expansion child skill in sync.
+    // Fishing loot checks read SKILL_FISHING, while skill gain and the client
+    // profession tab use SKILL_FISHING_2.
+    if (skillid == SKILL_FISHING && !player->HasSkill(SKILL_FISHING_2))
+        player->SetSkill(SKILL_FISHING_2, step, 1, maxValue);
+    else if (skillid == SKILL_FISHING_2 && !player->HasSkill(SKILL_FISHING))
+        player->SetSkill(SKILL_FISHING, step, 1, maxValue);
 }
 
 void Spell::EffectPlayMovie(SpellEffIndex /*effIndex*/)
