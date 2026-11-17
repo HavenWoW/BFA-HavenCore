@@ -1318,7 +1318,7 @@ void PetBattle::SetPetState(uint32 sourcePetID, uint32 targetPetID, uint32 fromA
     }
 }
 
-void PetBattle::Kill(int8 killer, int8 target, uint32 killerAbibilityEffectID, bool fromCapture, uint32 flags)
+void PetBattle::Kill(int8 killer, int8 target, uint32 /*killerAbibilityEffectID*/, bool fromCapture, uint32 flags)
 {
     if (Teams[Pets[target]->TeamID]->ActivePetID == target)
     {
@@ -1333,7 +1333,11 @@ void PetBattle::Kill(int8 killer, int8 target, uint32 killerAbibilityEffectID, b
 
     // TC_LOG_DEBUG(LOG_FILTER_BATTLEPET, "PetBattle::Kill BATTLEPET_STATE_Special_ConsumedCorpse");
 
-    SetPetState(killer, target, killerAbibilityEffectID, BATTLE_PET_STATE_Is_Dead, 1, fromCapture, flags);
+    /// The death state is not an ability animation.
+    /// Forwarding the killer ability effect id here makes the client start a new turn instance
+    /// bound to that ability, so it replays the killing (or trap) animation once more after the
+    /// pet dies or is captured. Send the state without any ability effect reference instead.
+    SetPetState(killer, target, 0, BATTLE_PET_STATE_Is_Dead, 1, fromCapture, flags);
 
     RoundResult = PET_BATTLE_ROUND_RESULT_CATCH_OR_KILL;
 }
