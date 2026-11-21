@@ -15628,11 +15628,13 @@ void Player::OnGossipSelect(WorldObject* source, uint32 optionIndex, uint32 menu
         case GOSSIP_OPTION_GOSSIP:
         {
             // Stable masters offer "I'd like to heal and revive my battle pets." as a plain gossip
-            // option without any action menu (icon 0), so it used to do nothing but close the
-            // window and the "On The Mend" quests could never be finished.
+            // option without any action menu, so it used to do nothing but close the window and the
+            // "On The Mend" quests could never be finished. Match the option by its broadcast text
+            // instead of by icon, otherwise every plain gossip option of a stable master heals.
             if (Creature* creature = source->ToCreature())
             {
-                if (creature->HasNpcFlag(UNIT_NPC_FLAG_STABLEMASTER) && item->MenuItemIcon == 0)
+                if (creature->HasNpcFlag(UNIT_NPC_FLAG_STABLEMASTER) &&
+                    item->OptionBroadcastTextId == GOSSIP_BROADCAST_TEXT_BATTLE_PET_HEAL)
                 {
                     PlayerTalkClass->SendCloseGossip();
                     HealAndReviveBattlePets();
