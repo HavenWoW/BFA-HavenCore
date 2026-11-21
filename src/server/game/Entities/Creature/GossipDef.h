@@ -65,6 +65,14 @@ enum Gossip_Option
     GOSSIP_OPTION_MAX
 };
 
+// Broadcast text of the stable master option "I'd like to heal and revive my battle pets.".
+// Shared by every stable master menu in the client data, so it is used to recognise the
+// option without depending on the localized option text.
+enum GossipOptionBroadcastText : uint32
+{
+    GOSSIP_BROADCAST_TEXT_BATTLE_PET_HEAL = 64115
+};
+
 enum GossipOptionIcon
 {
     GOSSIP_ICON_CHAT                = 0,                    // white chat bubble
@@ -156,6 +164,7 @@ struct GossipMenuItem
     std::string Message;
     uint32      Sender;
     uint32      OptionType;
+    uint32      OptionBroadcastTextId = 0;   // keeps the DB broadcast text of the option, for locale independent checks
     std::string BoxMessage;
     uint32      BoxMoney;
 };
