@@ -53,6 +53,7 @@
 #include "InspectPackets.h"
 #include "InstancePackets.h"
 #include "ItemPackets.h"
+#include "ItemInteractionPackets.h"
 #include "LFGPackets.h"
 #include "LfgListPackets.h"
 #include "LootPackets.h"

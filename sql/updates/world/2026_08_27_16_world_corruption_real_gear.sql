@@ -1,0 +1,36 @@
+-- 837 blizzlike: P5 real-gear rank drivers keep hidden proc while any rank remains.
+-- Strikethrough already has spell_strikethrough_driver. Do NOT write spell_proc.
+
+DELETE FROM `spell_script_names` WHERE `ScriptName` IN ('spell_corruption_rank_driver');
+INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
+(318274, 'spell_corruption_rank_driver'),
+(318487, 'spell_corruption_rank_driver'),
+(318488, 'spell_corruption_rank_driver'),
+(318276, 'spell_corruption_rank_driver'),
+(318477, 'spell_corruption_rank_driver'),
+(318478, 'spell_corruption_rank_driver'),
+(318280, 'spell_corruption_rank_driver'),
+(318485, 'spell_corruption_rank_driver'),
+(318486, 'spell_corruption_rank_driver'),
+(318481, 'spell_corruption_rank_driver'),
+(318482, 'spell_corruption_rank_driver'),
+(318483, 'spell_corruption_rank_driver'),
+(318286, 'spell_corruption_rank_driver'),
+(318479, 'spell_corruption_rank_driver'),
+(318480, 'spell_corruption_rank_driver'),
+(318266, 'spell_corruption_rank_driver'),
+(318492, 'spell_corruption_rank_driver'),
+(318496, 'spell_corruption_rank_driver'),
+(318269, 'spell_corruption_rank_driver'),
+(318494, 'spell_corruption_rank_driver'),
+(318498, 'spell_corruption_rank_driver'),
+(318268, 'spell_corruption_rank_driver'),
+(318493, 'spell_corruption_rank_driver'),
+(318497, 'spell_corruption_rank_driver'),
+(318270, 'spell_corruption_rank_driver'),
+(318495, 'spell_corruption_rank_driver'),
+(318499, 'spell_corruption_rank_driver'),
+(318272, 'spell_corruption_rank_driver'),
+(318239, 'spell_corruption_rank_driver'),
+(318303, 'spell_corruption_rank_driver'),
+(318484, 'spell_corruption_rank_driver');

@@ -22,8 +22,10 @@
 #include "DatabaseEnv.h"
 #include "DB2Stores.h"
 #include "Item.h"
+#include "ItemInteractionPackets.h"
 #include "ItemPackets.h"
 #include "Log.h"
+#include "MiscPackets.h"
 #include "NPCPackets.h"
 #include "ObjectMgr.h"
 #include "Opcodes.h"
@@ -33,6 +35,7 @@
 #include "SpellMgr.h"
 #include "World.h"
 #include "WorldSession.h"
+#include "GossipDef.h"
 
 namespace
 {
@@ -1465,4 +1468,79 @@ void WorldSession::HandleRemoveNewItem(WorldPackets::Item::RemoveNewItem& remove
         item->RemoveItemFlag(ITEM_FIELD_FLAG_NEW_ITEM);
         item->SetState(ITEM_CHANGED, _player);
     }
+}
+
+void WorldSession::SendUiItemInteractionNpc(ObjectGuid const& npcGuid, int32 interactionId)
+{
+    InteractionData& data = _player->PlayerTalkClass->GetInteractionData();
+    data.Reset();
+    data.SourceGuid = npcGuid;
+    data.UiItemInteractionId = uint32(interactionId);
+
+    WorldPackets::ItemInteraction::UiItemInteractionNpc packet;
+    packet.Npc = npcGuid;
+    packet.InteractionID = interactionId;
+    SendPacket(packet.Write());
+}
+
+void WorldSession::HandlePerformItemInteraction(WorldPackets::ItemInteraction::PerformItemInteraction& packet)
+{
+    if (sWorld->getIntConfig(CONFIG_MOTHER_REQUIRE_CURIOUS_CORRUPTION)
+        && _player->GetQuestStatus(QUEST_CURIOUS_CORRUPTION) != QUEST_STATUS_REWARDED)
+        return;
+
+    InteractionData const& data = _player->PlayerTalkClass->GetInteractionData();
+    if (data.UiItemInteractionId != UI_ITEM_INTERACTION_TITANIC_PURIFICATION)
+        return;
+
+    ObjectGuid npcGuid = packet.Npc.IsEmpty() ? data.SourceGuid : packet.Npc;
+    if (npcGuid.IsEmpty() || npcGuid != data.SourceGuid)
+        return;
+
+    Creature* npc = _player->GetNPCIfCanInteractWith(npcGuid, UNIT_NPC_FLAG_GOSSIP, UNIT_NPC_FLAG_2_NONE);
+    if (!npc || npc->GetEntry() != NPC_MOTHER_CHAMBER_OF_HEART)
+        return;
+
+    Item* item = _player->GetItemByGuid(packet.Item);
+    if (!item || item->GetOwnerGUID() != _player->GetGUID() || item->IsInTrade() || !item->IsInInventoryOrEquipment())
+        return;
+
+    bool hasCorruption = false;
+    for (int32 listId : *item->m_itemData->BonusListIDs)
+    {
+        if (listId > 0 && sDB2Manager.BonusListIsCorruption(uint32(listId)))
+        {
+            hasCorruption = true;
+            break;
+        }
+    }
+    if (!hasCorruption)
+        return;
+
+    UiItemInteractionEntry const* row = sUiItemInteractionStore.LookupEntry(UI_ITEM_INTERACTION_TITANIC_PURIFICATION);
+    if (!row || row->Cost <= 0 || row->CurrencyTypeID <= 0)
+        return;
+
+    if (_player->GetCurrency(uint32(row->CurrencyTypeID)) < uint32(row->Cost))
+    {
+        _player->SendDirectMessage(WorldPackets::Misc::DisplayGameError(GameError::ERR_ITEM_INTERACTION_NOT_ENOUGH_CURRENCY).Write());
+        return;
+    }
+
+    _player->ModifyCurrency(uint32(row->CurrencyTypeID), -row->Cost, true, true);
+
+    if (item->IsEquipped())
+    {
+        _player->_ApplyItemMods(item, item->GetSlot(), false);
+        item->RemoveCorruptionBonusLists();
+        item->SetState(ITEM_CHANGED, _player);
+        _player->_ApplyItemMods(item, item->GetSlot(), true);
+    }
+    else
+    {
+        item->RemoveCorruptionBonusLists();
+        item->SetState(ITEM_CHANGED, _player);
+    }
+
+    SendPacket(WorldPackets::ItemInteraction::ItemInteractionComplete().Write());
 }

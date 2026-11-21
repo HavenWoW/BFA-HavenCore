@@ -310,6 +310,7 @@ void Loot::AddItem(LootStoreItem const& item, Player const* player /*= nullptr*/
         {
             std::set<uint32> bonusListIDs = sDB2Manager.GetDefaultItemBonusTree(generatedLoot.itemid, _itemContext);
             generatedLoot.BonusListIDs.insert(generatedLoot.BonusListIDs.end(), bonusListIDs.begin(), bonusListIDs.end());
+            sDB2Manager.AppendCorruptionLootBonuses(generatedLoot.itemid, _itemContext, generatedLoot.BonusListIDs);
         }
 
         items[player->GetGUID()].push_back(generatedLoot);

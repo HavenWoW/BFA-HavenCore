@@ -102,6 +102,7 @@
 #include "WorldSession.h"
 #include "WorldSocket.h"
 
+#include <cmath>
 #include <boost/algorithm/string.hpp>
 
 TC_GAME_API std::atomic<bool> World::m_stopEvent(false);
@@ -601,6 +602,12 @@ void World::LoadConfigSettings(bool reload)
     rate_values[RATE_DROP_ITEM_REFERENCED] = sConfigMgr->GetFloatDefault("Rate.Drop.Item.Referenced", 1.0f);
     rate_values[RATE_DROP_ITEM_REFERENCED_AMOUNT] = sConfigMgr->GetFloatDefault("Rate.Drop.Item.ReferencedAmount", 1.0f);
     rate_values[RATE_DROP_MONEY]  = sConfigMgr->GetFloatDefault("Rate.Drop.Money", 1.0f);
+    rate_values[RATE_CORRUPTION_DROP] = sConfigMgr->GetFloatDefault("Rate.CorruptionDrop", 0.0f);
+    if (!std::isfinite(rate_values[RATE_CORRUPTION_DROP]) || rate_values[RATE_CORRUPTION_DROP] < 0.0f || rate_values[RATE_CORRUPTION_DROP] > 1.0f)
+    {
+        TC_LOG_ERROR("server.loading", "Rate.CorruptionDrop (%f) must be finite and in [0, 1]. Using 0.0 instead.", rate_values[RATE_CORRUPTION_DROP]);
+        rate_values[RATE_CORRUPTION_DROP] = 0.0f;
+    }
     rate_values[RATE_XP_KILL]     = sConfigMgr->GetFloatDefault("Rate.XP.Kill", 1.0f);
     rate_values[RATE_XP_BG_KILL]  = sConfigMgr->GetFloatDefault("Rate.XP.BattlegroundKill", 1.0f);
     rate_values[RATE_XP_QUEST]    = sConfigMgr->GetFloatDefault("Rate.XP.Quest", 1.0f);
@@ -1060,6 +1067,7 @@ void World::LoadConfigSettings(bool reload)
     m_int_configs[CONFIG_GM_CHAT]               = sConfigMgr->GetIntDefault("GM.Chat", 2);
     m_int_configs[CONFIG_GM_WHISPERING_TO]      = sConfigMgr->GetIntDefault("GM.WhisperingTo", 2);
     m_int_configs[CONFIG_GM_FREEZE_DURATION]    = sConfigMgr->GetIntDefault("GM.FreezeAuraDuration", 0);
+    m_int_configs[CONFIG_MOTHER_REQUIRE_CURIOUS_CORRUPTION] = sConfigMgr->GetIntDefault("Mother.RequireCuriousCorruption", 1);
 
     m_int_configs[CONFIG_GM_LEVEL_IN_GM_LIST] = sConfigMgr->GetIntDefault("GM.InGMList.Level", SEC_ADMINISTRATOR);
     m_int_configs[CONFIG_GM_LEVEL_IN_WHO_LIST] = sConfigMgr->GetIntDefault("GM.InWhoList.Level", SEC_ADMINISTRATOR);
