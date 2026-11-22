@@ -499,11 +499,28 @@ void ThreatManager::ClearThreat(ThreatReference* ref)
 
 void ThreatManager::ClearAllThreat()
 {
+    bool const wasEngaged = _ownerEngaged;
     _ownerEngaged = false;
+
+    /// CombatStop() -> EndCombat() already sends THREAT_REMOVE for every victim and
+    /// frees the list, so on death our list is empty here and the old code returned
+    /// without sending anything. The 8.3.7 client keeps its own threat table per
+    /// unit and only drops it on THREAT_CLEAR / THREAT_UPDATE, so after a single
+    /// killing blow the target frame kept the aggro marker
+    /// (UnitThreatSituation == 3) until the corpse left visibility. Notify the
+    /// client whenever the unit was actually in combat.
+    if (wasEngaged && CanHaveThreatList())
+    {
+        SendClearAllThreatToClients();
+
+        WorldPackets::Combat::ThreatUpdate emptyUpdate;
+        emptyUpdate.UnitGUID = _owner->GetGUID();
+        _owner->SendMessageToSet(emptyUpdate.Write(), false);
+    }
+
     if (_myThreatListEntries.empty())
         return;
 
-    SendClearAllThreatToClients();
     do
         _myThreatListEntries.begin()->second->UnregisterAndFree();
     while (!_myThreatListEntries.empty());
