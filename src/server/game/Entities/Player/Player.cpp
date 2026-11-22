@@ -15627,6 +15627,21 @@ void Player::OnGossipSelect(WorldObject* source, uint32 optionIndex, uint32 menu
     {
         case GOSSIP_OPTION_GOSSIP:
         {
+            // Stable masters offer "I'd like to heal and revive my battle pets." as a plain gossip
+            // option without any action menu, so it used to do nothing but close the window and the
+            // "On The Mend" quests could never be finished. Match the option by its broadcast text
+            // instead of by icon, otherwise every plain gossip option of a stable master heals.
+            if (Creature* creature = source->ToCreature())
+            {
+                if (creature->HasNpcFlag(UNIT_NPC_FLAG_STABLEMASTER) &&
+                    item->OptionBroadcastTextId == GOSSIP_BROADCAST_TEXT_BATTLE_PET_HEAL)
+                {
+                    PlayerTalkClass->SendCloseGossip();
+                    HealAndReviveBattlePets();
+                    break;
+                }
+            }
+
             if (menuItemData->GossipActionPoi)
                 PlayerTalkClass->SendPointOfInterest(menuItemData->GossipActionPoi);
 
@@ -31252,6 +31267,59 @@ void Player::SaveBattlePets(CharacterDatabaseTransaction& trans)
     for (BattlePetMap::iterator itr = _battlePets.begin(); itr != _battlePets.end(); ++itr)
         if (std::shared_ptr<BattlePet> pet = itr->second)
             pet->Save(trans);
+}
+
+void Player::HealAndReviveBattlePets()
+{
+    bool changed = false;
+
+    for (BattlePetMap::iterator itr = _battlePets.begin(); itr != _battlePets.end(); ++itr)
+    {
+        std::shared_ptr<BattlePet> pet = itr->second;
+        if (!pet)
+            continue;
+
+        if (pet->InfoMaxHealth <= 0)
+            pet->UpdateStats();
+
+        if (pet->Health == pet->InfoMaxHealth)
+            continue;
+
+        pet->Health = pet->InfoMaxHealth;
+        pet->needSave = true;
+        changed = true;
+    }
+
+    if (changed)
+    {
+        CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+        SaveBattlePets(trans);
+        CharacterDatabase.CommitTransaction(trans);
+
+        GetSession()->SendBattlePetUpdates();
+    }
+
+    /// Stable masters are also the quest givers for the "On The Mend" quests, which are
+    /// completed by one hidden kill credit dummy per starting zone. Crediting all of them is
+    /// harmless - only the quest the player actually has in the log will advance.
+    static uint32 const healCreditEntries[] =
+    {
+        64320, // Elwynn Forest
+        65020, // Dun Morogh
+        65041, // Teldrassil
+        65179, // Azuremyst
+        65180, // Durotar
+        65184, // Mulgore
+        65193, // Tirisfal Glades
+        65198, // Eversong Woods
+        65199, // Darkshore
+        65200, // Orgrimmar / Goblin
+        65212, // Orgrimmar
+        65214  // Stormwind
+    };
+
+    for (uint32 entry : healCreditEntries)
+        KilledMonsterCredit(entry);
 }
 
 void Player::PetBattleCountBattleSpecies()

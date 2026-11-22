@@ -2719,6 +2719,7 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
 
         uint32 GetBattlePetTrapLevel();
         void SaveBattlePets(CharacterDatabaseTransaction& trans);
+        void HealAndReviveBattlePets();
         void UnsummonCurrentBattlePetIfAny(bool p_Unvolontary);
         void PetBattleCountBattleSpecies();
         uint8 GetBattlePetCountForSpecies(uint32 speciesID);
