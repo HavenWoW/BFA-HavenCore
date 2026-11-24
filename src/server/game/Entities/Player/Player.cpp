@@ -9277,7 +9277,16 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type, bool aeLooting/* = fa
                     loot->GenerateMoneyLoot(addon->mingold, addon->maxgold);
 
             if (loot_type == LOOT_FISHING)
+            {
                 go->getFishLoot(loot, this);
+
+                // Several zones (including most BfA zones) have no entry in
+                // `fishing_loot_template`, so all normal fishing rolls can
+                // fail and the client would open an empty loot window. Use
+                // the junk table as a guaranteed fallback in that case.
+                if (loot->empty())
+                    go->getFishLootJunk(loot, this);
+            }
             else if (loot_type == LOOT_FISHING_JUNK)
                 go->getFishLootJunk(loot, this);
 
