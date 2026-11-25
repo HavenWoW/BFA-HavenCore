@@ -721,9 +721,14 @@ void Player::UpdateSpellCritChance()
     SetUpdateFieldValue(m_values.ModifyValue(&Player::m_activePlayerData).ModifyValue(&UF::ActivePlayerData::SpellCritPercentage), crit);
 }
 
+float Player::GetEffectiveCorruption() const
+{
+    return GetRatingBonusValue(CR_CORRUPTION) - GetRatingBonusValue(CR_CORRUPTION_RESISTANCE);
+}
+
 void Player::UpdateCorruption()
 {
-    float effectiveCorruption = GetRatingBonusValue(CR_CORRUPTION) - GetRatingBonusValue(CR_CORRUPTION_RESISTANCE);
+    float const effectiveCorruption = GetEffectiveCorruption();
     for (CorruptionEffectsEntry const* corruptionEffect : sCorruptionEffectsStore)
     {
         if ((CorruptionEffectsFlag(corruptionEffect->Flags) & CorruptionEffectsFlag::Disabled) != CorruptionEffectsFlag::None)
@@ -744,7 +749,13 @@ void Player::UpdateCorruption()
             }
         }
 
-        CastSpell(this, corruptionEffect->Aura, true);
+        // Re-casting a penalty that is already applied restarts its duration and resets its
+        // proc state, and this runs on every rating change and area transition. Cast only
+        // what is missing; what is already there recomputes its magnitudes in place.
+        if (Aura* corruptionAura = GetAura(corruptionEffect->Aura))
+            corruptionAura->RecalculateAmountOfEffects();
+        else
+            CastSpell(this, corruptionEffect->Aura, true);
     }
 }
 
