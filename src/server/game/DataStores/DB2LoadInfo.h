@@ -2954,6 +2954,26 @@ struct ItemBonusLoadInfo
     }
 };
 
+struct ItemBonusListGroupEntryLoadInfo
+{
+    static DB2LoadInfo const* Instance()
+    {
+        static DB2FieldMeta const fields[] =
+        {
+            { false, FT_INT, "ID" },
+            { true, FT_INT, "ItemBonusListID" },
+            { true, FT_INT, "ItemLevelSelectorID" },
+            { true, FT_INT, "SequenceValue" },
+            { true, FT_INT, "ItemExtendedCostID" },
+            // ParentIndexField 4: DB2FileLoader treats parent keys as unsigned.
+            { false, FT_INT, "ItemBonusListGroupID" },
+        };
+        static DB2LoadInfo const loadInfo(&fields[0], std::extent<decltype(fields)>::value,
+            ItemBonusListGroupEntryMeta::Instance(), HOTFIX_SEL_ITEM_BONUS_LIST_GROUP_ENTRY);
+        return &loadInfo;
+    }
+};
+
 struct ItemBonusListLevelDeltaLoadInfo
 {
     static DB2LoadInfo const* Instance()
@@ -6138,6 +6158,33 @@ struct TransportRotationLoadInfo
             { false, FT_INT, "GameObjectsID" },
         };
         static DB2LoadInfo const loadInfo(&fields[0], std::extent<decltype(fields)>::value, TransportRotationMeta::Instance(), HOTFIX_SEL_TRANSPORT_ROTATION);
+        return &loadInfo;
+    }
+};
+
+struct UiItemInteractionLoadInfo
+{
+    static DB2LoadInfo const* Instance()
+    {
+        static DB2FieldMeta const fields[] =
+        {
+            { false, FT_STRING, "TutorialText" },
+            { false, FT_STRING, "TitleText" },
+            { false, FT_STRING, "Description" },
+            { false, FT_STRING, "ButtonText" },
+            { false, FT_INT, "ID" },
+            { true, FT_INT, "UiTextureKitID" },
+            { true, FT_INT, "OpenSoundKitID" },
+            { true, FT_INT, "CloseSoundKitID" },
+            { true, FT_INT, "Cost" },
+            { true, FT_BYTE, "ItemInteractionFrameType" },
+            { true, FT_INT, "InteractionSpellID" },
+            { true, FT_INT, "CurrencyTypeID" },
+            { true, FT_BYTE, "Flags" },
+            { true, FT_INT, "DropInSlotSoundKitID" },
+            { true, FT_INT, "TakeOutSlotSoundKitID" },
+        };
+        static DB2LoadInfo const loadInfo(&fields[0], std::extent<decltype(fields)>::value, UiItemInteractionMeta::Instance(), HOTFIX_SEL_UI_ITEM_INTERACTION);
         return &loadInfo;
     }
 };

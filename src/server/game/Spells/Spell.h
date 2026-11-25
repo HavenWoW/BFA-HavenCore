@@ -507,6 +507,7 @@ class TC_GAME_API Spell
         void EffectUncageBattlePet(SpellEffIndex effIndex);
         void EffectGrantBattlePetLevel(SpellEffIndex effIndex);
         void EffectCreateHeirloomItem(SpellEffIndex effIndex);
+        void EffectChangeItemBonuses(SpellEffIndex effIndex);
         void EffectUpgradeHeirloom(SpellEffIndex effIndex);
         void EffectApplyEnchantIllusion(SpellEffIndex effIndex);
         void EffectUpdatePlayerPhase(SpellEffIndex effIndex);
@@ -580,6 +581,7 @@ class TC_GAME_API Spell
         void _handle_finish_phase();
 
         SpellCastResult CheckItems(uint32* param1, uint32* param2) const;
+        SpellCastResult CheckChangeItemBonusesTarget(Item const* item, SpellEffectInfo const* effect) const;
         SpellCastResult CheckRange(bool strict) const;
         SpellCastResult CheckPower() const;
         SpellCastResult CheckRuneCost() const;

@@ -985,6 +985,23 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
         }
     }
 
+    if (damagetype != NODAMAGE && damage && victim != this && IsAlive())
+    {
+        float leechPct = m_unitData->Lifesteal;
+        if (leechPct > 0.0f)
+        {
+            uint32 dealt = health > damage ? damage : health;
+            uint32 heal = uint32(CalculatePct(float(dealt), leechPct));
+            if (heal)
+            {
+                HealInfo healInfo(this, this, heal, spellProto,
+                    spellProto ? spellProto->GetSchoolMask() : SPELL_SCHOOL_MASK_NORMAL);
+                CalcHealAbsorb(healInfo);
+                DealHeal(healInfo);
+            }
+        }
+    }
+
     TC_LOG_DEBUG("entities.unit", "DealDamageEnd returned %d damage", damage);
 
     return damage;
@@ -2038,7 +2055,7 @@ void Unit::CalcHealAbsorb(HealInfo& healInfo) const
         if (!aurApp)
             continue;
 
-        if (!((*i)->GetMiscValue() & healInfo.GetSpellInfo()->SchoolMask))
+        if (!((*i)->GetMiscValue() & healInfo.GetSchoolMask()))
             continue;
 
         // Max Amount can be absorbed by this aura
@@ -6688,7 +6705,7 @@ void Unit::DealHeal(HealInfo& healInfo)
     if (GetTypeId() == TYPEID_UNIT && IsTotem())
         unit = GetOwner();
 
-    if (Player* player = unit->ToPlayer())
+    if (Player* player = unit ? unit->ToPlayer() : nullptr)
     {
         if (Battleground* bg = player->GetBattleground())
             bg->UpdatePlayerScore(player, SCORE_HEALING_DONE, gain);
